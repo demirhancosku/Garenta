@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "MainTableVC.h"
+#import "Office.h"
 
-@interface MainVC : UIViewController
+@interface MainVC : UIViewController <NSURLConnectionDelegate>
 {
     MainTableVC *tableViewController;
     CGRect viewFrame;
+    
+    NSMutableArray *officeWorkingSchedule;
 }
 
 - (id)initWithFrame:(CGRect)frame;
