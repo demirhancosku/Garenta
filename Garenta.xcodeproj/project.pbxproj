@@ -1,0 +1,543 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0C4C9A6A18462EAB00CD3728 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6918462EAB00CD3728 /* Foundation.framework */; };
+		0C4C9A6C18462EAB00CD3728 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6B18462EAB00CD3728 /* CoreGraphics.framework */; };
+		0C4C9A6E18462EAB00CD3728 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6D18462EAB00CD3728 /* UIKit.framework */; };
+		0C4C9A7418462EAB00CD3728 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7218462EAB00CD3728 /* InfoPlist.strings */; };
+		0C4C9A7618462EAB00CD3728 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7518462EAB00CD3728 /* main.m */; };
+		0C4C9A7A18462EAB00CD3728 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7918462EAB00CD3728 /* AppDelegate.m */; };
+		0C4C9A7C18462EAB00CD3728 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7B18462EAB00CD3728 /* Images.xcassets */; };
+		0C4C9A8318462EAB00CD3728 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A8218462EAB00CD3728 /* XCTest.framework */; };
+		0C4C9A8418462EAB00CD3728 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6918462EAB00CD3728 /* Foundation.framework */; };
+		0C4C9A8518462EAB00CD3728 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6D18462EAB00CD3728 /* UIKit.framework */; };
+		0C4C9A8D18462EAB00CD3728 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0C4C9A8B18462EAB00CD3728 /* InfoPlist.strings */; };
+		0C4C9A8F18462EAB00CD3728 /* GarentaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A8E18462EAB00CD3728 /* GarentaTests.m */; };
+		0C4C9A9F1846338600CD3728 /* BaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A9E1846338600CD3728 /* BaseVC.m */; };
+		0C4C9AA4184634F200CD3728 /* MainVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA3184634F200CD3728 /* MainVC.m */; };
+		0C4C9AA7184639AC00CD3728 /* ApplicationProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */; };
+		0C4C9AAA184639FE00CD3728 /* BaseTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */; };
+		0C4C9AAD1846472F00CD3728 /* MainTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AAC1846472F00CD3728 /* MainTableVC.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0C4C9A8618462EAB00CD3728 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0C4C9A5E18462EAA00CD3728 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0C4C9A6518462EAB00CD3728;
+			remoteInfo = Garenta;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0C4C9A6618462EAB00CD3728 /* Garenta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Garenta.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C4C9A6918462EAB00CD3728 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		0C4C9A6B18462EAB00CD3728 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		0C4C9A6D18462EAB00CD3728 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		0C4C9A7118462EAB00CD3728 /* Garenta-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Garenta-Info.plist"; sourceTree = "<group>"; };
+		0C4C9A7318462EAB00CD3728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0C4C9A7518462EAB00CD3728 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0C4C9A7718462EAB00CD3728 /* Garenta-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Garenta-Prefix.pch"; sourceTree = "<group>"; };
+		0C4C9A7818462EAB00CD3728 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0C4C9A7918462EAB00CD3728 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		0C4C9A7B18462EAB00CD3728 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0C4C9A8118462EAB00CD3728 /* GarentaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GarentaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C4C9A8218462EAB00CD3728 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		0C4C9A8A18462EAB00CD3728 /* GarentaTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GarentaTests-Info.plist"; sourceTree = "<group>"; };
+		0C4C9A8C18462EAB00CD3728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0C4C9A8E18462EAB00CD3728 /* GarentaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GarentaTests.m; sourceTree = "<group>"; };
+		0C4C9A9D1846338600CD3728 /* BaseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseVC.h; sourceTree = "<group>"; };
+		0C4C9A9E1846338600CD3728 /* BaseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseVC.m; sourceTree = "<group>"; };
+		0C4C9AA2184634F200CD3728 /* MainVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainVC.h; sourceTree = "<group>"; };
+		0C4C9AA3184634F200CD3728 /* MainVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainVC.m; sourceTree = "<group>"; };
+		0C4C9AA5184639AC00CD3728 /* ApplicationProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationProperties.h; sourceTree = "<group>"; };
+		0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationProperties.m; sourceTree = "<group>"; };
+		0C4C9AA8184639FE00CD3728 /* BaseTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableVC.h; sourceTree = "<group>"; };
+		0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableVC.m; sourceTree = "<group>"; };
+		0C4C9AAB1846472F00CD3728 /* MainTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableVC.h; sourceTree = "<group>"; };
+		0C4C9AAC1846472F00CD3728 /* MainTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableVC.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0C4C9A6318462EAB00CD3728 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C4C9A6C18462EAB00CD3728 /* CoreGraphics.framework in Frameworks */,
+				0C4C9A6E18462EAB00CD3728 /* UIKit.framework in Frameworks */,
+				0C4C9A6A18462EAB00CD3728 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0C4C9A7E18462EAB00CD3728 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C4C9A8318462EAB00CD3728 /* XCTest.framework in Frameworks */,
+				0C4C9A8518462EAB00CD3728 /* UIKit.framework in Frameworks */,
+				0C4C9A8418462EAB00CD3728 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0C4C9A5D18462EAA00CD3728 = {
+			isa = PBXGroup;
+			children = (
+				0C4C9A6F18462EAB00CD3728 /* Garenta */,
+				0C4C9A8818462EAB00CD3728 /* GarentaTests */,
+				0C4C9A6818462EAB00CD3728 /* Frameworks */,
+				0C4C9A6718462EAB00CD3728 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0C4C9A6718462EAB00CD3728 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0C4C9A6618462EAB00CD3728 /* Garenta.app */,
+				0C4C9A8118462EAB00CD3728 /* GarentaTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0C4C9A6818462EAB00CD3728 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0C4C9A6918462EAB00CD3728 /* Foundation.framework */,
+				0C4C9A6B18462EAB00CD3728 /* CoreGraphics.framework */,
+				0C4C9A6D18462EAB00CD3728 /* UIKit.framework */,
+				0C4C9A8218462EAB00CD3728 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0C4C9A6F18462EAB00CD3728 /* Garenta */ = {
+			isa = PBXGroup;
+			children = (
+				0C4C9A99184631A100CD3728 /* Utilities */,
+				0C4C9A9A1846331200CD3728 /* ObjectClasses */,
+				0C4C9A9B1846331D00CD3728 /* Resources */,
+				0C4C9A981846318F00CD3728 /* VCs */,
+				0C4C9A7818462EAB00CD3728 /* AppDelegate.h */,
+				0C4C9A7918462EAB00CD3728 /* AppDelegate.m */,
+				0C4C9A7B18462EAB00CD3728 /* Images.xcassets */,
+				0C4C9A7018462EAB00CD3728 /* Supporting Files */,
+			);
+			path = Garenta;
+			sourceTree = "<group>";
+		};
+		0C4C9A7018462EAB00CD3728 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0C4C9A7118462EAB00CD3728 /* Garenta-Info.plist */,
+				0C4C9A7218462EAB00CD3728 /* InfoPlist.strings */,
+				0C4C9A7518462EAB00CD3728 /* main.m */,
+				0C4C9A7718462EAB00CD3728 /* Garenta-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0C4C9A8818462EAB00CD3728 /* GarentaTests */ = {
+			isa = PBXGroup;
+			children = (
+				0C4C9A8E18462EAB00CD3728 /* GarentaTests.m */,
+				0C4C9A8918462EAB00CD3728 /* Supporting Files */,
+			);
+			path = GarentaTests;
+			sourceTree = "<group>";
+		};
+		0C4C9A8918462EAB00CD3728 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0C4C9A8A18462EAB00CD3728 /* GarentaTests-Info.plist */,
+				0C4C9A8B18462EAB00CD3728 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0C4C9A981846318F00CD3728 /* VCs */ = {
+			isa = PBXGroup;
+			children = (
+				0C4C9AA11846348100CD3728 /* MainVC */,
+				0C4C9A9C1846333100CD3728 /* BaseVCs */,
+			);
+			name = VCs;
+			sourceTree = "<group>";
+		};
+		0C4C9A99184631A100CD3728 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				0C4C9AA5184639AC00CD3728 /* ApplicationProperties.h */,
+				0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		0C4C9A9A1846331200CD3728 /* ObjectClasses */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ObjectClasses;
+			sourceTree = "<group>";
+		};
+		0C4C9A9B1846331D00CD3728 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		0C4C9A9C1846333100CD3728 /* BaseVCs */ = {
+			isa = PBXGroup;
+			children = (
+				0C4C9A9D1846338600CD3728 /* BaseVC.h */,
+				0C4C9A9E1846338600CD3728 /* BaseVC.m */,
+				0C4C9AA8184639FE00CD3728 /* BaseTableVC.h */,
+				0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */,
+			);
+			name = BaseVCs;
+			sourceTree = "<group>";
+		};
+		0C4C9AA11846348100CD3728 /* MainVC */ = {
+			isa = PBXGroup;
+			children = (
+				0C4C9AA2184634F200CD3728 /* MainVC.h */,
+				0C4C9AA3184634F200CD3728 /* MainVC.m */,
+				0C4C9AAB1846472F00CD3728 /* MainTableVC.h */,
+				0C4C9AAC1846472F00CD3728 /* MainTableVC.m */,
+			);
+			name = MainVC;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0C4C9A6518462EAB00CD3728 /* Garenta */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0C4C9A9218462EAB00CD3728 /* Build configuration list for PBXNativeTarget "Garenta" */;
+			buildPhases = (
+				0C4C9A6218462EAB00CD3728 /* Sources */,
+				0C4C9A6318462EAB00CD3728 /* Frameworks */,
+				0C4C9A6418462EAB00CD3728 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Garenta;
+			productName = Garenta;
+			productReference = 0C4C9A6618462EAB00CD3728 /* Garenta.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0C4C9A8018462EAB00CD3728 /* GarentaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0C4C9A9518462EAB00CD3728 /* Build configuration list for PBXNativeTarget "GarentaTests" */;
+			buildPhases = (
+				0C4C9A7D18462EAB00CD3728 /* Sources */,
+				0C4C9A7E18462EAB00CD3728 /* Frameworks */,
+				0C4C9A7F18462EAB00CD3728 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0C4C9A8718462EAB00CD3728 /* PBXTargetDependency */,
+			);
+			name = GarentaTests;
+			productName = GarentaTests;
+			productReference = 0C4C9A8118462EAB00CD3728 /* GarentaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0C4C9A5E18462EAA00CD3728 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Kerem Balaban";
+				TargetAttributes = {
+					0C4C9A6518462EAB00CD3728 = {
+						DevelopmentTeam = KRVQAHALZ5;
+					};
+					0C4C9A8018462EAB00CD3728 = {
+						TestTargetID = 0C4C9A6518462EAB00CD3728;
+					};
+				};
+			};
+			buildConfigurationList = 0C4C9A6118462EAA00CD3728 /* Build configuration list for PBXProject "Garenta" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0C4C9A5D18462EAA00CD3728;
+			productRefGroup = 0C4C9A6718462EAB00CD3728 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0C4C9A6518462EAB00CD3728 /* Garenta */,
+				0C4C9A8018462EAB00CD3728 /* GarentaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0C4C9A6418462EAB00CD3728 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C4C9A7418462EAB00CD3728 /* InfoPlist.strings in Resources */,
+				0C4C9A7C18462EAB00CD3728 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0C4C9A7F18462EAB00CD3728 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C4C9A8D18462EAB00CD3728 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0C4C9A6218462EAB00CD3728 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C4C9A7A18462EAB00CD3728 /* AppDelegate.m in Sources */,
+				0C4C9AAD1846472F00CD3728 /* MainTableVC.m in Sources */,
+				0C4C9AA4184634F200CD3728 /* MainVC.m in Sources */,
+				0C4C9AAA184639FE00CD3728 /* BaseTableVC.m in Sources */,
+				0C4C9A9F1846338600CD3728 /* BaseVC.m in Sources */,
+				0C4C9A7618462EAB00CD3728 /* main.m in Sources */,
+				0C4C9AA7184639AC00CD3728 /* ApplicationProperties.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0C4C9A7D18462EAB00CD3728 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C4C9A8F18462EAB00CD3728 /* GarentaTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0C4C9A8718462EAB00CD3728 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0C4C9A6518462EAB00CD3728 /* Garenta */;
+			targetProxy = 0C4C9A8618462EAB00CD3728 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		0C4C9A7218462EAB00CD3728 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0C4C9A7318462EAB00CD3728 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		0C4C9A8B18462EAB00CD3728 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0C4C9A8C18462EAB00CD3728 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0C4C9A9018462EAB00CD3728 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0C4C9A9118462EAB00CD3728 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0C4C9A9318462EAB00CD3728 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Garenta/Garenta-Prefix.pch";
+				INFOPLIST_FILE = "Garenta/Garenta-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		0C4C9A9418462EAB00CD3728 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Garenta/Garenta-Prefix.pch";
+				INFOPLIST_FILE = "Garenta/Garenta-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		0C4C9A9618462EAB00CD3728 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Garenta.app/Garenta";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Garenta/Garenta-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "GarentaTests/GarentaTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		0C4C9A9718462EAB00CD3728 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Garenta.app/Garenta";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Garenta/Garenta-Prefix.pch";
+				INFOPLIST_FILE = "GarentaTests/GarentaTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0C4C9A6118462EAA00CD3728 /* Build configuration list for PBXProject "Garenta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0C4C9A9018462EAB00CD3728 /* Debug */,
+				0C4C9A9118462EAB00CD3728 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0C4C9A9218462EAB00CD3728 /* Build configuration list for PBXNativeTarget "Garenta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0C4C9A9318462EAB00CD3728 /* Debug */,
+				0C4C9A9418462EAB00CD3728 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0C4C9A9518462EAB00CD3728 /* Build configuration list for PBXNativeTarget "GarentaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0C4C9A9618462EAB00CD3728 /* Debug */,
+				0C4C9A9718462EAB00CD3728 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0C4C9A5E18462EAA00CD3728 /* Project object */;
+}
