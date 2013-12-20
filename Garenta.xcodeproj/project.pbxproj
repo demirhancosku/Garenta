@@ -20,10 +20,10 @@
 		0C4C9A8D18462EAB00CD3728 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0C4C9A8B18462EAB00CD3728 /* InfoPlist.strings */; };
 		0C4C9A8F18462EAB00CD3728 /* GarentaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A8E18462EAB00CD3728 /* GarentaTests.m */; };
 		0C4C9A9F1846338600CD3728 /* BaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A9E1846338600CD3728 /* BaseVC.m */; };
-		0C4C9AA4184634F200CD3728 /* MainVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA3184634F200CD3728 /* MainVC.m */; };
+		0C4C9AA4184634F200CD3728 /* LocationSelectionScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA3184634F200CD3728 /* LocationSelectionScreenVC.m */; };
 		0C4C9AA7184639AC00CD3728 /* ApplicationProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */; };
 		0C4C9AAA184639FE00CD3728 /* BaseTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */; };
-		0C4C9AAD1846472F00CD3728 /* MainTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AAC1846472F00CD3728 /* MainTableVC.m */; };
+		0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,14 +55,13 @@
 		0C4C9A8E18462EAB00CD3728 /* GarentaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GarentaTests.m; sourceTree = "<group>"; };
 		0C4C9A9D1846338600CD3728 /* BaseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseVC.h; sourceTree = "<group>"; };
 		0C4C9A9E1846338600CD3728 /* BaseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseVC.m; sourceTree = "<group>"; };
-		0C4C9AA2184634F200CD3728 /* MainVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainVC.h; sourceTree = "<group>"; };
-		0C4C9AA3184634F200CD3728 /* MainVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainVC.m; sourceTree = "<group>"; };
+		0C4C9AA2184634F200CD3728 /* LocationSelectionScreenVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSelectionScreenVC.h; sourceTree = "<group>"; };
+		0C4C9AA3184634F200CD3728 /* LocationSelectionScreenVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationSelectionScreenVC.m; sourceTree = "<group>"; };
 		0C4C9AA5184639AC00CD3728 /* ApplicationProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationProperties.h; sourceTree = "<group>"; };
 		0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationProperties.m; sourceTree = "<group>"; };
 		0C4C9AA8184639FE00CD3728 /* BaseTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableVC.h; sourceTree = "<group>"; };
 		0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableVC.m; sourceTree = "<group>"; };
-		0C4C9AAB1846472F00CD3728 /* MainTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableVC.h; sourceTree = "<group>"; };
-		0C4C9AAC1846472F00CD3728 /* MainTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableVC.m; sourceTree = "<group>"; };
+		0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GarentaSmallLogo.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +91,7 @@
 		0C4C9A5D18462EAA00CD3728 = {
 			isa = PBXGroup;
 			children = (
+				0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */,
 				0C4C9A6F18462EAB00CD3728 /* Garenta */,
 				0C4C9A8818462EAB00CD3728 /* GarentaTests */,
 				0C4C9A6818462EAB00CD3728 /* Frameworks */,
@@ -166,8 +166,8 @@
 		0C4C9A981846318F00CD3728 /* VCs */ = {
 			isa = PBXGroup;
 			children = (
-				0C4C9AA11846348100CD3728 /* MainVC */,
 				0C4C9A9C1846333100CD3728 /* BaseVCs */,
+				0C4C9AA11846348100CD3728 /* LocationSelection */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -206,15 +206,13 @@
 			name = BaseVCs;
 			sourceTree = "<group>";
 		};
-		0C4C9AA11846348100CD3728 /* MainVC */ = {
+		0C4C9AA11846348100CD3728 /* LocationSelection */ = {
 			isa = PBXGroup;
 			children = (
-				0C4C9AA2184634F200CD3728 /* MainVC.h */,
-				0C4C9AA3184634F200CD3728 /* MainVC.m */,
-				0C4C9AAB1846472F00CD3728 /* MainTableVC.h */,
-				0C4C9AAC1846472F00CD3728 /* MainTableVC.m */,
+				0C4C9AA2184634F200CD3728 /* LocationSelectionScreenVC.h */,
+				0C4C9AA3184634F200CD3728 /* LocationSelectionScreenVC.m */,
 			);
-			name = MainVC;
+			name = LocationSelection;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -295,6 +293,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */,
 				0C4C9A7418462EAB00CD3728 /* InfoPlist.strings in Resources */,
 				0C4C9A7C18462EAB00CD3728 /* Images.xcassets in Resources */,
 			);
@@ -316,8 +315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C4C9A7A18462EAB00CD3728 /* AppDelegate.m in Sources */,
-				0C4C9AAD1846472F00CD3728 /* MainTableVC.m in Sources */,
-				0C4C9AA4184634F200CD3728 /* MainVC.m in Sources */,
+				0C4C9AA4184634F200CD3728 /* LocationSelectionScreenVC.m in Sources */,
 				0C4C9AAA184639FE00CD3728 /* BaseTableVC.m in Sources */,
 				0C4C9A9F1846338600CD3728 /* BaseVC.m in Sources */,
 				0C4C9A7618462EAB00CD3728 /* main.m in Sources */,
@@ -446,6 +444,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Garenta/Garenta-Prefix.pch";
 				INFOPLIST_FILE = "Garenta/Garenta-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -460,6 +459,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Garenta/Garenta-Prefix.pch";
 				INFOPLIST_FILE = "Garenta/Garenta-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

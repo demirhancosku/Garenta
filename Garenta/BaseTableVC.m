@@ -69,12 +69,13 @@
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:cellType];
     
     // ata aynen bu şekilde kodu bin kere yazmıcaz gene belki ilerde menu mu fln ayarı gelir
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    [cell setBackgroundColor:[ApplicationProperties getMenuCellBackground]];
-    [cell setOpaque:YES];
-    [[cell textLabel] setTextColor:[ApplicationProperties getBlack]];
-    [[cell textLabel] setFont:[UIFont fontWithName:[ApplicationProperties getFont] size:24.0]];
-    [[cell detailTextLabel] setFont:[UIFont fontWithName:[ApplicationProperties getFont] size:16.0]];
+    
+//    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+//    [cell setBackgroundColor:[ApplicationProperties getMenuCellBackground]];
+//    [cell setOpaque:YES];
+//    [[cell textLabel] setTextColor:[ApplicationProperties getBlack]];
+//    [[cell textLabel] setFont:[UIFont fontWithName:[ApplicationProperties getFont] size:24.0]];
+//    [[cell detailTextLabel] setFont:[UIFont fontWithName:[ApplicationProperties getFont] size:16.0]];
     
     return cell;
 }
