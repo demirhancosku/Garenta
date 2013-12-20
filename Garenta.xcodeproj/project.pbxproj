@@ -23,7 +23,13 @@
 		0C4C9AA4184634F200CD3728 /* LocationSelectionScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA3184634F200CD3728 /* LocationSelectionScreenVC.m */; };
 		0C4C9AA7184639AC00CD3728 /* ApplicationProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */; };
 		0C4C9AAA184639FE00CD3728 /* BaseTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */; };
+
 		0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */; };
+
+		0C4C9AAD1846472F00CD3728 /* MainTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AAC1846472F00CD3728 /* MainTableVC.m */; };
+		9E212F7418631AE1004B9B80 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E212F7318631AE1004B9B80 /* Reachability.m */; };
+		9E212F78186343C3004B9B80 /* Office.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E212F77186343C3004B9B80 /* Office.m */; };
+		9E212F7B18634A97004B9B80 /* OfficeWorkingHour.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E212F7A18634A97004B9B80 /* OfficeWorkingHour.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +67,18 @@
 		0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationProperties.m; sourceTree = "<group>"; };
 		0C4C9AA8184639FE00CD3728 /* BaseTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableVC.h; sourceTree = "<group>"; };
 		0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableVC.m; sourceTree = "<group>"; };
+
 		0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GarentaSmallLogo.png; sourceTree = "<group>"; };
+
+		0C4C9AAB1846472F00CD3728 /* MainTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableVC.h; sourceTree = "<group>"; };
+		0C4C9AAC1846472F00CD3728 /* MainTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableVC.m; sourceTree = "<group>"; };
+		9E212F7218631AE1004B9B80 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		9E212F7318631AE1004B9B80 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		9E212F76186343C3004B9B80 /* Office.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Office.h; sourceTree = "<group>"; };
+		9E212F77186343C3004B9B80 /* Office.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Office.m; sourceTree = "<group>"; };
+		9E212F7918634A96004B9B80 /* OfficeWorkingHour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfficeWorkingHour.h; sourceTree = "<group>"; };
+		9E212F7A18634A97004B9B80 /* OfficeWorkingHour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfficeWorkingHour.m; sourceTree = "<group>"; };
+
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +192,8 @@
 		0C4C9A99184631A100CD3728 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				9E212F7218631AE1004B9B80 /* Reachability.h */,
+				9E212F7318631AE1004B9B80 /* Reachability.m */,
 				0C4C9AA5184639AC00CD3728 /* ApplicationProperties.h */,
 				0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */,
 			);
@@ -184,6 +203,10 @@
 		0C4C9A9A1846331200CD3728 /* ObjectClasses */ = {
 			isa = PBXGroup;
 			children = (
+				9E212F76186343C3004B9B80 /* Office.h */,
+				9E212F77186343C3004B9B80 /* Office.m */,
+				9E212F7918634A96004B9B80 /* OfficeWorkingHour.h */,
+				9E212F7A18634A97004B9B80 /* OfficeWorkingHour.m */,
 			);
 			name = ObjectClasses;
 			sourceTree = "<group>";
@@ -315,7 +338,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C4C9A7A18462EAB00CD3728 /* AppDelegate.m in Sources */,
+
 				0C4C9AA4184634F200CD3728 /* LocationSelectionScreenVC.m in Sources */,
+
+				0C4C9AAD1846472F00CD3728 /* MainTableVC.m in Sources */,
+				9E212F7418631AE1004B9B80 /* Reachability.m in Sources */,
+				9E212F7B18634A97004B9B80 /* OfficeWorkingHour.m in Sources */,
+				9E212F78186343C3004B9B80 /* Office.m in Sources */,
+				0C4C9AA4184634F200CD3728 /* MainVC.m in Sources */,
+
 				0C4C9AAA184639FE00CD3728 /* BaseTableVC.m in Sources */,
 				0C4C9A9F1846338600CD3728 /* BaseVC.m in Sources */,
 				0C4C9A7618462EAB00CD3728 /* main.m in Sources */,
