@@ -7,13 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ApplicationProperties.h"
 
 @interface LoginVC : UIViewController <UITextFieldDelegate>
 {
     CGRect viewFrame;
     UITextField *username;
     UITextField *password;
+    UIImageView *userImageView;
     UIButton *loginButton;
+    UIButton *signUpButton;
 }
 
 - (id)initWithFrame:(CGRect)frame;

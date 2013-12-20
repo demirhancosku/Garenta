@@ -27,6 +27,7 @@
 		0CBA75CD186435500008CE29 /* LocationSelectionScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA3184634F200CD3728 /* LocationSelectionScreenVC.m */; };
 		0CBA75CE1864356A0008CE29 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7918462EAB00CD3728 /* AppDelegate.m */; };
 		0CBA77BD186447AB0008CE29 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA77BC186447AB0008CE29 /* LoginVC.m */; };
+		9E212F8018648216004B9B80 /* UserLoginPic.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E212F7F18648216004B9B80 /* UserLoginPic.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		9E212F77186343C3004B9B80 /* Office.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Office.m; sourceTree = "<group>"; };
 		9E212F7918634A96004B9B80 /* OfficeWorkingHour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfficeWorkingHour.h; sourceTree = "<group>"; };
 		9E212F7A18634A97004B9B80 /* OfficeWorkingHour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfficeWorkingHour.m; sourceTree = "<group>"; };
+		9E212F7F18648216004B9B80 /* UserLoginPic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UserLoginPic.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 		0C4C9A9B1846331D00CD3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9E212F7F18648216004B9B80 /* UserLoginPic.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */,
 				0C4C9A7418462EAB00CD3728 /* InfoPlist.strings in Resources */,
 				0C4C9A7C18462EAB00CD3728 /* Images.xcassets in Resources */,
+				9E212F8018648216004B9B80 /* UserLoginPic.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
