@@ -8,14 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "Office.h"
+#import "OfficeWorkingHour.h"
+#import "LoginVC.h"
 
-@interface LocationSelectionScreenVC : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface LocationSelectionScreenVC : UIViewController <UITableViewDataSource,UITableViewDelegate,NSURLConnectionDelegate>
 {
     UITableView *destinationTableView;
     UITableView *arrivalTableView;
     UIButton *searchButton;
     CGRect viewFrame;
     UIDatePicker *datePicker;
+    NSMutableArray *officeWorkingSchedule;
+    
 }
 
 - (id)initWithFrame:(CGRect)frame;

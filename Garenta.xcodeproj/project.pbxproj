@@ -11,25 +11,22 @@
 		0C4C9A6C18462EAB00CD3728 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6B18462EAB00CD3728 /* CoreGraphics.framework */; };
 		0C4C9A6E18462EAB00CD3728 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6D18462EAB00CD3728 /* UIKit.framework */; };
 		0C4C9A7418462EAB00CD3728 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7218462EAB00CD3728 /* InfoPlist.strings */; };
-		0C4C9A7618462EAB00CD3728 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7518462EAB00CD3728 /* main.m */; };
-		0C4C9A7A18462EAB00CD3728 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7918462EAB00CD3728 /* AppDelegate.m */; };
 		0C4C9A7C18462EAB00CD3728 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7B18462EAB00CD3728 /* Images.xcassets */; };
 		0C4C9A8318462EAB00CD3728 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A8218462EAB00CD3728 /* XCTest.framework */; };
 		0C4C9A8418462EAB00CD3728 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6918462EAB00CD3728 /* Foundation.framework */; };
 		0C4C9A8518462EAB00CD3728 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6D18462EAB00CD3728 /* UIKit.framework */; };
-		0C4C9A8D18462EAB00CD3728 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0C4C9A8B18462EAB00CD3728 /* InfoPlist.strings */; };
-		0C4C9A8F18462EAB00CD3728 /* GarentaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A8E18462EAB00CD3728 /* GarentaTests.m */; };
-		0C4C9A9F1846338600CD3728 /* BaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A9E1846338600CD3728 /* BaseVC.m */; };
-		0C4C9AA4184634F200CD3728 /* LocationSelectionScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA3184634F200CD3728 /* LocationSelectionScreenVC.m */; };
-		0C4C9AA7184639AC00CD3728 /* ApplicationProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */; };
-		0C4C9AAA184639FE00CD3728 /* BaseTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */; };
-
 		0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */; };
-
-		0C4C9AAD1846472F00CD3728 /* MainTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AAC1846472F00CD3728 /* MainTableVC.m */; };
-		9E212F7418631AE1004B9B80 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E212F7318631AE1004B9B80 /* Reachability.m */; };
-		9E212F78186343C3004B9B80 /* Office.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E212F77186343C3004B9B80 /* Office.m */; };
-		9E212F7B18634A97004B9B80 /* OfficeWorkingHour.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E212F7A18634A97004B9B80 /* OfficeWorkingHour.m */; };
+		0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA631351864697900CC529F /* MenuSelectionVC.m */; };
+		0CBA75C5186435260008CE29 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E212F7318631AE1004B9B80 /* Reachability.m */; };
+		0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */; };
+		0CBA75C7186435260008CE29 /* Office.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E212F77186343C3004B9B80 /* Office.m */; };
+		0CBA75C8186435260008CE29 /* OfficeWorkingHour.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E212F7A18634A97004B9B80 /* OfficeWorkingHour.m */; };
+		0CBA75C9186435260008CE29 /* BaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A9E1846338600CD3728 /* BaseVC.m */; };
+		0CBA75CA186435260008CE29 /* BaseTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */; };
+		0CBA75CC186435460008CE29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7518462EAB00CD3728 /* main.m */; };
+		0CBA75CD186435500008CE29 /* LocationSelectionScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA3184634F200CD3728 /* LocationSelectionScreenVC.m */; };
+		0CBA75CE1864356A0008CE29 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7918462EAB00CD3728 /* AppDelegate.m */; };
+		0CBA77BD186447AB0008CE29 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA77BC186447AB0008CE29 /* LoginVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,9 +53,6 @@
 		0C4C9A7B18462EAB00CD3728 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0C4C9A8118462EAB00CD3728 /* GarentaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GarentaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C4C9A8218462EAB00CD3728 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		0C4C9A8A18462EAB00CD3728 /* GarentaTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GarentaTests-Info.plist"; sourceTree = "<group>"; };
-		0C4C9A8C18462EAB00CD3728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		0C4C9A8E18462EAB00CD3728 /* GarentaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GarentaTests.m; sourceTree = "<group>"; };
 		0C4C9A9D1846338600CD3728 /* BaseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseVC.h; sourceTree = "<group>"; };
 		0C4C9A9E1846338600CD3728 /* BaseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseVC.m; sourceTree = "<group>"; };
 		0C4C9AA2184634F200CD3728 /* LocationSelectionScreenVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSelectionScreenVC.h; sourceTree = "<group>"; };
@@ -67,18 +61,17 @@
 		0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationProperties.m; sourceTree = "<group>"; };
 		0C4C9AA8184639FE00CD3728 /* BaseTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableVC.h; sourceTree = "<group>"; };
 		0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableVC.m; sourceTree = "<group>"; };
-
 		0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GarentaSmallLogo.png; sourceTree = "<group>"; };
-
-		0C4C9AAB1846472F00CD3728 /* MainTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableVC.h; sourceTree = "<group>"; };
-		0C4C9AAC1846472F00CD3728 /* MainTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableVC.m; sourceTree = "<group>"; };
+		0CA631341864697900CC529F /* MenuSelectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuSelectionVC.h; sourceTree = "<group>"; };
+		0CA631351864697900CC529F /* MenuSelectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuSelectionVC.m; sourceTree = "<group>"; };
+		0CBA77BB186447AB0008CE29 /* LoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginVC.h; sourceTree = "<group>"; };
+		0CBA77BC186447AB0008CE29 /* LoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginVC.m; sourceTree = "<group>"; };
 		9E212F7218631AE1004B9B80 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		9E212F7318631AE1004B9B80 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		9E212F76186343C3004B9B80 /* Office.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Office.h; sourceTree = "<group>"; };
 		9E212F77186343C3004B9B80 /* Office.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Office.m; sourceTree = "<group>"; };
 		9E212F7918634A96004B9B80 /* OfficeWorkingHour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfficeWorkingHour.h; sourceTree = "<group>"; };
 		9E212F7A18634A97004B9B80 /* OfficeWorkingHour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfficeWorkingHour.m; sourceTree = "<group>"; };
-
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,7 +103,6 @@
 			children = (
 				0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */,
 				0C4C9A6F18462EAB00CD3728 /* Garenta */,
-				0C4C9A8818462EAB00CD3728 /* GarentaTests */,
 				0C4C9A6818462EAB00CD3728 /* Frameworks */,
 				0C4C9A6718462EAB00CD3728 /* Products */,
 			);
@@ -158,24 +150,6 @@
 				0C4C9A7218462EAB00CD3728 /* InfoPlist.strings */,
 				0C4C9A7518462EAB00CD3728 /* main.m */,
 				0C4C9A7718462EAB00CD3728 /* Garenta-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		0C4C9A8818462EAB00CD3728 /* GarentaTests */ = {
-			isa = PBXGroup;
-			children = (
-				0C4C9A8E18462EAB00CD3728 /* GarentaTests.m */,
-				0C4C9A8918462EAB00CD3728 /* Supporting Files */,
-			);
-			path = GarentaTests;
-			sourceTree = "<group>";
-		};
-		0C4C9A8918462EAB00CD3728 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				0C4C9A8A18462EAB00CD3728 /* GarentaTests-Info.plist */,
-				0C4C9A8B18462EAB00CD3728 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -232,8 +206,12 @@
 		0C4C9AA11846348100CD3728 /* LocationSelection */ = {
 			isa = PBXGroup;
 			children = (
+				0CA631341864697900CC529F /* MenuSelectionVC.h */,
+				0CA631351864697900CC529F /* MenuSelectionVC.m */,
 				0C4C9AA2184634F200CD3728 /* LocationSelectionScreenVC.h */,
 				0C4C9AA3184634F200CD3728 /* LocationSelectionScreenVC.m */,
+				0CBA77BB186447AB0008CE29 /* LoginVC.h */,
+				0CBA77BC186447AB0008CE29 /* LoginVC.m */,
 			);
 			name = LocationSelection;
 			sourceTree = "<group>";
@@ -326,7 +304,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C4C9A8D18462EAB00CD3728 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,20 +314,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C4C9A7A18462EAB00CD3728 /* AppDelegate.m in Sources */,
-
-				0C4C9AA4184634F200CD3728 /* LocationSelectionScreenVC.m in Sources */,
-
-				0C4C9AAD1846472F00CD3728 /* MainTableVC.m in Sources */,
-				9E212F7418631AE1004B9B80 /* Reachability.m in Sources */,
-				9E212F7B18634A97004B9B80 /* OfficeWorkingHour.m in Sources */,
-				9E212F78186343C3004B9B80 /* Office.m in Sources */,
-				0C4C9AA4184634F200CD3728 /* MainVC.m in Sources */,
-
-				0C4C9AAA184639FE00CD3728 /* BaseTableVC.m in Sources */,
-				0C4C9A9F1846338600CD3728 /* BaseVC.m in Sources */,
-				0C4C9A7618462EAB00CD3728 /* main.m in Sources */,
-				0C4C9AA7184639AC00CD3728 /* ApplicationProperties.m in Sources */,
+				0CBA77BD186447AB0008CE29 /* LoginVC.m in Sources */,
+				0CBA75CE1864356A0008CE29 /* AppDelegate.m in Sources */,
+				0CBA75CD186435500008CE29 /* LocationSelectionScreenVC.m in Sources */,
+				0CBA75CC186435460008CE29 /* main.m in Sources */,
+				0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */,
+				0CBA75C5186435260008CE29 /* Reachability.m in Sources */,
+				0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */,
+				0CBA75C7186435260008CE29 /* Office.m in Sources */,
+				0CBA75C8186435260008CE29 /* OfficeWorkingHour.m in Sources */,
+				0CBA75C9186435260008CE29 /* BaseVC.m in Sources */,
+				0CBA75CA186435260008CE29 /* BaseTableVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,7 +332,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C4C9A8F18462EAB00CD3728 /* GarentaTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,14 +350,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				0C4C9A7318462EAB00CD3728 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		0C4C9A8B18462EAB00CD3728 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0C4C9A8C18462EAB00CD3728 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -425,7 +390,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -459,7 +424,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

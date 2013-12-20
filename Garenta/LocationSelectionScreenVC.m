@@ -25,7 +25,7 @@
 
 - (id)initWithFrame:(CGRect)frame;
 {
-    self = [super init];
+//    self = [super init];
     
     viewFrame = frame;
     
@@ -38,6 +38,13 @@
     [super viewDidLoad];
     
     // ekranki component'ların ayarlaması yapılıyor
+    officeWorkingSchedule = [[NSMutableArray alloc] init];
+//    [self connectToGateway];
+//    [self prepareScreen];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     [self prepareScreen];
 }
 
@@ -66,6 +73,13 @@
     //
     //    NSInteger weekday = [weekdayComponents weekday];
     //    // weekday 1 = Sunday for Gregorian calendar
+    
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Giriş" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
+    [[self navigationItem] setRightBarButtonItem:barButton];
+    
+    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [ApplicationProperties getBlack], NSForegroundColorAttributeName,
+                                                           [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0], NSFontAttributeName, nil]];
     
     [searchButton setTitle:@"Teklifleri Göster" forState:UIControlStateNormal];
     [[searchButton layer] setCornerRadius:5.0f];
@@ -116,9 +130,10 @@
 
 }
 
-- (void)changeDateInLabel:(id)sender
+- (void)login:(id)sender
 {
-    
+    LoginVC *login = [[LoginVC alloc] initWithFrame:viewFrame];
+    [[self navigationController] pushViewController:login animated:YES];
 }
 
 #pragma mark - Table view data source
@@ -158,46 +173,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (indexPath.row == 1) {
-//        [arrivalTableView setHidden:YES];
-//        [searchButton setHidden:YES];
-//        datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 160, 325, 250)];
-//        datePicker.datePickerMode = UIDatePickerModeDate;
-//        datePicker.hidden = NO;
-//        datePicker.date = [NSDate date];
-//        [datePicker addTarget:self action:@selector(changeDateInLabel:) forControlEvents:UIControlEventValueChanged];
-//        
-//        [self.view addSubview:datePicker];
+    if (indexPath.row == 0) {
+
         
-        int startHour = 9;
-        int endHour = 13;
-        
-        datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 160, 325, 250)];
-        NSDate *date1 = [NSDate date];
-        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
-        NSDateComponents *components = [gregorian components: NSUIntegerMax fromDate: date1];
-        [components setHour: startHour];
-        [components setMinute: 0];
-        [components setSecond: 0];
-        NSDate *startDate = [gregorian dateFromComponents: components];
-        
-        [components setHour: endHour];
-        [components setMinute: 0];
-        [components setSecond: 0];
-        NSDate *endDate = [gregorian dateFromComponents: components];
-        
-        [datePicker setDatePickerMode:UIDatePickerModeDateAndTime];
-        [datePicker setMinimumDate:startDate];
-        [datePicker setMaximumDate:endDate];
-        [datePicker setDate:startDate animated:YES];
-        [datePicker reloadInputViews];
-        
-        [arrivalTableView setHidden:YES];
-        [searchButton setHidden:YES];
-        
-        
-        [self.view addSubview:datePicker];
-        
+    }
+    else
+    {
+//        UIViewController *vc;
+//        vc = [[CalendarMonthViewController alloc] initWithSunday:NO];
+//        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
@@ -244,6 +228,120 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 30;
+}
+
+
+- (void)connectToGateway
+{
+    NSString *connectionString = @"http://172.17.1.149:8000/sap/opu/odata/sap/ZGARENTA_TEST_SRV/available_offices(ImppAltSube='',ImppMerkezSube='')?$expand=EXPT_SUBE_BILGILERISet,EXPT_CALISMA_ZAMANISet,EXPT_TATIL_ZAMANISet&$format=json";
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]
+                                             cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                         timeoutInterval:30.0];
+    
+    NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
+        
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+    if ([challenge previousFailureCount] == 0) {
+        NSLog(@"received authentication challenge");
+        NSURLCredential *newCredential = [NSURLCredential credentialWithUser:@"gw_admin"
+                                                                    password:@"1qa2ws3ed"
+                                                                 persistence:NSURLCredentialPersistenceForSession];
+        NSLog(@"credential created");
+        [[challenge sender] useCredential:newCredential forAuthenticationChallenge:challenge];
+        NSLog(@"responded to authentication challenge");
+    }
+    else {
+        NSLog(@"previous authentication failure");
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    NSError *err;
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
+    
+    NSDictionary *result = [jsonDict objectForKey:@"d"];
+    
+    NSDictionary *officeListDict = [result objectForKey:@"EXPT_SUBE_BILGILERISet"];
+    NSDictionary *timeDict = [result objectForKey:@"EXPT_CALISMA_ZAMANISet"];
+    NSDictionary *holidayDict = [result objectForKey:@"EXPT_TATIL_ZAMANISet"];
+    
+    NSDictionary *timeListResult = [timeDict objectForKey:@"results"];
+    NSDictionary *officeListResult = [officeListDict objectForKey:@"results"];
+    NSDictionary *holidayListResult = [holidayDict objectForKey:@"results"];
+    
+    for (NSDictionary *temp in officeListResult)
+    {
+        Office *tempOffice = [[Office alloc] init];
+        tempOffice.mainOfficeName = [temp objectForKey:@"MerkezSubetx"];
+        tempOffice.mainOfficeCode = [temp objectForKey:@"MerkezSube"];
+        
+        tempOffice.subOfficeName = [temp objectForKey:@"AltSubetx"];
+        tempOffice.subOfficeCode = [temp objectForKey:@"AltSube"];
+        tempOffice.subOfficeType = [temp objectForKey:@"AltSubetiptx"];
+        tempOffice.subOfficeTypeCode = [temp objectForKey:@"AltSubetip"];
+        
+        tempOffice.region = [temp objectForKey:@"Bolge"];
+        tempOffice.regionText = [temp objectForKey:@"Bolgetx"];
+        tempOffice.longitude = [temp objectForKey:@"Xkord"];
+        tempOffice.latitude = [temp objectForKey:@"Ykord"];
+        
+        tempOffice.address = [temp objectForKey:@"Adres"];
+        tempOffice.fax = [temp objectForKey:@"Fax"];
+        tempOffice.tel = [temp objectForKey:@"Tel"];
+        
+        tempOffice.workingHours = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary *timeTemp in timeListResult)
+        {
+            if ([[timeTemp objectForKey:@"MerkezSube"] isEqualToString:tempOffice.mainOfficeCode])
+            {
+                OfficeWorkingHour *tempSchedule = [[OfficeWorkingHour alloc] init];
+                tempSchedule.startingHour = [timeTemp objectForKey:@"Begti"];
+                tempSchedule.endingHour   = [timeTemp objectForKey:@"Endti"];
+                tempSchedule.mainOffice   = [timeTemp objectForKey:@"MerkezSube"];
+                tempSchedule.subOffice    = [timeTemp objectForKey:@"AltSube"];
+                tempSchedule.weekDay      = [timeTemp objectForKey:@"Caday"];
+                [[tempOffice workingHours] addObject:tempSchedule];
+            }
+        }
+        
+        tempOffice.holidayDates = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary *timeTemp in holidayListResult)
+        {
+            if ([[timeTemp objectForKey:@"MerkezSube"] isEqualToString:tempOffice.mainOfficeCode])
+            {
+                OfficeWorkingHour *tempSchedule = [[OfficeWorkingHour alloc] init];
+                tempSchedule.startingHour = [timeTemp objectForKey:@"Begti"];
+                tempSchedule.endingHour   = [timeTemp objectForKey:@"Endti"];
+                tempSchedule.mainOffice   = [timeTemp objectForKey:@"MerkezSube"];
+                tempSchedule.subOffice    = [timeTemp objectForKey:@"AltSube"];
+                tempSchedule.weekDay      = [timeTemp objectForKey:@"Caday"];
+                [[tempOffice holidayDates] addObject:tempSchedule];
+            }
+        }
+        
+        [officeWorkingSchedule addObject:tempOffice];
+    }
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    NSLog(@"1");
 }
 
 @end
