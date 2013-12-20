@@ -33,7 +33,7 @@
 
 //sample color codes
 + (UIColor*)getMenuTableBackgorund{
-    return [UIColor colorWithRed:240.0/255.0 green:234.0/255.0 blue:224.0/255.0 alpha:1.0];
+    return [UIColor colorWithRed:249.0/255.0 green:249.0/255.0 blue:249.0/255.0 alpha:1.0];
 }
 
 + (UIColor*)getMenuCellBackground{

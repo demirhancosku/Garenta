@@ -15,6 +15,16 @@
 		0C4C9A8318462EAB00CD3728 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A8218462EAB00CD3728 /* XCTest.framework */; };
 		0C4C9A8418462EAB00CD3728 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6918462EAB00CD3728 /* Foundation.framework */; };
 		0C4C9A8518462EAB00CD3728 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6D18462EAB00CD3728 /* UIKit.framework */; };
+		0C5B5FC81864770F0060BECD /* CalendarTimeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FC71864770F0060BECD /* CalendarTimeVC.m */; };
+		0C5B5FD3186479AB0060BECD /* TKCalendarMonthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FCC186479AB0060BECD /* TKCalendarMonthViewController.m */; };
+		0C5B5FD5186479AB0060BECD /* TKCalendarMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FD0186479AB0060BECD /* TKCalendarMonthView.m */; };
+		0C5B5FD6186479AB0060BECD /* NSDate+CalendarGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FD2186479AB0060BECD /* NSDate+CalendarGrid.m */; };
+		0C5B5FDA186481670060BECD /* NSDate+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FD9186481670060BECD /* NSDate+TKCategory.m */; };
+		0C5B5FDC186481BF0060BECD /* TapkuLibrary.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0C5B5FDB186481BF0060BECD /* TapkuLibrary.bundle */; };
+		0C5B5FDF186481EF0060BECD /* TKGlobal.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FDE186481EF0060BECD /* TKGlobal.m */; };
+		0C5B5FE2186482500060BECD /* TKGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE1186482500060BECD /* TKGradientView.m */; };
+		0C5B5FE5186482860060BECD /* UIColor+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE4186482860060BECD /* UIColor+TKCategory.m */; };
+		0C5B5FE8186482A50060BECD /* UIImage+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE7186482A50060BECD /* UIImage+TKCategory.m */; };
 		0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */; };
 		0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA631351864697900CC529F /* MenuSelectionVC.m */; };
 		0CBA75C5186435260008CE29 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E212F7318631AE1004B9B80 /* Reachability.m */; };
@@ -62,6 +72,26 @@
 		0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationProperties.m; sourceTree = "<group>"; };
 		0C4C9AA8184639FE00CD3728 /* BaseTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableVC.h; sourceTree = "<group>"; };
 		0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableVC.m; sourceTree = "<group>"; };
+		0C5B5FC61864770F0060BECD /* CalendarTimeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarTimeVC.h; sourceTree = "<group>"; };
+		0C5B5FC71864770F0060BECD /* CalendarTimeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarTimeVC.m; sourceTree = "<group>"; };
+		0C5B5FCB186479AB0060BECD /* TKCalendarMonthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKCalendarMonthViewController.h; sourceTree = "<group>"; };
+		0C5B5FCC186479AB0060BECD /* TKCalendarMonthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKCalendarMonthViewController.m; sourceTree = "<group>"; };
+		0C5B5FCF186479AB0060BECD /* TKCalendarMonthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKCalendarMonthView.h; sourceTree = "<group>"; };
+		0C5B5FD0186479AB0060BECD /* TKCalendarMonthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKCalendarMonthView.m; sourceTree = "<group>"; };
+		0C5B5FD1186479AB0060BECD /* NSDate+CalendarGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+CalendarGrid.h"; sourceTree = "<group>"; };
+		0C5B5FD2186479AB0060BECD /* NSDate+CalendarGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CalendarGrid.m"; sourceTree = "<group>"; };
+		0C5B5FD7186480B20060BECD /* TapkuLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TapkuLibrary.h; sourceTree = "<group>"; };
+		0C5B5FD81864814D0060BECD /* NSDate+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+TKCategory.h"; sourceTree = "<group>"; };
+		0C5B5FD9186481670060BECD /* NSDate+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TKCategory.m"; sourceTree = "<group>"; };
+		0C5B5FDB186481BF0060BECD /* TapkuLibrary.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TapkuLibrary.bundle; sourceTree = "<group>"; };
+		0C5B5FDD186481EF0060BECD /* TKGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKGlobal.h; sourceTree = "<group>"; };
+		0C5B5FDE186481EF0060BECD /* TKGlobal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKGlobal.m; sourceTree = "<group>"; };
+		0C5B5FE0186482500060BECD /* TKGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKGradientView.h; sourceTree = "<group>"; };
+		0C5B5FE1186482500060BECD /* TKGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKGradientView.m; sourceTree = "<group>"; };
+		0C5B5FE3186482860060BECD /* UIColor+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+TKCategory.h"; sourceTree = "<group>"; };
+		0C5B5FE4186482860060BECD /* UIColor+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+TKCategory.m"; sourceTree = "<group>"; };
+		0C5B5FE6186482A50060BECD /* UIImage+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+TKCategory.h"; sourceTree = "<group>"; };
+		0C5B5FE7186482A50060BECD /* UIImage+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TKCategory.m"; sourceTree = "<group>"; };
 		0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GarentaSmallLogo.png; sourceTree = "<group>"; };
 		0CA631341864697900CC529F /* MenuSelectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuSelectionVC.h; sourceTree = "<group>"; };
 		0CA631351864697900CC529F /* MenuSelectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuSelectionVC.m; sourceTree = "<group>"; };
@@ -161,6 +191,8 @@
 			children = (
 				0C4C9A9C1846333100CD3728 /* BaseVCs */,
 				0C4C9AA11846348100CD3728 /* LocationSelection */,
+				0C5B5FC61864770F0060BECD /* CalendarTimeVC.h */,
+				0C5B5FC71864770F0060BECD /* CalendarTimeVC.m */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -179,6 +211,7 @@
 		0C4C9A9A1846331200CD3728 /* ObjectClasses */ = {
 			isa = PBXGroup;
 			children = (
+				0C5B5FCA186479800060BECD /* Calendar */,
 				9E212F76186343C3004B9B80 /* Office.h */,
 				9E212F77186343C3004B9B80 /* Office.m */,
 				9E212F7918634A96004B9B80 /* OfficeWorkingHour.h */,
@@ -217,6 +250,31 @@
 				0CBA77BC186447AB0008CE29 /* LoginVC.m */,
 			);
 			name = LocationSelection;
+			sourceTree = "<group>";
+		};
+		0C5B5FCA186479800060BECD /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				0C5B5FDB186481BF0060BECD /* TapkuLibrary.bundle */,
+				0C5B5FE6186482A50060BECD /* UIImage+TKCategory.h */,
+				0C5B5FE7186482A50060BECD /* UIImage+TKCategory.m */,
+				0C5B5FE3186482860060BECD /* UIColor+TKCategory.h */,
+				0C5B5FE4186482860060BECD /* UIColor+TKCategory.m */,
+				0C5B5FDD186481EF0060BECD /* TKGlobal.h */,
+				0C5B5FDE186481EF0060BECD /* TKGlobal.m */,
+				0C5B5FE0186482500060BECD /* TKGradientView.h */,
+				0C5B5FE1186482500060BECD /* TKGradientView.m */,
+				0C5B5FD7186480B20060BECD /* TapkuLibrary.h */,
+				0C5B5FD81864814D0060BECD /* NSDate+TKCategory.h */,
+				0C5B5FD9186481670060BECD /* NSDate+TKCategory.m */,
+				0C5B5FCB186479AB0060BECD /* TKCalendarMonthViewController.h */,
+				0C5B5FCC186479AB0060BECD /* TKCalendarMonthViewController.m */,
+				0C5B5FCF186479AB0060BECD /* TKCalendarMonthView.h */,
+				0C5B5FD0186479AB0060BECD /* TKCalendarMonthView.m */,
+				0C5B5FD1186479AB0060BECD /* NSDate+CalendarGrid.h */,
+				0C5B5FD2186479AB0060BECD /* NSDate+CalendarGrid.m */,
+			);
+			name = Calendar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -298,6 +356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */,
+				0C5B5FDC186481BF0060BECD /* TapkuLibrary.bundle in Resources */,
 				0C4C9A7418462EAB00CD3728 /* InfoPlist.strings in Resources */,
 				0C4C9A7C18462EAB00CD3728 /* Images.xcassets in Resources */,
 				9E212F8018648216004B9B80 /* UserLoginPic.png in Resources */,
@@ -318,17 +377,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C5B5FE5186482860060BECD /* UIColor+TKCategory.m in Sources */,
+				0C5B5FDA186481670060BECD /* NSDate+TKCategory.m in Sources */,
 				0CBA77BD186447AB0008CE29 /* LoginVC.m in Sources */,
+				0C5B5FC81864770F0060BECD /* CalendarTimeVC.m in Sources */,
+				0C5B5FDF186481EF0060BECD /* TKGlobal.m in Sources */,
 				0CBA75CE1864356A0008CE29 /* AppDelegate.m in Sources */,
 				0CBA75CD186435500008CE29 /* LocationSelectionScreenVC.m in Sources */,
 				0CBA75CC186435460008CE29 /* main.m in Sources */,
 				0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */,
 				0CBA75C5186435260008CE29 /* Reachability.m in Sources */,
+				0C5B5FE2186482500060BECD /* TKGradientView.m in Sources */,
 				0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */,
 				0CBA75C7186435260008CE29 /* Office.m in Sources */,
 				0CBA75C8186435260008CE29 /* OfficeWorkingHour.m in Sources */,
+				0C5B5FD6186479AB0060BECD /* NSDate+CalendarGrid.m in Sources */,
+				0C5B5FD5186479AB0060BECD /* TKCalendarMonthView.m in Sources */,
+				0C5B5FD3186479AB0060BECD /* TKCalendarMonthViewController.m in Sources */,
 				0CBA75C9186435260008CE29 /* BaseVC.m in Sources */,
 				0CBA75CA186435260008CE29 /* BaseTableVC.m in Sources */,
+				0C5B5FE8186482A50060BECD /* UIImage+TKCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,6 +11,7 @@
 #import "Office.h"
 #import "OfficeWorkingHour.h"
 #import "LoginVC.h"
+#import "CalendarTimeVC.h"
 
 @interface LocationSelectionScreenVC : UIViewController <UITableViewDataSource,UITableViewDelegate,NSURLConnectionDelegate>
 {
@@ -20,6 +21,7 @@
     CGRect viewFrame;
     UIDatePicker *datePicker;
     NSMutableArray *officeWorkingSchedule;
+    UIPopoverController *popOver;
     
 }
 

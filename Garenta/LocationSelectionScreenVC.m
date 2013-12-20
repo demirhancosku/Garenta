@@ -39,6 +39,7 @@
     
     // ekranki component'ların ayarlaması yapılıyor
     officeWorkingSchedule = [[NSMutableArray alloc] init];
+    [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
 //    [self connectToGateway];
 //    [self prepareScreen];
 }
@@ -59,10 +60,14 @@
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
         [self setIpadLayer];
+        [arrivalTableView setRowHeight:65];
+        [destinationTableView setRowHeight:65];
     }
     else
     {
         [self setIphoneLayer];
+        [arrivalTableView setRowHeight:45];
+        [destinationTableView setRowHeight:45];
     }
     
     
@@ -92,16 +97,13 @@
     [[destinationTableView layer] setCornerRadius:5.0f];
     [[destinationTableView layer] setBorderWidth:0.3f];
     [destinationTableView setClipsToBounds:YES];
-    [destinationTableView setRowHeight:45];
     [destinationTableView setDelegate:self];
     [destinationTableView setDataSource:self];
-    
     
     // aracın teslim edileceği yer
     [[arrivalTableView layer] setCornerRadius:5.0f];
     [[arrivalTableView layer] setBorderWidth:0.3f];
     [arrivalTableView setClipsToBounds:YES];
-    [arrivalTableView setRowHeight:45];
     [arrivalTableView setDelegate:self];
     [arrivalTableView setDataSource:self];
     
@@ -114,19 +116,32 @@
     CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
     UINavigationController *nav = [[UINavigationController alloc] init];
     
-    destinationTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,(nav.navigationBar.frame.size.height + statusBarFrame.size.height) * 0.1,viewFrame.size.width * 0.9,viewFrame.size.height * 0.6) style:UITableViewStyleGrouped];
+    destinationTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,(nav.navigationBar.frame.size.height + statusBarFrame.size.height) * 0.9,viewFrame.size.width * 0.9, 155) style:UITableViewStyleGrouped];
+    
+    arrivalTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,destinationTableView.frame.size.height * 1.6 ,viewFrame.size.width * 0.9, 155) style:UITableViewStyleGrouped];
+    
+    searchButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.3, (destinationTableView.frame.size.height + arrivalTableView.frame.size.height) * 1.4, arrivalTableView.frame.size.width * 0.4, 40)];
 }
 
 - (void)setIphoneLayer
 {
+    
+    [arrivalTableView setRowHeight:50];
+    [destinationTableView setRowHeight:50];
+    
     CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
     UINavigationController *nav = [[UINavigationController alloc] init];
     
-    destinationTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,(nav.navigationBar.frame.size.height + statusBarFrame.size.height) * 0.4,viewFrame.size.width * 0.9, 150) style:UITableViewStyleGrouped];
+    destinationTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,(nav.navigationBar.frame.size.height + statusBarFrame.size.height) * 0.5,viewFrame.size.width * 0.9, 115) style:UITableViewStyleGrouped];
     
-    arrivalTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,destinationTableView.frame.size.height * 1.3 ,viewFrame.size.width * 0.9, 150) style:UITableViewStyleGrouped];
+    arrivalTableView = [[UITableView alloc] initWithFrame:
+                        CGRectMake (viewFrame.size.width * 0.05 ,
+                                   destinationTableView.frame.size.height * 1.4 ,
+                                   viewFrame.size.width * 0.9,
+                                   115) style:UITableViewStyleGrouped];
     
-    searchButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05, (destinationTableView.frame.size.height + arrivalTableView.frame.size.height) * 1.2, arrivalTableView.frame.size.width, 40)];
+    searchButton = [[UIButton alloc] initWithFrame:CGRectMake (viewFrame.size.width * 0.05,
+                                                               (destinationTableView.frame.size.height + arrivalTableView.frame.size.height) * 1.3, arrivalTableView.frame.size.width, 40)];
 
 }
 
@@ -179,9 +194,26 @@
     }
     else
     {
-//        UIViewController *vc;
-//        vc = [[CalendarMonthViewController alloc] initWithSunday:NO];
-//        [self.navigationController pushViewController:vc animated:YES];
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
+            UIViewController *vc;
+            vc = [[CalendarTimeVC alloc] initWithSunday:NO];
+            
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            
+            popOver = [[UIPopoverController alloc] initWithContentViewController:vc];
+            popOver.popoverContentSize = CGSizeMake(320, 320);
+            [popOver setDelegate:self];
+            [popOver presentPopoverFromRect:[cell frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        }
+        else
+        {
+            UIViewController *vc;
+            vc = [[CalendarTimeVC alloc] initWithSunday:NO];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+
     }
 }
 
@@ -227,7 +259,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 30;
+    return 25;
 }
 
 
