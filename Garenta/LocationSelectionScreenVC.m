@@ -39,7 +39,7 @@
     
     // ekranki component'ların ayarlaması yapılıyor
     officeWorkingSchedule = [[NSMutableArray alloc] init];
-//    [self connectToGateway];
+    [self connectToGateway];
 //    [self prepareScreen];
 }
 
@@ -233,7 +233,7 @@
 
 - (void)connectToGateway
 {
-    NSString *connectionString = @"http://172.17.1.149:8000/sap/opu/odata/sap/ZGARENTA_TEST_SRV/available_offices(ImppAltSube='',ImppMerkezSube='')?$expand=EXPT_SUBE_BILGILERISet,EXPT_CALISMA_ZAMANISet,EXPT_TATIL_ZAMANISet&$format=json";
+    NSString *connectionString = @"https://172.17.1.149:8000/sap/opu/odata/sap/ZGARENTA_TEST_SRV/available_offices(ImppAltSube='',ImppMerkezSube='')?$expand=EXPT_SUBE_BILGILERISet,EXPT_CALISMA_ZAMANISet,EXPT_TATIL_ZAMANISet&$format=json";
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]
                                              cachePolicy:NSURLRequestUseProtocolCachePolicy
@@ -259,6 +259,10 @@
     }
 }
 
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)space
+{
+    return YES;
+}
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     
