@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LocationSelectionScreenVC.h"
+#import "ClassicSearchVC.h"
+#import "MenuSelectionVC.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

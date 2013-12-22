@@ -7,7 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LoginVC.h"
+#import "ClassicSearchVC.h"
+#import "LocationSearchVC.h"
+#import "BrandSearchVC.h"
 
 @interface MenuSelectionVC : UIViewController
+{
+    UIButton *locationSearch;
+    UIButton *classicSearch;
+    UIButton *brandSearch;
+    
+    CGRect viewFrame;
+}
 
+- (id)initWithFrame:(CGRect)frame;
 @end

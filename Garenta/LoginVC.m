@@ -108,7 +108,7 @@
     
     userImageView = [[UIImageView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.35, viewFrame.size.height * -0.02, viewFrame.size.width * 0.3, viewFrame.size.height * 0.3)];
     [userImageView setContentMode:UIViewContentModeScaleAspectFill];
-    [userImageView setImage:[UIImage imageNamed:@"LoginUserProfile.png"]];
+    [userImageView setImage:[UIImage imageNamed:@"UserLoginPic.png"]];
 }
 
 - (void)setIphoneLayer
@@ -121,9 +121,9 @@
     
     signUpButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.70, viewFrame.size.width * 0.8, 40)];
     
-    userImageView = [[UIImageView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.3, viewFrame.size.height * -0.04, viewFrame.size.width * 0.4, viewFrame.size.height * 0.4)];
+    userImageView = [[UIImageView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.4, viewFrame.size.height * 0.05, viewFrame.size.width * 0.22, viewFrame.size.height * 0.22)];
     [userImageView setContentMode:UIViewContentModeScaleAspectFill];
-    [userImageView setImage:[UIImage imageNamed:@"LoginUserProfile.png"]];
+    [userImageView setImage:[UIImage imageNamed:@"UserLoginPic.png"]];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
