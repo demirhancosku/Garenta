@@ -114,10 +114,15 @@
     
     //some data for testing
     self.galleryImages = [[NSMutableArray alloc] init];
-    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"1" ofType:@"png"] atIndex:0];
-    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"2" ofType:@"png"] atIndex:1];
-    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"3" ofType:@"png"] atIndex:2];
-    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"4" ofType:@"png"] atIndex:3];
+//    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"1" ofType:@"png"] atIndex:0];
+//    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"2" ofType:@"png"] atIndex:1];
+//    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"3" ofType:@"png"] atIndex:2];
+//    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"4" ofType:@"png"] atIndex:3];
+    
+    [self.galleryImages addObject:[UIImage imageNamed:@"1.png"]];
+    [self.galleryImages addObject:[UIImage imageNamed:@"2.png"]];
+    [self.galleryImages addObject:[UIImage imageNamed:@"3.png"]];
+    [self.galleryImages addObject:[UIImage imageNamed:@"4.png"]];
     
     self.currentIndex = 0;
 }
