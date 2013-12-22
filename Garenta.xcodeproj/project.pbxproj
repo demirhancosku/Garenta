@@ -7,6 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C0DA9991865AE67003EDDA0 /* LocationSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9981865AE67003EDDA0 /* LocationSearchVC.m */; };
+		0C0DA99C1865AE76003EDDA0 /* BrandSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA99B1865AE76003EDDA0 /* BrandSearchVC.m */; };
+		0C0DA9A21865BE31003EDDA0 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9A11865BE31003EDDA0 /* User.m */; };
+		0C0DA9A51865BEA5003EDDA0 /* Coordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9A41865BEA5003EDDA0 /* Coordinate.m */; };
+		0C0DA9A71865BF78003EDDA0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C0DA9A61865BF78003EDDA0 /* CoreLocation.framework */; };
+		0C0DA9AA1865D04B003EDDA0 /* OfficeListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9A91865D04B003EDDA0 /* OfficeListVC.m */; };
+		0C0DA9AD1865D2FD003EDDA0 /* Reservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9AC1865D2FD003EDDA0 /* Reservation.m */; };
+		0C0DA9B01865E234003EDDA0 /* Destination.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9AF1865E234003EDDA0 /* Destination.m */; };
+		0C0DA9B31865E23F003EDDA0 /* Arrival.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9B21865E23F003EDDA0 /* Arrival.m */; };
+		0C0DA9B61865E9D9003EDDA0 /* SearchScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9B51865E9D9003EDDA0 /* SearchScreenVC.m */; };
+		0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9B81865EB7E003EDDA0 /* ClassicSearchVC.m */; };
+		0C0DA9C3186658F3003EDDA0 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C0DA9BF186658F3003EDDA0 /* 1.png */; };
+		0C0DA9C4186658F3003EDDA0 /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C0DA9C0186658F3003EDDA0 /* 2.png */; };
+		0C0DA9C5186658F3003EDDA0 /* 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C0DA9C1186658F3003EDDA0 /* 3.png */; };
+		0C0DA9C6186658F3003EDDA0 /* 4.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C0DA9C2186658F3003EDDA0 /* 4.png */; };
+		0C0DA9CA18665B18003EDDA0 /* FilterScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9C918665B18003EDDA0 /* FilterScreenVC.m */; };
 		0C4C9A6A18462EAB00CD3728 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6918462EAB00CD3728 /* Foundation.framework */; };
 		0C4C9A6C18462EAB00CD3728 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6B18462EAB00CD3728 /* CoreGraphics.framework */; };
 		0C4C9A6E18462EAB00CD3728 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6D18462EAB00CD3728 /* UIKit.framework */; };
@@ -25,6 +41,7 @@
 		0C5B5FE2186482500060BECD /* TKGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE1186482500060BECD /* TKGradientView.m */; };
 		0C5B5FE5186482860060BECD /* UIColor+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE4186482860060BECD /* UIColor+TKCategory.m */; };
 		0C5B5FE8186482A50060BECD /* UIImage+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE7186482A50060BECD /* UIImage+TKCategory.m */; };
+		0C5B5FEA18649A870060BECD /* UserLoginPic.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE918649A870060BECD /* UserLoginPic.png */; };
 		0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */; };
 		0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA631351864697900CC529F /* MenuSelectionVC.m */; };
 		0CBA75C5186435260008CE29 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E212F7318631AE1004B9B80 /* Reachability.m */; };
@@ -34,10 +51,8 @@
 		0CBA75C9186435260008CE29 /* BaseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A9E1846338600CD3728 /* BaseVC.m */; };
 		0CBA75CA186435260008CE29 /* BaseTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */; };
 		0CBA75CC186435460008CE29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7518462EAB00CD3728 /* main.m */; };
-		0CBA75CD186435500008CE29 /* LocationSelectionScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA3184634F200CD3728 /* LocationSelectionScreenVC.m */; };
 		0CBA75CE1864356A0008CE29 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7918462EAB00CD3728 /* AppDelegate.m */; };
 		0CBA77BD186447AB0008CE29 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA77BC186447AB0008CE29 /* LoginVC.m */; };
-		9E212F8018648216004B9B80 /* UserLoginPic.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E212F7F18648216004B9B80 /* UserLoginPic.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +66,33 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0C0DA9971865AE67003EDDA0 /* LocationSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSearchVC.h; sourceTree = "<group>"; };
+		0C0DA9981865AE67003EDDA0 /* LocationSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationSearchVC.m; sourceTree = "<group>"; };
+		0C0DA99A1865AE76003EDDA0 /* BrandSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrandSearchVC.h; sourceTree = "<group>"; };
+		0C0DA99B1865AE76003EDDA0 /* BrandSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrandSearchVC.m; sourceTree = "<group>"; };
+		0C0DA9A01865BE31003EDDA0 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		0C0DA9A11865BE31003EDDA0 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		0C0DA9A31865BEA5003EDDA0 /* Coordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coordinate.h; sourceTree = "<group>"; };
+		0C0DA9A41865BEA5003EDDA0 /* Coordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Coordinate.m; sourceTree = "<group>"; };
+		0C0DA9A61865BF78003EDDA0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		0C0DA9A81865D04B003EDDA0 /* OfficeListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfficeListVC.h; sourceTree = "<group>"; };
+		0C0DA9A91865D04B003EDDA0 /* OfficeListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfficeListVC.m; sourceTree = "<group>"; };
+		0C0DA9AB1865D2FD003EDDA0 /* Reservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reservation.h; sourceTree = "<group>"; };
+		0C0DA9AC1865D2FD003EDDA0 /* Reservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reservation.m; sourceTree = "<group>"; };
+		0C0DA9AE1865E234003EDDA0 /* Destination.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Destination.h; sourceTree = "<group>"; };
+		0C0DA9AF1865E234003EDDA0 /* Destination.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Destination.m; sourceTree = "<group>"; };
+		0C0DA9B11865E23F003EDDA0 /* Arrival.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Arrival.h; sourceTree = "<group>"; };
+		0C0DA9B21865E23F003EDDA0 /* Arrival.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Arrival.m; sourceTree = "<group>"; };
+		0C0DA9B41865E9D9003EDDA0 /* SearchScreenVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchScreenVC.h; sourceTree = "<group>"; };
+		0C0DA9B51865E9D9003EDDA0 /* SearchScreenVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchScreenVC.m; sourceTree = "<group>"; };
+		0C0DA9B71865EB7E003EDDA0 /* ClassicSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassicSearchVC.h; sourceTree = "<group>"; };
+		0C0DA9B81865EB7E003EDDA0 /* ClassicSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassicSearchVC.m; sourceTree = "<group>"; };
+		0C0DA9BF186658F3003EDDA0 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
+		0C0DA9C0186658F3003EDDA0 /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = "<group>"; };
+		0C0DA9C1186658F3003EDDA0 /* 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3.png; sourceTree = "<group>"; };
+		0C0DA9C2186658F3003EDDA0 /* 4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 4.png; sourceTree = "<group>"; };
+		0C0DA9C818665B18003EDDA0 /* FilterScreenVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterScreenVC.h; sourceTree = "<group>"; };
+		0C0DA9C918665B18003EDDA0 /* FilterScreenVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterScreenVC.m; sourceTree = "<group>"; };
 		0C4C9A6618462EAB00CD3728 /* Garenta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Garenta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C4C9A6918462EAB00CD3728 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0C4C9A6B18462EAB00CD3728 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -66,8 +108,6 @@
 		0C4C9A8218462EAB00CD3728 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		0C4C9A9D1846338600CD3728 /* BaseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseVC.h; sourceTree = "<group>"; };
 		0C4C9A9E1846338600CD3728 /* BaseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseVC.m; sourceTree = "<group>"; };
-		0C4C9AA2184634F200CD3728 /* LocationSelectionScreenVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSelectionScreenVC.h; sourceTree = "<group>"; };
-		0C4C9AA3184634F200CD3728 /* LocationSelectionScreenVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationSelectionScreenVC.m; sourceTree = "<group>"; };
 		0C4C9AA5184639AC00CD3728 /* ApplicationProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationProperties.h; sourceTree = "<group>"; };
 		0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationProperties.m; sourceTree = "<group>"; };
 		0C4C9AA8184639FE00CD3728 /* BaseTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableVC.h; sourceTree = "<group>"; };
@@ -92,6 +132,7 @@
 		0C5B5FE4186482860060BECD /* UIColor+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+TKCategory.m"; sourceTree = "<group>"; };
 		0C5B5FE6186482A50060BECD /* UIImage+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+TKCategory.h"; sourceTree = "<group>"; };
 		0C5B5FE7186482A50060BECD /* UIImage+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TKCategory.m"; sourceTree = "<group>"; };
+		0C5B5FE918649A870060BECD /* UserLoginPic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UserLoginPic.png; sourceTree = "<group>"; };
 		0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GarentaSmallLogo.png; sourceTree = "<group>"; };
 		0CA631341864697900CC529F /* MenuSelectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuSelectionVC.h; sourceTree = "<group>"; };
 		0CA631351864697900CC529F /* MenuSelectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuSelectionVC.m; sourceTree = "<group>"; };
@@ -103,7 +144,6 @@
 		9E212F77186343C3004B9B80 /* Office.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Office.m; sourceTree = "<group>"; };
 		9E212F7918634A96004B9B80 /* OfficeWorkingHour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfficeWorkingHour.h; sourceTree = "<group>"; };
 		9E212F7A18634A97004B9B80 /* OfficeWorkingHour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfficeWorkingHour.m; sourceTree = "<group>"; };
-		9E212F7F18648216004B9B80 /* UserLoginPic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UserLoginPic.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C0DA9A71865BF78003EDDA0 /* CoreLocation.framework in Frameworks */,
 				0C4C9A6C18462EAB00CD3728 /* CoreGraphics.framework in Frameworks */,
 				0C4C9A6E18462EAB00CD3728 /* UIKit.framework in Frameworks */,
 				0C4C9A6A18462EAB00CD3728 /* Foundation.framework in Frameworks */,
@@ -130,9 +171,48 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C0DA99D1865AE94003EDDA0 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				0CBA77BB186447AB0008CE29 /* LoginVC.h */,
+				0CBA77BC186447AB0008CE29 /* LoginVC.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		0C0DA99E1865AEA2003EDDA0 /* SearchScreen */ = {
+			isa = PBXGroup;
+			children = (
+				0C0DA9B71865EB7E003EDDA0 /* ClassicSearchVC.h */,
+				0C0DA9B81865EB7E003EDDA0 /* ClassicSearchVC.m */,
+				0C0DA9971865AE67003EDDA0 /* LocationSearchVC.h */,
+				0C0DA9981865AE67003EDDA0 /* LocationSearchVC.m */,
+				0C0DA99A1865AE76003EDDA0 /* BrandSearchVC.h */,
+				0C0DA99B1865AE76003EDDA0 /* BrandSearchVC.m */,
+				0C0DA9A81865D04B003EDDA0 /* OfficeListVC.h */,
+				0C0DA9A91865D04B003EDDA0 /* OfficeListVC.m */,
+				0C5B5FC61864770F0060BECD /* CalendarTimeVC.h */,
+				0C5B5FC71864770F0060BECD /* CalendarTimeVC.m */,
+			);
+			name = SearchScreen;
+			sourceTree = "<group>";
+		};
+		0C0DA9C718665B07003EDDA0 /* FilterScreen */ = {
+			isa = PBXGroup;
+			children = (
+				0C0DA9C818665B18003EDDA0 /* FilterScreenVC.h */,
+				0C0DA9C918665B18003EDDA0 /* FilterScreenVC.m */,
+			);
+			name = FilterScreen;
+			sourceTree = "<group>";
+		};
 		0C4C9A5D18462EAA00CD3728 = {
 			isa = PBXGroup;
 			children = (
+				0C0DA9BF186658F3003EDDA0 /* 1.png */,
+				0C0DA9C0186658F3003EDDA0 /* 2.png */,
+				0C0DA9C1186658F3003EDDA0 /* 3.png */,
+				0C0DA9C2186658F3003EDDA0 /* 4.png */,
 				0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */,
 				0C4C9A6F18462EAB00CD3728 /* Garenta */,
 				0C4C9A6818462EAB00CD3728 /* Frameworks */,
@@ -152,6 +232,7 @@
 		0C4C9A6818462EAB00CD3728 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0C0DA9A61865BF78003EDDA0 /* CoreLocation.framework */,
 				0C4C9A6918462EAB00CD3728 /* Foundation.framework */,
 				0C4C9A6B18462EAB00CD3728 /* CoreGraphics.framework */,
 				0C4C9A6D18462EAB00CD3728 /* UIKit.framework */,
@@ -190,9 +271,10 @@
 			isa = PBXGroup;
 			children = (
 				0C4C9A9C1846333100CD3728 /* BaseVCs */,
-				0C4C9AA11846348100CD3728 /* LocationSelection */,
-				0C5B5FC61864770F0060BECD /* CalendarTimeVC.h */,
-				0C5B5FC71864770F0060BECD /* CalendarTimeVC.m */,
+				0C0DA99D1865AE94003EDDA0 /* Login */,
+				0C4C9AA11846348100CD3728 /* MenuSelection */,
+				0C0DA99E1865AEA2003EDDA0 /* SearchScreen */,
+				0C0DA9C718665B07003EDDA0 /* FilterScreen */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -216,6 +298,16 @@
 				9E212F77186343C3004B9B80 /* Office.m */,
 				9E212F7918634A96004B9B80 /* OfficeWorkingHour.h */,
 				9E212F7A18634A97004B9B80 /* OfficeWorkingHour.m */,
+				0C0DA9A31865BEA5003EDDA0 /* Coordinate.h */,
+				0C0DA9A41865BEA5003EDDA0 /* Coordinate.m */,
+				0C0DA9A01865BE31003EDDA0 /* User.h */,
+				0C0DA9A11865BE31003EDDA0 /* User.m */,
+				0C0DA9AE1865E234003EDDA0 /* Destination.h */,
+				0C0DA9AF1865E234003EDDA0 /* Destination.m */,
+				0C0DA9B11865E23F003EDDA0 /* Arrival.h */,
+				0C0DA9B21865E23F003EDDA0 /* Arrival.m */,
+				0C0DA9AB1865D2FD003EDDA0 /* Reservation.h */,
+				0C0DA9AC1865D2FD003EDDA0 /* Reservation.m */,
 			);
 			name = ObjectClasses;
 			sourceTree = "<group>";
@@ -223,7 +315,7 @@
 		0C4C9A9B1846331D00CD3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9E212F7F18648216004B9B80 /* UserLoginPic.png */,
+				0C5B5FE918649A870060BECD /* UserLoginPic.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -235,21 +327,19 @@
 				0C4C9A9E1846338600CD3728 /* BaseVC.m */,
 				0C4C9AA8184639FE00CD3728 /* BaseTableVC.h */,
 				0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */,
+				0C0DA9B41865E9D9003EDDA0 /* SearchScreenVC.h */,
+				0C0DA9B51865E9D9003EDDA0 /* SearchScreenVC.m */,
 			);
 			name = BaseVCs;
 			sourceTree = "<group>";
 		};
-		0C4C9AA11846348100CD3728 /* LocationSelection */ = {
+		0C4C9AA11846348100CD3728 /* MenuSelection */ = {
 			isa = PBXGroup;
 			children = (
 				0CA631341864697900CC529F /* MenuSelectionVC.h */,
 				0CA631351864697900CC529F /* MenuSelectionVC.m */,
-				0C4C9AA2184634F200CD3728 /* LocationSelectionScreenVC.h */,
-				0C4C9AA3184634F200CD3728 /* LocationSelectionScreenVC.m */,
-				0CBA77BB186447AB0008CE29 /* LoginVC.h */,
-				0CBA77BC186447AB0008CE29 /* LoginVC.m */,
 			);
-			name = LocationSelection;
+			name = MenuSelection;
 			sourceTree = "<group>";
 		};
 		0C5B5FCA186479800060BECD /* Calendar */ = {
@@ -355,11 +445,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C0DA9C6186658F3003EDDA0 /* 4.png in Resources */,
 				0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */,
 				0C5B5FDC186481BF0060BECD /* TapkuLibrary.bundle in Resources */,
+				0C0DA9C4186658F3003EDDA0 /* 2.png in Resources */,
+				0C0DA9C5186658F3003EDDA0 /* 3.png in Resources */,
 				0C4C9A7418462EAB00CD3728 /* InfoPlist.strings in Resources */,
+				0C0DA9C3186658F3003EDDA0 /* 1.png in Resources */,
+				0C5B5FEA18649A870060BECD /* UserLoginPic.png in Resources */,
 				0C4C9A7C18462EAB00CD3728 /* Images.xcassets in Resources */,
-				9E212F8018648216004B9B80 /* UserLoginPic.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,18 +475,28 @@
 				0C5B5FDA186481670060BECD /* NSDate+TKCategory.m in Sources */,
 				0CBA77BD186447AB0008CE29 /* LoginVC.m in Sources */,
 				0C5B5FC81864770F0060BECD /* CalendarTimeVC.m in Sources */,
+				0C0DA9AA1865D04B003EDDA0 /* OfficeListVC.m in Sources */,
+				0C0DA9CA18665B18003EDDA0 /* FilterScreenVC.m in Sources */,
+				0C0DA9991865AE67003EDDA0 /* LocationSearchVC.m in Sources */,
 				0C5B5FDF186481EF0060BECD /* TKGlobal.m in Sources */,
 				0CBA75CE1864356A0008CE29 /* AppDelegate.m in Sources */,
-				0CBA75CD186435500008CE29 /* LocationSelectionScreenVC.m in Sources */,
+				0C0DA9A51865BEA5003EDDA0 /* Coordinate.m in Sources */,
 				0CBA75CC186435460008CE29 /* main.m in Sources */,
 				0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */,
+				0C0DA9AD1865D2FD003EDDA0 /* Reservation.m in Sources */,
+				0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */,
+				0C0DA9B31865E23F003EDDA0 /* Arrival.m in Sources */,
 				0CBA75C5186435260008CE29 /* Reachability.m in Sources */,
 				0C5B5FE2186482500060BECD /* TKGradientView.m in Sources */,
+				0C0DA9A21865BE31003EDDA0 /* User.m in Sources */,
 				0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */,
 				0CBA75C7186435260008CE29 /* Office.m in Sources */,
 				0CBA75C8186435260008CE29 /* OfficeWorkingHour.m in Sources */,
 				0C5B5FD6186479AB0060BECD /* NSDate+CalendarGrid.m in Sources */,
+				0C0DA99C1865AE76003EDDA0 /* BrandSearchVC.m in Sources */,
 				0C5B5FD5186479AB0060BECD /* TKCalendarMonthView.m in Sources */,
+				0C0DA9B61865E9D9003EDDA0 /* SearchScreenVC.m in Sources */,
+				0C0DA9B01865E234003EDDA0 /* Destination.m in Sources */,
 				0C5B5FD3186479AB0060BECD /* TKCalendarMonthViewController.m in Sources */,
 				0CBA75C9186435260008CE29 /* BaseVC.m in Sources */,
 				0CBA75CA186435260008CE29 /* BaseTableVC.m in Sources */,

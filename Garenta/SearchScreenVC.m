@@ -1,31 +1,24 @@
 //
-//  MainVC.m
+//  SearchScreenVC.m
 //  Garenta
 //
-//  Created by Kerem Balaban on 27.11.2013.
+//  Created by Kerem Balaban on 21.12.2013.
 //  Copyright (c) 2013 Kerem Balaban. All rights reserved.
 //
 
-#import "LocationSelectionScreenVC.h"
+#import "SearchScreenVC.h"
+#define kDestinationTableTag 0
+#define kArrivalTableTag 1
 
-@interface LocationSelectionScreenVC ()
+@interface SearchScreenVC ()
 
 @end
 
-@implementation LocationSelectionScreenVC
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+@implementation SearchScreenVC
 
 - (id)initWithFrame:(CGRect)frame;
 {
-//    self = [super init];
+    self = [super init];
     
     viewFrame = frame;
     
@@ -38,10 +31,12 @@
     [super viewDidLoad];
     
     // ekranki component'ların ayarlaması yapılıyor
+    destinationInfo = [[Destination alloc] init];
+    arrivalInfo = [[Arrival alloc] init];
+    
     officeWorkingSchedule = [[NSMutableArray alloc] init];
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
-//    [self connectToGateway];
-//    [self prepareScreen];
+    [self connectToGateway];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -99,6 +94,8 @@
     [destinationTableView setClipsToBounds:YES];
     [destinationTableView setDelegate:self];
     [destinationTableView setDataSource:self];
+    [destinationTableView setScrollEnabled:NO];
+    [destinationTableView setTag:kDestinationTableTag];
     
     // aracın teslim edileceği yer
     [[arrivalTableView layer] setCornerRadius:5.0f];
@@ -106,6 +103,8 @@
     [arrivalTableView setClipsToBounds:YES];
     [arrivalTableView setDelegate:self];
     [arrivalTableView setDataSource:self];
+    [arrivalTableView setScrollEnabled:NO];
+    [arrivalTableView setTag:kArrivalTableTag];
     
     [self.view addSubview:destinationTableView];
     [self.view addSubview:arrivalTableView];
@@ -136,13 +135,13 @@
     
     arrivalTableView = [[UITableView alloc] initWithFrame:
                         CGRectMake (viewFrame.size.width * 0.05 ,
-                                   destinationTableView.frame.size.height * 1.4 ,
-                                   viewFrame.size.width * 0.9,
-                                   115) style:UITableViewStyleGrouped];
+                                    destinationTableView.frame.size.height * 1.4 ,
+                                    viewFrame.size.width * 0.9,
+                                    115) style:UITableViewStyleGrouped];
     
     searchButton = [[UIButton alloc] initWithFrame:CGRectMake (viewFrame.size.width * 0.05,
                                                                (destinationTableView.frame.size.height + arrivalTableView.frame.size.height) * 1.3, arrivalTableView.frame.size.width, 40)];
-
+    
 }
 
 - (void)login:(id)sender
@@ -171,15 +170,38 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil)
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     
-    if ([indexPath row] == 0) {
-        [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
+    if ([tableView tag] == kDestinationTableTag)
+    {
+        if ([indexPath row] == 0)
+        {
+            if ([destinationInfo destinationOffice] == nil)
+                [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
+            else
+                [[cell textLabel] setText:[destinationInfo destinationOffice]];
+        }
+        else
+        {
+            if ([destinationInfo destinationDate] == nil && [destinationInfo destinationTime] == nil)
+                [[cell textLabel] setText:@"Tarih / Saat Seçiniz"];
+            else
+                [[cell textLabel] setText:[NSString stringWithFormat:@"%@%@%@",[destinationInfo destinationDate],@" - ",[destinationInfo destinationTime]]];
+        }
     }
     else
     {
-        [[cell textLabel] setText:@"Tarih / Saat Seçiniz"];
+        if ([indexPath row] == 0)
+        {
+            [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
+            [[cell detailTextLabel] setText:[arrivalInfo arrivalOffice]];
+        }
+        else
+        {
+            [[cell textLabel] setText:@"Tarih / Saat Seçiniz"];
+        }
     }
+    
     
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     return cell;
@@ -188,32 +210,69 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (indexPath.row == 0) {
-
-        
+    
+    
+    if ([tableView tag] == kDestinationTableTag)
+    {
+        if (indexPath.row == 0) {
+            OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andDest:destinationInfo];
+            [[self navigationController] pushViewController:office animated:YES];
+            
+        }
+        else
+        {
+            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            {
+                UIViewController *vc;
+                vc = [[CalendarTimeVC alloc] initWithSunday:NO];
+                
+                UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+                
+                popOver = [[UIPopoverController alloc] initWithContentViewController:vc];
+                popOver.popoverContentSize = CGSizeMake(320, 320);
+                [popOver setDelegate:self];
+                [popOver presentPopoverFromRect:[cell frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+            }
+            else
+            {
+                UIViewController *vc;
+                vc = [[CalendarTimeVC alloc] initWithSunday:NO];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            
+        }
     }
     else
     {
         
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        {
-            UIViewController *vc;
-            vc = [[CalendarTimeVC alloc] initWithSunday:NO];
-            
-            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-            
-            popOver = [[UIPopoverController alloc] initWithContentViewController:vc];
-            popOver.popoverContentSize = CGSizeMake(320, 320);
-            [popOver setDelegate:self];
-            [popOver presentPopoverFromRect:[cell frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        if (indexPath.row == 0) {
+            OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andArr:arrivalInfo];
+            [[self navigationController] pushViewController:office animated:YES];
         }
         else
         {
-            UIViewController *vc;
-            vc = [[CalendarTimeVC alloc] initWithSunday:NO];
-            [self.navigationController pushViewController:vc animated:YES];
+            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            {
+                UIViewController *vc;
+                vc = [[CalendarTimeVC alloc] initWithSunday:NO];
+                
+                UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+                
+                popOver = [[UIPopoverController alloc] initWithContentViewController:vc];
+                popOver.popoverContentSize = CGSizeMake(320, 320);
+                [popOver setDelegate:self];
+                [popOver presentPopoverFromRect:[cell frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+            }
+            else
+            {
+                UIViewController *vc;
+                vc = [[CalendarTimeVC alloc] initWithSunday:NO];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            
         }
-
     }
 }
 
@@ -265,6 +324,8 @@
 
 - (void)connectToGateway
 {
+    //    NSString *connectionString = @"http://172.17.1.149:8000/sap/opu/odata/sap/ZGARENTA_TEST_SRV/available_offices(ImppAltSube='',ImppMerkezSube='')?$expand=EXPT_SUBE_BILGILERISet,EXPT_CALISMA_ZAMANISet,EXPT_TATIL_ZAMANISet&$format=json";
+    
     NSString *connectionString = @"http://172.17.1.149:8000/sap/opu/odata/sap/ZGARENTA_TEST_SRV/available_offices(ImppAltSube='',ImppMerkezSube='')?$expand=EXPT_SUBE_BILGILERISet,EXPT_CALISMA_ZAMANISet,EXPT_TATIL_ZAMANISet&$format=json";
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]
@@ -272,7 +333,7 @@
                                          timeoutInterval:30.0];
     
     NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
-        
+    
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
