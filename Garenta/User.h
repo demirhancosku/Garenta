@@ -15,5 +15,6 @@
 @property (nonatomic,retain) NSString *password;
 @property (nonatomic,retain) NSString *name;
 @property (nonatomic,retain) NSString *surname;
+
 @property (nonatomic,retain) Coordinate *userLocation;
 @end

@@ -114,22 +114,17 @@
     
     //some data for testing
     self.galleryImages = [[NSMutableArray alloc] init];
-//    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"1" ofType:@"png"] atIndex:0];
-//    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"2" ofType:@"png"] atIndex:1];
-//    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"3" ofType:@"png"] atIndex:2];
-//    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"4" ofType:@"png"] atIndex:3];
-    
-    [self.galleryImages addObject:[UIImage imageNamed:@"1.png"]];
-    [self.galleryImages addObject:[UIImage imageNamed:@"2.png"]];
-    [self.galleryImages addObject:[UIImage imageNamed:@"3.png"]];
-    [self.galleryImages addObject:[UIImage imageNamed:@"4.png"]];
+    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"1" ofType:@"png"] atIndex:0];
+    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"2" ofType:@"png"] atIndex:1];
+    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"3" ofType:@"png"] atIndex:2];
+    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"4" ofType:@"png"] atIndex:3];
     
     self.currentIndex = 0;
 }
 
 - (void)addTableView
 {
-    filterTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.imageHostScrollView.frame.size.height, self.view.frame.size.width, (self.view.frame.size.height - self.imageHostScrollView.frame.size.height))];
+    filterTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.imageHostScrollView.frame.size.height, self.view.frame.size.width, (self.view.frame.size.height - self.imageHostScrollView.frame.size.height)) style:UITableViewStyleGrouped];
     
     [[self view] addSubview:filterTableView];
     [filterTableView setDelegate:self];
@@ -146,7 +141,7 @@
 {
     // Return the number of rows in the section.
     //    return [officeList count];
-    return 1;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -157,7 +152,7 @@
     if (cell == nil)
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     
-    [[cell textLabel] setText:@"İstanbul Atatürk Havalimanı"];
+    [[cell textLabel] setText:@"A grubu"];
     
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     return cell;

@@ -9,5 +9,5 @@
 #import "Arrival.h"
 
 @implementation Arrival
-@synthesize arrivalOffice, arrivalDate, arrivalTime;
+@synthesize arrivalOfficeCode, arrivalOfficeName, arrivalDate, arrivalTime;
 @end

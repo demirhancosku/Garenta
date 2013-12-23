@@ -20,7 +20,7 @@
 
 - (id)initWithOfficeList:(NSMutableArray *)office andDest:(Destination *)dest
 {
-    self = [super init];
+    self = [super initWithSunday:NO];
     
     officeList = [[NSMutableArray alloc] init];
     destination = [[Destination alloc] init];
@@ -33,7 +33,7 @@
 
 - (id)initWithOfficeList:(NSMutableArray *)office andArr:(Arrival *)arr
 {
-    self = [super init];
+    self = [super initWithSunday:NO];
     
     officeList = [[NSMutableArray alloc] init];
     arrival = [[Arrival alloc] init];
@@ -46,11 +46,14 @@
 
 #pragma mark View Lifecycle
 - (void) viewDidLoad{
-	[super viewDidLoad];
-//	self.title = NSLocalizedString(@"Month Grid", @"");
-	[self.monthView selectDate:[NSDate date]];
     
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Giriş" style:UIBarButtonItemStyleBordered target:self action:@selector(selectDateAndTime:)];
+	[super viewDidLoad];
+    
+	[self.monthView selectDate:[NSDate date]];
+    selectedDate = [[NSDate alloc] init];
+    selectedTime = [[NSDate alloc] init];
+    
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Tarih Seç" style:UIBarButtonItemStyleBordered target:self action:@selector(selectDateAndTime:)];
     [[self navigationItem] setRightBarButtonItem:barButton];
     
     [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
@@ -61,48 +64,101 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    sliderText = [[UITextField alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.05, self.monthView.frame.size.height * 1.1, self.monthView.frame.size.width * 0.15, 50)];
+    sliderText = [[UITextField alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.05, self.monthView.frame.size.height * 1.1, self.monthView.frame.size.width * 0.20, 50)];
     
-    mySlider = [[UISlider alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.2, self.monthView.frame.size.height * 1.1, self.monthView.frame.size.width * 0.6, 50)];
+    mySlider = [[UISlider alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.25, self.monthView.frame.size.height * 1.1, self.monthView.frame.size.width * 0.6, 50)];
     [mySlider addTarget:self action:@selector(sliderValueChanged:)
        forControlEvents:UIControlEventValueChanged];
     
-    [mySlider setMinimumValue:0.0];
-    [mySlider setMaximumValue:24.0];
-    [mySlider setUserInteractionEnabled:YES];
+    [mySlider setMinimumValue:0];
+    [mySlider setMaximumValue:47];
     
     [[self view] addSubview:mySlider];
 }
 
-- (void) calendarMonthView:(TKCalendarMonthView*)monthView didSelectDate:(NSDate*)date{
-	
-    selectedDate = date;
-
-}
-
 - (void)selectDateAndTime:(id)sender
 {
-//    selectedDate = [super dateSelected];
     
-    if (arrival == nil) {
+    selectedDate = [self.monthView dateSelected];
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDate * testDate = selectedDate;
+    NSDateComponents *weekdayComponents =[gregorian components:NSWeekdayCalendarUnit fromDate:testDate];
+    NSInteger weekday = [weekdayComponents weekday];
+    
+    // weekday 1 = Sunday for Gregorian calendar
+
+    if (arrival == nil)
+    {
         [destination setDestinationDate:selectedDate];
-//        destination setDestinationTime:];
+        [destination setDestinationTime:selectedTime];
     }
+    else
+    {
+        [arrival setArrivalDate:selectedDate];
+        [arrival setArrivalTime:selectedTime];
+    }
+    
+    
+//    if ([destination destinationOfficeCode] != nil) {
+//        for (int i = 0; i < [officeList count]; i++) {
+//            Office *temp = [officeList objectAtIndex:i];
+//            
+//            if ([[temp mainOfficeCode] isEqualToString:[destination destinationOfficeCode]])
+//            {
+//                for (int j = 0; j < [[temp workingHours]count]; j++) {
+//                    NSString *weekday2 = [NSString stringWithFormat:@"%@",[[[temp workingHours] objectAtIndex:j] weekDay]];
+//                    
+//                    if (![weekday2 isEqualToString:[NSString stringWithFormat:@"%li",(long)weekday]]) {
+//                        
+//                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"uyarı" message:@"uyarı" delegate:nil cancelButtonTitle:@"tamam" otherButtonTitles:nil, nil];
+//                        
+//                        [alert show];
+//                    }
+//                
+//                }
+//            }
+//        }
+//    }
+
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
 - (void)sliderValueChanged:(id)sender
 {
-    NSDate *localDate = [NSDate date];
-    NSDateFormatter *timeFormatter = [[NSDateFormatter alloc]init];
-    timeFormatter.dateFormat = @"HH:mm";
-    NSString *dateString = [timeFormatter stringFromDate: localDate];
+    NSNumber *number = [NSNumber numberWithFloat:[mySlider value]];
+    int i = [number intValue];
+    NSString *hour;
+    NSString *min;
     
-    sliderText.text = dateString;
+    if (i % 2) {
+        min = [NSString stringWithFormat:@"%@",@"30"];
+        
+        if (i < 20)
+            hour = [NSString stringWithFormat:@"%@%i",@"0",(i / 2)];
+        else
+            hour = [NSString stringWithFormat:@"%i",(i / 2)];
+        
+        sliderText.text = [NSString stringWithFormat:@"%@%@%@",hour,@":",min];
+    }
+    else
+    {
+        
+        if (i < 20)
+            hour = [NSString stringWithFormat:@"%@%i",@"0",(i / 2)];
+        else
+            hour = [NSString stringWithFormat:@"%i",(i / 2)];
+    
+        sliderText.text = [NSString stringWithFormat:@"%@%@%@",hour,@":",@"00"];
+        
+    }
+    
+    NSDateFormatter *datFormatter = [[NSDateFormatter alloc] init];
+    [datFormatter setDateFormat:@"HH:mm"];
+    selectedTime = [datFormatter dateFromString:sliderText.text];
+    
     [[self view] addSubview:sliderText];
     
-    [mySlider setValue:[[sliderText text] floatValue]];
 }
-
 @end
 

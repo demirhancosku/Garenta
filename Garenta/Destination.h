@@ -10,7 +10,8 @@
 
 @interface Destination : NSObject
 
-@property (nonatomic, retain) NSString *destinationOffice;
+@property (nonatomic, retain) NSString *destinationOfficeCode;
+@property (nonatomic, retain) NSString *destinationOfficeName;
 @property (nonatomic, retain) NSDate *destinationDate;
 @property (nonatomic, retain) NSDate *destinationTime;
 @end

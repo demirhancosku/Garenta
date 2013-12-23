@@ -191,10 +191,10 @@
     {
         if ([indexPath row] == 0)
         {
-            if ([destinationInfo destinationOffice] == nil)
+            if ([destinationInfo destinationOfficeName] == nil)
                 [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
             else
-                [[cell textLabel] setText:[destinationInfo destinationOffice]];
+                [[cell textLabel] setText:[destinationInfo destinationOfficeName]];
         }
         else
         {
@@ -209,7 +209,7 @@
         if ([indexPath row] == 0)
         {
             [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
-            [[cell detailTextLabel] setText:[arrivalInfo arrivalOffice]];
+            [[cell detailTextLabel] setText:[arrivalInfo arrivalOfficeName]];
         }
         else
         {

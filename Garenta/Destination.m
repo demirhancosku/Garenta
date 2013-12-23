@@ -9,5 +9,5 @@
 #import "Destination.h"
 
 @implementation Destination
-@synthesize destinationDate, destinationOffice, destinationTime;
+@synthesize destinationDate, destinationOfficeName, destinationOfficeCode, destinationTime;
 @end

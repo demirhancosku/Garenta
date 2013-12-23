@@ -453,9 +453,7 @@ static UIImage *tileImage;
 	info.second = 0;
 	info.day = selectedDay;
 	NSDate *d = [NSDate dateWithDateComponents:info];
-	
-		
-	
+    
 	return d;
 	
 }

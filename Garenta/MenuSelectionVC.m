@@ -23,11 +23,12 @@
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame;
+- (id)initWithFrame:(CGRect)frame andUser:(User *)userInfo;
 {
     //    self = [super init];
     
     viewFrame = frame;
+    user = userInfo;
     
     return self;
 }
@@ -35,6 +36,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    user = [[User alloc] init];
 	// Do any additional setup after loading the view.
 }
 
@@ -61,6 +63,7 @@
                                                            [ApplicationProperties getBlack], NSForegroundColorAttributeName,
                                                            [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0], NSFontAttributeName, nil]];
     
+
     [classicSearch setTitleColor:[ApplicationProperties getBlack] forState:UIControlStateNormal];
     [classicSearch setTitle:@"Klasik" forState:UIControlStateNormal];
     [[classicSearch layer] setCornerRadius:5.0f];
@@ -88,6 +91,16 @@
     [self.view addSubview:classicSearch];
     [self.view addSubview:locationSearch];
     [self.view addSubview:brandSearch];
+    
+    
+    if ([user name] != nil) {
+        [wellcome setText:@"Hoşgeldiniz"];
+        [self.view addSubview:wellcome];
+        [[self navigationItem] setRightBarButtonItem:nil];
+        
+        
+    }
+    
 }
 
 - (void)setIpadLayer
@@ -102,6 +115,8 @@
 
 - (void)setIphoneLayer
 {
+    
+    wellcome = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 0.1, 0, self.view.frame.size.width * 0.4, self.view.frame.size.height * 0.1)];
     
     classicSearch = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 0.25, self.view.frame.size.height * 0.1, self.view.frame.size.width * 0.5, self.view.frame.size.height * 0.2)];
     

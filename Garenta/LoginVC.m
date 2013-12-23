@@ -26,7 +26,6 @@
 - (id)initWithFrame:(CGRect)frame;
 {
     self = [super init];
-    
     viewFrame = frame;
     
     return self;
@@ -35,6 +34,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    user = [[User alloc] init];
+    
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Giriş" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
+    [[self navigationItem] setRightBarButtonItem:barButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -51,6 +55,26 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)login:(id)sender
+{
+    
+    if ([username.text isEqualToString:@"kerem"])
+    {
+        [user setName:@"Kerem"];
+        [user setSurname:@"Balaban"];
+        
+        [[self navigationController] popViewControllerAnimated:YES];
+        
+    }
+    else
+    {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Hatalı kullanıcı adı ya da şifre" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+    
+    [alert show];
+    return;
+    }
+}
+
 - (void)prepareScreen
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -62,15 +86,15 @@
         [self setIphoneLayer];
     }
     
-    [loginButton setTitle:@"Giriş" forState:UIControlStateNormal];
-    [[loginButton layer] setCornerRadius:5.0f];
-    [loginButton setBackgroundColor:[ApplicationProperties getOrange]];
-    [loginButton setTintColor:[ApplicationProperties getWhite]];
-    
-    [signUpButton setTitle:@"Üye Ol" forState:UIControlStateNormal];
-    [[signUpButton layer] setCornerRadius:5.0f];
-    [signUpButton setBackgroundColor:[ApplicationProperties getOrange]];
-    [signUpButton setTintColor:[ApplicationProperties getWhite]];
+//    [loginButton setTitle:@"Giriş" forState:UIControlStateNormal];
+//    [[loginButton layer] setCornerRadius:5.0f];
+//    [loginButton setBackgroundColor:[ApplicationProperties getOrange]];
+//    [loginButton setTintColor:[ApplicationProperties getWhite]];
+//    
+//    [signUpButton setTitle:@"Üye Ol" forState:UIControlStateNormal];
+//    [[signUpButton layer] setCornerRadius:5.0f];
+//    [signUpButton setBackgroundColor:[ApplicationProperties getOrange]];
+//    [signUpButton setTintColor:[ApplicationProperties getWhite]];
     
     [username setDelegate:self];
     [password setDelegate:self];
@@ -90,10 +114,10 @@
     [password setTextAlignment:NSTextAlignmentCenter];
     
     [self.view addSubview:userImageView];
-    [self.view addSubview:loginButton];
+//    [self.view addSubview:loginButton];
     [self.view addSubview:username];
     [self.view addSubview:password];
-    [self.view addSubview:signUpButton];
+//    [self.view addSubview:signUpButton];
 }
 
 - (void)setIpadLayer
@@ -102,9 +126,9 @@
     
     password = [[UITextField alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.40, viewFrame.size.width * 0.8, 40)];
     
-    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.55, viewFrame.size.width * 0.8, 40)];
-    
-    signUpButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.60, viewFrame.size.width * 0.8, 40)];
+//    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.55, viewFrame.size.width * 0.8, 40)];
+//    
+//    signUpButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.60, viewFrame.size.width * 0.8, 40)];
     
     userImageView = [[UIImageView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.35, viewFrame.size.height * -0.02, viewFrame.size.width * 0.3, viewFrame.size.height * 0.3)];
     [userImageView setContentMode:UIViewContentModeScaleAspectFill];
@@ -117,9 +141,9 @@
     
     password = [[UITextField alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.43, viewFrame.size.width * 0.8, 40)];
     
-    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.60, viewFrame.size.width * 0.8, 40)];
-    
-    signUpButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.70, viewFrame.size.width * 0.8, 40)];
+//    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.60, viewFrame.size.width * 0.8, 40)];
+//    
+//    signUpButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.70, viewFrame.size.width * 0.8, 40)];
     
     userImageView = [[UIImageView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.4, viewFrame.size.height * 0.05, viewFrame.size.width * 0.22, viewFrame.size.height * 0.22)];
     [userImageView setContentMode:UIViewContentModeScaleAspectFill];

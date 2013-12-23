@@ -9,29 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Garenta/TKCalendarMonthView.m"
-            timestampString = "409336796.620264"
+            filePath = "Garenta/MenuSelectionVC.m"
+            timestampString = "409496647.433832"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1051"
-            endingLineNumber = "1051"
-            landmarkName = "-reloadData"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Garenta/FilterScreenVC.m"
-            timestampString = "409368890.526707"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
-            landmarkName = "-imageAtIndex:"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
+            landmarkName = "-prepareScreen"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

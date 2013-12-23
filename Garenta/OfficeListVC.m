@@ -53,12 +53,29 @@
 {
     [super viewDidLoad];
     
-    officeListTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
+    officeListTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
     
     [officeListTable setDelegate:self];
     [officeListTable setDataSource:self];
     
+    tempOffice = [[Office alloc] init];
+    
     [[self view] addSubview:officeListTable];
+    
+    searchData = [[NSMutableArray alloc]init];
+    
+    searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+    
+    searchDisplayController.delegate = self;
+    searchDisplayController.searchResultsDataSource = self;
+    
+    officeListTable.tableHeaderView = searchBar;
+    
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"subOfficeName" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    [officeList sortUsingDescriptors:sortDescriptors];
 	// Do any additional setup after loading the view.
 }
 
@@ -76,9 +93,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-//    return [officeList count];
-    return 1;
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+        return [searchData count];
+    else
+        return [officeList count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -89,7 +107,16 @@
     if (cell == nil)
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     
-    [[cell textLabel] setText:@"İstanbul Atatürk Havalimanı"];
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        tempOffice = [searchData objectAtIndex:indexPath.row];
+    }
+    else
+    {
+        tempOffice = [officeList objectAtIndex:indexPath.row];
+    }
+    
+    [[cell textLabel] setText:[tempOffice subOfficeName]];
     
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     return cell;
@@ -97,13 +124,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        tempOffice = [searchData objectAtIndex:indexPath.row];
+    }
+    else
+    {
+        tempOffice = [officeList objectAtIndex:indexPath.row];
+    }
     
     if (arrival == nil)
-        [destination setDestinationOffice:@"İstanbul Atatürk Havalimanı"];
-    
+    {
+        [destination setDestinationOfficeCode:[tempOffice mainOfficeCode]];
+        [destination setDestinationOfficeName:[tempOffice subOfficeName]];
+    }
     else
-        [arrival setArrivalOffice:@"İstanbul Sabiha Gökçen"];
-    
+    {
+        [arrival setArrivalOfficeCode:[tempOffice mainOfficeCode]];
+        [arrival setArrivalOfficeName:[tempOffice subOfficeName]];
+    }
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"tableViewDidReturn" object:nil userInfo:nil];
@@ -113,5 +152,55 @@
         [[self navigationController] popViewControllerAnimated:YES];
     }
 }
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    
+    [self->searchData removeAllObjects]; // First clear the filtered array.
+    
+    if (![searchText isEqualToString:@""]) {
+        
+        for (int i = 0; i < [officeList count]; i++)
+        {
+            
+            NSString *officeName = [[officeList objectAtIndex:i] subOfficeName];
+            
+            NSComparisonResult result = [officeName compare:searchText options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch) range:NSMakeRange(0, [searchText length])];
+            
+            if (result == NSOrderedSame)
+            {
+                [self->searchData addObject:[officeList objectAtIndex:i]];
+            }
+        }
+    }
+    
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    
+    [self filterContentForSearchText:searchString scope:
+     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
+}
+
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:
+     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
+    
+    return YES;
+}
+
+- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
+    
+    controller.searchResultsTableView.backgroundColor = [officeListTable backgroundColor];
+    controller.searchResultsTableView.rowHeight = [officeListTable rowHeight];
+    controller.searchResultsDelegate = self;
+    
+}
+
 
 @end

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "ApplicationProperties.h"
+#import "User.h"
+#import "MenuSelectionVC.h"
 
 @interface LoginVC : UIViewController <UITextFieldDelegate>
 {
@@ -16,7 +18,9 @@
     UITextField *password;
     UIImageView *userImageView;
     UIButton *loginButton;
-    UIButton *signUpButton;
+    UIButton *signUpButton;    
+    User *user;
+    
 }
 
 - (id)initWithFrame:(CGRect)frame;

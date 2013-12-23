@@ -64,18 +64,9 @@
         [arrivalTableView setRowHeight:45];
         [destinationTableView setRowHeight:45];
     }
-    
-    
-    //    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    //    NSDate * testDate = [NSDate date];
-    //
-    //    NSDateComponents *weekdayComponents =[gregorian components:NSWeekdayCalendarUnit fromDate:testDate];
-    //
-    //    NSInteger weekday = [weekdayComponents weekday];
-    //    // weekday 1 = Sunday for Gregorian calendar
-    
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Giriş" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
-    [[self navigationItem] setRightBarButtonItem:barButton];
+//    
+//    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Giriş" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
+//    [[self navigationItem] setRightBarButtonItem:barButton];
     
     [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
                                                            [ApplicationProperties getBlack], NSForegroundColorAttributeName,
@@ -113,11 +104,44 @@
 
 - (void)showCarGroup:(id)sender
 {
-    [reservation setDestination:destinationInfo];
-    [reservation setArrival:arrivalInfo];
     
-    FilterScreenVC *car = [[FilterScreenVC alloc] init];
-    [[self navigationController] pushViewController:car animated:YES];
+    if ([destinationInfo destinationDate] == nil)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın teslim alınacağı zaman seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+        return;
+    }
+    else if ([destinationInfo destinationOfficeName] == nil)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın teslim alınacağı ofis seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+        return;
+    }
+    else if ([arrivalInfo arrivalOfficeName] == nil)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın iade edileceği ofis seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+        return;
+    }
+    else if ([arrivalInfo arrivalDate] == nil)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın iade edileceği zaman seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+        return;
+    }
+    else
+    {
+    
+        [reservation setDestination:destinationInfo];
+        [reservation setArrival:arrivalInfo];
+    
+        FilterScreenVC *car = [[FilterScreenVC alloc] init];
+        [[self navigationController] pushViewController:car animated:YES];
+    }
 }
 
 - (void)setIpadLayer
@@ -154,11 +178,11 @@
     
 }
 
-- (void)login:(id)sender
-{
-    LoginVC *login = [[LoginVC alloc] initWithFrame:viewFrame];
-    [[self navigationController] pushViewController:login animated:YES];
-}
+//- (void)login:(id)sender
+//{
+//    LoginVC *login = [[LoginVC alloc] initWithFrame:viewFrame];
+//    [[self navigationController] pushViewController:login animated:YES];
+//}
 
 #pragma mark - Table view data source
 
@@ -182,33 +206,74 @@
     if (cell == nil)
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     
+
+    
     if ([tableView tag] == kDestinationTableTag)
     {
         if ([indexPath row] == 0)
         {
-            if ([destinationInfo destinationOffice] == nil)
+            if ([destinationInfo destinationOfficeName] == nil)
+            {
                 [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
+                [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
+            }
             else
-                [[cell textLabel] setText:[destinationInfo destinationOffice]];
+                [[cell textLabel] setText:[destinationInfo destinationOfficeName]];
         }
         else
         {
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"dd.MM.yyyy"];
+            
+            NSDateFormatter *formatter2 = [[NSDateFormatter alloc] init];
+            [formatter2 setDateFormat:@"HH:mm"];
+            
+            //Optionally for time zone converstions
+            NSString *stringFromDate = [formatter stringFromDate:[destinationInfo destinationDate]];
+            NSString *stringFromTime = [formatter2 stringFromDate:[destinationInfo destinationTime]];
+            
             if ([destinationInfo destinationDate] == nil && [destinationInfo destinationTime] == nil)
+            {
                 [[cell textLabel] setText:@"Tarih / Saat Seçiniz"];
+                [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
+            }
             else
-                [[cell textLabel] setText:[NSString stringWithFormat:@"%@%@%@",[destinationInfo destinationDate],@" - ",[destinationInfo destinationTime]]];
+                [[cell textLabel] setText:[NSString stringWithFormat:@"%@%@%@",stringFromDate,@" - ",stringFromTime]];
         }
     }
     else
     {
         if ([indexPath row] == 0)
         {
-            [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
-            [[cell detailTextLabel] setText:[arrivalInfo arrivalOffice]];
+            if ([arrivalInfo arrivalOfficeName] == nil)
+            {
+                [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
+                [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
+            }
+            else
+                [[cell textLabel] setText:[arrivalInfo arrivalOfficeName]];
         }
         else
         {
-            [[cell textLabel] setText:@"Tarih / Saat Seçiniz"];
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"dd.MM.yyyy"];
+            
+            NSDateFormatter *formatter2 = [[NSDateFormatter alloc] init];
+            [formatter2 setDateFormat:@"HH:mm"];
+            
+            //Optionally for time zone converstions
+            NSString *stringFromDate = [formatter stringFromDate:[arrivalInfo arrivalDate]];
+            NSString *stringFromTime = [formatter2 stringFromDate:[arrivalInfo arrivalTime]];
+            
+            if ([arrivalInfo arrivalDate] == nil && [arrivalInfo arrivalTime] == nil)
+            {
+                [[cell textLabel] setText:@"Tarih / Saat Seçiniz"];
+                [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
+            }
+            else
+                [[cell textLabel] setText:[NSString stringWithFormat:@"%@%@%@",stringFromDate,@" - ",stringFromTime]];
         }
     }
     
@@ -247,7 +312,7 @@
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             {
                 UIViewController *vc;
-                vc = [[CalendarTimeVC alloc] initWithSunday:NO];
+                vc = [[CalendarTimeVC alloc] initWithOfficeList:officeWorkingSchedule andDest:destinationInfo];
                 
                 UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
                 
@@ -259,7 +324,7 @@
             else
             {
                 UIViewController *vc;
-                vc = [[CalendarTimeVC alloc] initWithSunday:NO];
+                vc = [[CalendarTimeVC alloc] initWithOfficeList:officeWorkingSchedule andDest:destinationInfo];
                 [self.navigationController pushViewController:vc animated:YES];
             }
             
@@ -293,7 +358,7 @@
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             {
                 UIViewController *vc;
-                vc = [[CalendarTimeVC alloc] initWithSunday:NO];
+                vc = [[CalendarTimeVC alloc] initWithOfficeList:officeWorkingSchedule andArr:arrivalInfo];
                 
                 UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
                 
@@ -305,7 +370,7 @@
             else
             {
                 UIViewController *vc;
-                vc = [[CalendarTimeVC alloc] initWithSunday:NO];
+                vc = [[CalendarTimeVC alloc] initWithOfficeList:officeWorkingSchedule andArr:arrivalInfo];
                 [self.navigationController pushViewController:vc animated:YES];
             }
             
@@ -369,31 +434,32 @@
 
 - (void)connectToGateway
 {
-    //    NSString *connectionString = @"http://172.17.1.149:8000/sap/opu/odata/sap/ZGARENTA_TEST_SRV/available_offices(ImppAltSube='',ImppMerkezSube='')?$expand=EXPT_SUBE_BILGILERISet,EXPT_CALISMA_ZAMANISet,EXPT_TATIL_ZAMANISet&$format=json";
+    NSString *connectionString = @"https://172.17.1.149:8000/sap/opu/odata/sap/ZGARENTA_TEST_SRV/available_offices(ImppAltSube='',ImppMerkezSube='')?$expand=EXPT_SUBE_BILGILERISet,EXPT_CALISMA_ZAMANISet,EXPT_TATIL_ZAMANISet&$format=json";
     
-    NSString *connectionString = @"http://172.17.1.149:8000/sap/opu/odata/sap/ZGARENTA_TEST_SRV/available_offices(ImppAltSube='',ImppMerkezSube='')?$expand=EXPT_SUBE_BILGILERISet,EXPT_CALISMA_ZAMANISet,EXPT_TATIL_ZAMANISet&$format=json";
-    
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]
-                                             cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                         timeoutInterval:30.0];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:50.0];
     
     NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
     
 }
 
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)space
+{
+    return YES;
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
-    if ([challenge previousFailureCount] == 0) {
+    if ([challenge previousFailureCount] == 0)
+    {
         NSLog(@"received authentication challenge");
-        NSURLCredential *newCredential = [NSURLCredential credentialWithUser:@"gw_admin"
-                                                                    password:@"1qa2ws3ed"
-                                                                 persistence:NSURLCredentialPersistenceForSession];
+        NSURLCredential *newCredential = [NSURLCredential credentialWithUser:@"gw_admin" password:@"1qa2ws3ed"persistence:NSURLCredentialPersistenceForSession];
         NSLog(@"credential created");
         [[challenge sender] useCredential:newCredential forAuthenticationChallenge:challenge];
         NSLog(@"responded to authentication challenge");
     }
-    else {
-        NSLog(@"previous authentication failure");
+    else
+    {
+       NSLog(@"previous authentication failure");
     }
 }
 
@@ -412,6 +478,8 @@
     NSDictionary *officeListDict = [result objectForKey:@"EXPT_SUBE_BILGILERISet"];
     NSDictionary *timeDict = [result objectForKey:@"EXPT_CALISMA_ZAMANISet"];
     NSDictionary *holidayDict = [result objectForKey:@"EXPT_TATIL_ZAMANISet"];
+//    NSDictionary *holidayDict = [result objectForKey:@"EXPT_TATIL_ZAMANI"];
+    
     
     NSDictionary *timeListResult = [timeDict objectForKey:@"results"];
     NSDictionary *officeListResult = [officeListDict objectForKey:@"results"];
@@ -462,6 +530,7 @@
                 OfficeWorkingHour *tempSchedule = [[OfficeWorkingHour alloc] init];
                 tempSchedule.startingHour = [timeTemp objectForKey:@"Begti"];
                 tempSchedule.endingHour   = [timeTemp objectForKey:@"Endti"];
+                tempSchedule.holidayDate  = [timeTemp objectForKey:@"Begda"];
                 tempSchedule.mainOffice   = [timeTemp objectForKey:@"MerkezSube"];
                 tempSchedule.subOffice    = [timeTemp objectForKey:@"AltSube"];
                 tempSchedule.weekDay      = [timeTemp objectForKey:@"Caday"];
