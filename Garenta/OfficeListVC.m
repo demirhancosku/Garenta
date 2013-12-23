@@ -143,14 +143,9 @@
         [arrival setArrivalOfficeCode:[tempOffice mainOfficeCode]];
         [arrival setArrivalOfficeName:[tempOffice subOfficeName]];
     }
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"tableViewDidReturn" object:nil userInfo:nil];
-    }
-    else
-    {
-        [[self navigationController] popViewControllerAnimated:YES];
-    }
+    
+    [[self navigationController] popViewControllerAnimated:YES];
+
 }
 
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope

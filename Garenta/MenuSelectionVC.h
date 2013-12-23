@@ -24,5 +24,5 @@
     CGRect viewFrame;
 }
 
-- (id)initWithFrame:(CGRect)frame andUser:(User *)userInfo;
+- (id)initWithFrame:(CGRect)frame;
 @end

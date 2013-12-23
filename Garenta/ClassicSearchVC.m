@@ -52,21 +52,14 @@
 
 - (void)prepareScreen
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        [self setIpadLayer];
-        [arrivalTableView setRowHeight:65];
-        [destinationTableView setRowHeight:65];
-    }
-    else
-    {
-        [self setIphoneLayer];
-        [arrivalTableView setRowHeight:45];
-        [destinationTableView setRowHeight:45];
-    }
-//    
-//    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Giriş" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
-//    [[self navigationItem] setRightBarButtonItem:barButton];
+    
+    [self setIphoneLayer];
+    [arrivalTableView setRowHeight:45];
+    [destinationTableView setRowHeight:45];
+    
+    //
+    //    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Giriş" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
+    //    [[self navigationItem] setRightBarButtonItem:barButton];
     
     [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
                                                            [ApplicationProperties getBlack], NSForegroundColorAttributeName,
@@ -104,17 +97,16 @@
 
 - (void)showCarGroup:(id)sender
 {
-    
-    if ([destinationInfo destinationDate] == nil)
+    if ([destinationInfo destinationOfficeName] == nil)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın teslim alınacağı zaman seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın teslim alınacağı ofis seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
         
         [alert show];
         return;
     }
-    else if ([destinationInfo destinationOfficeName] == nil)
+    else if ([destinationInfo destinationDate] == nil)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın teslim alınacağı ofis seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın teslim alınacağı zaman seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
         
         [alert show];
         return;
@@ -135,25 +127,13 @@
     }
     else
     {
-    
+        
         [reservation setDestination:destinationInfo];
         [reservation setArrival:arrivalInfo];
-    
+        
         FilterScreenVC *car = [[FilterScreenVC alloc] init];
         [[self navigationController] pushViewController:car animated:YES];
     }
-}
-
-- (void)setIpadLayer
-{
-    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-    UINavigationController *nav = [[UINavigationController alloc] init];
-    
-    destinationTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,(nav.navigationBar.frame.size.height + statusBarFrame.size.height) * 0.9,viewFrame.size.width * 0.9, 155) style:UITableViewStyleGrouped];
-    
-    arrivalTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,destinationTableView.frame.size.height * 1.6 ,viewFrame.size.width * 0.9, 155) style:UITableViewStyleGrouped];
-    
-    searchButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.3, (destinationTableView.frame.size.height + arrivalTableView.frame.size.height) * 1.4, arrivalTableView.frame.size.width * 0.4, 40)];
 }
 
 - (void)setIphoneLayer
@@ -206,7 +186,7 @@
     if (cell == nil)
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     
-
+    
     
     if ([tableView tag] == kDestinationTableTag)
     {
@@ -287,46 +267,16 @@
     if ([tableView tag] == kDestinationTableTag)
     {
         if (indexPath.row == 0) {
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            {
-                OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andDest:destinationInfo];
-                
-                UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                
-                popOver = [[UIPopoverController alloc] initWithContentViewController:office];
-                popOver.popoverContentSize = CGSizeMake(320, 320);
-                [popOver setDelegate:self];
-                [popOver presentPopoverFromRect:[cell frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-                
-                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewDidReturn:) name:@"tableViewDidReturn" object:nil];
-            }
-            else
-            {
-                OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andDest:destinationInfo];
-                [[self navigationController] pushViewController:office animated:YES];
-            }
+            
+            OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andDest:destinationInfo];
+            [[self navigationController] pushViewController:office animated:YES];
+            
         }
         else
         {
-            
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            {
-                UIViewController *vc;
-                vc = [[CalendarTimeVC alloc] initWithOfficeList:officeWorkingSchedule andDest:destinationInfo];
-                
-                UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                
-                popOver = [[UIPopoverController alloc] initWithContentViewController:vc];
-                popOver.popoverContentSize = CGSizeMake(320, 320);
-                [popOver setDelegate:self];
-                [popOver presentPopoverFromRect:[cell frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-            }
-            else
-            {
-                UIViewController *vc;
-                vc = [[CalendarTimeVC alloc] initWithOfficeList:officeWorkingSchedule andDest:destinationInfo];
-                [self.navigationController pushViewController:vc animated:YES];
-            }
+            UIViewController *vc;
+            vc = [[CalendarTimeVC alloc] initWithOfficeList:officeWorkingSchedule andDest:destinationInfo];
+            [self.navigationController pushViewController:vc animated:YES];
             
         }
     }
@@ -334,45 +284,15 @@
     {
         if (indexPath.row == 0) {
             
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            {
-                OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andArr:arrivalInfo];
-                
-                UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                
-                popOver = [[UIPopoverController alloc] initWithContentViewController:office];
-                popOver.popoverContentSize = CGSizeMake(320, 320);
-                [popOver setDelegate:self];
-                [popOver presentPopoverFromRect:[cell frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-                
-                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewDidReturn:) name:@"tableViewDidReturn" object:nil];
-            }
-            else
-            {
-                OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andArr:arrivalInfo];
-                [[self navigationController] pushViewController:office animated:YES];
-            }
+            OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andArr:arrivalInfo];
+            [[self navigationController] pushViewController:office animated:YES];
         }
         else
         {
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            {
-                UIViewController *vc;
-                vc = [[CalendarTimeVC alloc] initWithOfficeList:officeWorkingSchedule andArr:arrivalInfo];
-                
-                UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                
-                popOver = [[UIPopoverController alloc] initWithContentViewController:vc];
-                popOver.popoverContentSize = CGSizeMake(320, 320);
-                [popOver setDelegate:self];
-                [popOver presentPopoverFromRect:[cell frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-            }
-            else
-            {
-                UIViewController *vc;
-                vc = [[CalendarTimeVC alloc] initWithOfficeList:officeWorkingSchedule andArr:arrivalInfo];
-                [self.navigationController pushViewController:vc animated:YES];
-            }
+            UIViewController *vc;
+            vc = [[CalendarTimeVC alloc] initWithOfficeList:officeWorkingSchedule andArr:arrivalInfo];
+            [self.navigationController pushViewController:vc animated:YES];
+            
             
         }
     }
@@ -459,7 +379,7 @@
     }
     else
     {
-       NSLog(@"previous authentication failure");
+        NSLog(@"previous authentication failure");
     }
 }
 
@@ -478,7 +398,7 @@
     NSDictionary *officeListDict = [result objectForKey:@"EXPT_SUBE_BILGILERISet"];
     NSDictionary *timeDict = [result objectForKey:@"EXPT_CALISMA_ZAMANISet"];
     NSDictionary *holidayDict = [result objectForKey:@"EXPT_TATIL_ZAMANISet"];
-//    NSDictionary *holidayDict = [result objectForKey:@"EXPT_TATIL_ZAMANI"];
+    //    NSDictionary *holidayDict = [result objectForKey:@"EXPT_TATIL_ZAMANI"];
     
     
     NSDictionary *timeListResult = [timeDict objectForKey:@"results"];

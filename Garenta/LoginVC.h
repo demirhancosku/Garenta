@@ -23,6 +23,6 @@
     
 }
 
-- (id)initWithFrame:(CGRect)frame;
+- (id)initWithFrame:(CGRect)frame andUser:(User *)userInfo;
 
 @end

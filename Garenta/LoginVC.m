@@ -23,10 +23,13 @@
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame;
+- (id)initWithFrame:(CGRect)frame andUser:(User *)userInfo;
 {
     self = [super init];
     viewFrame = frame;
+    
+    user = [[User alloc] init];
+    user = userInfo;
     
     return self;
 }
@@ -35,16 +38,16 @@
 {
     [super viewDidLoad];
     
-    user = [[User alloc] init];
-    
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Giriş" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
     [[self navigationItem] setRightBarButtonItem:barButton];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    
     [self prepareScreen];
+    
+    [username becomeFirstResponder];
     
     [[self view] setBackgroundColor:[ApplicationProperties getWhite]];
 }
@@ -77,14 +80,8 @@
 
 - (void)prepareScreen
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        [self setIpadLayer];
-    }
-    else
-    {
-        [self setIphoneLayer];
-    }
+
+    [self setIphoneLayer];
     
 //    [loginButton setTitle:@"Giriş" forState:UIControlStateNormal];
 //    [[loginButton layer] setCornerRadius:5.0f];
@@ -118,21 +115,6 @@
     [self.view addSubview:username];
     [self.view addSubview:password];
 //    [self.view addSubview:signUpButton];
-}
-
-- (void)setIpadLayer
-{
-    username = [[UITextField alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.35, viewFrame.size.width * 0.8, 40)];
-    
-    password = [[UITextField alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.40, viewFrame.size.width * 0.8, 40)];
-    
-//    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.55, viewFrame.size.width * 0.8, 40)];
-//    
-//    signUpButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.60, viewFrame.size.width * 0.8, 40)];
-    
-    userImageView = [[UIImageView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.35, viewFrame.size.height * -0.02, viewFrame.size.width * 0.3, viewFrame.size.height * 0.3)];
-    [userImageView setContentMode:UIViewContentModeScaleAspectFill];
-    [userImageView setImage:[UIImage imageNamed:@"UserLoginPic.png"]];
 }
 
 - (void)setIphoneLayer
