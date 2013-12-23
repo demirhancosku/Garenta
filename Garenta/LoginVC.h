@@ -13,12 +13,14 @@
 
 @interface LoginVC : UIViewController <UITextFieldDelegate>
 {
+    UIButton *hideButton;
     CGRect viewFrame;
     UITextField *username;
     UITextField *password;
     UIImageView *userImageView;
     UIButton *loginButton;
-    UIButton *signUpButton;    
+    UIButton *signUpButton;
+    UILabel *infoLabel;
     User *user;
     
 }

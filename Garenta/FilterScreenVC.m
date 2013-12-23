@@ -48,7 +48,7 @@
 
 - (void)addFilterSliderToView
 {
-    self.imageHostScrollView = [[UIScrollView alloc] initWithFrame:(CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height * 0.1))];
+    self.imageHostScrollView = [[UIScrollView alloc] initWithFrame:(CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height * 0.4))];
     self.imageHostScrollView.contentSize = CGSizeMake(CGRectGetWidth(self.imageHostScrollView.frame)*3, CGRectGetHeight(self.imageHostScrollView.frame));
     self.imageHostScrollView.delegate = self;
     
@@ -57,7 +57,7 @@
     
     CGRect rect = CGRectZero;
     
-    rect.size = CGSizeMake(CGRectGetWidth(self.imageHostScrollView.frame), CGRectGetHeight(self.imageHostScrollView.frame));
+    rect.size = CGSizeMake(CGRectGetWidth(self.imageHostScrollView.frame), CGRectGetHeight(self.imageHostScrollView.frame)*0.5);
     
     // add prevView as first in line
     UIImageView *prevView = [[UIImageView alloc] initWithFrame:rect];
@@ -114,10 +114,10 @@
     
     //some data for testing
     self.galleryImages = [[NSMutableArray alloc] init];
-    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"1" ofType:@"png"] atIndex:0];
-    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"2" ofType:@"png"] atIndex:1];
-    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"3" ofType:@"png"] atIndex:2];
-    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"4" ofType:@"png"] atIndex:3];
+    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"a_grubu" ofType:@"jpg"] atIndex:0];
+    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"b_grubu" ofType:@"jpg"] atIndex:1];
+    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"c_grubu" ofType:@"jpg"] atIndex:2];
+    [self.galleryImages insertObject:[[NSBundle mainBundle] pathForResource:@"d_grubu" ofType:@"jpg"] atIndex:3];
     
     self.currentIndex = 0;
 }
@@ -141,7 +141,7 @@
 {
     // Return the number of rows in the section.
     //    return [officeList count];
-    return 5;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -152,7 +152,23 @@
     if (cell == nil)
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     
-    [[cell textLabel] setText:@"A grubu"];
+    if (i == 0) {
+       [[cell textLabel] setText:@"A grubu"];
+    }
+    else if (i == 1)
+    {
+        [[cell textLabel] setText:@"B grubu"];
+    }
+    else if (i == 2)
+    {
+        [[cell textLabel] setText:@"C grubu"];
+    }
+    else if (i == 3)
+    {
+        [[cell textLabel] setText:@"D grubu"];
+    }
+    
+    i = i + 1;
     
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     return cell;

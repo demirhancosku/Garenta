@@ -47,7 +47,8 @@
 {
     [self prepareScreen];
     
-    [username becomeFirstResponder];
+    //klavyeyi ilk açılışta gösterme
+//    [username becomeFirstResponder];
     
     [[self view] setBackgroundColor:[ApplicationProperties getWhite]];
 }
@@ -109,7 +110,18 @@
     [[password layer] setCornerRadius:5.0f];
     [password setPlaceholder:@"Şifrenizi Giriniz"];
     [password setTextAlignment:NSTextAlignmentCenter];
+    [password setSecureTextEntry:YES];
     
+    [infoLabel setText:@"*Kullanıcı adınız, T.C kimlik, telefon numaranız veya e-post adresiniz olabilir"];
+    [infoLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:11.0]];
+    infoLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    infoLabel.numberOfLines = 0;
+    
+    [hideButton setOpaque:YES];
+    [hideButton addTarget:nil action:@selector(hideKeyboard:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:hideButton];
+    [self.view addSubview:infoLabel];
     [self.view addSubview:userImageView];
 //    [self.view addSubview:loginButton];
     [self.view addSubview:username];
@@ -117,8 +129,19 @@
 //    [self.view addSubview:signUpButton];
 }
 
+- (void)hideKeyboard:(id)sender
+{
+    [username resignFirstResponder];
+    [password resignFirstResponder];
+}
+
 - (void)setIphoneLayer
 {
+    
+    hideButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height)];
+    
+    infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.47, viewFrame.size.width * 0.8, 80)];
+    
     username = [[UITextField alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.33, viewFrame.size.width * 0.8, 40)];
     
     password = [[UITextField alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.43, viewFrame.size.width * 0.8, 40)];

@@ -169,15 +169,16 @@
     {
         if ([indexPath row] == 0)
         {
-            if ([destinationInfo destinationOfficeName] == nil)
-                [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
-            else
-                [[cell textLabel] setText:[destinationInfo destinationOfficeName]];
+            [[cell textLabel] setText:@"Size en yakın şubeler seçildi"];
+            [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
         }
         else
         {
             if ([destinationInfo destinationDate] == nil && [destinationInfo destinationTime] == nil)
+            {
                 [[cell textLabel] setText:@"Tarih / Saat Seçiniz"];
+                [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
+            }
             else
                 [[cell textLabel] setText:[NSString stringWithFormat:@"%@%@%@",[destinationInfo destinationDate],@" - ",[destinationInfo destinationTime]]];
         }
@@ -187,11 +188,13 @@
         if ([indexPath row] == 0)
         {
             [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
+            [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
             [[cell detailTextLabel] setText:[arrivalInfo arrivalOfficeName]];
         }
         else
         {
             [[cell textLabel] setText:@"Tarih / Saat Seçiniz"];
+            [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
         }
     }
     

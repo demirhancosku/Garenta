@@ -97,43 +97,43 @@
 
 - (void)showCarGroup:(id)sender
 {
-    if ([destinationInfo destinationOfficeName] == nil)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın teslim alınacağı ofis seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
-        
-        [alert show];
-        return;
-    }
-    else if ([destinationInfo destinationDate] == nil)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın teslim alınacağı zaman seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
-        
-        [alert show];
-        return;
-    }
-    else if ([arrivalInfo arrivalOfficeName] == nil)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın iade edileceği ofis seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
-        
-        [alert show];
-        return;
-    }
-    else if ([arrivalInfo arrivalDate] == nil)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın iade edileceği zaman seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
-        
-        [alert show];
-        return;
-    }
-    else
-    {
-        
+//    if ([destinationInfo destinationOfficeName] == nil)
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın teslim alınacağı ofis seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+//        
+//        [alert show];
+//        return;
+//    }
+//    else if ([destinationInfo destinationDate] == nil)
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın teslim alınacağı zaman seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+//        
+//        [alert show];
+//        return;
+//    }
+//    else if ([arrivalInfo arrivalOfficeName] == nil)
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın iade edileceği ofis seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+//        
+//        [alert show];
+//        return;
+//    }
+//    else if ([arrivalInfo arrivalDate] == nil)
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın iade edileceği zaman seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+//        
+//        [alert show];
+//        return;
+//    }
+//    else
+//    {
+    
         [reservation setDestination:destinationInfo];
         [reservation setArrival:arrivalInfo];
         
         FilterScreenVC *car = [[FilterScreenVC alloc] init];
         [[self navigationController] pushViewController:car animated:YES];
-    }
+//    }
 }
 
 - (void)setIphoneLayer
