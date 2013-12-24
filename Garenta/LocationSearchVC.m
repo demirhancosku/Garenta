@@ -133,7 +133,7 @@
     [reservation setDestination:destinationInfo];
     [reservation setArrival:arrivalInfo];
     
-    FilterScreenVC *car = [[FilterScreenVC alloc] init];
+    CarGroupScrollVC *car = [[CarGroupScrollVC alloc] init];
     [[self navigationController] pushViewController:car animated:YES];
 }
 

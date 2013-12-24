@@ -133,8 +133,12 @@
             [[self navigationController] pushViewController:location animated:YES];
             break;
         case 3:
-            brand = [[BrandSearchVC alloc] initWithFrame:viewFrame];
-            [[self navigationController] pushViewController:brand animated:YES];
+//            brand = [[BrandSearchVC alloc] initWithFrame:viewFrame];
+//            [[self navigationController] pushViewController:brand animated:YES];
+        {
+            CarGroupFilterVC *filter = [[CarGroupFilterVC alloc] init];
+            [[self navigationController] pushViewController:filter animated:YES];
+        }
             break;
         default:
             break;

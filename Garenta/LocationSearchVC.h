@@ -17,7 +17,7 @@
 #import "Destination.h"
 #import "Arrival.h"
 #import "Reservation.h"
-#import "FilterScreenVC.h"
+#import "CarGroupScrollVC.h"
 
 @interface LocationSearchVC : UIViewController <UITableViewDataSource,UITableViewDelegate,NSURLConnectionDelegate, CLLocationManagerDelegate, UIPopoverControllerDelegate>
 {

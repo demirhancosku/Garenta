@@ -15,7 +15,7 @@
 #import "Destination.h"
 #import "Arrival.h"
 #import "Reservation.h"
-#import "FilterScreenVC.h"
+#import "CarGroupScrollVC.h"
 
 @interface BrandSearchVC : UIViewController <UITableViewDataSource,UITableViewDelegate,NSURLConnectionDelegate, UIPopoverControllerDelegate>
 {

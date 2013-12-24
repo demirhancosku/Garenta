@@ -17,7 +17,7 @@
 + (UIColor *) getMenuCellBackground;
 + (UIColor *) getMenuTextColor;
 
-+ (NSString *) getFont;
++ (UIFont *) getFont;
 
 
 

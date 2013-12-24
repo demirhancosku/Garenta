@@ -12,6 +12,7 @@
 #import "LocationSearchVC.h"
 #import "BrandSearchVC.h"
 #import "User.h"
+#import "CarGroupFilterVC.h"
 
 @interface MenuSelectionVC : UIViewController
 {

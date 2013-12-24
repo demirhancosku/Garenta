@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FilterScreenVC : UIViewController <UIActionSheetDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface CarGroupScrollVC : UIViewController <UIActionSheetDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate,UITableViewDataSource,UITableViewDelegate>
 {
     int i;
 @private

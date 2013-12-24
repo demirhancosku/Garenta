@@ -27,8 +27,9 @@
 + (UIColor *)getDarkBlueColor{
     return [UIColor colorWithRed:52.0/255.0 green:109.0/255.0 blue:153.0/255.0 alpha:1.0];
 }
-+ (NSString*)getFont{
-    return @"HelveticaNeue";
++ (UIFont *)getFont
+{
+    return [UIFont fontWithName:@"HelveticaNeue" size:16.0];
 }
 
 //sample color codes

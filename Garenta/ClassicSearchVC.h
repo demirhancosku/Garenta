@@ -16,7 +16,7 @@
 #import "Destination.h"
 #import "Arrival.h"
 #import "Reservation.h"
-#import "FilterScreenVC.h"
+#import "CarGroupScrollVC.h"
 
 @interface ClassicSearchVC : UIViewController <UITableViewDataSource,UITableViewDelegate,NSURLConnectionDelegate, UIPopoverControllerDelegate>
 {

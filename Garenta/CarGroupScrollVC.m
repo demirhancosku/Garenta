@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 Kerem Balaban. All rights reserved.
 //
 
-#import "FilterScreenVC.h"
+#import "CarGroupScrollVC.h"
 
-@interface FilterScreenVC ()
+@interface CarGroupScrollVC ()
 
 @end
 
-@implementation FilterScreenVC
+@implementation CarGroupScrollVC
 @synthesize galleryImages = galleryImages_;
 @synthesize imageHostScrollView = imageHostScrollView_;
 @synthesize currentIndex = currentIndex_;
