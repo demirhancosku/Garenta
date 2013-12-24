@@ -10,6 +10,6 @@
 
 @implementation OfficeWorkingHour
 
-@synthesize endingHour, mainOffice, startingHour, subOffice, weekDay;
+@synthesize endingHour, mainOffice, startingHour, subOffice, weekDay, holidayDate;
 
 @end

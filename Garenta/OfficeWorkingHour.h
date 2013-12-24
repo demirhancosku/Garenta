@@ -12,6 +12,7 @@
 
 @property (nonatomic, retain) NSString *startingHour;
 @property (nonatomic, retain) NSString *endingHour;
+@property (nonatomic, retain) NSString *holidayDate;
 @property (nonatomic, retain) NSString *mainOffice;
 @property (nonatomic, retain) NSString *subOffice;
 @property (nonatomic, retain) NSString *weekDay;

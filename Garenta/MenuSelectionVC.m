@@ -28,13 +28,14 @@
     //    self = [super init];
     
     viewFrame = frame;
-    
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    user = [[User alloc] init];
+    [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
 	// Do any additional setup after loading the view.
 }
 
@@ -45,15 +46,9 @@
 
 - (void)prepareScreen
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        [self setIpadLayer];
-    }
-    else
-    {
-        [self setIphoneLayer];
-    }
-    
+
+    [self setIphoneLayer];
+
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Giriş" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
     [[self navigationItem] setRightBarButtonItem:barButton];
     
@@ -61,6 +56,7 @@
                                                            [ApplicationProperties getBlack], NSForegroundColorAttributeName,
                                                            [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0], NSFontAttributeName, nil]];
     
+
     [classicSearch setTitleColor:[ApplicationProperties getBlack] forState:UIControlStateNormal];
     [classicSearch setTitle:@"Klasik" forState:UIControlStateNormal];
     [[classicSearch layer] setCornerRadius:5.0f];
@@ -88,20 +84,24 @@
     [self.view addSubview:classicSearch];
     [self.view addSubview:locationSearch];
     [self.view addSubview:brandSearch];
-}
-
-- (void)setIpadLayer
-{
-    classicSearch = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 0.25, self.view.frame.size.height * 0.1, self.view.frame.size.width * 0.5, self.view.frame.size.height * 0.1)];
     
-    locationSearch = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 0.25, self.view.frame.size.height * 0.25, self.view.frame.size.width * 0.5, self.view.frame.size.height * 0.1)];
     
-    brandSearch = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 0.25, self.view.frame.size.height * 0.40, self.view.frame.size.width * 0.5, self.view.frame.size.height * 0.1)];
+    if ([user name] != nil) {
+        [wellcome setText:[NSString stringWithFormat:@"%@ %@ %@",@"Hoşgeldiniz",[user name],[user surname]]];
+        [self.view addSubview:wellcome];
+        [[self navigationItem] setRightBarButtonItem:nil];
+        
+        
+    }
     
 }
 
 - (void)setIphoneLayer
 {
+    
+    wellcome = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 0.05, 0, self.view.frame.size.width * 0.6, self.view.frame.size.height * 0.1)];
+    
+    [wellcome setFont:[UIFont fontWithName:@"HelveticaNeue" size:12.0]];
     
     classicSearch = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 0.25, self.view.frame.size.height * 0.1, self.view.frame.size.width * 0.5, self.view.frame.size.height * 0.2)];
     
@@ -113,7 +113,7 @@
 
 - (void)login:(id)sender
 {
-    LoginVC *login = [[LoginVC alloc] initWithFrame:viewFrame];
+    LoginVC *login = [[LoginVC alloc] initWithFrame:viewFrame andUser:(User *)user];
     [[self navigationController] pushViewController:login animated:YES];
 }
 

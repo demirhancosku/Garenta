@@ -11,6 +11,7 @@
 #import "ClassicSearchVC.h"
 #import "LocationSearchVC.h"
 #import "BrandSearchVC.h"
+#import "User.h"
 
 @interface MenuSelectionVC : UIViewController
 {
@@ -18,6 +19,8 @@
     UIButton *classicSearch;
     UIButton *brandSearch;
     
+    UILabel *wellcome;
+    User *user;
     CGRect viewFrame;
 }
 

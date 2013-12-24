@@ -10,6 +10,8 @@
 #import "TapkuLibrary.h"
 #import "Destination.h"
 #import "Arrival.h"
+#import "TKCalendarMonthView.h"
+#import "Office.h"
 
 #pragma mark - CalendarMonthViewController
 @interface CalendarTimeVC : TKCalendarMonthViewController
@@ -20,6 +22,10 @@
     Destination *destination;
     Arrival *arrival;
     NSDate *selectedDate;
+    NSDate *selectedTime;
+    TKCalendarMonthView *monthView;
+    
+    UIDatePicker *datePicker;
 }
 
 - (id)initWithOfficeList:(NSMutableArray *)office andDest:(Destination *)dest;

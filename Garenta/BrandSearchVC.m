@@ -52,21 +52,10 @@
 
 - (void)prepareScreen
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        [self setIpadLayer];
-        [arrivalTableView setRowHeight:65];
-        [destinationTableView setRowHeight:65];
-        [brandTableView setRowHeight:65];
-    }
-    else
-    {
-        [self setIphoneLayer];
-        [arrivalTableView setRowHeight:45];
-        [destinationTableView setRowHeight:45];
-        [brandTableView setRowHeight:45];
-    }
-    
+    [self setIphoneLayer];
+    [arrivalTableView setRowHeight:45];
+    [destinationTableView setRowHeight:45];
+    [brandTableView setRowHeight:45];
     
     //    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     //    NSDate * testDate = [NSDate date];
@@ -123,20 +112,6 @@
     [self.view addSubview:brandTableView];
 }
 
-- (void)setIpadLayer
-{
-    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-    UINavigationController *nav = [[UINavigationController alloc] init];
-    
-    destinationTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,(nav.navigationBar.frame.size.height + statusBarFrame.size.height) * 0.9,viewFrame.size.width * 0.9, 155) style:UITableViewStyleGrouped];
-    
-    arrivalTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,destinationTableView.frame.size.height * 1.6 ,viewFrame.size.width * 0.9, 155) style:UITableViewStyleGrouped];
-    
-    brandTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,(destinationTableView.frame.size.height + arrivalTableView.frame.size.height) * 1.4,viewFrame.size.width * 0.9, 90) style:UITableViewStyleGrouped];
-    
-    searchButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.3, (destinationTableView.frame.size.height + arrivalTableView.frame.size.height + brandTableView.frame.size.height) * 1.4, arrivalTableView.frame.size.width * 0.4, 40)];
-}
-
 - (void)setIphoneLayer
 {
     
@@ -171,11 +146,11 @@
     [[self navigationController] pushViewController:car animated:YES];
 }
 
-- (void)login:(id)sender
-{
-    LoginVC *login = [[LoginVC alloc] initWithFrame:viewFrame];
-    [[self navigationController] pushViewController:login animated:YES];
-}
+//- (void)login:(id)sender
+//{
+//    LoginVC *login = [[LoginVC alloc] initWithFrame:viewFrame];
+//    [[self navigationController] pushViewController:login animated:YES];
+//}
 
 #pragma mark - Table view data source
 
@@ -209,10 +184,10 @@
     {
         if ([indexPath row] == 0)
         {
-            if ([destinationInfo destinationOffice] == nil)
+            if ([destinationInfo destinationOfficeName] == nil)
                 [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
             else
-                [[cell textLabel] setText:[destinationInfo destinationOffice]];
+                [[cell textLabel] setText:[destinationInfo destinationOfficeName]];
         }
         else
         {
@@ -227,7 +202,7 @@
         if ([indexPath row] == 0)
         {
             [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
-            [[cell detailTextLabel] setText:[arrivalInfo arrivalOffice]];
+            [[cell detailTextLabel] setText:[arrivalInfo arrivalOfficeName]];
         }
         else
         {
@@ -245,46 +220,15 @@
     if ([tableView tag] == kDestinationTableTag)
     {
         if (indexPath.row == 0) {
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            {
-                OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andDest:destinationInfo];
-                
-                UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                
-                popOver = [[UIPopoverController alloc] initWithContentViewController:office];
-                popOver.popoverContentSize = CGSizeMake(320, 320);
-                [popOver setDelegate:self];
-                [popOver presentPopoverFromRect:[cell frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-                
-                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewDidReturn:) name:@"tableViewDidReturn" object:nil];
-            }
-            else
-            {
-                OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andDest:destinationInfo];
-                [[self navigationController] pushViewController:office animated:YES];
-            }
+            OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andDest:destinationInfo];
+            [[self navigationController] pushViewController:office animated:YES];
         }
         else
         {
+            UIViewController *vc;
+            vc = [[CalendarTimeVC alloc] initWithSunday:NO];
+            [self.navigationController pushViewController:vc animated:YES];
             
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            {
-                UIViewController *vc;
-                vc = [[CalendarTimeVC alloc] initWithSunday:NO];
-                
-                UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                
-                popOver = [[UIPopoverController alloc] initWithContentViewController:vc];
-                popOver.popoverContentSize = CGSizeMake(320, 320);
-                [popOver setDelegate:self];
-                [popOver presentPopoverFromRect:[cell frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-            }
-            else
-            {
-                UIViewController *vc;
-                vc = [[CalendarTimeVC alloc] initWithSunday:NO];
-                [self.navigationController pushViewController:vc animated:YES];
-            }
             
         }
     }
@@ -292,45 +236,16 @@
     {
         if (indexPath.row == 0) {
             
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            {
-                OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andArr:arrivalInfo];
-                
-                UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                
-                popOver = [[UIPopoverController alloc] initWithContentViewController:office];
-                popOver.popoverContentSize = CGSizeMake(320, 320);
-                [popOver setDelegate:self];
-                [popOver presentPopoverFromRect:[cell frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-                
-                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewDidReturn:) name:@"tableViewDidReturn" object:nil];
-            }
-            else
-            {
-                OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andArr:arrivalInfo];
-                [[self navigationController] pushViewController:office animated:YES];
-            }
+            OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andArr:arrivalInfo];
+            [[self navigationController] pushViewController:office animated:YES];
+            
         }
         else
         {
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            {
-                UIViewController *vc;
-                vc = [[CalendarTimeVC alloc] initWithSunday:NO];
-                
-                UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                
-                popOver = [[UIPopoverController alloc] initWithContentViewController:vc];
-                popOver.popoverContentSize = CGSizeMake(320, 320);
-                [popOver setDelegate:self];
-                [popOver presentPopoverFromRect:[cell frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-            }
-            else
-            {
-                UIViewController *vc;
-                vc = [[CalendarTimeVC alloc] initWithSunday:NO];
-                [self.navigationController pushViewController:vc animated:YES];
-            }
+            UIViewController *vc;
+            vc = [[CalendarTimeVC alloc] initWithSunday:NO];
+            [self.navigationController pushViewController:vc animated:YES];
+            
             
         }
     }

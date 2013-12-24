@@ -18,10 +18,6 @@
 		0C0DA9B31865E23F003EDDA0 /* Arrival.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9B21865E23F003EDDA0 /* Arrival.m */; };
 		0C0DA9B61865E9D9003EDDA0 /* SearchScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9B51865E9D9003EDDA0 /* SearchScreenVC.m */; };
 		0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9B81865EB7E003EDDA0 /* ClassicSearchVC.m */; };
-		0C0DA9C3186658F3003EDDA0 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C0DA9BF186658F3003EDDA0 /* 1.png */; };
-		0C0DA9C4186658F3003EDDA0 /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C0DA9C0186658F3003EDDA0 /* 2.png */; };
-		0C0DA9C5186658F3003EDDA0 /* 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C0DA9C1186658F3003EDDA0 /* 3.png */; };
-		0C0DA9C6186658F3003EDDA0 /* 4.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C0DA9C2186658F3003EDDA0 /* 4.png */; };
 		0C0DA9CA18665B18003EDDA0 /* FilterScreenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9C918665B18003EDDA0 /* FilterScreenVC.m */; };
 		0C4C9A6A18462EAB00CD3728 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6918462EAB00CD3728 /* Foundation.framework */; };
 		0C4C9A6C18462EAB00CD3728 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6B18462EAB00CD3728 /* CoreGraphics.framework */; };
@@ -43,6 +39,11 @@
 		0C5B5FE8186482A50060BECD /* UIImage+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE7186482A50060BECD /* UIImage+TKCategory.m */; };
 		0C5B5FEA18649A870060BECD /* UserLoginPic.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE918649A870060BECD /* UserLoginPic.png */; };
 		0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */; };
+		0C9299D71868903C007DE6B8 /* a_grubu.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0C9299D31868903C007DE6B8 /* a_grubu.jpg */; };
+		0C9299D81868903C007DE6B8 /* b_grubu.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0C9299D41868903C007DE6B8 /* b_grubu.jpg */; };
+		0C9299D91868903C007DE6B8 /* c_grubu.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0C9299D51868903C007DE6B8 /* c_grubu.jpg */; };
+		0C9299DA1868903C007DE6B8 /* d_grubu.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0C9299D61868903C007DE6B8 /* d_grubu.jpg */; };
+		0C9299DF18689E95007DE6B8 /* EquipmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9299DE18689E95007DE6B8 /* EquipmentVC.m */; };
 		0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA631351864697900CC529F /* MenuSelectionVC.m */; };
 		0CBA75C5186435260008CE29 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E212F7318631AE1004B9B80 /* Reachability.m */; };
 		0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */; };
@@ -87,10 +88,6 @@
 		0C0DA9B51865E9D9003EDDA0 /* SearchScreenVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchScreenVC.m; sourceTree = "<group>"; };
 		0C0DA9B71865EB7E003EDDA0 /* ClassicSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassicSearchVC.h; sourceTree = "<group>"; };
 		0C0DA9B81865EB7E003EDDA0 /* ClassicSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassicSearchVC.m; sourceTree = "<group>"; };
-		0C0DA9BF186658F3003EDDA0 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
-		0C0DA9C0186658F3003EDDA0 /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = "<group>"; };
-		0C0DA9C1186658F3003EDDA0 /* 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3.png; sourceTree = "<group>"; };
-		0C0DA9C2186658F3003EDDA0 /* 4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 4.png; sourceTree = "<group>"; };
 		0C0DA9C818665B18003EDDA0 /* FilterScreenVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterScreenVC.h; sourceTree = "<group>"; };
 		0C0DA9C918665B18003EDDA0 /* FilterScreenVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterScreenVC.m; sourceTree = "<group>"; };
 		0C4C9A6618462EAB00CD3728 /* Garenta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Garenta.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -133,7 +130,13 @@
 		0C5B5FE6186482A50060BECD /* UIImage+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+TKCategory.h"; sourceTree = "<group>"; };
 		0C5B5FE7186482A50060BECD /* UIImage+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TKCategory.m"; sourceTree = "<group>"; };
 		0C5B5FE918649A870060BECD /* UserLoginPic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UserLoginPic.png; sourceTree = "<group>"; };
-		0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GarentaSmallLogo.png; sourceTree = "<group>"; };
+		0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GarentaSmallLogo.png; sourceTree = SOURCE_ROOT; };
+		0C9299D31868903C007DE6B8 /* a_grubu.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = a_grubu.jpg; sourceTree = "<group>"; };
+		0C9299D41868903C007DE6B8 /* b_grubu.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = b_grubu.jpg; sourceTree = "<group>"; };
+		0C9299D51868903C007DE6B8 /* c_grubu.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = c_grubu.jpg; sourceTree = "<group>"; };
+		0C9299D61868903C007DE6B8 /* d_grubu.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = d_grubu.jpg; sourceTree = "<group>"; };
+		0C9299DD18689E95007DE6B8 /* EquipmentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipmentVC.h; sourceTree = "<group>"; };
+		0C9299DE18689E95007DE6B8 /* EquipmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EquipmentVC.m; sourceTree = "<group>"; };
 		0CA631341864697900CC529F /* MenuSelectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuSelectionVC.h; sourceTree = "<group>"; };
 		0CA631351864697900CC529F /* MenuSelectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuSelectionVC.m; sourceTree = "<group>"; };
 		0CBA77BB186447AB0008CE29 /* LoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginVC.h; sourceTree = "<group>"; };
@@ -209,11 +212,6 @@
 		0C4C9A5D18462EAA00CD3728 = {
 			isa = PBXGroup;
 			children = (
-				0C0DA9BF186658F3003EDDA0 /* 1.png */,
-				0C0DA9C0186658F3003EDDA0 /* 2.png */,
-				0C0DA9C1186658F3003EDDA0 /* 3.png */,
-				0C0DA9C2186658F3003EDDA0 /* 4.png */,
-				0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */,
 				0C4C9A6F18462EAB00CD3728 /* Garenta */,
 				0C4C9A6818462EAB00CD3728 /* Frameworks */,
 				0C4C9A6718462EAB00CD3728 /* Products */,
@@ -271,10 +269,11 @@
 			isa = PBXGroup;
 			children = (
 				0C4C9A9C1846333100CD3728 /* BaseVCs */,
-				0C0DA99D1865AE94003EDDA0 /* Login */,
 				0C4C9AA11846348100CD3728 /* MenuSelection */,
+				0C0DA99D1865AE94003EDDA0 /* Login */,
 				0C0DA99E1865AEA2003EDDA0 /* SearchScreen */,
 				0C0DA9C718665B07003EDDA0 /* FilterScreen */,
+				0C9299DC18689E63007DE6B8 /* Equipments */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -315,7 +314,12 @@
 		0C4C9A9B1846331D00CD3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */,
 				0C5B5FE918649A870060BECD /* UserLoginPic.png */,
+				0C9299D31868903C007DE6B8 /* a_grubu.jpg */,
+				0C9299D41868903C007DE6B8 /* b_grubu.jpg */,
+				0C9299D51868903C007DE6B8 /* c_grubu.jpg */,
+				0C9299D61868903C007DE6B8 /* d_grubu.jpg */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -365,6 +369,15 @@
 				0C5B5FD2186479AB0060BECD /* NSDate+CalendarGrid.m */,
 			);
 			name = Calendar;
+			sourceTree = "<group>";
+		};
+		0C9299DC18689E63007DE6B8 /* Equipments */ = {
+			isa = PBXGroup;
+			children = (
+				0C9299DD18689E95007DE6B8 /* EquipmentVC.h */,
+				0C9299DE18689E95007DE6B8 /* EquipmentVC.m */,
+			);
+			name = Equipments;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -445,13 +458,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C0DA9C6186658F3003EDDA0 /* 4.png in Resources */,
 				0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */,
+				0C9299D91868903C007DE6B8 /* c_grubu.jpg in Resources */,
+				0C9299DA1868903C007DE6B8 /* d_grubu.jpg in Resources */,
+				0C9299D71868903C007DE6B8 /* a_grubu.jpg in Resources */,
 				0C5B5FDC186481BF0060BECD /* TapkuLibrary.bundle in Resources */,
-				0C0DA9C4186658F3003EDDA0 /* 2.png in Resources */,
-				0C0DA9C5186658F3003EDDA0 /* 3.png in Resources */,
+				0C9299D81868903C007DE6B8 /* b_grubu.jpg in Resources */,
 				0C4C9A7418462EAB00CD3728 /* InfoPlist.strings in Resources */,
-				0C0DA9C3186658F3003EDDA0 /* 1.png in Resources */,
 				0C5B5FEA18649A870060BECD /* UserLoginPic.png in Resources */,
 				0C4C9A7C18462EAB00CD3728 /* Images.xcassets in Resources */,
 			);
@@ -483,6 +496,7 @@
 				0C0DA9A51865BEA5003EDDA0 /* Coordinate.m in Sources */,
 				0CBA75CC186435460008CE29 /* main.m in Sources */,
 				0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */,
+				0C9299DF18689E95007DE6B8 /* EquipmentVC.m in Sources */,
 				0C0DA9AD1865D2FD003EDDA0 /* Reservation.m in Sources */,
 				0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */,
 				0C0DA9B31865E23F003EDDA0 /* Arrival.m in Sources */,
@@ -618,6 +632,7 @@
 				INFOPLIST_FILE = "Garenta/Garenta-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -633,6 +648,7 @@
 				INFOPLIST_FILE = "Garenta/Garenta-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
