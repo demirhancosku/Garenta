@@ -53,6 +53,9 @@
 {
     [super viewDidLoad];
     
+    searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
+    [searchBar setDelegate:self];
+    
     officeListTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
     
     [officeListTable setDelegate:self];

@@ -98,15 +98,15 @@
 
 - (void)setIpadLayer
 {
-    username = [[UITextField alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.35, viewFrame.size.width * 0.8, 40)];
+    username = [[UITextField alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.25, viewFrame.size.height * 0.35, viewFrame.size.width * 0.5, 40)];
     
-    password = [[UITextField alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.40, viewFrame.size.width * 0.8, 40)];
+    password = [[UITextField alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.25, viewFrame.size.height * 0.40, viewFrame.size.width * 0.5, 40)];
     
-    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.55, viewFrame.size.width * 0.8, 40)];
+    loginButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.25, viewFrame.size.height * 0.55, viewFrame.size.width * 0.5, 40)];
     
-    signUpButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.60, viewFrame.size.width * 0.8, 40)];
+    signUpButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.25, viewFrame.size.height * 0.60, viewFrame.size.width * 0.5, 40)];
     
-    userImageView = [[UIImageView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.35, viewFrame.size.height * -0.02, viewFrame.size.width * 0.3, viewFrame.size.height * 0.3)];
+    userImageView = [[UIImageView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.4, viewFrame.size.height * 0.07, viewFrame.size.width * 0.2, viewFrame.size.height * 0.2)];
     [userImageView setContentMode:UIViewContentModeScaleAspectFill];
     [userImageView setImage:[UIImage imageNamed:@"UserLoginPic.png"]];
 }

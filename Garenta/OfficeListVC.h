@@ -12,12 +12,14 @@
 #import "Arrival.h"
 #import "ClassicSearchVC.h"
 
-@interface OfficeListVC : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface OfficeListVC : UIViewController <UITableViewDataSource,UITableViewDelegate, UISearchBarDelegate>
 {
     UITableView *officeListTable;
     NSMutableArray *officeList;
     Destination *destination;
     Arrival *arrival;
+    
+    UISearchBar *searchBar;
 }
 
 - (id)initWithOfficeList:(NSMutableArray *)office andDest:(Destination *)dest;
