@@ -11,7 +11,7 @@
 #import "User.h"
 #import "MenuSelectionVC.h"
 
-@interface LoginVC : UIViewController <UITextFieldDelegate>
+@interface LoginVC : BaseVC <UITextFieldDelegate>
 {
     UIButton *hideButton;
     CGRect viewFrame;
@@ -21,7 +21,7 @@
     UIButton *loginButton;
     UIButton *signUpButton;
     UILabel *infoLabel;
-    User *user;
+    User *user; //temp user if succ. assign to singleton
     
 }
 

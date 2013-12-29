@@ -11,6 +11,7 @@
 #import "Destination.h"
 #import "Arrival.h"
 #import "ClassicSearchVC.h"
+#import "Reservation.h"
 
 @interface OfficeListVC : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
 {
@@ -22,8 +23,9 @@
     Office *tempOffice;
     UISearchBar *searchBar;
     UISearchDisplayController *searchDisplayController;
+    Reservation *reservation;
+    int tag;
 }
+- (id)initWithReservation:(Reservation*)aReservation andTag:(int)aTag andOfficeList:(NSMutableArray*) officeList;
 
-- (id)initWithOfficeList:(NSMutableArray *)office andDest:(Destination *)dest;
-- (id)initWithOfficeList:(NSMutableArray *)office andArr:(Arrival *)arr;
 @end

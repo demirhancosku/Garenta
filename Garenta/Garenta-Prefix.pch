@@ -15,4 +15,5 @@
     #import <Foundation/Foundation.h>
     #import "BaseVC.h"
     #import "BaseTableVC.h"
+    #import "LoaderAnimationVC.h"
 #endif

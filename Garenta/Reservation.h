@@ -12,7 +12,12 @@
 
 @interface Reservation : NSObject
 
-@property (nonatomic,retain) Destination *destination;
-@property (nonatomic,retain) Arrival *arrival;
 @property (nonatomic, retain) NSString *selectedBrand;
+@property (nonatomic,retain) Office *checkOutOffice;
+@property (nonatomic,strong) NSDate *checkOutDay;
+@property (nonatomic,retain) NSDate *checkOutTime;
+@property (nonatomic,retain) Office *checkInOffice;
+@property (nonatomic,retain) NSDate *checkInDay;
+@property (nonatomic,retain) NSDate *checkInTime;
+
 @end

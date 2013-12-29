@@ -7,7 +7,7 @@
 //
 
 #import "MenuSelectionVC.h"
-
+#import "MenuTableCellView.h"
 @interface MenuSelectionVC ()
 
 @end
@@ -27,14 +27,14 @@
 {
     //    self = [super init];
     
-    viewFrame = frame;
+
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    user = [[User alloc] init];
+
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
 	// Do any additional setup after loading the view.
 }
@@ -46,104 +46,106 @@
 
 - (void)prepareScreen
 {
-
-    [self setIphoneLayer];
-
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Giriş" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
-    [[self navigationItem] setRightBarButtonItem:barButton];
     
+    
+    NSString *barString;
+    if ([[ApplicationProperties getUser] isLoggedIn]) {
+        barString = @"Çıkış";
+    }else{
+        
+                barString = @"Giriş";
+    }
+    
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:barString style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
+    [[self navigationItem] setRightBarButtonItem:barButton];
     [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
                                                            [ApplicationProperties getBlack], NSForegroundColorAttributeName,
                                                            [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0], NSFontAttributeName, nil]];
-    
+    return;
 
-    [classicSearch setTitleColor:[ApplicationProperties getBlack] forState:UIControlStateNormal];
-    [classicSearch setTitle:@"Klasik" forState:UIControlStateNormal];
-    [[classicSearch layer] setCornerRadius:5.0f];
-    [[classicSearch layer] setBorderWidth:1.0f];
-    [[classicSearch layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
-    [classicSearch setTag:1];
-    [classicSearch addTarget:self action:@selector(searchMenu:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [locationSearch setTitle:@"En Yakın Nokta" forState:UIControlStateNormal];
-    [locationSearch setTitleColor:[ApplicationProperties getBlack] forState:UIControlStateNormal];
-    [[locationSearch layer] setCornerRadius:5.0f];
-    [[locationSearch layer] setBorderWidth:1.0f];
-    [[locationSearch layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
-    [locationSearch setTag:2];
-    [locationSearch addTarget:self action:@selector(searchMenu:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [brandSearch setTitle:@"Markalar" forState:UIControlStateNormal];
-    [brandSearch setTitleColor:[ApplicationProperties getBlack] forState:UIControlStateNormal];
-    [[brandSearch layer] setCornerRadius:5.0f];
-    [[brandSearch layer] setBorderWidth:1.0f];
-    [[brandSearch layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
-    [brandSearch setTag:3];
-    [brandSearch addTarget:self action:@selector(searchMenu:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.view addSubview:classicSearch];
-    [self.view addSubview:locationSearch];
-    [self.view addSubview:brandSearch];
-    
-    
-    if ([user name] != nil) {
-        [wellcome setText:[NSString stringWithFormat:@"%@ %@ %@",@"Hoşgeldiniz",[user name],[user surname]]];
-        [self.view addSubview:wellcome];
-        [[self navigationItem] setRightBarButtonItem:nil];
-        
-        
-    }
     
 }
 
-- (void)setIphoneLayer
-{
-    
-    wellcome = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 0.05, 0, self.view.frame.size.width * 0.6, self.view.frame.size.height * 0.1)];
-    
-    [wellcome setFont:[UIFont fontWithName:@"HelveticaNeue" size:12.0]];
-    
-    classicSearch = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 0.25, self.view.frame.size.height * 0.1, self.view.frame.size.width * 0.5, self.view.frame.size.height * 0.2)];
-    
-    locationSearch = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 0.25, self.view.frame.size.height * 0.35, self.view.frame.size.width * 0.5, self.view.frame.size.height * 0.2)];
-    
-    brandSearch = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 0.25, self.view.frame.size.height * 0.60, self.view.frame.size.width * 0.5, self.view.frame.size.height * 0.2)];
-    
-}
+
 
 - (void)login:(id)sender
 {
-    LoginVC *login = [[LoginVC alloc] initWithFrame:viewFrame andUser:(User *)user];
+    if ([[ApplicationProperties getUser] isLoggedIn]) {
+        //then logout
+        [[NSUserDefaults standardUserDefaults]
+    setObject:@""forKey:@"KUNNR"];
+        
+        [[NSUserDefaults standardUserDefaults]
+         setObject:@"" forKey:@"PASSWORD"];
+        [[ApplicationProperties getUser] setPassword:@""];
+        [[ApplicationProperties getUser] setUsername:@""];
+        [[ApplicationProperties getUser] setIsLoggedIn:NO];
+        [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
+        return;
+    }
+    LoginVC *login = [[LoginVC alloc] initWithFrame:self.view.frame andUser:nil];
     [[self navigationController] pushViewController:login animated:YES];
 }
 
-- (void)searchMenu:(id)sender
+
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    ClassicSearchVC *classic;
-    LocationSearchVC *location;
-    BrandSearchVC *brand;
+    // Return the number of sections.
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 3;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3.0f)];
+    }
     
-    switch ([sender tag]) {
-        case 1:
-            classic = [[ClassicSearchVC alloc] initWithFrame:viewFrame];
-            [[self navigationController] pushViewController:classic animated:YES];
+    ///custom init
+    MenuTableCellView *menuTableCellView = [[MenuTableCellView alloc] initWithFrame:CGRectMake(0,0,cell.frame.size.width,[self tableView:tableView heightForRowAtIndexPath:indexPath]) andIndex:indexPath.row];
+    [cell setBackgroundColor:[UIColor colorWithRed:229.0f/255.0f green:72.0f/255.0f blue:0.0f/255.0f alpha:1.0f]];
+    [cell addSubview:menuTableCellView];
+//    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    return cell;
+}
+
+
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ClassicSearchVC *classicSearchVC = [[ClassicSearchVC alloc] initWithFrame:self.view.frame];
+    
+    switch (indexPath.row) {
+        case 0:
+            [ApplicationProperties setMainSelection:location_search];
             break;
-        case 2:
-            location = [[LocationSearchVC alloc] initWithFrame:viewFrame];
-            [[self navigationController] pushViewController:location animated:YES];
+        case 1:
+            [ApplicationProperties setMainSelection:classic_search];
+
             break;
         case 3:
-//            brand = [[BrandSearchVC alloc] initWithFrame:viewFrame];
-//            [[self navigationController] pushViewController:brand animated:YES];
-        {
-            CarGroupFilterVC *filter = [[CarGroupFilterVC alloc] init];
-            [[self navigationController] pushViewController:filter animated:YES];
-        }
+            [ApplicationProperties setMainSelection:advanced_search];
             break;
+            
         default:
             break;
     }
-    
+            [[self navigationController] pushViewController:classicSearchVC animated:YES];    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return self.view.frame.size.height / 3.0f;
 }
 
 - (void)didReceiveMemoryWarning

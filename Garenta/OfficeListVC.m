@@ -22,7 +22,13 @@
     }
     return self;
 }
-
+- (id)initWithReservation:(Reservation*)aReservation andTag:(int)aTag andOfficeList:(NSMutableArray*) anOfficeList{
+    self = [super init];
+    officeList = anOfficeList;
+    tag = aTag;
+    reservation = aReservation;
+    return self;
+}
 - (id)initWithOfficeList:(NSMutableArray *)office andDest:(Destination *)dest
 {
     self = [super init];
@@ -133,17 +139,15 @@
         tempOffice = [officeList objectAtIndex:indexPath.row];
     }
     
-    if (arrival == nil)
-    {
-        [destination setDestinationOfficeCode:[tempOffice mainOfficeCode]];
-        [destination setDestinationOfficeName:[tempOffice subOfficeName]];
+    switch (tag) {
+        case 0:
+            [reservation setCheckOutOffice:tempOffice];
+            break;
+        case 1:
+            [reservation setCheckInOffice:tempOffice];
+        default:
+            break;
     }
-    else
-    {
-        [arrival setArrivalOfficeCode:[tempOffice mainOfficeCode]];
-        [arrival setArrivalOfficeName:[tempOffice subOfficeName]];
-    }
-    
     [[self navigationController] popViewControllerAnimated:YES];
 
 }

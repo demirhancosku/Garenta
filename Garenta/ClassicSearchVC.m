@@ -7,8 +7,10 @@
 //
 
 #import "ClassicSearchVC.h"
-#define kDestinationTableTag 0
-#define kArrivalTableTag 1
+#import "OfficeHolidayTime.h"
+#import "CarGroupManagerViewController.h"
+#define kCheckOutTag 0
+#define kCheckInTag 1
 
 @interface ClassicSearchVC ()
 
@@ -22,7 +24,7 @@
     self = [super init];
     
     viewFrame = frame;
-    
+    reservation = [[Reservation alloc] init];
     return self;
 }
 
@@ -31,17 +33,30 @@
     [super viewDidLoad];
     
     // ekranki component'ların ayarlaması yapılıyor
-    destinationInfo = [[Destination alloc] init];
-    arrivalInfo = [[Arrival alloc] init];
+
     
-    officeWorkingSchedule = [[NSMutableArray alloc] init];
+    
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
-    [self connectToGateway];
+    
+    locationManager = [[CLLocationManager alloc] init];
+    [locationManager setDelegate:self];
+    [locationManager setDistanceFilter:25];
+    [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+    
+    [locationManager startUpdatingLocation];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self prepareScreen];
+    //only once
+    if (officeWorkingSchedule == nil) {
+            officeWorkingSchedule = [[NSMutableArray alloc] init];
+                [self connectToGateway];
+    }
+
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,7 +95,7 @@
     [destinationTableView setDelegate:self];
     [destinationTableView setDataSource:self];
     [destinationTableView setScrollEnabled:NO];
-    [destinationTableView setTag:kDestinationTableTag];
+    [destinationTableView setTag:kCheckOutTag];
     
     // aracın teslim edileceği yer
     [[arrivalTableView layer] setCornerRadius:5.0f];
@@ -89,7 +104,7 @@
     [arrivalTableView setDelegate:self];
     [arrivalTableView setDataSource:self];
     [arrivalTableView setScrollEnabled:NO];
-    [arrivalTableView setTag:kArrivalTableTag];
+    [arrivalTableView setTag:kCheckInTag];
     
     [self.view addSubview:destinationTableView];
     [self.view addSubview:arrivalTableView];
@@ -97,45 +112,22 @@
 
 - (void)showCarGroup:(id)sender
 {
-//    if ([destinationInfo destinationOfficeName] == nil)
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın teslim alınacağı ofis seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
-//        
-//        [alert show];
-//        return;
-//    }
-//    else if ([destinationInfo destinationDate] == nil)
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın teslim alınacağı zaman seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
-//        
-//        [alert show];
-//        return;
-//    }
-//    else if ([arrivalInfo arrivalOfficeName] == nil)
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın iade edileceği ofis seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
-//        
-//        [alert show];
-//        return;
-//    }
-//    else if ([arrivalInfo arrivalDate] == nil)
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı!" message:@"Aracın iade edileceği zaman seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
-//        
-//        [alert show];
-//        return;
-//    }
-//    else
-//    {
     
-        [reservation setDestination:destinationInfo];
-        [reservation setArrival:arrivalInfo];
-        
-        CarGroupScrollVC *car = [[CarGroupScrollVC alloc] init];
-        [[self navigationController] pushViewController:car animated:YES];
-//    }
-}
+    
+    [self getAvailCars];
+    
 
+}
+- (void)getAvailCars{
+    
+    NSString *connectionString = [ApplicationProperties getAvailableCarURL];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:150.0];
+    
+    NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
+    loaderVC = [[LoaderAnimationVC alloc] init];
+    [loaderVC playAnimation:self.view];
+}
 - (void)setIphoneLayer
 {
     
@@ -158,11 +150,7 @@
     
 }
 
-//- (void)login:(id)sender
-//{
-//    LoginVC *login = [[LoginVC alloc] initWithFrame:viewFrame];
-//    [[self navigationController] pushViewController:login animated:YES];
-//}
+
 
 #pragma mark - Table view data source
 
@@ -187,18 +175,22 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     
     
-    
-    if ([tableView tag] == kDestinationTableTag)
+     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    if ([tableView tag] == kCheckOutTag)
     {
         if ([indexPath row] == 0)
         {
-            if ([destinationInfo destinationOfficeName] == nil)
-            {
+            if (reservation.checkOutOffice == nil)
+            {   if([ApplicationProperties getMainSelection] != location_search){
                 [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
+            }else{
+                [[cell textLabel] setText:@"Size En Yakın Araçlar"];
+                [cell setAccessoryType:UITableViewCellAccessoryNone];
+            }
                 [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
             }
             else
-                [[cell textLabel] setText:[destinationInfo destinationOfficeName]];
+                [[cell textLabel] setText:reservation.checkOutOffice.subOfficeName];
         }
         else
         {
@@ -210,10 +202,10 @@
             [formatter2 setDateFormat:@"HH:mm"];
             
             //Optionally for time zone converstions
-            NSString *stringFromDate = [formatter stringFromDate:[destinationInfo destinationDate]];
-            NSString *stringFromTime = [formatter2 stringFromDate:[destinationInfo destinationTime]];
+            NSString *stringFromDate = [formatter stringFromDate:[reservation checkOutDay]];
+            NSString *stringFromTime = [formatter2 stringFromDate:[reservation checkOutTime]];
             
-            if ([destinationInfo destinationDate] == nil && [destinationInfo destinationTime] == nil)
+            if (reservation.checkOutDay == nil && reservation.checkOutTime == nil)
             {
                 [[cell textLabel] setText:@"Tarih / Saat Seçiniz"];
                 [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
@@ -226,13 +218,13 @@
     {
         if ([indexPath row] == 0)
         {
-            if ([arrivalInfo arrivalOfficeName] == nil)
+            if (reservation.checkInOffice == nil)
             {
                 [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
                 [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
             }
             else
-                [[cell textLabel] setText:[arrivalInfo arrivalOfficeName]];
+                [[cell textLabel] setText:reservation.checkInOffice.subOfficeName];
         }
         else
         {
@@ -244,10 +236,10 @@
             [formatter2 setDateFormat:@"HH:mm"];
             
             //Optionally for time zone converstions
-            NSString *stringFromDate = [formatter stringFromDate:[arrivalInfo arrivalDate]];
-            NSString *stringFromTime = [formatter2 stringFromDate:[arrivalInfo arrivalTime]];
+            NSString *stringFromDate = [formatter stringFromDate:[reservation checkInDay]];
+            NSString *stringFromTime = [formatter2 stringFromDate:[reservation checkInTime]];
             
-            if ([arrivalInfo arrivalDate] == nil && [arrivalInfo arrivalTime] == nil)
+            if (reservation.checkOutDay == nil && reservation.checkOutTime == nil)
             {
                 [[cell textLabel] setText:@"Tarih / Saat Seçiniz"];
                 [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
@@ -257,25 +249,25 @@
         }
     }
     
-    
-    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+
+   
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([tableView tag] == kDestinationTableTag)
+    if ([tableView tag] == kCheckOutTag)
     {
-        if (indexPath.row == 0) {
+        if (indexPath.row == 0 && [ApplicationProperties getMainSelection] != location_search) {
             
-            OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andDest:destinationInfo];
+            OfficeListVC *office = [[OfficeListVC alloc] initWithReservation:reservation andTag:tableView.tag andOfficeList:officeWorkingSchedule ];
             [[self navigationController] pushViewController:office animated:YES];
             
         }
-        else
+        if(indexPath.row == 1 )
         {
             UIViewController *vc;
-            vc = [[CalendarTimeVC alloc] initWithOfficeList:officeWorkingSchedule andDest:destinationInfo];
+            vc = [[CalendarTimeVC alloc] initWithReservation:reservation andTag:tableView.tag];
             [self.navigationController pushViewController:vc animated:YES];
             
         }
@@ -284,13 +276,13 @@
     {
         if (indexPath.row == 0) {
             
-            OfficeListVC *office = [[OfficeListVC alloc] initWithOfficeList:officeWorkingSchedule andArr:arrivalInfo];
+            OfficeListVC *office = [[OfficeListVC alloc] initWithReservation:reservation andTag:tableView.tag andOfficeList:officeWorkingSchedule ];
             [[self navigationController] pushViewController:office animated:YES];
         }
         else
         {
             UIViewController *vc;
-            vc = [[CalendarTimeVC alloc] initWithOfficeList:officeWorkingSchedule andArr:arrivalInfo];
+            vc = [[CalendarTimeVC alloc] initWithReservation:reservation andTag:tableView.tag];
             [self.navigationController pushViewController:vc animated:YES];
             
             
@@ -354,12 +346,13 @@
 
 - (void)connectToGateway
 {
-    NSString *connectionString = @"https://172.17.1.149:8000/sap/opu/odata/sap/ZGARENTA_TEST_SRV/available_offices(ImppAltSube='',ImppMerkezSube='')?$expand=EXPT_SUBE_BILGILERISet,EXPT_CALISMA_ZAMANISet,EXPT_TATIL_ZAMANISet&$format=json";
+    NSString *connectionString = @"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_TEST_SRV/available_offices(ImppAltSube='',ImppMerkezSube='')?$expand=EXPT_SUBE_BILGILERISet,EXPT_CALISMA_ZAMANISet,EXPT_TATIL_ZAMANISet&$format=json";
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:50.0];
     
     NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
-    
+    loaderVC = [[LoaderAnimationVC alloc] init];
+    [loaderVC playAnimation:self.view];
 }
 
 - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)space
@@ -392,13 +385,132 @@
 {
     NSError *err;
     NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
+    if (err != nil) {
+        if (bigData == nil) {
+            bigData = [NSMutableData dataWithData:data];
+            return;
+        }else{
+            [bigData appendData:data];
+            err= nil;
+            jsonDict = [NSJSONSerialization JSONObjectWithData:bigData options:NSJSONReadingMutableContainers error:&err];
+            if (err !=nil) {
+                return;
+            }
+            data = bigData;
+        }
+    }
+    NSDictionary *result = [jsonDict objectForKey:@"d"];
+    
+    NSDictionary *officeListDict = [result objectForKey:@"EXPT_SUBE_BILGILERISet"];
+    NSDictionary *timeDict = [result objectForKey:@"EXPT_CALISMA_ZAMANISet"];
+    
+    if ([result objectForKey:@"EXPT_SUBE_BILGILERISet"] != nil) {
+        [self parseOffices:data];
+    }else{
+        [self parseCars:data];
+    }
+        [loaderVC stopAnimation];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    [loaderVC stopAnimation];
+    NSLog(@"1");
+}
+#pragma mark - Location Delegation Methods
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
+    NSLog(@"newlocation %@", newLocation);
+    Coordinate *tempPoint = [[Coordinate alloc] initWithCoordinate:newLocation.coordinate title:@"Ben"];
+    
+    //tempPoint kullanılarak en yakın ofis bulunacak
+    
+}
+
+- (void)parseCars:(NSData*)data{
+    [self clearOfficesFromCars];
+    NSError *err;
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
+    
+    NSDictionary *result = [jsonDict objectForKey:@"d"];
+    //parsing
+    NSDictionary *carList = [result objectForKey:@"ET_ARACLISTESet"];
+    NSDictionary *pictureList = [result objectForKey:@"ET_RESIMLERSet"];
+    
+    NSDictionary *carListResult = [carList objectForKey:@"results"];
+    NSDictionary *pictureListResult = [pictureList objectForKey:@"results"];
+    
+    //car segment yapisi onemli kodlar
+    //her ofisin bir segment-grup-araba hiyerarsisi var
+    Car *tempCar;
+    CarSegment * tempCarSegment;
+    CarGroup *tempCarGroup;
+    Office *tempOffice;
+    NSMutableArray *carSegments = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *tempCarResult in carListResult){
+        
+        tempCar = [[Car alloc] init];
+        [tempCar setMaterialCode:[tempCarResult objectForKey:@"Matnr"]];
+        [tempCar setMaterialName:[tempCarResult objectForKey:@"Maltx"]];
+        [tempCar setBrandId:[tempCarResult objectForKey:@"MarkaId"]];
+        [tempCar setBrandName:[tempCarResult objectForKey:@"Marka"]];
+        [tempCar setModelId:[tempCarResult objectForKey:@"ModelId"]];
+        [tempCar setModelName:[tempCarResult objectForKey:@"Model"]];
+        [tempCar setModelYear:[tempCarResult objectForKey:@"ModelYili"]];
+        
+        //first take a look if the office cars initialized
+        tempOffice = [ApplicationProperties getOfficeFrom:officeWorkingSchedule withCode:[tempCarResult objectForKey:@"Msube"]];
+        if (tempOffice.carSegmentList == nil) {
+            //gecmis olsun segmentten itibaren yaratcan
+            tempOffice.carSegmentList = [[NSMutableArray alloc] init];
+        }
+        tempCarSegment = [tempOffice getCarSegmentWithCode:[tempCarResult objectForKey:@"Segment"]];
+        //peki o segment var mı
+        if (tempCarSegment == nil) {
+            //create segment
+            tempCarSegment = [[CarSegment alloc] init];
+            [tempCarSegment setSegment:[tempCarResult objectForKey:@"Segment"]];
+            [tempCarSegment setSegmentName:[tempCarResult objectForKey:@"Segmenttx"]];
+            [tempCarSegment setCarGroups:[[NSMutableArray alloc] init]];
+            [tempOffice.carSegmentList addObject:tempCarSegment];
+        }
+        
+        //peki hic grup var mı
+        if ([tempCarSegment getCarGroupWithCode:[tempCarResult objectForKey:@"Grpkod"]] == nil) {
+            //grup yarat
+            //TODO: aalpk devam et gruba
+            tempCarGroup = [[CarGroup alloc] init];
+            tempCarGroup.cars = [[NSMutableArray alloc] init];
+            [tempCarGroup setGroupCode:[tempCarResult objectForKey:@"Grpkod"]];
+            [tempCarGroup setGroupName:[tempCarResult objectForKey:@"Grpkodtx"]];
+            [tempCarSegment.carGroups addObject:tempCarGroup];
+            
+        }
+        [tempCarGroup.cars addObject:tempCar];
+    }
+    
+    
+    //pushing
+    CarGroupManagerViewController *car = [[CarGroupManagerViewController alloc] initWithOffices:officeWorkingSchedule andReservartion:reservation];
+    [[self navigationController] pushViewController:car animated:YES];
+}
+
+- (void)parseOffices:(NSData*)data{
+    //parsing data
+    
+    NSError *err;
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
     
     NSDictionary *result = [jsonDict objectForKey:@"d"];
     
     NSDictionary *officeListDict = [result objectForKey:@"EXPT_SUBE_BILGILERISet"];
     NSDictionary *timeDict = [result objectForKey:@"EXPT_CALISMA_ZAMANISet"];
     NSDictionary *holidayDict = [result objectForKey:@"EXPT_TATIL_ZAMANISet"];
-    //    NSDictionary *holidayDict = [result objectForKey:@"EXPT_TATIL_ZAMANI"];
+    
     
     
     NSDictionary *timeListResult = [timeDict objectForKey:@"results"];
@@ -431,12 +543,13 @@
         {
             if ([[timeTemp objectForKey:@"MerkezSube"] isEqualToString:tempOffice.mainOfficeCode])
             {
-                OfficeWorkingHour *tempSchedule = [[OfficeWorkingHour alloc] init];
-                tempSchedule.startingHour = [timeTemp objectForKey:@"Begti"];
+                OfficeWorkingTime *tempSchedule = [[OfficeWorkingTime alloc] init];
+                tempSchedule.startTime = [timeTemp objectForKey:@"Begti"];
                 tempSchedule.endingHour   = [timeTemp objectForKey:@"Endti"];
                 tempSchedule.mainOffice   = [timeTemp objectForKey:@"MerkezSube"];
                 tempSchedule.subOffice    = [timeTemp objectForKey:@"AltSube"];
-                tempSchedule.weekDay      = [timeTemp objectForKey:@"Caday"];
+                tempSchedule.weekDayCode      = [timeTemp objectForKey:@"Caday"];
+                //                tempSchedule.weekDayCode      = [timeTemp objectForKey:@"Caday"]; txti al
                 [[tempOffice workingHours] addObject:tempSchedule];
             }
         }
@@ -447,28 +560,28 @@
         {
             if ([[timeTemp objectForKey:@"MerkezSube"] isEqualToString:tempOffice.mainOfficeCode])
             {
-                OfficeWorkingHour *tempSchedule = [[OfficeWorkingHour alloc] init];
-                tempSchedule.startingHour = [timeTemp objectForKey:@"Begti"];
-                tempSchedule.endingHour   = [timeTemp objectForKey:@"Endti"];
-                tempSchedule.holidayDate  = [timeTemp objectForKey:@"Begda"];
-                tempSchedule.mainOffice   = [timeTemp objectForKey:@"MerkezSube"];
-                tempSchedule.subOffice    = [timeTemp objectForKey:@"AltSube"];
-                tempSchedule.weekDay      = [timeTemp objectForKey:@"Caday"];
-                [[tempOffice holidayDates] addObject:tempSchedule];
+                OfficeHolidayTime *tempHolidaySchedule = [[OfficeHolidayTime alloc] init];
+                tempHolidaySchedule.startTime = [timeTemp objectForKey:@"Begti"];
+                tempHolidaySchedule.endingHour   = [timeTemp objectForKey:@"Endti"];
+                tempHolidaySchedule.holidayDate  = [timeTemp objectForKey:@"Begda"];
+                tempHolidaySchedule.mainOffice   = [timeTemp objectForKey:@"MerkezSube"];
+                tempHolidaySchedule.subOffice    = [timeTemp objectForKey:@"AltSube"];
+                [[tempOffice holidayDates] addObject:tempHolidaySchedule];
             }
         }
         
         [officeWorkingSchedule addObject:tempOffice];
     }
+  
+}
+- (void)clearOfficesFromCars{
+    for (Office*tempOffice in officeWorkingSchedule) {
+        [tempOffice.carSegmentList removeAllObjects];
+    }
+}
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
+    NSLog(@"location error");
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    NSLog(@"1");
-}
 
 @end

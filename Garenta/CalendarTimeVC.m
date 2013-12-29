@@ -18,40 +18,23 @@
 	return UIInterfaceOrientationIsPortrait(interfaceOrientation);
 }
 
-- (id)initWithOfficeList:(NSMutableArray *)office andDest:(Destination *)dest
+- (id)initWithReservation:(Reservation*)aReservation andTag:(int) aTag
 {
     self = [super initWithSunday:NO];
-    
-    officeList = [[NSMutableArray alloc] init];
-    destination = [[Destination alloc] init];
-    
-    destination = dest;
-    officeList = office;
+    reservation = aReservation;
+    tag = aTag;
     
     return self;
 }
 
-- (id)initWithOfficeList:(NSMutableArray *)office andArr:(Arrival *)arr
-{
-    self = [super initWithSunday:NO];
-    
-    officeList = [[NSMutableArray alloc] init];
-    arrival = [[Arrival alloc] init];
-    
-    arrival = arr;
-    officeList = office;
-    
-    return self;
-}
 
 #pragma mark View Lifecycle
 - (void) viewDidLoad{
     
 	[super viewDidLoad];
     
-	[self.monthView selectDate:[NSDate date]];
-    selectedDate = [[NSDate alloc] init];
-    selectedTime = [[NSDate alloc] init];
+	[self.monthView selectDate:selectedDay];
+    ;
     
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Tarih Seç" style:UIBarButtonItemStyleBordered target:self action:@selector(selectDateAndTime:)];
     [[self navigationItem] setRightBarButtonItem:barButton];
@@ -79,25 +62,27 @@
 - (void)selectDateAndTime:(id)sender
 {
     
-    selectedDate = [self.monthView dateSelected];
+    selectedDay = [self.monthView dateSelected];
     
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDate * testDate = selectedDate;
+    NSDate * testDate = selectedDay;
     NSDateComponents *weekdayComponents =[gregorian components:NSWeekdayCalendarUnit fromDate:testDate];
     NSInteger weekday = [weekdayComponents weekday];
-    
+    switch (tag) {
+        case 0://checkout
+            [reservation setCheckOutDay:selectedDay];
+            [reservation setCheckOutTime:selectedTime];
+            break;
+        case 1: //checkin
+            [reservation setCheckInDay:selectedDay];
+            [reservation setCheckInTime:selectedTime];
+            break;
+        default:
+            break;
+    }
     // weekday 1 = Sunday for Gregorian calendar
-
-    if (arrival == nil)
-    {
-        [destination setDestinationDate:selectedDate];
-        [destination setDestinationTime:selectedTime];
-    }
-    else
-    {
-        [arrival setArrivalDate:selectedDate];
-        [arrival setArrivalTime:selectedTime];
-    }
+//todo: kontrol yazılcak
+    
     
     
 //    if ([destination destinationOfficeCode] != nil) {

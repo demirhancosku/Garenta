@@ -12,22 +12,18 @@
 #import "Arrival.h"
 #import "TKCalendarMonthView.h"
 #import "Office.h"
-
+#import "Reservation.h"
 #pragma mark - CalendarMonthViewController
 @interface CalendarTimeVC : TKCalendarMonthViewController
 {
     UISlider *mySlider;
     UITextField *sliderText;
-    NSMutableArray *officeList;
-    Destination *destination;
-    Arrival *arrival;
-    NSDate *selectedDate;
+    NSDate *selectedDay;
     NSDate *selectedTime;
     TKCalendarMonthView *monthView;
-    
+    Reservation *reservation;
+    int tag;
     UIDatePicker *datePicker;
 }
-
-- (id)initWithOfficeList:(NSMutableArray *)office andDest:(Destination *)dest;
-- (id)initWithOfficeList:(NSMutableArray *)office andArr:(Arrival *)arr;
+- (id)initWithReservation:(Reservation*)aReservation andTag:(int) aTag;
 @end

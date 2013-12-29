@@ -9,20 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "LoginVC.h"
 #import "ClassicSearchVC.h"
-#import "LocationSearchVC.h"
-#import "BrandSearchVC.h"
 #import "User.h"
 #import "CarGroupFilterVC.h"
 
-@interface MenuSelectionVC : UIViewController
+@interface MenuSelectionVC : UITableViewController<UITableViewDataSource,UITableViewDelegate>
 {
-    UIButton *locationSearch;
-    UIButton *classicSearch;
-    UIButton *brandSearch;
-    
-    UILabel *wellcome;
-    User *user;
-    CGRect viewFrame;
+    UILabel *welcomeLabel;
 }
 
 - (id)initWithFrame:(CGRect)frame;

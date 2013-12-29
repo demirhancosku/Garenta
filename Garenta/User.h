@@ -15,6 +15,19 @@
 @property (nonatomic,retain) NSString *password;
 @property (nonatomic,retain) NSString *name;
 @property (nonatomic,retain) NSString *surname;
+@property (nonatomic,retain) NSString *garentaTl;
+@property (nonatomic,retain) NSString *mobile;
+@property (nonatomic,retain) NSString *email;
+@property (nonatomic,retain) NSString *tckno;
+@property (nonatomic,retain) NSString *company;
+@property (nonatomic,retain) NSString *companyName;
+@property (nonatomic,retain) NSString *companyName2;
+@property (nonatomic,retain) NSString *middleName;
+@property (nonatomic,retain) NSString *kunnr;
+@property (nonatomic,retain) NSString *accountType;
+@property (nonatomic,assign) BOOL isLoggedIn;
+
+
 
 @property (nonatomic,retain) Coordinate *userLocation;
 @end

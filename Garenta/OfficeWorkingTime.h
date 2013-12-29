@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface OfficeWorkingHour : NSObject
+@interface OfficeWorkingTime : NSObject
 
-@property (nonatomic, retain) NSString *startingHour;
+@property (nonatomic, retain) NSString *startTime;
 @property (nonatomic, retain) NSString *endingHour;
-@property (nonatomic, retain) NSString *holidayDate;
+@property (nonatomic, retain) NSString *weekDayCode;
 @property (nonatomic, retain) NSString *mainOffice;
 @property (nonatomic, retain) NSString *subOffice;
-@property (nonatomic, retain) NSString *weekDay;
+@property (nonatomic, retain) NSString *weekDayName;
 
 @end

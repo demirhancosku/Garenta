@@ -16,7 +16,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
 //    LocationSelectionScreenVC *main = [[LocationSelectionScreenVC alloc] initWithFrame:self.window.frame];
-    MenuSelectionVC *main = [[MenuSelectionVC alloc] initWithFrame:self.window.frame];
+    MenuSelectionVC *main = [[MenuSelectionVC alloc] initWithStyle:UITableViewStylePlain];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
     
     [[nav navigationBar] setBarTintColor:[ApplicationProperties getOrange]];

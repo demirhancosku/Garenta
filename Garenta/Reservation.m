@@ -9,5 +9,14 @@
 #import "Reservation.h"
 
 @implementation Reservation
-@synthesize  destination, arrival, selectedBrand;
+@synthesize  checkOutTime,checkOutDay,checkInTime,checkInDay,checkInOffice,checkOutOffice, selectedBrand;
+
+-(id)init{
+    self = [super init];
+    checkInDay= [NSDate date];
+    checkOutDay= [NSDate date];
+    checkOutTime= [NSDate date];
+    checkInTime = [NSDate date];
+    return self;
+}
 @end

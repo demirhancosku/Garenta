@@ -7,7 +7,7 @@
 //
 
 #import "CarGroupScrollVC.h"
-
+#import "GTMBase64.h"
 @interface CarGroupScrollVC ()
 
 @end
@@ -39,6 +39,7 @@
     //slider menü buraya ekleniyo
     [self addFilterSliderToView];
     [self addTableView];
+    [self connectToGateway];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -279,6 +280,66 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+//aalpk silince
+- (void)connectToGateway
+{
+    NSString *connectionString = @"https://172.17.1.149:8000/sap/opu/odata/sap/ZGARENTA_TEST_SRV/RESIM_TEST(IPath='6')?$format=json";
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]
+                                             cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                         timeoutInterval:30.0];
+    
+    NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
+    
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+    if ([challenge previousFailureCount] == 0) {
+        NSLog(@"received authentication challenge");
+        NSURLCredential *newCredential = [NSURLCredential credentialWithUser:@"gw_admin"
+                                                                    password:@"1qa2ws3ed"
+                                                                 persistence:NSURLCredentialPersistenceForSession];
+        NSLog(@"credential created");
+        [[challenge sender] useCredential:newCredential forAuthenticationChallenge:challenge];
+        NSLog(@"responded to authentication challenge");
+    }
+    else {
+        NSLog(@"previous authentication failure");
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    NSError *err;
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
+
+    NSDictionary *result = [jsonDict objectForKey:@"d"];
+    NSString *abdullah = [NSString stringWithFormat:@"%@",[result objectForKey:@"EPicture"]];
+    NSData *theData =
+    [NSData dataWithData:[YAJL_GTMBase64 decodeString:abdullah]];
+    UIImageView *ata = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    [ata setImage:[UIImage imageWithData:theData]];
+    [[self view] addSubview:ata];
+    //NSDictionary *officeListDict = [result objectForKey:@"EXPT_SUBE_BILGILERISet"];
+
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    NSLog(@"gateway hatasi");
 }
 
 @end

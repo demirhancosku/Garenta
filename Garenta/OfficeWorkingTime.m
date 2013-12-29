@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Kerem Balaban. All rights reserved.
 //
 
-#import "OfficeWorkingHour.h"
+#import "OfficeWorkingTime.h"
 
-@implementation OfficeWorkingHour
+@implementation OfficeWorkingTime
 
-@synthesize endingHour, mainOffice, startingHour, subOffice, weekDay, holidayDate;
+@synthesize endingHour, mainOffice, startTime, subOffice, weekDayCode, weekDayName;
 
 @end

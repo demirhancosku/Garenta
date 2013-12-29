@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Kerem Balaban. All rights reserved.
 //
 
-#import "SearchScreenVC.h"
+
 #import "AppDelegate.h"
 #import "Office.h"
-#import "OfficeWorkingHour.h"
+#import "OfficeWorkingTime.h"
 #import "LoginVC.h"
 #import "CalendarTimeVC.h"
 #import "OfficeListVC.h"
@@ -18,7 +18,7 @@
 #import "Reservation.h"
 #import "CarGroupScrollVC.h"
 
-@interface ClassicSearchVC : UIViewController <UITableViewDataSource,UITableViewDelegate,NSURLConnectionDelegate, UIPopoverControllerDelegate>
+@interface ClassicSearchVC : UIViewController <UITableViewDataSource,UITableViewDelegate,NSURLConnectionDelegate, UIPopoverControllerDelegate,CLLocationManagerDelegate>
 {
     UITableView *destinationTableView;
     UITableView *arrivalTableView;
@@ -26,11 +26,13 @@
     CGRect viewFrame;
     UIDatePicker *datePicker;
     NSMutableArray *officeWorkingSchedule;
-    
-    Destination *destinationInfo;
-    Arrival *arrivalInfo;
-    
+    CLLocationManager *locationManager;
+    NSMutableData *bigData;
     Reservation *reservation;
+    LoaderAnimationVC *loaderVC;
+    
+
+    
 }
 
 @property (nonatomic, retain) UIPopoverController *popOver;
