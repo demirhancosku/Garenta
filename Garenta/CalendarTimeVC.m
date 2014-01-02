@@ -61,8 +61,14 @@
 
 - (void)selectDateAndTime:(id)sender
 {
-    
     selectedDay = [self.monthView dateSelected];
+    if (selectedDay == nil || selectedTime == nil) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Tarih ve saat seçiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+    
+
     
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDate * testDate = selectedDay;

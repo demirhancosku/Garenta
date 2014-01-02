@@ -5,7 +5,7 @@
 //  Created by Kerem Balaban on 22.12.2013.
 //  Copyright (c) 2013 Kerem Balaban. All rights reserved.
 //
-
+// Bu classi silmedim ki kerem baksin ve uzulsun...yaptigin hersey bosa kerem ...hersey
 #import "CarGroupScrollVC.h"
 #import "GTMBase64.h"
 @interface CarGroupScrollVC ()

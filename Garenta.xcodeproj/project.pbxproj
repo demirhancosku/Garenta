@@ -55,6 +55,15 @@
 		9E38C3C01869EF4200EBD29E /* FilterObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E38C3BF1869EF4200EBD29E /* FilterObject.m */; };
 		9E38C3C7186A033200EBD29E /* OrangeArrowDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E38C3C5186A033200EBD29E /* OrangeArrowDown.png */; };
 		9E38C3C8186A033200EBD29E /* OrangeArrowUp.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E38C3C6186A033200EBD29E /* OrangeArrowUp.png */; };
+		B50B09D71874988F00649165 /* ReservationSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B50B09D51874988F00649165 /* ReservationSummaryViewController.m */; };
+		B50B09D81874988F00649165 /* ReservationSummaryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B50B09D61874988F00649165 /* ReservationSummaryViewController.xib */; };
+		B50B09DA1874A2E600649165 /* seperator.png in Resources */ = {isa = PBXBuildFile; fileRef = B50B09D91874A2E600649165 /* seperator.png */; };
+		B50B09DC1874A7BC00649165 /* office_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B50B09DB1874A7BC00649165 /* office_icon.png */; };
+		B50B09DE1874A95200649165 /* boarder_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B50B09DD1874A95200649165 /* boarder_icon.png */; };
+		B50B09E01874E72000649165 /* ReservationSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B50B09DF1874E71F00649165 /* ReservationSummaryCell.xib */; };
+		B50B09E31874EC7B00649165 /* ReservationSummaryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B50B09E21874EC7B00649165 /* ReservationSummaryCell.m */; };
+		B51D5AD21870F1E700966B48 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B51D5AD11870F1E700966B48 /* CoreText.framework */; };
+		B51D5AD41871837C00966B48 /* CarGroupTableCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B51D5AD31871837B00966B48 /* CarGroupTableCellView.xib */; };
 		B5688AF2186AECCA009D830E /* MenuTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5688AF1186AECCA009D830E /* MenuTableCellView.m */; };
 		B5688AF6186B167E009D830E /* AccessoryButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688AF3186B167E009D830E /* AccessoryButton.png */; };
 		B5688AFB186B17EA009D830E /* arac_bul.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688AF9186B17EA009D830E /* arac_bul.png */; };
@@ -74,13 +83,14 @@
 		B5688B1A186B3A2E009D830E /* load_8.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688B0F186B3A2E009D830E /* load_8.png */; };
 		B5688B1B186B3A2E009D830E /* load_9.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688B10186B3A2E009D830E /* load_9.png */; };
 		B5688B1E186C2479009D830E /* OfficeHolidayTime.m in Sources */ = {isa = PBXBuildFile; fileRef = B5688B1D186C2479009D830E /* OfficeHolidayTime.m */; };
+		B5A2CAE81872B60100271DE9 /* MinimumInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A2CAE61872B60100271DE9 /* MinimumInfoVC.m */; };
+		B5A2CAE91872B60100271DE9 /* MinimumInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5A2CAE71872B60100271DE9 /* MinimumInfoVC.xib */; };
 		B5CEF815187041D8007709E4 /* CarGroupTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5CEF814187041D8007709E4 /* CarGroupTableCellView.m */; };
 		B5E0343E186D95BF00226DAB /* login_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B5E0343D186D95BF00226DAB /* login_icon.png */; };
 		B5E03441186DD02500226DAB /* Car.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E03440186DD02500226DAB /* Car.m */; };
 		B5E03444186DEAE100226DAB /* CarGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E03443186DEAE100226DAB /* CarGroupViewController.m */; };
 		B5E03447186DEC9A00226DAB /* CarGroupManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E03446186DEC9A00226DAB /* CarGroupManagerViewController.m */; };
 		B5E0344A186ED57C00226DAB /* CarGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E03449186ED57C00226DAB /* CarGroup.m */; };
-		B5E0344D186ED85C00226DAB /* CarSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E0344C186ED85C00226DAB /* CarSegment.m */; };
 		B5EE728F18701DC400F634D3 /* kislastik.png in Resources */ = {isa = PBXBuildFile; fileRef = B5EE728B18701DC400F634D3 /* kislastik.png */; };
 		B5EE729018701DC400F634D3 /* klima.png in Resources */ = {isa = PBXBuildFile; fileRef = B5EE728C18701DC400F634D3 /* klima.png */; };
 		B5EE729118701DC400F634D3 /* vites.png in Resources */ = {isa = PBXBuildFile; fileRef = B5EE728D18701DC400F634D3 /* vites.png */; };
@@ -178,6 +188,17 @@
 		9E38C3BF1869EF4200EBD29E /* FilterObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterObject.m; sourceTree = "<group>"; };
 		9E38C3C5186A033200EBD29E /* OrangeArrowDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OrangeArrowDown.png; sourceTree = "<group>"; };
 		9E38C3C6186A033200EBD29E /* OrangeArrowUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OrangeArrowUp.png; sourceTree = "<group>"; };
+		B50B09D41874988F00649165 /* ReservationSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationSummaryViewController.h; sourceTree = "<group>"; };
+		B50B09D51874988F00649165 /* ReservationSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationSummaryViewController.m; sourceTree = "<group>"; };
+		B50B09D61874988F00649165 /* ReservationSummaryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReservationSummaryViewController.xib; sourceTree = "<group>"; };
+		B50B09D91874A2E600649165 /* seperator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = seperator.png; sourceTree = "<group>"; };
+		B50B09DB1874A7BC00649165 /* office_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = office_icon.png; sourceTree = "<group>"; };
+		B50B09DD1874A95200649165 /* boarder_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boarder_icon.png; sourceTree = "<group>"; };
+		B50B09DF1874E71F00649165 /* ReservationSummaryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReservationSummaryCell.xib; sourceTree = "<group>"; };
+		B50B09E11874EC7B00649165 /* ReservationSummaryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationSummaryCell.h; sourceTree = "<group>"; };
+		B50B09E21874EC7B00649165 /* ReservationSummaryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationSummaryCell.m; sourceTree = "<group>"; };
+		B51D5AD11870F1E700966B48 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		B51D5AD31871837B00966B48 /* CarGroupTableCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarGroupTableCellView.xib; sourceTree = "<group>"; };
 		B5688AF0186AECCA009D830E /* MenuTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableCellView.h; sourceTree = "<group>"; };
 		B5688AF1186AECCA009D830E /* MenuTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableCellView.m; sourceTree = "<group>"; };
 		B5688AF3186B167E009D830E /* AccessoryButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AccessoryButton.png; sourceTree = "<group>"; };
@@ -201,6 +222,9 @@
 		B5688B10186B3A2E009D830E /* load_9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = load_9.png; sourceTree = "<group>"; };
 		B5688B1C186C2479009D830E /* OfficeHolidayTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfficeHolidayTime.h; sourceTree = "<group>"; };
 		B5688B1D186C2479009D830E /* OfficeHolidayTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfficeHolidayTime.m; sourceTree = "<group>"; };
+		B5A2CAE51872B60100271DE9 /* MinimumInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinimumInfoVC.h; sourceTree = "<group>"; };
+		B5A2CAE61872B60100271DE9 /* MinimumInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MinimumInfoVC.m; sourceTree = "<group>"; };
+		B5A2CAE71872B60100271DE9 /* MinimumInfoVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MinimumInfoVC.xib; sourceTree = "<group>"; };
 		B5CEF813187041D8007709E4 /* CarGroupTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarGroupTableCellView.h; sourceTree = "<group>"; };
 		B5CEF814187041D8007709E4 /* CarGroupTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarGroupTableCellView.m; sourceTree = "<group>"; };
 		B5E0343D186D95BF00226DAB /* login_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_icon.png; sourceTree = "<group>"; };
@@ -212,8 +236,6 @@
 		B5E03446186DEC9A00226DAB /* CarGroupManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarGroupManagerViewController.m; sourceTree = "<group>"; };
 		B5E03448186ED57C00226DAB /* CarGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarGroup.h; sourceTree = "<group>"; };
 		B5E03449186ED57C00226DAB /* CarGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarGroup.m; sourceTree = "<group>"; };
-		B5E0344B186ED85C00226DAB /* CarSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarSegment.h; sourceTree = "<group>"; };
-		B5E0344C186ED85C00226DAB /* CarSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarSegment.m; sourceTree = "<group>"; };
 		B5EE728B18701DC400F634D3 /* kislastik.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kislastik.png; sourceTree = "<group>"; };
 		B5EE728C18701DC400F634D3 /* klima.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = klima.png; sourceTree = "<group>"; };
 		B5EE728D18701DC400F634D3 /* vites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vites.png; sourceTree = "<group>"; };
@@ -225,6 +247,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B51D5AD21870F1E700966B48 /* CoreText.framework in Frameworks */,
 				0C0DA9A71865BF78003EDDA0 /* CoreLocation.framework in Frameworks */,
 				0C4C9A6C18462EAB00CD3728 /* CoreGraphics.framework in Frameworks */,
 				0C4C9A6E18462EAB00CD3728 /* UIKit.framework in Frameworks */,
@@ -297,6 +320,7 @@
 		0C4C9A6818462EAB00CD3728 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B51D5AD11870F1E700966B48 /* CoreText.framework */,
 				0C0DA9A61865BF78003EDDA0 /* CoreLocation.framework */,
 				0C4C9A6918462EAB00CD3728 /* Foundation.framework */,
 				0C4C9A6B18462EAB00CD3728 /* CoreGraphics.framework */,
@@ -335,6 +359,7 @@
 		0C4C9A981846318F00CD3728 /* VCs */ = {
 			isa = PBXGroup;
 			children = (
+				B5A2CAE41872B51700271DE9 /* ReservationVCs */,
 				9E38C3BA1869EA2B00EBD29E /* Car Group */,
 				0C4C9A9C1846333100CD3728 /* BaseVCs */,
 				0C4C9AA11846348100CD3728 /* MenuSelection */,
@@ -388,8 +413,6 @@
 				B5E03440186DD02500226DAB /* Car.m */,
 				B5E03448186ED57C00226DAB /* CarGroup.h */,
 				B5E03449186ED57C00226DAB /* CarGroup.m */,
-				B5E0344B186ED85C00226DAB /* CarSegment.h */,
-				B5E0344C186ED85C00226DAB /* CarSegment.m */,
 			);
 			name = ObjectClasses;
 			sourceTree = "<group>";
@@ -397,6 +420,9 @@
 		0C4C9A9B1846331D00CD3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B50B09DD1874A95200649165 /* boarder_icon.png */,
+				B50B09DB1874A7BC00649165 /* office_icon.png */,
+				B50B09D91874A2E600649165 /* seperator.png */,
 				B5EE728B18701DC400F634D3 /* kislastik.png */,
 				B5EE728C18701DC400F634D3 /* klima.png */,
 				B5EE728D18701DC400F634D3 /* vites.png */,
@@ -486,6 +512,7 @@
 				B5E03446186DEC9A00226DAB /* CarGroupManagerViewController.m */,
 				B5CEF813187041D8007709E4 /* CarGroupTableCellView.h */,
 				B5CEF814187041D8007709E4 /* CarGroupTableCellView.m */,
+				B51D5AD31871837B00966B48 /* CarGroupTableCellView.xib */,
 			);
 			name = "Car Group";
 			sourceTree = "<group>";
@@ -506,6 +533,22 @@
 				B5688B10186B3A2E009D830E /* load_9.png */,
 			);
 			name = loader_turuncu;
+			sourceTree = "<group>";
+		};
+		B5A2CAE41872B51700271DE9 /* ReservationVCs */ = {
+			isa = PBXGroup;
+			children = (
+				B5A2CAE51872B60100271DE9 /* MinimumInfoVC.h */,
+				B5A2CAE61872B60100271DE9 /* MinimumInfoVC.m */,
+				B5A2CAE71872B60100271DE9 /* MinimumInfoVC.xib */,
+				B50B09D41874988F00649165 /* ReservationSummaryViewController.h */,
+				B50B09D51874988F00649165 /* ReservationSummaryViewController.m */,
+				B50B09D61874988F00649165 /* ReservationSummaryViewController.xib */,
+				B50B09DF1874E71F00649165 /* ReservationSummaryCell.xib */,
+				B50B09E11874EC7B00649165 /* ReservationSummaryCell.h */,
+				B50B09E21874EC7B00649165 /* ReservationSummaryCell.m */,
+			);
+			name = ReservationVCs;
 			sourceTree = "<group>";
 		};
 		B5CEF81618705E10007709E4 /* Parsers */ = {
@@ -593,7 +636,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B50B09D81874988F00649165 /* ReservationSummaryViewController.xib in Resources */,
 				B5688AFE186B1A78009D830E /* location_icon.png in Resources */,
+				B5A2CAE91872B60100271DE9 /* MinimumInfoVC.xib in Resources */,
+				B50B09E01874E72000649165 /* ReservationSummaryCell.xib in Resources */,
 				B5688AFC186B17EA009D830E /* detail_search.png in Resources */,
 				0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */,
 				B5688B19186B3A2E009D830E /* load_7.png in Resources */,
@@ -609,6 +655,7 @@
 				B5688B13186B3A2E009D830E /* load_11.png in Resources */,
 				0C5B5FDC186481BF0060BECD /* TapkuLibrary.bundle in Resources */,
 				0C9299D81868903C007DE6B8 /* b_grubu.jpg in Resources */,
+				B51D5AD41871837C00966B48 /* CarGroupTableCellView.xib in Resources */,
 				B5EE728F18701DC400F634D3 /* kislastik.png in Resources */,
 				0C4C9A7418462EAB00CD3728 /* InfoPlist.strings in Resources */,
 				B5688B18186B3A2E009D830E /* load_6.png in Resources */,
@@ -619,8 +666,11 @@
 				B5688B1B186B3A2E009D830E /* load_9.png in Resources */,
 				B5688B11186B3A2E009D830E /* load_1.png in Resources */,
 				B5EE729118701DC400F634D3 /* vites.png in Resources */,
+				B50B09DA1874A2E600649165 /* seperator.png in Resources */,
+				B50B09DC1874A7BC00649165 /* office_icon.png in Resources */,
 				9E38C3C7186A033200EBD29E /* OrangeArrowDown.png in Resources */,
 				B5688B1A186B3A2E009D830E /* load_8.png in Resources */,
+				B50B09DE1874A95200649165 /* boarder_icon.png in Resources */,
 				B5E0343E186D95BF00226DAB /* login_icon.png in Resources */,
 				9E38C3C8186A033200EBD29E /* OrangeArrowUp.png in Resources */,
 				B5EE729218701DC400F634D3 /* yakit.png in Resources */,
@@ -644,14 +694,15 @@
 				0C5B5FE5186482860060BECD /* UIColor+TKCategory.m in Sources */,
 				0C5B5FDA186481670060BECD /* NSDate+TKCategory.m in Sources */,
 				0CBA77BD186447AB0008CE29 /* LoginVC.m in Sources */,
+				B5A2CAE81872B60100271DE9 /* MinimumInfoVC.m in Sources */,
 				0C5B5FC81864770F0060BECD /* CalendarTimeVC.m in Sources */,
+				B50B09E31874EC7B00649165 /* ReservationSummaryCell.m in Sources */,
 				0C0DA9AA1865D04B003EDDA0 /* OfficeListVC.m in Sources */,
 				B5E03444186DEAE100226DAB /* CarGroupViewController.m in Sources */,
 				0C0DA9CA18665B18003EDDA0 /* CarGroupScrollVC.m in Sources */,
 				0C5B5FDF186481EF0060BECD /* TKGlobal.m in Sources */,
 				B5E03447186DEC9A00226DAB /* CarGroupManagerViewController.m in Sources */,
 				0CBA75CE1864356A0008CE29 /* AppDelegate.m in Sources */,
-				B5E0344D186ED85C00226DAB /* CarSegment.m in Sources */,
 				0C0DA9A51865BEA5003EDDA0 /* Coordinate.m in Sources */,
 				0CBA75CC186435460008CE29 /* main.m in Sources */,
 				0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */,
@@ -668,6 +719,7 @@
 				0C0DA9A21865BE31003EDDA0 /* User.m in Sources */,
 				0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */,
 				B5688B04186B39F4009D830E /* LoaderAnimationVC.m in Sources */,
+				B50B09D71874988F00649165 /* ReservationSummaryViewController.m in Sources */,
 				0CBA75C7186435260008CE29 /* Office.m in Sources */,
 				0CBA75C8186435260008CE29 /* OfficeWorkingTime.m in Sources */,
 				0C5B5FD6186479AB0060BECD /* NSDate+CalendarGrid.m in Sources */,

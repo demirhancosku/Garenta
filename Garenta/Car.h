@@ -11,6 +11,7 @@
 @interface Car : NSObject{
     
 }
+@property(nonatomic,retain)Office *office;
 @property(nonatomic,retain)NSString *materialCode;
 @property(nonatomic,retain)NSString *materialName;
 @property(nonatomic,retain)NSString *isAvailableForPlate; //plakaya rez
@@ -32,5 +33,6 @@
 @property(nonatomic,retain)NSString *discountedPrice;
 @property(nonatomic,retain)NSString *earningPrice;//kazanc
 @property(nonatomic,retain)NSString *discountRate;
+@property(nonatomic,retain)NSString *currency;
 @property(nonatomic,retain)UIImage *image;
 @end

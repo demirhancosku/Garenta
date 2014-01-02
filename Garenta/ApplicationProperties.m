@@ -27,7 +27,9 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
     return [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0];
 }
 
-
++ (UIColor *) getGrey{
+    return [UIColor colorWithRed:221.0f/255.0f green:221.0f/255.0f blue:221.0f/255.0f alpha:1.0f];
+}
 + (UIColor *)getDarkBlueColor{
     return [UIColor colorWithRed:52.0/255.0 green:109.0/255.0 blue:153.0/255.0 alpha:1.0];
 }
@@ -89,17 +91,24 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
     return 15;
 }
 
-+ (NSString*)getAvailableCarURL{
-    return @"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_ARAC_SRV/AvailCarService(ImppMsube='3064',ImppSehir='00',ImppHdfsube='3065',ImppLangu='T',ImppLand='T',ImppUname='XXXXX',ImppKdgrp='',ImppKunnr='',ImppEhdat=datetime'2010-01-12T00:00:00',ImppGbdat=datetime'1983-07-15T00:00:00',ImppFikod='',ImppWaers='TL',ImppBegda=datetime'2013-12-25T00:00:00',ImppEndda=datetime'2013-12-31T00:00:00',ImppBeguz='09:00:00',ImppEnduz='17:00:00')?$expand=ET_ARACLISTESet,ET_RESIMLERSet&$format=json";
++ (NSString*)getAvailableCarURLWithCheckOutOffice:(Office*) checkOutOffice andCheckInOffice:(Office*) checkInOffice andCheckOutDay:(NSDate*)checkOutDay andCheckOutTime:(NSDate*)checkOutTime andCheckInDay:(NSDate*)checkInDay andCheckInTime:(NSDate*)checkInTime{
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"yyyy-MM-ddThh:mm"];
+    NSString *checkOutDayString = [format stringFromDate:checkOutDay];
+    NSString *checkInDayString = [format stringFromDate:checkInDay];
+    
+    //aalpk iyi yollardan denedim olmadi simdi cakma zamani
+    checkOutDayString = [NSString stringWithFormat:@"%@T00:00:00",checkOutDayString];
+    checkInDayString = [NSString stringWithFormat:@"%@T00:00:00",checkInDayString];
+    [format setDateFormat:@"HH:mm"];
+    NSString *checkOutTimeString =[format stringFromDate:checkOutTime];
+    NSString *checkInTimeString =[format stringFromDate:checkInTime];
+    
+    
+    //aalpk test icin//
+    return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_ARAC_SRV/AvailCarService(ImppMsube='%@',ImppSehir='00',ImppHdfsube='%@',ImppLangu='T',ImppLand='T',ImppUname='XXXXX',ImppKdgrp='',ImppKunnr='',ImppEhdat=datetime'2010-01-12T00:00:00',ImppGbdat=datetime'1983-07-15T00:00:00',ImppFikod='',ImppWaers='TL',ImppBegda=datetime'%@',ImppEndda=datetime'%@',ImppBeguz='%@',ImppEnduz='%@')?$expand=ET_ARACLISTESet,ET_RESIMLERSet&$format=json",checkOutOffice.mainOfficeCode,checkInOffice.mainOfficeCode,checkOutDayString,checkInDayString,checkOutTimeString,checkInTimeString];
 }
 
-+ (Office*)getOfficeFrom:(NSMutableArray*)offices withCode:(NSString*)officeCode{
-    for (Office *tempOffice in offices) {
-        if ([tempOffice.mainOfficeCode isEqualToString:officeCode]) {
-            return tempOffice;
-        }
-    }
-    return nil;
-    
-}
+
+
 @end

@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "Destination.h"
 #import "Arrival.h"
-
+#import "CarGroup.h"
 @interface Reservation : NSObject
 
-@property (nonatomic, retain) NSString *selectedBrand;
+@property (nonatomic, retain) CarGroup *selectedCarGroup;
 @property (nonatomic,retain) Office *checkOutOffice;
 @property (nonatomic,strong) NSDate *checkOutDay;
 @property (nonatomic,retain) NSDate *checkOutTime;

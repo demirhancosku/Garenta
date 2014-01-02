@@ -10,16 +10,16 @@
 
 @implementation Office
 
-@synthesize address, fax, latitude, longitude, region, regionText, subOfficeCode, subOfficeType, tel, workingHours, mainOfficeCode, mainOfficeName, subOfficeName, subOfficeTypeCode, holidayDates,carSegmentList;
-- (CarSegment*)getCarSegmentWithCode:(NSString*)segmentCode{
-    for (CarSegment *tempCarSegment in carSegmentList) {
-        if ([tempCarSegment.segment isEqualToString:segmentCode]) {
-            return tempCarSegment;
+@synthesize address, fax, latitude, longitude, region, regionText, subOfficeCode, subOfficeType, tel, workingHours, mainOfficeCode, mainOfficeName, subOfficeName, subOfficeTypeCode, holidayDates;
+
+
++ (Office*)getOfficeFrom:(NSMutableArray*)offices withCode:(NSString*)officeCode{
+    for (Office *tempOffice in offices) {
+        if ([tempOffice.mainOfficeCode isEqualToString:officeCode]) {
+            return tempOffice;
         }
     }
-    
     return nil;
+    
 }
-
-
 @end

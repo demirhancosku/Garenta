@@ -21,6 +21,7 @@ typedef enum{
 + (UIColor *) getMenuTableBackgorund;
 + (UIColor *) getMenuCellBackground;
 + (UIColor *) getMenuTextColor;
++ (UIColor *) getGrey;
 
 
 
@@ -34,6 +35,6 @@ typedef enum{
 + (NSString*)getSAPUser;
 + (NSString*)getSAPPassword;
 + (int)getTimeout;
-+ (NSString*)getAvailableCarURL;
-+ (Office*)getOfficeFrom:(NSMutableArray*)offices withCode:(NSString*)officeCode;
++ (NSString*)getAvailableCarURLWithCheckOutOffice:(Office*) checkOutOffice andCheckInOffice:(Office*) checkInOffice andCheckOutDay:(NSDate*)checkOutDay andCheckOutTime:(NSDate*)checkOutTime andCheckInDay:(NSDate*)checkInDay andCheckInTime:(NSDate*)checkInTime;
+
 @end

@@ -9,5 +9,5 @@
 #import "Car.h"
 
 @implementation Car
-@synthesize materialCode, materialName,isAvailableForPlate,colorCode,colorName,winterTire,brandId,brandName,modelName,modelYear,doorNumber,engineVolume,passangerNumber,ac,imagePath,payNowPrice,payLaterPrice,discountedPrice,earningPrice,discountRate,image,modelId;
+@synthesize materialCode, materialName,isAvailableForPlate,colorCode,colorName,winterTire,brandId,brandName,modelName,modelYear,doorNumber,engineVolume,passangerNumber,ac,imagePath,payNowPrice,payLaterPrice,discountedPrice,earningPrice,discountRate,image,modelId,office,currency;
 @end

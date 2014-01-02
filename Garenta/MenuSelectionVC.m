@@ -8,6 +8,7 @@
 
 #import "MenuSelectionVC.h"
 #import "MenuTableCellView.h"
+#import "MinimumInfoVC.h"
 @interface MenuSelectionVC ()
 
 @end
@@ -123,6 +124,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    //aalpk test
+    if(indexPath.row == 0){
+    MinimumInfoVC *bla = [[MinimumInfoVC alloc] initWithNibName:@"MinimumInfoVC" bundle:nil];
+    [[self navigationController] pushViewController:bla animated:NO];
+    return;
+    }
+    //aalpk
     ClassicSearchVC *classicSearchVC = [[ClassicSearchVC alloc] initWithFrame:self.view.frame];
     
     switch (indexPath.row) {

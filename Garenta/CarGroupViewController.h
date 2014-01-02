@@ -12,7 +12,7 @@
 @interface CarGroupViewController : UIViewController
 @property (nonatomic,assign) int index;
 @property (nonatomic,retain) CarGroup *carGroup;
-@property (nonatomic,retain) UIPageViewController *myBoss;
+@property (nonatomic,assign) CGRect myFrame;
 
-- (id)initWithFrame:(UIPageViewController*)aBoss andCarGroups:(CarGroup*)aCarGroup;
+- (id)initWithFrame:(CGRect)aFrame andCarGroups:(CarGroup*)aCarGroup;
 @end

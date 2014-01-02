@@ -230,6 +230,7 @@
     if (partnerResult.count == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Hatalı bir kullanıcı adı ve şifre girdiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
         [alert show];
+        [loaderVC stopAnimation];
         return;
     }
     for ( NSDictionary *aPartner in partnerResult) {

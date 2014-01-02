@@ -7,7 +7,7 @@
 //
 
 #import "OfficeHolidayTime.h"
-#import "CarSegment.h"
+
 @implementation OfficeHolidayTime
 @synthesize endingHour, mainOffice, startTime, subOffice, holidayDate;
 @end

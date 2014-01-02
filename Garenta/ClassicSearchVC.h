@@ -30,6 +30,7 @@
     NSMutableData *bigData;
     Reservation *reservation;
     LoaderAnimationVC *loaderVC;
+    NSMutableArray *availableCarGroups;
     
 
     

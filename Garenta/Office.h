@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OfficeWorkingTime.h"
-#import "CarSegment.h"
+
 @interface Office : NSObject
 
 @property (nonatomic, retain) NSString *mainOfficeName;
@@ -28,7 +28,5 @@
 @property (nonatomic, retain) NSMutableArray *workingHours;
 @property (nonatomic, retain) NSMutableArray *holidayDates;
 
-@property (nonatomic,retain) NSMutableArray *carSegmentList;
-- (CarSegment*)getCarSegmentWithCode:(NSString*)segmentCode;
-
++ (Office*)getOfficeFrom:(NSMutableArray*)offices withCode:(NSString*)officeCode;
 @end

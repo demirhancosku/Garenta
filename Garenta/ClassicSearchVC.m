@@ -9,6 +9,7 @@
 #import "ClassicSearchVC.h"
 #import "OfficeHolidayTime.h"
 #import "CarGroupManagerViewController.h"
+#import "GTMBase64.h"
 #define kCheckOutTag 0
 #define kCheckInTag 1
 
@@ -120,7 +121,7 @@
 }
 - (void)getAvailCars{
     
-    NSString *connectionString = [ApplicationProperties getAvailableCarURL];
+    NSString *connectionString = [ApplicationProperties getAvailableCarURLWithCheckOutOffice:reservation.checkOutOffice andCheckInOffice:reservation.checkInOffice andCheckOutDay:reservation.checkOutDay andCheckOutTime:reservation.checkOutTime andCheckInDay:reservation.checkInDay andCheckInTime:reservation.checkInTime];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:150.0];
     
@@ -396,9 +397,11 @@
             if (err !=nil) {
                 return;
             }
-            data = bigData;
+            data = [NSData dataWithData:bigData];
         }
     }
+    bigData =nil;//aalpk bu7rda<
+    
     NSDictionary *result = [jsonDict objectForKey:@"d"];
     
     NSDictionary *officeListDict = [result objectForKey:@"EXPT_SUBE_BILGILERISet"];
@@ -427,11 +430,12 @@
     Coordinate *tempPoint = [[Coordinate alloc] initWithCoordinate:newLocation.coordinate title:@"Ben"];
     
     //tempPoint kullanılarak en yakın ofis bulunacak
+    //cok bilion sen-alp
     
 }
 
 - (void)parseCars:(NSData*)data{
-    [self clearOfficesFromCars];
+
     NSError *err;
     NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
     
@@ -446,11 +450,10 @@
     //car segment yapisi onemli kodlar
     //her ofisin bir segment-grup-araba hiyerarsisi var
     Car *tempCar;
-    CarSegment * tempCarSegment;
+
     CarGroup *tempCarGroup;
     Office *tempOffice;
-    NSMutableArray *carSegments = [[NSMutableArray alloc] init];
-    
+    availableCarGroups = [[NSMutableArray alloc] init];
     for (NSDictionary *tempCarResult in carListResult){
         
         tempCar = [[Car alloc] init];
@@ -461,42 +464,62 @@
         [tempCar setModelId:[tempCarResult objectForKey:@"ModelId"]];
         [tempCar setModelName:[tempCarResult objectForKey:@"Model"]];
         [tempCar setModelYear:[tempCarResult objectForKey:@"ModelYili"]];
-        
-        //first take a look if the office cars initialized
-        tempOffice = [ApplicationProperties getOfficeFrom:officeWorkingSchedule withCode:[tempCarResult objectForKey:@"Msube"]];
-        if (tempOffice.carSegmentList == nil) {
-            //gecmis olsun segmentten itibaren yaratcan
-            tempOffice.carSegmentList = [[NSMutableArray alloc] init];
-        }
-        tempCarSegment = [tempOffice getCarSegmentWithCode:[tempCarResult objectForKey:@"Segment"]];
-        //peki o segment var mı
-        if (tempCarSegment == nil) {
-            //create segment
-            tempCarSegment = [[CarSegment alloc] init];
-            [tempCarSegment setSegment:[tempCarResult objectForKey:@"Segment"]];
-            [tempCarSegment setSegmentName:[tempCarResult objectForKey:@"Segmenttx"]];
-            [tempCarSegment setCarGroups:[[NSMutableArray alloc] init]];
-            [tempOffice.carSegmentList addObject:tempCarSegment];
-        }
-        
-        //peki hic grup var mı
-        if ([tempCarSegment getCarGroupWithCode:[tempCarResult objectForKey:@"Grpkod"]] == nil) {
+        [tempCar setPayNowPrice:[tempCarResult objectForKey:@"SimdiOdeFiyat"]];
+        [tempCar setPayLaterPrice:[tempCarResult objectForKey:@"SonraOdeFiyat"]];
+        [tempCar setEarningPrice:[tempCarResult objectForKey:@"Kazanc"]];
+        [tempCar setImage:[self getImageFromJSONResults:pictureListResult withPath:[tempCarResult objectForKey:@"Zresim315"]]];
+        //aalpk burasi duzelcek importu aliorz export boscunku
+        [tempCar setCurrency:[tempCarResult objectForKey:@"ImppWaers"]];
+        [tempCar setOffice:[Office getOfficeFrom:officeWorkingSchedule withCode:[tempCarResult objectForKey:@"Msube"]]];
+        //eger o grup yoksa daha
+        tempCarGroup = [CarGroup getGroupFromList:availableCarGroups WithCode:[tempCarResult objectForKey:@"Grpkod"]];
+        if ( tempCarGroup== nil) {
             //grup yarat
             //TODO: aalpk devam et gruba
             tempCarGroup = [[CarGroup alloc] init];
             tempCarGroup.cars = [[NSMutableArray alloc] init];
             [tempCarGroup setGroupCode:[tempCarResult objectForKey:@"Grpkod"]];
             [tempCarGroup setGroupName:[tempCarResult objectForKey:@"Grpkodtx"]];
-            [tempCarSegment.carGroups addObject:tempCarGroup];
-            
+            [tempCarGroup setTransmissonId:[tempCarResult objectForKey:@"SanzimanTipiId"]];
+            [tempCarGroup setTransmissonName:[tempCarResult objectForKey:@"SanzimanTipi"]];
+            [tempCarGroup setFuelId:[tempCarResult objectForKey:@"YakitTipiId"]];
+            [tempCarGroup setFuelName:[tempCarResult objectForKey:@"YakitTipi"]];
+            [tempCarGroup setBodyId:[tempCarResult objectForKey:@"KasaTipiId"]];
+            [tempCarGroup setBodyName:[tempCarResult objectForKey:@"KasaTipi"]];
+            [availableCarGroups addObject:tempCarGroup];
+        }
+        if ([[tempCarResult objectForKey:@"Vitrinres"] isEqualToString:@"X"]) {
+            [tempCarGroup setSampleCar:tempCar];
         }
         [tempCarGroup.cars addObject:tempCar];
     }
     
-    
+    if(availableCarGroups.count == 0){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Belirttiğiniz tarih/şube aralığında uygun aracımız bulunmamaktadır." delegate:self cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
     //pushing
-    CarGroupManagerViewController *car = [[CarGroupManagerViewController alloc] initWithOffices:officeWorkingSchedule andReservartion:reservation];
+    CarGroupManagerViewController *car = [[CarGroupManagerViewController alloc] initWithCarGroups:availableCarGroups andReservartion:reservation];
     [[self navigationController] pushViewController:car animated:YES];
+}
+
+- (UIImage*)getImageFromJSONResults:(NSDictionary*)pics withPath:(NSString*)aPath{
+    UIImage *carImage = [[UIImage alloc] init];
+    NSString *picBinaryString;
+    NSData *picData;
+    //aalpk burda eger resim bulunmuyorsa standart bir resim koymak lazım
+    for (NSDictionary *picLine in pics) {
+        if ([[picLine objectForKey:@"Path"] isEqualToString:aPath]) {
+            picBinaryString = [picLine objectForKey:@"Picturedata"];
+             picData =
+            [NSData dataWithData:[YAJL_GTMBase64 decodeString:picBinaryString]];
+            
+            carImage = [UIImage imageWithData:picData];
+
+        }
+    }
+    return carImage;
 }
 
 - (void)parseOffices:(NSData*)data{
@@ -574,11 +597,7 @@
     }
   
 }
-- (void)clearOfficesFromCars{
-    for (Office*tempOffice in officeWorkingSchedule) {
-        [tempOffice.carSegmentList removeAllObjects];
-    }
-}
+
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
     NSLog(@"location error");
 }
