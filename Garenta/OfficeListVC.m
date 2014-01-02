@@ -26,8 +26,25 @@
     self = [super init];
     officeList = anOfficeList;
     tag = aTag;
+    if (tag ==0 ) {
+        [self addCitiesAsOffice];
+    }
     reservation = aReservation;
     return self;
+}
+- (void)addCitiesAsOffice{
+    NSMutableArray *newOfficeList;
+    Office *newOffice;
+    for (Office *tempOffice in officeList) {
+        
+    }
+}
+
+- (BOOL)cityList:(NSMutableArray*)cityList hasCityWithCode:(NSString*)cityCode{
+    for (Office *tempOffice in officeList) {
+        
+    }
+    return YES;
 }
 - (id)initWithOfficeList:(NSMutableArray *)office andDest:(Destination *)dest
 {

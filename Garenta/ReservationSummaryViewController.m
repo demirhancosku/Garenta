@@ -8,6 +8,7 @@
 
 #import "ReservationSummaryViewController.h"
 #import "ReservationSummaryCell.h"
+#import "ReservationApprovalVC.h"
 @interface ReservationSummaryViewController ()
 
 @end
@@ -31,12 +32,30 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    [self prepareScreen];
+}
+
+- (void)prepareScreen{
+    
+    
     tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     [tableView setDelegate:self];
     [tableView setDataSource:self];
     
     [[self view] addSubview:tableView];
 
+    
+    
+    
+    resumeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [resumeButton setFrame:CGRectMake(0,0,100,50)];
+    [resumeButton setCenter:self.view.center];
+    [resumeButton setBackgroundColor:[ApplicationProperties getGreen]];
+    [resumeButton setTitleColor:[ApplicationProperties getWhite] forState:UIControlStateNormal];
+    [resumeButton addTarget:self action:@selector(resumeSelected) forControlEvents:UIControlEventTouchUpInside];
+    [resumeButton setTitle:@"Devam" forState:UIControlStateNormal];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,6 +65,12 @@
 }
 
 
+- (void)resumeSelected{
+    //res cagir
+    [reservation setNumber:@"123121"];
+    ReservationApprovalVC *approvalVC = [[ReservationApprovalVC alloc] initWithReservation:reservation];
+    [[self navigationController] pushViewController:approvalVC animated:YES];
+}
 #pragma mark  - tableview delegate datasource methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -74,6 +99,8 @@
     switch (indexPath.row) {
         case 0:
             carGroupVC = [[CarGroupViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 221) andCarGroups:reservation.selectedCarGroup];
+            [carGroupVC setRightArrowShouldHide:YES];
+            [carGroupVC setLeftArrowShouldHide:YES];
             [cell addSubview:carGroupVC.view];
             break;
             case 1:
@@ -84,15 +111,25 @@
                 if ([xibObject isKindOfClass:[ReservationSummaryCell class]]) {
                     //Use casting to cast (id) to (MyCustomView *)
                     myCellView = (ReservationSummaryCell *)xibObject;
-                    [myCellView.checkOutTimeLabel setText:[dayFormatter stringFromDate:reservation.checkOutTime ]];
-                    [myCellView.checkOutDateLabel setText:[timeFormatter stringFromDate:reservation.checkOutDay ]];
+                    [myCellView.checkOutTimeLabel setText:[timeFormatter stringFromDate:reservation.checkOutTime ]];
+                    [myCellView.checkOutDateLabel setText:[dayFormatter stringFromDate:reservation.checkOutDay ]];
                     [myCellView.checkOutOfficeLabel setText:reservation.checkOutOffice.mainOfficeName];
+                    [myCellView.checkOutOfficeLabel setTextAlignment:NSTextAlignmentCenter];
+                    
+                    [myCellView.checkInOfficeLabel setText:reservation.checkInOffice.mainOfficeName];
+                    [myCellView.checkInDateLabel setText:[dayFormatter stringFromDate:reservation.checkInDay]] ;
+                    [myCellView.checkInTimeLabel setText:[timeFormatter stringFromDate:reservation.checkInTime]];
+                    [myCellView.checkInOfficeLabel setTextAlignment:NSTextAlignmentCenter];
+                    
                 }
             }
             
             [cell addSubview: myCellView];
             break;
         case 2:
+            [resumeButton setCenter:CGPointMake(cell.center.x,[self tableView:tableView heightForRowAtIndexPath:indexPath] / 2.0f) ];
+            [cell addSubview:resumeButton];
+            
             break;
         default:
             break;
@@ -112,13 +149,13 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.row) {
         case 0:
-              return 221;
+              return 205;
             break;
         case 1:
-            return 174;
+            return 194;
             break;
         case 2:
-            return self.view.frame.size.height - (221 +174);
+            return self.view.frame.size.height - (205 +194);
             break;
         default:
             break;

@@ -44,7 +44,7 @@
 
     
     UILabel *officeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-    [officeLabel setBackgroundColor:[UIColor clearColor]];
+    [officeLabel setBackgroundColor:[ApplicationProperties getGrey]];
     [officeLabel setFont:[UIFont fontWithName:@"HelveticaNeue-UltraLight" size:16.0f]];
     [officeLabel setText:reservation.checkOutOffice.subOfficeName];
     [officeLabel setFrame:CGRectMake(0, 0, self.view.frame.size.width, [officeLabel.text sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-UltraLight" size:16.0f ]].height)];
@@ -81,9 +81,13 @@
     CarGroupViewController *carGroupVC ;
     for (int sayac = 0; sayac<carGroups.count; sayac++) {
         carGroupVC = [[CarGroupViewController alloc] initWithFrame:groupPageVC.view.frame andCarGroups:[carGroups objectAtIndex:sayac]];
+        if (sayac == 0) {
+            [carGroupVC setLeftArrowShouldHide:YES];
+        }
         [carGroupVC setIndex:sayac];
         [groupVCs addObject:carGroupVC];
     }
+    [carGroupVC setRightArrowShouldHide:YES];
 }
 
 - (void)initCarGroups{

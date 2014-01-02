@@ -21,7 +21,7 @@
 }
 - (void)layoutSubviews{
     [super layoutSubviews];
-            [payNowLabel setTextColor:[ApplicationProperties getOrange]];
+    [payNowLabel setTextColor:[ApplicationProperties getOrange]];
     [currencyLabel setTextColor:[ApplicationProperties getOrange]];
     
 }

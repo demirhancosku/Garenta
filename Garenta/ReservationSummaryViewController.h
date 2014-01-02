@@ -13,6 +13,7 @@
     CarGroupViewController *carGroupVC;
     Reservation *reservation;
     UITableView*tableView;
+    UIButton* resumeButton;
 }
 
 - (id)initWithReservation:(Reservation*)aReservation;

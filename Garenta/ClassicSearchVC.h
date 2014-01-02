@@ -31,9 +31,6 @@
     Reservation *reservation;
     LoaderAnimationVC *loaderVC;
     NSMutableArray *availableCarGroups;
-    
-
-    
 }
 
 @property (nonatomic, retain) UIPopoverController *popOver;

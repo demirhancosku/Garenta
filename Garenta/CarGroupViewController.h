@@ -13,6 +13,9 @@
 @property (nonatomic,assign) int index;
 @property (nonatomic,retain) CarGroup *carGroup;
 @property (nonatomic,assign) CGRect myFrame;
-
+@property (nonatomic,retain) UIImageView *rightArrow;
+@property (nonatomic,retain) UIImageView *leftArrow;
+@property (nonatomic,assign) BOOL leftArrowShouldHide;
+@property (nonatomic,assign) BOOL rightArrowShouldHide;
 - (id)initWithFrame:(CGRect)aFrame andCarGroups:(CarGroup*)aCarGroup;
 @end

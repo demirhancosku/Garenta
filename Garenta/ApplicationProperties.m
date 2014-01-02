@@ -11,11 +11,16 @@
 @implementation ApplicationProperties
 MainSelection mainSelection;
 User* myUser;
+NSMutableArray *offices;
 static NSString *GATEWAY_USER = @"GW_ADMIN";
 static NSString *GATEWAY_PASS = @"1qa2ws3ed";
 
 + (UIColor *)getOrange{
     return [UIColor colorWithRed:255/255.0 green:80.0/255.0 blue:0.0/255.0 alpha:1.0];
+}
+
++ (UIColor *)getGreen{
+    return [UIColor colorWithRed:121.0f/255.0 green:158.0/255.0 blue:42.0/255.0 alpha:1.0];
 }
 
 + (UIColor *)getBlack{
@@ -76,6 +81,13 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
     }
     return myUser;
 }
+
++ (NSMutableArray*)getOffices{
+    if (offices == nil) {
+        offices = [[NSMutableArray alloc] init];
+    }
+    return offices;
+}
 + (void)setUser:(User*)aUser{
     myUser = aUser;
 }
@@ -105,7 +117,9 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
     NSString *checkInTimeString =[format stringFromDate:checkInTime];
     
     
-    //aalpk test icin//
+    //aalpk : cikis main office bossa  bakıp onu yollayalım
+    
+
     return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_ARAC_SRV/AvailCarService(ImppMsube='%@',ImppSehir='00',ImppHdfsube='%@',ImppLangu='T',ImppLand='T',ImppUname='XXXXX',ImppKdgrp='',ImppKunnr='',ImppEhdat=datetime'2010-01-12T00:00:00',ImppGbdat=datetime'1983-07-15T00:00:00',ImppFikod='',ImppWaers='TL',ImppBegda=datetime'%@',ImppEndda=datetime'%@',ImppBeguz='%@',ImppEnduz='%@')?$expand=ET_ARACLISTESet,ET_RESIMLERSet&$format=json",checkOutOffice.mainOfficeCode,checkInOffice.mainOfficeCode,checkOutDayString,checkInDayString,checkOutTimeString,checkInTimeString];
 }
 

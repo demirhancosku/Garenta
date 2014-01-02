@@ -51,9 +51,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self prepareScreen];
-    //only once
-    if (officeWorkingSchedule == nil) {
-            officeWorkingSchedule = [[NSMutableArray alloc] init];
+    //only once singleton koydum devam etsin burdan
+    officeWorkingSchedule = [ApplicationProperties getOffices];
+    if (officeWorkingSchedule.count ==0) {
                 [self connectToGateway];
     }
 
@@ -83,7 +83,7 @@
     
     [searchButton setTitle:@"Teklifleri Göster" forState:UIControlStateNormal];
     [[searchButton layer] setCornerRadius:5.0f];
-    [searchButton setBackgroundColor:[ApplicationProperties getOrange]];
+    [searchButton setBackgroundColor:[ApplicationProperties getGreen]];
     [searchButton setTintColor:[ApplicationProperties getWhite]];
     [searchButton addTarget:self action:@selector(showCarGroup:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -120,6 +120,7 @@
 
 }
 - (void)getAvailCars{
+    
     
     NSString *connectionString = [ApplicationProperties getAvailableCarURLWithCheckOutOffice:reservation.checkOutOffice andCheckInOffice:reservation.checkInOffice andCheckOutDay:reservation.checkOutDay andCheckOutTime:reservation.checkOutTime andCheckInDay:reservation.checkInDay andCheckInTime:reservation.checkInTime];
     

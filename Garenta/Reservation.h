@@ -19,5 +19,6 @@
 @property (nonatomic,retain) Office *checkInOffice;
 @property (nonatomic,retain) NSDate *checkInDay;
 @property (nonatomic,retain) NSDate *checkInTime;
+@property (nonatomic,retain) NSString *number;
 
 @end

@@ -13,7 +13,7 @@
 @end
 
 @implementation CarGroupViewController
-@synthesize index,carGroup,myFrame;
+@synthesize index,carGroup,myFrame,leftArrow,rightArrow,leftArrowShouldHide,rightArrowShouldHide;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -24,6 +24,8 @@
 }
 - (id)initWithFrame:(CGRect)aFrame andCarGroups:(CarGroup*)aCarGroup{
     self = [super init];
+    leftArrowShouldHide = NO;
+    rightArrowShouldHide = NO;
     myFrame = aFrame;
     carGroup = aCarGroup;
     return self;
@@ -163,8 +165,23 @@
         [self.view addSubview:iconText];
         iconStartingX = iconStartingX +  (iconPadding+iconSize);
     }
-
+    
+    
+    
+    //oklarrrr aslinda hiiden yerne hic koymasanda olr da salla
+    
+    leftArrow=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 70, 70)];
+    [leftArrow setImage:[UIImage imageNamed:@"BackAccessoryButton.png"]];
+    [leftArrow setCenter:CGPointMake(35,carImageView.center.y)];
+    [self.view addSubview:leftArrow];
+    [leftArrow setHidden:leftArrowShouldHide];
+    rightArrow= [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 70, 70)];
+    [rightArrow setImage:[UIImage imageNamed:@"AccessoryButton.png"]];
+    [rightArrow setCenter:CGPointMake(self.view.frame.size.width - 35,carImageView.center.y)];
+    [self.view addSubview:rightArrow];
+    [rightArrow setHidden:rightArrowShouldHide];
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

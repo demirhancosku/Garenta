@@ -22,7 +22,7 @@ typedef enum{
 + (UIColor *) getMenuCellBackground;
 + (UIColor *) getMenuTextColor;
 + (UIColor *) getGrey;
-
++ (UIColor *)getGreen;
 
 
 + (UIFont *) getFont;
@@ -31,6 +31,7 @@ typedef enum{
 + (MainSelection) getMainSelection;
 + (void) setMainSelection:(MainSelection)aMainSelection;
 + (User*)getUser;
++ (NSMutableArray*)getOffices;
 + (void)setUser:(User*)aUser;
 + (NSString*)getSAPUser;
 + (NSString*)getSAPPassword;

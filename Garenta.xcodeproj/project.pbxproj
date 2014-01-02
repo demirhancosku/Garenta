@@ -62,6 +62,10 @@
 		B50B09DE1874A95200649165 /* boarder_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B50B09DD1874A95200649165 /* boarder_icon.png */; };
 		B50B09E01874E72000649165 /* ReservationSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B50B09DF1874E71F00649165 /* ReservationSummaryCell.xib */; };
 		B50B09E31874EC7B00649165 /* ReservationSummaryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B50B09E21874EC7B00649165 /* ReservationSummaryCell.m */; };
+		B50B09F818757F6900649165 /* ReservationApprovalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B50B09F618757F6900649165 /* ReservationApprovalVC.m */; };
+		B50B09F918757F6900649165 /* ReservationApprovalVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B50B09F718757F6900649165 /* ReservationApprovalVC.xib */; };
+		B50B09FB187580C200649165 /* onay_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B50B09FA187580C200649165 /* onay_icon.png */; };
+		B50B09FD187592CC00649165 /* BackAccessoryButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B50B09FC187592CB00649165 /* BackAccessoryButton.png */; };
 		B51D5AD21870F1E700966B48 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B51D5AD11870F1E700966B48 /* CoreText.framework */; };
 		B51D5AD41871837C00966B48 /* CarGroupTableCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B51D5AD31871837B00966B48 /* CarGroupTableCellView.xib */; };
 		B5688AF2186AECCA009D830E /* MenuTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5688AF1186AECCA009D830E /* MenuTableCellView.m */; };
@@ -197,6 +201,11 @@
 		B50B09DF1874E71F00649165 /* ReservationSummaryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReservationSummaryCell.xib; sourceTree = "<group>"; };
 		B50B09E11874EC7B00649165 /* ReservationSummaryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationSummaryCell.h; sourceTree = "<group>"; };
 		B50B09E21874EC7B00649165 /* ReservationSummaryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationSummaryCell.m; sourceTree = "<group>"; };
+		B50B09F518757F6900649165 /* ReservationApprovalVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationApprovalVC.h; sourceTree = "<group>"; };
+		B50B09F618757F6900649165 /* ReservationApprovalVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationApprovalVC.m; sourceTree = "<group>"; };
+		B50B09F718757F6900649165 /* ReservationApprovalVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReservationApprovalVC.xib; sourceTree = "<group>"; };
+		B50B09FA187580C200649165 /* onay_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onay_icon.png; sourceTree = "<group>"; };
+		B50B09FC187592CB00649165 /* BackAccessoryButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackAccessoryButton.png; sourceTree = "<group>"; };
 		B51D5AD11870F1E700966B48 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		B51D5AD31871837B00966B48 /* CarGroupTableCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarGroupTableCellView.xib; sourceTree = "<group>"; };
 		B5688AF0186AECCA009D830E /* MenuTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableCellView.h; sourceTree = "<group>"; };
@@ -420,6 +429,8 @@
 		0C4C9A9B1846331D00CD3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B50B09FC187592CB00649165 /* BackAccessoryButton.png */,
+				B50B09FA187580C200649165 /* onay_icon.png */,
 				B50B09DD1874A95200649165 /* boarder_icon.png */,
 				B50B09DB1874A7BC00649165 /* office_icon.png */,
 				B50B09D91874A2E600649165 /* seperator.png */,
@@ -547,6 +558,9 @@
 				B50B09DF1874E71F00649165 /* ReservationSummaryCell.xib */,
 				B50B09E11874EC7B00649165 /* ReservationSummaryCell.h */,
 				B50B09E21874EC7B00649165 /* ReservationSummaryCell.m */,
+				B50B09F518757F6900649165 /* ReservationApprovalVC.h */,
+				B50B09F618757F6900649165 /* ReservationApprovalVC.m */,
+				B50B09F718757F6900649165 /* ReservationApprovalVC.xib */,
 			);
 			name = ReservationVCs;
 			sourceTree = "<group>";
@@ -638,6 +652,7 @@
 			files = (
 				B50B09D81874988F00649165 /* ReservationSummaryViewController.xib in Resources */,
 				B5688AFE186B1A78009D830E /* location_icon.png in Resources */,
+				B50B09FD187592CC00649165 /* BackAccessoryButton.png in Resources */,
 				B5A2CAE91872B60100271DE9 /* MinimumInfoVC.xib in Resources */,
 				B50B09E01874E72000649165 /* ReservationSummaryCell.xib in Resources */,
 				B5688AFC186B17EA009D830E /* detail_search.png in Resources */,
@@ -652,6 +667,7 @@
 				B5688AFB186B17EA009D830E /* arac_bul.png in Resources */,
 				B5688B16186B3A2E009D830E /* load_4.png in Resources */,
 				0C9299D71868903C007DE6B8 /* a_grubu.jpg in Resources */,
+				B50B09F918757F6900649165 /* ReservationApprovalVC.xib in Resources */,
 				B5688B13186B3A2E009D830E /* load_11.png in Resources */,
 				0C5B5FDC186481BF0060BECD /* TapkuLibrary.bundle in Resources */,
 				0C9299D81868903C007DE6B8 /* b_grubu.jpg in Resources */,
@@ -666,6 +682,7 @@
 				B5688B1B186B3A2E009D830E /* load_9.png in Resources */,
 				B5688B11186B3A2E009D830E /* load_1.png in Resources */,
 				B5EE729118701DC400F634D3 /* vites.png in Resources */,
+				B50B09FB187580C200649165 /* onay_icon.png in Resources */,
 				B50B09DA1874A2E600649165 /* seperator.png in Resources */,
 				B50B09DC1874A7BC00649165 /* office_icon.png in Resources */,
 				9E38C3C7186A033200EBD29E /* OrangeArrowDown.png in Resources */,
@@ -699,6 +716,7 @@
 				B50B09E31874EC7B00649165 /* ReservationSummaryCell.m in Sources */,
 				0C0DA9AA1865D04B003EDDA0 /* OfficeListVC.m in Sources */,
 				B5E03444186DEAE100226DAB /* CarGroupViewController.m in Sources */,
+				B50B09F818757F6900649165 /* ReservationApprovalVC.m in Sources */,
 				0C0DA9CA18665B18003EDDA0 /* CarGroupScrollVC.m in Sources */,
 				0C5B5FDF186481EF0060BECD /* TKGlobal.m in Sources */,
 				B5E03447186DEC9A00226DAB /* CarGroupManagerViewController.m in Sources */,
