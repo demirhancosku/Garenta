@@ -55,6 +55,7 @@
 		9E38C3C01869EF4200EBD29E /* FilterObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E38C3BF1869EF4200EBD29E /* FilterObject.m */; };
 		9E38C3C7186A033200EBD29E /* OrangeArrowDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E38C3C5186A033200EBD29E /* OrangeArrowDown.png */; };
 		9E38C3C8186A033200EBD29E /* OrangeArrowUp.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E38C3C6186A033200EBD29E /* OrangeArrowUp.png */; };
+		9EB3838A1876C01400B214E1 /* iToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EB383891876C01400B214E1 /* iToast.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		B50B09D71874988F00649165 /* ReservationSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B50B09D51874988F00649165 /* ReservationSummaryViewController.m */; };
 		B50B09D81874988F00649165 /* ReservationSummaryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B50B09D61874988F00649165 /* ReservationSummaryViewController.xib */; };
 		B50B09DA1874A2E600649165 /* seperator.png in Resources */ = {isa = PBXBuildFile; fileRef = B50B09D91874A2E600649165 /* seperator.png */; };
@@ -192,6 +193,8 @@
 		9E38C3BF1869EF4200EBD29E /* FilterObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterObject.m; sourceTree = "<group>"; };
 		9E38C3C5186A033200EBD29E /* OrangeArrowDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OrangeArrowDown.png; sourceTree = "<group>"; };
 		9E38C3C6186A033200EBD29E /* OrangeArrowUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OrangeArrowUp.png; sourceTree = "<group>"; };
+		9EB383881876C01400B214E1 /* iToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iToast.h; sourceTree = "<group>"; };
+		9EB383891876C01400B214E1 /* iToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iToast.m; sourceTree = "<group>"; };
 		B50B09D41874988F00649165 /* ReservationSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationSummaryViewController.h; sourceTree = "<group>"; };
 		B50B09D51874988F00649165 /* ReservationSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationSummaryViewController.m; sourceTree = "<group>"; };
 		B50B09D61874988F00649165 /* ReservationSummaryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReservationSummaryViewController.xib; sourceTree = "<group>"; };
@@ -383,6 +386,8 @@
 		0C4C9A99184631A100CD3728 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				9EB383881876C01400B214E1 /* iToast.h */,
+				9EB383891876C01400B214E1 /* iToast.m */,
 				B5688B02186B39F4009D830E /* LoaderAnimationVC.h */,
 				B5688B03186B39F4009D830E /* LoaderAnimationVC.m */,
 				B5688AFF186B2E25009D830E /* GTMBase64.h */,
@@ -727,6 +732,7 @@
 				0C9299DF18689E95007DE6B8 /* EquipmentVC.m in Sources */,
 				0C0DA9AD1865D2FD003EDDA0 /* Reservation.m in Sources */,
 				B5CEF815187041D8007709E4 /* CarGroupTableCellView.m in Sources */,
+				9EB3838A1876C01400B214E1 /* iToast.m in Sources */,
 				0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */,
 				9E38C3BD1869EA8100EBD29E /* CarGroupFilterVC.m in Sources */,
 				9E38C3C01869EF4200EBD29E /* FilterObject.m in Sources */,
