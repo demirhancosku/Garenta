@@ -17,8 +17,8 @@
 @property (nonatomic, retain) NSString *subOfficeCode;
 @property (nonatomic, retain) NSString *subOfficeType;
 @property (nonatomic, retain) NSString *subOfficeTypeCode;
-@property (nonatomic, retain) NSString *region;
-@property (nonatomic, retain) NSString *regionText;
+@property (nonatomic, retain) NSString *cityCode;
+@property (nonatomic, retain) NSString *cityName;
 @property (nonatomic, retain) NSString *fax;
 @property (nonatomic, retain) NSString *tel;
 @property (nonatomic, retain) NSString *address;

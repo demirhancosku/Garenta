@@ -118,7 +118,9 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
     
     
     //aalpk : cikis main office bossa  bakıp onu yollayalım
-    
+    if (checkOutOffice.mainOfficeCode == nil) {
+        return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_ARAC_SRV/AvailCarService(ImppMsube='',ImppSehir='%@',ImppHdfsube='%@',ImppLangu='T',ImppLand='T',ImppUname='XXXXX',ImppKdgrp='',ImppKunnr='',ImppEhdat=datetime'2010-01-12T00:00:00',ImppGbdat=datetime'1983-07-15T00:00:00',ImppFikod='',ImppWaers='TL',ImppBegda=datetime'%@',ImppEndda=datetime'%@',ImppBeguz='%@',ImppEnduz='%@')?$expand=ET_ARACLISTESet,ET_RESIMLERSet&$format=json",checkOutOffice.cityCode,checkInOffice.mainOfficeCode,checkOutDayString,checkInDayString,checkOutTimeString,checkInTimeString];
+    }
 
     return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_ARAC_SRV/AvailCarService(ImppMsube='%@',ImppSehir='00',ImppHdfsube='%@',ImppLangu='T',ImppLand='T',ImppUname='XXXXX',ImppKdgrp='',ImppKunnr='',ImppEhdat=datetime'2010-01-12T00:00:00',ImppGbdat=datetime'1983-07-15T00:00:00',ImppFikod='',ImppWaers='TL',ImppBegda=datetime'%@',ImppEndda=datetime'%@',ImppBeguz='%@',ImppEnduz='%@')?$expand=ET_ARACLISTESet,ET_RESIMLERSet&$format=json",checkOutOffice.mainOfficeCode,checkInOffice.mainOfficeCode,checkOutDayString,checkInDayString,checkOutTimeString,checkInTimeString];
 }

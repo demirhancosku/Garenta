@@ -113,10 +113,10 @@
                     myCellView = (ReservationSummaryCell *)xibObject;
                     [myCellView.checkOutTimeLabel setText:[timeFormatter stringFromDate:reservation.checkOutTime ]];
                     [myCellView.checkOutDateLabel setText:[dayFormatter stringFromDate:reservation.checkOutDay ]];
-                    [myCellView.checkOutOfficeLabel setText:reservation.checkOutOffice.mainOfficeName];
+                    [myCellView.checkOutOfficeLabel setText:reservation.checkOutOffice.subOfficeName];
                     [myCellView.checkOutOfficeLabel setTextAlignment:NSTextAlignmentCenter];
                     
-                    [myCellView.checkInOfficeLabel setText:reservation.checkInOffice.mainOfficeName];
+                    [myCellView.checkInOfficeLabel setText:reservation.checkInOffice.subOfficeName];
                     [myCellView.checkInDateLabel setText:[dayFormatter stringFromDate:reservation.checkInDay]] ;
                     [myCellView.checkInTimeLabel setText:[timeFormatter stringFromDate:reservation.checkInTime]];
                     [myCellView.checkInOfficeLabel setTextAlignment:NSTextAlignmentCenter];

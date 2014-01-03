@@ -10,7 +10,7 @@
 
 @implementation Office
 
-@synthesize address, fax, latitude, longitude, region, regionText, subOfficeCode, subOfficeType, tel, workingHours, mainOfficeCode, mainOfficeName, subOfficeName, subOfficeTypeCode, holidayDates;
+@synthesize address, fax, latitude, longitude, cityCode, cityName, subOfficeCode, subOfficeType, tel, workingHours, mainOfficeCode, mainOfficeName, subOfficeName, subOfficeTypeCode, holidayDates;
 
 
 + (Office*)getOfficeFrom:(NSMutableArray*)offices withCode:(NSString*)officeCode{

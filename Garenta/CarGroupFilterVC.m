@@ -132,7 +132,7 @@
     [cell setAccessoryView:nil];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
-    [[cell textLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]];
+    [[cell textLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:16.0]];
     
     
     FilterObject *tempFilter;
@@ -165,7 +165,7 @@
     
     [[cell textLabel] setText:[tempFilter filterDescription]];
     [[cell detailTextLabel] setText:[tempFilter filterResult]];
-    
+    [[cell textLabel] setCenter:cell.center];
     return cell;
 }
 

@@ -552,8 +552,8 @@
         tempOffice.subOfficeType = [temp objectForKey:@"AltSubetiptx"];
         tempOffice.subOfficeTypeCode = [temp objectForKey:@"AltSubetip"];
         
-        tempOffice.region = [temp objectForKey:@"Bolge"];
-        tempOffice.regionText = [temp objectForKey:@"Bolgetx"];
+        tempOffice.cityCode = [temp objectForKey:@"Sehir"];
+        tempOffice.cityName = [temp objectForKey:@"Sehirtx"];
         tempOffice.longitude = [temp objectForKey:@"Xkord"];
         tempOffice.latitude = [temp objectForKey:@"Ykord"];
         

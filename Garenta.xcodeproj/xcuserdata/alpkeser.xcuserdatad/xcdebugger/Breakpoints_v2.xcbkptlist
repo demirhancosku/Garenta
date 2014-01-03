@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Garenta/ApplicationProperties.m"
-            timestampString = "410362388.02255"
+            timestampString = "410433722.699514"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
             landmarkName = "+getAvailableCarURLWithCheckOutOffice:andCheckInOffice:andCheckOutDay:andCheckOutTime:andCheckInDay:andCheckInTime:"
             landmarkType = "5">
          </BreakpointContent>

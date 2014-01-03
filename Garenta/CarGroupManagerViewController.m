@@ -178,8 +178,9 @@
             myCellView = (CarGroupTableCellView *)xibObject;
         }
     }
-    [myCellView.officeName setText:activeCarGroup.sampleCar.office.mainOfficeName];
-    [myCellView.payNowLabel setText:activeCarGroup.sampleCar.payNowPrice];
+    Car *cellCar = [[activeCarGroup getBestCarsWithFilter:@"Fiyat"] objectAtIndex:indexPath.row];
+    [myCellView.officeName setText:cellCar.office.subOfficeName];
+    [myCellView.payNowLabel setText:cellCar.payNowPrice];
     
     //AALPK currency gelmiyor bak
     [myCellView.currencyLabel setText:@"TL"];
@@ -199,6 +200,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [reservation setSelectedCarGroup:activeCarGroup];
+    Car*selectedCar = [[activeCarGroup getBestCarsWithFilter:@"Fiyat"] objectAtIndex:indexPath.row];
+    [reservation setCheckOutOffice:selectedCar.office];
     if ([[ApplicationProperties getUser] isLoggedIn]) {
         //ek ekipman direk ama simdilik rez summary sayfası
         ReservationSummaryViewController *summaryVC = [[ReservationSummaryViewController alloc] initWithReservation:reservation];

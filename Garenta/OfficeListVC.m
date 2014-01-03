@@ -33,18 +33,28 @@
     return self;
 }
 - (void)addCitiesAsOffice{
-    NSMutableArray *newOfficeList;
+    NSMutableArray *newOfficeList = [[NSMutableArray alloc] init];
     Office *newOffice;
     for (Office *tempOffice in officeList) {
-        
+        if (![self cityList:newOfficeList hasCityWithCode:tempOffice.cityCode]) {
+            newOffice = [[Office alloc] init];
+            [newOffice setCityCode:tempOffice.cityCode];
+            [newOffice setCityName:tempOffice.cityName];
+            [newOffice setSubOfficeName:[NSString stringWithFormat:@"%@ Tümü",newOffice.cityName]];
+            [newOfficeList addObject:newOffice];
+        }
     }
+    [newOfficeList addObjectsFromArray:officeList];
+    officeList = newOfficeList;
 }
 
 - (BOOL)cityList:(NSMutableArray*)cityList hasCityWithCode:(NSString*)cityCode{
-    for (Office *tempOffice in officeList) {
-        
+    for (Office *tempOffice in cityList) {
+        if ([tempOffice.cityCode isEqualToString:cityCode]) {
+            return YES;
+        }
     }
-    return YES;
+    return NO;;
 }
 - (id)initWithOfficeList:(NSMutableArray *)office andDest:(Destination *)dest
 {
