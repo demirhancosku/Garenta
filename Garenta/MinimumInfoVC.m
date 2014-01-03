@@ -132,7 +132,7 @@
             alertString =  @"Doğum Tarihi yazılması gerekmektedir";
         if ([tcknNoTextField.text isEqualToString:@""])
             alertString =  @"T.C. Kimlik No yazılması gerekmektedir";
-        if ([surnameTextField.text length] != 11)
+        if ([tcknNoTextField.text length] != 11)
             alertString =  @"T.C: Kimlik No 11 Karakter olması gerekmektedir";
         if (!( [sexSegmentedControl selectedSegmentIndex] == 0 || [sexSegmentedControl selectedSegmentIndex] == 1) )
             alertString = @"Cinsiyet Seçilmesi gerekmektedir";
@@ -146,16 +146,17 @@
         
             return;
         }
+        NSCharacterSet *charactersToRemove = [NSCharacterSet characterSetWithCharactersInString:@"() "];
+        
+        NSString *trimmedReplacement = [[mobileTextField.text componentsSeparatedByCharactersInSet:charactersToRemove] componentsJoinedByString:@"" ];
         
         User *user = [ApplicationProperties getUser];
         [user setName:nameTextField.text];
         [user setSurname:surnameTextField.text];
-        [user setMobile:mobileTextField.text];
+        [user setMobile:trimmedReplacement];
         [user setEmail:emailTextField.text];
         [user setTckno:tcknNoTextField.text];
         
-        //aalpk bursını kodlu falan yaparız heralde
-        //    [user setGender: genderTextField.text];
         if ([sexSegmentedControl selectedSegmentIndex] == 0)
             [user setGender:@"M"];
         else
