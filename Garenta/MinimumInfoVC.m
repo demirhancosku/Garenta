@@ -42,12 +42,17 @@
     
     [[self navigationItem] setRightBarButtonItem:barButton];
     [self registerForKeyboardNotifications];
+    //The setup code (in viewDidLoad in your view controller)
+    
+   
+    
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [scrollView setContentSize:CGSizeMake(scrollView.frame.size.width, 900)];
+    [scrollView setContentSize:CGSizeMake(scrollView.frame.size.width, 400)];
     
     [sexSegmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
     
@@ -67,12 +72,31 @@
     [datePicker setMinimumDate:minDate];
     [datePicker setDate:maxDate];
     [datePicker setDatePickerMode:UIDatePickerModeDate];
+    [datePicker addTarget:self action:@selector(dateIsChanged:) forControlEvents:UIControlEventValueChanged];
     [[self view] addSubview:datePicker];
     [datePicker setHidden:YES];
 }
 
+//The event handling method
+- (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
+//    CGPoint location = [recognizer locationInView:[recognizer.view superview]];
+    [self releaseAllTextFields];
+    //Do stuff here...
+}
+- (void)dateIsChanged:(id)sender{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd/MM/yyyy"];
+    
+    [birthdayTextField setText:[formatter stringFromDate:[datePicker date]]];
+}
 - (void)prepareScreen
 {
+    
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleSingleTap:)];
+    [scrollView addGestureRecognizer:singleFingerTap];
+    
     [[nameTextField layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
     [[nameTextField layer] setBorderWidth:0.5f];
     nameTextField.layer.cornerRadius=8.0f;
@@ -106,20 +130,7 @@
 
 - (void)resume
 {
-    if ([[barButton title] isEqualToString:@"Kaydet"])
-    {
-        [datePicker setHidden:YES];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"dd/MM/yyyy"];
-        
-        NSString *stringFromDate = [formatter stringFromDate:[datePicker date]];
-        
-        [birthdayTextField setText:stringFromDate];
-        
-        [barButton setTitle:@"Devam"];
-    }
-    else
-    {
+    
         NSString *alertString = @"";
         
         if ([nameTextField.text isEqualToString:@""])
@@ -168,7 +179,7 @@
             
             [[self navigationController] pushViewController:summaryVC animated:YES];
         }
-    }
+    
 
 }
 
@@ -180,6 +191,7 @@
     [birthdayTextField resignFirstResponder];
     [emailTextField resignFirstResponder];
     [tcknNoTextField resignFirstResponder];
+    [datePicker setHidden:YES];
 }
 
 // Call this method somewhere in your view controller setup code.
@@ -194,6 +206,7 @@
 }
 
 // Called when the UIKeyboardDidShowNotification is sent.
+//aalpk bozuk baklcak ilk field
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
     NSDictionary* info = [aNotification userInfo];
@@ -227,8 +240,9 @@
     
     if ([textField tag] == 1) // doğum tarihi
     {
+        [self releaseAllTextFields];
         [datePicker setHidden:NO];
-        [barButton setTitle:@"Kaydet"];
+        
         
         return NO;
     }

@@ -7,7 +7,6 @@
 // All singleton...one place
 
 #import "ApplicationProperties.h"
-
 @implementation ApplicationProperties
 MainSelection mainSelection;
 User* myUser;
@@ -117,14 +116,39 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
     NSString *checkInTimeString =[format stringFromDate:checkInTime];
     
     
-    //aalpk : cikis main office bossa  bakıp onu yollayalım
-    if (checkOutOffice.mainOfficeCode == nil) {
-        return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_ARAC_SRV/AvailCarService(ImppMsube='',ImppSehir='%@',ImppHdfsube='%@',ImppLangu='T',ImppLand='T',ImppUname='XXXXX',ImppKdgrp='',ImppKunnr='',ImppEhdat=datetime'2010-01-12T00:00:00',ImppGbdat=datetime'1983-07-15T00:00:00',ImppFikod='',ImppWaers='TL',ImppBegda=datetime'%@',ImppEndda=datetime'%@',ImppBeguz='%@',ImppEnduz='%@')?$expand=ET_ARACLISTESet,ET_RESIMLERSet&$format=json",checkOutOffice.cityCode,checkInOffice.mainOfficeCode,checkOutDayString,checkInDayString,checkOutTimeString,checkInTimeString];
-    }
+    
+    // user login olmus mu
+    NSString* kunnr = [[ApplicationProperties getUser] kunnr];
+    NSString*mSube = checkOutOffice.mainOfficeCode;
+    NSString*sehir =@"";
 
-    return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_ARAC_SRV/AvailCarService(ImppMsube='%@',ImppSehir='00',ImppHdfsube='%@',ImppLangu='T',ImppLand='T',ImppUname='XXXXX',ImppKdgrp='',ImppKunnr='',ImppEhdat=datetime'2010-01-12T00:00:00',ImppGbdat=datetime'1983-07-15T00:00:00',ImppFikod='',ImppWaers='TL',ImppBegda=datetime'%@',ImppEndda=datetime'%@',ImppBeguz='%@',ImppEnduz='%@')?$expand=ET_ARACLISTESet,ET_RESIMLERSet&$format=json",checkOutOffice.mainOfficeCode,checkInOffice.mainOfficeCode,checkOutDayString,checkInDayString,checkOutTimeString,checkInTimeString];
+    if (mSube == nil) {
+        mSube = @"";
+        sehir = checkOutOffice.cityCode;
+    }
+    
+    //main office vr mı
+    //aalpk : cikis main office bossa  bakıp onu yollayalım
+    
+        return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_ARAC_SRV/AvailCarService(ImppMsube='%@',ImppSehir='%@',ImppHdfsube='%@',ImppLangu='T',ImppLand='T',ImppUname='XXXXX',ImppKdgrp='',ImppKunnr='%@',ImppEhdat=datetime'2010-01-12T00:00:00',ImppGbdat=datetime'1983-07-15T00:00:00',ImppFikod='',ImppWaers='TL',ImppBegda=datetime'%@',ImppEndda=datetime'%@',ImppBeguz='%@',ImppEnduz='%@')?$expand=ET_ARACLISTESet,ET_RESIMLERSet&$format=json",mSube,sehir,checkInOffice.mainOfficeCode,kunnr,checkOutDayString,checkInDayString,checkOutTimeString,checkInTimeString];
+    
+
 }
 
+
++ (NSString*)getCreateReservationURLWithReservation:(Reservation*)aReservation{
+    User *user = [ApplicationProperties getUser];
+    NSString *tckn = user.tckno;
+    NSString *teslimSubesi = aReservation.checkInOffice.mainOfficeCode;
+    NSString *tel = user.mobile;
+    NSString *rezEndTime = aReservation.checkInTime;
+    NSDateFormatter *dayFormat = [[NSDateFormatter alloc] init];
+    [dayFormat setDateFormat:@"yyyy-MM-ddThh:mm"];
+    
+    return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_temprezervasyon_SRV/ReservationService(Tckn='121',Uyruk='',TeslimSubesi='3065',Telno='05337656704',RezEndtime='17:00:00',RezEndda=datetime'2013-12-31T00:00:00',RezBegtime='09:00:00',RezBegda=datetime'2013-12-25T00:00:00',Musterino='0121381',Matnr='',Lastname='surname',GarentaTl=2.345M,Firstname='firstname',Email='sepet@kdk.com.tr',Cinsiyet='b',Bonus=0.0M,Birthdate=datetime'1988-12-31T00:00:00',Aracgrubu='A6',AlisSubesi='3064',ToplamTutar=344.44M)"];
+    
+    
+}
 
 
 @end

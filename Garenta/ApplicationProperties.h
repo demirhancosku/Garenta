@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "User.h"
 #import "Office.h"
+#import "Reservation.h"
 @interface ApplicationProperties : NSObject
 typedef enum{
     classic_search,
@@ -37,5 +38,5 @@ typedef enum{
 + (NSString*)getSAPPassword;
 + (int)getTimeout;
 + (NSString*)getAvailableCarURLWithCheckOutOffice:(Office*) checkOutOffice andCheckInOffice:(Office*) checkInOffice andCheckOutDay:(NSDate*)checkOutDay andCheckOutTime:(NSDate*)checkOutTime andCheckInDay:(NSDate*)checkInDay andCheckInTime:(NSDate*)checkInTime;
-
++ (NSString*)getCreateReservationURLWithReservation:(Reservation*)aReservation;
 @end
