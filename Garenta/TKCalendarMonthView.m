@@ -830,8 +830,7 @@ static UIImage *tileImage;
 			[self.delegate calendarMonthView:self monthDidChange:dateForMonth animated:YES];
 		
 		[self.currentTile selectDay:day];
-		
-		
+
 	}
 	
 }

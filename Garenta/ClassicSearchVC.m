@@ -113,10 +113,56 @@
 
 - (void)showCarGroup:(id)sender
 {
+    NSDate *checkInTime;
+    NSDate *checkInDate;
+    NSDate *checkOutTime;
+    NSDate *checkOutDate;
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    // sadece gün, ay, yıl bazında karşılaştırma yapabilmek için
+    NSInteger dateComps = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit);
+    
+    NSDateComponents *checkInDateComp = [calendar components:dateComps
+                                                    fromDate: [reservation checkInDay]];
+    NSDateComponents *checkOutDateComp = [calendar components:dateComps
+                                                    fromDate: [reservation checkOutDay]];
+    
+    checkInDate = [calendar dateFromComponents:checkInDateComp];
+    checkOutDate = [calendar dateFromComponents:checkOutDateComp];
     
     
-    [self getAvailCars];
+    // sadece saat ve dakika bazında karşılaştırma yapabilmek için
+    NSInteger timeComps = (NSHourCalendarUnit | NSMinuteCalendarUnit);
     
+    NSDateComponents *checkInTimeComp = [calendar components:timeComps
+                                                    fromDate: [reservation checkInTime]];
+    NSDateComponents *checkOutTimeComp = [calendar components:timeComps
+                                                     fromDate: [reservation checkOutTime]];
+    
+    checkInTime = [calendar dateFromComponents:checkInTimeComp];
+    checkOutTime = [calendar dateFromComponents:checkOutTimeComp];
+    
+    
+    if([checkInDate compare:checkOutDate] == NSOrderedAscending)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Aracı teslim alacağınız tarih, iade edeceğiniz tarihten ileri olamaz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+    }
+    else if ([checkInDate compare:checkOutDate] == NSOrderedSame)
+    {
+        if ([checkInTime compare:checkOutTime] == NSOrderedAscending) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Aracı teslim alacağınız saat, iade edeceğiniz saatten ileri olamaz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+            
+            [alert show];
+        }
+        else
+            [self getAvailCars];
+    }
+    else
+        [self getAvailCars];
+        
 
 }
 - (void)getAvailCars{
