@@ -106,8 +106,8 @@
     
     if (section == 2)
     {
-            if ([[categoryType objectAtIndex:0] isSelected])
-                return [categoryType count];
+            if ([[segmentFilter objectAtIndex:0] isSelected])
+                return [segmentFilter count];
             else
                 return 1;
     }
@@ -159,7 +159,7 @@
     if (section == 1)
         tempFilter = [fuelType objectAtIndex:row];
     if (section == 2)
-        tempFilter = [categoryType objectAtIndex:row];
+        tempFilter = [segmentFilter objectAtIndex:row];
     if (section == 3)
         tempFilter = [bodyType objectAtIndex:row];
     if (section == 4)
@@ -198,7 +198,7 @@
     if (section == 1)
         tempFilter = [fuelType objectAtIndex:row];
     if (section == 2)
-        tempFilter = [categoryType objectAtIndex:row];
+        tempFilter = [segmentFilter objectAtIndex:row];
     if (section == 3)
         tempFilter = [bodyType objectAtIndex:row];
     if (section == 4)
@@ -213,7 +213,7 @@
             if (section == 1)
                 [self calculateFilterResult:fuelType];
             if (section == 2)
-                [self calculateFilterResult:categoryType];
+                [self calculateFilterResult:segmentFilter];
             if (section == 3)
                 [self calculateFilterResult:bodyType];
             if (section == 4)
@@ -234,7 +234,7 @@
             if (section == 1)
                 [self calculateFilterResult:fuelType];
             if (section == 2)
-                [self calculateFilterResult:categoryType];
+                [self calculateFilterResult:segmentFilter];
             if (section == 3)
                 [self calculateFilterResult:bodyType];
             if (section == 4)
@@ -250,7 +250,7 @@
 - (void)fillFiltersInArrays
 {
     //bir ömür gitti buna -ATA
-    //ve değişecek :D -alp
+    //ve malesef değişecek :D :( -alp
     fuelType = [[NSMutableArray alloc] init];
     
     FilterObject *object1 = [[FilterObject alloc] init];
@@ -273,78 +273,78 @@
     
     [self calculateFilterResult:fuelType];
     
-    categoryType = [[NSMutableArray alloc] init];
+    segmentFilter = [[NSMutableArray alloc] init];
     
     FilterObject *object4 = [[FilterObject alloc] init];
     [object4 setFilterDescription:@"Kategori Tipi"];
     [object4 setFilterResult:@""];
     [object4 setIsSelected:NO];
-    [categoryType addObject:object4];
+    [segmentFilter addObject:object4];
     
     FilterObject *object5 = [[FilterObject alloc] init];
     [object5 setFilterDescription:@""];
     [object5 setFilterResult:@"Ekonomik"];
     [object5 setFilterCode:@"30"];
     [object5 setIsSelected:NO];
-    [categoryType addObject:object5];
+    [segmentFilter addObject:object5];
     
     FilterObject *object6 = [[FilterObject alloc] init];
     [object6 setFilterDescription:@""];
     [object6 setFilterResult:@"Standart"];
     [object6 setFilterCode:@"40"];
     [object6 setIsSelected:NO];
-    [categoryType addObject:object6];
+    [segmentFilter addObject:object6];
     
     FilterObject *object7= [[FilterObject alloc] init];
     [object7 setFilterDescription:@""];
     [object7 setFilterResult:@"Konfor"];
     [object7 setFilterCode:@"50"];
     [object7 setIsSelected:NO];
-    [categoryType addObject:object7];
+    [segmentFilter addObject:object7];
     
     FilterObject *object8 = [[FilterObject alloc] init];
     [object8 setFilterDescription:@""];
     [object8 setFilterResult:@"Maksi"];
     [object8 setFilterCode:@"60"];
     [object8 setIsSelected:NO];
-    [categoryType addObject:object8];
+    [segmentFilter addObject:object8];
     
     FilterObject *object9 = [[FilterObject alloc] init];
     [object9 setFilterDescription:@""];
     [object9 setFilterResult:@"Lüks"];
     [object9 setFilterCode:@"70"];
     [object9 setIsSelected:NO];
-    [categoryType addObject:object9];
+    [segmentFilter addObject:object9];
     
     FilterObject *object10 = [[FilterObject alloc] init];
     [object10 setFilterDescription:@""];
     [object10 setFilterResult:@"Stil"];
     [object10 setFilterCode:@"80"];
     [object10 setIsSelected:NO];
-    [categoryType addObject:object10];
+    [segmentFilter addObject:object10];
     
     FilterObject *object11 = [[FilterObject alloc] init];
     [object11 setFilterDescription:@""];
     [object11 setFilterResult:@"Elit"];
     [object11 setFilterCode:@"90"];
     [object11 setIsSelected:NO];
-    [categoryType addObject:object11];
+    [segmentFilter addObject:object11];
     
     FilterObject *object12 = [[FilterObject alloc] init];
     [object12 setFilterDescription:@""];
     [object12 setFilterResult:@"SUV"];
     [object12 setFilterCode:@"100"];
     [object12 setIsSelected:NO];
-    [categoryType addObject:object12];
+    [segmentFilter addObject:object12];
     
     FilterObject *object13 = [[FilterObject alloc] init];
     [object13 setFilterDescription:@""];
     [object13 setFilterResult:@"Fonksiyonel"];
     [object13 setFilterCode:@"110"];
     [object13 setIsSelected:NO];
-    [categoryType addObject:object13];
+    [segmentFilter addObject:object13];
     
-    [self calculateFilterResult:categoryType];
+    [self calculateFilterResult:segmentFilter];
     
     bodyType = [[NSMutableArray alloc] init];
     

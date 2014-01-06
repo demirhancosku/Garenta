@@ -16,7 +16,7 @@
     UITableView *tableView;
     
     NSMutableArray *fuelType;
-    NSMutableArray *categoryType;
+    NSMutableArray *segmentFilter;
     NSMutableArray *bodyType;
     NSMutableArray *gearboxType;
     NSMutableArray *brandType;
