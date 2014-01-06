@@ -7,16 +7,28 @@
 //
 
 #import "CarGroupFilterVC.h"
-
+#import "CarGroupManagerViewController.h"
 @interface CarGroupFilterVC ()
 
 @end
 
 @implementation CarGroupFilterVC
 
+
+-(id)initWithReservation:(Reservation*)aReservation andCarGroup:(CarGroup*)aCarGroup{
+    self  = [super init];
+    reservation = aReservation;
+    carGroup = aCarGroup;
+    return self;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Devam" style:UIBarButtonItemStyleBordered target:self action:@selector(findMyCar)];
+    [[self navigationItem] setRightBarButtonItem:barButton];
+    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [ApplicationProperties getBlack], NSForegroundColorAttributeName,
+                                                           [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0], NSFontAttributeName, nil]];
     
     
 }
@@ -34,6 +46,11 @@
     [tableView setSeparatorInset:UIEdgeInsetsMake(0, self.view.frame.size.width * 0.15, 0, 0)];
     
     [[self view] addSubview:tableView];
+}
+
+- (void)findMyCar{
+    CarGroupManagerViewController *carGroupVC = [[CarGroupManagerViewController alloc] initWithCarGroups:carGroup andReservartion:reservation];
+    [[self navigationController] pushViewController:carGroupVC animated:YES];
 }
 
 - (void)calculateFilterResult:(NSMutableArray *)filterArray
@@ -233,7 +250,7 @@
 - (void)fillFiltersInArrays
 {
     //bir ömür gitti buna -ATA
-    
+    //ve değişecek :D -alp
     fuelType = [[NSMutableArray alloc] init];
     
     FilterObject *object1 = [[FilterObject alloc] init];

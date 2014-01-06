@@ -26,6 +26,7 @@
 @property (nonatomic,retain) NSString *kunnr;
 @property (nonatomic,retain) NSString *accountType;
 @property (nonatomic,retain) NSString *gender;
+@property (nonatomic,retain) NSDate *birthday;
 @property (nonatomic,assign) BOOL isLoggedIn;
 
 

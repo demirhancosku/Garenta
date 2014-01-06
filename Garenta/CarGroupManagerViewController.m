@@ -180,7 +180,7 @@
     }
     Car *cellCar = [[activeCarGroup getBestCarsWithFilter:@"Fiyat"] objectAtIndex:indexPath.row];
     [myCellView.officeName setText:cellCar.office.subOfficeName];
-    [myCellView.payNowLabel setText:cellCar.payNowPrice];
+    [myCellView.payNowLabel setText:cellCar.payLaterPrice];
     
     //AALPK currency gelmiyor bak
     [myCellView.currencyLabel setText:@"TL"];
@@ -199,8 +199,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [reservation setSelectedCarGroup:activeCarGroup];
+
     Car*selectedCar = [[activeCarGroup getBestCarsWithFilter:@"Fiyat"] objectAtIndex:indexPath.row];
+    //aalpk burası duzeltilicek sonra yapıya bakmak laızm
+    [activeCarGroup setPayLaterPrice:selectedCar.payLaterPrice];
+    //
+    [reservation setSelectedCarGroup:activeCarGroup];
     [reservation setCheckOutOffice:selectedCar.office];
     if ([[ApplicationProperties getUser] isLoggedIn]) {
         //ek ekipman direk ama simdilik rez summary sayfası

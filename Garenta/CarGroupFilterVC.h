@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "FilterObject.h"
-
+#import "Reservation.h"
+#import "CarGroup.h"
+#import "Car.h"
 @interface CarGroupFilterVC : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     UITableView *tableView;
@@ -18,6 +20,11 @@
     NSMutableArray *bodyType;
     NSMutableArray *gearboxType;
     NSMutableArray *brandType;
+    
+    Reservation *reservation;
+    CarGroup *carGroup;
 }
+
+-(id)initWithReservation:(Reservation*)aReservation andCarGroup:(CarGroup*)aCarGroup;
 
 @end

@@ -10,6 +10,7 @@
 #import "OfficeHolidayTime.h"
 #import "CarGroupManagerViewController.h"
 #import "GTMBase64.h"
+#import "CarGroupFilterVC.h"
 #define kCheckOutTag 0
 #define kCheckInTag 1
 
@@ -117,7 +118,8 @@
     NSDate *checkInDate;
     NSDate *checkOutTime;
     NSDate *checkOutDate;
-    
+    NSDate *nowTime;
+    NSDate *nowDate;
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
     // sadece gün, ay, yıl bazında karşılaştırma yapabilmek için
@@ -127,10 +129,12 @@
                                                     fromDate: [reservation checkInDay]];
     NSDateComponents *checkOutDateComp = [calendar components:dateComps
                                                     fromDate: [reservation checkOutDay]];
+    NSDateComponents *nowDateComp = [calendar components:dateComps
+                                                     fromDate: [NSDate date]];
     
     checkInDate = [calendar dateFromComponents:checkInDateComp];
     checkOutDate = [calendar dateFromComponents:checkOutDateComp];
-    
+    nowDate = [calendar dateFromComponents:nowDateComp];
     
     // sadece saat ve dakika bazında karşılaştırma yapabilmek için
     NSInteger timeComps = (NSHourCalendarUnit | NSMinuteCalendarUnit);
@@ -139,35 +143,57 @@
                                                     fromDate: [reservation checkInTime]];
     NSDateComponents *checkOutTimeComp = [calendar components:timeComps
                                                      fromDate: [reservation checkOutTime]];
+    NSDateComponents *nowTimeComp = [calendar components:timeComps
+                                                     fromDate: [NSDate date]];
     
     checkInTime = [calendar dateFromComponents:checkInTimeComp];
     checkOutTime = [calendar dateFromComponents:checkOutTimeComp];
+    nowTime = [calendar dateFromComponents:nowTimeComp];
+    if([checkOutDate compare:nowDate] == NSOrderedAscending){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Geçmişe dönük rezervasyon yapılamaz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+        return;
+    }else if ([checkOutDate compare:nowDate] == NSOrderedSame){
+        if ([checkOutTime compare:nowTime] ==NSOrderedAscending) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Geçmişe dönük rezervasyon yapılamaz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+            
+            [alert show];
+            return;
+        }
+    }
     
     
     if([checkInDate compare:checkOutDate] == NSOrderedAscending)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Aracı teslim alacağınız tarih, iade edeceğiniz tarihten ileri olamaz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Aracı teslim alacağınız tarih, iade edeceğiniz tarihten ileri olamaz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
         
         [alert show];
+        return;
     }
     else if ([checkInDate compare:checkOutDate] == NSOrderedSame)
     {
         if ([checkInTime compare:checkOutTime] == NSOrderedAscending) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Aracı teslim alacağınız saat, iade edeceğiniz saatten ileri olamaz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Aracı teslim alacağınız saat, iade edeceğiniz saatten ileri olamaz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
             
             [alert show];
+            return;
+            
         }
-        else
-            [self getAvailCars];
+        
     }
-    else
+    
+        
+        
         [self getAvailCars];
         
 
 }
 - (void)getAvailCars{
     
-    
+    if([ApplicationProperties getMainSelection] == location_search){
+        reservation.checkOutOffice = [Office getClosestOfficeFromList:officeWorkingSchedule withCoordinate:lastLocation ];
+    }
     NSString *connectionString = [ApplicationProperties getAvailableCarURLWithCheckOutOffice:reservation.checkOutOffice andCheckInOffice:reservation.checkInOffice andCheckOutDay:reservation.checkOutDay andCheckOutTime:reservation.checkOutTime andCheckInDay:reservation.checkInDay andCheckInTime:reservation.checkInTime];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:150.0];
@@ -474,7 +500,7 @@
 #pragma mark - Location Delegation Methods
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
     NSLog(@"newlocation %@", newLocation);
-    Coordinate *tempPoint = [[Coordinate alloc] initWithCoordinate:newLocation.coordinate title:@"Ben"];
+    lastLocation = [[Coordinate alloc] initWithCoordinate:newLocation.coordinate title:@"Ben"];
     
     //tempPoint kullanılarak en yakın ofis bulunacak
     //cok bilion sen-alp
@@ -547,8 +573,14 @@
         return;
     }
     //pushing
+    //aalpk: differenceee
+    if ([ApplicationProperties getMainSelection]== advanced_search) {
+        CarGroupFilterVC *filterVC = [[CarGroupFilterVC alloc] initWithReservation:reservation andCarGroup:availableCarGroups];
+        [[self navigationController] pushViewController:filterVC animated:YES];
+    }else{
     CarGroupManagerViewController *car = [[CarGroupManagerViewController alloc] initWithCarGroups:availableCarGroups andReservartion:reservation];
     [[self navigationController] pushViewController:car animated:YES];
+    }
 }
 
 - (UIImage*)getImageFromJSONResults:(NSDictionary*)pics withPath:(NSString*)aPath{

@@ -41,7 +41,7 @@
 - (void)playAnimation:(UIView *)iView
 {
     [self.view setFrame:CGRectMake(0, 0, iView.frame.size.width, iView.frame.size.height)];
-    animationView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.height * 0.3, self.view.frame.size.height * 0.3)];
+    animationView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.height * 0.2, self.view.frame.size.height * 0.2)];
     [animationView setCenter:CGPointMake(iView.frame.size.width/2, iView.frame.size.height/3)];
     [animationView setContentMode:UIViewContentModeScaleAspectFit];
     

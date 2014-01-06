@@ -113,7 +113,7 @@
     //icons views
     //klanın %50si aşağı
     float paddingTop = (self.view.frame.size.height - (carImageView.frame.size.height+carImageView.frame.origin.y)) *0.1;
-    int iconCount = 4; // get from car
+    int iconCount = 3; //aalpk: get from car
     float iconSize = self.view.frame.size.height * 0.07;
     float iconPadding = self.view.frame.size.height * 0.1;
     //%10 for each %5 for padding

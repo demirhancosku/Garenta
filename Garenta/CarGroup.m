@@ -32,7 +32,7 @@
             if (carToBeCompared == nil ) {
                 [bestCarList addObject:tempCar];
             }else{
-                if ( [carToBeCompared.payNowPrice floatValue]>[tempCar.payNowPrice floatValue]) {
+                if ( [carToBeCompared.payLaterPrice floatValue]>[tempCar.payLaterPrice floatValue]) {
                     [bestCarList removeObject:carToBeCompared];
                     [bestCarList addObject:tempCar];
 

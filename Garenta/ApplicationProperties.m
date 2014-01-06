@@ -135,20 +135,61 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
 
 }
 
-
 + (NSString*)getCreateReservationURLWithReservation:(Reservation*)aReservation{
     User *user = [ApplicationProperties getUser];
-    NSString *tckn = user.tckno;
-    NSString *teslimSubesi = aReservation.checkInOffice.mainOfficeCode;
-    NSString *tel = user.mobile;
-    NSString *rezEndTime = aReservation.checkInTime;
     NSDateFormatter *dayFormat = [[NSDateFormatter alloc] init];
+    NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
     [dayFormat setDateFormat:@"yyyy-MM-ddThh:mm"];
+    [timeFormat setDateFormat:@"HH:mm"];
+
+    NSString *muserino = @"";
+    NSString *tckn = @"";
+    NSString *tel = @"";
+    NSString *lastname = @"";
+    NSString *firstname = @"";
+    NSString *email = @"";
+    NSString *cinsiyet = @"";
+    NSString *birthdate = @"1970-10-10";
+    if (user.isLoggedIn) {
+        muserino = user.kunnr;
+    }else{
+        tckn = user.tckno;
+        tel = user.mobile;
+        lastname = user.surname;
+        firstname = user.name;
+        email = user.email;
+        cinsiyet = user.gender;
+        birthdate = [dayFormat stringFromDate:user.birthday];
+    }
+
+    NSString *teslimSubesi = aReservation.checkInOffice.mainOfficeCode;
+    NSString *rezEndtime = [timeFormat stringFromDate:aReservation.checkInTime];
+    NSString *rezEndda= [ dayFormat stringFromDate:aReservation.checkInDay];
+    NSString *rezBegtime = [timeFormat stringFromDate:aReservation.checkOutTime];
+    NSString *rezBegda = [dayFormat stringFromDate:aReservation.checkOutDay];
+    NSString *aracgrubu = aReservation.selectedCarGroup.groupCode;
+    NSString *alisSubesi = aReservation.checkOutOffice.mainOfficeCode;
+    NSString *toplamTutar = aReservation.selectedCarGroup.payLaterPrice;
+
     
-    return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_temprezervasyon_SRV/ReservationService(Tckn='121',Uyruk='',TeslimSubesi='3065',Telno='05337656704',RezEndtime='17:00:00',RezEndda=datetime'2013-12-31T00:00:00',RezBegtime='09:00:00',RezBegda=datetime'2013-12-25T00:00:00',Musterino='0121381',Matnr='',Lastname='surname',GarentaTl=2.345M,Firstname='firstname',Email='sepet@kdk.com.tr',Cinsiyet='b',Bonus=0.0M,Birthdate=datetime'1988-12-31T00:00:00',Aracgrubu='A6',AlisSubesi='3064',ToplamTutar=344.44M)"];
+     rezEndda = [NSString stringWithFormat:@"%@T00:00:00",rezEndda];
+     rezBegda = [NSString stringWithFormat:@"%@T00:00:00",rezBegda];
+    birthdate =[NSString stringWithFormat:@"%@T00:00:00",birthdate];
     
+    return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_temprezervasyon_SRV/ReservationService(Tckn='%@',Uyruk='',TeslimSubesi='%@',Telno='%@',RezEndtime='%@',RezEndda=datetime'%@',RezBegtime='%@',RezBegda=datetime'%@',Musterino='%@',Matnr='',Lastname='%@',GarentaTl=0.0M,Firstname='%@',Email='%@',Cinsiyet='%@',Bonus=0.0M,Birthdate=datetime'%@',Aracgrubu='%@',AlisSubesi='%@',ToplamTutar=%@M)?$format=json",tckn,teslimSubesi,tel,rezEndtime,rezEndda,rezBegtime,rezBegda,muserino,lastname,firstname,email,cinsiyet,birthdate,aracgrubu,alisSubesi,toplamTutar];
     
+
+}
++ (NSString*)getVersionUrl{
+    return @"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_versiyon_SRV/VersiyonService(IAppName='rezapp',IVers='1.0')?$format=json";
 }
 
-
++ (BOOL)isActiveVersion{
+    NSString *active = [[NSUserDefaults standardUserDefaults]
+     stringForKey:@"ACTIVEVERSION"];
+    if([active isEqualToString:@"F"])
+        return NO;
+    
+    return YES;
+}
 @end

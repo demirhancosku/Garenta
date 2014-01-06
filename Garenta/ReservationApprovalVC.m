@@ -37,7 +37,18 @@
     [headerLabel setBackgroundColor:[ApplicationProperties getGrey]];
     [reservationNumberLabel setText:reservation.number];
     [reservationNumberLabel setTextColor:[ApplicationProperties getOrange]];
+    [[self navigationItem] setHidesBackButton:YES];
     
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Tamam" style:UIBarButtonItemStyleBordered target:self action:@selector(okPressed)];
+    [[self navigationItem] setRightBarButtonItem:barButton];
+    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [ApplicationProperties getBlack], NSForegroundColorAttributeName,
+                                                           [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0], NSFontAttributeName, nil]];
+    
+}
+
+- (void)okPressed{
+    [[self navigationController] popToRootViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning

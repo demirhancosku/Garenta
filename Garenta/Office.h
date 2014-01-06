@@ -29,4 +29,5 @@
 @property (nonatomic, retain) NSMutableArray *holidayDates;
 
 + (Office*)getOfficeFrom:(NSMutableArray*)offices withCode:(NSString*)officeCode;
++ (Office*)getClosestOfficeFromList:(NSMutableArray*)officeList withCoordinate:(Coordinate*) lastLocation;
 @end

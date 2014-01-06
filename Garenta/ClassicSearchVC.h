@@ -31,6 +31,7 @@
     Reservation *reservation;
     LoaderAnimationVC *loaderVC;
     NSMutableArray *availableCarGroups;
+    Coordinate  *lastLocation;
 }
 
 @property (nonatomic, retain) UIPopoverController *popOver;

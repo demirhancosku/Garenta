@@ -151,7 +151,7 @@
         if (![alertString isEqualToString:@""])
         {
             iToastSettings *theSettings = [iToastSettings getSharedSettings];
-            [theSettings setGravity:iToastGravityBottom];
+            [theSettings setGravity:iToastGravityTop];
             [theSettings setFontSize:16.0];
             [[iToast makeText:alertString] show];
         
@@ -160,21 +160,23 @@
         NSCharacterSet *charactersToRemove = [NSCharacterSet characterSetWithCharactersInString:@"() "];
         
         NSString *trimmedReplacement = [[mobileTextField.text componentsSeparatedByCharactersInSet:charactersToRemove] componentsJoinedByString:@"" ];
-        
+    NSDateFormatter *bdayFormatter = [[NSDateFormatter alloc] init];
+    [bdayFormatter setDateFormat:@"dd/MM/yyyy"];
         User *user = [ApplicationProperties getUser];
         [user setName:nameTextField.text];
         [user setSurname:surnameTextField.text];
         [user setMobile:trimmedReplacement];
         [user setEmail:emailTextField.text];
         [user setTckno:tcknNoTextField.text];
-        
+    [user setBirthday:[bdayFormatter dateFromString:birthdayTextField.text]];
+    
         if ([sexSegmentedControl selectedSegmentIndex] == 0)
             [user setGender:@"M"];
         else
             [user setGender:@"F"];
         
         
-        ReservationSummaryViewController *summaryVC = [[ReservationSummaryViewController alloc] initWithNibName:@"ReservationSummaryViewController" bundle:nil];
+        ReservationSummaryViewController *summaryVC = [[ReservationSummaryViewController alloc] initWithReservation:reservation];
         if (reservation != nil) {
             
             [[self navigationController] pushViewController:summaryVC animated:YES];

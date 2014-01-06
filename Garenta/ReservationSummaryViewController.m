@@ -66,11 +66,22 @@
 
 
 - (void)resumeSelected{
+    [self doReservation];
     //res cagir
-    [reservation setNumber:@"123121"];
-    ReservationApprovalVC *approvalVC = [[ReservationApprovalVC alloc] initWithReservation:reservation];
-    [[self navigationController] pushViewController:approvalVC animated:YES];
+    
 }
+
+-(void)doReservation{
+    NSString *connectionString = [ApplicationProperties getCreateReservationURLWithReservation:reservation];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:150.0];
+    
+    NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
+    loaderVC = [[LoaderAnimationVC alloc] init];
+    [loaderVC playAnimation:self.view];
+
+}
+
 #pragma mark  - tableview delegate datasource methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -164,5 +175,71 @@
     return self.view.frame.size.height /4 ;
     
 }
+
+
+#pragma mark - rest delegate methods
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)space
+{
+    return YES;
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+    if ([challenge previousFailureCount] == 0)
+    {
+        NSLog(@"received authentication challenge");
+        NSURLCredential *newCredential = [NSURLCredential credentialWithUser:@"gw_admin" password:@"1qa2ws3ed"persistence:NSURLCredentialPersistenceForSession];
+        NSLog(@"credential created");
+        [[challenge sender] useCredential:newCredential forAuthenticationChallenge:challenge];
+        NSLog(@"responded to authentication challenge");
+    }
+    else
+    {
+        NSLog(@"previous authentication failure");
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [loaderVC stopAnimation];
+    NSError *err;
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
+    if(err!=nil){
+        //hata msjı
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Bağlantı sırasında bir hata oluştu. Lütfen bağlantı ayarlarını kontrol ediniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+    
+    NSDictionary *result = [jsonDict objectForKey:@"d"];
+    NSString *reservationNo= [result objectForKey:@"ERezNo"];
+    if ([reservationNo isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Rezervasyon oluşturma sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+    [reservation setNumber:reservationNo];
+    ReservationApprovalVC *approvalVC = [[ReservationApprovalVC alloc] initWithReservation:reservation];
+    [[self navigationController] pushViewController:approvalVC animated:YES];
+
+}
+
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    [loaderVC stopAnimation];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Bağlantı sırasında bir hata oluştu. Lütfen bağlantı ayarlarını kontrol ediniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+    [alert show];
+}
+
 
 @end
