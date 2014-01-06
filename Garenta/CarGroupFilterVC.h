@@ -15,16 +15,18 @@
 {
     UITableView *tableView;
     
-    NSMutableArray *fuelType;
+    NSMutableArray *fuelFilter;
     NSMutableArray *segmentFilter;
-    NSMutableArray *bodyType;
-    NSMutableArray *gearboxType;
-    NSMutableArray *brandType;
+    NSMutableArray *bodyFilter;
+    NSMutableArray *transmissionFilter;
+    NSMutableArray *brandFilter;
+    
+    NSMutableArray *filteredCarGroups;
     
     Reservation *reservation;
-    CarGroup *carGroup;
+    NSMutableArray *carGroups;
 }
 
--(id)initWithReservation:(Reservation*)aReservation andCarGroup:(CarGroup*)aCarGroup;
+-(id)initWithReservation:(Reservation*)aReservation andCarGroup:(NSMutableArray*)aCarGroups;
 
 @end

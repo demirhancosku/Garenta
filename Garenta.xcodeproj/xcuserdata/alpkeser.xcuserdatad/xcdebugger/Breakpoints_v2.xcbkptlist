@@ -33,36 +33,6 @@
             endingLineNumber = "105"
             landmarkName = "-prepareScreen"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[CarGroupViewController prepareScreen]"
-                  moduleName = "Garenta"
-                  urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/CarGroupViewController.m"
-                  timestampString = "410661170.828048"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "105"
-                  endingLineNumber = "105"
-                  offsetFromSymbolStart = "3180">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[CarGroupViewController prepareScreen]"
-                  moduleName = "Garenta"
-                  urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/CarGroupViewController.m"
-                  timestampString = "410661170.828215"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "105"
-                  endingLineNumber = "105"
-                  offsetFromSymbolStart = "3332">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -78,38 +48,6 @@
             startingLineNumber = "161"
             endingLineNumber = "161"
             landmarkName = "-tableView:heightForRowAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Garenta/MenuSelectionVC.m"
-            timestampString = "410658149.616883"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
-            landmarkName = "-connection:didReceiveData:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Garenta/ApplicationProperties.m"
-            timestampString = "410656208.609099"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
-            landmarkName = "+isActiveVersion"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -199,12 +137,12 @@
                   symbolName = "+[Office getClosestOfficeFromList:withCoordinate:]"
                   moduleName = "Garenta"
                   urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/Office.m"
-                  timestampString = "410661170.829631"
+                  timestampString = "410738168.346904"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "29"
                   endingLineNumber = "29"
-                  offsetFromSymbolStart = "106">
+                  offsetFromSymbolStart = "129">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -213,12 +151,12 @@
                   symbolName = "+[Office getClosestOfficeFromList:withCoordinate:]"
                   moduleName = "Garenta"
                   urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/Office.m"
-                  timestampString = "410661170.829796"
+                  timestampString = "410738168.347058"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "29"
                   endingLineNumber = "29"
-                  offsetFromSymbolStart = "1626">
+                  offsetFromSymbolStart = "2422">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -229,13 +167,105 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Garenta/ClassicSearchVC.m"
-            timestampString = "410664866.572702"
+            filePath = "Garenta/CarGroupFilterVC.m"
+            timestampString = "410735466.921084"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "503"
-            endingLineNumber = "503"
-            landmarkName = "-locationManager:didUpdateToLocation:fromLocation:"
+            startingLineNumber = "444"
+            endingLineNumber = "444"
+            landmarkName = "-filterFuel"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CarGroupFilterVC filterFuel]"
+                  moduleName = "Garenta"
+                  urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/CarGroupFilterVC.m"
+                  timestampString = "410738168.347231"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "444"
+                  endingLineNumber = "444"
+                  offsetFromSymbolStart = "1306">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CarGroupFilterVC filterFuel]"
+                  moduleName = "Garenta"
+                  urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/CarGroupFilterVC.m"
+                  timestampString = "410738168.347382"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "444"
+                  endingLineNumber = "444"
+                  offsetFromSymbolStart = "1433">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Garenta/CarGroupFilterVC.m"
+            timestampString = "410738093.320178"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "526"
+            endingLineNumber = "526"
+            landmarkName = "-filterBrand"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CarGroupFilterVC filterBrand]"
+                  moduleName = "Garenta"
+                  urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/CarGroupFilterVC.m"
+                  timestampString = "410738168.347595"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "526"
+                  endingLineNumber = "526"
+                  offsetFromSymbolStart = "742">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CarGroupFilterVC filterBrand]"
+                  moduleName = "Garenta"
+                  urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/CarGroupFilterVC.m"
+                  timestampString = "410738168.347768"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "526"
+                  endingLineNumber = "526"
+                  offsetFromSymbolStart = "2783">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Garenta/CarGroupFilterVC.m"
+            timestampString = "410738148.216573"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "522"
+            endingLineNumber = "522"
+            landmarkName = "-filterBrand"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

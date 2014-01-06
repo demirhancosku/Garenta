@@ -559,6 +559,8 @@
             [tempCarGroup setFuelName:[tempCarResult objectForKey:@"YakitTipi"]];
             [tempCarGroup setBodyId:[tempCarResult objectForKey:@"KasaTipiId"]];
             [tempCarGroup setBodyName:[tempCarResult objectForKey:@"KasaTipi"]];
+            [tempCarGroup setSegment:[tempCarResult objectForKey:@"Segment"]];
+            [tempCarGroup setSegmentName:[tempCarResult objectForKey:@"Segmenttx"]];
             [availableCarGroups addObject:tempCarGroup];
         }
         if ([[tempCarResult objectForKey:@"Vitrinres"] isEqualToString:@"X"]) {

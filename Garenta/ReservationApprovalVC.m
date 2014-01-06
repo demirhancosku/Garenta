@@ -51,6 +51,46 @@
     [[self navigationController] popToRootViewControllerAnimated:YES];
 }
 
+- (void)navigateToCustomer {
+    
+//    float ver = [[[UIDevice currentDevice] systemVersion] floatValue];
+//    if (ver >= 6.0) {
+//        // Only executes on version 3 or above.
+//        CLLocationManager *locationManager = [[CLLocationManager alloc] init];
+//        
+//        [locationManager setDelegate:self];
+//        
+//        [locationManager startUpdatingLocation];
+//        
+//        MKMapItem *currentLocationItem = [MKMapItem mapItemForCurrentLocation];
+//        
+//        if (myCustomer.locationCoordinate.coordinate.latitude == 0 || myCustomer.locationCoordinate.coordinate.longitude == 0)
+//        {
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Seçtiğiniz müşteri için navigasyon özelliği yoktur." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+//            [alert show];
+//        }
+//        else
+//        {
+//            MKPlacemark *place = [[MKPlacemark alloc] initWithCoordinate:reservation.checkOutOffice.locationCoordinate.coordinate addressDictionary:nil];
+//            
+//            MKMapItem *destinamtionLocItem = [[MKMapItem alloc] initWithPlacemark:place];
+//            
+//            destinamtionLocItem.name = [myCustomer name1];
+//            
+//            NSArray *mapItemsArray = [NSArray arrayWithObjects:currentLocationItem, destinamtionLocItem, nil];
+//            
+//            NSDictionary *dictForDirections = [NSDictionary dictionaryWithObject:MKLaunchOptionsDirectionsModeDriving forKey:MKLaunchOptionsDirectionsModeKey];
+//            
+//            [MKMapItem openMapsWithItems:mapItemsArray launchOptions:dictForDirections];
+//        }
+//    }
+//    else
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Seçtiğiniz özelliği kullanabilmek için, versiyon güncellemesi yapmanız gerekmektedir." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+//        [alert show];
+//    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

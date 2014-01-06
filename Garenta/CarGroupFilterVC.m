@@ -15,10 +15,11 @@
 @implementation CarGroupFilterVC
 
 
--(id)initWithReservation:(Reservation*)aReservation andCarGroup:(CarGroup*)aCarGroup{
+-(id)initWithReservation:(Reservation*)aReservation andCarGroup:(NSMutableArray*)aCarGroups{
     self  = [super init];
     reservation = aReservation;
-    carGroup = aCarGroup;
+    carGroups = aCarGroups;
+    filteredCarGroups = [[NSMutableArray alloc] init];
     return self;
 }
 - (void)viewDidLoad
@@ -49,7 +50,15 @@
 }
 
 - (void)findMyCar{
-    CarGroupManagerViewController *carGroupVC = [[CarGroupManagerViewController alloc] initWithCarGroups:carGroup andReservartion:reservation];
+    
+    [self filterCars];
+    if (filteredCarGroups.count <= 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Aradığınız filtrelerde aracımız bulunumamıştır." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+    CarGroupManagerViewController *carGroupVC = [[CarGroupManagerViewController alloc] initWithCarGroups:filteredCarGroups andReservartion:reservation];
+
     [[self navigationController] pushViewController:carGroupVC animated:YES];
 }
 
@@ -90,16 +99,16 @@
 {
     if (section == 0)
     {
-        if ([[brandType objectAtIndex:0] isSelected])
-            return [brandType count];
+        if ([[brandFilter objectAtIndex:0] isSelected])
+            return [brandFilter count];
         else
             return 1;
     }
     
     if (section == 1)
     {
-        if ([[fuelType objectAtIndex:0] isSelected])
-            return [fuelType count];
+        if ([[fuelFilter objectAtIndex:0] isSelected])
+            return [fuelFilter count];
         else
             return 1;
     }
@@ -114,16 +123,16 @@
     
     if (section == 3)
     {
-        if ([[bodyType objectAtIndex:0] isSelected])
-            return [bodyType count];
+        if ([[bodyFilter objectAtIndex:0] isSelected])
+            return [bodyFilter count];
         else
             return 1;
     }
     
     if (section == 4)
     {
-        if ([[gearboxType objectAtIndex:0] isSelected])
-            return [gearboxType count];
+        if ([[transmissionFilter objectAtIndex:0] isSelected])
+            return [transmissionFilter count];
         else
             return 1;
     }
@@ -155,15 +164,15 @@
     FilterObject *tempFilter;
     
     if (section == 0)
-        tempFilter = [brandType objectAtIndex:row];
+        tempFilter = [brandFilter objectAtIndex:row];
     if (section == 1)
-        tempFilter = [fuelType objectAtIndex:row];
+        tempFilter = [fuelFilter objectAtIndex:row];
     if (section == 2)
         tempFilter = [segmentFilter objectAtIndex:row];
     if (section == 3)
-        tempFilter = [bodyType objectAtIndex:row];
+        tempFilter = [bodyFilter objectAtIndex:row];
     if (section == 4)
-        tempFilter = [gearboxType objectAtIndex:row];
+        tempFilter = [transmissionFilter objectAtIndex:row];
     
     if (row == 0)
     {
@@ -194,30 +203,30 @@
     FilterObject *tempFilter;
     
     if (section == 0)
-        tempFilter = [brandType objectAtIndex:row];
+        tempFilter = [brandFilter objectAtIndex:row];
     if (section == 1)
-        tempFilter = [fuelType objectAtIndex:row];
+        tempFilter = [fuelFilter objectAtIndex:row];
     if (section == 2)
         tempFilter = [segmentFilter objectAtIndex:row];
     if (section == 3)
-        tempFilter = [bodyType objectAtIndex:row];
+        tempFilter = [bodyFilter objectAtIndex:row];
     if (section == 4)
-        tempFilter = [gearboxType objectAtIndex:row];
+        tempFilter = [transmissionFilter objectAtIndex:row];
     
         if ([tempFilter isSelected])
         {
             [tempFilter setIsSelected:NO];
             
             if (section == 0)
-                [self calculateFilterResult:brandType];
+                [self calculateFilterResult:brandFilter];
             if (section == 1)
-                [self calculateFilterResult:fuelType];
+                [self calculateFilterResult:fuelFilter];
             if (section == 2)
                 [self calculateFilterResult:segmentFilter];
             if (section == 3)
-                [self calculateFilterResult:bodyType];
+                [self calculateFilterResult:bodyFilter];
             if (section == 4)
-                [self calculateFilterResult:gearboxType];
+                [self calculateFilterResult:transmissionFilter];
 
             if (row == 0)
                 [tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -230,15 +239,15 @@
             [tempFilter setIsSelected:YES];
             
             if (section == 0)
-                [self calculateFilterResult:brandType];
+                [self calculateFilterResult:brandFilter];
             if (section == 1)
-                [self calculateFilterResult:fuelType];
+                [self calculateFilterResult:fuelFilter];
             if (section == 2)
                 [self calculateFilterResult:segmentFilter];
             if (section == 3)
-                [self calculateFilterResult:bodyType];
+                [self calculateFilterResult:bodyFilter];
             if (section == 4)
-                [self calculateFilterResult:gearboxType];
+                [self calculateFilterResult:transmissionFilter];
             
             if (row == 0)
                 [tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -251,224 +260,303 @@
 {
     //bir ömür gitti buna -ATA
     //ve malesef değişecek :D :( -alp
-    fuelType = [[NSMutableArray alloc] init];
+    [self buildFuelFilter];
+    
+    [self buildSegmentFilter];
+    
+    [self buildBodyFilter];
+    
+    [self buildTransmissionFilter];
+    
+    [self buildBrandFilter];
+    
+}
+
+- (void)buildFuelFilter{
+    fuelFilter = [[NSMutableArray alloc] init];
     
     FilterObject *object1 = [[FilterObject alloc] init];
     [object1 setFilterDescription:@"Yakıt Tipi"];
     [object1 setFilterResult:@""];
     [object1 setIsSelected:NO];
-    [fuelType addObject:object1];
-    
-    FilterObject *object2 = [[FilterObject alloc] init];
-    [object2 setFilterCode:@"10"];
-    [object2 setFilterResult:@"Benzin"];
-    [object2 setIsSelected:NO];
-    [fuelType addObject:object2];
-    
-    FilterObject *object3 = [[FilterObject alloc] init];
-    [object3 setFilterCode:@"20"];
-    [object3 setFilterResult:@"Dizel"];
-    [object3 setIsSelected:NO];
-    [fuelType addObject:object3];
-    
-    [self calculateFilterResult:fuelType];
-    
+    [fuelFilter addObject:object1];
+    for (CarGroup *tempCarGroup in carGroups) {
+        if (![self isFilterIdFoundFromFilterList:fuelFilter withId:tempCarGroup.fuelId]) {
+            object1 = [[FilterObject alloc] init];
+            [object1 setFilterDescription:@""];
+            [object1 setFilterResult:tempCarGroup.fuelName];
+            [object1 setFilterCode:tempCarGroup.fuelId];
+            [object1 setIsSelected:NO];
+            [fuelFilter addObject:object1];
+        }
+
+    }
+    [self calculateFilterResult:fuelFilter];
+}
+
+
+- (void)buildSegmentFilter{
     segmentFilter = [[NSMutableArray alloc] init];
     
-    FilterObject *object4 = [[FilterObject alloc] init];
-    [object4 setFilterDescription:@"Kategori Tipi"];
-    [object4 setFilterResult:@""];
-    [object4 setIsSelected:NO];
-    [segmentFilter addObject:object4];
-    
-    FilterObject *object5 = [[FilterObject alloc] init];
-    [object5 setFilterDescription:@""];
-    [object5 setFilterResult:@"Ekonomik"];
-    [object5 setFilterCode:@"30"];
-    [object5 setIsSelected:NO];
-    [segmentFilter addObject:object5];
-    
-    FilterObject *object6 = [[FilterObject alloc] init];
-    [object6 setFilterDescription:@""];
-    [object6 setFilterResult:@"Standart"];
-    [object6 setFilterCode:@"40"];
-    [object6 setIsSelected:NO];
-    [segmentFilter addObject:object6];
-    
-    FilterObject *object7= [[FilterObject alloc] init];
-    [object7 setFilterDescription:@""];
-    [object7 setFilterResult:@"Konfor"];
-    [object7 setFilterCode:@"50"];
-    [object7 setIsSelected:NO];
-    [segmentFilter addObject:object7];
-    
-    FilterObject *object8 = [[FilterObject alloc] init];
-    [object8 setFilterDescription:@""];
-    [object8 setFilterResult:@"Maksi"];
-    [object8 setFilterCode:@"60"];
-    [object8 setIsSelected:NO];
-    [segmentFilter addObject:object8];
-    
-    FilterObject *object9 = [[FilterObject alloc] init];
-    [object9 setFilterDescription:@""];
-    [object9 setFilterResult:@"Lüks"];
-    [object9 setFilterCode:@"70"];
-    [object9 setIsSelected:NO];
-    [segmentFilter addObject:object9];
-    
-    FilterObject *object10 = [[FilterObject alloc] init];
-    [object10 setFilterDescription:@""];
-    [object10 setFilterResult:@"Stil"];
-    [object10 setFilterCode:@"80"];
-    [object10 setIsSelected:NO];
-    [segmentFilter addObject:object10];
-    
-    FilterObject *object11 = [[FilterObject alloc] init];
-    [object11 setFilterDescription:@""];
-    [object11 setFilterResult:@"Elit"];
-    [object11 setFilterCode:@"90"];
-    [object11 setIsSelected:NO];
-    [segmentFilter addObject:object11];
-    
-    FilterObject *object12 = [[FilterObject alloc] init];
-    [object12 setFilterDescription:@""];
-    [object12 setFilterResult:@"SUV"];
-    [object12 setFilterCode:@"100"];
-    [object12 setIsSelected:NO];
-    [segmentFilter addObject:object12];
-    
-    FilterObject *object13 = [[FilterObject alloc] init];
-    [object13 setFilterDescription:@""];
-    [object13 setFilterResult:@"Fonksiyonel"];
-    [object13 setFilterCode:@"110"];
-    [object13 setIsSelected:NO];
-    [segmentFilter addObject:object13];
+    FilterObject *object = [[FilterObject alloc] init];
+    [object setFilterDescription:@"Kategori Tipi"];
+    [object setFilterResult:@""];
+    [object setIsSelected:NO];
+    [segmentFilter addObject:object];
+    for (CarGroup *tempCarGroup in carGroups) {
+        if (![self isFilterIdFoundFromFilterList:segmentFilter withId:tempCarGroup.segment]) {
+            object = [[FilterObject alloc] init];
+            [object setFilterDescription:@""];
+            [object setFilterResult:tempCarGroup.segmentName];
+            [object setFilterCode:tempCarGroup.segment];
+            [object setIsSelected:NO];
+            [segmentFilter addObject:object];
+        }
+        
+    }
+
     
     [self calculateFilterResult:segmentFilter];
-    
-    bodyType = [[NSMutableArray alloc] init];
-    
-    FilterObject *object14 = [[FilterObject alloc] init];
-    [object14 setFilterDescription:@"Kasa Tipi"];
-    [object14 setFilterResult:@""];
-    [object14 setFilterCode:@""];
-    [object14 setIsSelected:NO];
-    [bodyType addObject:object14];
-    
-    FilterObject *object15 = [[FilterObject alloc] init];
-    [object15 setFilterDescription:@""];
-    [object15 setFilterResult:@"Sedan"];
-    [object15 setFilterCode:@"120"];
-    [object15 setIsSelected:NO];
-    [bodyType addObject:object15];
-    
-    FilterObject *object16 = [[FilterObject alloc] init];
-    [object16 setFilterDescription:@""];
-    [object16 setFilterResult:@"Hatchback"];
-    [object16 setFilterCode:@"130"];
-    [object16 setIsSelected:NO];
-    [bodyType addObject:object16];
-    
-    FilterObject *object17 = [[FilterObject alloc] init];
-    [object17 setFilterDescription:@""];
-    [object17 setFilterResult:@"SUV"];
-    [object17 setFilterCode:@"140"];
-    [object17 setIsSelected:NO];
-    [bodyType addObject:object17];
-    
-    [self calculateFilterResult:bodyType];
-    
-    gearboxType = [[NSMutableArray alloc] init];
-    
-    FilterObject *object18 = [[FilterObject alloc] init];
-    [object18 setFilterDescription:@"Vites Tipi"];
-    [object18 setFilterResult:@""];
-    [object18 setFilterCode:@""];
-    [object18 setIsSelected:NO];
-    [gearboxType addObject:object18];
-    
-    FilterObject *object19 = [[FilterObject alloc] init];
-    [object19 setFilterDescription:@""];
-    [object19 setFilterResult:@"Manuel"];
-    [object19 setFilterCode:@"150"];
-    [object19 setIsSelected:NO];
-    [gearboxType addObject:object19];
-    
-    FilterObject *object20 = [[FilterObject alloc] init];
-    [object20 setFilterDescription:@""];
-    [object20 setFilterResult:@"Triptonik"];
-    [object20 setFilterCode:@"160"];
-    [object20 setIsSelected:NO];
-    [gearboxType addObject:object20];
-    
-    FilterObject *object21 = [[FilterObject alloc] init];
-    [object21 setFilterDescription:@""];
-    [object21 setFilterResult:@"Otomatik"];
-    [object21 setFilterCode:@"170"];
-    [object21 setIsSelected:NO];
-    [gearboxType addObject:object21];
-    
-    [self calculateFilterResult:gearboxType];
-    
-    brandType = [[NSMutableArray alloc] init];
-    
-    FilterObject *object22 = [[FilterObject alloc] init];
-    [object22 setFilterDescription:@"Marka"];
-    [object22 setFilterResult:@""];
-    [object22 setFilterCode:@""];
-    [object22 setIsSelected:NO];
-    [brandType addObject:object22];
-    
-    FilterObject *object23 = [[FilterObject alloc] init];
-    [object23 setFilterDescription:@""];
-    [object23 setFilterResult:@"AUDI"];
-    [object23 setFilterCode:@"180"];
-    [object23 setIsSelected:NO];
-    [brandType addObject:object23];
-    
-    FilterObject *object24 = [[FilterObject alloc] init];
-    [object24 setFilterDescription:@""];
-    [object24 setFilterResult:@"BMW"];
-    [object24 setFilterCode:@"190"];
-    [object24 setIsSelected:NO];
-    [brandType addObject:object24];
-    
-    FilterObject *object25 = [[FilterObject alloc] init];
-    [object25 setFilterDescription:@""];
-    [object25 setFilterResult:@"FIAT"];
-    [object25 setFilterCode:@"200"];
-    [object25 setIsSelected:NO];
-    [brandType addObject:object25];
-    
-    FilterObject *object29 = [[FilterObject alloc] init];
-    [object29 setFilterDescription:@""];
-    [object29 setFilterResult:@"KIA"];
-    [object29 setFilterCode:@"230"];
-    [object29 setIsSelected:NO];
-    [brandType addObject:object29];
-    
-    FilterObject *object28 = [[FilterObject alloc] init];
-    [object28 setFilterDescription:@""];
-    [object28 setFilterResult:@"MERCEDES"];
-    [object28 setFilterCode:@"220"];
-    [object28 setIsSelected:NO];
-    [brandType addObject:object28];
-    
-    FilterObject *object30 = [[FilterObject alloc] init];
-    [object30 setFilterDescription:@""];
-    [object30 setFilterResult:@"OPEL"];
-    [object30 setFilterCode:@"240"];
-    [object30 setIsSelected:NO];
-    [brandType addObject:object30];
-    
-    FilterObject *object27 = [[FilterObject alloc] init];
-    [object27 setFilterDescription:@""];
-    [object27 setFilterResult:@"RENAULT"];
-    [object27 setFilterCode:@"210"];
-    [object27 setIsSelected:NO];
-    [brandType addObject:object27];
-    
-    [self calculateFilterResult:brandType];
 }
+
+- (void)buildBodyFilter{
+    bodyFilter = [[NSMutableArray alloc] init];
+    
+    FilterObject *object = [[FilterObject alloc] init];
+    [object setFilterDescription:@"Kasa Tipi"];
+    [object setFilterResult:@""];
+    [object setIsSelected:NO];
+    [bodyFilter addObject:object];
+    for (CarGroup *tempCarGroup in carGroups) {
+        if (![self isFilterIdFoundFromFilterList:bodyFilter withId:tempCarGroup.bodyId]) {
+            object = [[FilterObject alloc] init];
+            [object setFilterDescription:@""];
+            [object setFilterResult:tempCarGroup.bodyName];
+            [object setFilterCode:tempCarGroup.bodyId];
+            [object setIsSelected:NO];
+            [bodyFilter addObject:object];
+        }
+        
+    }
+    
+    [self calculateFilterResult:bodyFilter];
+
+    
+}
+
+- (void)buildTransmissionFilter{
+    transmissionFilter = [[NSMutableArray alloc] init];
+    
+    FilterObject *object = [[FilterObject alloc] init];
+    [object setFilterDescription:@"Vites Tipi"];
+    [object setFilterResult:@""];
+    [object setIsSelected:NO];
+    [transmissionFilter addObject:object];
+    for (CarGroup *tempCarGroup in carGroups) {
+        if (![self isFilterIdFoundFromFilterList:transmissionFilter withId:tempCarGroup.transmissonId]) {
+            object = [[FilterObject alloc] init];
+            [object setFilterDescription:@""];
+            [object setFilterResult:tempCarGroup.transmissonName];
+            [object setFilterCode:tempCarGroup.transmissonId];
+            [object setIsSelected:NO];
+            [transmissionFilter addObject:object];
+        }
+        
+    }
+    [self calculateFilterResult:transmissionFilter];
+
+    
+    
+}
+
+
+- (void)buildBrandFilter{
+    brandFilter  = [[NSMutableArray alloc] init];
+    
+    FilterObject *object = [[FilterObject alloc] init];
+    [object setFilterDescription:@"Marka"];
+    [object setFilterResult:@""];
+    [object setIsSelected:NO];
+    [brandFilter addObject:object];
+    for (CarGroup *tempCarGroup in carGroups) {
+        for(Car *tempCar in tempCarGroup.cars)
+            if (![self isFilterIdFoundFromFilterList:brandFilter withId:tempCar.brandId]) {
+                object = [[FilterObject alloc] init];
+                [object setFilterDescription:@""];
+                [object setFilterResult:tempCar.brandName];
+                [object setFilterCode:tempCar.brandId];
+                [object setIsSelected:NO];
+                [brandFilter addObject:object];
+        }
+        
+    }
+    
+
+    [self calculateFilterResult:brandFilter];
+    
+    
+    
+}
+
+
+- (BOOL)isFilterIdFoundFromFilterList:(NSMutableArray*)aList withId:(NSString*)anId{
+    for (FilterObject *tempObject in aList) {
+        if ([[tempObject filterCode] isEqualToString:anId]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (void)filterCars{
+    [filteredCarGroups removeAllObjects];
+    [filteredCarGroups addObjectsFromArray:carGroups];
+    //ve malesef değişecek :D :( -alp
+  
+    [self filterFuel];
+    [self filterSegment];
+    [self filterBody];
+    [self filterTransmission];
+    [self filterBrand];
+    
+}
+
+- (void)filterFuel{
+    NSMutableArray *newArray = [[NSMutableArray alloc]init];
+    for (FilterObject *tempObject in fuelFilter) {
+        if (tempObject.filterCode == nil) {
+            //ilk kalemdir
+            if ([tempObject.filterResult isEqualToString:@"Hepsi"]) {
+                return;
+            }
+        }
+        else
+        {
+            if ([tempObject isSelected]) {
+                
+                for (CarGroup *tempGroup in filteredCarGroups) {
+                    if ([tempObject.filterCode isEqualToString:tempGroup.fuelId]) {
+                        [newArray addObject:tempGroup];
+                    }
+                }
+            }
+        }
+    }
+    filteredCarGroups = newArray;
+}
+- (void)filterSegment{
+    NSMutableArray *newArray = [[NSMutableArray alloc]init];
+    for (FilterObject *tempObject in segmentFilter) {
+        if (tempObject.filterCode == nil) {
+            //ilk kalemdir
+            if ([tempObject.filterResult isEqualToString:@"Hepsi"]) {
+                return;
+            }
+        }
+        else
+        {
+            if ([tempObject isSelected]) {
+                
+                for (CarGroup *tempGroup in filteredCarGroups) {
+                    if ([tempObject.filterCode isEqualToString:tempGroup.segment]) {
+                        [newArray addObject:tempGroup];
+                    }
+                }
+            }
+        }
+    }
+    filteredCarGroups = newArray;
+}
+
+- (void)filterBody{
+    NSMutableArray *newArray = [[NSMutableArray alloc]init];
+    for (FilterObject *tempObject in bodyFilter) {
+        if (tempObject.filterCode == nil) {
+            //ilk kalemdir
+            if ([tempObject.filterResult isEqualToString:@"Hepsi"]) {
+                return;
+            }
+        }
+        else
+        {
+            if ([tempObject isSelected]) {
+                
+                for (CarGroup *tempGroup in filteredCarGroups) {
+                    if ([tempObject.filterCode isEqualToString:tempGroup.bodyId]) {
+                        [newArray addObject:tempGroup];
+                    }
+                }
+            }
+        }
+    }
+    filteredCarGroups = newArray;
+}
+
+- (void)filterTransmission{
+    NSMutableArray *newArray = [[NSMutableArray alloc]init];
+    for (FilterObject *tempObject in transmissionFilter) {
+        if (tempObject.filterCode == nil) {
+            //ilk kalemdir
+            if ([tempObject.filterResult isEqualToString:@"Hepsi"]) {
+                return;
+            }
+        }
+        else
+        {
+            if ([tempObject isSelected]) {
+                
+                for (CarGroup *tempGroup in filteredCarGroups) {
+                    if ([tempObject.filterCode isEqualToString:tempGroup.transmissonId]) {
+                        [newArray addObject:tempGroup];
+                    }
+                }
+            }
+        }
+    }
+    filteredCarGroups = newArray;
+}
+
+///ahahahahahhaahhahahahahahahhahaha anlasana  ahahahahahhahahaah
+- (void)filterBrand{
+    NSMutableArray *newArray = [[NSMutableArray alloc]init];
+    NSMutableArray *newTempGroupArray = [[NSMutableArray alloc] initWithArray:filteredCarGroups];
+    for (CarGroup*temp in newTempGroupArray) {
+        temp.cars = [[NSMutableArray alloc] init];
+    }
+    for (FilterObject *tempObject in brandFilter) {
+        if (tempObject.filterCode == nil) {
+            //ilk kalemdir
+            if ([tempObject.filterResult isEqualToString:@"Hepsi"]) {
+                return;
+            }
+        }
+        else
+        {
+            if ([tempObject isSelected]) {
+                
+                for (CarGroup *tempGroup in filteredCarGroups) {
+                    CarGroup *newTempGroup = [CarGroup getGroupFromList:newTempGroupArray WithCode:tempGroup.groupCode];
+                    for (Car *tempCar in tempGroup.cars) {
+                        if ([tempObject.filterCode isEqualToString:tempCar.brandId]) {
+                            [newTempGroup.cars addObject:tempCar];
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+    [filteredCarGroups removeAllObjects];
+    for (CarGroup*tempGroup in newTempGroupArray) {
+        if (tempGroup.cars.count>0) {
+            [filteredCarGroups addObject:tempGroup];
+        }
+    }
+
+
+}
+
+
+
 
 @end
