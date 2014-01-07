@@ -15,5 +15,6 @@
 @property(nonatomic,retain)IBOutlet UILabel *checkInOfficeLabel;
 @property(nonatomic,retain)IBOutlet UILabel *checkInDateLabel;
 @property(nonatomic,retain)IBOutlet UILabel *checkInTimeLabel;
+@property(nonatomic,retain)IBOutlet UILabel *totalLabel;
 
 @end

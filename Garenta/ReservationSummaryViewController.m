@@ -9,6 +9,7 @@
 #import "ReservationSummaryViewController.h"
 #import "ReservationSummaryCell.h"
 #import "ReservationApprovalVC.h"
+#define isiPhone5  ([[UIScreen mainScreen] bounds].size.height == 568)?TRUE:FALSE
 @interface ReservationSummaryViewController ()
 
 @end
@@ -35,10 +36,14 @@
     
     [self prepareScreen];
 }
-
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [tableView reloadData];
+}
 - (void)prepareScreen{
     
-    
+    //504
     tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     [tableView setDelegate:self];
     [tableView setDataSource:self];
@@ -49,7 +54,7 @@
     
     
     resumeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [resumeButton setFrame:CGRectMake(0,0,100,50)];
+    [resumeButton setFrame:CGRectMake(0,0,100,35)];
     [resumeButton setCenter:self.view.center];
     [resumeButton setBackgroundColor:[ApplicationProperties getGreen]];
     [resumeButton setTitleColor:[ApplicationProperties getWhite] forState:UIControlStateNormal];
@@ -131,14 +136,14 @@
                     [myCellView.checkInDateLabel setText:[dayFormatter stringFromDate:reservation.checkInDay]] ;
                     [myCellView.checkInTimeLabel setText:[timeFormatter stringFromDate:reservation.checkInTime]];
                     [myCellView.checkInOfficeLabel setTextAlignment:NSTextAlignmentCenter];
-                    
+                    [myCellView.totalLabel setText:reservation.selectedCarGroup.payLaterPrice];
                 }
             }
             
             [cell addSubview: myCellView];
             break;
         case 2:
-            [resumeButton setCenter:CGPointMake(cell.center.x,[self tableView:tableView heightForRowAtIndexPath:indexPath] / 2.0f) ];
+            [resumeButton setCenter:CGPointMake(cell.center.x,[self tableView:tableView heightForRowAtIndexPath:indexPath] / 3.0f) ];
             [cell addSubview:resumeButton];
             
             break;
@@ -160,13 +165,16 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.row) {
         case 0:
-              return 205;
+              return 157;
             break;
         case 1:
-            return 194;
+            return 201;
             break;
         case 2:
-            return self.view.frame.size.height - (205 +194);
+            if (isiPhone5) {
+                return self.view.frame.size.height- 358;
+            }
+            return 105.0f;
             break;
         default:
             break;

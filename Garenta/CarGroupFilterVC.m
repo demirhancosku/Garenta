@@ -519,10 +519,27 @@
 ///ahahahahahhaahhahahahahahahhahaha anlasana  ahahahahahhahahaah
 - (void)filterBrand{
     NSMutableArray *newArray = [[NSMutableArray alloc]init];
-    NSMutableArray *newTempGroupArray = [[NSMutableArray alloc] initWithArray:filteredCarGroups];
-    for (CarGroup*temp in newTempGroupArray) {
-        temp.cars = [[NSMutableArray alloc] init];
+    //sonra nscopy implement et aalpk
+    NSMutableArray *newTempGroupArray = [[NSMutableArray alloc] init];
+    CarGroup *newCarGroup;
+    for (CarGroup *temp in filteredCarGroups) {
+        newCarGroup = [[CarGroup alloc] init];
+        newCarGroup.cars = [[NSMutableArray alloc] init];
+        [newCarGroup setGroupCode:temp.groupCode];
+        [newCarGroup setGroupName:temp.groupName];
+        [newCarGroup setTransmissonId:temp.transmissonId];
+        [newCarGroup setTransmissonName:temp.transmissonName];
+        [newCarGroup setFuelId:temp.fuelId];
+        [newCarGroup setFuelName:temp.fuelName];
+        [newCarGroup setBodyId:temp.bodyId];
+        [newCarGroup setBodyName:temp.bodyName];
+        [newCarGroup setSegment:temp.segment];
+        [newCarGroup setSegmentName:temp.segmentName];
+        [newCarGroup setSampleCar:temp.sampleCar];
+        [newTempGroupArray addObject:newCarGroup];
+
     }
+
     for (FilterObject *tempObject in brandFilter) {
         if (tempObject.filterCode == nil) {
             //ilk kalemdir
@@ -546,7 +563,8 @@
             }
         }
     }
-    [filteredCarGroups removeAllObjects];
+    filteredCarGroups = nil;
+    filteredCarGroups = [[NSMutableArray alloc] init];
     for (CarGroup*tempGroup in newTempGroupArray) {
         if (tempGroup.cars.count>0) {
             [filteredCarGroups addObject:tempGroup];

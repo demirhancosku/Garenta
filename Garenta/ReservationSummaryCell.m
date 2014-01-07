@@ -9,7 +9,7 @@
 #import "ReservationSummaryCell.h"
 
 @implementation ReservationSummaryCell
-@synthesize checkInDateLabel,checkInOfficeLabel,checkInTimeLabel,checkOutDateLabel,checkOutOfficeLabel,checkOutTimeLabel;
+@synthesize checkInDateLabel,checkInOfficeLabel,checkInTimeLabel,checkOutDateLabel,checkOutOfficeLabel,checkOutTimeLabel,totalLabel;
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -17,6 +17,11 @@
         // Initialization code
     }
     return self;
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    [totalLabel setTextColor:[ApplicationProperties getOrange]];
 }
 
 /*

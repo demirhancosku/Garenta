@@ -42,27 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Garenta/ReservationSummaryViewController.m"
-            timestampString = "410655635.127531"
+            timestampString = "410752949.481097"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
-            landmarkName = "-tableView:heightForRowAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Garenta/ReservationSummaryViewController.m"
-            timestampString = "410655635.127531"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "-doReservation"
             landmarkType = "5">
          </BreakpointContent>
@@ -90,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Garenta/ReservationSummaryViewController.m"
-            timestampString = "410656998.128456"
+            timestampString = "410752949.481097"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
             landmarkName = "-connection:didReceiveData:"
             landmarkType = "5">
          </BreakpointContent>
@@ -137,7 +121,7 @@
                   symbolName = "+[Office getClosestOfficeFromList:withCoordinate:]"
                   moduleName = "Garenta"
                   urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/Office.m"
-                  timestampString = "410738168.346904"
+                  timestampString = "410749697.37254"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "29"
@@ -151,7 +135,7 @@
                   symbolName = "+[Office getClosestOfficeFromList:withCoordinate:]"
                   moduleName = "Garenta"
                   urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/Office.m"
-                  timestampString = "410738168.347058"
+                  timestampString = "410749697.37276"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "29"
@@ -183,7 +167,7 @@
                   symbolName = "-[CarGroupFilterVC filterFuel]"
                   moduleName = "Garenta"
                   urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/CarGroupFilterVC.m"
-                  timestampString = "410738168.347231"
+                  timestampString = "410749697.372964"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "444"
@@ -197,7 +181,7 @@
                   symbolName = "-[CarGroupFilterVC filterFuel]"
                   moduleName = "Garenta"
                   urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/CarGroupFilterVC.m"
-                  timestampString = "410738168.347382"
+                  timestampString = "410749697.373161"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "444"
@@ -214,43 +198,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Garenta/CarGroupFilterVC.m"
-            timestampString = "410738093.320178"
+            timestampString = "410739061.092787"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "526"
-            endingLineNumber = "526"
+            startingLineNumber = "524"
+            endingLineNumber = "524"
             landmarkName = "-filterBrand"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[CarGroupFilterVC filterBrand]"
-                  moduleName = "Garenta"
-                  urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/CarGroupFilterVC.m"
-                  timestampString = "410738168.347595"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "526"
-                  endingLineNumber = "526"
-                  offsetFromSymbolStart = "742">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[CarGroupFilterVC filterBrand]"
-                  moduleName = "Garenta"
-                  urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/CarGroupFilterVC.m"
-                  timestampString = "410738168.347768"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "526"
-                  endingLineNumber = "526"
-                  offsetFromSymbolStart = "2783">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -260,11 +214,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Garenta/CarGroupFilterVC.m"
-            timestampString = "410738148.216573"
+            timestampString = "410747882.826997"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "522"
-            endingLineNumber = "522"
+            startingLineNumber = "566"
+            endingLineNumber = "566"
             landmarkName = "-filterBrand"
             landmarkType = "5">
          </BreakpointContent>
