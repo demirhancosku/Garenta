@@ -20,6 +20,11 @@
     return nil;
 }
 
+//+ (NSMutableArray*)sortCarGroupsBy:(NSString*)aParameter{
+//    if (aParameter isEqualToString@"Sonra") {
+//        <#statements#>
+//    }
+//}
 - (NSMutableArray*)getBestCarsWithFilter:(NSString*)aFilter{
     //fiyata gore sirali bu grupraki her
     NSMutableArray *bestCarList =[[NSMutableArray alloc] init];

@@ -228,14 +228,13 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0)
+    if (buttonIndex == 1)
     {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:newAppLink]];
         
     }
 }
-//-()[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms://itunes.apple.com/us/app/wolframalpha/id334989259?mt=8"]];
-//
+
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     

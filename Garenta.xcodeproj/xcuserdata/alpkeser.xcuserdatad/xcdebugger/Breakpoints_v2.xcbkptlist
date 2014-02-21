@@ -121,12 +121,12 @@
                   symbolName = "+[Office getClosestOfficeFromList:withCoordinate:]"
                   moduleName = "Garenta"
                   urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/Office.m"
-                  timestampString = "410749697.37254"
+                  timestampString = "410971559.254389"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "29"
                   endingLineNumber = "29"
-                  offsetFromSymbolStart = "129">
+                  offsetFromSymbolStart = "106">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -135,12 +135,12 @@
                   symbolName = "+[Office getClosestOfficeFromList:withCoordinate:]"
                   moduleName = "Garenta"
                   urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/Office.m"
-                  timestampString = "410749697.37276"
+                  timestampString = "410971559.254837"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "29"
                   endingLineNumber = "29"
-                  offsetFromSymbolStart = "2422">
+                  offsetFromSymbolStart = "1630">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -167,12 +167,12 @@
                   symbolName = "-[CarGroupFilterVC filterFuel]"
                   moduleName = "Garenta"
                   urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/CarGroupFilterVC.m"
-                  timestampString = "410749697.372964"
+                  timestampString = "410971559.255314"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "444"
                   endingLineNumber = "444"
-                  offsetFromSymbolStart = "1306">
+                  offsetFromSymbolStart = "984">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -181,12 +181,12 @@
                   symbolName = "-[CarGroupFilterVC filterFuel]"
                   moduleName = "Garenta"
                   urlString = "file:///Users/alpkeser/Documents/xcode%20workspace/GitHub%20Folder/Garenta/Garenta/CarGroupFilterVC.m"
-                  timestampString = "410749697.373161"
+                  timestampString = "410971559.25589"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "444"
                   endingLineNumber = "444"
-                  offsetFromSymbolStart = "1433">
+                  offsetFromSymbolStart = "1072">
                </Location>
             </Locations>
          </BreakpointContent>

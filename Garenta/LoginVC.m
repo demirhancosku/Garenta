@@ -48,8 +48,8 @@
 {
     [self prepareScreen];
     //ToDo: aalpk
-//    [username setText:@"12345678901"];
-//    [password setText:@"19850000"];
+    [username setText:@"12345678901"];
+    [password setText:@"19850000"];
     //klavyeyi ilk açılışta gösterme
 //    [username becomeFirstResponder];
     
