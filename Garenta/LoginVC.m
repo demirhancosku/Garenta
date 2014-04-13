@@ -183,7 +183,7 @@
                                          timeoutInterval:20.0];
     
     NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
-    
+//    [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES]; aalpk : gene warning
 }
 - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)space
 {
@@ -250,14 +250,13 @@
         user.username = username.text;
         user.password = password.text;
        //priority check
-        NSString *tempKunnr;
+//        NSString *tempKunnr;
         for (NSDictionary *aCard in cardsResult) {
             if ([user.kunnr isEqualToString:(NSString*)[aCard objectForKey:@"Partner"]]) {
                 user.accountType = [aCard objectForKey:@"CardType"];
             }
         }
     }
-    NSString *valueToSave = user.username;
     //save to db
     [[NSUserDefaults standardUserDefaults]
      setObject:user.kunnr forKey:@"KUNNR"];

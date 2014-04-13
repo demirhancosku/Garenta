@@ -32,6 +32,7 @@
     return self;
 }
 
+#pragma mark - uiview events
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -76,6 +77,14 @@
     [[self view] addSubview:datePicker];
     [datePicker setHidden:YES];
 }
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - custom code
 
 //The event handling method
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
@@ -122,11 +131,7 @@
     tcknNoTextField.layer.cornerRadius=8.0f;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 - (void)resume
 {
@@ -235,7 +240,7 @@
     [scrollView setContentOffset:CGPointZero];
 }
 
-#pragma mark - textfield delegates
+#pragma mark - textfield delegate methods
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     activeField = textField;

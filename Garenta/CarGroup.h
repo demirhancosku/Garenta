@@ -25,7 +25,9 @@
 @property(nonatomic,retain)NSString *transmissonName;
 @property(nonatomic,retain)Car *sampleCar;
 @property(nonatomic,retain)NSMutableArray *cars;
-
+//filtrede kullanılıyor
 + (CarGroup*)getGroupFromList:(NSMutableArray*)carList WithCode:(NSString*)aGroupCode;
 - (NSMutableArray*)getBestCarsWithFilter:(NSString*)aFilter;
+//parseta kullanılıyor
++ (NSMutableArray*)getCarGroupsFromData:(NSData*) aData withOffices:(NSMutableArray*)offices;
 @end

@@ -180,7 +180,7 @@
     }
     Car *cellCar = [[activeCarGroup getBestCarsWithFilter:@"Fiyat"] objectAtIndex:indexPath.row];
     [myCellView.officeName setText:cellCar.office.subOfficeName];
-    [myCellView.payNowLabel setText:cellCar.payLaterPrice];
+    [myCellView.payNowLabel setText:cellCar.pricing.payLaterPrice];
     
     //AALPK currency gelmiyor bak
     [myCellView.currencyLabel setText:@"TL"];
@@ -202,7 +202,7 @@
 
     Car*selectedCar = [[activeCarGroup getBestCarsWithFilter:@"Fiyat"] objectAtIndex:indexPath.row];
     //aalpk burası duzeltilicek sonra yapıya bakmak laızm
-    [activeCarGroup setPayLaterPrice:selectedCar.payLaterPrice];
+    [activeCarGroup setPayLaterPrice:selectedCar.pricing.payLaterPrice];
     //
     [reservation setSelectedCarGroup:activeCarGroup];
     [reservation setCheckOutOffice:selectedCar.office];
