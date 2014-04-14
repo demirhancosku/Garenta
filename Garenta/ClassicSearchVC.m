@@ -420,7 +420,8 @@
 
 - (void)connectToGateway
 {
-    NSString *connectionString = @"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_TEST_SRV/available_offices(ImppAltSube='',ImppMerkezSube='')?$expand=EXPT_SUBE_BILGILERISet,EXPT_CALISMA_ZAMANISet,EXPT_TATIL_ZAMANISet&$format=json";
+    
+    NSString *connectionString = @"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_OFIS_SRV/OfficeServiceSet(ImppMerkezSube='',ImppBolge='',ImppAltSube='')?$expand=EXPT_SUBE_BILGILERISet,EXPT_CALISMA_ZAMANISet,EXPT_TATIL_ZAMANISet&$format=json";
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:50.0];
     
@@ -526,54 +527,54 @@
 
     CarGroup *tempCarGroup;
     Office *tempOffice;
-    availableCarGroups = [[NSMutableArray alloc] init];
-    for (NSDictionary *tempCarResult in carListResult){
-        
-        tempCar = [[Car alloc] init];
-        [tempCar setMaterialCode:[tempCarResult objectForKey:@"Matnr"]];
-        [tempCar setMaterialName:[tempCarResult objectForKey:@"Maltx"]];
-        [tempCar setBrandId:[tempCarResult objectForKey:@"MarkaId"]];
-        [tempCar setBrandName:[tempCarResult objectForKey:@"Marka"]];
-        [tempCar setModelId:[tempCarResult objectForKey:@"ModelId"]];
-        [tempCar setModelName:[tempCarResult objectForKey:@"Model"]];
-        [tempCar setModelYear:[tempCarResult objectForKey:@"ModelYili"]];
-        [tempCar setPayNowPrice:[tempCarResult objectForKey:@"SimdiOdeFiyat"]];
-        [tempCar setPayLaterPrice:[tempCarResult objectForKey:@"SonraOdeFiyat"]];
-        [tempCar setEarningPrice:[tempCarResult objectForKey:@"Kazanc"]];
-        [tempCar setImage:[self getImageFromJSONResults:pictureListResult withPath:[tempCarResult objectForKey:@"Zresim315"]]];
-        //aalpk burasi duzelcek importu aliorz export boscunku
-        [tempCar setCurrency:[tempCarResult objectForKey:@"ImppWaers"]];
-        [tempCar setOffice:[Office getOfficeFrom:officeWorkingSchedule withCode:[tempCarResult objectForKey:@"Msube"]]];
-        //eger o grup yoksa daha
-        tempCarGroup = [CarGroup getGroupFromList:availableCarGroups WithCode:[tempCarResult objectForKey:@"Grpkod"]];
-        if ( tempCarGroup== nil) {
-            //grup yarat
-            //TODO: aalpk devam et gruba
-            tempCarGroup = [[CarGroup alloc] init];
-            tempCarGroup.cars = [[NSMutableArray alloc] init];
-            [tempCarGroup setGroupCode:[tempCarResult objectForKey:@"Grpkod"]];
-            [tempCarGroup setGroupName:[tempCarResult objectForKey:@"Grpkodtx"]];
-            [tempCarGroup setTransmissonId:[tempCarResult objectForKey:@"SanzimanTipiId"]];
-            [tempCarGroup setTransmissonName:[tempCarResult objectForKey:@"SanzimanTipi"]];
-            [tempCarGroup setFuelId:[tempCarResult objectForKey:@"YakitTipiId"]];
-            [tempCarGroup setFuelName:[tempCarResult objectForKey:@"YakitTipi"]];
-            [tempCarGroup setBodyId:[tempCarResult objectForKey:@"KasaTipiId"]];
-            [tempCarGroup setBodyName:[tempCarResult objectForKey:@"KasaTipi"]];
-            [tempCarGroup setSegment:[tempCarResult objectForKey:@"Segment"]];
-            [tempCarGroup setSegmentName:[tempCarResult objectForKey:@"Segmenttx"]];
-            [availableCarGroups addObject:tempCarGroup];
-        }
-        if ([[tempCarResult objectForKey:@"Vitrinres"] isEqualToString:@"X"]) {
-            [tempCarGroup setSampleCar:tempCar];
-        }
-        [tempCarGroup.cars addObject:tempCar];
-    }
-    
-    if(availableCarGroups.count == 0){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Belirttiğiniz tarih/şube aralığında uygun aracımız bulunmamaktadır." delegate:self cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-        [alert show];
-        return;
-    }
+    availableCarGroups = [CarGroup getCarGroupsFromData:data withOffices:officeWorkingSchedule];
+//    for (NSDictionary *tempCarResult in carListResult){
+//        
+//        tempCar = [[Car alloc] init];
+//        [tempCar setMaterialCode:[tempCarResult objectForKey:@"Matnr"]];
+//        [tempCar setMaterialName:[tempCarResult objectForKey:@"Maltx"]];
+//        [tempCar setBrandId:[tempCarResult objectForKey:@"MarkaId"]];
+//        [tempCar setBrandName:[tempCarResult objectForKey:@"Marka"]];
+//        [tempCar setModelId:[tempCarResult objectForKey:@"ModelId"]];
+//        [tempCar setModelName:[tempCarResult objectForKey:@"Model"]];
+//        [tempCar setModelYear:[tempCarResult objectForKey:@"ModelYili"]];
+//        [tempCar setPayNowPrice:[tempCarResult objectForKey:@"SimdiOdeFiyat"]];
+//        [tempCar setPayLaterPrice:[tempCarResult objectForKey:@"SonraOdeFiyat"]];
+//        [tempCar setEarningPrice:[tempCarResult objectForKey:@"Kazanc"]];
+//        [tempCar setImage:[self getImageFromJSONResults:pictureListResult withPath:[tempCarResult objectForKey:@"Zresim315"]]];
+//        //aalpk burasi duzelcek importu aliorz export boscunku
+//        [tempCar setCurrency:[tempCarResult objectForKey:@"ImppWaers"]];
+//        [tempCar setOffice:[Office getOfficeFrom:officeWorkingSchedule withCode:[tempCarResult objectForKey:@"Msube"]]];
+//        //eger o grup yoksa daha
+//        tempCarGroup = [CarGroup getGroupFromList:availableCarGroups WithCode:[tempCarResult objectForKey:@"Grpkod"]];
+//        if ( tempCarGroup== nil) {
+//            //grup yarat
+//            //TODO: aalpk devam et gruba
+//            tempCarGroup = [[CarGroup alloc] init];
+//            tempCarGroup.cars = [[NSMutableArray alloc] init];
+//            [tempCarGroup setGroupCode:[tempCarResult objectForKey:@"Grpkod"]];
+//            [tempCarGroup setGroupName:[tempCarResult objectForKey:@"Grpkodtx"]];
+//            [tempCarGroup setTransmissonId:[tempCarResult objectForKey:@"SanzimanTipiId"]];
+//            [tempCarGroup setTransmissonName:[tempCarResult objectForKey:@"SanzimanTipi"]];
+//            [tempCarGroup setFuelId:[tempCarResult objectForKey:@"YakitTipiId"]];
+//            [tempCarGroup setFuelName:[tempCarResult objectForKey:@"YakitTipi"]];
+//            [tempCarGroup setBodyId:[tempCarResult objectForKey:@"KasaTipiId"]];
+//            [tempCarGroup setBodyName:[tempCarResult objectForKey:@"KasaTipi"]];
+//            [tempCarGroup setSegment:[tempCarResult objectForKey:@"Segment"]];
+//            [tempCarGroup setSegmentName:[tempCarResult objectForKey:@"Segmenttx"]];
+//            [availableCarGroups addObject:tempCarGroup];
+//        }
+//        if ([[tempCarResult objectForKey:@"Vitrinres"] isEqualToString:@"X"]) {
+//            [tempCarGroup setSampleCar:tempCar];
+//        }
+//        [tempCarGroup.cars addObject:tempCar];
+//    }
+//    
+//    if(availableCarGroups.count == 0){
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Belirttiğiniz tarih/şube aralığında uygun aracımız bulunmamaktadır." delegate:self cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+//        [alert show];
+//        return;
+//    }
     //pushing
     //aalpk: differenceee
     if ([ApplicationProperties getMainSelection]== advanced_search) {

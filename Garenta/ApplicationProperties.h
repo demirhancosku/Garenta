@@ -10,6 +10,7 @@
 #import "User.h"
 #import "Office.h"
 #import "Reservation.h"
+#import <CoreLocation/CoreLocation.h>
 @interface ApplicationProperties : NSObject
 typedef enum{
     classic_search,
@@ -44,4 +45,6 @@ typedef enum{
 
 //aktiflik
 + (BOOL)isActiveVersion;
+
++ (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation;
 @end

@@ -7,10 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Price.h"
+@class CarGroup;
 
 @interface Car : NSObject{
     
 }
+@property(nonatomic,retain)CarGroup *carGroup;
+@property(nonatomic,retain)Price *pricing;
 @property(nonatomic,retain)Office *office;
 @property(nonatomic,retain)NSString *materialCode;
 @property(nonatomic,retain)NSString *materialName;
@@ -28,11 +32,10 @@
 @property(nonatomic,retain)NSString *passangerNumber;
 @property(nonatomic,retain)NSString *ac;
 @property(nonatomic,retain)NSString *imagePath;
-@property(nonatomic,retain)NSString *payNowPrice;
-@property(nonatomic,retain)NSString *payLaterPrice;
 @property(nonatomic,retain)NSString *discountedPrice;
 @property(nonatomic,retain)NSString *earningPrice;//kazanc
 @property(nonatomic,retain)NSString *discountRate;
 @property(nonatomic,retain)NSString *currency;
-@property(nonatomic,retain)UIImage *image;
+@property(nonatomic,retain)NSString *bluetooth;
+@property(nonatomic,retain)UIImage  *image;
 @end

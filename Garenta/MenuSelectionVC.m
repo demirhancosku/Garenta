@@ -32,6 +32,8 @@
     return self;
 }
 
+#pragma mark - view event methods
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -46,51 +48,13 @@
     [self prepareScreen];
 }
 
-- (void)prepareScreen
+- (void)didReceiveMemoryWarning
 {
-    
-    
-    NSString *barString;
-    if ([[ApplicationProperties getUser] isLoggedIn]) {
-        barString = @"Çıkış";
-    }else{
-        
-                barString = @"Giriş";
-    }
-    
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:barString style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
-    [[self navigationItem] setRightBarButtonItem:barButton];
-    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-                                                           [ApplicationProperties getBlack], NSForegroundColorAttributeName,
-                                                           [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0], NSFontAttributeName, nil]];
-    return;
-
-    
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
-
-
-- (void)login:(id)sender
-{
-    if ([[ApplicationProperties getUser] isLoggedIn]) {
-        //then logout
-        [[NSUserDefaults standardUserDefaults]
-    setObject:@""forKey:@"KUNNR"];
-        
-        [[NSUserDefaults standardUserDefaults]
-         setObject:@"" forKey:@"PASSWORD"];
-        [[ApplicationProperties getUser] setPassword:@""];
-        [[ApplicationProperties getUser] setUsername:@""];
-        [[ApplicationProperties getUser] setIsLoggedIn:NO];
-        [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
-        return;
-    }
-    LoginVC *login = [[LoginVC alloc] initWithFrame:self.view.frame andUser:nil];
-    [[self navigationController] pushViewController:login animated:YES];
-}
-
-
-
+#pragma mark - tableView datasource methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -121,7 +85,7 @@
 }
 
 
-
+#pragma mark - tableView delegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -163,22 +127,61 @@
 }
 
 
-#pragma mark- - version checking
+#pragma mark - custom methods
 - (void)checkVersion{
     NSString *connectionString = [ApplicationProperties getVersionUrl];
-    
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:150.0];
     
     NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
     
 }
 
-
-- (void)didReceiveMemoryWarning
+- (void)prepareScreen
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    
+    NSString *barString;
+    if ([[ApplicationProperties getUser] isLoggedIn]) {
+        barString = @"Çıkış";
+    }else{
+        
+        barString = @"Giriş";
+    }
+    
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:barString style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
+    [[self navigationItem] setRightBarButtonItem:barButton];
+    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [ApplicationProperties getBlack], NSForegroundColorAttributeName,
+                                                           [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0], NSFontAttributeName, nil]];
+    return;
+    
+    
 }
+
+
+
+#pragma mark - action methods
+
+- (void)login:(id)sender
+{
+    if ([[ApplicationProperties getUser] isLoggedIn]) {
+        //then logout
+        [[NSUserDefaults standardUserDefaults]
+         setObject:@""forKey:@"KUNNR"];
+        [[NSUserDefaults standardUserDefaults]
+         setObject:@"" forKey:@"PASSWORD"];
+        [[ApplicationProperties getUser] setPassword:@""];
+        [[ApplicationProperties getUser] setUsername:@""];
+        [[ApplicationProperties getUser] setIsLoggedIn:NO];
+        [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
+        return;
+    }
+    LoginVC *login = [[LoginVC alloc] initWithFrame:self.view.frame andUser:nil];
+    [[self navigationController] pushViewController:login animated:YES];
+}
+
+
+#pragma mark - nurlconnection delegate methods
 
 - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)space
 {
@@ -218,17 +221,17 @@
     
 
     NSString *updateLink;
-    if([[result objectForKey:@"EReturn"] isEqualToString:@"T"]){
+//    if([[result objectForKey:@"EReturn"] isEqualToString:@"T"]){
         [[NSUserDefaults standardUserDefaults]
          setObject:@"T"forKey:@"ACTIVEVERSION"];
         
-    }else{
+//    }else{
         newAppLink = [result objectForKey:@"ELink"];
         [[NSUserDefaults standardUserDefaults]
          setObject:@"F"forKey:@"ACTIVEVERSION"];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bilgi" message:@"Uygulamamızın yeni versiyonunu indirmenizi rica ederiz. Teşekkürler." delegate:self cancelButtonTitle:@"Vazgeç" otherButtonTitles:       @"İndir",nil];
         [alert show];
-    }
+//    }
     [loaderVC stopAnimation];
 }
 
@@ -247,7 +250,6 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     [loaderVC stopAnimation];
-    NSLog(@"1");
 }
 
 @end

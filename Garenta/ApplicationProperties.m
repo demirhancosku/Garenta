@@ -130,7 +130,7 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
     //main office vr mı
     //aalpk : cikis main office bossa  bakıp onu yollayalım
     
-        return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_ARAC_SRV/AvailCarService(ImppMsube='%@',ImppSehir='%@',ImppHdfsube='%@',ImppLangu='T',ImppLand='T',ImppUname='XXXXX',ImppKdgrp='',ImppKunnr='%@',ImppEhdat=datetime'2010-01-12T00:00:00',ImppGbdat=datetime'1983-07-15T00:00:00',ImppFikod='',ImppWaers='TL',ImppBegda=datetime'%@',ImppEndda=datetime'%@',ImppBeguz='%@',ImppEnduz='%@')?$expand=ET_ARACLISTESet,ET_RESIMLERSet&$format=json",mSube,sehir,checkInOffice.mainOfficeCode,kunnr,checkOutDayString,checkInDayString,checkOutTimeString,checkInTimeString];
+        return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_ARAC_SRV/AvailCarServiceSet(ImppMsube='%@',ImppSehir='%@',ImppHdfsube='%@',ImppLangu='T',ImppLand='T',ImppUname='XXXXX',ImppKdgrp='',ImppKunnr='%@',ImppEhdat=datetime'2010-01-12T00:00:00',ImppGbdat=datetime'1983-07-15T00:00:00',ImppFikod='',ImppWaers='TL',ImppBegda=datetime'%@',ImppEndda=datetime'%@',ImppBeguz='%@',ImppEnduz='%@')?$expand=ET_ARACLISTESet,ET_FIYATSet&$format=json",mSube,sehir,checkInOffice.mainOfficeCode,kunnr,checkOutDayString,checkInDayString,checkOutTimeString,checkInTimeString];;
     
 
 }
@@ -199,4 +199,17 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
     return @"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_LOCATION_SRV/LocationServiceSet(IvLangu='T')?$expand=ET_ILSet,ET_ILCESet,ET_ULKESet&$format=json";
 }
 
++ (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation{
+    NSMutableArray *closestOffices = [[NSMutableArray alloc] init];
+    for (Office *tempOffice in someOffices) {
+//        CLLocation *sanFrancisco = [[CLLocation alloc] initWithLatitude:37.775 longitude:-122.4183333];
+//        CLLocation *portland = [[CLLocation alloc] initWithLatitude:45.5236111 longitude:-122.675];
+//        CLLocationDistance distance = [portland distanceFromLocation:sanFrancisco];
+        if (closestOffices.count <count) {
+            [closestOffices addObject:tempOffice];
+        }
+    }
+    
+    return closestOffices;
+}
 @end
