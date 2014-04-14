@@ -41,7 +41,6 @@
     
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Giriş" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
     [[self navigationItem] setRightBarButtonItem:barButton];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -50,8 +49,6 @@
     //ToDo: aalpk
     [username setText:@"12345678901"];
     [password setText:@"19850000"];
-    //klavyeyi ilk açılışta gösterme
-//    [username becomeFirstResponder];
     
     [[self view] setBackgroundColor:[ApplicationProperties getWhite]];
 }
@@ -88,16 +85,6 @@
 
     [self setIphoneLayer];
     
-//    [loginButton setTitle:@"Giriş" forState:UIControlStateNormal];
-//    [[loginButton layer] setCornerRadius:5.0f];
-//    [loginButton setBackgroundColor:[ApplicationProperties getOrange]];
-//    [loginButton setTintColor:[ApplicationProperties getWhite]];
-//    
-//    [signUpButton setTitle:@"Üye Ol" forState:UIControlStateNormal];
-//    [[signUpButton layer] setCornerRadius:5.0f];
-//    [signUpButton setBackgroundColor:[ApplicationProperties getOrange]];
-//    [signUpButton setTintColor:[ApplicationProperties getWhite]];
-    
     [username setDelegate:self];
     [password setDelegate:self];
     
@@ -124,13 +111,24 @@
     [hideButton setOpaque:YES];
     [hideButton addTarget:nil action:@selector(hideKeyboard:) forControlEvents:UIControlEventTouchUpInside];
     
+    [createUserButton addTarget:self action:@selector(goToCreateUserView:) forControlEvents:UIControlEventTouchUpInside];
+    [createUserButton setBackgroundColor:[ApplicationProperties getOrange]];
+    [createUserButton setTitle:@"Üye Olun" forState:UIControlStateNormal];
+    [createUserButton setTitleColor:[ApplicationProperties getWhite] forState:UIControlStateNormal];
+    [[createUserButton layer] setCornerRadius:5.0f];
+
     [self.view addSubview:hideButton];
+    [self.view addSubview:createUserButton];
     [self.view addSubview:infoLabel];
     [self.view addSubview:userImageView];
-//    [self.view addSubview:loginButton];
     [self.view addSubview:username];
     [self.view addSubview:password];
-//    [self.view addSubview:signUpButton];
+}
+
+- (void)goToCreateUserView:(id)sender
+{
+    UserCreationVC *vc = [[UserCreationVC alloc] init];
+    [[self navigationController] pushViewController:vc animated:YES];
 }
 
 - (void)hideKeyboard:(id)sender
@@ -155,6 +153,10 @@
 //    signUpButton = [[UIButton alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.1, viewFrame.size.height * 0.70, viewFrame.size.width * 0.8, 40)];
     
     userImageView = [[UIImageView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.4, viewFrame.size.height * 0.05, viewFrame.size.width * 0.22, viewFrame.size.height * 0.22)];
+    
+    createUserButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [createUserButton setFrame:CGRectMake(viewFrame.size.width * 0.30, viewFrame.size.height * 0.60, viewFrame.size.width * 0.45, viewFrame.size.height * 0.08)];
+
     [userImageView setContentMode:UIViewContentModeScaleAspectFill];
     [userImageView setImage:[UIImage imageNamed:@"login_icon.png"]];
 }

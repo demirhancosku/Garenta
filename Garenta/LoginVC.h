@@ -10,6 +10,7 @@
 #import "ApplicationProperties.h"
 #import "User.h"
 #import "MenuSelectionVC.h"
+#import "UserCreationVC.h"
 
 @interface LoginVC : BaseVC <UITextFieldDelegate>
 {
@@ -19,12 +20,12 @@
     UITextField *password;
     UIImageView *userImageView;
     UIButton *loginButton;
-    UIButton *signUpButton;
     UILabel *infoLabel;
     User *user; //temp user if succ. assign to singleton
-    
+    UIButton *createUserButton;
 }
 
 - (id)initWithFrame:(CGRect)frame andUser:(User *)userInfo;
+- (void)goToCreateUserView:(id)sender;
 
 @end

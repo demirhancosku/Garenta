@@ -13,14 +13,14 @@
 @end
 
 @implementation MinimumInfoVC
-@synthesize headerLabel,adressTextView,birthdayTextField,cityTextField,countryTextField,genderTextField,mobileTextField,emailTextField,surnameTextField,tcknNoTextField,sameInvoiceInfoButton,scrollView,nameTextField,reservation, sexSegmentedControl;
+@synthesize headerLabel, birthdayTextField, mobileTextField, emailTextField, surnameTextField, tcknNoTextField, scrollView, nameTextField, reservation, sexSegmentedControl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-       
+        
     }
     return self;
 }
@@ -37,21 +37,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self prepareScreen];
-    
-    barButton = [[UIBarButtonItem alloc] initWithTitle:@"Devam" style:UIBarButtonItemStyleBordered target:self action:@selector(resume)];
-    
-    [[self navigationItem] setRightBarButtonItem:barButton];
-    [self registerForKeyboardNotifications];
-    //The setup code (in viewDidLoad in your view controller)
-    
-   
-    
-    
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
+    [super viewWillAppear:animated];
+    
     [scrollView setContentSize:CGSizeMake(scrollView.frame.size.width, 400)];
     
     [sexSegmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
@@ -63,7 +54,7 @@
     NSDate * maxDate = [gregorian dateByAddingComponents: comps toDate: currentDate options: 0];
     [comps setYear: -100];
     NSDate * minDate = [gregorian dateByAddingComponents: comps toDate: currentDate options: 0];
-
+    
     
     datePicker = [[UIDatePicker alloc] init];
     [datePicker setFrame:CGRectMake(0, self.view.frame.size.height - datePicker.frame.size.height, datePicker.frame.size.width, datePicker.frame.size.height)];
@@ -75,11 +66,16 @@
     [datePicker addTarget:self action:@selector(dateIsChanged:) forControlEvents:UIControlEventValueChanged];
     [[self view] addSubview:datePicker];
     [datePicker setHidden:YES];
+    
+    barButton = [[UIBarButtonItem alloc] initWithTitle:@"Devam" style:UIBarButtonItemStyleBordered target:self action:@selector(resume)];
+    
+    [[self navigationItem] setRightBarButtonItem:barButton];
+    [self registerForKeyboardNotifications];
 }
 
 //The event handling method
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
-//    CGPoint location = [recognizer locationInView:[recognizer.view superview]];
+    //    CGPoint location = [recognizer locationInView:[recognizer.view superview]];
     [self releaseAllTextFields];
     //Do stuff here...
 }
@@ -100,7 +96,7 @@
     [[nameTextField layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
     [[nameTextField layer] setBorderWidth:0.5f];
     nameTextField.layer.cornerRadius=8.0f;
-
+    
     [[surnameTextField layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
     [[surnameTextField layer] setBorderWidth:0.5f];
     surnameTextField.layer.cornerRadius=8.0f;
@@ -131,58 +127,57 @@
 - (void)resume
 {
     
-        NSString *alertString = @"";
+    NSString *alertString = @"";
+    
+    if (!( [sexSegmentedControl selectedSegmentIndex] == 0 || [sexSegmentedControl selectedSegmentIndex] == 1) )
+        alertString = @"Cinsiyet Seçilmesi gerekmektedir";
+    else if ([nameTextField.text isEqualToString:@""])
+        alertString =  @"Ad alanının doldurulması gerekmektedir";
+    else if ([surnameTextField.text isEqualToString:@""])
+        alertString =  @"Soyad alanının doldurulması gerekmektedir";
+    else if ([birthdayTextField.text isEqualToString:@""])
+        alertString =  @"Doğum Tarihi alanının doldurulması gerekmektedir";
+    else if ([mobileTextField.text isEqualToString:@""])
+        alertString =  @"Cep Telefonu alanının doldurulması gerekmektedir";
+    else if ([tcknNoTextField.text isEqualToString:@""])
+        alertString =  @"T.C. Kimlik No alanının doldurulması gerekmektedir";
+    else if ([tcknNoTextField.text length] != 11)
+        alertString =  @"T.C: Kimlik No alanının 11 Karakter olması gerekmektedir";
+    
+    if (![alertString isEqualToString:@""])
+    {
+        iToastSettings *theSettings = [iToastSettings getSharedSettings];
+        [theSettings setGravity:iToastGravityCenter];
+        [theSettings setFontSize:16.0];
+        [[iToast makeText:alertString] show];
         
-        if ([nameTextField.text isEqualToString:@""])
-            alertString =  @"Isim yazılması gerekmektedir";
-        if ([surnameTextField.text isEqualToString:@""])
-            alertString =  @"Isim yazılması gerekmektedir";
-        if ([mobileTextField.text isEqualToString:@""])
-            alertString =  @"Cep Telefon numarası yazılması gerekmektedir";
-        if ([birthdayTextField.text isEqualToString:@""])
-            alertString =  @"Doğum Tarihi yazılması gerekmektedir";
-        if ([tcknNoTextField.text isEqualToString:@""])
-            alertString =  @"T.C. Kimlik No yazılması gerekmektedir";
-        if ([tcknNoTextField.text length] != 11)
-            alertString =  @"T.C: Kimlik No 11 Karakter olması gerekmektedir";
-        if (!( [sexSegmentedControl selectedSegmentIndex] == 0 || [sexSegmentedControl selectedSegmentIndex] == 1) )
-            alertString = @"Cinsiyet Seçilmesi gerekmektedir";
-            
-        if (![alertString isEqualToString:@""])
-        {
-            iToastSettings *theSettings = [iToastSettings getSharedSettings];
-            [theSettings setGravity:iToastGravityTop];
-            [theSettings setFontSize:16.0];
-            [[iToast makeText:alertString] show];
-        
-            return;
-        }
-        NSCharacterSet *charactersToRemove = [NSCharacterSet characterSetWithCharactersInString:@"() "];
-        
-        NSString *trimmedReplacement = [[mobileTextField.text componentsSeparatedByCharactersInSet:charactersToRemove] componentsJoinedByString:@"" ];
+        return;
+    }
+    
+    NSCharacterSet *charactersToRemove = [NSCharacterSet characterSetWithCharactersInString:@"() "];
+    
+    NSString *trimmedReplacement = [[mobileTextField.text componentsSeparatedByCharactersInSet:charactersToRemove] componentsJoinedByString:@"" ];
     NSDateFormatter *bdayFormatter = [[NSDateFormatter alloc] init];
     [bdayFormatter setDateFormat:@"dd/MM/yyyy"];
-        User *user = [ApplicationProperties getUser];
-        [user setName:nameTextField.text];
-        [user setSurname:surnameTextField.text];
-        [user setMobile:trimmedReplacement];
-        [user setEmail:emailTextField.text];
-        [user setTckno:tcknNoTextField.text];
+    User *user = [ApplicationProperties getUser];
+    [user setName:nameTextField.text];
+    [user setSurname:surnameTextField.text];
+    [user setMobile:trimmedReplacement];
+    [user setEmail:emailTextField.text];
+    [user setTckno:tcknNoTextField.text];
     [user setBirthday:[bdayFormatter dateFromString:birthdayTextField.text]];
     
-        if ([sexSegmentedControl selectedSegmentIndex] == 0)
-            [user setGender:@"M"];
-        else
-            [user setGender:@"F"];
-        
-        
-        ReservationSummaryViewController *summaryVC = [[ReservationSummaryViewController alloc] initWithReservation:reservation];
-        if (reservation != nil) {
-            
-            [[self navigationController] pushViewController:summaryVC animated:YES];
-        }
+    if ([sexSegmentedControl selectedSegmentIndex] == 0)
+        [user setGender:@"M"];
+    else
+        [user setGender:@"F"];
     
-
+    
+    ReservationSummaryViewController *summaryVC = [[ReservationSummaryViewController alloc] initWithReservation:reservation];
+    if (reservation != nil) {
+        
+        [[self navigationController] pushViewController:summaryVC animated:YES];
+    }
 }
 
 - (void)releaseAllTextFields
@@ -211,22 +206,22 @@
 //aalpk sikintili baklcak ilk field
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
-//    NSDictionary* info = [aNotification userInfo];
-//    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-//    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
-//    scrollView.contentInset = contentInsets;
-//    scrollView.scrollIndicatorInsets = contentInsets;
-//    
-//    // If active text field is hidden by keyboard, scroll it so it's visible
-//    // Your application might not need or want this behavior.
-//    CGRect aRect = self.view.frame;
-//    aRect.size.height -= kbSize.height;
-//    
-//    if (!CGRectContainsPoint(aRect, activeField.frame.origin))
-//    {
-//        CGPoint scrollPoint = CGPointMake(0.0, activeField.frame.origin.y-kbSize.height);
-//        [scrollView setContentOffset:scrollPoint animated:YES];
-//    }
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+    scrollView.contentInset = contentInsets;
+    scrollView.scrollIndicatorInsets = contentInsets;
+    
+    // If active text field is hidden by keyboard, scroll it so it's visible
+    // Your application might not need or want this behavior.
+    CGRect aRect = self.view.frame;
+    aRect.size.height -= kbSize.height;
+    
+    if (!CGRectContainsPoint(aRect, activeField.frame.origin))
+    {
+        CGPoint scrollPoint = CGPointMake(0.0, activeField.frame.origin.y-kbSize.height);
+        [scrollView setContentOffset:scrollPoint animated:YES];
+    }
 }
 
 // Called when the UIKeyboardWillHideNotification is sent

@@ -192,4 +192,11 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
     
     return YES;
 }
+
++ (NSString *)getLocations
+{
+    // ATA eğer ilerde maltıpıl lang. olayı gelirse buraya dokunuruz
+    return @"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_LOCATION_SRV/LocationServiceSet(IvLangu='T')?$expand=ET_ILSet,ET_ILCESet,ET_ULKESet&$format=json";
+}
+
 @end
