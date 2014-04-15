@@ -407,7 +407,6 @@
 			children = (
 				B50715C818B7AC1D00419189 /* Price.h */,
 				B50715C918B7AC1E00419189 /* Price.m */,
-				B5CEF81618705E10007709E4 /* Parsers */,
 				0C5B5FCA186479800060BECD /* Calendar */,
 				9E212F76186343C3004B9B80 /* Office.h */,
 				9E212F77186343C3004B9B80 /* Office.m */,
@@ -571,13 +570,6 @@
 				B50B09F718757F6900649165 /* ReservationApprovalVC.xib */,
 			);
 			name = ReservationVCs;
-			sourceTree = "<group>";
-		};
-		B5CEF81618705E10007709E4 /* Parsers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Parsers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -216,17 +216,17 @@
     
 
     NSString *updateLink;
-//    if([[result objectForKey:@"EReturn"] isEqualToString:@"T"]){
+    if([[result objectForKey:@"EReturn"] isEqualToString:@"T"]){
         [[NSUserDefaults standardUserDefaults]
          setObject:@"T"forKey:@"ACTIVEVERSION"];
         
-//    }else{
+    }else{
         newAppLink = [result objectForKey:@"ELink"];
         [[NSUserDefaults standardUserDefaults]
          setObject:@"F"forKey:@"ACTIVEVERSION"];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bilgi" message:@"Uygulamamızın yeni versiyonunu indirmenizi rica ederiz. Teşekkürler." delegate:self cancelButtonTitle:@"Vazgeç" otherButtonTitles:       @"İndir",nil];
         [alert show];
-//    }
+    }
     [loaderVC stopAnimation];
 }
 
