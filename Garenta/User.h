@@ -28,6 +28,8 @@
 @property (nonatomic,retain) NSString *gender;
 @property (nonatomic,retain) NSDate *birthday;
 @property (nonatomic,assign) BOOL isLoggedIn;
+@property (nonatomic, retain) NSString *country;
+@property (nonatomic, retain) NSString *address;
 
 
 

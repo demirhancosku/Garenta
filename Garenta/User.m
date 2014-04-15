@@ -10,7 +10,7 @@
 #import "Coordinate.h"
 
 @implementation User
-@synthesize name, password, surname, userLocation, username,mobile,email,company,companyName,companyName2,tckno,middleName,garentaTl,accountType,isLoggedIn,gender,birthday;
+@synthesize name, password, surname, userLocation, username,mobile,email,company,companyName,companyName2,tckno,middleName,garentaTl,accountType,isLoggedIn,gender,birthday, kunnr, country, address;
 
 
 @end

@@ -89,6 +89,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+//    // Silinicek
+//    MinimumInfoVC *info = [[MinimumInfoVC alloc] init];
+//    [[self navigationController] pushViewController:info animated:YES];
+//    return;
+    
     //version check
     if (![ApplicationProperties isActiveVersion]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bilgi" message:@"Uygulamamızın yeni versiyonunu indirmenizi rica ederiz. Teşekkürler." delegate:self cancelButtonTitle:@"Vazgeç" otherButtonTitles:       @"İndir",nil];

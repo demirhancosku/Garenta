@@ -48,8 +48,8 @@
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rezervasyon Onay" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aAo-2j-1EC">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" patternImage="F2594FDB-389F-4287-9B2F-FF9E088EDCD7" colorSpace="pattern"/>
-                    <color key="tintColor" patternImage="F68D42A7-3CC4-4BA2-8914-44ED0FEB4FCE" colorSpace="pattern"/>
+                    <color key="backgroundColor" patternImage="30969D17-7316-404C-A8F7-1A705A736691" colorSpace="pattern"/>
+                    <color key="tintColor" patternImage="F30753F1-4FF0-4CDE-89D9-1736F83027B9" colorSpace="pattern"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -60,7 +60,7 @@
         </view>
     </objects>
     <resources>
-        <image name="F2594FDB-389F-4287-9B2F-FF9E088EDCD7" width="256" height="256">
+        <image name="30969D17-7316-404C-A8F7-1A705A736691" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -4502,7 +4502,7 @@ BA6JAAQOkQAEDp4ABA6jAAQOpQAEDqcABA6sAAQOtAAEDrcABA68AAQOxAAEDscABA7ZAAQO3AAEDuEA
 AAAAAAAEAQAAAAAAAABCAAAAAAAAAAAAAAAAAAQO4w
 </mutableData>
         </image>
-        <image name="F68D42A7-3CC4-4BA2-8914-44ED0FEB4FCE" width="256" height="256">
+        <image name="F30753F1-4FF0-4CDE-89D9-1736F83027B9" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
