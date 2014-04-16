@@ -10,7 +10,7 @@
 
 #pragma mark - CalendarMonthViewController
 @implementation CalendarTimeVC
-
+    static int secondsInDay = 60 * 60 * 24;
 - (NSUInteger) supportedInterfaceOrientations{
 	return  UIInterfaceOrientationMaskPortrait;
 }
@@ -49,28 +49,10 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    [self prepareUI];
     
-    sliderText = [[UITextField alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.05, self.monthView.frame.size.height * 1.1, self.monthView.frame.size.width * 0.20, 50)];
     
-    mySlider = [[UISlider alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.25, self.monthView.frame.size.height * 1.1, self.monthView.frame.size.width * 0.6, 50)];
-    
-    [mySlider addTarget:self action:@selector(sliderValueChanged:)
-       forControlEvents:UIControlEventValueChanged];
-    
-    [mySlider setThumbImage:[UIImage imageNamed: @"SliderHandle.png"]  forState:UIControlStateNormal];
-    [mySlider setTintColor:[ApplicationProperties getOrange]];
-    
-    [mySlider setMinimumValue:0];
-    [mySlider setMaximumValue:47];
-    
-    [self setSliderDefaultValue];
-    
-    [[self view] addSubview:mySlider];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.05, self.monthView.frame.size.height * 0.95, self.monthView.frame.size.width * 0.6, 50)];
-    [label setText:@"Saat Seçiniz :"];
-    [label setTextColor:[ApplicationProperties getOrange]];
-    [[self view] addSubview:label];
 }
 
 - (void)selectDateAndTime:(id)sender
@@ -97,102 +79,144 @@
         default:
             break;
     }
-    // weekday 1 = Sunday for Gregorian calendar
-    //todo: kontrol yazılcak
-    
-    
-    
-    //    if ([destination destinationOfficeCode] != nil) {
-    //        for (int i = 0; i < [officeList count]; i++) {
-    //            Office *temp = [officeList objectAtIndex:i];
-    //
-    //            if ([[temp mainOfficeCode] isEqualToString:[destination destinationOfficeCode]])
-    //            {
-    //                for (int j = 0; j < [[temp workingHours]count]; j++) {
-    //                    NSString *weekday2 = [NSString stringWithFormat:@"%@",[[[temp workingHours] objectAtIndex:j] weekDay]];
-    //
-    //                    if (![weekday2 isEqualToString:[NSString stringWithFormat:@"%li",(long)weekday]]) {
-    //
-    //                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"uyarı" message:@"uyarı" delegate:nil cancelButtonTitle:@"tamam" otherButtonTitles:nil, nil];
-    //
-    //                        [alert show];
-    //                    }
-    //
-    //                }
-    //            }
-    //        }
-    //    }
-    
+
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
-- (void)setSliderDefaultValue
-{
-    NSDate *date = [NSDate date];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm"];
+- (void)setSliderDefaultValue{
+    NSDate *defaultDate;
     
     //Optionally for time zone converstions
-    
-    NSString *stringFromTime = [formatter stringFromDate:date];
-    
-    NSArray *arr = [stringFromTime componentsSeparatedByString:@":"];
-    
-    if ([arr count] > 0)
-    {
-        NSString *hour = [arr objectAtIndex:0];
-        NSString *min  = [arr objectAtIndex:1];
-        
-        float value = [hour floatValue] * 2;
-        
-        if ([min floatValue] > 30) {
-            value = value + 1;
-        }
-
-        [mySlider setValue:value];
+    //lets find slider position
+    switch (tag) {
+        case 0: //checkout
+            defaultDate = reservation.checkOutTime;
+            break;
+            case 1:
+            defaultDate = reservation.checkInTime;
+            break;
+        default:
+            break;
     }
+    NSCalendar *myCalnedar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dateComps = [myCalnedar components:(NSHourCalendarUnit|NSMinuteCalendarUnit) fromDate:defaultDate];
+    int defaultDateBySeconds = dateComps.hour * 60 * 60 + dateComps.minute*60;
+    float ratio =(float)defaultDateBySeconds / (float)secondsInDay;
+    [mySlider setValue:defaultDateBySeconds];
     
-    sliderText.text = stringFromTime;
-    [[self view] addSubview:sliderText];
+    sliderText.text = [NSString stringWithFormat:@"%i:%i",dateComps.hour,dateComps.minute];
+
     
-    selectedTime = [formatter dateFromString:sliderText.text];
+}
+
+- (void)setCalendarDefaultValue{
+    switch (tag) {
+        case 0:
+            [monthView selectDate:reservation.checkOutDay];
+            break;
+        case 1:
+            [monthView selectDate:reservation.checkInDay];
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)sliderValueChanged:(id)sender
 {
+    //TODO: burasi yalnis
+    NSCalendar *calendar = [NSCalendar currentCalendar];
     NSNumber *number = [NSNumber numberWithFloat:[mySlider value]];
-    int i = [number intValue];
-    NSString *hour;
-    NSString *min;
     
-    if (i % 2) {
-        min = [NSString stringWithFormat:@"%@",@"30"];
-        
-        if (i < 20)
-            hour = [NSString stringWithFormat:@"%@%i",@"0",(i / 2)];
-        else
-            hour = [NSString stringWithFormat:@"%i",(i / 2)];
-        
-        sliderText.text = [NSString stringWithFormat:@"%@%@%@",hour,@":",min];
+    int selectedSeconds = [number intValue];
+    NSDateComponents *dateComps = [calendar components:(NSHourCalendarUnit|NSMinuteCalendarUnit) fromDate:[NSDate date]];
+    [dateComps setHour:00];
+    [dateComps setMinute:00];
+
+    NSDate *myTime = [calendar dateFromComponents:dateComps];
+    myTime = [myTime dateByAddingTimeInterval:selectedSeconds];
+    dateComps = [calendar components:(NSHourCalendarUnit|NSMinuteCalendarUnit) fromDate:myTime];
+    int minute = dateComps.minute;
+    if (0<minute && minute<15){
+        dateComps.minute = 15;
     }
-    else
-    {
-        
-        if (i < 20)
-            hour = [NSString stringWithFormat:@"%@%i",@"0",(i / 2)];
-        else
-            hour = [NSString stringWithFormat:@"%i",(i / 2)];
-        
-        sliderText.text = [NSString stringWithFormat:@"%@%@%@",hour,@":",@"00"];
-        
+    if (15<minute && minute<30){
+        dateComps.minute = 30;
     }
-    
-    NSDateFormatter *datFormatter = [[NSDateFormatter alloc] init];
-    [datFormatter setDateFormat:@"HH:mm"];
-    selectedTime = [datFormatter dateFromString:sliderText.text];
-    
-    [[self view] addSubview:sliderText];
+    if (30<minute && minute<45){
+        dateComps.minute = 45;
+    }
+    if (45<minute) {
+        dateComps.minute = 0;
+        dateComps.hour++;
+    }
+
+    myTime = [calendar dateFromComponents:dateComps];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"HH:mm"];
+    selectedTime = myTime;
+    [sliderText setText:[dateFormatter stringFromDate:myTime]];
     
 }
+
+- (void)prepareUI{
+    
+    //burasi biraz karisti center mi verdik framede mi ayarladik. neyse
+    
+    //configure calendar
+    [self setCalendarDefaultValue];
+    //adding label
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.05, self.monthView.frame.size.height * 0.95, self.monthView.frame.size.width * 0.6, 50)];
+    [label setText:@"Saat Seçiniz :"];
+    [label sizeToFit];
+    [label setTextColor:[ApplicationProperties getOrange]];
+    [[self view] addSubview:label];
+    
+    //adding time text
+    sliderText = [[UITextField alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.05, self.monthView.frame.size.height * 1.1, self.monthView.frame.size.width * 0.20, 50)];
+    [sliderText setCenter:CGPointMake(self.view.frame.size.width * 0.5, label.center.y)];
+    
+    //adding slider
+    mySlider = [[UISlider alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.25, self.monthView.frame.size.height * 1.1, self.monthView.frame.size.width * 0.6, 50)];
+    [mySlider addTarget:self action:@selector(sliderValueChanged:)
+       forControlEvents:UIControlEventValueChanged];
+    [mySlider setThumbImage:[UIImage imageNamed: @"SliderHandle.png"]  forState:UIControlStateNormal];
+    //biraz yukari alalim ikonu
+//    CGRect sliderIconFrame = mySl
+    [mySlider setTintColor:[ApplicationProperties getOrange]];
+    [mySlider setMinimumValue:0];
+    [mySlider setMaximumValue:secondsInDay];
+    [self setSliderDefaultValue];
+    [[self view] addSubview:sliderText];
+    [[self view] addSubview:mySlider];
+    
+    //adding clock icon
+    UIImageView *myClockIcon = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+    [myClockIcon setCenter:CGPointMake(self.view.frame.size.width * 0.2 ,mySlider.center.y)];
+    [myClockIcon setImage:[UIImage imageNamed:@"clock_icon.png"]];
+    [[self view] addSubview:myClockIcon];
+    
+}
+
+//- (void)calendarMonthView:(TKCalendarMonthView *)monthView didSelectDate:(NSDate *)selectedDate
+//{
+//    if([selectedDate compare:[NSDate date]] == NSOrderedAscending)
+//    {
+//        NSString *today=[NSString stringWithFormat:@"%@",[NSDate date]];
+//        NSString *chooseday=[NSString stringWithFormat:@"%@",selectedDate];
+//        NSArray *date1=[today componentsSeparatedByString:@" "];
+//        NSArray *date2=[chooseday componentsSeparatedByString:@" "];
+//        
+//        if([[date1 objectAtIndex:0] isEqualToString:[date2 objectAtIndex:0]])
+//        {
+//            NSLog(@"Today date clicked");
+//        }
+//        else
+//        {
+//            
+//            NSLog(@"Past date clicked");
+//        }
+//    }
+//}
 @end
 

@@ -58,7 +58,6 @@
 		9E53F68E18BF8F150076CFFF /* UserCreationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E53F68C18BF8F150076CFFF /* UserCreationVC.m */; };
 		9E53F68F18BF8F150076CFFF /* UserCreationVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E53F68D18BF8F150076CFFF /* UserCreationVC.xib */; };
 		9EB3838A1876C01400B214E1 /* iToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EB383891876C01400B214E1 /* iToast.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9EE3D7B618CA008800B362FE /* IDController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE3D7B518CA008800B362FE /* IDController.m */; };
 		B50715CA18B7AC1E00419189 /* Price.m in Sources */ = {isa = PBXBuildFile; fileRef = B50715C918B7AC1E00419189 /* Price.m */; };
 		B50B09D71874988F00649165 /* ReservationSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B50B09D51874988F00649165 /* ReservationSummaryViewController.m */; };
 		B50B09D81874988F00649165 /* ReservationSummaryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B50B09D61874988F00649165 /* ReservationSummaryViewController.xib */; };
@@ -73,6 +72,8 @@
 		B50B09FD187592CC00649165 /* BackAccessoryButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B50B09FC187592CB00649165 /* BackAccessoryButton.png */; };
 		B51D5AD21870F1E700966B48 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B51D5AD11870F1E700966B48 /* CoreText.framework */; };
 		B51D5AD41871837C00966B48 /* CarGroupTableCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B51D5AD31871837B00966B48 /* CarGroupTableCellView.xib */; };
+		B533CE1F18FD173D002FE236 /* IDController.m in Sources */ = {isa = PBXBuildFile; fileRef = B533CE1E18FD173D002FE236 /* IDController.m */; };
+		B533CE2118FD21CC002FE236 /* clock_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B533CE2018FD21CC002FE236 /* clock_icon.png */; };
 		B5688AF2186AECCA009D830E /* MenuTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5688AF1186AECCA009D830E /* MenuTableCellView.m */; };
 		B5688AF6186B167E009D830E /* AccessoryButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688AF3186B167E009D830E /* AccessoryButton.png */; };
 		B5688AFB186B17EA009D830E /* arac_bul.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688AF9186B17EA009D830E /* arac_bul.png */; };
@@ -201,8 +202,6 @@
 		9E53F68D18BF8F150076CFFF /* UserCreationVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCreationVC.xib; sourceTree = "<group>"; };
 		9EB383881876C01400B214E1 /* iToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iToast.h; sourceTree = "<group>"; };
 		9EB383891876C01400B214E1 /* iToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iToast.m; sourceTree = "<group>"; };
-		9EE3D7B418CA008800B362FE /* IDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDController.h; sourceTree = "<group>"; };
-		9EE3D7B518CA008800B362FE /* IDController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDController.m; sourceTree = "<group>"; };
 		B50715C818B7AC1D00419189 /* Price.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Price.h; sourceTree = "<group>"; };
 		B50715C918B7AC1E00419189 /* Price.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Price.m; sourceTree = "<group>"; };
 		B50B09D41874988F00649165 /* ReservationSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationSummaryViewController.h; sourceTree = "<group>"; };
@@ -221,6 +220,9 @@
 		B50B09FC187592CB00649165 /* BackAccessoryButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackAccessoryButton.png; sourceTree = "<group>"; };
 		B51D5AD11870F1E700966B48 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		B51D5AD31871837B00966B48 /* CarGroupTableCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarGroupTableCellView.xib; sourceTree = "<group>"; };
+		B533CE1D18FD173D002FE236 /* IDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDController.h; sourceTree = "<group>"; };
+		B533CE1E18FD173D002FE236 /* IDController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDController.m; sourceTree = "<group>"; };
+		B533CE2018FD21CC002FE236 /* clock_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clock_icon.png; sourceTree = "<group>"; };
 		B5688AF0186AECCA009D830E /* MenuTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableCellView.h; sourceTree = "<group>"; };
 		B5688AF1186AECCA009D830E /* MenuTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableCellView.m; sourceTree = "<group>"; };
 		B5688AF3186B167E009D830E /* AccessoryButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AccessoryButton.png; sourceTree = "<group>"; };
@@ -399,6 +401,8 @@
 		0C4C9A99184631A100CD3728 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				B533CE1D18FD173D002FE236 /* IDController.h */,
+				B533CE1E18FD173D002FE236 /* IDController.m */,
 				9EB383881876C01400B214E1 /* iToast.h */,
 				9EB383891876C01400B214E1 /* iToast.m */,
 				B5688B02186B39F4009D830E /* LoaderAnimationVC.h */,
@@ -448,6 +452,7 @@
 		0C4C9A9B1846331D00CD3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B533CE2018FD21CC002FE236 /* clock_icon.png */,
 				0C893D86187884E5006AFF0A /* SliderHandle.png */,
 				B50B09FC187592CB00649165 /* BackAccessoryButton.png */,
 				B50B09FA187580C200649165 /* onay_icon.png */,
@@ -583,16 +588,6 @@
 			name = ReservationVCs;
 			sourceTree = "<group>";
 		};
-
-		B5CEF81618705E10007709E4 /* Parsers */ = {
-			isa = PBXGroup;
-			children = (
-				9EE3D7B418CA008800B362FE /* IDController.h */,
-				9EE3D7B518CA008800B362FE /* IDController.m */,
-			);
-			name = Parsers;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -680,6 +675,7 @@
 				0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */,
 				B5688B19186B3A2E009D830E /* load_7.png in Resources */,
 				B5688B15186B3A2E009D830E /* load_3.png in Resources */,
+				B533CE2118FD21CC002FE236 /* clock_icon.png in Resources */,
 				0C9299D91868903C007DE6B8 /* c_grubu.jpg in Resources */,
 				B5688AF6186B167E009D830E /* AccessoryButton.png in Resources */,
 				0C9299DA1868903C007DE6B8 /* d_grubu.jpg in Resources */,
@@ -766,8 +762,8 @@
 				0CBA75C7186435260008CE29 /* Office.m in Sources */,
 				0CBA75C8186435260008CE29 /* OfficeWorkingTime.m in Sources */,
 				0C5B5FD6186479AB0060BECD /* NSDate+CalendarGrid.m in Sources */,
+				B533CE1F18FD173D002FE236 /* IDController.m in Sources */,
 				0C5B5FD5186479AB0060BECD /* TKCalendarMonthView.m in Sources */,
-				9EE3D7B618CA008800B362FE /* IDController.m in Sources */,
 				B5688B01186B2E25009D830E /* GTMBase64.m in Sources */,
 				0C0DA9B01865E234003EDDA0 /* Destination.m in Sources */,
 				0C5B5FD3186479AB0060BECD /* TKCalendarMonthViewController.m in Sources */,

@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Garenta/Reservation.m"
-            timestampString = "418640912.899033"
+            filePath = "Garenta/CalendarTimeVC.m"
+            timestampString = "419261780.410965"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "+defaultCheckInDate"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "-setSliderDefaultValue"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
