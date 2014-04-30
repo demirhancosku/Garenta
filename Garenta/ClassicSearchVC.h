@@ -25,13 +25,12 @@
     UIButton *searchButton;
     CGRect viewFrame;
     UIDatePicker *datePicker;
-    NSMutableArray *officeWorkingSchedule;
+    NSMutableArray *offices;
     CLLocationManager *locationManager;
     NSMutableData *bigData;
     Reservation *reservation;
-    LoaderAnimationVC *loaderVC;
     NSMutableArray *availableCarGroups;
-    Coordinate  *lastLocation;
+    CLLocation  *lastLocation;
 }
 
 @property (nonatomic, retain) UIPopoverController *popOver;

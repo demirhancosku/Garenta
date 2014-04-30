@@ -232,9 +232,11 @@
     // If active text field is hidden by keyboard, scroll it so it's visible
     // Your application might not need or want this behavior.
     CGRect aRect = self.view.frame;
-    aRect.size.height -= kbSize.height;
+    aRect.size.height = aRect.size.height - kbSize.height - self.navigationController.navigationBar.frame.size.height;
     
     CGPoint scrollPoint = CGPointMake(0.0, activeField.frame.origin.y-kbSize.height);
+//    scrollPoint = scrollView.contentOffset;
+//    scrollPoint.y = scrollPoint.y - kbSize.height;
     
     if (scrollPoint.y > 0)
         [scrollView setContentOffset:scrollPoint animated:YES];
@@ -369,8 +371,8 @@
 
 - (void)createUserAtSAP:(NSString *)iConnectionString
 {
-    loaderVC = [[LoaderAnimationVC alloc] init];
-    [loaderVC playAnimation:self.view];
+    
+    [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:iConnectionString]
                                              cachePolicy:NSURLRequestUseProtocolCachePolicy
@@ -381,8 +383,8 @@
 
 - (void)getLocationInformationFromSAP
 {
-    loaderVC = [[LoaderAnimationVC alloc] init];
-    [loaderVC playAnimation:self.view];
+    
+    [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
     
     NSString *connectionString = [ApplicationProperties getLocations];
     
@@ -495,11 +497,11 @@
                         
                         [userCreationPickerView reloadAllComponents];
                         
-                        [loaderVC stopAnimation];
+                        [[LoaderAnimationVC uniqueInstance] stopAnimation];
                     }
                     else
                     {
-                        [loaderVC stopAnimation];
+                        [[LoaderAnimationVC uniqueInstance] stopAnimation];
                         
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Sistem hatası" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
                         [alert show];
@@ -548,7 +550,7 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     NSLog(@"gateway hatasi");
-    [loaderVC stopAnimation];
+    [[LoaderAnimationVC uniqueInstance] stopAnimation];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Sistemde bir hata oluştu." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
     [alert show];
 }

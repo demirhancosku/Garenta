@@ -18,9 +18,8 @@
 {
     UISlider *mySlider;
     UITextField *sliderText;
-    NSDate *selectedDay;
     NSDate *selectedTime;
-    TKCalendarMonthView *monthView;
+//    TKCalendarMonthView *monthView;
     Reservation *reservation;
     int tag;
     UIDatePicker *datePicker;

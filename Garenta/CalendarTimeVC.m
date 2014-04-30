@@ -30,11 +30,7 @@
 
 #pragma mark View Lifecycle
 - (void) viewDidLoad{
-    
 	[super viewDidLoad];
-    
-	[self.monthView selectDate:selectedDay];
-    ;
     
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Tarih Seç" style:UIBarButtonItemStyleBordered target:self action:@selector(selectDateAndTime:)];
     [[self navigationItem] setRightBarButtonItem:barButton];
@@ -57,29 +53,27 @@
 
 - (void)selectDateAndTime:(id)sender
 {
-    selectedDay = [self.monthView dateSelected];
-    
-    if (selectedDay == nil) {
-        selectedDay = [NSDate date];
-    }
-    
+    //buraya zaten saat secili geliyor biz sadece yil ay gun duzenliyoruz
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDate * testDate = selectedDay;
-    NSDateComponents *weekdayComponents =[gregorian components:NSWeekdayCalendarUnit fromDate:testDate];
-    NSInteger weekday = [weekdayComponents weekday];
+    NSDateComponents *selectedTimeComponents =[gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:selectedTime];
+    NSDateComponents *selectedMonthViewComponents =[gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[self.monthView dateSelected]];
+    [selectedTimeComponents setYear:selectedMonthViewComponents.year];
+    [selectedTimeComponents setMonth:selectedMonthViewComponents.month];
+    [selectedTimeComponents setDay:selectedMonthViewComponents.day];
+    selectedTime = [gregorian dateFromComponents:selectedTimeComponents];
     switch (tag) {
         case 0://checkout
-            [reservation setCheckOutDay:selectedDay];
+            //            [reservation setCheckOutDay:selectedDay];
             [reservation setCheckOutTime:selectedTime];
             break;
         case 1: //checkin
-            [reservation setCheckInDay:selectedDay];
+            //            [reservation setCheckInDay:selectedDay];
             [reservation setCheckInTime:selectedTime];
             break;
         default:
             break;
     }
-
+    
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
@@ -101,10 +95,11 @@
     NSCalendar *myCalnedar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *dateComps = [myCalnedar components:(NSHourCalendarUnit|NSMinuteCalendarUnit) fromDate:defaultDate];
     int defaultDateBySeconds = dateComps.hour * 60 * 60 + dateComps.minute*60;
-    float ratio =(float)defaultDateBySeconds / (float)secondsInDay;
     [mySlider setValue:defaultDateBySeconds];
-    
-    sliderText.text = [NSString stringWithFormat:@"%i:%i",dateComps.hour,dateComps.minute];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"HH:mm"];
+    [sliderText setText:[dateFormatter stringFromDate:defaultDate]];
+  
 
     
 }
@@ -112,10 +107,10 @@
 - (void)setCalendarDefaultValue{
     switch (tag) {
         case 0:
-            [monthView selectDate:reservation.checkOutDay];
+            [self.monthView selectDate:reservation.checkOutTime];
             break;
         case 1:
-            [monthView selectDate:reservation.checkInDay];
+            [self.monthView selectDate:reservation.checkInTime];
             break;
         default:
             break;
@@ -166,7 +161,9 @@
     //configure calendar
     [self setCalendarDefaultValue];
     //adding label
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.05, self.monthView.frame.size.height * 0.95, self.monthView.frame.size.width * 0.6, 50)];
+    float labelOriginHeight = self.monthView.frame.size.height + (self.view.frame.size.height - self.monthView.frame.size.height) * 0.20;
+    float sliderOriginHeight = self.monthView.frame.size.height + (self.view.frame.size.height - self.monthView.frame.size.height) * 0.40;
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.05, labelOriginHeight , self.monthView.frame.size.width * 0.6, 50)];
     [label setText:@"Saat Seçiniz :"];
     [label sizeToFit];
     [label setTextColor:[ApplicationProperties getOrange]];
@@ -177,7 +174,7 @@
     [sliderText setCenter:CGPointMake(self.view.frame.size.width * 0.5, label.center.y)];
     
     //adding slider
-    mySlider = [[UISlider alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.25, self.monthView.frame.size.height * 1.1, self.monthView.frame.size.width * 0.6, 50)];
+    mySlider = [[UISlider alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.25, sliderOriginHeight, self.monthView.frame.size.width * 0.6, 50)];
     [mySlider addTarget:self action:@selector(sliderValueChanged:)
        forControlEvents:UIControlEventValueChanged];
     [mySlider setThumbImage:[UIImage imageNamed: @"SliderHandle.png"]  forState:UIControlStateNormal];

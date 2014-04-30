@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="VjG-Ef-6NL">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <scenes>
+        <!--Tab Bar Controller-->
+        <scene sceneID="fOV-ks-8Kg">
+            <objects>
+                <tabBarController definesPresentationContext="YES" id="VjG-Ef-6NL" sceneMemberID="viewController">
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="Kdi-Wo-WJj">
+                        <rect key="frame" x="129" y="330" width="163" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="S1c-7P-Ro5" kind="relationship" relationship="viewControllers" id="8xG-2a-ime"/>
+                        <segue destination="EwE-VR-Ae2" kind="relationship" relationship="viewControllers" id="Dh1-My-Rsj"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gnU-go-yBq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="96" y="-77"/>
+        </scene>
+        <!--Menu SelectionVC-->
+        <scene sceneID="NNL-MW-LRt">
+            <objects>
+                <tableViewController id="oby-wi-0yK" customClass="MenuSelectionVC" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="47" sectionHeaderHeight="22" sectionFooterHeight="22" id="WFc-A6-5MC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LocationBasedSearchCell" rowHeight="47" id="gqm-jg-UDQ">
+                                <rect key="frame" x="0.0" y="86" width="320" height="47"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gqm-jg-UDQ" id="QTp-Rq-RR4">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="46"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="location_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="CKm-6v-U1L">
+                                            <rect key="frame" x="463" y="20" width="0.0" height="50"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="50" id="9iS-tF-RrJ"/>
+                                                <constraint firstAttribute="width" constant="50" id="dQP-FN-pAE"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerX" secondItem="CKm-6v-U1L" secondAttribute="centerX" id="GTd-k3-LrH"/>
+                                        <constraint firstItem="CKm-6v-U1L" firstAttribute="top" secondItem="QTp-Rq-RR4" secondAttribute="top" constant="20" id="Hrs-0q-joE"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="oby-wi-0yK" id="Jly-rD-c3P"/>
+                            <outlet property="delegate" destination="oby-wi-0yK" id="5vu-Dd-iEE"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="zSI-91-gsg"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hfy-98-s9c" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1029" y="-678"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="ZdO-pd-esg">
+            <objects>
+                <viewController id="RCG-2p-fWN" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="RaE-9h-Xsv"/>
+                        <viewControllerLayoutGuide type="bottom" id="NcD-24-3hq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="IiQ-7S-Ac7">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fNn-vh-VMs">
+                                <rect key="frame" x="91" y="114" width="185" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ct3-lu-PV2"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gY3-NG-8Ck" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1156" y="249"/>
+        </scene>
+        <!--Navigation Controller - Kirala-->
+        <scene sceneID="bDi-Sw-pY2">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="EwE-VR-Ae2" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Kirala" id="Nx3-mf-kbu"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PGu-h5-JIo">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="oby-wi-0yK" kind="relationship" relationship="rootViewController" id="zIw-cs-SO4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iwu-qE-ACR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="593" y="-510"/>
+        </scene>
+        <!--Navigation Controller - Rezervasyonlarim-->
+        <scene sceneID="WrA-38-N1k">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="S1c-7P-Ro5" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Rezervasyonlarim" id="pDS-Nv-PMr"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="0rH-h3-xye">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="RCG-2p-fWN" kind="relationship" relationship="rootViewController" id="Rni-mS-FZ0"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eZP-9R-S4B" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="630" y="249"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="location_icon.png" width="300" height="300"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

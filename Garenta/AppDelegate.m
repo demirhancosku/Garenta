@@ -12,6 +12,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    /*
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
@@ -21,7 +22,10 @@
     
     [[nav navigationBar] setBarTintColor:[ApplicationProperties getOrange]];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(nav.navigationBar.frame.size.width * 0.25, nav.navigationBar.frame.size.height * 0.15, nav.navigationBar.frame.size.width * 0.5, nav.navigationBar.frame.size.height * 0.7)];
+    float logoRatio = (float)57 / (float)357;
+    float logoWidth = nav.navigationBar.frame.size.width * 0.5;
+    float logoHeight = logoWidth * logoRatio;
+UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(nav.navigationBar.frame.size.width * 0.25, nav.navigationBar.frame.size.height * 0.15, logoWidth, logoHeight)];
     [imageView setImage:[UIImage imageNamed:@"GarentaSmallLogo.png"]];
     
     [[nav navigationBar] addSubview:imageView];
@@ -34,6 +38,7 @@
     
     [self.window setRootViewController:nav];
     [self.window makeKeyAndVisible];
+     */
     return YES;
 }
 

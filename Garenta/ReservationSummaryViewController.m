@@ -82,8 +82,8 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:150.0];
     
     NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
-    loaderVC = [[LoaderAnimationVC alloc] init];
-    [loaderVC playAnimation:self.view];
+    
+    [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
 
 }
 
@@ -128,12 +128,12 @@
                     //Use casting to cast (id) to (MyCustomView *)
                     myCellView = (ReservationSummaryCell *)xibObject;
                     [myCellView.checkOutTimeLabel setText:[timeFormatter stringFromDate:reservation.checkOutTime ]];
-                    [myCellView.checkOutDateLabel setText:[dayFormatter stringFromDate:reservation.checkOutDay ]];
+                    [myCellView.checkOutDateLabel setText:[dayFormatter stringFromDate:reservation.checkOutTime ]];
                     [myCellView.checkOutOfficeLabel setText:reservation.checkOutOffice.subOfficeName];
                     [myCellView.checkOutOfficeLabel setTextAlignment:NSTextAlignmentCenter];
                     
                     [myCellView.checkInOfficeLabel setText:reservation.checkInOffice.subOfficeName];
-                    [myCellView.checkInDateLabel setText:[dayFormatter stringFromDate:reservation.checkInDay]] ;
+                    [myCellView.checkInDateLabel setText:[dayFormatter stringFromDate:reservation.checkInTime]] ;
                     [myCellView.checkInTimeLabel setText:[timeFormatter stringFromDate:reservation.checkInTime]];
                     [myCellView.checkInOfficeLabel setTextAlignment:NSTextAlignmentCenter];
                     [myCellView.totalLabel setText:reservation.selectedCarGroup.payLaterPrice];
@@ -214,7 +214,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    [loaderVC stopAnimation];
+    [[LoaderAnimationVC uniqueInstance] stopAnimation];
     NSError *err;
     NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
     if(err!=nil){
@@ -244,7 +244,7 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    [loaderVC stopAnimation];
+    [[LoaderAnimationVC uniqueInstance] stopAnimation];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Bağlantı sırasında bir hata oluştu. Lütfen bağlantı ayarlarını kontrol ediniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
     [alert show];
 }

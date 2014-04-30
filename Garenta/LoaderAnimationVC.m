@@ -23,6 +23,16 @@
     return self;
 }
 
+#pragma mark - Singleton
++ (LoaderAnimationVC*)uniqueInstance{
+    static LoaderAnimationVC *instance;
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{
+        instance = [[LoaderAnimationVC alloc] init];
+    });
+    return instance;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -65,7 +75,7 @@
     // repeat the annimation forever
     animationView.animationRepeatCount = 0;
     [animationView startAnimating];
-
+    
     [iView addSubview:self.view];
 }
 

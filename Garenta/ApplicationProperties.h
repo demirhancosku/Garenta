@@ -43,6 +43,11 @@ typedef enum{
 + (NSString*)getVersionUrl;
 + (NSString *)getLocations;
 
+#pragma mark - service configurations
++ (void)configureOfficeService;
++ (void)configureCarService;
+
+
 //aktiflik
 + (BOOL)isActiveVersion;
 

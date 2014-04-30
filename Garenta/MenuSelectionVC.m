@@ -95,11 +95,7 @@
 //    return;
     
     //version check
-    if (![ApplicationProperties isActiveVersion]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bilgi" message:@"Uygulamamızın yeni versiyonunu indirmenizi rica ederiz. Teşekkürler." delegate:self cancelButtonTitle:@"Vazgeç" otherButtonTitles:       @"İndir",nil];
-        [alert show];
-        return;
-    }
+    [self checkAppVersion];
     //aalpk
     ClassicSearchVC *classicSearchVC = [[ClassicSearchVC alloc] initWithFrame:self.view.frame];
     
@@ -127,7 +123,7 @@
 }
 
 
-#pragma mark - custom methods
+#pragma mark - util methods
 - (void)checkVersion{
     NSString *connectionString = [ApplicationProperties getVersionUrl];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:150.0];
@@ -145,7 +141,7 @@
         barString = @"Çıkış";
     }else{
         
-        barString = @"Giriş";
+        barString = NSLocalizedString(@"Login", nil);
     }
     
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:barString style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
@@ -156,6 +152,16 @@
     return;
     
     
+}
+
+- (BOOL)checkAppVersion{
+    return [ApplicationProperties isActiveVersion];
+     
+}
+
+- (void)showVersionAlert{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bilgi" message:@"Uygulamamızın yeni versiyonunu indirmenizi rica ederiz. Teşekkürler." delegate:self cancelButtonTitle:@"Vazgeç" otherButtonTitles:       @"İndir",nil];
+    [alert show];
 }
 
 

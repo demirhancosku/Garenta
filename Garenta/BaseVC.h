@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LoaderAnimationVC.h"
 @interface BaseVC : UIViewController{
-    LoaderAnimationVC * loaderVC;
+
 }
-@property (nonatomic,retain)LoaderAnimationVC *loaderVC;
+
 @end

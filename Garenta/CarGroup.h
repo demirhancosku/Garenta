@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Car.h"
+#import "ZGARENTA_ARAC_SRVServiceV0.h"
 @interface CarGroup : NSObject
 
 @property(nonatomic,retain)NSString *segment;
@@ -27,7 +28,10 @@
 @property(nonatomic,retain)NSMutableArray *cars;
 //filtrede kullanılıyor
 + (CarGroup*)getGroupFromList:(NSMutableArray*)carList WithCode:(NSString*)aGroupCode;
+
 - (NSMutableArray*)getBestCarsWithFilter:(NSString*)aFilter;
-//parseta kullanılıyor
-+ (NSMutableArray*)getCarGroupsFromData:(NSData*) aData withOffices:(NSMutableArray*)offices;
+
+#pragma mark - parsing
++ (NSMutableArray*)getCarGroupsFromServiceResponse:(AvailCarServiceV0*) aServiceResponse withOffices:(NSMutableArray*)offices;
++ (NSString*)urlOfResolution:(NSString*)aResolution fromBaseUrl:(NSString*)baseUrl;
 @end

@@ -7,6 +7,8 @@
 // All singleton...one place
 
 #import "ApplicationProperties.h"
+#import "ZGARENTA_OFIS_SRVRequestHandler.h"
+#import "ZGARENTA_ARAC_SRVRequestHandler.h"
 @implementation ApplicationProperties
 MainSelection mainSelection;
 User* myUser;
@@ -58,7 +60,7 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
 
 
 + (MainSelection) getMainSelection{
-
+    
     return mainSelection;
 }
 + (void) setMainSelection:(MainSelection) aSelection{
@@ -69,10 +71,10 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
     if (myUser == nil) {
         myUser = [[User alloc] init];
         myUser.kunnr = [[NSUserDefaults standardUserDefaults]
-                                  stringForKey:@"KUNNR"];
+                        stringForKey:@"KUNNR"];
         myUser.password = [[NSUserDefaults standardUserDefaults]
-                              stringForKey:@"PASSWORD"];
-        if ([myUser.kunnr isEqualToString:@""]) {
+                           stringForKey:@"PASSWORD"];
+        if ([myUser.kunnr isEqualToString:@""] || myUser.kunnr == nil) {
             [myUser setIsLoggedIn:NO];
         }else{
             [myUser setIsLoggedIn:YES];
@@ -121,7 +123,7 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
     NSString* kunnr = [[ApplicationProperties getUser] kunnr];
     NSString*mSube = checkOutOffice.mainOfficeCode;
     NSString*sehir =@"";
-
+    
     if (mSube == nil) {
         mSube = @"";
         sehir = checkOutOffice.cityCode;
@@ -130,9 +132,9 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
     //main office vr mı
     //aalpk : cikis main office bossa  bakıp onu yollayalım
     
-        return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_ARAC_SRV/AvailCarServiceSet(ImppMsube='%@',ImppSehir='%@',ImppHdfsube='%@',ImppLangu='T',ImppLand='T',ImppUname='XXXXX',ImppKdgrp='',ImppKunnr='%@',ImppEhdat=datetime'2010-01-12T00:00:00',ImppGbdat=datetime'1983-07-15T00:00:00',ImppFikod='',ImppWaers='TL',ImppBegda=datetime'%@',ImppEndda=datetime'%@',ImppBeguz='%@',ImppEnduz='%@')?$expand=ET_ARACLISTESet,ET_FIYATSet&$format=json",mSube,sehir,checkInOffice.mainOfficeCode,kunnr,checkOutDayString,checkInDayString,checkOutTimeString,checkInTimeString];;
+    return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_ARAC_SRV/AvailCarServiceSet(ImppMsube='%@',ImppSehir='%@',ImppHdfsube='%@',ImppLangu='T',ImppLand='T',ImppUname='XXXXX',ImppKdgrp='',ImppKunnr='%@',ImppEhdat=datetime'2010-01-12T00:00:00',ImppGbdat=datetime'1983-07-15T00:00:00',ImppFikod='',ImppWaers='TL',ImppBegda=datetime'%@',ImppEndda=datetime'%@',ImppBeguz='%@',ImppEnduz='%@')?$expand=ET_ARACLISTESet,ET_FIYATSet&$format=json",mSube,sehir,checkInOffice.mainOfficeCode,kunnr,checkOutDayString,checkInDayString,checkOutTimeString,checkInTimeString];;
     
-
+    
 }
 
 + (NSString*)getCreateReservationURLWithReservation:(Reservation*)aReservation{
@@ -141,7 +143,7 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
     NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
     [dayFormat setDateFormat:@"yyyy-MM-ddThh:mm"];
     [timeFormat setDateFormat:@"HH:mm"];
-
+    
     NSString *muserino = @"";
     NSString *tckn = @"";
     NSString *tel = @"";
@@ -161,24 +163,24 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
         cinsiyet = user.gender;
         birthdate = [dayFormat stringFromDate:user.birthday];
     }
-
+    
     NSString *teslimSubesi = aReservation.checkInOffice.mainOfficeCode;
     NSString *rezEndtime = [timeFormat stringFromDate:aReservation.checkInTime];
-    NSString *rezEndda= [ dayFormat stringFromDate:aReservation.checkInDay];
+    NSString *rezEndda= [ dayFormat stringFromDate:aReservation.checkInTime];
     NSString *rezBegtime = [timeFormat stringFromDate:aReservation.checkOutTime];
-    NSString *rezBegda = [dayFormat stringFromDate:aReservation.checkOutDay];
+    NSString *rezBegda = [dayFormat stringFromDate:aReservation.checkOutTime];
     NSString *aracgrubu = aReservation.selectedCarGroup.groupCode;
     NSString *alisSubesi = aReservation.checkOutOffice.mainOfficeCode;
     NSString *toplamTutar = aReservation.selectedCarGroup.payLaterPrice;
-
     
-     rezEndda = [NSString stringWithFormat:@"%@T00:00:00",rezEndda];
-     rezBegda = [NSString stringWithFormat:@"%@T00:00:00",rezBegda];
+    
+    rezEndda = [NSString stringWithFormat:@"%@T00:00:00",rezEndda];
+    rezBegda = [NSString stringWithFormat:@"%@T00:00:00",rezBegda];
     birthdate =[NSString stringWithFormat:@"%@T00:00:00",birthdate];
     
     return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_temprezervasyon_SRV/ReservationService(Tckn='%@',Uyruk='',TeslimSubesi='%@',Telno='%@',RezEndtime='%@',RezEndda=datetime'%@',RezBegtime='%@',RezBegda=datetime'%@',Musterino='%@',Matnr='',Lastname='%@',GarentaTl=0.0M,Firstname='%@',Email='%@',Cinsiyet='%@',Bonus=0.0M,Birthdate=datetime'%@',Aracgrubu='%@',AlisSubesi='%@',ToplamTutar=%@M)?$format=json",tckn,teslimSubesi,tel,rezEndtime,rezEndda,rezBegtime,rezBegda,muserino,lastname,firstname,email,cinsiyet,birthdate,aracgrubu,alisSubesi,toplamTutar];
     
-
+    
 }
 + (NSString*)getVersionUrl{
     return @"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_versiyon_SRV/VersiyonService(IAppName='rezapp',IVers='1.0')?$format=json";
@@ -186,7 +188,7 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
 
 + (BOOL)isActiveVersion{
     NSString *active = [[NSUserDefaults standardUserDefaults]
-     stringForKey:@"ACTIVEVERSION"];
+                        stringForKey:@"ACTIVEVERSION"];
     if([active isEqualToString:@"F"])
         return NO;
     
@@ -201,15 +203,70 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
 
 + (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation{
     NSMutableArray *closestOffices = [[NSMutableArray alloc] init];
-    for (Office *tempOffice in someOffices) {
-//        CLLocation *sanFrancisco = [[CLLocation alloc] initWithLatitude:37.775 longitude:-122.4183333];
-//        CLLocation *portland = [[CLLocation alloc] initWithLatitude:45.5236111 longitude:-122.675];
-//        CLLocationDistance distance = [portland distanceFromLocation:sanFrancisco];
-        if (closestOffices.count <count) {
-            [closestOffices addObject:tempOffice];
+    NSDictionary *distances = [NSDictionary new];
+    CLLocation *tempOfficeLocation;
+   
+    NSArray *sortedArray;
+    sortedArray = [someOffices sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        CLLocation *firstOfficeLocation = [[CLLocation alloc] initWithLatitude:[[(Office*)a latitude] doubleValue] longitude:[[(Office*)a longitude] doubleValue]];
+        CLLocation *secondOfficeLocation = [[CLLocation alloc] initWithLatitude:[[(Office*)b latitude] doubleValue] longitude:[[(Office*)b longitude] doubleValue]];
+        
+        double firstDistance = [userLocation distanceFromLocation:firstOfficeLocation];
+        double secondDistance = [userLocation distanceFromLocation:secondOfficeLocation];
+        if (firstDistance<secondDistance) {
+            return (NSComparisonResult)NSOrderedAscending;
+        }else if(secondDistance>firstDistance){
+            return (NSComparisonResult)NSOrderedDescending;
+        }else{
+            return (NSComparisonResult)NSOrderedSame;
         }
-    }
+        
+    }];
+//    for (Office *tempOffice in someOffices) {
+//        //        CLLocation *sanFrancisco = [[CLLocation alloc] initWithLatitude:37.775 longitude:-122.4183333];
+//        //        CLLocation *portland = [[CLLocation alloc] initWithLatitude:45.5236111 longitude:-122.675];
+//        //        CLLocationDistance distance = [portland distanceFromLocation:sanFrancisco];
+//        tempOfficeLocation = [[CLLocation alloc] initWithLatitude:[tempOffice.latitude doubleValue] longitude:[tempOffice.longitude doubleValue]];
+//        [distances setValue:[userLocation distanceFromLocation:tempOfficeLocation] forKey:tempOffice.mainOfficeCode];
+//        
+//        
+//    }
     
     return closestOffices;
 }
+
+
+#pragma mark - service configurations
++ (void)configureOfficeService{
+    //Initialize the request handler with the service document URL and SAP client from the application settings.
+    ZGARENTA_OFIS_SRVRequestHandler *requestHandler = [ZGARENTA_OFIS_SRVRequestHandler uniqueInstance];
+    [requestHandler setServiceDocumentURL:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_OFIS_SRV"];
+    [requestHandler setSAPClient:@""];
+    
+    /* Set to 'NO' to disable service negotiation */
+    requestHandler.useServiceNegotiation = YES;
+    
+	/* Set to 'YES' to use local metadata for service proxy initialization */
+    requestHandler.useLocalMetadata = NO;
+    
+    /* Set to 'YES' to use JSON in HTTP requests */
+    requestHandler.useJSON = NO;
+}
+
++ (void)configureCarService{
+    //Initialize the request handler with the service document URL and SAP client from the application settings.
+    ZGARENTA_ARAC_SRVRequestHandler *requestHandler = [ZGARENTA_ARAC_SRVRequestHandler uniqueInstance];
+    [requestHandler setServiceDocumentURL:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_ARAC_SRV"];
+    [requestHandler setSAPClient:@""];
+    
+    /* Set to 'NO' to disable service negotiation */
+    requestHandler.useServiceNegotiation = YES;
+    
+	/* Set to 'YES' to use local metadata for service proxy initialization */
+    requestHandler.useLocalMetadata = NO;
+    
+    /* Set to 'YES' to use JSON in HTTP requests */
+    requestHandler.useJSON = NO;
+}
+
 @end

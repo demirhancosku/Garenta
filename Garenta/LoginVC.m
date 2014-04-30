@@ -176,8 +176,8 @@
 
 - (void)loginToSap
 {
-    loaderVC = [[LoaderAnimationVC alloc] init];
-    [loaderVC playAnimation:self.view];
+    
+    [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
     NSString *connectionString = [NSString stringWithFormat: @"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_LOGIN_SRV/LoginService(IvFreetext='%@',IvPassword='%@',IvLangu='T')?$expand=ET_PARTNERSSet,ET_CARDTYPESSet&$format=json",user.username,user.password];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]
@@ -232,7 +232,7 @@
     if (partnerResult.count == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Hatalı bir kullanıcı adı ve şifre girdiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
         [alert show];
-        [loaderVC stopAnimation];
+        [[LoaderAnimationVC uniqueInstance] stopAnimation];
         return;
     }
     for ( NSDictionary *aPartner in partnerResult) {
@@ -266,7 +266,7 @@
      setObject:user.password forKey:@"PASSWORD"];
     [user setIsLoggedIn:YES];
     [ApplicationProperties setUser:user];
-    [loaderVC stopAnimation];
+    [[LoaderAnimationVC uniqueInstance] stopAnimation];
     [[self navigationController] popViewControllerAnimated:YES];
 
 }
@@ -278,7 +278,7 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     NSLog(@"gateway hatasi");
-        [loaderVC stopAnimation];
+        [[LoaderAnimationVC uniqueInstance] stopAnimation];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Sistemde bir hata oluştu." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
     [alert show];
 }

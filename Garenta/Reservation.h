@@ -14,10 +14,8 @@
 
 @property (nonatomic, retain) CarGroup *selectedCarGroup;
 @property (nonatomic,retain) Office *checkOutOffice;
-@property (nonatomic,strong) NSDate *checkOutDay;
 @property (nonatomic,retain) NSDate *checkOutTime;
 @property (nonatomic,retain) Office *checkInOffice;
-@property (nonatomic,retain) NSDate *checkInDay;
 @property (nonatomic,retain) NSDate *checkInTime;
 @property (nonatomic,retain) NSString *number;
 

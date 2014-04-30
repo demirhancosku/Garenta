@@ -1,2 +1,6 @@
 /* Localized versions of Info.plist keys */
 
+"Login" = "Login";
+"Cars around you" = "Cars around you";
+"Find a Car" = "Find a Car";
+"Advanced Search" = "Advanced Search";

@@ -16,4 +16,6 @@
 - (void)playAnimation:(UIView *)iView;
 - (void)stopAnimation;
 
++ (LoaderAnimationVC*)uniqueInstance;
+
 @end

@@ -12,5 +12,13 @@
 @implementation User
 @synthesize name, password, surname, userLocation, username,mobile,email,company,companyName,companyName2,tckno,middleName,garentaTl,accountType,isLoggedIn,gender,birthday, kunnr, country, address;
 
+- (id)init{
+    self = [super init];
+    kunnr =@"";
+    username = @"";
+    password = @"";
+    return self;
+}
+
 
 @end

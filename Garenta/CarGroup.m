@@ -61,10 +61,24 @@
     return nil;
 }
 
-+ (NSMutableArray*)getCarGroupsFromData:(NSData*) aData withOffices:(NSMutableArray*)offices{
++ (NSMutableArray*)getCarGroupsFromServiceResponse:(AvailCarServiceV0*) aServiceResponse withOffices:(NSMutableArray*)offices{
+   //trans
+    Car *tempCar;
+    for (ET_ARACLISTEV0 *tempAracListe in aServiceResponse.ET_ARACLISTESet) {
+        tempCar = [Car new];
+        [tempCar setMaterialCode:tempAracListe.Matnr];
+        [tempCar setMaterialName:tempAracListe.Maktx];
+        [tempCar setBrandId:tempAracListe.MarkaId];
+        [tempCar setBrandName:tempAracListe.Marka];
+        [tempCar setModelId:tempAracListe.ModelId];
+        [tempCar setModelName:tempAracListe.Model];
+        [tempCar setModelYear:tempAracListe.ModelYili];
+        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[CarGroup urlOfResolution:@"400" fromBaseUrl:tempAracListe.Zresim315]]]]];
+    }
+    //tans
     NSMutableArray *carGroups = [[NSMutableArray alloc] init];
     NSError *err;
-    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:aData options:NSJSONReadingMutableContainers error:&err];
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:nil options:NSJSONReadingMutableContainers error:&err];
     
     NSDictionary *result = [jsonDict objectForKey:@"d"];
     //parsing
@@ -93,7 +107,7 @@
     //her ofisin bir segment-grup-araba hiyerarsisi var
     
     
-    Car *tempCar;
+//    Car *tempCar;
     
     CarGroup *tempCarGroup;
     Office *tempOffice;

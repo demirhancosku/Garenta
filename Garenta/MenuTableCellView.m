@@ -46,7 +46,7 @@
     switch (index) {
         case 0:
             [self setBackgroundColor:[UIColor colorWithRed:209.0f/255.0f green:209.0f/255.0f blue:209.0f/255.0f alpha:1.0f]];
-            [textLabel setText:@"Size en yakın araçlar"];
+            [textLabel setText:NSLocalizedString(@"Cars around you", nil)];
             [imageView setImage:[UIImage imageNamed:@"location_icon.png"]];
             //fix width according to text
 //            CGSize labelSize = [textLabel.text sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-UltraLight" size:16.0f ]];
@@ -56,13 +56,13 @@
             break;
         case 1:
             [self setBackgroundColor:[UIColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f]];
-            [textLabel setText:@"Araç Bul"];
+            [textLabel setText:NSLocalizedString(@"Find a Car",nil)];
             
             [imageView setImage:[UIImage imageNamed:@"arac_bul.png"]];
             break;
         case 2:
             [self setBackgroundColor:[UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:255.0f/255.0f alpha:1.0f]];
-            [textLabel setText:@"Detaylı Arama"];
+            [textLabel setText:NSLocalizedString(@"Advanced Search", nil)];
             
             [imageView setImage:[UIImage imageNamed:@"detail_search.png"]];
             break;

@@ -9,12 +9,12 @@
 #import "Reservation.h"
 
 @implementation Reservation
-@synthesize  checkOutTime,checkOutDay,checkInTime,checkInDay,checkInOffice,checkOutOffice, selectedCarGroup,number;
+@synthesize  checkOutTime,checkInTime,checkInOffice,checkOutOffice, selectedCarGroup,number;
 
 -(id)init{
     self = [super init];
-    checkInDay= [Reservation defaultCheckInDate];
-    checkOutDay= [Reservation defaultCheckOutDate];
+//    checkInDay= [Reservation defaultCheckInDate];
+//    checkOutDay= [Reservation defaultCheckOutDate];
     checkOutTime= [Reservation defaultCheckOutDate];
     checkInTime = [Reservation defaultCheckInDate];
     return self;
