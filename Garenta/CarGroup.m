@@ -62,8 +62,28 @@
 }
 
 + (NSMutableArray*)getCarGroupsFromServiceResponse:(AvailCarServiceV0*) aServiceResponse withOffices:(NSMutableArray*)offices{
-   //trans
+    
+    NSMutableArray *availableCarGroups = [NSMutableArray new];
+    
+    
     Car *tempCar;
+    Price *tempPrice;
+    CarGroup *tempCarGroup;
+    
+    
+    NSMutableArray *prices= [[NSMutableArray alloc] init];
+    for (ET_FIYATV0 *tempPriceListResult  in aServiceResponse.ET_FIYATSet) {
+        tempPrice = [Price new];
+        [tempPrice setModelId:tempPriceListResult.ModelId];
+        [tempPrice setBrandId:tempPriceListResult.MarkaId];
+        [tempPrice setCarGroup:tempPriceListResult.AracGrubu];
+        [tempPrice setPayNowPrice:tempPriceListResult.SimdiOdeFiyatTry];
+        [tempPrice setPayLaterPrice:tempPriceListResult.SonraOdeFiyatTry];
+        [tempPrice setCarSelectPrice:tempPriceListResult.AracSecimFarkTry];
+        [prices addObject:tempPrice];
+    }
+    
+    
     for (ET_ARACLISTEV0 *tempAracListe in aServiceResponse.ET_ARACLISTESet) {
         tempCar = [Car new];
         [tempCar setMaterialCode:tempAracListe.Matnr];
@@ -73,87 +93,32 @@
         [tempCar setModelId:tempAracListe.ModelId];
         [tempCar setModelName:tempAracListe.Model];
         [tempCar setModelYear:tempAracListe.ModelYili];
-        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[CarGroup urlOfResolution:@"400" fromBaseUrl:tempAracListe.Zresim315]]]]];
-    }
-    //tans
-    NSMutableArray *carGroups = [[NSMutableArray alloc] init];
-    NSError *err;
-    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:nil options:NSJSONReadingMutableContainers error:&err];
-    
-    NSDictionary *result = [jsonDict objectForKey:@"d"];
-    //parsing
-    NSDictionary *carList = [result objectForKey:@"ET_ARACLISTESet"];
-    NSDictionary *priceList = [result objectForKey:@"ET_FIYATSet"];
-    
-    NSDictionary *carListResult = [carList objectForKey:@"results"];
-    NSDictionary *priceListResult = [priceList objectForKey:@"results"];
-    
-    //parse pricelist first
-    NSMutableArray *prices= [[NSMutableArray alloc] init];
-    Price *tempPrice;
-    for (NSDictionary*tempPriceListResult  in priceListResult) {
-        tempPrice = [[Price alloc] init];
-        [tempPrice setModelId:[tempPriceListResult objectForKey:@"ModelId"]];
-        [tempPrice setBrandId:[tempPriceListResult objectForKey:@"MarkaId"]];
-        [tempPrice setCarGroup:[tempPriceListResult objectForKey:@"AracGrubu"]];
-        [tempPrice setPayNowPrice:[tempPriceListResult objectForKey:@"SimdiOdeFiyatTry"]];
-        [tempPrice setPayLaterPrice:[tempPriceListResult objectForKey:@"SonraOdeFiyatTry"]];
-        [tempPrice setCarSelectPrice:[tempPriceListResult objectForKey:@"AracSecimFarkTry"]];
-        [prices addObject:tempPrice];
-    }
-    
-    
-    //car segment yapisi onemli kodlar
-    //her ofisin bir segment-grup-araba hiyerarsisi var
-    
-    
-//    Car *tempCar;
-    
-    CarGroup *tempCarGroup;
-    Office *tempOffice;
-    NSMutableArray *availableCarGroups = [[NSMutableArray alloc] init];
-    for (NSDictionary *tempCarResult in carListResult){
-        
-        tempCar = [[Car alloc] init];
-        [tempCar setMaterialCode:[tempCarResult objectForKey:@"Matnr"]];
-        [tempCar setMaterialName:[tempCarResult objectForKey:@"Maktx"]];
-        [tempCar setBrandId:[tempCarResult objectForKey:@"MarkaId"]];
-        [tempCar setBrandName:[tempCarResult objectForKey:@"Marka"]];
-        [tempCar setModelId:[tempCarResult objectForKey:@"ModelId"]];
-        [tempCar setModelName:[tempCarResult objectForKey:@"Model"]];
-        [tempCar setModelYear:[tempCarResult objectForKey:@"ModelYili"]];
-        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[CarGroup urlOfResolution:@"400" fromBaseUrl:[tempCarResult objectForKey:@"Zresim315"]]]]]];
-        //aalpk burasi duzelcek importu aliorz export boscunku
-        [tempCar setCurrency:[tempCarResult objectForKey:@"ImppWaers"]];
-        [tempCar setOffice:[Office getOfficeFrom:offices withCode:[tempCarResult objectForKey:@"Msube"]]];
-        //eger o grup yoksa daha
-        tempCarGroup = [CarGroup getGroupFromList:availableCarGroups WithCode:[tempCarResult objectForKey:@"Grpkod"]];
-        if ( tempCarGroup== nil) {
-            //grup yarat
-            //TODO: aalpk devam et gruba
-            tempCarGroup = [[CarGroup alloc] init];
-            tempCarGroup.cars = [[NSMutableArray alloc] init];
-            [tempCarGroup setGroupCode:[tempCarResult objectForKey:@"Grpkod"]];
-            [tempCarGroup setGroupName:[tempCarResult objectForKey:@"Grpkodtx"]];
-            [tempCarGroup setTransmissonId:[tempCarResult objectForKey:@"SanzimanTipiId"]];
-            [tempCarGroup setTransmissonName:[tempCarResult objectForKey:@"SanzimanTipi"]];
-            [tempCarGroup setFuelId:[tempCarResult objectForKey:@"YakitTipiId"]];
-            [tempCarGroup setFuelName:[tempCarResult objectForKey:@"YakitTipi"]];
-            [tempCarGroup setBodyId:[tempCarResult objectForKey:@"KasaTipiId"]];
-            [tempCarGroup setBodyName:[tempCarResult objectForKey:@"KasaTipi"]];
-            [tempCarGroup setSegment:[tempCarResult objectForKey:@"Segment"]];
-            [tempCarGroup setSegmentName:[tempCarResult objectForKey:@"Segmenttx"]];
+//        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[CarGroup urlOfResolution:@"400" fromBaseUrl:tempAracListe.Zresim315]]]]];
+        //TODO: arac subesi buluncak nspredicate class method
+//         tempCar setOffice:tempAracListe.Msube
+        tempCarGroup = [CarGroup getGroupFromList:availableCarGroups WithCode:tempAracListe.Grpkod];
+        if (tempCarGroup == nil) {
+            tempCarGroup = [CarGroup new];
+            tempCarGroup.cars = [NSMutableArray new];
+            [tempCarGroup setGroupCode:tempAracListe.Grpkod];
+            [tempCarGroup setGroupName:tempAracListe.Grpkodtx];
+            [tempCarGroup setTransmissonId:tempAracListe.SanzimanTipiId];
+            [tempCarGroup setTransmissonName:tempAracListe.SanzimanTipi];
+            [tempCarGroup setFuelId:tempAracListe.YakitTipiId];
+            [tempCarGroup setFuelName:tempAracListe.YakitTipi];
+            [tempCarGroup setBodyId:tempAracListe.KasaTipiId];
+            [tempCarGroup setBodyName:tempAracListe.KasaTipi];
+            [tempCarGroup setSegment:tempAracListe.Segment];
+            [tempCarGroup setSegmentName:tempAracListe.Segmenttx];
             [availableCarGroups addObject:tempCarGroup];
         }
         [tempCar setCarGroup:tempCarGroup];
         [CarGroup setPriceForCar:tempCar withPriceList:prices];
-        
-        if ([[tempCarResult objectForKey:@"Vitrinres"] isEqualToString:@"X"]) {
+        if ([tempAracListe.Vitrinres isEqualToString:@"X"]) {
             [tempCarGroup setSampleCar:tempCar];
         }
         [tempCarGroup.cars addObject:tempCar];
     }
-    
     return availableCarGroups;
 }
 

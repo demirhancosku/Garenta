@@ -813,8 +813,8 @@ static NSInteger const TechnicalServiceVersionMax = 0;
         AvailCarService *item = [AvailCarService parseAvailCarServiceEntryWithData:responseData error:&error];
         NSMutableArray *expands = [AvailCarServiceV0 parseExpandedAvailCarServiceEntriesWithData:responseData andServiceDocument:service.sdmServiceDocument error:&error];
         if ([expands count] >0) {
-            AvailCarServiceV0 *expandItem = [expands objectAtIndex:0];
-            [item setET_ARACLISTESet:expandItem.ET_ARACLISTESet];
+            item = [expands objectAtIndex:0];
+            
         }
         if (error) {
         	userInfoDict[kParsingError] = error;
@@ -2194,14 +2194,15 @@ static NSInteger const TechnicalServiceVersionMax = 0;
 - (void)onBeforeSend:(id <Requesting>)request
 {
 	request.shouldPresentAuthenticationDialog = YES;
-    
+    [request setTimeOutSeconds:60];
+    [request setUsername:[ApplicationProperties getSAPUser]];
+    [request setPassword:[ApplicationProperties getSAPPassword]];
+
     if ([ConnectivitySettings isSUPMode]) {
         if ([KeychainHelper isCredentialsSaved]){
             NSError *error = nil;
             CredentialsData *credentials = [KeychainHelper loadCredentialsAndReturnError:&error];
             if (credentials) {
-                [request setUsername:credentials.username];
-                [request setPassword:credentials.password];
             }
             else if(error) {
                 NSString *msg = [error localizedDescription];

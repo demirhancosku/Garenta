@@ -360,26 +360,47 @@
 
 - (void)getAvailableCarsFromSAP{
     //trans
+    //formatter for hour and minute
+    
+    
+    NSDateFormatter *dateFormatter  = [NSDateFormatter new];
+    [dateFormatter setDateFormat:@"HHmm"];
     [ApplicationProperties configureCarService];
     AvailCarServiceV0 *availableCarService = [AvailCarServiceV0 new];
+    [availableCarService setImppMsube:@" "];
     [availableCarService setIMPT_MSUBESet:[self prepareOfficeImport]];
-    [availableCarService setImppBegda:[NSDate date]];
+    [availableCarService setImppBegda:reservation.checkOutTime];
     [availableCarService setExppSubrc:[NSNumber numberWithInt:0]];
-    [availableCarService setImppBeguz:@"0900"];
-    [availableCarService  setImppEhdat:[NSDate date]];
-    [availableCarService setImppEnduz:@"1800"];
-    [availableCarService setImppEndda:[NSDate date]];
-    [availableCarService setImppFikod:@" "];
-    [availableCarService setImppGbdat:[NSDate date]];
-    [availableCarService setImppHdfsube:@"3071"];
-    [availableCarService setImppKdgrp:@" "];
-    [availableCarService setImppKunnr:@" "];
-    [availableCarService setImppMsube:@"3071"];
-    [availableCarService setImppSehir:@" "];
-    [availableCarService setImppUname:@"AALPK"];
-    [availableCarService setImppWaers:@"TRY"];
-    [availableCarService setImppLangu:@"T"];
-    [availableCarService setImppLand:@"TR"];
+    [availableCarService setImppBeguz:[dateFormatter stringFromDate:reservation.checkOutTime]];
+    [availableCarService setImppEnduz:[dateFormatter stringFromDate:reservation.checkInTime]];
+    [availableCarService setImppEndda:reservation.checkInTime];
+    [availableCarService setImppFikod:@"00"]; //???
+    [availableCarService setImppUname:@" "];  //bu ne lan
+    [availableCarService setImppHdfsube:reservation.checkInOffice.mainOfficeCode];
+    [availableCarService setImppKdgrp:@" "]; //bu ne be
+    
+    
+    User *user =[ApplicationProperties getUser];
+    if ([ user isLoggedIn]) {
+        [availableCarService setImppKunnr:[user kunnr]];
+        [availableCarService setImppEhdat:[user driversLicenseDate]];
+        [availableCarService setImppGbdat:[user birthday]];
+    }else{
+        [availableCarService setImppKunnr:@" "];
+        [availableCarService setImppEhdat:[NSDate date]];
+        [availableCarService setImppGbdat:[NSDate date]];
+    }
+    if (availableCarService.IMPT_MSUBESet.count == 1 && [(IMPT_MSUBEV0*)[availableCarService.IMPT_MSUBESet objectAtIndex:0] Msube] == nil) {
+        
+        [availableCarService setImppSehir:reservation.checkOutOffice.cityCode];
+    }else{
+        [availableCarService setImppSehir:@"00"];
+    }
+    
+    //    [availableCarService setImppUname:@"AALPK"]; why
+    [availableCarService setImppWaers:@"TRY"]; //probably they dont check
+    [availableCarService setImppLangu:@"T"];   //probably they dont check
+    [availableCarService setImppLand:@"TR"];   //probably they dont check
     
     
     NSMutableArray *carsImport =[[NSMutableArray alloc] init];
@@ -479,7 +500,7 @@
     [dummyFiyat setGunSayisi:[NSDecimalNumber decimalNumberWithString:@"0"]];
     [dummyFiyat setIl:@" "];
     [dummyFiyat setKampanyaId:@" "];
-    [dummyFiyat  setKampanyaKapsam:@" "];
+    [dummyFiyat setKampanyaKapsam:@" "];
     [dummyFiyat setKampanyaOran:[NSDecimalNumber decimalNumberWithString:@"0"]];
     [dummyFiyat setKampanyaTanim:@" "];
     [dummyFiyat setKampanyaTutarEur:[NSDecimalNumber decimalNumberWithString:@"0"]];
@@ -538,7 +559,7 @@
     if ([ApplicationProperties getMainSelection] == location_search) {
         //for now first 3 offices
         NSMutableArray *closestoffices = [ApplicationProperties closestFirst:3 fromOffices:[ApplicationProperties getOffices] toMyLocation:lastLocation];
-        //TODO: burda sub officelerden dolayi bir sikinti var 
+        //TODO: burda sub officelerden dolayi bir sikinti var
         for (Office*tempOffice in closestoffices) {
             officeImport = [IMPT_MSUBEV0 new];
             [officeImport setMsube:tempOffice.mainOfficeCode];
@@ -575,6 +596,12 @@
 - (void)parseCars:(NSNotification*)notification{
     
     [[LoaderAnimationVC uniqueInstance] stopAnimation];
+    if ([notification userInfo][kServerResponseError] != nil) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Zaman aşımı" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        [alertView show];
+        return;
+        
+    }
     AvailCarServiceV0 *availServiceResponse = (AvailCarServiceV0*)[[notification userInfo] objectForKey:kResponseItem];
     availableCarGroups = [CarGroup getCarGroupsFromServiceResponse:availServiceResponse withOffices:offices];
     

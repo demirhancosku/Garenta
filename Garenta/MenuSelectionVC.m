@@ -119,7 +119,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return self.view.frame.size.height / 3.0f;
+    if ([[[self tabBarController]   tabBar] isHidden] ) {
+            return self.view.frame.size.height / 3.0f;
+    }else{
+        return    (self.view.frame.size.height - self.tabBarController.tabBar.frame.size.height) / 3.0f;
+    }
+
 }
 
 
@@ -139,8 +144,9 @@
     NSString *barString;
     if ([[ApplicationProperties getUser] isLoggedIn]) {
         barString = @"Çıkış";
+        [[[self tabBarController] tabBar] setHidden:NO];
     }else{
-        
+        [[[self tabBarController] tabBar] setHidden:YES];
         barString = NSLocalizedString(@"Login", nil);
     }
     

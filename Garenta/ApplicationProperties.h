@@ -46,7 +46,7 @@ typedef enum{
 #pragma mark - service configurations
 + (void)configureOfficeService;
 + (void)configureCarService;
-
++ (void)configureAdditionalEquipmentService;
 
 //aktiflik
 + (BOOL)isActiveVersion;

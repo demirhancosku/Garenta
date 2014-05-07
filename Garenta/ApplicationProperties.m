@@ -9,6 +9,7 @@
 #import "ApplicationProperties.h"
 #import "ZGARENTA_OFIS_SRVRequestHandler.h"
 #import "ZGARENTA_ARAC_SRVRequestHandler.h"
+#import "ZGARENTA_EKHIZMET_SRVRequestHandler.h"
 @implementation ApplicationProperties
 MainSelection mainSelection;
 User* myUser;
@@ -231,7 +232,9 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
 //        
 //        
 //    }
-    
+    for (int sayac = 0 ; sayac < count ; sayac++) {
+        [closestOffices addObject:[sortedArray objectAtIndex:sayac]];
+    }
     return closestOffices;
 }
 
@@ -269,4 +272,19 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
     requestHandler.useJSON = NO;
 }
 
++ (void)configureAdditionalEquipmentService{
+    //Initialize the request handler with the service document URL and SAP client from the application settings.
+    ZGARENTA_EKHIZMET_SRVRequestHandler *requestHandler = [ZGARENTA_EKHIZMET_SRVRequestHandler uniqueInstance];
+    [requestHandler setServiceDocumentURL:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_EKHIZMET_SRV"];
+    [requestHandler setSAPClient:@""];
+    
+    /* Set to 'NO' to disable service negotiation */
+    requestHandler.useServiceNegotiation = YES;
+    
+	/* Set to 'YES' to use local metadata for service proxy initialization */
+    requestHandler.useLocalMetadata = NO;
+    
+    /* Set to 'YES' to use JSON in HTTP requests */
+    requestHandler.useJSON = NO;
+}
 @end

@@ -11,25 +11,27 @@
 
 @interface User : NSObject
 
-@property (nonatomic,retain) NSString *username;
-@property (nonatomic,retain) NSString *password;
-@property (nonatomic,retain) NSString *name;
-@property (nonatomic,retain) NSString *surname;
-@property (nonatomic,retain) NSString *garentaTl;
-@property (nonatomic,retain) NSString *mobile;
-@property (nonatomic,retain) NSString *email;
-@property (nonatomic,retain) NSString *tckno;
-@property (nonatomic,retain) NSString *company;
-@property (nonatomic,retain) NSString *companyName;
-@property (nonatomic,retain) NSString *companyName2;
-@property (nonatomic,retain) NSString *middleName;
-@property (nonatomic,retain) NSString *kunnr;
-@property (nonatomic,retain) NSString *accountType;
-@property (nonatomic,retain) NSString *gender;
-@property (nonatomic,retain) NSDate *birthday;
+@property (nonatomic,strong) NSString *username;
+@property (nonatomic,strong) NSString *password;
+@property (nonatomic,strong) NSString *name;
+@property (nonatomic,strong) NSString *surname;
+@property (nonatomic,strong) NSString *garentaTl;
+@property (nonatomic,strong) NSString *mobile;
+@property (nonatomic,strong) NSString *email;
+@property (nonatomic,strong) NSString *tckno;
+@property (nonatomic,strong) NSString *company;
+@property (nonatomic,strong) NSString *companyName;
+@property (nonatomic,strong) NSString *companyName2;
+@property (nonatomic,strong) NSString *middleName;
+@property (nonatomic,strong) NSString *kunnr;
+@property (nonatomic,strong) NSString *accountType;
+@property (nonatomic,strong) NSString *gender;
+@property (nonatomic,strong) NSDate *birthday;
+@property (nonatomic,strong) NSDate *driversLicenseDate;
 @property (nonatomic,assign) BOOL isLoggedIn;
-@property (nonatomic, retain) NSString *country;
-@property (nonatomic, retain) NSString *address;
+@property (nonatomic, strong) NSString *country;
+@property (nonatomic, strong) NSString *address;
+
 
 
 

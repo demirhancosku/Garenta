@@ -36,10 +36,6 @@
 		0C5B5FEA18649A870060BECD /* UserLoginPic.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE918649A870060BECD /* UserLoginPic.png */; };
 		0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */; };
 		0C893D87187884E5006AFF0A /* SliderHandle.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C893D86187884E5006AFF0A /* SliderHandle.png */; };
-		0C9299D71868903C007DE6B8 /* a_grubu.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0C9299D31868903C007DE6B8 /* a_grubu.jpg */; };
-		0C9299D81868903C007DE6B8 /* b_grubu.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0C9299D41868903C007DE6B8 /* b_grubu.jpg */; };
-		0C9299D91868903C007DE6B8 /* c_grubu.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0C9299D51868903C007DE6B8 /* c_grubu.jpg */; };
-		0C9299DA1868903C007DE6B8 /* d_grubu.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0C9299D61868903C007DE6B8 /* d_grubu.jpg */; };
 		0C9299DF18689E95007DE6B8 /* EquipmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9299DE18689E95007DE6B8 /* EquipmentVC.m */; };
 		0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA631351864697900CC529F /* MenuSelectionVC.m */; };
 		0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */; };
@@ -69,6 +65,8 @@
 		B50B09F918757F6900649165 /* ReservationApprovalVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B50B09F718757F6900649165 /* ReservationApprovalVC.xib */; };
 		B50B09FB187580C200649165 /* onay_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B50B09FA187580C200649165 /* onay_icon.png */; };
 		B50B09FD187592CC00649165 /* BackAccessoryButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B50B09FC187592CB00649165 /* BackAccessoryButton.png */; };
+		B5118CC01917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5118CBC1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.m */; };
+		B5118CC11917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.m in Sources */ = {isa = PBXBuildFile; fileRef = B5118CBF1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.m */; };
 		B51D5AD21870F1E700966B48 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B51D5AD11870F1E700966B48 /* CoreText.framework */; };
 		B51D5AD41871837C00966B48 /* CarGroupTableCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B51D5AD31871837B00966B48 /* CarGroupTableCellView.xib */; };
 		B533CE1F18FD173D002FE236 /* IDController.m in Sources */ = {isa = PBXBuildFile; fileRef = B533CE1E18FD173D002FE236 /* IDController.m */; };
@@ -117,6 +115,9 @@
 		B59492101910F82F009BBAC8 /* MainStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B594920F1910F82F009BBAC8 /* MainStoryBoard.storyboard */; };
 		B5A2CAE81872B60100271DE9 /* MinimumInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A2CAE61872B60100271DE9 /* MinimumInfoVC.m */; };
 		B5A2CAE91872B60100271DE9 /* MinimumInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5A2CAE71872B60100271DE9 /* MinimumInfoVC.xib */; };
+		B5A3353F191759B000B29C2B /* IntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A3353E191759B000B29C2B /* IntegrationTests.m */; };
+		B5A3354519176DCA00B29C2B /* GarentaTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5A3354419176DCA00B29C2B /* GarentaTests-Info.plist */; };
+		B5A3354C19177D3200B29C2B /* ParseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A3354B19177D3200B29C2B /* ParseTests.m */; };
 		B5B2C007190E9522001AFEC0 /* ZGARENTA_ARAC_SRVServiceDocumentV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5B2C000190E9522001AFEC0 /* ZGARENTA_ARAC_SRVServiceDocumentV0.xml */; };
 		B5B2C008190E9522001AFEC0 /* ZGARENTA_ARAC_SRVServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5B2C001190E9522001AFEC0 /* ZGARENTA_ARAC_SRVServiceMetadataV0.xml */; };
 		B5B2C009190E9522001AFEC0 /* ZGARENTA_ARAC_SRVRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B2C003190E9522001AFEC0 /* ZGARENTA_ARAC_SRVRequestHandler.m */; };
@@ -133,6 +134,8 @@
 		B5EE729218701DC400F634D3 /* yakit.png in Resources */ = {isa = PBXBuildFile; fileRef = B5EE728E18701DC400F634D3 /* yakit.png */; };
 		B5F2C4F31901258700F713DF /* ZGARENTA_OFIS_SRVServiceDocumentV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5F2C4F11901258700F713DF /* ZGARENTA_OFIS_SRVServiceDocumentV0.xml */; };
 		B5F2C4F41901258700F713DF /* ZGARENTA_OFIS_SRVServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5F2C4F21901258700F713DF /* ZGARENTA_OFIS_SRVServiceMetadataV0.xml */; };
+		B5FDB0C01918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB0BE1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml */; };
+		B5FDB0C11918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB0BF1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -203,10 +206,6 @@
 		0C5B5FE918649A870060BECD /* UserLoginPic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UserLoginPic.png; sourceTree = "<group>"; };
 		0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GarentaSmallLogo.png; sourceTree = SOURCE_ROOT; };
 		0C893D86187884E5006AFF0A /* SliderHandle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SliderHandle.png; sourceTree = "<group>"; };
-		0C9299D31868903C007DE6B8 /* a_grubu.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = a_grubu.jpg; sourceTree = "<group>"; };
-		0C9299D41868903C007DE6B8 /* b_grubu.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = b_grubu.jpg; sourceTree = "<group>"; };
-		0C9299D51868903C007DE6B8 /* c_grubu.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = c_grubu.jpg; sourceTree = "<group>"; };
-		0C9299D61868903C007DE6B8 /* d_grubu.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = d_grubu.jpg; sourceTree = "<group>"; };
 		0C9299DD18689E95007DE6B8 /* EquipmentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipmentVC.h; sourceTree = "<group>"; };
 		0C9299DE18689E95007DE6B8 /* EquipmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EquipmentVC.m; sourceTree = "<group>"; };
 		0CA631341864697900CC529F /* MenuSelectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuSelectionVC.h; sourceTree = "<group>"; };
@@ -244,6 +243,11 @@
 		B50B09F718757F6900649165 /* ReservationApprovalVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReservationApprovalVC.xib; sourceTree = "<group>"; };
 		B50B09FA187580C200649165 /* onay_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onay_icon.png; sourceTree = "<group>"; };
 		B50B09FC187592CB00649165 /* BackAccessoryButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackAccessoryButton.png; sourceTree = "<group>"; };
+		B5118CBB1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_EKHIZMET_SRVRequestHandler.h; sourceTree = "<group>"; };
+		B5118CBC1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_EKHIZMET_SRVRequestHandler.m; sourceTree = "<group>"; };
+		B5118CBD1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_EKHIZMET_SRVServiceDeclarations.h; sourceTree = "<group>"; };
+		B5118CBE1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_EKHIZMET_SRVServiceV0.h; sourceTree = "<group>"; };
+		B5118CBF1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_EKHIZMET_SRVServiceV0.m; sourceTree = "<group>"; };
 		B51D5AD11870F1E700966B48 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		B51D5AD31871837B00966B48 /* CarGroupTableCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarGroupTableCellView.xib; sourceTree = "<group>"; };
 		B533CE1D18FD173D002FE236 /* IDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDController.h; sourceTree = "<group>"; };
@@ -436,6 +440,9 @@
 		B5A2CAE51872B60100271DE9 /* MinimumInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinimumInfoVC.h; sourceTree = "<group>"; };
 		B5A2CAE61872B60100271DE9 /* MinimumInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MinimumInfoVC.m; sourceTree = "<group>"; };
 		B5A2CAE71872B60100271DE9 /* MinimumInfoVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MinimumInfoVC.xib; sourceTree = "<group>"; };
+		B5A3353E191759B000B29C2B /* IntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegrationTests.m; sourceTree = "<group>"; };
+		B5A3354419176DCA00B29C2B /* GarentaTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GarentaTests-Info.plist"; path = "GarentaTests/GarentaTests-Info.plist"; sourceTree = SOURCE_ROOT; };
+		B5A3354B19177D3200B29C2B /* ParseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseTests.m; sourceTree = "<group>"; };
 		B5B2C000190E9522001AFEC0 /* ZGARENTA_ARAC_SRVServiceDocumentV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_ARAC_SRVServiceDocumentV0.xml; sourceTree = "<group>"; };
 		B5B2C001190E9522001AFEC0 /* ZGARENTA_ARAC_SRVServiceMetadataV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_ARAC_SRVServiceMetadataV0.xml; sourceTree = "<group>"; };
 		B5B2C002190E9522001AFEC0 /* ZGARENTA_ARAC_SRVRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_ARAC_SRVRequestHandler.h; sourceTree = "<group>"; };
@@ -461,6 +468,8 @@
 		B5F2C4EF19011D4700F713DF /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B5F2C4F11901258700F713DF /* ZGARENTA_OFIS_SRVServiceDocumentV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_OFIS_SRVServiceDocumentV0.xml; sourceTree = "<group>"; };
 		B5F2C4F21901258700F713DF /* ZGARENTA_OFIS_SRVServiceMetadataV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_OFIS_SRVServiceMetadataV0.xml; sourceTree = "<group>"; };
+		B5FDB0BE1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml; sourceTree = "<group>"; };
+		B5FDB0BF1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -586,9 +595,10 @@
 		0C4C9A6F18462EAB00CD3728 /* Garenta */ = {
 			isa = PBXGroup;
 			children = (
+				B5A3354A19177CE900B29C2B /* UnitTests */,
 				B533CE2218FE7BBA002FE236 /* Gateway */,
 				0C4C9A99184631A100CD3728 /* Utilities */,
-				0C4C9A9A1846331200CD3728 /* ObjectClasses */,
+				0C4C9A9A1846331200CD3728 /* Model */,
 				0C4C9A9B1846331D00CD3728 /* Resources */,
 				0C4C9A981846318F00CD3728 /* VCs */,
 				0C4C9A7818462EAB00CD3728 /* AppDelegate.h */,
@@ -602,6 +612,7 @@
 		0C4C9A7018462EAB00CD3728 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B5A3354419176DCA00B29C2B /* GarentaTests-Info.plist */,
 				0C4C9A7118462EAB00CD3728 /* Garenta-Info.plist */,
 				0C4C9A7218462EAB00CD3728 /* InfoPlist.strings */,
 				0C4C9A7518462EAB00CD3728 /* main.m */,
@@ -643,7 +654,7 @@
 			name = Utilities;
 			sourceTree = "<group>";
 		};
-		0C4C9A9A1846331200CD3728 /* ObjectClasses */ = {
+		0C4C9A9A1846331200CD3728 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				B50715C818B7AC1D00419189 /* Price.h */,
@@ -672,7 +683,7 @@
 				B5E03448186ED57C00226DAB /* CarGroup.h */,
 				B5E03449186ED57C00226DAB /* CarGroup.m */,
 			);
-			name = ObjectClasses;
+			name = Model;
 			sourceTree = "<group>";
 		};
 		0C4C9A9B1846331D00CD3728 /* Resources */ = {
@@ -699,10 +710,6 @@
 				9E38C3C6186A033200EBD29E /* OrangeArrowUp.png */,
 				0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */,
 				0C5B5FE918649A870060BECD /* UserLoginPic.png */,
-				0C9299D31868903C007DE6B8 /* a_grubu.jpg */,
-				0C9299D41868903C007DE6B8 /* b_grubu.jpg */,
-				0C9299D51868903C007DE6B8 /* c_grubu.jpg */,
-				0C9299D61868903C007DE6B8 /* d_grubu.jpg */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -777,6 +784,19 @@
 			name = AvailableCarGroups;
 			sourceTree = "<group>";
 		};
+		B5118CBA1917D75700D66DBA /* AdditionalEquipmentService */ = {
+			isa = PBXGroup;
+			children = (
+				B5FDB0BD1918C5C9008CD33B /* Resources */,
+				B5118CBB1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.h */,
+				B5118CBC1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.m */,
+				B5118CBD1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceDeclarations.h */,
+				B5118CBE1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.h */,
+				B5118CBF1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.m */,
+			);
+			name = AdditionalEquipmentService;
+			sourceTree = "<group>";
+		};
 		B533CE2218FE7BBA002FE236 /* Gateway */ = {
 			isa = PBXGroup;
 			children = (
@@ -808,6 +828,7 @@
 		B533CE3A18FE7C42002FE236 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B5118CBA1917D75700D66DBA /* AdditionalEquipmentService */,
 				B5B2BFFE190E94A7001AFEC0 /* AvilCarService */,
 				B533CE3B18FE7C50002FE236 /* AvailOfficesService */,
 			);
@@ -1086,6 +1107,15 @@
 			name = ReservationVCs;
 			sourceTree = "<group>";
 		};
+		B5A3354A19177CE900B29C2B /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				B5A3353E191759B000B29C2B /* IntegrationTests.m */,
+				B5A3354B19177D3200B29C2B /* ParseTests.m */,
+			);
+			name = UnitTests;
+			sourceTree = "<group>";
+		};
 		B5B2BFFE190E94A7001AFEC0 /* AvilCarService */ = {
 			isa = PBXGroup;
 			children = (
@@ -1113,6 +1143,15 @@
 			children = (
 				B5F2C4F11901258700F713DF /* ZGARENTA_OFIS_SRVServiceDocumentV0.xml */,
 				B5F2C4F21901258700F713DF /* ZGARENTA_OFIS_SRVServiceMetadataV0.xml */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		B5FDB0BD1918C5C9008CD33B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B5FDB0BE1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml */,
+				B5FDB0BF1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1198,6 +1237,8 @@
 			files = (
 				B50B09D81874988F00649165 /* ReservationSummaryViewController.xib in Resources */,
 				B5688AFE186B1A78009D830E /* location_icon.png in Resources */,
+				B5FDB0C01918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml in Resources */,
+				B5FDB0C11918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml in Resources */,
 				B50B09FD187592CC00649165 /* BackAccessoryButton.png in Resources */,
 				B5A2CAE91872B60100271DE9 /* MinimumInfoVC.xib in Resources */,
 				B50B09E01874E72000649165 /* ReservationSummaryCell.xib in Resources */,
@@ -1207,19 +1248,15 @@
 				B5688B15186B3A2E009D830E /* load_3.png in Resources */,
 				B59492101910F82F009BBAC8 /* MainStoryBoard.storyboard in Resources */,
 				B533CE2118FD21CC002FE236 /* clock_icon.png in Resources */,
-				0C9299D91868903C007DE6B8 /* c_grubu.jpg in Resources */,
 				B5688AF6186B167E009D830E /* AccessoryButton.png in Resources */,
-				0C9299DA1868903C007DE6B8 /* d_grubu.jpg in Resources */,
 				B5EE729018701DC400F634D3 /* klima.png in Resources */,
 				B5688B12186B3A2E009D830E /* load_10.png in Resources */,
 				B5688AFB186B17EA009D830E /* arac_bul.png in Resources */,
 				B5688B16186B3A2E009D830E /* load_4.png in Resources */,
-				0C9299D71868903C007DE6B8 /* a_grubu.jpg in Resources */,
 				9E53F68F18BF8F150076CFFF /* UserCreationVC.xib in Resources */,
 				B50B09F918757F6900649165 /* ReservationApprovalVC.xib in Resources */,
 				B5688B13186B3A2E009D830E /* load_11.png in Resources */,
 				0C5B5FDC186481BF0060BECD /* TapkuLibrary.bundle in Resources */,
-				0C9299D81868903C007DE6B8 /* b_grubu.jpg in Resources */,
 				B5F2C4F41901258700F713DF /* ZGARENTA_OFIS_SRVServiceMetadataV0.xml in Resources */,
 				B51D5AD41871837C00966B48 /* CarGroupTableCellView.xib in Resources */,
 				B5B2C007190E9522001AFEC0 /* ZGARENTA_ARAC_SRVServiceDocumentV0.xml in Resources */,
@@ -1229,6 +1266,7 @@
 				B5688B18186B3A2E009D830E /* load_6.png in Resources */,
 				B5688B14186B3A2E009D830E /* load_2.png in Resources */,
 				0C5B5FEA18649A870060BECD /* UserLoginPic.png in Resources */,
+				B5A3354519176DCA00B29C2B /* GarentaTests-Info.plist in Resources */,
 				B5688B17186B3A2E009D830E /* load_5.png in Resources */,
 				0C893D87187884E5006AFF0A /* SliderHandle.png in Resources */,
 				0C4C9A7C18462EAB00CD3728 /* Images.xcassets in Resources */,
@@ -1275,6 +1313,7 @@
 				B5E03447186DEC9A00226DAB /* CarGroupManagerViewController.m in Sources */,
 				B533CE4218FE7C8C002FE236 /* ZGARENTA_OFIS_SRVRequestHandler.m in Sources */,
 				0CBA75CE1864356A0008CE29 /* AppDelegate.m in Sources */,
+				B5118CC01917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.m in Sources */,
 				0C0DA9A51865BEA5003EDDA0 /* Coordinate.m in Sources */,
 				0CBA75CC186435460008CE29 /* main.m in Sources */,
 				0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */,
@@ -1285,6 +1324,7 @@
 				0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */,
 				9E53F68E18BF8F150076CFFF /* UserCreationVC.m in Sources */,
 				9E38C3BD1869EA8100EBD29E /* CarGroupFilterVC.m in Sources */,
+				B5118CC11917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.m in Sources */,
 				9E38C3C01869EF4200EBD29E /* FilterObject.m in Sources */,
 				0C0DA9B31865E23F003EDDA0 /* Arrival.m in Sources */,
 				B5B2C00A190E9522001AFEC0 /* ZGARENTA_ARAC_SRVServiceV0.m in Sources */,
@@ -1318,6 +1358,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5A3353F191759B000B29C2B /* IntegrationTests.m in Sources */,
+				B5A3354C19177D3200B29C2B /* ParseTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1479,6 +1521,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Garenta.app/Garenta";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ata Cengiz (Q9WTE2M2S5)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1491,8 +1534,12 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "GarentaTests/GarentaTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "289173D3-0CA5-42AB-BADE-BBFEE6977D03";
 				TEST_HOST = "$(BUNDLE_LOADER)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -1501,6 +1548,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Garenta.app/Garenta";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ata Cengiz (Q9WTE2M2S5)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1509,8 +1557,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Garenta/Garenta-Prefix.pch";
 				INFOPLIST_FILE = "GarentaTests/GarentaTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "289173D3-0CA5-42AB-BADE-BBFEE6977D03";
 				TEST_HOST = "$(BUNDLE_LOADER)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;

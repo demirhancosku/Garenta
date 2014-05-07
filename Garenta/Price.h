@@ -12,7 +12,7 @@
 @property (nonatomic,retain)NSString *modelId;
 @property (nonatomic,retain)NSString *brandId;
 @property (nonatomic,retain)NSString *carGroup;
-@property (nonatomic,retain)NSString *payNowPrice; //sadece tl alıyoruz simdilik
-@property (nonatomic,retain)NSString *payLaterPrice;
-@property (nonatomic,retain)NSString *carSelectPrice;
+@property (nonatomic,retain)NSDecimalNumber *payNowPrice; //sadece tl alıyoruz simdilik
+@property (nonatomic,retain)NSDecimalNumber *payLaterPrice;
+@property (nonatomic,retain)NSDecimalNumber *carSelectPrice;
 @end
