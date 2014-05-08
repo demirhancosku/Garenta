@@ -12,7 +12,7 @@
 #import "User.h"
 #import "CarGroupFilterVC.h"
 #import "ApplicationProperties.h"
-@interface MenuSelectionVC : UITableViewController<UITableViewDataSource,UITableViewDelegate>
+@interface MenuSelectionVC : UIViewController<UITableViewDataSource,UITableViewDelegate>
 {
     UILabel *welcomeLabel;
         LoaderAnimationVC * loaderVC;

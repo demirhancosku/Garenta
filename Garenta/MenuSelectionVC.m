@@ -10,7 +10,9 @@
 #import "MenuTableCellView.h"
 #import "MinimumInfoVC.h"
 @interface MenuSelectionVC ()
-
+- (IBAction)locationBasedSearchSelected:(id)sender;
+- (IBAction)normalSearchSelected:(id)sender;
+- (IBAction)advancedSearchSelected:(id)sender;
 @end
 
 @implementation MenuSelectionVC
@@ -45,7 +47,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self prepareScreen];
+//    [self prepareScreen];
 }
 
 - (void)didReceiveMemoryWarning
@@ -173,6 +175,17 @@
 
 
 #pragma mark - action methods
+- (IBAction)locationBasedSearchSelected:(id)sender{
+
+}
+
+- (IBAction)normalSearchSelected:(id)sender{
+    
+}
+
+- (IBAction)advancedSearchSelected:(id)sender{
+    
+}
 
 - (void)login:(id)sender
 {

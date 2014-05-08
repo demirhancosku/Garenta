@@ -56,9 +56,10 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="EwE-VR-Ae2" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Araç kiralama" image="Month Calendar Date Tile.png" id="Nx3-mf-kbu"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" backIndicatorImage="GarentaSmallLogo.png" id="PGu-h5-JIo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" shadowImage="GarentaSmallLogo.png" backIndicatorImage="GarentaSmallLogo.png" id="PGu-h5-JIo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </textAttributes>
@@ -72,10 +73,10 @@
             </objects>
             <point key="canvasLocation" x="593" y="-510"/>
         </scene>
-        <!--View Controller-->
+        <!--Menu SelectionVC-->
         <scene sceneID="VbJ-E0-B0z">
             <objects>
-                <viewController id="P7V-C5-Qlf" sceneMemberID="viewController">
+                <viewController id="P7V-C5-Qlf" customClass="MenuSelectionVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XZU-gj-8bb"/>
                         <viewControllerLayoutGuide type="bottom" id="qWp-2V-aHg"/>
@@ -85,21 +86,14 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <containerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yOU-VT-hAc">
-                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                                <rect key="frame" x="0.0" y="64" width="321" height="455"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AfB-pg-XdA">
-                                <rect key="frame" x="0.0" y="64" width="320" height="152"/>
+                                <rect key="frame" x="0.0" y="64" width="321" height="152"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xrJ-Ne-S0Z">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="152"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="9vj-f5-08e">
                                         <rect key="frame" x="123" y="10" width="76" height="76"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -121,6 +115,16 @@
                                             <constraint firstAttribute="width" secondItem="lY1-Ue-lUK" secondAttribute="height" multiplier="1:1" id="lLl-0M-SzE"/>
                                         </constraints>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xrJ-Ne-S0Z">
+                                        <rect key="frame" x="0.0" y="0.0" width="321" height="152"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="locationBasedSearchSelected:" destination="P7V-C5-Qlf" eventType="touchUpInside" id="VOj-S4-Lb1"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.81960784313725488" green="0.81960784313725488" blue="0.81960784313725488" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -140,43 +144,109 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DPd-qh-uci">
-                                <rect key="frame" x="0.0" y="216" width="320" height="152"/>
+                                <rect key="frame" x="0.0" y="216" width="321" height="152"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arac_bul.png" translatesAutoresizingMaskIntoConstraints="NO" id="msn-IM-QKa">
+                                        <rect key="frame" x="122" y="20" width="76" height="76"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="msn-IM-QKa" secondAttribute="height" multiplier="1:1" id="DPy-Aa-ItO"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Araç Bul" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GWD-kM-tyA">
+                                        <rect key="frame" x="124" y="96" width="74" height="33"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="22"/>
+                                        <color key="textColor" red="0.20784313730000001" green="0.20784313730000001" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AccessoryButton.png" translatesAutoresizingMaskIntoConstraints="NO" id="hUn-2x-tst">
+                                        <rect key="frame" x="259" y="38" width="76" height="76"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="hUn-2x-tst" secondAttribute="height" multiplier="1:1" id="7Sl-Sg-dan"/>
+                                        </constraints>
+                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MMO-aE-PvT">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="152"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="321" height="152"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="normalSearchSelected:" destination="P7V-C5-Qlf" eventType="touchUpInside" id="JZL-jy-nZK"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="MMO-aE-PvT" firstAttribute="leading" secondItem="DPd-qh-uci" secondAttribute="leading" id="3u7-14-z3U"/>
+                                    <constraint firstAttribute="height" secondItem="hUn-2x-tst" secondAttribute="height" multiplier="2" id="4HF-Ms-ESb"/>
+                                    <constraint firstItem="GWD-kM-tyA" firstAttribute="height" secondItem="DPd-qh-uci" secondAttribute="height" multiplier="0.15" constant="10" id="6e1-Kd-VvV"/>
+                                    <constraint firstItem="msn-IM-QKa" firstAttribute="top" secondItem="DPd-qh-uci" secondAttribute="top" constant="20" id="NRX-Yt-a5L"/>
                                     <constraint firstAttribute="bottom" secondItem="MMO-aE-PvT" secondAttribute="bottom" id="NTy-JJ-u9D"/>
+                                    <constraint firstAttribute="centerY" secondItem="hUn-2x-tst" secondAttribute="centerY" id="QKT-70-mTm"/>
+                                    <constraint firstItem="hUn-2x-tst" firstAttribute="leading" secondItem="DPd-qh-uci" secondAttribute="leading" constant="259" id="VKu-ZB-A2j"/>
+                                    <constraint firstAttribute="centerX" secondItem="GWD-kM-tyA" secondAttribute="centerX" constant="-0.5" id="jZa-cl-n5L"/>
                                     <constraint firstItem="MMO-aE-PvT" firstAttribute="top" secondItem="DPd-qh-uci" secondAttribute="top" id="quS-OK-7M6"/>
+                                    <constraint firstItem="GWD-kM-tyA" firstAttribute="top" secondItem="msn-IM-QKa" secondAttribute="bottom" id="rcA-0K-CP7"/>
+                                    <constraint firstAttribute="centerX" secondItem="msn-IM-QKa" secondAttribute="centerX" id="rgU-pZ-0H0"/>
+                                    <constraint firstItem="msn-IM-QKa" firstAttribute="height" secondItem="DPd-qh-uci" secondAttribute="height" multiplier="1/2" id="sqO-2j-dz6"/>
                                     <constraint firstAttribute="trailing" secondItem="MMO-aE-PvT" secondAttribute="trailing" id="xlf-a8-Sfh"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hVQ-NS-Re2">
-                                <rect key="frame" x="0.0" y="367" width="320" height="152"/>
+                                <rect key="frame" x="0.0" y="367" width="321" height="152"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="detail_search.png" translatesAutoresizingMaskIntoConstraints="NO" id="VXQ-it-cit">
+                                        <rect key="frame" x="122" y="20" width="76" height="76"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="VXQ-it-cit" secondAttribute="height" multiplier="1:1" id="blN-1u-keJ"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detaylı Arama" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTc-Pq-uAF">
+                                        <rect key="frame" x="70" y="96" width="182" height="26"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="22"/>
+                                        <color key="textColor" red="0.20784313730000001" green="0.20784313730000001" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AccessoryButton.png" translatesAutoresizingMaskIntoConstraints="NO" id="PFq-i1-c1b">
+                                        <rect key="frame" x="259" y="38" width="76" height="76"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="PFq-i1-c1b" secondAttribute="height" multiplier="1:1" id="agl-KE-3Xd"/>
+                                        </constraints>
+                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pVC-yd-WzW">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="152"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="321" height="152"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="advancedSearchSelected:" destination="P7V-C5-Qlf" eventType="touchUpInside" id="Bg0-u9-RRK"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="ZTc-Pq-uAF" firstAttribute="leading" secondItem="hVQ-NS-Re2" secondAttribute="leading" constant="70" id="005-2E-d4N"/>
+                                    <constraint firstItem="ZTc-Pq-uAF" firstAttribute="top" secondItem="VXQ-it-cit" secondAttribute="bottom" id="2gc-xN-GxT"/>
+                                    <constraint firstAttribute="height" secondItem="VXQ-it-cit" secondAttribute="height" multiplier="2" id="4Vz-8g-fTO"/>
+                                    <constraint firstItem="VXQ-it-cit" firstAttribute="top" secondItem="hVQ-NS-Re2" secondAttribute="top" constant="20" id="9Ju-yN-tmD"/>
+                                    <constraint firstItem="PFq-i1-c1b" firstAttribute="height" secondItem="hVQ-NS-Re2" secondAttribute="height" multiplier="1/2" id="9zc-ki-lZE"/>
                                     <constraint firstAttribute="bottom" secondItem="pVC-yd-WzW" secondAttribute="bottom" id="GFp-uS-6Z9"/>
+                                    <constraint firstAttribute="centerY" secondItem="PFq-i1-c1b" secondAttribute="centerY" id="HoS-eM-buM"/>
                                     <constraint firstItem="pVC-yd-WzW" firstAttribute="leading" secondItem="hVQ-NS-Re2" secondAttribute="leading" id="I4O-Ts-U0i"/>
+                                    <constraint firstAttribute="centerX" secondItem="VXQ-it-cit" secondAttribute="centerX" id="OFC-IX-ckz"/>
                                     <constraint firstItem="pVC-yd-WzW" firstAttribute="top" secondItem="hVQ-NS-Re2" secondAttribute="top" id="fBK-Xx-4lL"/>
                                     <constraint firstAttribute="trailing" secondItem="pVC-yd-WzW" secondAttribute="trailing" id="hUO-CK-lPq"/>
+                                    <constraint firstItem="PFq-i1-c1b" firstAttribute="leading" secondItem="hVQ-NS-Re2" secondAttribute="leading" constant="259" id="leY-jS-FVf"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZTc-Pq-uAF" secondAttribute="trailing" constant="69" id="pra-eS-nED"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -232,6 +302,8 @@
         <image name="GarentaSmallLogo.png" width="357" height="57"/>
         <image name="Month Calendar Date Tile.png" width="46" height="44"/>
         <image name="Month Calendar Today Selected Tile.png" width="47" height="45"/>
+        <image name="arac_bul.png" width="300" height="300"/>
+        <image name="detail_search.png" width="300" height="300"/>
         <image name="location_icon.png" width="300" height="300"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
