@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>F2E42F1E-FED0-40D7-9387-43E307DC8281</string>
+	<string>8B21CF64-CC48-44C1-958D-FEE00DC2FD53</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Garenta</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>4CEAC32E-C156-457B-8295-F5586F90B2BC</key>
-		<string>https://github.com/kerembalaban/Garenta.git</string>
+		<key>AF48406D-AE41-4401-A366-96392DC69570</key>
+		<string>https://github.com/alpkeser/Garenta.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Garenta.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>4CEAC32E-C156-457B-8295-F5586F90B2BC</key>
+		<key>AF48406D-AE41-4401-A366-96392DC69570</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/kerembalaban/Garenta.git</string>
+	<string>https://github.com/alpkeser/Garenta.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>4CEAC32E-C156-457B-8295-F5586F90B2BC</string>
+	<string>AF48406D-AE41-4401-A366-96392DC69570</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>4CEAC32E-C156-457B-8295-F5586F90B2BC</string>
+			<string>AF48406D-AE41-4401-A366-96392DC69570</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Garenta</string>
 		</dict>

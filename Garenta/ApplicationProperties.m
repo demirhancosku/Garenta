@@ -10,12 +10,15 @@
 #import "ZGARENTA_OFIS_SRVRequestHandler.h"
 #import "ZGARENTA_ARAC_SRVRequestHandler.h"
 #import "ZGARENTA_EKHIZMET_SRVRequestHandler.h"
+#import "ZGARENTA_versiyon_srvRequestHandler.h"
+#import "ZGARENTA_REZERVASYON_SRVRequestHandler.h"
 @implementation ApplicationProperties
 MainSelection mainSelection;
 User* myUser;
 NSMutableArray *offices;
 static NSString *GATEWAY_USER = @"GW_ADMIN";
 static NSString *GATEWAY_PASS = @"1qa2ws3ed";
+static float  appVersion = 1.0;
 
 + (UIColor *)getOrange{
     return [UIColor colorWithRed:255/255.0 green:80.0/255.0 blue:0.0/255.0 alpha:1.0];
@@ -102,8 +105,13 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
 }
 
 + (int)getTimeout{
-    return 15;
+    return 60;
 }
+
++(float)getAppVersion{
+    return appVersion;
+}
+#pragma mark - URL Methods: will be deleted soon
 
 + (NSString*)getAvailableCarURLWithCheckOutOffice:(Office*) checkOutOffice andCheckInOffice:(Office*) checkInOffice andCheckOutDay:(NSDate*)checkOutDay andCheckOutTime:(NSDate*)checkOutTime andCheckInDay:(NSDate*)checkInDay andCheckInTime:(NSDate*)checkInTime{
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
@@ -276,6 +284,35 @@ static NSString *GATEWAY_PASS = @"1qa2ws3ed";
     //Initialize the request handler with the service document URL and SAP client from the application settings.
     ZGARENTA_EKHIZMET_SRVRequestHandler *requestHandler = [ZGARENTA_EKHIZMET_SRVRequestHandler uniqueInstance];
     [requestHandler setServiceDocumentURL:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_EKHIZMET_SRV"];
+    [requestHandler setSAPClient:@""];
+    
+    /* Set to 'NO' to disable service negotiation */
+    requestHandler.useServiceNegotiation = YES;
+    
+	/* Set to 'YES' to use local metadata for service proxy initialization */
+    requestHandler.useLocalMetadata = NO;
+    
+    /* Set to 'YES' to use JSON in HTTP requests */
+    requestHandler.useJSON = NO;
+}
++ (void)configureVersionService{
+    ZGARENTA_versiyon_srvRequestHandler *requestHandler = [ZGARENTA_versiyon_srvRequestHandler uniqueInstance];
+    [requestHandler setServiceDocumentURL:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_VERSIYON_SRV"];
+    [requestHandler setSAPClient:@""];
+    
+    /* Set to 'NO' to disable service negotiation */
+    requestHandler.useServiceNegotiation = YES;
+    
+	/* Set to 'YES' to use local metadata for service proxy initialization */
+    requestHandler.useLocalMetadata = NO;
+    
+    /* Set to 'YES' to use JSON in HTTP requests */
+    requestHandler.useJSON = NO;
+}
+
++ (void)configureReservationService{
+    ZGARENTA_REZERVASYON_SRVRequestHandler *requestHandler = [ZGARENTA_REZERVASYON_SRVRequestHandler uniqueInstance];
+    [requestHandler setServiceDocumentURL:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_REZERVASYON_SRV"];
     [requestHandler setSAPClient:@""];
     
     /* Set to 'NO' to disable service negotiation */

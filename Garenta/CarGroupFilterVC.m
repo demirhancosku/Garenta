@@ -17,8 +17,8 @@
 
 -(id)initWithReservation:(Reservation*)aReservation andCarGroup:(NSMutableArray*)aCarGroups{
     self  = [super init];
-    reservation = aReservation;
-    carGroups = aCarGroups;
+    _reservation = aReservation;
+    _carGroups = aCarGroups;
     filteredCarGroups = [[NSMutableArray alloc] init];
     return self;
 }
@@ -57,9 +57,10 @@
         [alert show];
         return;
     }
-    CarGroupManagerViewController *carGroupVC = [[CarGroupManagerViewController alloc] initWithCarGroups:filteredCarGroups andReservartion:reservation];
-
-    [[self navigationController] pushViewController:carGroupVC animated:YES];
+    [self performSegueWithIdentifier:@"toCarGroupVCSegue" sender:self];
+//    CarGroupManagerViewController *carGroupVC = [[CarGroupManagerViewController alloc] initWithCarGroups:filteredCarGroups andReservartion:reservation];
+//
+//    [[self navigationController] pushViewController:carGroupVC animated:YES];
 }
 
 - (void)calculateFilterResult:(NSMutableArray *)filterArray
@@ -280,7 +281,7 @@
     [object1 setFilterResult:@""];
     [object1 setIsSelected:NO];
     [fuelFilter addObject:object1];
-    for (CarGroup *tempCarGroup in carGroups) {
+    for (CarGroup *tempCarGroup in self.carGroups) {
         if (![self isFilterIdFoundFromFilterList:fuelFilter withId:tempCarGroup.fuelId]) {
             object1 = [[FilterObject alloc] init];
             [object1 setFilterDescription:@""];
@@ -303,7 +304,7 @@
     [object setFilterResult:@""];
     [object setIsSelected:NO];
     [segmentFilter addObject:object];
-    for (CarGroup *tempCarGroup in carGroups) {
+    for (CarGroup *tempCarGroup in _carGroups) {
         if (![self isFilterIdFoundFromFilterList:segmentFilter withId:tempCarGroup.segment]) {
             object = [[FilterObject alloc] init];
             [object setFilterDescription:@""];
@@ -327,7 +328,7 @@
     [object setFilterResult:@""];
     [object setIsSelected:NO];
     [bodyFilter addObject:object];
-    for (CarGroup *tempCarGroup in carGroups) {
+    for (CarGroup *tempCarGroup in _carGroups) {
         if (![self isFilterIdFoundFromFilterList:bodyFilter withId:tempCarGroup.bodyId]) {
             object = [[FilterObject alloc] init];
             [object setFilterDescription:@""];
@@ -352,7 +353,7 @@
     [object setFilterResult:@""];
     [object setIsSelected:NO];
     [transmissionFilter addObject:object];
-    for (CarGroup *tempCarGroup in carGroups) {
+    for (CarGroup *tempCarGroup in _carGroups) {
         if (![self isFilterIdFoundFromFilterList:transmissionFilter withId:tempCarGroup.transmissonId]) {
             object = [[FilterObject alloc] init];
             [object setFilterDescription:@""];
@@ -378,7 +379,7 @@
     [object setFilterResult:@""];
     [object setIsSelected:NO];
     [brandFilter addObject:object];
-    for (CarGroup *tempCarGroup in carGroups) {
+    for (CarGroup *tempCarGroup in _carGroups) {
         for(Car *tempCar in tempCarGroup.cars)
             if (![self isFilterIdFoundFromFilterList:brandFilter withId:tempCar.brandId]) {
                 object = [[FilterObject alloc] init];
@@ -410,7 +411,7 @@
 
 - (void)filterCars{
     [filteredCarGroups removeAllObjects];
-    [filteredCarGroups addObjectsFromArray:carGroups];
+    [filteredCarGroups addObjectsFromArray:_carGroups];
     //ve malesef değişecek :D :( -alp
   
     [self filterFuel];
@@ -574,7 +575,16 @@
 
 }
 
-
+#pragma mark - navigation methods
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"toCarGroupVCSegue"]) {
+        
+    }
+    
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
 
 
 @end

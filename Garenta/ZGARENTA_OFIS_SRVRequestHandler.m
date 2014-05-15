@@ -1384,6 +1384,7 @@ static NSInteger const TechnicalServiceVersionMax = 0;
 	request.shouldPresentAuthenticationDialog = YES;
     [request setUsername:[ApplicationProperties getSAPUser]];
     [request setPassword:[ApplicationProperties getSAPPassword]];
+    [request setTimeOutSeconds:[ApplicationProperties getTimeout]];
     if ([ConnectivitySettings isSUPMode]) {
         if ([KeychainHelper isCredentialsSaved]){
             NSError *error = nil;

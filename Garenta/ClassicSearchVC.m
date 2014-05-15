@@ -25,31 +25,22 @@
 @implementation ClassicSearchVC
 @synthesize popOver;
 
-- (id)initWithFrame:(CGRect)frame;
-{
-    self = [super init];
-    
-    viewFrame = frame;
-    reservation = [[Reservation alloc] init];
-    [self addNotifications];
-    return self;
-}
 
 #pragma mark - View lifcycles
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
+    CGRect navigationBarFrame = [[[self navigationController] navigationBar] frame];
+    viewFrame =CGRectMake(0, navigationBarFrame.size.height, self.view.frame.size.width,self.view.frame.size.width - navigationBarFrame.size.height );
+    reservation = [[Reservation alloc] init];
+    [self addNotifications];
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
-    
     locationManager = [[CLLocationManager alloc] init];
     [locationManager setDelegate:self];
     [locationManager setDistanceFilter:25];
     [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
     [locationManager startUpdatingLocation];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -72,85 +63,8 @@
     [self removeNotifcations];
 }
 
-- (void)showCarGroup:(id)sender
-{
-    
-    //TODO: review and adjust for on nsdate
-    NSDate *checkInTime;
-    NSDate *checkInDate;
-    NSDate *checkOutTime;
-    NSDate *checkOutDate;
-    NSDate *nowTime;
-    NSDate *nowDate;
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    
-    // sadece gün, ay, yıl bazında karşılaştırma yapabilmek için
-    NSInteger dateComps = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit);
-    
-    NSDateComponents *checkInDateComp = [calendar components:dateComps
-                                                    fromDate: [reservation checkInTime]];
-    NSDateComponents *checkOutDateComp = [calendar components:dateComps
-                                                     fromDate: [reservation checkOutTime]];
-    NSDateComponents *nowDateComp = [calendar components:dateComps
-                                                fromDate: [NSDate date]];
-    
-    checkInDate = [calendar dateFromComponents:checkInDateComp];
-    checkOutDate = [calendar dateFromComponents:checkOutDateComp];
-    nowDate = [calendar dateFromComponents:nowDateComp];
-    
-    // sadece saat ve dakika bazında karşılaştırma yapabilmek için
-    NSInteger timeComps = (NSHourCalendarUnit | NSMinuteCalendarUnit);
-    
-    NSDateComponents *checkInTimeComp = [calendar components:timeComps
-                                                    fromDate: [reservation checkInTime]];
-    NSDateComponents *checkOutTimeComp = [calendar components:timeComps
-                                                     fromDate: [reservation checkOutTime]];
-    NSDateComponents *nowTimeComp = [calendar components:timeComps
-                                                fromDate: [NSDate date]];
-    
-    checkInTime = [calendar dateFromComponents:checkInTimeComp];
-    checkOutTime = [calendar dateFromComponents:checkOutTimeComp];
-    nowTime = [calendar dateFromComponents:nowTimeComp];
-    if([checkOutDate compare:nowDate] == NSOrderedAscending){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Geçmişe dönük rezervasyon yapılamaz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
-        
-        [alert show];
-        return;
-    }else if ([checkOutDate compare:nowDate] == NSOrderedSame){
-        if ([checkOutTime compare:nowTime] ==NSOrderedAscending) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Geçmişe dönük rezervasyon yapılamaz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
-            
-            [alert show];
-            return;
-        }
-    }
-    
-    
-    if([checkInDate compare:checkOutDate] == NSOrderedAscending)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Aracı teslim alacağınız tarih, iade edeceğiniz tarihten ileri olamaz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
-        
-        [alert show];
-        return;
-    }
-    else if ([checkInDate compare:checkOutDate] == NSOrderedSame)
-    {
-        if ([checkInTime compare:checkOutTime] == NSOrderedAscending) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Aracı teslim alacağınız saat, iade edeceğiniz saatten ileri olamaz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
-            
-            [alert show];
-            return;
-            
-        }
-        
-    }
-    
-    
-    
-    [self getAvailableCarsFromSAP];
-    
-    
-}
+
+
 
 #pragma mark - Table view data source
 
@@ -358,6 +272,85 @@
     [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
 }
 
+- (void)showCarGroup:(id)sender
+{
+    
+    NSDate *checkInTime;
+    NSDate *checkInDate;
+    NSDate *checkOutTime;
+    NSDate *checkOutDate;
+    NSDate *nowTime;
+    NSDate *nowDate;
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    // sadece gün, ay, yıl bazında karşılaştırma yapabilmek için
+    NSInteger dateComps = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit);
+    
+    NSDateComponents *checkInDateComp = [calendar components:dateComps
+                                                    fromDate: [reservation checkInTime]];
+    NSDateComponents *checkOutDateComp = [calendar components:dateComps
+                                                     fromDate: [reservation checkOutTime]];
+    NSDateComponents *nowDateComp = [calendar components:dateComps
+                                                fromDate: [NSDate date]];
+    
+    checkInDate = [calendar dateFromComponents:checkInDateComp];
+    checkOutDate = [calendar dateFromComponents:checkOutDateComp];
+    nowDate = [calendar dateFromComponents:nowDateComp];
+    
+    // sadece saat ve dakika bazında karşılaştırma yapabilmek için
+    NSInteger timeComps = (NSHourCalendarUnit | NSMinuteCalendarUnit);
+    
+    NSDateComponents *checkInTimeComp = [calendar components:timeComps
+                                                    fromDate: [reservation checkInTime]];
+    NSDateComponents *checkOutTimeComp = [calendar components:timeComps
+                                                     fromDate: [reservation checkOutTime]];
+    NSDateComponents *nowTimeComp = [calendar components:timeComps
+                                                fromDate: [NSDate date]];
+    
+    checkInTime = [calendar dateFromComponents:checkInTimeComp];
+    checkOutTime = [calendar dateFromComponents:checkOutTimeComp];
+    nowTime = [calendar dateFromComponents:nowTimeComp];
+    if([checkOutDate compare:nowDate] == NSOrderedAscending){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Geçmişe dönük rezervasyon yapılamaz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+        return;
+    }else if ([checkOutDate compare:nowDate] == NSOrderedSame){
+        if ([checkOutTime compare:nowTime] ==NSOrderedAscending) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Geçmişe dönük rezervasyon yapılamaz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+            
+            [alert show];
+            return;
+        }
+    }
+    
+    
+    if([checkInDate compare:checkOutDate] == NSOrderedAscending)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Aracı teslim alacağınız tarih, iade edeceğiniz tarihten ileri olamaz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+        return;
+    }
+    else if ([checkInDate compare:checkOutDate] == NSOrderedSame)
+    {
+        if ([checkInTime compare:checkOutTime] == NSOrderedAscending) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Aracı teslim alacağınız saat, iade edeceğiniz saatten ileri olamaz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+            
+            [alert show];
+            return;
+            
+        }
+        
+    }
+    
+    
+    
+    [self getAvailableCarsFromSAP];
+    
+    
+}
+
 - (void)getAvailableCarsFromSAP{
     //trans
     //formatter for hour and minute
@@ -387,8 +380,8 @@
         [availableCarService setImppGbdat:[user birthday]];
     }else{
         [availableCarService setImppKunnr:@" "];
-        [availableCarService setImppEhdat:[NSDate date]];
-        [availableCarService setImppGbdat:[NSDate date]];
+        [availableCarService setImppEhdat:[NSDate dateWithTimeIntervalSince1970:0]];
+        [availableCarService setImppGbdat:[NSDate dateWithTimeIntervalSince1970:0]];
     }
     if (availableCarService.IMPT_MSUBESet.count == 1 && [(IMPT_MSUBEV0*)[availableCarService.IMPT_MSUBESet objectAtIndex:0] Msube] == nil) {
         
@@ -623,15 +616,10 @@
     //    Car *tempCar;
     
     
-    
-    if ([ApplicationProperties getMainSelection]== advanced_search) {
-        CarGroupFilterVC *filterVC = [[CarGroupFilterVC alloc] initWithReservation:reservation andCarGroup:availableCarGroups];
-        [[self navigationController] pushViewController:filterVC animated:YES];
-    }else{
-        CarGroupManagerViewController *carGroupManagerVC = [[CarGroupManagerViewController alloc] initWithCarGroups:availableCarGroups andReservartion:reservation];
-        [[self navigationController] pushViewController:carGroupManagerVC animated:YES];
-    }
+    [self navigateToNextVC];
 }
+
+
 
 - (UIImage*)getImageFromJSONResults:(NSDictionary*)pics withPath:(NSString*)aPath{
     UIImage *carImage = [[UIImage alloc] init];
@@ -738,16 +726,16 @@
     CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
     UINavigationController *nav = [[UINavigationController alloc] init];
     
-    destinationTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,(nav.navigationBar.frame.size.height + statusBarFrame.size.height) * 0.5,viewFrame.size.width * 0.9, 115) style:UITableViewStyleGrouped];
+    destinationTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,viewFrame.origin.y + (viewFrame.size.height * 0.10),viewFrame.size.width * 0.9, 115) style:UITableViewStyleGrouped];
     
     arrivalTableView = [[UITableView alloc] initWithFrame:
                         CGRectMake (viewFrame.size.width * 0.05 ,
-                                    destinationTableView.frame.size.height * 1.4 ,
+                                    destinationTableView.frame.size.height+destinationTableView.frame.origin.y + (viewFrame.size.height *0.10) ,
                                     viewFrame.size.width * 0.9,
                                     115) style:UITableViewStyleGrouped];
     
     searchButton = [[UIButton alloc] initWithFrame:CGRectMake (viewFrame.size.width * 0.05,
-                                                               (destinationTableView.frame.size.height + arrivalTableView.frame.size.height) * 1.3, arrivalTableView.frame.size.width, 40)];
+                                                               arrivalTableView.frame.origin.y + arrivalTableView.frame.size.height + viewFrame.size.height * 0.10, arrivalTableView.frame.size.width, 40)];
     
 }
 
@@ -761,5 +749,36 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+#pragma mark - Navigation methods
+- (void)navigateToNextVC{
+    if ([availableCarGroups count] <= 0) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uzgunuz" message:@"Aradiginiz kriterlerde arac bulunamamistir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        [alertView show];
+        return;
+    }
+    
+    if ([ApplicationProperties getMainSelection]== advanced_search) {
+        [self performSegueWithIdentifier:@"toFilterVCSegue" sender:self];
+    }else{
+        [self performSegueWithIdentifier:@"toCarGroupVCSegue" sender:self];
+    }
+}
 
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"toCarGroupVCSegue"]) {
+        CarGroupManagerViewController *carGroupVC = (CarGroupManagerViewController*)[segue destinationViewController];
+        [carGroupVC setCarGroups:availableCarGroups];
+        [carGroupVC setReservation:reservation];
+    }
+    if ([segue.identifier isEqualToString:@"toFilterVCSegue"]) {
+        CarGroupFilterVC  *filterVC = (CarGroupFilterVC*)[segue destinationViewController];
+        [filterVC setCarGroups:availableCarGroups];
+        [filterVC setReservation:reservation];
+    }
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
 @end

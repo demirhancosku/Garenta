@@ -23,10 +23,11 @@
     
     NSMutableArray *filteredCarGroups;
     
-    Reservation *reservation;
-    NSMutableArray *carGroups;
-}
 
+
+}
+@property(strong,nonatomic)Reservation *reservation;
+@property(strong,nonatomic)NSMutableArray *carGroups;
 -(id)initWithReservation:(Reservation*)aReservation andCarGroup:(NSMutableArray*)aCarGroups;
 
 @end

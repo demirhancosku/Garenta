@@ -26,10 +26,8 @@
 }
 - (id)initWithCarGroups:(NSMutableArray*)someCarGroups andReservartion:(Reservation*)aReservation{
     self= [super init];
-    reservation = aReservation;
-    carGroups = someCarGroups;
-    
-    
+    self.reservation = aReservation;
+    self.carGroups = someCarGroups;
     return self;
 }
 
@@ -37,7 +35,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    [self prepareScreen];
+
 }
 
 - (void)prepareScreen{
@@ -46,7 +44,7 @@
     UILabel *officeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
     [officeLabel setBackgroundColor:[ApplicationProperties getGrey]];
     [officeLabel setFont:[UIFont fontWithName:@"HelveticaNeue-UltraLight" size:16.0f]];
-    [officeLabel setText:reservation.checkOutOffice.subOfficeName];
+    [officeLabel setText:self.reservation.checkOutOffice.subOfficeName];
     [officeLabel setFrame:CGRectMake(0, 0, self.view.frame.size.width, [officeLabel.text sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-UltraLight" size:16.0f ]].height)];
     [officeLabel setTextAlignment:NSTextAlignmentCenter];
     [[self view] addSubview:officeLabel];
@@ -65,7 +63,7 @@
     tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height /2)-(self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height), self.view.frame.size.width, self.view.frame.size.height /2) style:UITableViewStylePlain];
     [tableView setDataSource:self];
     [tableView setDelegate:self];
-    activeCarGroup = [carGroups objectAtIndex:0];
+    activeCarGroup = [self.carGroups objectAtIndex:0];
     [[self view] addSubview:tableView];
     
 }
@@ -79,8 +77,8 @@
 - (void)initVCsWithCars{
     groupVCs = [[NSMutableArray alloc] init];
     CarGroupViewController *carGroupVC ;
-    for (int sayac = 0; sayac<carGroups.count; sayac++) {
-        carGroupVC = [[CarGroupViewController alloc] initWithFrame:groupPageVC.view.frame andCarGroups:[carGroups objectAtIndex:sayac]];
+    for (int sayac = 0; sayac<self.carGroups.count; sayac++) {
+        carGroupVC = [[CarGroupViewController alloc] initWithFrame:groupPageVC.view.frame andCarGroups:[self.carGroups objectAtIndex:sayac]];
         if (sayac == 0) {
             [carGroupVC setLeftArrowShouldHide:YES];
         }
@@ -140,7 +138,7 @@
     // [self sendPageChangeNotification:YES];
     CarGroupViewController *temp =(CarGroupViewController*) [pvc.viewControllers objectAtIndex:0];//daha mal bi yontem gormedm valla mal bunu yazanlar
     NSUInteger index =temp.index;
-    activeCarGroup = [carGroups objectAtIndex:index];
+    activeCarGroup = [self.carGroups objectAtIndex:index];
     [tableView reloadData];
 }
 
@@ -153,7 +151,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [activeCarGroup getBestCarsWithFilter:@"Fiyat"].count;
+    //best var price methodu cagiriliyordu  -aalpk
+    return [activeCarGroup cars].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -178,9 +177,9 @@
             myCellView = (CarGroupTableCellView *)xibObject;
         }
     }
-    Car *cellCar = [[activeCarGroup getBestCarsWithFilter:@"Fiyat"] objectAtIndex:indexPath.row];
+    Car *cellCar = [[activeCarGroup cars] objectAtIndex:indexPath.row];
     [myCellView.officeName setText:cellCar.office.subOfficeName];
-    [myCellView.payNowLabel setText:cellCar.pricing.payLaterPrice];
+    [myCellView.payNowLabel setText:[cellCar.pricing.payLaterPrice stringValue]];
     
     //AALPK currency gelmiyor bak
     [myCellView.currencyLabel setText:@"TL"];
@@ -204,15 +203,15 @@
     //aalpk burası duzeltilicek sonra yapıya bakmak laızm
     [activeCarGroup setPayLaterPrice:selectedCar.pricing.payLaterPrice];
     //
-    [reservation setSelectedCarGroup:activeCarGroup];
-    [reservation setCheckOutOffice:selectedCar.office];
+    [self.reservation setSelectedCarGroup:activeCarGroup];
+    [self.reservation setCheckOutOffice:selectedCar.office];
     if ([[ApplicationProperties getUser] isLoggedIn]) {
         //ek ekipman direk ama simdilik rez summary sayfası
-        ReservationSummaryViewController *summaryVC = [[ReservationSummaryViewController alloc] initWithReservation:reservation];
+        ReservationSummaryViewController *summaryVC = [[ReservationSummaryViewController alloc] initWithReservation:self.reservation];
         [[self navigationController] pushViewController:summaryVC animated:YES];
     }else{
         //minimum bilgiler
-        MinimumInfoVC * minInfoVC = [[MinimumInfoVC alloc] initWithReservation:reservation];
+        MinimumInfoVC * minInfoVC = [[MinimumInfoVC alloc] initWithReservation:self.reservation];
         [[self navigationController] pushViewController:minInfoVC animated:YES];
     }
 }

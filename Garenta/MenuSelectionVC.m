@@ -13,10 +13,12 @@
 - (IBAction)locationBasedSearchSelected:(id)sender;
 - (IBAction)normalSearchSelected:(id)sender;
 - (IBAction)advancedSearchSelected:(id)sender;
+
 @end
 
 @implementation MenuSelectionVC
 @synthesize loaderVC;
+static int kGarentaLogoId = 1;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -26,116 +28,68 @@
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame;
-{
-    //    self = [super init];
-    
 
-    return self;
-}
 
 #pragma mark - view event methods
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
 	// Do any additional setup after loading the view.
-    [self checkVersion];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
+        [self checkVersion];
+    });
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-//    [self prepareScreen];
+    [super viewWillAppear:animated];
+    [self putLogo];
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self removeLogo];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - tableView datasource methods
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 3;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3.0f)];
-    }
-    
-    ///custom init
-    MenuTableCellView *menuTableCellView = [[MenuTableCellView alloc] initWithFrame:CGRectMake(0,0,cell.frame.size.width,[self tableView:tableView heightForRowAtIndexPath:indexPath]) andIndex:indexPath.row];
-    [cell setBackgroundColor:[UIColor colorWithRed:229.0f/255.0f green:72.0f/255.0f blue:0.0f/255.0f alpha:1.0f]];
-    [cell addSubview:menuTableCellView];
-//    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    return cell;
-}
-
-
-#pragma mark - tableView delegate methods
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-//    // Silinicek
-//    MinimumInfoVC *info = [[MinimumInfoVC alloc] init];
-//    [[self navigationController] pushViewController:info animated:YES];
-//    return;
-    
-    //version check
-    [self checkAppVersion];
-    //aalpk
-    ClassicSearchVC *classicSearchVC = [[ClassicSearchVC alloc] initWithFrame:self.view.frame];
-    
-    switch (indexPath.row) {
-        case 0:
-            [ApplicationProperties setMainSelection:location_search];
-            break;
-        case 1:
-            [ApplicationProperties setMainSelection:classic_search];
-
-            break;
-        case 2:
-            [ApplicationProperties setMainSelection:advanced_search];
-            break;
-            
-        default:
-            break;
-    }
-            [[self navigationController] pushViewController:classicSearchVC animated:YES];    
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([[[self tabBarController]   tabBar] isHidden] ) {
-            return self.view.frame.size.height / 3.0f;
-    }else{
-        return    (self.view.frame.size.height - self.tabBarController.tabBar.frame.size.height) / 3.0f;
-    }
-
-}
 
 
 #pragma mark - util methods
 - (void)checkVersion{
-    NSString *connectionString = [ApplicationProperties getVersionUrl];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:150.0];
+//    NSString *connectionString = [ApplicationProperties getVersionUrl];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:150.0];
+//    
+//    NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
     
-    NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
+}
+
+//puts logo on navigation bar
+- (void)putLogo{
+    UINavigationController *nav = [self navigationController];
+    float logoRatio = (float)57 / (float)357;
+    float logoWidth = nav.navigationBar.frame.size.width * 0.5;
+    float logoHeight = logoWidth * logoRatio;
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(nav.navigationBar.frame.size.width * 0.25, nav.navigationBar.frame.size.height * 0.15, logoWidth, logoHeight)];
+    [imageView setTag:kGarentaLogoId];
+    [imageView setImage:[UIImage imageNamed:@"GarentaSmallLogo.png"]];
+    [[[self navigationController] navigationBar] addSubview:imageView];
+}
+
+- (void)removeLogo{
+    UINavigationController *nav = [self navigationController];
+    [[[nav navigationBar] subviews] enumerateObjectsUsingBlock:^(id obj,NSUInteger idx,BOOL *stop){
+        if ([(UIView*)obj isKindOfClass:[UIImageView class]] && [(UIImageView*)obj tag] == kGarentaLogoId ) {
+            [(UIView*)obj removeFromSuperview];
+        }
+    }];
     
 }
 
@@ -164,7 +118,7 @@
 
 - (BOOL)checkAppVersion{
     return [ApplicationProperties isActiveVersion];
-     
+    
 }
 
 - (void)showVersionAlert{
@@ -176,15 +130,18 @@
 
 #pragma mark - action methods
 - (IBAction)locationBasedSearchSelected:(id)sender{
-
+    [ApplicationProperties setMainSelection:location_search];
+    [self performSegueWithIdentifier:@"toSearchVCSegue" sender:self];
 }
 
 - (IBAction)normalSearchSelected:(id)sender{
-    
+    [ApplicationProperties setMainSelection:classic_search];
+    [self performSegueWithIdentifier:@"toSearchVCSegue" sender:self];
 }
 
 - (IBAction)advancedSearchSelected:(id)sender{
-    
+    [ApplicationProperties setMainSelection:advanced_search];
+    [self performSegueWithIdentifier:@"toSearchVCSegue" sender:self];
 }
 
 - (void)login:(id)sender
@@ -205,7 +162,17 @@
     [[self navigationController] pushViewController:login animated:YES];
 }
 
-
+#pragma mark - Navigation methods
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"toSearchVCSegue"]) {
+        
+    }
+    
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
 #pragma mark - nurlconnection delegate methods
 
 - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)space
@@ -244,7 +211,7 @@
     
     NSDictionary *result = [jsonDict objectForKey:@"d"];
     
-
+    
     NSString *updateLink;
     if([[result objectForKey:@"EReturn"] isEqualToString:@"T"]){
         [[NSUserDefaults standardUserDefaults]

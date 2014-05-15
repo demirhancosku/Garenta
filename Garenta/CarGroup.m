@@ -93,7 +93,7 @@
         [tempCar setModelId:tempAracListe.ModelId];
         [tempCar setModelName:tempAracListe.Model];
         [tempCar setModelYear:tempAracListe.ModelYili];
-//        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[CarGroup urlOfResolution:@"400" fromBaseUrl:tempAracListe.Zresim315]]]]];
+        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[CarGroup urlOfResolution:@"400" fromBaseUrl:tempAracListe.Zresim315]]]]];
         //TODO: arac subesi buluncak nspredicate class method
 //         tempCar setOffice:tempAracListe.Msube
         tempCarGroup = [CarGroup getGroupFromList:availableCarGroups WithCode:tempAracListe.Grpkod];

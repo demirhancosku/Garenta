@@ -69,6 +69,8 @@
 		B5118CC11917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.m in Sources */ = {isa = PBXBuildFile; fileRef = B5118CBF1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.m */; };
 		B51D5AD21870F1E700966B48 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B51D5AD11870F1E700966B48 /* CoreText.framework */; };
 		B51D5AD41871837C00966B48 /* CarGroupTableCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B51D5AD31871837B00966B48 /* CarGroupTableCellView.xib */; };
+		B524621F1924D84B00FC482B /* CarGroupPageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B524621E1924D84B00FC482B /* CarGroupPageVC.m */; };
+		B52462231924D8A100FC482B /* CarGroupTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B52462221924D8A100FC482B /* CarGroupTableVC.m */; };
 		B533CE1F18FD173D002FE236 /* IDController.m in Sources */ = {isa = PBXBuildFile; fileRef = B533CE1E18FD173D002FE236 /* IDController.m */; };
 		B533CE2118FD21CC002FE236 /* clock_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B533CE2018FD21CC002FE236 /* clock_icon.png */; };
 		B533CE2F18FE7C27002FE236 /* libCoreServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE2418FE7C27002FE236 /* libCoreServices.a */; };
@@ -93,6 +95,10 @@
 		B533CE5018FE7DC8002FE236 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE4F18FE7DC8002FE236 /* libz.1.2.5.dylib */; };
 		B533CE5218FE7DD5002FE236 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE5118FE7DD5002FE236 /* libstdc++.dylib */; };
 		B533CE5618FE8DDE002FE236 /* libicucore.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE5518FE8DDE002FE236 /* libicucore.A.dylib */; };
+		B55B5A8F1920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B55B5A8B1920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVRequestHandler.m */; };
+		B55B5A901920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceV0.m in Sources */ = {isa = PBXBuildFile; fileRef = B55B5A8E1920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceV0.m */; };
+		B55B5A941920EC44001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceDocumentV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B55B5A921920EC44001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceDocumentV0.xml */; };
+		B55B5A951920EC44001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B55B5A931920EC44001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceMetadataV0.xml */; };
 		B5688AF2186AECCA009D830E /* MenuTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5688AF1186AECCA009D830E /* MenuTableCellView.m */; };
 		B5688AF6186B167E009D830E /* AccessoryButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688AF3186B167E009D830E /* AccessoryButton.png */; };
 		B5688AFB186B17EA009D830E /* arac_bul.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688AF9186B17EA009D830E /* arac_bul.png */; };
@@ -112,6 +118,10 @@
 		B5688B1A186B3A2E009D830E /* load_8.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688B0F186B3A2E009D830E /* load_8.png */; };
 		B5688B1B186B3A2E009D830E /* load_9.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688B10186B3A2E009D830E /* load_9.png */; };
 		B5688B1E186C2479009D830E /* OfficeHolidayTime.m in Sources */ = {isa = PBXBuildFile; fileRef = B5688B1D186C2479009D830E /* OfficeHolidayTime.m */; };
+		B57E43B5191CC18800686A47 /* ZGARENTA_versiyon_srvRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B57E43B1191CC18800686A47 /* ZGARENTA_versiyon_srvRequestHandler.m */; };
+		B57E43B6191CC18800686A47 /* ZGARENTA_versiyon_srvServiceV0.m in Sources */ = {isa = PBXBuildFile; fileRef = B57E43B4191CC18800686A47 /* ZGARENTA_versiyon_srvServiceV0.m */; };
+		B57E43BA191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceDocumentV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B57E43B8191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceDocumentV0.xml */; };
+		B57E43BB191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B57E43B9191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceMetadataV0.xml */; };
 		B59492101910F82F009BBAC8 /* MainStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B594920F1910F82F009BBAC8 /* MainStoryBoard.storyboard */; };
 		B5A2CAE81872B60100271DE9 /* MinimumInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A2CAE61872B60100271DE9 /* MinimumInfoVC.m */; };
 		B5A2CAE91872B60100271DE9 /* MinimumInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5A2CAE71872B60100271DE9 /* MinimumInfoVC.xib */; };
@@ -250,6 +260,10 @@
 		B5118CBF1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_EKHIZMET_SRVServiceV0.m; sourceTree = "<group>"; };
 		B51D5AD11870F1E700966B48 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		B51D5AD31871837B00966B48 /* CarGroupTableCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarGroupTableCellView.xib; sourceTree = "<group>"; };
+		B524621D1924D84B00FC482B /* CarGroupPageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarGroupPageVC.h; sourceTree = "<group>"; };
+		B524621E1924D84B00FC482B /* CarGroupPageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarGroupPageVC.m; sourceTree = "<group>"; };
+		B52462211924D8A100FC482B /* CarGroupTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarGroupTableVC.h; sourceTree = "<group>"; };
+		B52462221924D8A100FC482B /* CarGroupTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarGroupTableVC.m; sourceTree = "<group>"; };
 		B533CE1D18FD173D002FE236 /* IDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDController.h; sourceTree = "<group>"; };
 		B533CE1E18FD173D002FE236 /* IDController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDController.m; sourceTree = "<group>"; };
 		B533CE2018FD21CC002FE236 /* clock_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clock_icon.png; sourceTree = "<group>"; };
@@ -413,6 +427,13 @@
 		B533CEE618FEA2C8002FE236 /* RequestBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestBuilder.h; sourceTree = "<group>"; };
 		B533CEE718FEA2C8002FE236 /* RequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestDelegate.h; sourceTree = "<group>"; };
 		B533CEE818FEA2C8002FE236 /* Requesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Requesting.h; sourceTree = "<group>"; };
+		B55B5A8A1920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_REZERVASYON_SRVRequestHandler.h; sourceTree = "<group>"; };
+		B55B5A8B1920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_REZERVASYON_SRVRequestHandler.m; sourceTree = "<group>"; };
+		B55B5A8C1920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_REZERVASYON_SRVServiceDeclarations.h; sourceTree = "<group>"; };
+		B55B5A8D1920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceV0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_REZERVASYON_SRVServiceV0.h; sourceTree = "<group>"; };
+		B55B5A8E1920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceV0.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_REZERVASYON_SRVServiceV0.m; sourceTree = "<group>"; };
+		B55B5A921920EC44001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceDocumentV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_REZERVASYON_SRVServiceDocumentV0.xml; sourceTree = "<group>"; };
+		B55B5A931920EC44001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceMetadataV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_REZERVASYON_SRVServiceMetadataV0.xml; sourceTree = "<group>"; };
 		B5688AF0186AECCA009D830E /* MenuTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableCellView.h; sourceTree = "<group>"; };
 		B5688AF1186AECCA009D830E /* MenuTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableCellView.m; sourceTree = "<group>"; };
 		B5688AF3186B167E009D830E /* AccessoryButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AccessoryButton.png; sourceTree = "<group>"; };
@@ -436,6 +457,13 @@
 		B5688B10186B3A2E009D830E /* load_9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = load_9.png; sourceTree = "<group>"; };
 		B5688B1C186C2479009D830E /* OfficeHolidayTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfficeHolidayTime.h; sourceTree = "<group>"; };
 		B5688B1D186C2479009D830E /* OfficeHolidayTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfficeHolidayTime.m; sourceTree = "<group>"; };
+		B57E43B0191CC18800686A47 /* ZGARENTA_versiyon_srvRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_versiyon_srvRequestHandler.h; sourceTree = "<group>"; };
+		B57E43B1191CC18800686A47 /* ZGARENTA_versiyon_srvRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_versiyon_srvRequestHandler.m; sourceTree = "<group>"; };
+		B57E43B2191CC18800686A47 /* ZGARENTA_versiyon_srvServiceDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_versiyon_srvServiceDeclarations.h; sourceTree = "<group>"; };
+		B57E43B3191CC18800686A47 /* ZGARENTA_versiyon_srvServiceV0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_versiyon_srvServiceV0.h; sourceTree = "<group>"; };
+		B57E43B4191CC18800686A47 /* ZGARENTA_versiyon_srvServiceV0.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_versiyon_srvServiceV0.m; sourceTree = "<group>"; };
+		B57E43B8191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceDocumentV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_versiyon_srvServiceDocumentV0.xml; sourceTree = "<group>"; };
+		B57E43B9191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceMetadataV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_versiyon_srvServiceMetadataV0.xml; sourceTree = "<group>"; };
 		B594920F1910F82F009BBAC8 /* MainStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryBoard.storyboard; sourceTree = "<group>"; };
 		B5A2CAE51872B60100271DE9 /* MinimumInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinimumInfoVC.h; sourceTree = "<group>"; };
 		B5A2CAE61872B60100271DE9 /* MinimumInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MinimumInfoVC.m; sourceTree = "<group>"; };
@@ -600,7 +628,7 @@
 				0C4C9A99184631A100CD3728 /* Utilities */,
 				0C4C9A9A1846331200CD3728 /* Model */,
 				0C4C9A9B1846331D00CD3728 /* Resources */,
-				0C4C9A981846318F00CD3728 /* VCs */,
+				0C4C9A981846318F00CD3728 /* UI */,
 				0C4C9A7818462EAB00CD3728 /* AppDelegate.h */,
 				0C4C9A7918462EAB00CD3728 /* AppDelegate.m */,
 				0C4C9A7B18462EAB00CD3728 /* Images.xcassets */,
@@ -621,20 +649,20 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		0C4C9A981846318F00CD3728 /* VCs */ = {
+		0C4C9A981846318F00CD3728 /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				B594920F1910F82F009BBAC8 /* MainStoryBoard.storyboard */,
 				B5A2CAE41872B51700271DE9 /* ReservationVCs */,
-				9E38C3BA1869EA2B00EBD29E /* AvailableCarGroups */,
+				9E38C3BA1869EA2B00EBD29E /* CarGroups */,
 				0C4C9A9C1846333100CD3728 /* BaseVCs */,
-				0C4C9AA11846348100CD3728 /* MainMenuSelection */,
+				0C4C9AA11846348100CD3728 /* MainMenu */,
 				0C0DA99D1865AE94003EDDA0 /* Login */,
 				0C0DA99E1865AEA2003EDDA0 /* SearchScreen */,
 				0C0DA9C718665B07003EDDA0 /* FilterScreen */,
 				0C9299DC18689E63007DE6B8 /* Equipments */,
 			);
-			name = VCs;
+			name = UI;
 			sourceTree = "<group>";
 		};
 		0C4C9A99184631A100CD3728 /* Utilities */ = {
@@ -725,7 +753,7 @@
 			name = BaseVCs;
 			sourceTree = "<group>";
 		};
-		0C4C9AA11846348100CD3728 /* MainMenuSelection */ = {
+		0C4C9AA11846348100CD3728 /* MainMenu */ = {
 			isa = PBXGroup;
 			children = (
 				0CA631341864697900CC529F /* MenuSelectionVC.h */,
@@ -733,7 +761,7 @@
 				B5688AF0186AECCA009D830E /* MenuTableCellView.h */,
 				B5688AF1186AECCA009D830E /* MenuTableCellView.m */,
 			);
-			name = MainMenuSelection;
+			name = MainMenu;
 			sourceTree = "<group>";
 		};
 		0C5B5FCA186479800060BECD /* Calendar */ = {
@@ -770,18 +798,18 @@
 			name = Equipments;
 			sourceTree = "<group>";
 		};
-		9E38C3BA1869EA2B00EBD29E /* AvailableCarGroups */ = {
+		9E38C3BA1869EA2B00EBD29E /* CarGroups */ = {
 			isa = PBXGroup;
 			children = (
-				B5E03442186DEAE100226DAB /* CarGroupViewController.h */,
-				B5E03443186DEAE100226DAB /* CarGroupViewController.m */,
+				B52462201924D86100FC482B /* old */,
 				B5E03445186DEC9A00226DAB /* CarGroupManagerViewController.h */,
 				B5E03446186DEC9A00226DAB /* CarGroupManagerViewController.m */,
-				B5CEF813187041D8007709E4 /* CarGroupTableCellView.h */,
-				B5CEF814187041D8007709E4 /* CarGroupTableCellView.m */,
-				B51D5AD31871837B00966B48 /* CarGroupTableCellView.xib */,
+				B524621D1924D84B00FC482B /* CarGroupPageVC.h */,
+				B524621E1924D84B00FC482B /* CarGroupPageVC.m */,
+				B52462211924D8A100FC482B /* CarGroupTableVC.h */,
+				B52462221924D8A100FC482B /* CarGroupTableVC.m */,
 			);
-			name = AvailableCarGroups;
+			name = CarGroups;
 			sourceTree = "<group>";
 		};
 		B5118CBA1917D75700D66DBA /* AdditionalEquipmentService */ = {
@@ -795,6 +823,18 @@
 				B5118CBF1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.m */,
 			);
 			name = AdditionalEquipmentService;
+			sourceTree = "<group>";
+		};
+		B52462201924D86100FC482B /* old */ = {
+			isa = PBXGroup;
+			children = (
+				B5E03442186DEAE100226DAB /* CarGroupViewController.h */,
+				B5E03443186DEAE100226DAB /* CarGroupViewController.m */,
+				B5CEF813187041D8007709E4 /* CarGroupTableCellView.h */,
+				B5CEF814187041D8007709E4 /* CarGroupTableCellView.m */,
+				B51D5AD31871837B00966B48 /* CarGroupTableCellView.xib */,
+			);
+			name = old;
 			sourceTree = "<group>";
 		};
 		B533CE2218FE7BBA002FE236 /* Gateway */ = {
@@ -828,6 +868,8 @@
 		B533CE3A18FE7C42002FE236 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B55B5A891920EC0F001D5DF4 /* ReservationService */,
+				B57E43AF191CC15300686A47 /* VersionService */,
 				B5118CBA1917D75700D66DBA /* AdditionalEquipmentService */,
 				B5B2BFFE190E94A7001AFEC0 /* AvilCarService */,
 				B533CE3B18FE7C50002FE236 /* AvailOfficesService */,
@@ -1070,6 +1112,28 @@
 			path = Request;
 			sourceTree = "<group>";
 		};
+		B55B5A891920EC0F001D5DF4 /* ReservationService */ = {
+			isa = PBXGroup;
+			children = (
+				B55B5A911920EC2F001D5DF4 /* Resources */,
+				B55B5A8A1920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVRequestHandler.h */,
+				B55B5A8B1920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVRequestHandler.m */,
+				B55B5A8C1920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceDeclarations.h */,
+				B55B5A8D1920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceV0.h */,
+				B55B5A8E1920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceV0.m */,
+			);
+			name = ReservationService;
+			sourceTree = "<group>";
+		};
+		B55B5A911920EC2F001D5DF4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B55B5A921920EC44001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceDocumentV0.xml */,
+				B55B5A931920EC44001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceMetadataV0.xml */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		B5688B05186B3A1F009D830E /* loader_turuncu */ = {
 			isa = PBXGroup;
 			children = (
@@ -1086,6 +1150,28 @@
 				B5688B10186B3A2E009D830E /* load_9.png */,
 			);
 			name = loader_turuncu;
+			sourceTree = "<group>";
+		};
+		B57E43AF191CC15300686A47 /* VersionService */ = {
+			isa = PBXGroup;
+			children = (
+				B57E43B7191CC18E00686A47 /* Resources */,
+				B57E43B0191CC18800686A47 /* ZGARENTA_versiyon_srvRequestHandler.h */,
+				B57E43B1191CC18800686A47 /* ZGARENTA_versiyon_srvRequestHandler.m */,
+				B57E43B2191CC18800686A47 /* ZGARENTA_versiyon_srvServiceDeclarations.h */,
+				B57E43B3191CC18800686A47 /* ZGARENTA_versiyon_srvServiceV0.h */,
+				B57E43B4191CC18800686A47 /* ZGARENTA_versiyon_srvServiceV0.m */,
+			);
+			name = VersionService;
+			sourceTree = "<group>";
+		};
+		B57E43B7191CC18E00686A47 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B57E43B8191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceDocumentV0.xml */,
+				B57E43B9191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceMetadataV0.xml */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		B5A2CAE41872B51700271DE9 /* ReservationVCs */ = {
@@ -1236,6 +1322,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B50B09D81874988F00649165 /* ReservationSummaryViewController.xib in Resources */,
+				B55B5A951920EC44001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceMetadataV0.xml in Resources */,
 				B5688AFE186B1A78009D830E /* location_icon.png in Resources */,
 				B5FDB0C01918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml in Resources */,
 				B5FDB0C11918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml in Resources */,
@@ -1266,10 +1353,12 @@
 				B5688B18186B3A2E009D830E /* load_6.png in Resources */,
 				B5688B14186B3A2E009D830E /* load_2.png in Resources */,
 				0C5B5FEA18649A870060BECD /* UserLoginPic.png in Resources */,
+				B57E43BA191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceDocumentV0.xml in Resources */,
 				B5A3354519176DCA00B29C2B /* GarentaTests-Info.plist in Resources */,
 				B5688B17186B3A2E009D830E /* load_5.png in Resources */,
 				0C893D87187884E5006AFF0A /* SliderHandle.png in Resources */,
 				0C4C9A7C18462EAB00CD3728 /* Images.xcassets in Resources */,
+				B55B5A941920EC44001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceDocumentV0.xml in Resources */,
 				B5688B1B186B3A2E009D830E /* load_9.png in Resources */,
 				B5688B11186B3A2E009D830E /* load_1.png in Resources */,
 				B5EE729118701DC400F634D3 /* vites.png in Resources */,
@@ -1281,6 +1370,7 @@
 				B5688B1A186B3A2E009D830E /* load_8.png in Resources */,
 				B50B09DE1874A95200649165 /* boarder_icon.png in Resources */,
 				B5E0343E186D95BF00226DAB /* login_icon.png in Resources */,
+				B57E43BB191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceMetadataV0.xml in Resources */,
 				9E38C3C8186A033200EBD29E /* OrangeArrowUp.png in Resources */,
 				B5EE729218701DC400F634D3 /* yakit.png in Resources */,
 			);
@@ -1305,6 +1395,7 @@
 				0CBA77BD186447AB0008CE29 /* LoginVC.m in Sources */,
 				B5A2CAE81872B60100271DE9 /* MinimumInfoVC.m in Sources */,
 				0C5B5FC81864770F0060BECD /* CalendarTimeVC.m in Sources */,
+				B57E43B6191CC18800686A47 /* ZGARENTA_versiyon_srvServiceV0.m in Sources */,
 				B50B09E31874EC7B00649165 /* ReservationSummaryCell.m in Sources */,
 				0C0DA9AA1865D04B003EDDA0 /* OfficeListVC.m in Sources */,
 				B5E03444186DEAE100226DAB /* CarGroupViewController.m in Sources */,
@@ -1319,6 +1410,7 @@
 				0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */,
 				0C9299DF18689E95007DE6B8 /* EquipmentVC.m in Sources */,
 				0C0DA9AD1865D2FD003EDDA0 /* Reservation.m in Sources */,
+				B52462231924D8A100FC482B /* CarGroupTableVC.m in Sources */,
 				B5CEF815187041D8007709E4 /* CarGroupTableCellView.m in Sources */,
 				9EB3838A1876C01400B214E1 /* iToast.m in Sources */,
 				0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */,
@@ -1327,11 +1419,13 @@
 				B5118CC11917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.m in Sources */,
 				9E38C3C01869EF4200EBD29E /* FilterObject.m in Sources */,
 				0C0DA9B31865E23F003EDDA0 /* Arrival.m in Sources */,
+				B524621F1924D84B00FC482B /* CarGroupPageVC.m in Sources */,
 				B5B2C00A190E9522001AFEC0 /* ZGARENTA_ARAC_SRVServiceV0.m in Sources */,
 				B5688B1E186C2479009D830E /* OfficeHolidayTime.m in Sources */,
 				B533CE4118FE7C8C002FE236 /* ZGARENTA_OFIS_SRVServiceV0.m in Sources */,
 				0C5B5FE2186482500060BECD /* TKGradientView.m in Sources */,
 				0C0DA9A21865BE31003EDDA0 /* User.m in Sources */,
+				B55B5A901920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVServiceV0.m in Sources */,
 				0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */,
 				B5688B04186B39F4009D830E /* LoaderAnimationVC.m in Sources */,
 				B50715CA18B7AC1E00419189 /* Price.m in Sources */,
@@ -1342,7 +1436,9 @@
 				B533CE1F18FD173D002FE236 /* IDController.m in Sources */,
 				0C5B5FD5186479AB0060BECD /* TKCalendarMonthView.m in Sources */,
 				B5688B01186B2E25009D830E /* GTMBase64.m in Sources */,
+				B55B5A8F1920EC2B001D5DF4 /* ZGARENTA_REZERVASYON_SRVRequestHandler.m in Sources */,
 				0C0DA9B01865E234003EDDA0 /* Destination.m in Sources */,
+				B57E43B5191CC18800686A47 /* ZGARENTA_versiyon_srvRequestHandler.m in Sources */,
 				0C5B5FD3186479AB0060BECD /* TKCalendarMonthViewController.m in Sources */,
 				B5688AF2186AECCA009D830E /* MenuTableCellView.m in Sources */,
 				0CBA75C9186435260008CE29 /* BaseVC.m in Sources */,

@@ -1786,7 +1786,7 @@ static NSInteger const TechnicalServiceVersionMax = 0;
 - (void)onBeforeSend:(id <Requesting>)request
 {
 	request.shouldPresentAuthenticationDialog = YES;
-    [request setTimeOutSeconds:60];
+    [request setTimeOutSeconds:[ApplicationProperties getTimeout]];
     [request setUsername:[ApplicationProperties getSAPUser]];
     [request setPassword:[ApplicationProperties getSAPPassword]];
     if ([ConnectivitySettings isSUPMode]) {

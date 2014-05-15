@@ -30,6 +30,15 @@
     carGroup = aCarGroup;
     return self;
 }
+- (id)initWithCarGroups:(CarGroup*)aCarGroup{
+    self = [super init];
+    
+    leftArrowShouldHide = NO;
+    rightArrowShouldHide = NO;
+    carGroup = aCarGroup;
+    
+    return self;
+}
 
 - (void)viewDidLoad
 {

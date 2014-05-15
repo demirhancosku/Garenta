@@ -13,6 +13,10 @@
 #import "ZGARENTA_ARAC_SRVRequestHandler.h"
 #import "ZGARENTA_EKHIZMET_SRVRequestHandler.h"
 #import "ZGARENTA_EKHIZMET_SRVServiceV0.h"
+#import "ZGARENTA_versiyon_srvRequestHandler.h"
+#import "ZGARENTA_versiyon_srvServiceV0.h"
+#import "ZGARENTA_REZERVASYON_SRVRequestHandler.h"
+#import "ZGARENTA_REZERVASYON_SRVServiceV0.h"
 #import "CarGroup.h"
 @interface IntegrationTests : XCTestCase
 
@@ -262,16 +266,296 @@
     [aService setImppRezno:@" "];
     
     __block BOOL waitingForBlock = YES;
-     NSOperationQueue *operationQueue = [NSOperationQueue new];
+    NSOperationQueue *operationQueue = [NSOperationQueue new];
     [[NSNotificationCenter defaultCenter] addObserverForName:kLoadAdditionalEquipmentServiceCompletedNotification object:nil queue:operationQueue usingBlock:^(NSNotification *notification){
         waitingForBlock = NO;
-               XCTAssertNil([notification userInfo][kServerResponseError] , @"Error");
-                XCTAssertNotNil([notification userInfo][kResponseItem] , @"Additional equipment service no response");
+        XCTAssertNil([notification userInfo][kServerResponseError] , @"Error");
+        XCTAssertNotNil([notification userInfo][kResponseItem] , @"Additional equipment service no response");
     }];
     [[ZGARENTA_EKHIZMET_SRVRequestHandler uniqueInstance] loadAdditionalEquipmentService:aService expand:YES];
     while(waitingForBlock) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
+}
+
+- (void)testVersionService{
+    [ApplicationProperties configureVersionService];
+    VersiyonServiceV0 *aService = [VersiyonServiceV0 new];
+    [aService setIVers:[NSString stringWithFormat:@"%f",[ApplicationProperties getAppVersion]]];
+    [aService setIAppName:@"rezApp"];
+    __block BOOL waitingForBlock = YES;
+    NSOperationQueue *operationQueue = [NSOperationQueue new];
+    [[NSNotificationCenter defaultCenter] addObserverForName:kLoadVersiyonServiceCompletedNotification object:nil queue:operationQueue usingBlock:^(NSNotification *notification){
+        waitingForBlock = NO;
+        XCTAssertNil([notification userInfo][kServerResponseError] , @"Error");
+        XCTAssertNotNil([notification userInfo][kResponseItem] , @"Version service no response");
+        
+    }];
+    [[ZGARENTA_versiyon_srvRequestHandler uniqueInstance] loadVersiyonService:aService];
+    while(waitingForBlock) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    }
+}
+
+- (void)testReservationService{
+    [ApplicationProperties configureReservationService];
+    ReservationServiceV0 *aService = [ReservationServiceV0 new];
+    IsInputV0 *isInput = [IsInputV0 new];
+    [isInput setAlisSubesi:@"3071"];
+    [isInput setBonus:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
+    [isInput setCCorpPriority:@" "];
+    [isInput setCPriority:@" "];
+    [isInput setFtCikisAdres:@"Greenpark hotel"];
+    [isInput setFtCikisIl:@"34"];
+    [isInput setFtCikisIlce:@"Bostanci"];
+    [isInput setFtDonusAdres:@"Miracle Hotel"];
+    [isInput setFtDonusIl:@"34"];
+    [isInput setFtDonusIlce:@"Kurtkoy"];
+    [isInput setFtMaliyetTipi:@" "];//???
+    [isInput setGarentaTl:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
+    [isInput setGunSayisi:[NSNumber numberWithDouble:3]];
+    [isInput setMilesSmiles:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
+    [isInput setOdemeTuru:@"K"];//???
+    [isInput setParaBirimi:@"TRY"];
+    [isInput setPuanTipi:@" "];//??
+    [isInput setRezBegda:[NSDate date]];
+    [isInput setRezBegtime:@"09:00"];
+    [isInput setRezEndda:[NSDate date]];
+    [isInput setRezEndtime:@"17:00"];
+    [isInput setRezKanal:@"M"];
+    [isInput setRezNo:@" "];
+    [isInput setSatisBurosu:@" "];//???
+    [isInput setTeslimSubesi:@"3071"];
+    [isInput setToplamTutar:[NSDecimalNumber decimalNumberWithString:@"50.0"]];
+    [isInput setUsername:@" "];
+    
+    IsUserinfoV0 *isUserInfo = [IsUserinfoV0 new];
+    [isUserInfo setAdress:@"Zorunlu mu bu adres"];
+    [isUserInfo setBirthdate:[NSDate date]];
+    [isUserInfo setCinsiyet:@"1"];//???
+    [isUserInfo setDistributionChannel:@"DC"];//???
+    [isUserInfo setDivision:@"dd"];//???
+    [isUserInfo setEhliyetAlisyeri:@"Mugla"];//??
+    [isUserInfo setEhliyetNo:@"2351"];//???
+    [isUserInfo setEhliyetSinifi:@"B2"];//???
+    [isUserInfo setEhliyetTarihi:[NSDate date]];
+    [isUserInfo setEmail:@"kerembalaban@gmail.com"];
+    [isUserInfo setFirstname:@"Alp"];
+    [isUserInfo setIlcekod:@"34"];//ilce kod rfcsiden alcak
+    [isUserInfo setIlkodu:@"34"];
+    [isUserInfo setKanalturu:@" "];
+    [isUserInfo setLastname:@"Keser"];
+    [isUserInfo setMiddlename:@"Yusuf"];
+    [isUserInfo setMusterino:@" "];
+    [isUserInfo setPasaportno:@"U01723537"];
+    [isUserInfo setSalesOrganization:@"34"];//????
+    [isUserInfo setTckn:@"46558353458"];
+    [isUserInfo setTelno:@"05337768554"];
+    [isUserInfo setTelnoUlke:@" "];//????
+    [isUserInfo setTkKartno:@"tk921"];//???
+    [isUserInfo setUlke:@"Tr"];//???
+    [isUserInfo setUyruk:@"TUR"];//????
+    [isUserInfo setVergino:@"028393"];
+    
+    IT_ARACLARV0 *itAracLine = [IT_ARACLARV0 new];
+    [itAracLine setMatnr:@"J034943043"];
+    
+    IT_EKSURUCUV0 *itEksurucuLine = [IT_EKSURUCUV0 new];
+    [itEksurucuLine setBirthdate:[NSDate date]];
+    [itEksurucuLine setCinsiyet:@"1"];//1 erkek 2 kadin
+    [itEksurucuLine setEhliyetAlisyeri:@"Bodrum"];
+    [itEksurucuLine setEhliyetNo:@"1234"];
+    [itEksurucuLine setEhliyetSinifi:@"B"];
+    [itEksurucuLine setEhliyetTarihi:[NSDate date]];
+    [itEksurucuLine setEksurucuNo:@"1"];
+    [itEksurucuLine setFirstname:@"Ata"];
+    [itEksurucuLine setKalemNo:@"0020"];
+    [itEksurucuLine setLastname:@"Cengiz"];
+    [itEksurucuLine setTckn:@"35678900987"];
+    [itEksurucuLine setTelno:@"02939209202"];
+    [itEksurucuLine setUlke:@"TR"];//???
+    [itEksurucuLine setUyruk:@"TUR"];
+    [itEksurucuLine setUpdateStatu:@"x"];
+    
+    IT_FATURA_ADRESV0 *itFaturaAdresLine = [IT_FATURA_ADRESV0 new];
+    [itFaturaAdresLine setAddrnumber:@"01"];//???
+    [itFaturaAdresLine setAdres:@"adressss"];
+    [itFaturaAdresLine setAdresKaydet:@"X"];//????
+    [itFaturaAdresLine setAdresTanim:@"Adres Tanım"];
+    [itFaturaAdresLine setAyniAdres:@"1"];
+    [itFaturaAdresLine setFatTip:@"1"];//???Bireysel mi kurumsal mi
+    [itFaturaAdresLine setFirmaAdi:@"Firma Adı"];
+    [itFaturaAdresLine setFirstname:@"Alp"];
+    [itFaturaAdresLine setIlcekod:@"01"];
+    [itFaturaAdresLine setIlkodu:@"34"];
+    [itFaturaAdresLine setLastname:@"Keser"];
+    [itFaturaAdresLine setMiddlename:@"Yusuf"];
+    [itFaturaAdresLine setPasaportno:@"U0171"];
+    [itFaturaAdresLine setTckn:@"4785889058"];
+    [itFaturaAdresLine setUlke:@"TR"];
+    [itFaturaAdresLine setVergidairesi:@"Goztepe VD"];
+    [itFaturaAdresLine setVergino:@"923948"];
+    
+    IT_ITEMSV0 *itemLine = [IT_ITEMSV0 new];
+    [itemLine setAlisSubesi:@"3071"];
+    [itemLine setAracGrubu:@"A2"];
+    [itemLine setAracRenk:@" "];//???
+    [itemLine setCKislastik:@" "];//???
+    [itemLine setFiloSegment:@" "];
+    [itemLine setFiyat:[NSDecimalNumber decimalNumberWithString:@"10.0"]];
+    [itemLine setFiyatKodu:@"L1"];
+    [itemLine setJatoMarka:@"Mercedes"];
+    [itemLine setJatoModel:@"C Serisi"];
+    [itemLine setKalemTipi:@"A"];
+    [itemLine setKampanyaId:@"z"];
+    [itemLine setMalzemeNo:@"3054"];
+    [itemLine setMiktar:[NSDecimalNumber decimalNumberWithString:@"1.0"]];
+    [itemLine setParaBirimi:@"TRY"];
+    [itemLine setPlakaNo:@"34ak9038"];
+    [itemLine setRezBegda:[NSDate date]];
+    [itemLine setRezBegtime:@"09:00"];
+    [itemLine setRezEndda:[NSDate date]];
+    [itemLine setRezEndtime:@"17:00"];
+    [itemLine setRezKalemNo:@"1"];
+    [itemLine setSasiNo:@"ERTYU1234567890"];
+    [itemLine setSatisBurosu:@"SB"];
+    [itemLine setTeslimSubesi:@"3071"];
+    [itemLine setUpdateStatu:@"x"];
+    
+    IT_SDREZERVV0 *sdRezervLine = [IT_SDREZERVV0 new];
+    [sdRezervLine setAugru:@"1"];
+    [sdRezervLine setBonusKazanir:@"X"];
+    [sdRezervLine setFiyatKodu:@"L1"];
+    [sdRezervLine setGrnttlKazanir:@"1"];
+    [sdRezervLine setGrupKodu:@"A2"];
+    [sdRezervLine setHdfsube:@"3071"];
+    [sdRezervLine setKunnr:@"12345"];
+    [sdRezervLine setMatnr:@"J2345678"];
+    [sdRezervLine setMilKazanir:@"T"];
+    [sdRezervLine setRAuart:@" "];
+    [sdRezervLine setRGjahr:@"2014"];
+    [sdRezervLine setRPosnr:@"10"];
+    [sdRezervLine setRVbeln:@"0123456789"];
+    [sdRezervLine setSpart:@"T"];
+    [sdRezervLine setSube:@"3071"];
+    [sdRezervLine setTarih:[NSDate date]];
+    [sdRezervLine setTutar:[NSDecimalNumber decimalNumberWithString:@"30.0"]];
+    [sdRezervLine setVkorg:@"1011"];
+    [sdRezervLine setVtweg:@"23"];
+    
+    IT_TAHSILATV0 *itTahsilatLine = [IT_TAHSILATV0 new];
+    [itTahsilatLine setAmount:[NSDecimalNumber decimalNumberWithString:@"10.0"]];
+    [itTahsilatLine setAy:@"10"];
+    [itTahsilatLine setCompanyname:@"CompName"];
+    [itTahsilatLine setCustomerEmail:@"alp@alp.com"];
+    [itTahsilatLine setCustomerFullname:@"Yusuf Alp Keser"];
+    [itTahsilatLine setCustomerIp:@"10.90.30.12"];
+    [itTahsilatLine setGarentaTl:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
+    [itTahsilatLine setGuvenlikkodu:@"344"];
+    [itTahsilatLine setIsPoint:@"X"];
+    [itTahsilatLine setKartNumarasi:@"4565467645646764"];
+    [itTahsilatLine setKartSahibi:@"Yusuf Alp Keser"];
+    [itTahsilatLine setKunnr:@"1234567890"];
+    [itTahsilatLine setMerKey:@"123"];
+    [itTahsilatLine setMusterionay:@"X"];
+    [itTahsilatLine setOAwkey:@" "];
+    [itTahsilatLine setOAwlog:@" "];
+    [itTahsilatLine setOCode:@" "];
+    [itTahsilatLine setOErrMessage:@"Err msg "];
+    [itTahsilatLine setOIpt:@"O"];
+    [itTahsilatLine setOIpterr:@"1"];
+    [itTahsilatLine setOIpterrmes:@"a"];
+    [itTahsilatLine setOMessage:@"Message"];
+    [itTahsilatLine setOMskayit:@"a"];
+    [itTahsilatLine setOPoint:@" "];
+    [itTahsilatLine setOProv:@"x"];
+    [itTahsilatLine setOrderId:@"12"];
+    [itTahsilatLine setOSanal:@"X"];
+    [itTahsilatLine setOStatus:@"s"];
+    [itTahsilatLine setPoint:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
+    [itTahsilatLine setPointTutar:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
+    [itTahsilatLine setTahstip:@"1"];
+    [itTahsilatLine setVkbur:@"1023"];
+    [itTahsilatLine setYil:@"2014"];
+    
+    EsOutputV0 *esOutput = [EsOutputV0 new];
+    [esOutput setAvail:@" "];
+    [esOutput setEksurucuNo:@" "];
+    [esOutput setFaturaMusteriNo:@" "];
+    [esOutput setFtCikisBp:@" "];
+    [esOutput setFtDonusBp:@" "];
+    [esOutput setIsRegistered:@" "];
+    [esOutput setMusterino:@" "];
+    [esOutput setRezNo:@" "];
+    [esOutput setTahsilDrm:@" "];
+    
+    ET_RETURNV0 *etReturnLine = [ET_RETURNV0 new];
+    [etReturnLine setId:@" "];
+    [etReturnLine setLogMsgNo:@"1"];
+    [etReturnLine setLogNo:@"2"];
+    [etReturnLine setMessage:@" "];
+    [etReturnLine setMessageV1:@" "];
+    [etReturnLine setMessageV2:@" "];
+    [etReturnLine setMessageV3:@" "];
+    [etReturnLine setMessageV4:@" "];
+    [etReturnLine setNumber:@" "];
+    [etReturnLine setType:@" "];
+    [etReturnLine setParameter:@" "];
+    [etReturnLine setRow:[NSNumber numberWithInt:1]];
+    [etReturnLine setField:@" "];
+    [etReturnLine setSystem:@" "];
+    
+    ET_KK_RETURNV0 *etKKReturnLine = [ET_KK_RETURNV0 new];
+    [etKKReturnLine setOErrMessage:@" "];
+    
+    
+    NSMutableArray * itAraclar = [NSMutableArray new];
+    NSMutableArray *itEksurucu = [NSMutableArray new];
+    NSMutableArray *itFaturaAdres = [NSMutableArray new];
+    NSMutableArray *itItem = [NSMutableArray new];
+    NSMutableArray *itSdRezerv = [NSMutableArray new];
+    NSMutableArray *itTahsilat = [NSMutableArray new];
+    NSMutableArray *etReturn = [NSMutableArray new];
+    
+    
+    [itAraclar addObject:itAracLine];
+    [itEksurucu addObject:itEksurucuLine];
+    [itFaturaAdres addObject:itFaturaAdresLine];
+    [itItem addObject:itemLine];
+    [itSdRezerv addObject:sdRezervLine];
+    [itTahsilat addObject:itTahsilatLine];
+    [etReturn addObject:etReturnLine];
+    
+    [aService setIsInput:isInput];
+    [aService setIsUserinfo:isUserInfo];
+    [aService setIT_ARACLARSet:itAraclar];
+    [aService setIT_EKSURUCUSet:itEksurucu];
+    [aService setIT_FATURA_ADRESSet:itFaturaAdres];
+    [aService setIT_ITEMSSet:itItem];
+    [aService setIT_SDREZERVSet:itSdRezerv];
+    [aService setIT_TAHSILATSet:itTahsilat];
+    [aService setEvSubrc:[NSNumber numberWithInt:2]];
+    [aService setEsOutput:esOutput];
+    [aService setET_RETURNSet:etReturn];
+    
+    __block BOOL waitingForBlock = YES;
+    NSOperationQueue *operationQueue = [NSOperationQueue new];
+    [[NSNotificationCenter defaultCenter] addObserverForName:kCreateReservationServiceCompletedNotification object:nil queue:operationQueue usingBlock:^(NSNotification *notification){
+        waitingForBlock = NO;
+        XCTAssertNil([notification userInfo][kServerResponseError] , @"Error");
+        XCTAssertNotNil([notification userInfo][kResponseItem] , @"Reservation service no response");
+    }];
+    [[ZGARENTA_REZERVASYON_SRVRequestHandler uniqueInstance] createReservationService:aService];
+    while(waitingForBlock) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    }
+    
+    
+    
+    
+    
 }
 @end

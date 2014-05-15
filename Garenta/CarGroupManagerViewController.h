@@ -11,12 +11,12 @@
 #import "Car.h"
 #import "CarGroupViewController.h"
 @interface CarGroupManagerViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIPageViewControllerDataSource,UIPageViewControllerDelegate>{
-    Reservation *reservation;
-    NSMutableArray *carGroups;
     UITableView *tableView;
     UIPageViewController *groupPageVC;
     NSMutableArray *groupVCs;
     CarGroup *activeCarGroup;
 }
+@property(nonatomic,strong)NSMutableArray *carGroups;
+@property(nonatomic,strong)Reservation *reservation;
 - (id)initWithCarGroups:(NSMutableArray*)someCarGroups andReservartion:(Reservation*)aReservation;
 @end
