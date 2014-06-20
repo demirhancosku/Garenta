@@ -9,6 +9,26 @@
 #import "CarGroupViewController.h"
 #import <CoreText/CoreText.h>
 @interface CarGroupViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *officeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *carGroupLabel;
+@property (weak, nonatomic) IBOutlet UILabel *carModelLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *carImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *leftArrowImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *rightArrowImageView;
+//icons
+@property (weak, nonatomic) IBOutlet UIImageView *fuelIconImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *transmissonIconImageView;
+@property (strong, nonatomic) IBOutlet UIView *acIconImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *passangerIconImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *doorsIconImageView;
+//labels
+@property (weak, nonatomic) IBOutlet UILabel *fuelLabel;
+@property (weak, nonatomic) IBOutlet UILabel *transmissionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *acLabel;
+@property (weak, nonatomic) IBOutlet UILabel *passangerLabel;
+@property (weak, nonatomic) IBOutlet UILabel *doorsLabel;
+
+
 
 @end
 
@@ -36,7 +56,6 @@
     leftArrowShouldHide = NO;
     rightArrowShouldHide = NO;
     carGroup = aCarGroup;
-    
     return self;
 }
 
@@ -44,151 +63,48 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    [[self view] setBackgroundColor:[UIColor whiteColor]];
-    [[self view] setFrame:myFrame];
-    [self prepareScreen];
-    
-    
-    //icon views
+    [self prepareUI];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    if (leftArrowShouldHide) {
+        [UIView animateWithDuration:0.6f animations:^(void){
+            [_leftArrowImageView setAlpha:0.0f];
+        }];
+    }
+    if (rightArrowShouldHide) {
+        [UIView animateWithDuration:0.6f animations:^(void){
+            [_rightArrowImageView setAlpha:0.0f];
+        }];
+    }
 }
 
-
-
-- (void)prepareScreen{
-    //group label
-    UILabel *groupLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-    [groupLabel setBackgroundColor:[UIColor clearColor]];
-    [groupLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:16.0f]];
-    [groupLabel  setText:carGroup.groupName];
-    //TODO: aalpk test
-    //[groupLabel  setText:@"A Grubu"];
-    //ToDo:biraz yukariya padding
-    [groupLabel setTextColor:[ApplicationProperties getOrange]];
-    [groupLabel setFrame:CGRectMake(0, 0, self.view.frame.size.width, [groupLabel.text sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:16.0f ]].height)];
-    [groupLabel setTextAlignment:NSTextAlignmentCenter];
-    [[self view] addSubview:groupLabel];
-    
-    
-    //Benzeri label
-    
-    UILabel *sampleCarLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-    [sampleCarLabel setBackgroundColor:[UIColor clearColor]];
-    [sampleCarLabel setFont:[UIFont fontWithName:@"HelveticaNeue-UltraLight" size:14.0f]];
-
-    //TODO: aalpk test
-    //[sampleCarLabel  setText:@"BMW 31634243242432424323424232"];
-    //ToDo:biraz yukariya padding
-    [sampleCarLabel setTextColor:[ApplicationProperties getBlack]];
-    
-
-    NSString *sampleCarLabelText = [NSString stringWithFormat:@"%@ ya da benzeri" ,carGroup.sampleCar.modelName];
-    NSString *boldFontName = @"HelveticaNeue-Bold";
-    NSRange boldedRange = NSMakeRange(0,[carGroup.sampleCar.modelName length]);
-    /* TODO:aalpk burayı coz
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:sampleCarLabelText];
-    
-
-    [attrString addAttribute:kCTFontAttributeName
-                       value:boldFontName
-                       range:boldedRange];
-    
-    [attrString setAttributes:@{NSFontAttributeName: boldFontName} range:boldedRange];
-//    [sampleCarLabel  setText:carGroup.sampleCar.modelName];
-    [sampleCarLabel  setAttributedText:attrString];
-    */
-    
-    
-    [sampleCarLabel setText:sampleCarLabelText];
-    [sampleCarLabel setFrame:CGRectMake(0, groupLabel.frame.origin.y+groupLabel.frame.size.height, self.view.frame.size.width, [sampleCarLabel.text sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0f]].height)];
-    [sampleCarLabel setTextAlignment:NSTextAlignmentCenter];
-    [[self view] addSubview:sampleCarLabel];
-    
-    
-    //arabaimage
-    float imageRatio = 125.0f / 200.0f;
-    float viewHeight = self.view.frame.size.height;
-    float imageHeight = (self.view.frame.size.height - (sampleCarLabel.frame.size.height +sampleCarLabel.frame.origin.y)) * 0.4;
-    float imageWidth = imageHeight / imageRatio;
-    float imageStartPoint = (self.view.frame.size.width - imageWidth) /2 ;
-    UIImageView *carImageView = [[UIImageView alloc] initWithFrame:CGRectMake(imageStartPoint, (sampleCarLabel.frame.size.height +groupLabel.frame.size.height),imageWidth ,imageHeight)];
-    [carImageView setImage:carGroup.sampleCar.image];
-    [[self view] addSubview:carImageView];
-    
-    //icons views
-    //klanın %50si aşağı
-    float paddingTop = (self.view.frame.size.height - (carImageView.frame.size.height+carImageView.frame.origin.y)) *0.1;
-    int iconCount = 3; //aalpk: get from car
-    float iconSize = self.view.frame.size.height * 0.07;
-    float iconPadding = self.view.frame.size.height * 0.1;
-    //%10 for each %5 for padding
-    float iconStartingX = (self.view.frame.size.width - ((iconCount * iconSize) + ( iconPadding * (iconCount -1)))) / 2;
-    UIImageView *iconImageView;
-    UILabel *iconText;
-    for (int sayac = 0; sayac < iconCount; sayac++) {
-        //hangi ikon benzn,sansz,klima,kislas
-        //TODO aalpk label ekle duzelt
-        iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(iconStartingX, carImageView.frame.origin.y + carImageView.frame.size.height+paddingTop, iconSize, iconSize)];
-        
-        
-        iconText = [[UILabel alloc] initWithFrame:CGRectMake(0 , iconImageView.frame.origin.y + iconImageView.frame.size.height, 0,0)];
-        [iconText setBackgroundColor:[UIColor clearColor]];
-        [iconText setFont:[UIFont fontWithName:@"HelveticaNeue" size:10.0f]];
-        
-        
-        
-        
-        //aalpk TODO: burasini duzlet
-        switch (sayac) {
-            case 0:
-                [iconImageView setImage:[UIImage imageNamed:@"yakit.png"]];
-                [iconText setText:carGroup.fuelName];
-                break;
-            case 1:
-                [iconImageView setImage:[UIImage imageNamed:@"vites.png"]];
-                [iconText setText:carGroup.transmissonName];
-                break;
-            case 2:
-                [iconImageView setImage:[UIImage imageNamed:@"klima.png"]];
-                [iconText setText:@"Klima"];
-                break;
-            case 3:
-                [iconImageView setImage:[UIImage imageNamed:@"kislastik.png"]];
-                [iconText setText:@"Kis Lastigi"];
-                break;
-            default:
-                break;
-        }
-        
-        [iconText setFrame:CGRectMake(0 , iconImageView.frame.origin.y + iconImageView.frame.size.height, [sampleCarLabel.text sizeWithFont:[UIFont fontWithName:@"HelveticaNeue" size:10.0f]].width,[sampleCarLabel.text sizeWithFont:[UIFont fontWithName:@"HelveticaNeue" size:10.0f]].height)];
-        
-        [iconText setCenter:CGPointMake((iconImageView.frame.origin.x + iconImageView.frame.size.width) - (iconImageView.frame.size.width /2), iconText.center.y)];
-        [iconText setTextAlignment:NSTextAlignmentCenter];
-
-        CGRect alp = iconText.frame;
-        [self.view addSubview:iconImageView];
-        [self.view addSubview:iconText];
-        iconStartingX = iconStartingX +  (iconPadding+iconSize);
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    if (leftArrowShouldHide) {
+        [UIView animateWithDuration:0.6f animations:^(void){
+            [_leftArrowImageView setAlpha:1.0f];
+        }];
     }
-    
-    
-    
-    //oklarrrr aslinda hiiden yerne hic koymasanda olr da salla
-    
-    leftArrow=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 70, 70)];
-    [leftArrow setImage:[UIImage imageNamed:@"BackAccessoryButton.png"]];
-    [leftArrow setCenter:CGPointMake(35,carImageView.center.y)];
-    [self.view addSubview:leftArrow];
-    [leftArrow setHidden:leftArrowShouldHide];
-    rightArrow= [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 70, 70)];
-    [rightArrow setImage:[UIImage imageNamed:@"AccessoryButton.png"]];
-    [rightArrow setCenter:CGPointMake(self.view.frame.size.width - 35,carImageView.center.y)];
-    [self.view addSubview:rightArrow];
-    [rightArrow setHidden:rightArrowShouldHide];
+    if (rightArrowShouldHide) {
+        [UIView animateWithDuration:0.6f animations:^(void){
+            [_rightArrowImageView setAlpha:1.0f];
+        }];
+    }
+}
+
+- (void)prepareUI{
+    [_fuelLabel setText:carGroup.fuelName];
+    [_transmissionLabel setText:carGroup.transmissonName];
+    [_acLabel setText:@"Klima"];
+    [_passangerLabel setText:carGroup.sampleCar.passangerNumber];
+    [_doorsLabel setText:carGroup.sampleCar.doorNumber];
+    [_officeLabel setText:[(Office*)[Office getOfficeFrom:[ApplicationProperties getOffices] withCode:carGroup.sampleCar.officeCode] mainOfficeName]];
+    [_carGroupLabel setText:carGroup.groupName];
+    [_carModelLabel setText:[NSString stringWithFormat:@"%@ ve benzeri",carGroup.sampleCar.modelName]];
+    [_carImageView setImage:carGroup.sampleCar.image];
 }
 
 - (void)didReceiveMemoryWarning

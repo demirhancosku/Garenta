@@ -66,6 +66,7 @@
 @property (strong, nonatomic) NSString *ImppBeguz; ///< Character Field Length = 10 - Edm.String
 @property (strong, nonatomic) NSDate *ImppBegda; ///< Start Date - Edm.DateTime
 @property (strong, nonatomic) NSNumber *ExppSubrc; ///< Return Value - Edm.Int32
+@property (strong, nonatomic) NSString *ExpKkgiris; ///< Single-Character Indicator - Edm.String
 #pragma mark Entity Navigation Properties
 @property (strong, nonatomic) ODataQuery *ET_ARACLISTESetQuery;
 @property (strong, nonatomic) NSMutableArray *ET_ARACLISTESet;
@@ -209,7 +210,6 @@
 #pragma mark - ET_ARACLISTEV0
 @interface ET_ARACLISTEV0 : BaseEntityType 
 
-@property (strong, nonatomic) NSString *KapiSayisi; ///< Field_value - Edm.String
 @property (strong, nonatomic) NSString *Cekis; ///< Field_value - Edm.String
 @property (strong, nonatomic) NSString *KasaTipi; ///< Field_value - Edm.String
 @property (strong, nonatomic) NSString *KasaTipiId; ///< Field_value - Edm.String
@@ -233,18 +233,19 @@
 @property (strong, nonatomic) NSString *MinYas; ///< MIN_YAS - Edm.String
 @property (strong, nonatomic) NSString *MinEhliyet; ///< MIN_EHLIYET - Edm.String
 @property (strong, nonatomic) NSString *GrubaRez; ///< GRUBA_REZ - Edm.String
+@property (strong, nonatomic) NSString *PlakayaRez; ///< PLAKAYA_REZ - Edm.String
+@property (strong, nonatomic) NSString *Grpkodtx; ///< GRPKODTX - Edm.String
 @property (strong, nonatomic) NSString *Sehir; ///< SEHIR - Edm.String
 @property (strong, nonatomic) NSString *Msube; ///< Storage Location - Edm.String
 @property (strong, nonatomic) NSString *Msubetx; ///< Descr. of Storage Loc. - Edm.String
-@property (strong, nonatomic) NSString *PlakayaRez; ///< PLAKAYA_REZ - Edm.String
+@property (strong, nonatomic) NSString *Grpkod; ///< GRPKOD - Edm.String
 @property (strong, nonatomic) NSString *Hsube; ///< Storage Location - Edm.String
 @property (strong, nonatomic) NSString *Hsubetx; ///< Descr. of Storage Loc. - Edm.String
 @property (strong, nonatomic) NSString *Matnr; ///< Material - Edm.String
-@property (strong, nonatomic) NSString *Grpkodtx; ///< GRPKODTX - Edm.String
+@property (strong, nonatomic) NSString *Segmenttx; ///< SEGMENTTX - Edm.String
 @property (strong, nonatomic) NSString *Maktx; ///< Material Description - Edm.String
 @property (strong, nonatomic) NSString *Segment; ///< SEGMENT - Edm.String
-@property (strong, nonatomic) NSString *Segmenttx; ///< SEGMENTTX - Edm.String
-@property (strong, nonatomic) NSString *Grpkod; ///< GRPKOD - Edm.String
+@property (strong, nonatomic) NSString *KapiSayisi; ///< Field_value - Edm.String
 @property (strong, nonatomic) NSString *MotorHacmi; ///< Field_value - Edm.String
 @property (strong, nonatomic) NSString *BagajHacmi; ///< Field_value - Edm.String
 @property (strong, nonatomic) NSString *BeygirGucu; ///< Field_value - Edm.String
@@ -279,6 +280,7 @@
 @property (strong, nonatomic) NSString *Trversiyon; ///< Field_value - Edm.String
 @property (strong, nonatomic) NSString *Trdonanim; ///< Field_value - Edm.String
 @property (strong, nonatomic) NSNumber *Aracsayi; ///< ARACSAYI - Edm.Int32
+@property (strong, nonatomic) NSString *Augru; ///< Order reason - Edm.String
 
 #pragma mark Static Methods
 /**
@@ -479,6 +481,13 @@
 @property (strong, nonatomic) NSNumber *FreeGun; ///< Byte - Edm.Byte
 @property (strong, nonatomic) NSString *AylikFiyatKod; ///< AYLIK_FIYAT_KOD - Edm.String
 @property (strong, nonatomic) NSString *KanalTuru; ///< Customer group - Edm.String
+@property (strong, nonatomic) NSString *AracSecim; ///< Version Number Component - Edm.String
+@property (strong, nonatomic) NSString *ParoKazanir; ///< Version Number Component - Edm.String
+@property (strong, nonatomic) NSString *WingsKazanir; ///< Version Number Component - Edm.String
+@property (strong, nonatomic) NSString *ParafKazanir; ///< Version Number Component - Edm.String
+@property (strong, nonatomic) NSString *BonusKazanir; ///< Version Number Component - Edm.String
+@property (strong, nonatomic) NSString *GarentatlKazanir; ///< Version Number Component - Edm.String
+@property (strong, nonatomic) NSString *MilKazanir; ///< Version Number Component - Edm.String
 
 #pragma mark Static Methods
 /**
@@ -550,24 +559,25 @@
 #pragma mark - ET_INDIRIMLISTV0
 @interface ET_INDIRIMLISTV0 : BaseEntityType 
 
-@property (strong, nonatomic) NSDate *Zzfld00002e; ///< ZZFLD00002E - Edm.DateTime
-@property (strong, nonatomic) NSDate *Zzfld00002f; ///< ZZFLD00002F - Edm.DateTime
-@property (strong, nonatomic) NSString *Zzproductid; ///< ZZPRODUCTID - Edm.String
+@property (strong, nonatomic) NSString *ErkenodemeInd; ///< ERKENODEME_IND - Edm.String
+@property (strong, nonatomic) NSDate *BeginDate; ///< BEGIN_DATE - Edm.DateTime
+@property (strong, nonatomic) NSDate *EndDate; ///< END_DATE - Edm.DateTime
 @property (strong, nonatomic) NSString *KampanyaId; ///< KAMPANYA_ID - Edm.String
-@property (strong, nonatomic) NSString *Zzkmparacgrubu; ///< ZZKMPARACGRUBU - Edm.String
-@property (strong, nonatomic) NSString *Zzkmprezturu; ///< ZZKMPREZTURU - Edm.String
-@property (strong, nonatomic) NSString *Zzfld000028; ///< ZZFLD000028 - Edm.String
-@property (strong, nonatomic) NSString *Zzkmpmarkaid; ///< ZZKMPMARKAID - Edm.String
-@property (strong, nonatomic) NSString *Zzkmpmodelid; ///< ZZKMPMODELID - Edm.String
-@property (strong, nonatomic) NSString *Zzsalesoffice; ///< ZZSALESOFFICE - Edm.String
-@property (strong, nonatomic) NSString *Zzkmpgovdetipi; ///< ZZKMPGOVDETIPI - Edm.String
-@property (strong, nonatomic) NSString *Zzkmpyakittipi; ///< ZZKMPYAKITTIPI - Edm.String
-@property (strong, nonatomic) NSString *Zzkmpsanztipi; ///< ZZKMPSANZTIPI - Edm.String
-@property (strong, nonatomic) NSString *Zzfld000030; ///< ZZFLD000030 - Edm.String
-@property (strong, nonatomic) NSString *Zzfld00002a; ///< ZZFLD00002A - Edm.String
-@property (strong, nonatomic) NSString *Zzfld00002c; ///< ZZFLD00002C - Edm.String
-@property (strong, nonatomic) NSString *Zzfld00002d; ///< ZZFLD00002D - Edm.String
-@property (strong, nonatomic) NSDecimalNumber *Zzcurrency; ///< ZZCURRENCY - Edm.Decimal
+@property (strong, nonatomic) NSString *MalzemeNo; ///< MALZEME_NO - Edm.String
+@property (strong, nonatomic) NSString *FiloSegmenti; ///< FILO_SEGMENTI - Edm.String
+@property (strong, nonatomic) NSString *AracGrubu; ///< ARAC_GRUBU - Edm.String
+@property (strong, nonatomic) NSString *MarkaId; ///< MARKA_ID - Edm.String
+@property (strong, nonatomic) NSString *RezvTuru; ///< REZV_TURU - Edm.String
+@property (strong, nonatomic) NSString *ModelId; ///< MODEL_ID - Edm.String
+@property (strong, nonatomic) NSString *GovdeTipi; ///< GOVDE_TIPI - Edm.String
+@property (strong, nonatomic) NSString *YakitTipi; ///< YAKIT_TIPI - Edm.String
+@property (strong, nonatomic) NSString *Sube; ///< SUBE - Edm.String
+@property (strong, nonatomic) NSString *SanzimanTipi; ///< SANZIMAN_TIPI - Edm.String
+@property (strong, nonatomic) NSString *FiyatKodu; ///< FIYAT_KODU - Edm.String
+@property (strong, nonatomic) NSString *KampMiktar; ///< KAMP_MIKTAR - Edm.String
+@property (strong, nonatomic) NSString *ParaBirimi; ///< PARA_BIRIMI - Edm.String
+@property (strong, nonatomic) NSString *KampYuzde; ///< KAMP_YUZDE - Edm.String
+@property (strong, nonatomic) NSDecimalNumber *Fiyat; ///< FIYAT - Edm.Decimal
 
 #pragma mark Static Methods
 /**
@@ -669,6 +679,10 @@
 @property (strong, nonatomic) NSString *CampType; ///< CAMP_TYPE - Edm.String
 @property (strong, nonatomic) NSString *KampanyaId; ///< Number - Edm.String
 @property (strong, nonatomic) NSString *Oncelik; ///< Priority - Edm.String
+@property (strong, nonatomic) NSString *Zzkmpozelgunisle; ///< ZZKMPOZELGUNISLE - Edm.String
+@property (strong, nonatomic) NSString *Tactics; ///< TACTICS - Edm.String
+@property (strong, nonatomic) NSString *Zzarcsecimucreti; ///< Version Number Component - Edm.String
+@property (strong, nonatomic) NSDecimalNumber *Zzkapkulornhdf; ///< ZZKAPKULORNHDF - Edm.Decimal
 
 #pragma mark Static Methods
 /**
@@ -758,6 +772,9 @@
 @property (strong, nonatomic) NSString *Vtweg; ///< Distribution Channel - Edm.String
 @property (strong, nonatomic) NSString *Spart; ///< Division - Edm.String
 @property (strong, nonatomic) NSDecimalNumber *Tutar; ///< Net Value - Edm.Decimal
+@property (strong, nonatomic) NSString *BonusKazanir; ///< Version Number Component - Edm.String
+@property (strong, nonatomic) NSString *MilKazanir; ///< Version Number Component - Edm.String
+@property (strong, nonatomic) NSString *GrnttlKazanir; ///< Version Number Component - Edm.String
 
 #pragma mark Static Methods
 /**
@@ -1027,7 +1044,6 @@ The OData query for the IMPT_MSUBE collection.
 
 /**
  Returns the OData query for a specific ET_ARACLISTEV0 entity.
- @param KapiSayisi Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Cekis Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param KasaTipi Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param KasaTipiId Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
@@ -1051,18 +1067,19 @@ The OData query for the IMPT_MSUBE collection.
  @param MinYas Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param MinEhliyet Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param GrubaRez Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
+ @param PlakayaRez Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
+ @param Grpkodtx Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Sehir Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Msube Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Msubetx Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
- @param PlakayaRez Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
+ @param Grpkod Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Hsube Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Hsubetx Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Matnr Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
- @param Grpkodtx Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
+ @param Segmenttx Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Maktx Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Segment Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
- @param Segmenttx Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
- @param Grpkod Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
+ @param KapiSayisi Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param MotorHacmi Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param BagajHacmi Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param BeygirGucu Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
@@ -1098,12 +1115,11 @@ The OData query for the IMPT_MSUBE collection.
  (for more information, see: http://www.odata.org/documentation/overview#AbstractTypeSystem).
  @return Returns an OData query object.
 */
-- (ODataQuery *)getET_ARACLISTESetEntryQueryWithKapiSayisi:(NSString *)KapiSayisi andCekis:(NSString *)Cekis andKasaTipi:(NSString *)KasaTipi andKasaTipiId:(NSString *)KasaTipiId andSanzimanTipi:(NSString *)SanzimanTipi andSanzimanTipiId:(NSString *)SanzimanTipiId andYakitTipi:(NSString *)YakitTipi andYakitTipiId:(NSString *)YakitTipiId andModelYili:(NSString *)ModelYili andModel:(NSString *)Model andMarka:(NSString *)Marka andModelId:(NSString *)ModelId andMarkaId:(NSString *)MarkaId andKisLastik:(NSString *)KisLastik andRgbkodu:(NSString *)Rgbkodu andAnarenktx:(NSString *)Anarenktx andRenktx:(NSString *)Renktx andRenk:(NSString *)Renk andVitrinres:(NSString *)Vitrinres andGencSrcYas:(NSString *)GencSrcYas andGencSrcEhl:(NSString *)GencSrcEhl andMinYas:(NSString *)MinYas andMinEhliyet:(NSString *)MinEhliyet andGrubaRez:(NSString *)GrubaRez andSehir:(NSString *)Sehir andMsube:(NSString *)Msube andMsubetx:(NSString *)Msubetx andPlakayaRez:(NSString *)PlakayaRez andHsube:(NSString *)Hsube andHsubetx:(NSString *)Hsubetx andMatnr:(NSString *)Matnr andGrpkodtx:(NSString *)Grpkodtx andMaktx:(NSString *)Maktx andSegment:(NSString *)Segment andSegmenttx:(NSString *)Segmenttx andGrpkod:(NSString *)Grpkod andMotorHacmi:(NSString *)MotorHacmi andBagajHacmi:(NSString *)BagajHacmi andBeygirGucu:(NSString *)BeygirGucu andYolcuSayisi:(NSString *)YolcuSayisi andAcilirTavan:(NSString *)AcilirTavan andCamTavan:(NSString *)CamTavan andParkSensoruOn:(NSString *)ParkSensoruOn andParkSensoruArka:(NSString *)ParkSensoruArka andYagmurSensoru:(NSString *)YagmurSensoru andIsitmaliKoltuk:(NSString *)IsitmaliKoltuk andDjitalKlima:(NSString *)DjitalKlima andAbs:(NSString *)Abs andEsp:(NSString *)Esp andStartStop:(NSString *)StartStop andXenonFar:(NSString *)XenonFar andCruiseKontrol:(NSString *)CruiseKontrol andDeriDoseme:(NSString *)DeriDoseme andGeriGorusKam:(NSString *)GeriGorusKam andIsofix:(NSString *)Isofix andBluetooth:(NSString *)Bluetooth andAux:(NSString *)Aux andHandsFree:(NSString *)HandsFree andSifirYuzHiz:(NSString *)SifirYuzHiz andOrtYakitTuketim:(NSString *)OrtYakitTuketim andNavigasyon:(NSString *)Navigasyon andZresim315:(NSString *)Zresim315 andZresim45:(NSString *)Zresim45 andZresim90:(NSString *)Zresim90 andZresim135:(NSString *)Zresim135 andZresim180:(NSString *)Zresim180;
+- (ODataQuery *)getET_ARACLISTESetEntryQueryWithCekis:(NSString *)Cekis andKasaTipi:(NSString *)KasaTipi andKasaTipiId:(NSString *)KasaTipiId andSanzimanTipi:(NSString *)SanzimanTipi andSanzimanTipiId:(NSString *)SanzimanTipiId andYakitTipi:(NSString *)YakitTipi andYakitTipiId:(NSString *)YakitTipiId andModelYili:(NSString *)ModelYili andModel:(NSString *)Model andMarka:(NSString *)Marka andModelId:(NSString *)ModelId andMarkaId:(NSString *)MarkaId andKisLastik:(NSString *)KisLastik andRgbkodu:(NSString *)Rgbkodu andAnarenktx:(NSString *)Anarenktx andRenktx:(NSString *)Renktx andRenk:(NSString *)Renk andVitrinres:(NSString *)Vitrinres andGencSrcYas:(NSString *)GencSrcYas andGencSrcEhl:(NSString *)GencSrcEhl andMinYas:(NSString *)MinYas andMinEhliyet:(NSString *)MinEhliyet andGrubaRez:(NSString *)GrubaRez andPlakayaRez:(NSString *)PlakayaRez andGrpkodtx:(NSString *)Grpkodtx andSehir:(NSString *)Sehir andMsube:(NSString *)Msube andMsubetx:(NSString *)Msubetx andGrpkod:(NSString *)Grpkod andHsube:(NSString *)Hsube andHsubetx:(NSString *)Hsubetx andMatnr:(NSString *)Matnr andSegmenttx:(NSString *)Segmenttx andMaktx:(NSString *)Maktx andSegment:(NSString *)Segment andKapiSayisi:(NSString *)KapiSayisi andMotorHacmi:(NSString *)MotorHacmi andBagajHacmi:(NSString *)BagajHacmi andBeygirGucu:(NSString *)BeygirGucu andYolcuSayisi:(NSString *)YolcuSayisi andAcilirTavan:(NSString *)AcilirTavan andCamTavan:(NSString *)CamTavan andParkSensoruOn:(NSString *)ParkSensoruOn andParkSensoruArka:(NSString *)ParkSensoruArka andYagmurSensoru:(NSString *)YagmurSensoru andIsitmaliKoltuk:(NSString *)IsitmaliKoltuk andDjitalKlima:(NSString *)DjitalKlima andAbs:(NSString *)Abs andEsp:(NSString *)Esp andStartStop:(NSString *)StartStop andXenonFar:(NSString *)XenonFar andCruiseKontrol:(NSString *)CruiseKontrol andDeriDoseme:(NSString *)DeriDoseme andGeriGorusKam:(NSString *)GeriGorusKam andIsofix:(NSString *)Isofix andBluetooth:(NSString *)Bluetooth andAux:(NSString *)Aux andHandsFree:(NSString *)HandsFree andSifirYuzHiz:(NSString *)SifirYuzHiz andOrtYakitTuketim:(NSString *)OrtYakitTuketim andNavigasyon:(NSString *)Navigasyon andZresim315:(NSString *)Zresim315 andZresim45:(NSString *)Zresim45 andZresim90:(NSString *)Zresim90 andZresim135:(NSString *)Zresim135 andZresim180:(NSString *)Zresim180;
 
 /**
  Returns the OData query for a specific ET_ARACLISTEV0 entity with typed parameters.
  Note: This method is relevant only for OData compliant services.
- @param KapiSayisi Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Cekis Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param KasaTipi Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param KasaTipiId Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
@@ -1127,18 +1143,19 @@ The OData query for the IMPT_MSUBE collection.
  @param MinYas Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param MinEhliyet Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param GrubaRez Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
+ @param PlakayaRez Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
+ @param Grpkodtx Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Sehir Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Msube Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Msubetx Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
- @param PlakayaRez Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
+ @param Grpkod Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Hsube Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Hsubetx Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Matnr Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
- @param Grpkodtx Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
+ @param Segmenttx Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Maktx Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param Segment Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
- @param Segmenttx Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
- @param Grpkod Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
+ @param KapiSayisi Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param MotorHacmi Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param BagajHacmi Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @param BeygirGucu Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
@@ -1171,7 +1188,7 @@ The OData query for the IMPT_MSUBE collection.
  @param Zresim180 Part of the ET_ARACLISTEV0 unique identifier (of type Edm.String).
  @return Returns an OData query object.
 */
-- (ODataQuery *)getET_ARACLISTESetEntryQueryTypedWithKapiSayisi:(NSString *)KapiSayisi andCekis:(NSString *)Cekis andKasaTipi:(NSString *)KasaTipi andKasaTipiId:(NSString *)KasaTipiId andSanzimanTipi:(NSString *)SanzimanTipi andSanzimanTipiId:(NSString *)SanzimanTipiId andYakitTipi:(NSString *)YakitTipi andYakitTipiId:(NSString *)YakitTipiId andModelYili:(NSString *)ModelYili andModel:(NSString *)Model andMarka:(NSString *)Marka andModelId:(NSString *)ModelId andMarkaId:(NSString *)MarkaId andKisLastik:(NSString *)KisLastik andRgbkodu:(NSString *)Rgbkodu andAnarenktx:(NSString *)Anarenktx andRenktx:(NSString *)Renktx andRenk:(NSString *)Renk andVitrinres:(NSString *)Vitrinres andGencSrcYas:(NSString *)GencSrcYas andGencSrcEhl:(NSString *)GencSrcEhl andMinYas:(NSString *)MinYas andMinEhliyet:(NSString *)MinEhliyet andGrubaRez:(NSString *)GrubaRez andSehir:(NSString *)Sehir andMsube:(NSString *)Msube andMsubetx:(NSString *)Msubetx andPlakayaRez:(NSString *)PlakayaRez andHsube:(NSString *)Hsube andHsubetx:(NSString *)Hsubetx andMatnr:(NSString *)Matnr andGrpkodtx:(NSString *)Grpkodtx andMaktx:(NSString *)Maktx andSegment:(NSString *)Segment andSegmenttx:(NSString *)Segmenttx andGrpkod:(NSString *)Grpkod andMotorHacmi:(NSString *)MotorHacmi andBagajHacmi:(NSString *)BagajHacmi andBeygirGucu:(NSString *)BeygirGucu andYolcuSayisi:(NSString *)YolcuSayisi andAcilirTavan:(NSString *)AcilirTavan andCamTavan:(NSString *)CamTavan andParkSensoruOn:(NSString *)ParkSensoruOn andParkSensoruArka:(NSString *)ParkSensoruArka andYagmurSensoru:(NSString *)YagmurSensoru andIsitmaliKoltuk:(NSString *)IsitmaliKoltuk andDjitalKlima:(NSString *)DjitalKlima andAbs:(NSString *)Abs andEsp:(NSString *)Esp andStartStop:(NSString *)StartStop andXenonFar:(NSString *)XenonFar andCruiseKontrol:(NSString *)CruiseKontrol andDeriDoseme:(NSString *)DeriDoseme andGeriGorusKam:(NSString *)GeriGorusKam andIsofix:(NSString *)Isofix andBluetooth:(NSString *)Bluetooth andAux:(NSString *)Aux andHandsFree:(NSString *)HandsFree andSifirYuzHiz:(NSString *)SifirYuzHiz andOrtYakitTuketim:(NSString *)OrtYakitTuketim andNavigasyon:(NSString *)Navigasyon andZresim315:(NSString *)Zresim315 andZresim45:(NSString *)Zresim45 andZresim90:(NSString *)Zresim90 andZresim135:(NSString *)Zresim135 andZresim180:(NSString *)Zresim180;
+- (ODataQuery *)getET_ARACLISTESetEntryQueryTypedWithCekis:(NSString *)Cekis andKasaTipi:(NSString *)KasaTipi andKasaTipiId:(NSString *)KasaTipiId andSanzimanTipi:(NSString *)SanzimanTipi andSanzimanTipiId:(NSString *)SanzimanTipiId andYakitTipi:(NSString *)YakitTipi andYakitTipiId:(NSString *)YakitTipiId andModelYili:(NSString *)ModelYili andModel:(NSString *)Model andMarka:(NSString *)Marka andModelId:(NSString *)ModelId andMarkaId:(NSString *)MarkaId andKisLastik:(NSString *)KisLastik andRgbkodu:(NSString *)Rgbkodu andAnarenktx:(NSString *)Anarenktx andRenktx:(NSString *)Renktx andRenk:(NSString *)Renk andVitrinres:(NSString *)Vitrinres andGencSrcYas:(NSString *)GencSrcYas andGencSrcEhl:(NSString *)GencSrcEhl andMinYas:(NSString *)MinYas andMinEhliyet:(NSString *)MinEhliyet andGrubaRez:(NSString *)GrubaRez andPlakayaRez:(NSString *)PlakayaRez andGrpkodtx:(NSString *)Grpkodtx andSehir:(NSString *)Sehir andMsube:(NSString *)Msube andMsubetx:(NSString *)Msubetx andGrpkod:(NSString *)Grpkod andHsube:(NSString *)Hsube andHsubetx:(NSString *)Hsubetx andMatnr:(NSString *)Matnr andSegmenttx:(NSString *)Segmenttx andMaktx:(NSString *)Maktx andSegment:(NSString *)Segment andKapiSayisi:(NSString *)KapiSayisi andMotorHacmi:(NSString *)MotorHacmi andBagajHacmi:(NSString *)BagajHacmi andBeygirGucu:(NSString *)BeygirGucu andYolcuSayisi:(NSString *)YolcuSayisi andAcilirTavan:(NSString *)AcilirTavan andCamTavan:(NSString *)CamTavan andParkSensoruOn:(NSString *)ParkSensoruOn andParkSensoruArka:(NSString *)ParkSensoruArka andYagmurSensoru:(NSString *)YagmurSensoru andIsitmaliKoltuk:(NSString *)IsitmaliKoltuk andDjitalKlima:(NSString *)DjitalKlima andAbs:(NSString *)Abs andEsp:(NSString *)Esp andStartStop:(NSString *)StartStop andXenonFar:(NSString *)XenonFar andCruiseKontrol:(NSString *)CruiseKontrol andDeriDoseme:(NSString *)DeriDoseme andGeriGorusKam:(NSString *)GeriGorusKam andIsofix:(NSString *)Isofix andBluetooth:(NSString *)Bluetooth andAux:(NSString *)Aux andHandsFree:(NSString *)HandsFree andSifirYuzHiz:(NSString *)SifirYuzHiz andOrtYakitTuketim:(NSString *)OrtYakitTuketim andNavigasyon:(NSString *)Navigasyon andZresim315:(NSString *)Zresim315 andZresim45:(NSString *)Zresim45 andZresim90:(NSString *)Zresim90 andZresim135:(NSString *)Zresim135 andZresim180:(NSString *)Zresim180;
 
 /**
  Returns a specific ET_ARACLISTEV0 entity from the provided data.

@@ -15,6 +15,7 @@
 #import "ZGARENTA_OFIS_SRVRequestHandler.h"
 #import "ZGARENTA_ARAC_SRVServiceV0.h"
 #import "ZGARENTA_ARAC_SRVRequestHandler.h"
+#import "ParsingConstants.h"
 #define kCheckOutTag 0
 #define kCheckInTag 1
 
@@ -32,7 +33,8 @@
 {
     [super viewDidLoad];
     CGRect navigationBarFrame = [[[self navigationController] navigationBar] frame];
-    viewFrame =CGRectMake(0, navigationBarFrame.size.height, self.view.frame.size.width,self.view.frame.size.width - navigationBarFrame.size.height );
+    //ysinde navigationBarFrame.size.height vardi viewwillapear super cagirilmamaisti onu cagirinca buna gerek kalmadi
+    viewFrame =CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.width - navigationBarFrame.size.height );
     reservation = [[Reservation alloc] init];
     [self addNotifications];
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
@@ -45,6 +47,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     // ekranki component'ların ayarlaması yapılıyor
     [self prepareScreen];
     //only once singleton koydum devam etsin burdan
@@ -352,10 +355,19 @@
 }
 
 - (void)getAvailableCarsFromSAP{
+    UIAlertView *errorAlertView;
+    if ([ApplicationProperties getMainSelection] != location_search && reservation.checkOutOffice == nil) {
+        errorAlertView = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Lütfen çıkış ofisi seçiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        [errorAlertView show];
+        return;
+    }
+    if (reservation.checkInOffice == nil) {
+        errorAlertView = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Lütfen dönüş ofisi seçiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        [errorAlertView show];
+        return;
+    }
     //trans
     //formatter for hour and minute
-    
-    
     NSDateFormatter *dateFormatter  = [NSDateFormatter new];
     [dateFormatter setDateFormat:@"HHmm"];
     [ApplicationProperties configureCarService];
@@ -364,6 +376,7 @@
     [availableCarService setIMPT_MSUBESet:[self prepareOfficeImport]];
     [availableCarService setImppBegda:reservation.checkOutTime];
     [availableCarService setExppSubrc:[NSNumber numberWithInt:0]];
+    [availableCarService setExpKkgiris:@" "];
     [availableCarService setImppBeguz:[dateFormatter stringFromDate:reservation.checkOutTime]];
     [availableCarService setImppEnduz:[dateFormatter stringFromDate:reservation.checkInTime]];
     [availableCarService setImppEndda:reservation.checkInTime];
@@ -468,8 +481,10 @@
     [dummyCar setZresim45:@" "];
     [dummyCar setZresim90:@" "];
     [dummyCar setAbs:@" "];
+    [dummyCar setAugru:@" "];
     
     [carsImport addObject:dummyCar];
+    [availableCarService setET_ARACLISTESet:carsImport];
     NSMutableArray *priceImport = [NSMutableArray new];
     ET_FIYATV0 *dummyFiyat = [ET_FIYATV0 new];
     [dummyFiyat setSimdiOdeFiyatEur:[NSDecimalNumber decimalNumberWithString:@"0"]];
@@ -523,27 +538,111 @@
     [dummyFiyat setRezTuru:@" "];
     [dummyFiyat setSanzTip:@" "];
     [dummyFiyat setYakitTip:@" "];
+    [dummyFiyat setAracSecim:@" "];
+    [dummyFiyat setParoKazanir:@" "];
+    [dummyFiyat setParafKazanir:@" "];
+    [dummyFiyat setBonusKazanir:@" "];
+    [dummyFiyat setMilKazanir:@" "];
+    [dummyFiyat setGarentatlKazanir:@" "];
+    [dummyFiyat setWingsKazanir:@" "];
     [priceImport addObject:dummyFiyat];
     [availableCarService setET_FIYATSet:priceImport];
+    /*
+    ET_KAMPANYAV0 *dummyKampanya = [ET_KAMPANYAV0 new];
+    [dummyKampanya setKalanciro:@" "];
+    [dummyKampanya setKalanadet:@" "];
+    [dummyKampanya setZzkmphedefgun:@" "];
+    [dummyKampanya setZzkmpharictutbas:[NSDate date]];
+    [dummyKampanya setZzkmpharictutbit:[NSDate date]];
+    [dummyKampanya setZzkmprezolusbit:[NSDate date]];
+    [dummyKampanya setZzkmprezolusbas:[NSDate date]];
+    [dummyKampanya setZzszlsmefreegun:@" "];
+    [dummyKampanya setZzerkeniadeucrt:@" "];
+    [dummyKampanya setZzsureuzatucrt:@" "];
+    [dummyKampanya setZzaracdonustar:[NSDate date]];
+    [dummyKampanya setZzaraccikistar:[NSDate date]];
+    [dummyKampanya setZzkmprezolusma:@" "];
+    [dummyKampanya setZzkmprezolusma:@" "];
+    [dummyKampanya setKampanyatipi:@" "];
+    [dummyKampanya setLandingPath:@" "];
+    [dummyKampanya setIconPath:@" "];
+     [dummyKampanya setGarentatl:@""];
+    [dummyKampanya setBonusKazanir:@" "];
+    [dummyKampanya setMilKazanir:@" "];
+    [dummyKampanya setKampDurum:@" "];
+    [dummyKampanya setPlanEndda:[NSDate date]];
+    [dummyKampanya setPlanBegda:[NSDate date]];
+    [dummyKampanya setDonusSube:@" "];
+    [dummyKampanya setCikisSube:@" "];
+    [dummyKampanya setKampTanim:@" "];
+    [dummyKampanya setIsbirligi:@" "];
+    [dummyKampanya setObjectType:@" "];
+    [dummyKampanya setCampType:@" "];
+    [dummyKampanya setKampanyaId:@" "];
+    [dummyKampanya setOncelik:@" "];
+    [availableCarService setET_KAMPANYASet:[NSMutableArray arrayWithObject:dummyKampanya]];
+*/
+    ET_EXPIRYV0 *dummyExpiry = [ET_EXPIRYV0 new];
+    [dummyExpiry setAracGrubu:@" "];
+    [dummyExpiry setDonemBasi:[NSDate date]];
+    [dummyExpiry setDonemSonu:[NSDate date]];
+    [dummyExpiry setMarkaId:@" "];
+    [dummyExpiry setModelId:@" "];
+    [dummyExpiry setParaBirimi:@" "];
+    [dummyExpiry setTutar:[NSDecimalNumber decimalNumberWithString:@"0.00"]];
+
+    [availableCarService setET_EXPIRYSet:[NSMutableArray arrayWithObject:dummyExpiry]];
     
+    ET_INDIRIMLISTV0 *dummyDiscount = [ET_INDIRIMLISTV0 new];
+    [dummyDiscount setAracGrubu:@" "];
+    [dummyDiscount setBeginDate:[NSDate date]];
+    [dummyDiscount setEndDate:[NSDate date]];
+    [dummyDiscount setErkenodemeInd:@" "];
+    [dummyDiscount setFiloSegmenti:@" "];
+    [dummyDiscount setFiyat:[NSDecimalNumber decimalNumberWithString:@"0.00"]];
+    [dummyDiscount setFiyatKodu:@" "];
+    [dummyDiscount setGovdeTipi:@" "];
+    [dummyDiscount setKampanyaId:@" "];
+    [dummyDiscount setKampMiktar:@" "];
+    [dummyDiscount setKampYuzde:@" "];
+    [dummyDiscount setMalzemeNo:@" "];
+    [dummyDiscount setMarkaId:@" "];
+    [dummyDiscount setModelId:@" "];
+    [dummyDiscount setParaBirimi:@" "];
+    [dummyDiscount setRezvTuru:@" "];
+    [dummyDiscount setSanzimanTipi:@" "];
+    [dummyDiscount setSube:@" "];
+    [dummyDiscount setYakitTipi:@" "];
+    [availableCarService setET_INDIRIMLISTSet:[NSMutableArray arrayWithObject:dummyDiscount]];
     
+    ET_RESERVV0 *dummyReserv = [ET_RESERVV0 new];
+    [dummyReserv setAugru:@" "];
+    [dummyReserv setBonusKazanir:@" "];
+    [dummyReserv setEqunr:@" "];
+    [dummyReserv setFiyatKodu:@" "];
+    [dummyReserv setGrnttlKazanir:@" "];
+    [dummyReserv setGrupKodu:@" "];
+    [dummyReserv setHdfsube:@" "];
+    [dummyReserv setKunnr:@" "];
+    [dummyReserv setMandt:@" "];
+    [dummyReserv setMatnr:@" "];
+    [dummyReserv setMilKazanir:@" "];
+    [dummyReserv setRAuart:@" "];
+    [dummyReserv setRGjahr:@" "];
+    [dummyReserv setRPosnr:@" "];
+    [dummyReserv setRVbeln:@" "];
+    [dummyReserv setSpart:@" "];
+    [dummyReserv setSube:@" "];
+    [dummyReserv setTarih:[NSDate date]];
+    [dummyReserv setTutar:[NSDecimalNumber decimalNumberWithString:@"0.00"]];
+    [dummyReserv setVkorg:@" "];
+    [dummyReserv setVtweg:@" "];
     
+    [availableCarService setET_RESERVSet:[NSMutableArray arrayWithObject:dummyReserv]];
     
-    [availableCarService setET_ARACLISTESet:carsImport];
     [[ZGARENTA_ARAC_SRVRequestHandler uniqueInstance] createAvailCarService:availableCarService];
     
     [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
-    //trans
-    //    if([ApplicationProperties getMainSelection] == location_search){
-    //        // reservation.checkOutOffice = [Office getClosestOfficeFromList:offices withCoordinate:lastLocation ];
-    //    }
-    //    NSString *connectionString = [ApplicationProperties getAvailableCarURLWithCheckOutOffice:reservation.checkOutOffice andCheckInOffice:reservation.checkInOffice andCheckOutDay:reservation.checkOutTime andCheckOutTime:reservation.checkOutTime andCheckInDay:reservation.checkInTime andCheckInTime:reservation.checkInTime];
-    //
-    //    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:150.0];
-    //
-    //    NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
-    
-    
 }
 
 - (NSMutableArray*)prepareOfficeImport{
@@ -572,16 +671,10 @@
 #pragma mark - Location Delegation Methods
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
-    NSLog(@"newlocation %@", newLocation);
     lastLocation = newLocation;
-    //    = [[Coordinate alloc] initWithCoordinate:newLocation.coordinate title:@"Ben"];
-    
-    
-    
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
-    NSLog(@"location error");
 }
 
 #pragma mark - util methods
@@ -597,25 +690,7 @@
     }
     AvailCarServiceV0 *availServiceResponse = (AvailCarServiceV0*)[[notification userInfo] objectForKey:kResponseItem];
     availableCarGroups = [CarGroup getCarGroupsFromServiceResponse:availServiceResponse withOffices:offices];
-    
-    
-    //trans
-    //    NSError *err;
-    //    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
-    //
-    //    NSDictionary *result = [jsonDict objectForKey:@"d"];
-    //    //parsing
-    //    NSDictionary *carList = [result objectForKey:@"ET_ARACLISTESet"];
-    //    NSDictionary *pictureList = [result objectForKey:@"ET_RESIMLERSet"];
-    //
-    //    NSDictionary *carListResult = [carList objectForKey:@"results"];
-    //    NSDictionary *pictureListResult = [pictureList objectForKey:@"results"];
-    //
-    //    //car segment yapisi onemli kodlar
-    //    //her ofisin bir segment-grup-araba hiyerarsisi var
-    //    Car *tempCar;
-    
-    
+    [reservation setEtReserv:availServiceResponse.ET_RESERVSet];
     [self navigateToNextVC];
 }
 
@@ -633,7 +708,6 @@
             [NSData dataWithData:[YAJL_GTMBase64 decodeString:picBinaryString]];
             
             carImage = [UIImage imageWithData:picData];
-            
         }
     }
     return carImage;
@@ -641,6 +715,10 @@
 
 - (void)parseOffices:(NSNotification *)notification{
     [[LoaderAnimationVC uniqueInstance] stopAnimation];
+    //aalpk ofisler iki kere gelebiliyor. kontrol
+    if (offices.count>0) {
+        return;
+    }
     OfficeServiceV0 *officeServiceResponse = (OfficeServiceV0*)[[notification userInfo] objectForKey:kResponseItem];
     Office *tempOffice;
     for (EXPT_SUBE_BILGILERIV0 *tempOfficeInfo in officeServiceResponse.EXPT_SUBE_BILGILERISet) {
@@ -724,9 +802,8 @@
     [destinationTableView setRowHeight:50];
     
     CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-    UINavigationController *nav = [[UINavigationController alloc] init];
     
-    destinationTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,viewFrame.origin.y + (viewFrame.size.height * 0.10),viewFrame.size.width * 0.9, 115) style:UITableViewStyleGrouped];
+    destinationTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,viewFrame.origin.y + (viewFrame.size.height * 0.05),viewFrame.size.width * 0.9, 115) style:UITableViewStyleGrouped];
     
     arrivalTableView = [[UITableView alloc] initWithFrame:
                         CGRectMake (viewFrame.size.width * 0.05 ,

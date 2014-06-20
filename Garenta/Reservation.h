@@ -10,6 +10,7 @@
 #import "Destination.h"
 #import "Arrival.h"
 #import "CarGroup.h"
+#import "Car.h"
 @interface Reservation : NSObject
 
 @property (nonatomic, retain) CarGroup *selectedCarGroup;
@@ -18,5 +19,10 @@
 @property (nonatomic,retain) Office *checkInOffice;
 @property (nonatomic,retain) NSDate *checkInTime;
 @property (nonatomic,retain) NSString *number;
+@property (strong,nonatomic) NSMutableArray *additionalEquipments;
+@property (strong,nonatomic) NSMutableArray *etReserv; //just passing to create reservation
+@property (strong,nonatomic)Car *selectedCar;
+
+-(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow;
 
 @end

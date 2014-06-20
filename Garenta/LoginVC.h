@@ -12,12 +12,10 @@
 #import "MenuSelectionVC.h"
 #import "UserCreationVC.h"
 
-@interface LoginVC : BaseVC <UITextFieldDelegate>
+@interface LoginVC : BaseVC <UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
 {
     UIButton *hideButton;
     CGRect viewFrame;
-    UITextField *username;
-    UITextField *password;
     UIImageView *userImageView;
     UIButton *loginButton;
     UILabel *infoLabel;

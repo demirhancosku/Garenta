@@ -7,11 +7,15 @@
 //
 
 #import "CarGroupManagerViewController.h"
-#import "CarGroupTableCellView.h"
+
 #import "MinimumInfoVC.h"
 #import "ReservationSummaryViewController.h"
+#import "CarGroupTableVC.h"
+#import "EquipmentVC.h"
 @interface CarGroupManagerViewController ()
-
+@property(strong,nonatomic)IBOutlet UIView *rootView;
+@property(strong,nonatomic)CarGroupTableVC *tableViewVC;
+@property(strong,nonatomic)CarGroup *selectedCarGroup;
 @end
 
 @implementation CarGroupManagerViewController
@@ -28,45 +32,52 @@
     self= [super init];
     self.reservation = aReservation;
     self.carGroups = someCarGroups;
+    
+    return self;
+}
+
+- (id)init{
+    self = [super init];
+    
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-
-}
-
-- (void)prepareScreen{
-
     
-    UILabel *officeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-    [officeLabel setBackgroundColor:[ApplicationProperties getGrey]];
-    [officeLabel setFont:[UIFont fontWithName:@"HelveticaNeue-UltraLight" size:16.0f]];
-    [officeLabel setText:self.reservation.checkOutOffice.subOfficeName];
-    [officeLabel setFrame:CGRectMake(0, 0, self.view.frame.size.width, [officeLabel.text sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-UltraLight" size:16.0f ]].height)];
-    [officeLabel setTextAlignment:NSTextAlignmentCenter];
-    [[self view] addSubview:officeLabel];
-    //1- groupPageView
-    groupPageVC = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    [[groupPageVC view] setFrame:CGRectMake(0, officeLabel.frame.size.height, self.view.frame.size.width, self.view.frame.size.height / 2 - officeLabel.frame.size.height)];
-    [groupPageVC setDelegate:self];
-    [groupPageVC setDataSource:self];
+	// Do any additional setup after loading the view.
     [self initVCsWithCars];
-   
-    [groupPageVC setViewControllers:@[[groupVCs objectAtIndex:0]] direction:(UIPageViewControllerNavigationDirectionForward|UIPageViewControllerNavigationDirectionReverse) animated:YES completion:^(BOOL completion){
+    CGRect aFrame = CGRectMake(0, 0, _rootView.frame.size.width, _rootView.frame.size.height);
+    self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+    [self.pageViewController.view setFrame:aFrame];
+    self.pageViewController.delegate = self;
+    self.pageViewController.dataSource = self;
+    [self.pageViewController setViewControllers:@[[groupVCs objectAtIndex:0]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished){
         
     }];
-    [[self view] addSubview:groupPageVC.view];
-    //2-tableview
-    tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height /2)-(self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height), self.view.frame.size.width, self.view.frame.size.height /2) style:UITableViewStylePlain];
-    [tableView setDataSource:self];
-    [tableView setDelegate:self];
-    activeCarGroup = [self.carGroups objectAtIndex:0];
-    [[self view] addSubview:tableView];
-    
+    [self addChildViewController:self.pageViewController];
+    [_rootView addSubview:_pageViewController.view];
+    //    _tableViewVC = [[self storyboard] instantiateViewControllerWithIdentifier:@"CarGroupTable"];
+    [_tableViewVC setActiveCarGroup:[_carGroups objectAtIndex:0]];
+    //  //  [self.pageViewController didMoveToParentViewController:self];
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"CarGroupSelected" object:nil queue:[NSOperationQueue new] usingBlock:^(NSNotification*note){
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            _reservation.checkOutOffice = [note userInfo] [@"selectedOffice" ];
+            _reservation.selectedCarGroup = [note.userInfo valueForKey:@"selectedCarGroup"];
+            [self performSegueWithIdentifier:@"toAdditionalEquipmentSegue" sender:self];
+        });
+        
+    }];
 }
+
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -78,7 +89,12 @@
     groupVCs = [[NSMutableArray alloc] init];
     CarGroupViewController *carGroupVC ;
     for (int sayac = 0; sayac<self.carGroups.count; sayac++) {
-        carGroupVC = [[CarGroupViewController alloc] initWithFrame:groupPageVC.view.frame andCarGroups:[self.carGroups objectAtIndex:sayac]];
+        //        carGroupVC = [[CarGroupViewController alloc] initWithFrame:_rootView.frame andCarGroups:[self.carGroups objectAtIndex:sayac]];
+        
+        carGroupVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CarGroupView"];
+        [carGroupVC setCarGroup:[self.carGroups objectAtIndex:sayac]];
+        [[carGroupVC view] setFrame:CGRectMake(0, 0, _rootView.frame.size.width, _rootView.frame.size.height)];
+        
         if (sayac == 0) {
             [carGroupVC setLeftArrowShouldHide:YES];
         }
@@ -96,7 +112,7 @@
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
 {
-   
+    
     CarGroupViewController *temp =(CarGroupViewController*)viewController;
     NSUInteger index = temp.index;
     if ((index == 0) ) {
@@ -104,7 +120,7 @@
     }
     
     index--;
-   
+    
     return [groupVCs objectAtIndex:index];
 }
 //http://www.appcoda.com/uipageviewcontroller-storyboard-tutorial/
@@ -136,90 +152,103 @@
     
     // This is where you would know the page number changed and handle it appropriately
     // [self sendPageChangeNotification:YES];
-    CarGroupViewController *temp =(CarGroupViewController*) [pvc.viewControllers objectAtIndex:0];//daha mal bi yontem gormedm valla mal bunu yazanlar
+    CarGroupViewController *temp =(CarGroupViewController*) [pvc.viewControllers objectAtIndex:0];
     NSUInteger index =temp.index;
     activeCarGroup = [self.carGroups objectAtIndex:index];
-    [tableView reloadData];
+    [_tableViewVC setActiveCarGroup:[_carGroups objectAtIndex:index]];
+    [[_tableViewVC tableView] reloadData];
+    
 }
 
 #pragma mark  - tableview delegate datasource methods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    //best var price methodu cagiriliyordu  -aalpk
-    return [activeCarGroup cars].count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3.0f)];
+/*
+ - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+ {
+ // Return the number of sections.
+ return 1;
+ }
+ 
+ - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+ {
+ //best var price methodu cagiriliyordu  -aalpk
+ return [activeCarGroup cars].count;
+ }
+ 
+ - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ static NSString *CellIdentifier = @"Cell";
+ UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+ if (cell == nil) {
+ cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/3.0f)];
+ }
+ 
+ ///custom init
+ //    MenuTableCellView *menuTableCellView = [[MenuTableCellView alloc] initWithFrame:CGRectMake(0,0,cell.frame.size.width,[self tableView:tableView heightForRowAtIndexPath:indexPath]) andIndex:indexPath.row];
+ //    [cell setBackgroundColor:[UIColor colorWithRed:229.0f/255.0f green:72.0f/255.0f blue:0.0f/255.0f alpha:1.0f]];
+ //    [cell addSubview:menuTableCellView];
+ //    //    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+ NSArray *xibArray = [[NSBundle mainBundle] loadNibNamed:@"CarGroupTableCellView" owner:nil options:nil];
+ CarGroupTableCellView *myCellView = nil;
+ for (id xibObject in xibArray) {
+ //Loop through array, check for the object we're interested in.
+ if ([xibObject isKindOfClass:[CarGroupTableCellView class]]) {
+ //Use casting to cast (id) to (MyCustomView *)
+ myCellView = (CarGroupTableCellView *)xibObject;
+ }
+ }
+ Car *cellCar = [[activeCarGroup cars] objectAtIndex:indexPath.row];
+ [myCellView.officeName setText:cellCar.office.subOfficeName];
+ [myCellView.payNowLabel setText:[cellCar.pricing.payLaterPrice stringValue]];
+ 
+ //AALPK currency gelmiyor bak
+ [myCellView.currencyLabel setText:@"TL"];
+ if (indexPath.row == 0) {
+ [myCellView.topBoarder setHidden:NO];
+ }else{
+ [myCellView.topBoarder setHidden:YES];
+ }
+ [cell addSubview:myCellView];
+ [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+ return cell;
+ }
+ 
+ 
+ 
+ 
+ - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ 
+ Car*selectedCar = [[activeCarGroup getBestCarsWithFilter:@"Fiyat"] objectAtIndex:indexPath.row];
+ //aalpk burası duzeltilicek sonra yapıya bakmak laızm
+ [activeCarGroup setPayLaterPrice:selectedCar.pricing.payLaterPrice];
+ //
+ [self.reservation setSelectedCarGroup:activeCarGroup];
+ [self.reservation setCheckOutOffice:selectedCar.office];
+ if ([[ApplicationProperties getUser] isLoggedIn]) {
+ //ek ekipman direk ama simdilik rez summary sayfası
+ ReservationSummaryViewController *summaryVC = [[ReservationSummaryViewController alloc] initWithReservation:self.reservation];
+ [[self navigationController] pushViewController:summaryVC animated:YES];
+ }else{
+ //minimum bilgiler
+ MinimumInfoVC * minInfoVC = [[MinimumInfoVC alloc] initWithReservation:self.reservation];
+ [[self navigationController] pushViewController:minInfoVC animated:YES];
+ }
+ }
+ 
+ - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+ return 70.0f;
+ }
+ 
+ */
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:@"CarGroupTableVCEmbedSeugue"]){
+        _tableViewVC = (CarGroupTableVC*)[segue destinationViewController];
     }
     
-    ///custom init
-//    MenuTableCellView *menuTableCellView = [[MenuTableCellView alloc] initWithFrame:CGRectMake(0,0,cell.frame.size.width,[self tableView:tableView heightForRowAtIndexPath:indexPath]) andIndex:indexPath.row];
-//    [cell setBackgroundColor:[UIColor colorWithRed:229.0f/255.0f green:72.0f/255.0f blue:0.0f/255.0f alpha:1.0f]];
-//    [cell addSubview:menuTableCellView];
-//    //    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-    NSArray *xibArray = [[NSBundle mainBundle] loadNibNamed:@"CarGroupTableCellView" owner:nil options:nil];
-    CarGroupTableCellView *myCellView = nil;
-    for (id xibObject in xibArray) {
-        //Loop through array, check for the object we're interested in.
-        if ([xibObject isKindOfClass:[CarGroupTableCellView class]]) {
-            //Use casting to cast (id) to (MyCustomView *)
-            myCellView = (CarGroupTableCellView *)xibObject;
-        }
-    }
-    Car *cellCar = [[activeCarGroup cars] objectAtIndex:indexPath.row];
-    [myCellView.officeName setText:cellCar.office.subOfficeName];
-    [myCellView.payNowLabel setText:[cellCar.pricing.payLaterPrice stringValue]];
-    
-    //AALPK currency gelmiyor bak
-    [myCellView.currencyLabel setText:@"TL"];
-    if (indexPath.row == 0) {
-        [myCellView.topBoarder setHidden:NO];
-    }else{
-        [myCellView.topBoarder setHidden:YES];
-    }
-    [cell addSubview:myCellView];
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    return cell;
-}
-
-
-
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-
-    Car*selectedCar = [[activeCarGroup getBestCarsWithFilter:@"Fiyat"] objectAtIndex:indexPath.row];
-    //aalpk burası duzeltilicek sonra yapıya bakmak laızm
-    [activeCarGroup setPayLaterPrice:selectedCar.pricing.payLaterPrice];
-    //
-    [self.reservation setSelectedCarGroup:activeCarGroup];
-    [self.reservation setCheckOutOffice:selectedCar.office];
-    if ([[ApplicationProperties getUser] isLoggedIn]) {
-        //ek ekipman direk ama simdilik rez summary sayfası
-        ReservationSummaryViewController *summaryVC = [[ReservationSummaryViewController alloc] initWithReservation:self.reservation];
-        [[self navigationController] pushViewController:summaryVC animated:YES];
-    }else{
-        //minimum bilgiler
-        MinimumInfoVC * minInfoVC = [[MinimumInfoVC alloc] initWithReservation:self.reservation];
-        [[self navigationController] pushViewController:minInfoVC animated:YES];
+    if ([segue.identifier isEqualToString:@"toAdditionalEquipmentSegue"]) {
+        EquipmentVC *additionalEquipmentsVC = (EquipmentVC*)segue.destinationViewController;
+        [additionalEquipmentsVC setReservation:_reservation];
     }
 }
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 70.0f;
-}
-
-
 
 @end

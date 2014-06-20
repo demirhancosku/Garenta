@@ -65,8 +65,7 @@
     [availableCarService setImppUname:@" "];  //bu ne lan
     [availableCarService setImppHdfsube:@"3071"];
     [availableCarService setImppKdgrp:@" "]; //bu ne be
-    
-    
+    [availableCarService setExpKkgiris:@" "];
     User *user =[ApplicationProperties getUser];
     if ([ user isLoggedIn]) {
         [availableCarService setImppKunnr:[user kunnr]];
@@ -161,6 +160,8 @@
     [dummyCar setZresim45:@" "];
     [dummyCar setZresim90:@" "];
     [dummyCar setAbs:@" "];
+    [dummyCar setAugru:@" "];
+    
     
     [carsImport addObject:dummyCar];
     NSMutableArray *priceImport = [NSMutableArray new];
@@ -216,6 +217,11 @@
     [dummyFiyat setRezTuru:@" "];
     [dummyFiyat setSanzTip:@" "];
     [dummyFiyat setYakitTip:@" "];
+    [dummyFiyat setAracSecim:@" "];
+    [dummyFiyat setParoKazanir:@" "];
+    [dummyFiyat setParafKazanir:@" "];
+    [dummyFiyat setBonusKazanir:@" "];
+    [dummyFiyat setMilKazanir:@" "];
     [priceImport addObject:dummyFiyat];
     [availableCarService setET_FIYATSet:priceImport];
     
@@ -271,8 +277,9 @@
         waitingForBlock = NO;
         XCTAssertNil([notification userInfo][kServerResponseError] , @"Error");
         XCTAssertNotNil([notification userInfo][kResponseItem] , @"Additional equipment service no response");
+        AdditionalEquipmentServiceV0 *response = [notification userInfo][kResponseItem];
     }];
-    [[ZGARENTA_EKHIZMET_SRVRequestHandler uniqueInstance] loadAdditionalEquipmentService:aService expand:YES];
+        [[ZGARENTA_EKHIZMET_SRVRequestHandler uniqueInstance] loadAdditionalEquipmentService:aService expand:YES];
     while(waitingForBlock) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
@@ -282,14 +289,14 @@
 - (void)testVersionService{
     [ApplicationProperties configureVersionService];
     VersiyonServiceV0 *aService = [VersiyonServiceV0 new];
-    [aService setIVers:[NSString stringWithFormat:@"%f",[ApplicationProperties getAppVersion]]];
+    [aService setIVers:[NSString stringWithFormat:@"%.01f",[ApplicationProperties getAppVersion]]];
     [aService setIAppName:@"rezApp"];
     __block BOOL waitingForBlock = YES;
     NSOperationQueue *operationQueue = [NSOperationQueue new];
     [[NSNotificationCenter defaultCenter] addObserverForName:kLoadVersiyonServiceCompletedNotification object:nil queue:operationQueue usingBlock:^(NSNotification *notification){
         waitingForBlock = NO;
         XCTAssertNil([notification userInfo][kServerResponseError] , @"Error");
-        XCTAssertNotNil([notification userInfo][kResponseItem] , @"Version service no response");
+        XCTAssertNotNil([notification userInfo][kResponseItems] , @"Version service no response");
         
     }];
     [[ZGARENTA_versiyon_srvRequestHandler uniqueInstance] loadVersiyonService:aService];
@@ -304,61 +311,64 @@
     ReservationServiceV0 *aService = [ReservationServiceV0 new];
     IsInputV0 *isInput = [IsInputV0 new];
     [isInput setAlisSubesi:@"3071"];
-    [isInput setBonus:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
-    [isInput setCCorpPriority:@" "];
-    [isInput setCPriority:@" "];
-    [isInput setFtCikisAdres:@"Greenpark hotel"];
-    [isInput setFtCikisIl:@"34"];
-    [isInput setFtCikisIlce:@"Bostanci"];
-    [isInput setFtDonusAdres:@"Miracle Hotel"];
+    [isInput setBonus:[NSDecimalNumber decimalNumberWithString:@"0.0"]];// yok
+    [isInput setCCorpPriority:@" "];//X coorp priorityse x
+    [isInput setCPriority:@" "];//X priority
+    [isInput setFtCikisAdres:@"Greenpark hotel"];// free text
+    [isInput setFtCikisIl:@"34"]; //plaka
+    [isInput setFtCikisIlce:@"Bostanci"]; //ilce citykod crmden donen
+    [isInput setFtDonusAdres:@"Miracle Hotel"]; //freetext
     [isInput setFtDonusIl:@"34"];
     [isInput setFtDonusIlce:@"Kurtkoy"];
-    [isInput setFtMaliyetTipi:@" "];//???
-    [isInput setGarentaTl:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
-    [isInput setGunSayisi:[NSNumber numberWithDouble:3]];
-    [isInput setMilesSmiles:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
-    [isInput setOdemeTuru:@"K"];//???
-    [isInput setParaBirimi:@"TRY"];
-    [isInput setPuanTipi:@" "];//??
+    [isInput setFtMaliyetTipi:@" "];//???// masraf yansitilcak alinmiycak canlida yok
+    [isInput setGarentaTl:[NSDecimalNumber decimalNumberWithString:@"0.0"]]; //free
+    [isInput setGunSayisi:[NSNumber numberWithDouble:3]]; //available aractan donen gun sayisi*
+    [isInput setMilesSmiles:[NSDecimalNumber decimalNumberWithString:@"0.0"]]; //
+    [isInput setOdemeTuru:@"K"];//1,2,3 hemen ödeme sonra öde ön ödemeli iptal edilemez
+    [isInput setParaBirimi:@"TRY"]; //TRY EUR USD GBP
+    [isInput setPuanTipi:@" "];//?? M ıse mıl G ıse garenta tl
     [isInput setRezBegda:[NSDate date]];
     [isInput setRezBegtime:@"09:00"];
     [isInput setRezEndda:[NSDate date]];
     [isInput setRezEndtime:@"17:00"];
-    [isInput setRezKanal:@"M"];
+    [isInput setRezKanal:@"40"]; //Mobil 40
     [isInput setRezNo:@" "];
-    [isInput setSatisBurosu:@" "];//???
+    [isInput setSatisBurosu:@" "];// checkout office
     [isInput setTeslimSubesi:@"3071"];
     [isInput setToplamTutar:[NSDecimalNumber decimalNumberWithString:@"50.0"]];
     [isInput setUsername:@" "];
     
     IsUserinfoV0 *isUserInfo = [IsUserinfoV0 new];
-    [isUserInfo setAdress:@"Zorunlu mu bu adres"];
+    [isUserInfo setAdress:@"Zorunlu mu bu adres"]; //il ilce adres zorunlu
     [isUserInfo setBirthdate:[NSDate date]];
-    [isUserInfo setCinsiyet:@"1"];//???
-    [isUserInfo setDistributionChannel:@"DC"];//???
-    [isUserInfo setDivision:@"dd"];//???
-    [isUserInfo setEhliyetAlisyeri:@"Mugla"];//??
-    [isUserInfo setEhliyetNo:@"2351"];//???
-    [isUserInfo setEhliyetSinifi:@"B2"];//???
+    [isUserInfo setCinsiyet:@"1"];//???1 erkek 2 kadın
+    [isUserInfo setSalesOrganization:@"3063"];//????
+    [isUserInfo setDistributionChannel:@"33"];//???3063 fix
+    [isUserInfo setDivision:@"65"];//???33 fix
+    [isUserInfo setEhliyetAlisyeri:@"Mugla"];//free zorunlu?
+    [isUserInfo setEhliyetNo:@"2351"];//free zorunlu?
+    [isUserInfo setEhliyetSinifi:@"B2"];//combo sabit siteden bak
     [isUserInfo setEhliyetTarihi:[NSDate date]];
-    [isUserInfo setEmail:@"kerembalaban@gmail.com"];
+    [isUserInfo setEmail:@"kerembalaban@gmail.com"]; //zoeunlu
     [isUserInfo setFirstname:@"Alp"];
     [isUserInfo setIlcekod:@"34"];//ilce kod rfcsiden alcak
     [isUserInfo setIlkodu:@"34"];
-    [isUserInfo setKanalturu:@" "];
+    [isUserInfo setKanalturu:@"Z07"]; // sabit
     [isUserInfo setLastname:@"Keser"];
     [isUserInfo setMiddlename:@"Yusuf"];
-    [isUserInfo setMusterino:@" "];
+    [isUserInfo setMusterino:@" "]; //kunnr loginse must
+    //birinden biri
     [isUserInfo setPasaportno:@"U01723537"];
-    [isUserInfo setSalesOrganization:@"34"];//????
     [isUserInfo setTckn:@"46558353458"];
-    [isUserInfo setTelno:@"05337768554"];
-    [isUserInfo setTelnoUlke:@" "];//????
-    [isUserInfo setTkKartno:@"tk921"];//???
-    [isUserInfo setUlke:@"Tr"];//???
-    [isUserInfo setUyruk:@"TUR"];//????
-    [isUserInfo setVergino:@"028393"];
     
+    [isUserInfo setTelno:@"05337768554"]; //no533
+    [isUserInfo setTelnoUlke:@" "];//90
+    [isUserInfo setTkKartno:@"tk921"];//???tk almıyoruz
+    [isUserInfo setUlke:@"Tr"];//??? TR yada bos
+    [isUserInfo setUyruk:@"TR"];//???? tr veya boş
+    [isUserInfo setVergino:@"028393"]; //free text siniri 11
+    
+    //buraya availdeki arac matnrsini hepsini cak
     IT_ARACLARV0 *itAracLine = [IT_ARACLARV0 new];
     [itAracLine setMatnr:@"J034943043"];
     
@@ -369,60 +379,60 @@
     [itEksurucuLine setEhliyetNo:@"1234"];
     [itEksurucuLine setEhliyetSinifi:@"B"];
     [itEksurucuLine setEhliyetTarihi:[NSDate date]];
-    [itEksurucuLine setEksurucuNo:@"1"];
+    [itEksurucuLine setEksurucuNo:@" "];//update icin create gereksiz
     [itEksurucuLine setFirstname:@"Ata"];
-    [itEksurucuLine setKalemNo:@"0020"];
+    [itEksurucuLine setKalemNo:@"0020"];//update icin create gereksiz
     [itEksurucuLine setLastname:@"Cengiz"];
     [itEksurucuLine setTckn:@"35678900987"];
     [itEksurucuLine setTelno:@"02939209202"];
-    [itEksurucuLine setUlke:@"TR"];//???
-    [itEksurucuLine setUyruk:@"TUR"];
-    [itEksurucuLine setUpdateStatu:@"x"];
+    [itEksurucuLine setUlke:@"TR"];//digerse bos
+    [itEksurucuLine setUyruk:@"TR"];//digerse bos
+    [itEksurucuLine setUpdateStatu:@"x"];//update icin create gereksiz
     
     IT_FATURA_ADRESV0 *itFaturaAdresLine = [IT_FATURA_ADRESV0 new];
-    [itFaturaAdresLine setAddrnumber:@"01"];//???
+    [itFaturaAdresLine setAddrnumber:@"01"];//???donen adreslerde var bu alan ordan alcan
     [itFaturaAdresLine setAdres:@"adressss"];
-    [itFaturaAdresLine setAdresKaydet:@"X"];//????
+    [itFaturaAdresLine setAdresKaydet:@"X"];//????x yada bos
     [itFaturaAdresLine setAdresTanim:@"Adres Tanım"];
-    [itFaturaAdresLine setAyniAdres:@"1"];
-    [itFaturaAdresLine setFatTip:@"1"];//???Bireysel mi kurumsal mi
-    [itFaturaAdresLine setFirmaAdi:@"Firma Adı"];
-    [itFaturaAdresLine setFirstname:@"Alp"];
+    [itFaturaAdresLine setAyniAdres:@"X"];//faturayla ayni adres
+    [itFaturaAdresLine setFatTip:@"1"];//???Bireysel mi 2-kurumsal mi
+    [itFaturaAdresLine setFirmaAdi:@"Firma Adı"]; //2 ise
+    [itFaturaAdresLine setFirstname:@"Alp"];//1 ise
     [itFaturaAdresLine setIlcekod:@"01"];
     [itFaturaAdresLine setIlkodu:@"34"];
-    [itFaturaAdresLine setLastname:@"Keser"];
-    [itFaturaAdresLine setMiddlename:@"Yusuf"];
-    [itFaturaAdresLine setPasaportno:@"U0171"];
-    [itFaturaAdresLine setTckn:@"4785889058"];
-    [itFaturaAdresLine setUlke:@"TR"];
-    [itFaturaAdresLine setVergidairesi:@"Goztepe VD"];
-    [itFaturaAdresLine setVergino:@"923948"];
+    [itFaturaAdresLine setLastname:@"Keser"];//1 ise
+    [itFaturaAdresLine setMiddlename:@"Yusuf"];//1 ise
+    [itFaturaAdresLine setPasaportno:@"U0171"];//1 ise
+    [itFaturaAdresLine setTckn:@"4785889058"];//1 ise
+    [itFaturaAdresLine setUlke:@"TR"];//1 ise
+    [itFaturaAdresLine setVergidairesi:@"Goztepe VD"]; //2 ise
+    [itFaturaAdresLine setVergino:@"923948"];//2 ise
     
     IT_ITEMSV0 *itemLine = [IT_ITEMSV0 new];
     [itemLine setAlisSubesi:@"3071"];
-    [itemLine setAracGrubu:@"A2"];
-    [itemLine setAracRenk:@" "];//???
-    [itemLine setCKislastik:@" "];//???
-    [itemLine setFiloSegment:@" "];
+    [itemLine setAracGrubu:@"A2"];//sadece aracta
+    [itemLine setAracRenk:@" "];//???renk kodu available aracta ff bilmnenmen?
+    [itemLine setCKislastik:@" "];//??? X sadece arac satirinda olcak
+    [itemLine setFiloSegment:@" "];// segment kod
     [itemLine setFiyat:[NSDecimalNumber decimalNumberWithString:@"10.0"]];
-    [itemLine setFiyatKodu:@"L1"];
-    [itemLine setJatoMarka:@"Mercedes"];
-    [itemLine setJatoModel:@"C Serisi"];
-    [itemLine setKalemTipi:@"A"];
-    [itemLine setKampanyaId:@"z"];
-    [itemLine setMalzemeNo:@"3054"];
+    [itemLine setFiyatKodu:@"L1"]; //avail aracta donudo
+    [itemLine setJatoMarka:@"Mercedes"]; //avail arac
+    [itemLine setJatoModel:@"C Serisi"];//avail arac
+    [itemLine setKalemTipi:@"A"]; //update ici create de bos 1:farkl tes cikis 2:farkli tes donus 3: sure uzat 4: kisaltma
+    [itemLine setKampanyaId:@"z"]; //et_rezervdeki id
+    [itemLine setMalzemeNo:@"3054"]; //matnr sadece arac secerse
     [itemLine setMiktar:[NSDecimalNumber decimalNumberWithString:@"1.0"]];
-    [itemLine setParaBirimi:@"TRY"];
-    [itemLine setPlakaNo:@"34ak9038"];
-    [itemLine setRezBegda:[NSDate date]];
+    [itemLine setParaBirimi:@"TRY"]; //konustuk bunu
+    [itemLine setPlakaNo:@"34ak9038"]; //sadece aracta aracı sectiyse
+    [itemLine setRezBegda:[NSDate date]];//headerla ayni
     [itemLine setRezBegtime:@"09:00"];
     [itemLine setRezEndda:[NSDate date]];
     [itemLine setRezEndtime:@"17:00"];
-    [itemLine setRezKalemNo:@"1"];
-    [itemLine setSasiNo:@"ERTYU1234567890"];
-    [itemLine setSatisBurosu:@"SB"];
+    [itemLine setRezKalemNo:@"1"]; //update icin create
+    [itemLine setSasiNo:@"ERTYU1234567890"]; // avail aractan
+    [itemLine setSatisBurosu:@"SB"]; //chekout office
     [itemLine setTeslimSubesi:@"3071"];
-    [itemLine setUpdateStatu:@"x"];
+    [itemLine setUpdateStatu:@"x"]; // kullanilmior
     
     IT_SDREZERVV0 *sdRezervLine = [IT_SDREZERVV0 new];
     [sdRezervLine setAugru:@"1"];
@@ -448,18 +458,18 @@
     IT_TAHSILATV0 *itTahsilatLine = [IT_TAHSILATV0 new];
     [itTahsilatLine setAmount:[NSDecimalNumber decimalNumberWithString:@"10.0"]];
     [itTahsilatLine setAy:@"10"];
-    [itTahsilatLine setCompanyname:@"CompName"];
+    [itTahsilatLine setCompanyname:@"CompName"]; // adamin full ismi
     [itTahsilatLine setCustomerEmail:@"alp@alp.com"];
-    [itTahsilatLine setCustomerFullname:@"Yusuf Alp Keser"];
+    [itTahsilatLine setCustomerFullname:@"Yusuf Alp Keser"]; // adamin full ismi
     [itTahsilatLine setCustomerIp:@"10.90.30.12"];
     [itTahsilatLine setGarentaTl:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
     [itTahsilatLine setGuvenlikkodu:@"344"];
-    [itTahsilatLine setIsPoint:@"X"];
+    [itTahsilatLine setIsPoint:@"X"]; //bonus ukardaki doluysa
     [itTahsilatLine setKartNumarasi:@"4565467645646764"];
     [itTahsilatLine setKartSahibi:@"Yusuf Alp Keser"];
     [itTahsilatLine setKunnr:@"1234567890"];
-    [itTahsilatLine setMerKey:@"123"];
-    [itTahsilatLine setMusterionay:@"X"];
+    [itTahsilatLine setMerKey:@"123"]; // merchant safe key
+    [itTahsilatLine setMusterionay:@"X"]; //kk saklansin 10 kk saklanmasin 20
     [itTahsilatLine setOAwkey:@" "];
     [itTahsilatLine setOAwlog:@" "];
     [itTahsilatLine setOCode:@" "];
@@ -476,8 +486,8 @@
     [itTahsilatLine setOStatus:@"s"];
     [itTahsilatLine setPoint:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
     [itTahsilatLine setPointTutar:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
-    [itTahsilatLine setTahstip:@"1"];
-    [itTahsilatLine setVkbur:@"1023"];
+    [itTahsilatLine setTahstip:@"1"]; //K kart cekim t teminat p provizyon
+    [itTahsilatLine setVkbur:@"1023"];// bos crm cakmis
     [itTahsilatLine setYil:@"2014"];
     
     EsOutputV0 *esOutput = [EsOutputV0 new];
@@ -558,4 +568,9 @@
     
     
 }
+
+
+
+
+
 @end

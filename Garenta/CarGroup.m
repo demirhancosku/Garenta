@@ -21,39 +21,12 @@
     return nil;
 }
 
-//+ (NSMutableArray*)sortCarGroupsBy:(NSString*)aParameter{
-//    if (aParameter isEqualToString@"Sonra") {
-//        <#statements#>
-//    }
-//}
-- (NSMutableArray*)getBestCarsWithFilter:(NSString*)aFilter{
-    //fiyata gore sirali bu grupraki her
-    NSMutableArray *bestCarList =[[NSMutableArray alloc] init];
-    //dunyanin en cirkin kodu devam buralar hep elden gecicek aalpk
-    Car* carToBeCompared;
-    if ([aFilter isEqualToString:@"Fiyat"]) {
-        
-        for (Car *tempCar in cars) {
-            carToBeCompared = [self findCarWithOffice:tempCar.office fromList:bestCarList];
-            if (carToBeCompared == nil ) {
-                [bestCarList addObject:tempCar];
-            }else{
-                if ( [carToBeCompared.pricing.payLaterPrice floatValue]>[tempCar.pricing.payLaterPrice floatValue]) {
-                    [bestCarList removeObject:carToBeCompared];
-                    [bestCarList addObject:tempCar];
-                    
-                }
-            }
-            
-        }
-    }
-    return bestCarList;
-}
+
 
 - (Car*)findCarWithOffice:(Office*)anOffice fromList:(NSMutableArray*)aCarList{
     
     for (Car *tempCar in aCarList) {
-        if ([tempCar.office.mainOfficeCode isEqualToString:anOffice.mainOfficeCode]) {
+        if ([tempCar.officeCode isEqualToString:anOffice.mainOfficeCode]) {
             return tempCar;
         }
     }
@@ -69,7 +42,7 @@
     Car *tempCar;
     Price *tempPrice;
     CarGroup *tempCarGroup;
-    
+    NSPredicate *officeFilter;
     
     NSMutableArray *prices= [[NSMutableArray alloc] init];
     for (ET_FIYATV0 *tempPriceListResult  in aServiceResponse.ET_FIYATSet) {
@@ -80,6 +53,7 @@
         [tempPrice setPayNowPrice:tempPriceListResult.SimdiOdeFiyatTry];
         [tempPrice setPayLaterPrice:tempPriceListResult.SonraOdeFiyatTry];
         [tempPrice setCarSelectPrice:tempPriceListResult.AracSecimFarkTry];
+        [tempPrice setDayCount:tempPriceListResult.GunSayisi];
         [prices addObject:tempPrice];
     }
     
@@ -94,8 +68,14 @@
         [tempCar setModelName:tempAracListe.Model];
         [tempCar setModelYear:tempAracListe.ModelYili];
         [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[CarGroup urlOfResolution:@"400" fromBaseUrl:tempAracListe.Zresim315]]]]];
+        //temp: due to dns change no image can be loaded
+        if (tempCar.image == nil) {
+            [tempCar setImage:[UIImage imageNamed:@"sample_car.png"]];
+        }
+        [tempCar setDoorNumber:tempAracListe.KapiSayisi];
+        [tempCar setPassangerNumber:tempAracListe.YolcuSayisi];
         //TODO: arac subesi buluncak nspredicate class method
-//         tempCar setOffice:tempAracListe.Msube
+        [tempCar setOfficeCode:tempAracListe.Msube];
         tempCarGroup = [CarGroup getGroupFromList:availableCarGroups WithCode:tempAracListe.Grpkod];
         if (tempCarGroup == nil) {
             tempCarGroup = [CarGroup new];
@@ -116,10 +96,13 @@
         [CarGroup setPriceForCar:tempCar withPriceList:prices];
         if ([tempAracListe.Vitrinres isEqualToString:@"X"]) {
             [tempCarGroup setSampleCar:tempCar];
+            [tempCarGroup setPayLaterPrice:[NSString stringWithFormat:@"%@",tempCar.pricing.payLaterPrice]];
+            [tempCarGroup setPayNowPrice:[NSString stringWithFormat:@"%@",tempCar.pricing.payNowPrice]];
         }
         [tempCarGroup.cars addObject:tempCar];
     }
-    return availableCarGroups;
+
+    return [CarGroup sortCarGroupsPriceAscending:availableCarGroups];;
 }
 
 + (UIImage*)getImageFromJSONResults:(NSDictionary*)pics withPath:(NSString*)aPath{
@@ -150,7 +133,7 @@
         return @"sorry";
     }
     
-    return [finalString stringByReplacingOccurrencesOfString: @" " withString:@"%20"];;
+    return [finalString stringByReplacingOccurrencesOfString: @" " withString:@"%20"];
     
 }
 //model marka ara grubu belli olmali
@@ -162,5 +145,38 @@
     }
 }
 
+#pragma mark - util methods
+- (NSMutableArray*)carGroupOffices{
+    NSMutableArray*offices = [NSMutableArray new];
+    NSArray *filterResult;
+    NSPredicate *officePredicate;
+    for (Car *tempCar in self.cars) {
+       officePredicate = [NSPredicate predicateWithFormat:@"mainOfficeCode = %@",tempCar.officeCode];
+        filterResult = [offices filteredArrayUsingPredicate:officePredicate];
+        if ([filterResult count] == 0) {
+            [offices addObjectsFromArray:[[ApplicationProperties getOffices] filteredArrayUsingPredicate:officePredicate]];
+        }
+    }
+    return offices;
+}
 
++ (NSMutableArray*)sortCarGroupsPriceAscending:(NSMutableArray*)someCarGroups{
+    NSArray *sortedArray;
+    sortedArray = [someCarGroups sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        
+        CarGroup *carGroup1 = (CarGroup*)a;
+        CarGroup *carGroup2 = (CarGroup*)b;
+        
+        
+        if ([carGroup1.payNowPrice floatValue]<[carGroup2.payNowPrice floatValue]) {
+            return (NSComparisonResult)NSOrderedAscending;
+        }else if([carGroup1.payNowPrice floatValue]>[carGroup2.payNowPrice floatValue]){
+            return (NSComparisonResult)NSOrderedDescending;
+        }else{
+            return (NSComparisonResult)NSOrderedSame;
+        }
+        
+    }];
+    return [NSMutableArray arrayWithArray:sortedArray];
+}
 @end

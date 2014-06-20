@@ -211,7 +211,7 @@ static float  appVersion = 1.0;
 }
 
 + (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation{
-    NSMutableArray *closestOffices = [[NSMutableArray alloc] init];
+    __block NSMutableArray *closestOffices = [[NSMutableArray alloc] init];
     NSDictionary *distances = [NSDictionary new];
     CLLocation *tempOfficeLocation;
    
@@ -224,25 +224,23 @@ static float  appVersion = 1.0;
         double secondDistance = [userLocation distanceFromLocation:secondOfficeLocation];
         if (firstDistance<secondDistance) {
             return (NSComparisonResult)NSOrderedAscending;
-        }else if(secondDistance>firstDistance){
+        }else if(secondDistance<firstDistance){
             return (NSComparisonResult)NSOrderedDescending;
         }else{
             return (NSComparisonResult)NSOrderedSame;
         }
         
     }];
-//    for (Office *tempOffice in someOffices) {
-//        //        CLLocation *sanFrancisco = [[CLLocation alloc] initWithLatitude:37.775 longitude:-122.4183333];
-//        //        CLLocation *portland = [[CLLocation alloc] initWithLatitude:45.5236111 longitude:-122.675];
-//        //        CLLocationDistance distance = [portland distanceFromLocation:sanFrancisco];
-//        tempOfficeLocation = [[CLLocation alloc] initWithLatitude:[tempOffice.latitude doubleValue] longitude:[tempOffice.longitude doubleValue]];
-//        [distances setValue:[userLocation distanceFromLocation:tempOfficeLocation] forKey:tempOffice.mainOfficeCode];
-//        
-//        
-//    }
-    for (int sayac = 0 ; sayac < count ; sayac++) {
-        [closestOffices addObject:[sortedArray objectAtIndex:sayac]];
-    }
+    __block NSPredicate *officeCodePredicate; // to get rid of suboffices
+    [sortedArray enumerateObjectsUsingBlock:^(id obj,NSUInteger idx, BOOL *stop){
+        officeCodePredicate = [NSPredicate predicateWithFormat:@"mainOfficeCode = %@",[(Office*)obj mainOfficeCode]];
+        if ([closestOffices filteredArrayUsingPredicate:officeCodePredicate].count == 0) {
+            [closestOffices addObject:obj];
+        }
+        if (closestOffices.count >= count) {
+            *stop = YES;
+        }
+    }];
     return closestOffices;
 }
 

@@ -7,9 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface EquipmentVC : UIViewController
-{
-    
-}
+#import "Reservation.h"
+@interface EquipmentVC : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@property (strong,nonatomic)Reservation *reservation;
 @end

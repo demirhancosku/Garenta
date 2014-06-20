@@ -10,8 +10,12 @@
 
 @implementation IDController
 
-- (BOOL)idChecker:(NSString *)iID andName:(NSString *)iName andSurname:(NSString *)iSurname andBirthYear:(NSString *)iYear
+- (BOOL)idChecker:(NSString *)iID andName:(NSString *)iName andSurname:(NSString *)iSurname andBirthYear:(NSString *)iYear onCompletion:(void(^)(BOOL isTrue,NSError*error)) completion
 {
+    
+    iName = [iName uppercaseStringWithLocale:[NSLocale localeWithLocaleIdentifier:@"tr"]];
+    iSurname = [iSurname uppercaseStringWithLocale:[NSLocale localeWithLocaleIdentifier:@"tr"]];
+    
     NSString *header = [NSString stringWithFormat:@"<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ws=\"http://tckimlik.nvi.gov.tr/WS\">"
                                                    "<soapenv:Header/>"
                                                    "<soapenv:Body>"
@@ -37,8 +41,24 @@
     [soapReq setHTTPBody:[soapMsg dataUsingEncoding:NSUTF8StringEncoding]];
     
     
-    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:soapReq delegate:self];
+//    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:soapReq delegate:self];
+    NSURLResponse *headerResponse;
+    NSError *error;
+    NSData *data = [NSURLConnection sendSynchronousRequest:soapReq returningResponse:&headerResponse error:&error];
+    NSString *response = [[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding];
+//    NSMutableArray *valueList = [[NSMutableArray alloc] init];
+    NSString *openTag = [NSString stringWithFormat:@"<%@>",@"TCKimlikNoDogrulaResult"];
+    NSString *closeTag = [NSString stringWithFormat:@"</%@>",@"TCKimlikNoDogrulaResult"];
+    NSMutableArray *components = [NSMutableArray arrayWithArray:[response componentsSeparatedByString:openTag]];
+    components = [NSMutableArray arrayWithArray:[(NSString*)[components objectAtIndex:1] componentsSeparatedByString:closeTag]];
+    
+    if ([(NSString*)[components objectAtIndex:0] isEqualToString:@"true"]) {
+                completion(true,error);
+    }else{
+        completion(false,error);
+    }
 
+    
     return NO;
 }
 
@@ -52,29 +72,16 @@
     [webData appendData:data];
 }
 
-//- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-//{
-//    NSString *response = [[NSString alloc] initWithBytes:[webData mutableBytes] length:[webData length] encoding:NSUTF8StringEncoding];
-//    
-//        NSMutableArray *valueList = [[NSMutableArray alloc] init];
-//        NSString *openTag = [NSString stringWithFormat:@"<%@>",@"TCKimlikNoDogrulaResult"];
-//        NSString *closeTag = [NSString stringWithFormat:@"</%@>",@"TCKimlikNoDogrulaResult"];
-//        NSMutableArray *components = [NSMutableArray arrayWithArray:[response componentsSeparatedByString:openTag]];
-//    
-//        [components removeObjectAtIndex:0];
-//    
-//        for (NSString *component in components)
-//        {
-//            NSString *object = [[component componentsSeparatedByString:closeTag] objectAtIndex:0]];
-//            [valueList addObject:[object ]]
-//        
-//        if ([valueList count] == 0) {
-//            //wierd
-//            //NSLog(anEnvelope);
-//        }
-//        return valueList;
-//    }
-//}
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSString *response = [[NSString alloc] initWithBytes:[webData mutableBytes] length:[webData length] encoding:NSUTF8StringEncoding];
+    
+    
+    
+
+    
+
+}
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     NSLog(@"asd");

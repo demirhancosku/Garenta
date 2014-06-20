@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "CarGroup.h"
 @interface CarGroupTableVC : UITableViewController
-
+@property(weak,nonatomic)CarGroup *activeCarGroup;
 @end

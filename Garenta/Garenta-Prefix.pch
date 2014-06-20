@@ -16,4 +16,6 @@
     #import "BaseVC.h"
     #import "BaseTableVC.h"
     #import "LoaderAnimationVC.h"
+    #import "ParsingConstants.h"
+    #import "UIColor+GarentaColors.h"
 #endif

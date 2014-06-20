@@ -7,7 +7,7 @@
 //
 
 #import "Reservation.h"
-
+#import "AdditionalEquipment.h"
 @implementation Reservation
 @synthesize  checkOutTime,checkInTime,checkInOffice,checkOutOffice, selectedCarGroup,number;
 
@@ -17,6 +17,7 @@
 //    checkOutDay= [Reservation defaultCheckOutDate];
     checkOutTime= [Reservation defaultCheckOutDate];
     checkInTime = [Reservation defaultCheckInDate];
+    _selectedCar = nil;
     return self;
 }
 
@@ -57,4 +58,27 @@
     
     return checkOutDate;
 }
+#pragma mark - reservation pricing methods
+-(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow{
+    NSDecimalNumber *totalPrice  =[NSDecimalNumber decimalNumberWithString:@"0.00"];
+    if ([currency isEqualToString:@"TRY"]) {
+        
+        
+    }
+    
+    return totalPrice;
+
+}
+
+-(NSDecimalNumber*)priceOfAdditionalEquipments{
+    float totalValue = 0.0f;
+    if (_additionalEquipments != nil) {
+        for (AdditionalEquipment *tempEquipment in _additionalEquipments) {
+            totalValue = totalValue + ( tempEquipment.quantity * [tempEquipment.price floatValue]);
+        }
+    }
+    return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f.02",totalValue]];
+}
+
+
 @end

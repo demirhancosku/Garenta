@@ -93,6 +93,7 @@ static ODataEntitySchema *availCarServiceEntitySchema = nil;
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.ImppBeguz forSDMPropertyWithName:@"ImppBeguz" error:&innerError];
     	[BaseODataObject setDateTimeValueForSDMEntry:m_SDMEntry withValue:self.ImppBegda forSDMPropertyWithName:@"ImppBegda" error:&innerError];
     	[BaseODataObject setIntValueForSDMEntry:m_SDMEntry withValue:self.ExppSubrc forSDMPropertyWithName:@"ExppSubrc" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.ExpKkgiris forSDMPropertyWithName:@"ExpKkgiris" error:&innerError];
         [self addRelativeLinksToSDMEntryFromDictionary:[self getSDMEntriesForNavigationProperties]];
         if (innerError) {
             if (error) {
@@ -150,6 +151,7 @@ static ODataEntitySchema *availCarServiceEntitySchema = nil;
 	self.ImppBeguz = [self getStringValueForSDMPropertyWithName:@"ImppBeguz"];
 	self.ImppBegda = [self getDateTimeValueForSDMPropertyWithName:@"ImppBegda"];
 	self.ExppSubrc = [self getIntValueForSDMPropertyWithName:@"ExppSubrc"];
+	self.ExpKkgiris = [self getStringValueForSDMPropertyWithName:@"ExpKkgiris"];
 }
 
 - (void)loadNavigationPropertyQueries
@@ -332,7 +334,6 @@ static ODataEntitySchema *eT_ARACLISTEEntitySchema = nil;
 {
     if (m_SDMEntry) {
         NSError *innerError = nil;
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.KapiSayisi forSDMPropertyWithName:@"KapiSayisi" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Cekis forSDMPropertyWithName:@"Cekis" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.KasaTipi forSDMPropertyWithName:@"KasaTipi" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.KasaTipiId forSDMPropertyWithName:@"KasaTipiId" error:&innerError];
@@ -356,18 +357,19 @@ static ODataEntitySchema *eT_ARACLISTEEntitySchema = nil;
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.MinYas forSDMPropertyWithName:@"MinYas" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.MinEhliyet forSDMPropertyWithName:@"MinEhliyet" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.GrubaRez forSDMPropertyWithName:@"GrubaRez" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.PlakayaRez forSDMPropertyWithName:@"PlakayaRez" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Grpkodtx forSDMPropertyWithName:@"Grpkodtx" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Sehir forSDMPropertyWithName:@"Sehir" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Msube forSDMPropertyWithName:@"Msube" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Msubetx forSDMPropertyWithName:@"Msubetx" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.PlakayaRez forSDMPropertyWithName:@"PlakayaRez" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Grpkod forSDMPropertyWithName:@"Grpkod" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Hsube forSDMPropertyWithName:@"Hsube" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Hsubetx forSDMPropertyWithName:@"Hsubetx" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Matnr forSDMPropertyWithName:@"Matnr" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Grpkodtx forSDMPropertyWithName:@"Grpkodtx" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Segmenttx forSDMPropertyWithName:@"Segmenttx" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Maktx forSDMPropertyWithName:@"Maktx" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Segment forSDMPropertyWithName:@"Segment" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Segmenttx forSDMPropertyWithName:@"Segmenttx" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Grpkod forSDMPropertyWithName:@"Grpkod" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.KapiSayisi forSDMPropertyWithName:@"KapiSayisi" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.MotorHacmi forSDMPropertyWithName:@"MotorHacmi" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.BagajHacmi forSDMPropertyWithName:@"BagajHacmi" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.BeygirGucu forSDMPropertyWithName:@"BeygirGucu" error:&innerError];
@@ -402,6 +404,7 @@ static ODataEntitySchema *eT_ARACLISTEEntitySchema = nil;
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Trversiyon forSDMPropertyWithName:@"Trversiyon" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Trdonanim forSDMPropertyWithName:@"Trdonanim" error:&innerError];
     	[BaseODataObject setIntValueForSDMEntry:m_SDMEntry withValue:self.Aracsayi forSDMPropertyWithName:@"Aracsayi" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Augru forSDMPropertyWithName:@"Augru" error:&innerError];
         if (innerError) {
             if (error) {
                 *error = innerError;
@@ -441,7 +444,6 @@ static ODataEntitySchema *eT_ARACLISTEEntitySchema = nil;
 - (void)loadProperties
 {
     [super loadProperties];
-	self.KapiSayisi = [self getStringValueForSDMPropertyWithName:@"KapiSayisi"];
 	self.Cekis = [self getStringValueForSDMPropertyWithName:@"Cekis"];
 	self.KasaTipi = [self getStringValueForSDMPropertyWithName:@"KasaTipi"];
 	self.KasaTipiId = [self getStringValueForSDMPropertyWithName:@"KasaTipiId"];
@@ -465,18 +467,19 @@ static ODataEntitySchema *eT_ARACLISTEEntitySchema = nil;
 	self.MinYas = [self getStringValueForSDMPropertyWithName:@"MinYas"];
 	self.MinEhliyet = [self getStringValueForSDMPropertyWithName:@"MinEhliyet"];
 	self.GrubaRez = [self getStringValueForSDMPropertyWithName:@"GrubaRez"];
+	self.PlakayaRez = [self getStringValueForSDMPropertyWithName:@"PlakayaRez"];
+	self.Grpkodtx = [self getStringValueForSDMPropertyWithName:@"Grpkodtx"];
 	self.Sehir = [self getStringValueForSDMPropertyWithName:@"Sehir"];
 	self.Msube = [self getStringValueForSDMPropertyWithName:@"Msube"];
 	self.Msubetx = [self getStringValueForSDMPropertyWithName:@"Msubetx"];
-	self.PlakayaRez = [self getStringValueForSDMPropertyWithName:@"PlakayaRez"];
+	self.Grpkod = [self getStringValueForSDMPropertyWithName:@"Grpkod"];
 	self.Hsube = [self getStringValueForSDMPropertyWithName:@"Hsube"];
 	self.Hsubetx = [self getStringValueForSDMPropertyWithName:@"Hsubetx"];
 	self.Matnr = [self getStringValueForSDMPropertyWithName:@"Matnr"];
-	self.Grpkodtx = [self getStringValueForSDMPropertyWithName:@"Grpkodtx"];
+	self.Segmenttx = [self getStringValueForSDMPropertyWithName:@"Segmenttx"];
 	self.Maktx = [self getStringValueForSDMPropertyWithName:@"Maktx"];
 	self.Segment = [self getStringValueForSDMPropertyWithName:@"Segment"];
-	self.Segmenttx = [self getStringValueForSDMPropertyWithName:@"Segmenttx"];
-	self.Grpkod = [self getStringValueForSDMPropertyWithName:@"Grpkod"];
+	self.KapiSayisi = [self getStringValueForSDMPropertyWithName:@"KapiSayisi"];
 	self.MotorHacmi = [self getStringValueForSDMPropertyWithName:@"MotorHacmi"];
 	self.BagajHacmi = [self getStringValueForSDMPropertyWithName:@"BagajHacmi"];
 	self.BeygirGucu = [self getStringValueForSDMPropertyWithName:@"BeygirGucu"];
@@ -511,6 +514,7 @@ static ODataEntitySchema *eT_ARACLISTEEntitySchema = nil;
 	self.Trversiyon = [self getStringValueForSDMPropertyWithName:@"Trversiyon"];
 	self.Trdonanim = [self getStringValueForSDMPropertyWithName:@"Trdonanim"];
 	self.Aracsayi = [self getIntValueForSDMPropertyWithName:@"Aracsayi"];
+	self.Augru = [self getStringValueForSDMPropertyWithName:@"Augru"];
 }
 
 + (NSMutableArray *)createET_ARACLISTEEntriesForSDMEntries:(NSMutableArray *)sdmEntries
@@ -769,6 +773,13 @@ static ODataEntitySchema *eT_FIYATEntitySchema = nil;
     	[BaseODataObject setIntValueForSDMEntry:m_SDMEntry withValue:self.FreeGun forSDMPropertyWithName:@"FreeGun" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.AylikFiyatKod forSDMPropertyWithName:@"AylikFiyatKod" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.KanalTuru forSDMPropertyWithName:@"KanalTuru" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.AracSecim forSDMPropertyWithName:@"AracSecim" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.ParoKazanir forSDMPropertyWithName:@"ParoKazanir" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.WingsKazanir forSDMPropertyWithName:@"WingsKazanir" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.ParafKazanir forSDMPropertyWithName:@"ParafKazanir" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.BonusKazanir forSDMPropertyWithName:@"BonusKazanir" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.GarentatlKazanir forSDMPropertyWithName:@"GarentatlKazanir" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.MilKazanir forSDMPropertyWithName:@"MilKazanir" error:&innerError];
         if (innerError) {
             if (error) {
                 *error = innerError;
@@ -859,6 +870,13 @@ static ODataEntitySchema *eT_FIYATEntitySchema = nil;
 	self.FreeGun = [self getIntValueForSDMPropertyWithName:@"FreeGun"];
 	self.AylikFiyatKod = [self getStringValueForSDMPropertyWithName:@"AylikFiyatKod"];
 	self.KanalTuru = [self getStringValueForSDMPropertyWithName:@"KanalTuru"];
+	self.AracSecim = [self getStringValueForSDMPropertyWithName:@"AracSecim"];
+	self.ParoKazanir = [self getStringValueForSDMPropertyWithName:@"ParoKazanir"];
+	self.WingsKazanir = [self getStringValueForSDMPropertyWithName:@"WingsKazanir"];
+	self.ParafKazanir = [self getStringValueForSDMPropertyWithName:@"ParafKazanir"];
+	self.BonusKazanir = [self getStringValueForSDMPropertyWithName:@"BonusKazanir"];
+	self.GarentatlKazanir = [self getStringValueForSDMPropertyWithName:@"GarentatlKazanir"];
+	self.MilKazanir = [self getStringValueForSDMPropertyWithName:@"MilKazanir"];
 }
 
 + (NSMutableArray *)createET_FIYATEntriesForSDMEntries:(NSMutableArray *)sdmEntries
@@ -936,24 +954,25 @@ static ODataEntitySchema *eT_INDIRIMLISTEntitySchema = nil;
 {
     if (m_SDMEntry) {
         NSError *innerError = nil;
-    	[BaseODataObject setDateTimeValueForSDMEntry:m_SDMEntry withValue:self.Zzfld00002e forSDMPropertyWithName:@"Zzfld00002e" error:&innerError];
-    	[BaseODataObject setDateTimeValueForSDMEntry:m_SDMEntry withValue:self.Zzfld00002f forSDMPropertyWithName:@"Zzfld00002f" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzproductid forSDMPropertyWithName:@"Zzproductid" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.ErkenodemeInd forSDMPropertyWithName:@"ErkenodemeInd" error:&innerError];
+    	[BaseODataObject setDateTimeValueForSDMEntry:m_SDMEntry withValue:self.BeginDate forSDMPropertyWithName:@"BeginDate" error:&innerError];
+    	[BaseODataObject setDateTimeValueForSDMEntry:m_SDMEntry withValue:self.EndDate forSDMPropertyWithName:@"EndDate" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.KampanyaId forSDMPropertyWithName:@"KampanyaId" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzkmparacgrubu forSDMPropertyWithName:@"Zzkmparacgrubu" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzkmprezturu forSDMPropertyWithName:@"Zzkmprezturu" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzfld000028 forSDMPropertyWithName:@"Zzfld000028" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzkmpmarkaid forSDMPropertyWithName:@"Zzkmpmarkaid" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzkmpmodelid forSDMPropertyWithName:@"Zzkmpmodelid" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzsalesoffice forSDMPropertyWithName:@"Zzsalesoffice" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzkmpgovdetipi forSDMPropertyWithName:@"Zzkmpgovdetipi" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzkmpyakittipi forSDMPropertyWithName:@"Zzkmpyakittipi" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzkmpsanztipi forSDMPropertyWithName:@"Zzkmpsanztipi" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzfld000030 forSDMPropertyWithName:@"Zzfld000030" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzfld00002a forSDMPropertyWithName:@"Zzfld00002a" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzfld00002c forSDMPropertyWithName:@"Zzfld00002c" error:&innerError];
-    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzfld00002d forSDMPropertyWithName:@"Zzfld00002d" error:&innerError];
-    	[BaseODataObject setDecimalValueForSDMEntry:m_SDMEntry withValue:self.Zzcurrency forSDMPropertyWithName:@"Zzcurrency" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.MalzemeNo forSDMPropertyWithName:@"MalzemeNo" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.FiloSegmenti forSDMPropertyWithName:@"FiloSegmenti" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.AracGrubu forSDMPropertyWithName:@"AracGrubu" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.MarkaId forSDMPropertyWithName:@"MarkaId" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.RezvTuru forSDMPropertyWithName:@"RezvTuru" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.ModelId forSDMPropertyWithName:@"ModelId" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.GovdeTipi forSDMPropertyWithName:@"GovdeTipi" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.YakitTipi forSDMPropertyWithName:@"YakitTipi" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Sube forSDMPropertyWithName:@"Sube" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.SanzimanTipi forSDMPropertyWithName:@"SanzimanTipi" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.FiyatKodu forSDMPropertyWithName:@"FiyatKodu" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.KampMiktar forSDMPropertyWithName:@"KampMiktar" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.ParaBirimi forSDMPropertyWithName:@"ParaBirimi" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.KampYuzde forSDMPropertyWithName:@"KampYuzde" error:&innerError];
+    	[BaseODataObject setDecimalValueForSDMEntry:m_SDMEntry withValue:self.Fiyat forSDMPropertyWithName:@"Fiyat" error:&innerError];
         if (innerError) {
             if (error) {
                 *error = innerError;
@@ -993,24 +1012,25 @@ static ODataEntitySchema *eT_INDIRIMLISTEntitySchema = nil;
 - (void)loadProperties
 {
     [super loadProperties];
-	self.Zzfld00002e = [self getDateTimeValueForSDMPropertyWithName:@"Zzfld00002e"];
-	self.Zzfld00002f = [self getDateTimeValueForSDMPropertyWithName:@"Zzfld00002f"];
-	self.Zzproductid = [self getStringValueForSDMPropertyWithName:@"Zzproductid"];
+	self.ErkenodemeInd = [self getStringValueForSDMPropertyWithName:@"ErkenodemeInd"];
+	self.BeginDate = [self getDateTimeValueForSDMPropertyWithName:@"BeginDate"];
+	self.EndDate = [self getDateTimeValueForSDMPropertyWithName:@"EndDate"];
 	self.KampanyaId = [self getStringValueForSDMPropertyWithName:@"KampanyaId"];
-	self.Zzkmparacgrubu = [self getStringValueForSDMPropertyWithName:@"Zzkmparacgrubu"];
-	self.Zzkmprezturu = [self getStringValueForSDMPropertyWithName:@"Zzkmprezturu"];
-	self.Zzfld000028 = [self getStringValueForSDMPropertyWithName:@"Zzfld000028"];
-	self.Zzkmpmarkaid = [self getStringValueForSDMPropertyWithName:@"Zzkmpmarkaid"];
-	self.Zzkmpmodelid = [self getStringValueForSDMPropertyWithName:@"Zzkmpmodelid"];
-	self.Zzsalesoffice = [self getStringValueForSDMPropertyWithName:@"Zzsalesoffice"];
-	self.Zzkmpgovdetipi = [self getStringValueForSDMPropertyWithName:@"Zzkmpgovdetipi"];
-	self.Zzkmpyakittipi = [self getStringValueForSDMPropertyWithName:@"Zzkmpyakittipi"];
-	self.Zzkmpsanztipi = [self getStringValueForSDMPropertyWithName:@"Zzkmpsanztipi"];
-	self.Zzfld000030 = [self getStringValueForSDMPropertyWithName:@"Zzfld000030"];
-	self.Zzfld00002a = [self getStringValueForSDMPropertyWithName:@"Zzfld00002a"];
-	self.Zzfld00002c = [self getStringValueForSDMPropertyWithName:@"Zzfld00002c"];
-	self.Zzfld00002d = [self getStringValueForSDMPropertyWithName:@"Zzfld00002d"];
-	self.Zzcurrency = [self getDecimalValueForSDMPropertyWithName:@"Zzcurrency"];
+	self.MalzemeNo = [self getStringValueForSDMPropertyWithName:@"MalzemeNo"];
+	self.FiloSegmenti = [self getStringValueForSDMPropertyWithName:@"FiloSegmenti"];
+	self.AracGrubu = [self getStringValueForSDMPropertyWithName:@"AracGrubu"];
+	self.MarkaId = [self getStringValueForSDMPropertyWithName:@"MarkaId"];
+	self.RezvTuru = [self getStringValueForSDMPropertyWithName:@"RezvTuru"];
+	self.ModelId = [self getStringValueForSDMPropertyWithName:@"ModelId"];
+	self.GovdeTipi = [self getStringValueForSDMPropertyWithName:@"GovdeTipi"];
+	self.YakitTipi = [self getStringValueForSDMPropertyWithName:@"YakitTipi"];
+	self.Sube = [self getStringValueForSDMPropertyWithName:@"Sube"];
+	self.SanzimanTipi = [self getStringValueForSDMPropertyWithName:@"SanzimanTipi"];
+	self.FiyatKodu = [self getStringValueForSDMPropertyWithName:@"FiyatKodu"];
+	self.KampMiktar = [self getStringValueForSDMPropertyWithName:@"KampMiktar"];
+	self.ParaBirimi = [self getStringValueForSDMPropertyWithName:@"ParaBirimi"];
+	self.KampYuzde = [self getStringValueForSDMPropertyWithName:@"KampYuzde"];
+	self.Fiyat = [self getDecimalValueForSDMPropertyWithName:@"Fiyat"];
 }
 
 + (NSMutableArray *)createET_INDIRIMLISTEntriesForSDMEntries:(NSMutableArray *)sdmEntries
@@ -1118,6 +1138,10 @@ static ODataEntitySchema *eT_KAMPANYAEntitySchema = nil;
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.CampType forSDMPropertyWithName:@"CampType" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.KampanyaId forSDMPropertyWithName:@"KampanyaId" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Oncelik forSDMPropertyWithName:@"Oncelik" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzkmpozelgunisle forSDMPropertyWithName:@"Zzkmpozelgunisle" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Tactics forSDMPropertyWithName:@"Tactics" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Zzarcsecimucreti forSDMPropertyWithName:@"Zzarcsecimucreti" error:&innerError];
+    	[BaseODataObject setDecimalValueForSDMEntry:m_SDMEntry withValue:self.Zzkapkulornhdf forSDMPropertyWithName:@"Zzkapkulornhdf" error:&innerError];
         if (innerError) {
             if (error) {
                 *error = innerError;
@@ -1187,6 +1211,10 @@ static ODataEntitySchema *eT_KAMPANYAEntitySchema = nil;
 	self.CampType = [self getStringValueForSDMPropertyWithName:@"CampType"];
 	self.KampanyaId = [self getStringValueForSDMPropertyWithName:@"KampanyaId"];
 	self.Oncelik = [self getStringValueForSDMPropertyWithName:@"Oncelik"];
+	self.Zzkmpozelgunisle = [self getStringValueForSDMPropertyWithName:@"Zzkmpozelgunisle"];
+	self.Tactics = [self getStringValueForSDMPropertyWithName:@"Tactics"];
+	self.Zzarcsecimucreti = [self getStringValueForSDMPropertyWithName:@"Zzarcsecimucreti"];
+	self.Zzkapkulornhdf = [self getDecimalValueForSDMPropertyWithName:@"Zzkapkulornhdf"];
 }
 
 + (NSMutableArray *)createET_KAMPANYAEntriesForSDMEntries:(NSMutableArray *)sdmEntries
@@ -1282,6 +1310,9 @@ static ODataEntitySchema *eT_RESERVEntitySchema = nil;
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Vtweg forSDMPropertyWithName:@"Vtweg" error:&innerError];
     	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.Spart forSDMPropertyWithName:@"Spart" error:&innerError];
     	[BaseODataObject setDecimalValueForSDMEntry:m_SDMEntry withValue:self.Tutar forSDMPropertyWithName:@"Tutar" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.BonusKazanir forSDMPropertyWithName:@"BonusKazanir" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.MilKazanir forSDMPropertyWithName:@"MilKazanir" error:&innerError];
+    	[BaseODataObject setStringValueForSDMEntry:m_SDMEntry withValue:self.GrnttlKazanir forSDMPropertyWithName:@"GrnttlKazanir" error:&innerError];
         if (innerError) {
             if (error) {
                 *error = innerError;
@@ -1339,6 +1370,9 @@ static ODataEntitySchema *eT_RESERVEntitySchema = nil;
 	self.Vtweg = [self getStringValueForSDMPropertyWithName:@"Vtweg"];
 	self.Spart = [self getStringValueForSDMPropertyWithName:@"Spart"];
 	self.Tutar = [self getDecimalValueForSDMPropertyWithName:@"Tutar"];
+	self.BonusKazanir = [self getStringValueForSDMPropertyWithName:@"BonusKazanir"];
+	self.MilKazanir = [self getStringValueForSDMPropertyWithName:@"MilKazanir"];
+	self.GrnttlKazanir = [self getStringValueForSDMPropertyWithName:@"GrnttlKazanir"];
 }
 
 + (NSMutableArray *)createET_RESERVEntriesForSDMEntries:(NSMutableArray *)sdmEntries
@@ -1627,9 +1661,8 @@ static ODataEntitySchema *iMPT_MSUBEEntitySchema = nil;
 	return [ET_ARACLISTEV0 parseExpandedET_ARACLISTEEntriesWithData:aData andServiceDocument:self.sdmServiceDocument error:error];
 }
 
-- (ODataQuery *)getET_ARACLISTESetEntryQueryWithKapiSayisi:(NSString *)KapiSayisi andCekis:(NSString *)Cekis andKasaTipi:(NSString *)KasaTipi andKasaTipiId:(NSString *)KasaTipiId andSanzimanTipi:(NSString *)SanzimanTipi andSanzimanTipiId:(NSString *)SanzimanTipiId andYakitTipi:(NSString *)YakitTipi andYakitTipiId:(NSString *)YakitTipiId andModelYili:(NSString *)ModelYili andModel:(NSString *)Model andMarka:(NSString *)Marka andModelId:(NSString *)ModelId andMarkaId:(NSString *)MarkaId andKisLastik:(NSString *)KisLastik andRgbkodu:(NSString *)Rgbkodu andAnarenktx:(NSString *)Anarenktx andRenktx:(NSString *)Renktx andRenk:(NSString *)Renk andVitrinres:(NSString *)Vitrinres andGencSrcYas:(NSString *)GencSrcYas andGencSrcEhl:(NSString *)GencSrcEhl andMinYas:(NSString *)MinYas andMinEhliyet:(NSString *)MinEhliyet andGrubaRez:(NSString *)GrubaRez andSehir:(NSString *)Sehir andMsube:(NSString *)Msube andMsubetx:(NSString *)Msubetx andPlakayaRez:(NSString *)PlakayaRez andHsube:(NSString *)Hsube andHsubetx:(NSString *)Hsubetx andMatnr:(NSString *)Matnr andGrpkodtx:(NSString *)Grpkodtx andMaktx:(NSString *)Maktx andSegment:(NSString *)Segment andSegmenttx:(NSString *)Segmenttx andGrpkod:(NSString *)Grpkod andMotorHacmi:(NSString *)MotorHacmi andBagajHacmi:(NSString *)BagajHacmi andBeygirGucu:(NSString *)BeygirGucu andYolcuSayisi:(NSString *)YolcuSayisi andAcilirTavan:(NSString *)AcilirTavan andCamTavan:(NSString *)CamTavan andParkSensoruOn:(NSString *)ParkSensoruOn andParkSensoruArka:(NSString *)ParkSensoruArka andYagmurSensoru:(NSString *)YagmurSensoru andIsitmaliKoltuk:(NSString *)IsitmaliKoltuk andDjitalKlima:(NSString *)DjitalKlima andAbs:(NSString *)Abs andEsp:(NSString *)Esp andStartStop:(NSString *)StartStop andXenonFar:(NSString *)XenonFar andCruiseKontrol:(NSString *)CruiseKontrol andDeriDoseme:(NSString *)DeriDoseme andGeriGorusKam:(NSString *)GeriGorusKam andIsofix:(NSString *)Isofix andBluetooth:(NSString *)Bluetooth andAux:(NSString *)Aux andHandsFree:(NSString *)HandsFree andSifirYuzHiz:(NSString *)SifirYuzHiz andOrtYakitTuketim:(NSString *)OrtYakitTuketim andNavigasyon:(NSString *)Navigasyon andZresim315:(NSString *)Zresim315 andZresim45:(NSString *)Zresim45 andZresim90:(NSString *)Zresim90 andZresim135:(NSString *)Zresim135 andZresim180:(NSString *)Zresim180
+- (ODataQuery *)getET_ARACLISTESetEntryQueryWithCekis:(NSString *)Cekis andKasaTipi:(NSString *)KasaTipi andKasaTipiId:(NSString *)KasaTipiId andSanzimanTipi:(NSString *)SanzimanTipi andSanzimanTipiId:(NSString *)SanzimanTipiId andYakitTipi:(NSString *)YakitTipi andYakitTipiId:(NSString *)YakitTipiId andModelYili:(NSString *)ModelYili andModel:(NSString *)Model andMarka:(NSString *)Marka andModelId:(NSString *)ModelId andMarkaId:(NSString *)MarkaId andKisLastik:(NSString *)KisLastik andRgbkodu:(NSString *)Rgbkodu andAnarenktx:(NSString *)Anarenktx andRenktx:(NSString *)Renktx andRenk:(NSString *)Renk andVitrinres:(NSString *)Vitrinres andGencSrcYas:(NSString *)GencSrcYas andGencSrcEhl:(NSString *)GencSrcEhl andMinYas:(NSString *)MinYas andMinEhliyet:(NSString *)MinEhliyet andGrubaRez:(NSString *)GrubaRez andPlakayaRez:(NSString *)PlakayaRez andGrpkodtx:(NSString *)Grpkodtx andSehir:(NSString *)Sehir andMsube:(NSString *)Msube andMsubetx:(NSString *)Msubetx andGrpkod:(NSString *)Grpkod andHsube:(NSString *)Hsube andHsubetx:(NSString *)Hsubetx andMatnr:(NSString *)Matnr andSegmenttx:(NSString *)Segmenttx andMaktx:(NSString *)Maktx andSegment:(NSString *)Segment andKapiSayisi:(NSString *)KapiSayisi andMotorHacmi:(NSString *)MotorHacmi andBagajHacmi:(NSString *)BagajHacmi andBeygirGucu:(NSString *)BeygirGucu andYolcuSayisi:(NSString *)YolcuSayisi andAcilirTavan:(NSString *)AcilirTavan andCamTavan:(NSString *)CamTavan andParkSensoruOn:(NSString *)ParkSensoruOn andParkSensoruArka:(NSString *)ParkSensoruArka andYagmurSensoru:(NSString *)YagmurSensoru andIsitmaliKoltuk:(NSString *)IsitmaliKoltuk andDjitalKlima:(NSString *)DjitalKlima andAbs:(NSString *)Abs andEsp:(NSString *)Esp andStartStop:(NSString *)StartStop andXenonFar:(NSString *)XenonFar andCruiseKontrol:(NSString *)CruiseKontrol andDeriDoseme:(NSString *)DeriDoseme andGeriGorusKam:(NSString *)GeriGorusKam andIsofix:(NSString *)Isofix andBluetooth:(NSString *)Bluetooth andAux:(NSString *)Aux andHandsFree:(NSString *)HandsFree andSifirYuzHiz:(NSString *)SifirYuzHiz andOrtYakitTuketim:(NSString *)OrtYakitTuketim andNavigasyon:(NSString *)Navigasyon andZresim315:(NSString *)Zresim315 andZresim45:(NSString *)Zresim45 andZresim90:(NSString *)Zresim90 andZresim135:(NSString *)Zresim135 andZresim180:(NSString *)Zresim180
 {
-	KapiSayisi = [ODataQuery encodeURLParameter:KapiSayisi];
 	Cekis = [ODataQuery encodeURLParameter:Cekis];
 	KasaTipi = [ODataQuery encodeURLParameter:KasaTipi];
 	KasaTipiId = [ODataQuery encodeURLParameter:KasaTipiId];
@@ -1653,18 +1686,19 @@ static ODataEntitySchema *iMPT_MSUBEEntitySchema = nil;
 	MinYas = [ODataQuery encodeURLParameter:MinYas];
 	MinEhliyet = [ODataQuery encodeURLParameter:MinEhliyet];
 	GrubaRez = [ODataQuery encodeURLParameter:GrubaRez];
+	PlakayaRez = [ODataQuery encodeURLParameter:PlakayaRez];
+	Grpkodtx = [ODataQuery encodeURLParameter:Grpkodtx];
 	Sehir = [ODataQuery encodeURLParameter:Sehir];
 	Msube = [ODataQuery encodeURLParameter:Msube];
 	Msubetx = [ODataQuery encodeURLParameter:Msubetx];
-	PlakayaRez = [ODataQuery encodeURLParameter:PlakayaRez];
+	Grpkod = [ODataQuery encodeURLParameter:Grpkod];
 	Hsube = [ODataQuery encodeURLParameter:Hsube];
 	Hsubetx = [ODataQuery encodeURLParameter:Hsubetx];
 	Matnr = [ODataQuery encodeURLParameter:Matnr];
-	Grpkodtx = [ODataQuery encodeURLParameter:Grpkodtx];
+	Segmenttx = [ODataQuery encodeURLParameter:Segmenttx];
 	Maktx = [ODataQuery encodeURLParameter:Maktx];
 	Segment = [ODataQuery encodeURLParameter:Segment];
-	Segmenttx = [ODataQuery encodeURLParameter:Segmenttx];
-	Grpkod = [ODataQuery encodeURLParameter:Grpkod];
+	KapiSayisi = [ODataQuery encodeURLParameter:KapiSayisi];
 	MotorHacmi = [ODataQuery encodeURLParameter:MotorHacmi];
 	BagajHacmi = [ODataQuery encodeURLParameter:BagajHacmi];
 	BeygirGucu = [ODataQuery encodeURLParameter:BeygirGucu];
@@ -1695,15 +1729,14 @@ static ODataEntitySchema *iMPT_MSUBEEntitySchema = nil;
 	Zresim90 = [ODataQuery encodeURLParameter:Zresim90];
 	Zresim135 = [ODataQuery encodeURLParameter:Zresim135];
 	Zresim180 = [ODataQuery encodeURLParameter:Zresim180];
-	NSString *relativePath = [NSString stringWithFormat:@"ET_ARACLISTESet(KapiSayisi=%@,Cekis=%@,KasaTipi=%@,KasaTipiId=%@,SanzimanTipi=%@,SanzimanTipiId=%@,YakitTipi=%@,YakitTipiId=%@,ModelYili=%@,Model=%@,Marka=%@,ModelId=%@,MarkaId=%@,KisLastik=%@,Rgbkodu=%@,Anarenktx=%@,Renktx=%@,Renk=%@,Vitrinres=%@,GencSrcYas=%@,GencSrcEhl=%@,MinYas=%@,MinEhliyet=%@,GrubaRez=%@,Sehir=%@,Msube=%@,Msubetx=%@,PlakayaRez=%@,Hsube=%@,Hsubetx=%@,Matnr=%@,Grpkodtx=%@,Maktx=%@,Segment=%@,Segmenttx=%@,Grpkod=%@,MotorHacmi=%@,BagajHacmi=%@,BeygirGucu=%@,YolcuSayisi=%@,AcilirTavan=%@,CamTavan=%@,ParkSensoruOn=%@,ParkSensoruArka=%@,YagmurSensoru=%@,IsitmaliKoltuk=%@,DjitalKlima=%@,Abs=%@,Esp=%@,StartStop=%@,XenonFar=%@,CruiseKontrol=%@,DeriDoseme=%@,GeriGorusKam=%@,Isofix=%@,Bluetooth=%@,Aux=%@,HandsFree=%@,SifirYuzHiz=%@,OrtYakitTuketim=%@,Navigasyon=%@,Zresim315=%@,Zresim45=%@,Zresim90=%@,Zresim135=%@,Zresim180=%@)", KapiSayisi, Cekis, KasaTipi, KasaTipiId, SanzimanTipi, SanzimanTipiId, YakitTipi, YakitTipiId, ModelYili, Model, Marka, ModelId, MarkaId, KisLastik, Rgbkodu, Anarenktx, Renktx, Renk, Vitrinres, GencSrcYas, GencSrcEhl, MinYas, MinEhliyet, GrubaRez, Sehir, Msube, Msubetx, PlakayaRez, Hsube, Hsubetx, Matnr, Grpkodtx, Maktx, Segment, Segmenttx, Grpkod, MotorHacmi, BagajHacmi, BeygirGucu, YolcuSayisi, AcilirTavan, CamTavan, ParkSensoruOn, ParkSensoruArka, YagmurSensoru, IsitmaliKoltuk, DjitalKlima, Abs, Esp, StartStop, XenonFar, CruiseKontrol, DeriDoseme, GeriGorusKam, Isofix, Bluetooth, Aux, HandsFree, SifirYuzHiz, OrtYakitTuketim, Navigasyon, Zresim315, Zresim45, Zresim90, Zresim135, Zresim180];
+	NSString *relativePath = [NSString stringWithFormat:@"ET_ARACLISTESet(Cekis=%@,KasaTipi=%@,KasaTipiId=%@,SanzimanTipi=%@,SanzimanTipiId=%@,YakitTipi=%@,YakitTipiId=%@,ModelYili=%@,Model=%@,Marka=%@,ModelId=%@,MarkaId=%@,KisLastik=%@,Rgbkodu=%@,Anarenktx=%@,Renktx=%@,Renk=%@,Vitrinres=%@,GencSrcYas=%@,GencSrcEhl=%@,MinYas=%@,MinEhliyet=%@,GrubaRez=%@,PlakayaRez=%@,Grpkodtx=%@,Sehir=%@,Msube=%@,Msubetx=%@,Grpkod=%@,Hsube=%@,Hsubetx=%@,Matnr=%@,Segmenttx=%@,Maktx=%@,Segment=%@,KapiSayisi=%@,MotorHacmi=%@,BagajHacmi=%@,BeygirGucu=%@,YolcuSayisi=%@,AcilirTavan=%@,CamTavan=%@,ParkSensoruOn=%@,ParkSensoruArka=%@,YagmurSensoru=%@,IsitmaliKoltuk=%@,DjitalKlima=%@,Abs=%@,Esp=%@,StartStop=%@,XenonFar=%@,CruiseKontrol=%@,DeriDoseme=%@,GeriGorusKam=%@,Isofix=%@,Bluetooth=%@,Aux=%@,HandsFree=%@,SifirYuzHiz=%@,OrtYakitTuketim=%@,Navigasyon=%@,Zresim315=%@,Zresim45=%@,Zresim90=%@,Zresim135=%@,Zresim180=%@)", Cekis, KasaTipi, KasaTipiId, SanzimanTipi, SanzimanTipiId, YakitTipi, YakitTipiId, ModelYili, Model, Marka, ModelId, MarkaId, KisLastik, Rgbkodu, Anarenktx, Renktx, Renk, Vitrinres, GencSrcYas, GencSrcEhl, MinYas, MinEhliyet, GrubaRez, PlakayaRez, Grpkodtx, Sehir, Msube, Msubetx, Grpkod, Hsube, Hsubetx, Matnr, Segmenttx, Maktx, Segment, KapiSayisi, MotorHacmi, BagajHacmi, BeygirGucu, YolcuSayisi, AcilirTavan, CamTavan, ParkSensoruOn, ParkSensoruArka, YagmurSensoru, IsitmaliKoltuk, DjitalKlima, Abs, Esp, StartStop, XenonFar, CruiseKontrol, DeriDoseme, GeriGorusKam, Isofix, Bluetooth, Aux, HandsFree, SifirYuzHiz, OrtYakitTuketim, Navigasyon, Zresim315, Zresim45, Zresim90, Zresim135, Zresim180];
 	ODataQuery *query = [self getQueryForRelativePath:relativePath];
 	return query;
 }
 
-- (ODataQuery *)getET_ARACLISTESetEntryQueryTypedWithKapiSayisi:(NSString *)KapiSayisi andCekis:(NSString *)Cekis andKasaTipi:(NSString *)KasaTipi andKasaTipiId:(NSString *)KasaTipiId andSanzimanTipi:(NSString *)SanzimanTipi andSanzimanTipiId:(NSString *)SanzimanTipiId andYakitTipi:(NSString *)YakitTipi andYakitTipiId:(NSString *)YakitTipiId andModelYili:(NSString *)ModelYili andModel:(NSString *)Model andMarka:(NSString *)Marka andModelId:(NSString *)ModelId andMarkaId:(NSString *)MarkaId andKisLastik:(NSString *)KisLastik andRgbkodu:(NSString *)Rgbkodu andAnarenktx:(NSString *)Anarenktx andRenktx:(NSString *)Renktx andRenk:(NSString *)Renk andVitrinres:(NSString *)Vitrinres andGencSrcYas:(NSString *)GencSrcYas andGencSrcEhl:(NSString *)GencSrcEhl andMinYas:(NSString *)MinYas andMinEhliyet:(NSString *)MinEhliyet andGrubaRez:(NSString *)GrubaRez andSehir:(NSString *)Sehir andMsube:(NSString *)Msube andMsubetx:(NSString *)Msubetx andPlakayaRez:(NSString *)PlakayaRez andHsube:(NSString *)Hsube andHsubetx:(NSString *)Hsubetx andMatnr:(NSString *)Matnr andGrpkodtx:(NSString *)Grpkodtx andMaktx:(NSString *)Maktx andSegment:(NSString *)Segment andSegmenttx:(NSString *)Segmenttx andGrpkod:(NSString *)Grpkod andMotorHacmi:(NSString *)MotorHacmi andBagajHacmi:(NSString *)BagajHacmi andBeygirGucu:(NSString *)BeygirGucu andYolcuSayisi:(NSString *)YolcuSayisi andAcilirTavan:(NSString *)AcilirTavan andCamTavan:(NSString *)CamTavan andParkSensoruOn:(NSString *)ParkSensoruOn andParkSensoruArka:(NSString *)ParkSensoruArka andYagmurSensoru:(NSString *)YagmurSensoru andIsitmaliKoltuk:(NSString *)IsitmaliKoltuk andDjitalKlima:(NSString *)DjitalKlima andAbs:(NSString *)Abs andEsp:(NSString *)Esp andStartStop:(NSString *)StartStop andXenonFar:(NSString *)XenonFar andCruiseKontrol:(NSString *)CruiseKontrol andDeriDoseme:(NSString *)DeriDoseme andGeriGorusKam:(NSString *)GeriGorusKam andIsofix:(NSString *)Isofix andBluetooth:(NSString *)Bluetooth andAux:(NSString *)Aux andHandsFree:(NSString *)HandsFree andSifirYuzHiz:(NSString *)SifirYuzHiz andOrtYakitTuketim:(NSString *)OrtYakitTuketim andNavigasyon:(NSString *)Navigasyon andZresim315:(NSString *)Zresim315 andZresim45:(NSString *)Zresim45 andZresim90:(NSString *)Zresim90 andZresim135:(NSString *)Zresim135 andZresim180:(NSString *)Zresim180
+- (ODataQuery *)getET_ARACLISTESetEntryQueryTypedWithCekis:(NSString *)Cekis andKasaTipi:(NSString *)KasaTipi andKasaTipiId:(NSString *)KasaTipiId andSanzimanTipi:(NSString *)SanzimanTipi andSanzimanTipiId:(NSString *)SanzimanTipiId andYakitTipi:(NSString *)YakitTipi andYakitTipiId:(NSString *)YakitTipiId andModelYili:(NSString *)ModelYili andModel:(NSString *)Model andMarka:(NSString *)Marka andModelId:(NSString *)ModelId andMarkaId:(NSString *)MarkaId andKisLastik:(NSString *)KisLastik andRgbkodu:(NSString *)Rgbkodu andAnarenktx:(NSString *)Anarenktx andRenktx:(NSString *)Renktx andRenk:(NSString *)Renk andVitrinres:(NSString *)Vitrinres andGencSrcYas:(NSString *)GencSrcYas andGencSrcEhl:(NSString *)GencSrcEhl andMinYas:(NSString *)MinYas andMinEhliyet:(NSString *)MinEhliyet andGrubaRez:(NSString *)GrubaRez andPlakayaRez:(NSString *)PlakayaRez andGrpkodtx:(NSString *)Grpkodtx andSehir:(NSString *)Sehir andMsube:(NSString *)Msube andMsubetx:(NSString *)Msubetx andGrpkod:(NSString *)Grpkod andHsube:(NSString *)Hsube andHsubetx:(NSString *)Hsubetx andMatnr:(NSString *)Matnr andSegmenttx:(NSString *)Segmenttx andMaktx:(NSString *)Maktx andSegment:(NSString *)Segment andKapiSayisi:(NSString *)KapiSayisi andMotorHacmi:(NSString *)MotorHacmi andBagajHacmi:(NSString *)BagajHacmi andBeygirGucu:(NSString *)BeygirGucu andYolcuSayisi:(NSString *)YolcuSayisi andAcilirTavan:(NSString *)AcilirTavan andCamTavan:(NSString *)CamTavan andParkSensoruOn:(NSString *)ParkSensoruOn andParkSensoruArka:(NSString *)ParkSensoruArka andYagmurSensoru:(NSString *)YagmurSensoru andIsitmaliKoltuk:(NSString *)IsitmaliKoltuk andDjitalKlima:(NSString *)DjitalKlima andAbs:(NSString *)Abs andEsp:(NSString *)Esp andStartStop:(NSString *)StartStop andXenonFar:(NSString *)XenonFar andCruiseKontrol:(NSString *)CruiseKontrol andDeriDoseme:(NSString *)DeriDoseme andGeriGorusKam:(NSString *)GeriGorusKam andIsofix:(NSString *)Isofix andBluetooth:(NSString *)Bluetooth andAux:(NSString *)Aux andHandsFree:(NSString *)HandsFree andSifirYuzHiz:(NSString *)SifirYuzHiz andOrtYakitTuketim:(NSString *)OrtYakitTuketim andNavigasyon:(NSString *)Navigasyon andZresim315:(NSString *)Zresim315 andZresim45:(NSString *)Zresim45 andZresim90:(NSString *)Zresim90 andZresim135:(NSString *)Zresim135 andZresim180:(NSString *)Zresim180
 {
 	id <URITypeConverting> converter = [ODataURITypeConverter uniqueInstance];
-	NSString *KapiSayisiUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:KapiSayisi]];
 	NSString *CekisUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Cekis]];
 	NSString *KasaTipiUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:KasaTipi]];
 	NSString *KasaTipiIdUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:KasaTipiId]];
@@ -1727,18 +1760,19 @@ static ODataEntitySchema *iMPT_MSUBEEntitySchema = nil;
 	NSString *MinYasUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:MinYas]];
 	NSString *MinEhliyetUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:MinEhliyet]];
 	NSString *GrubaRezUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:GrubaRez]];
+	NSString *PlakayaRezUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:PlakayaRez]];
+	NSString *GrpkodtxUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Grpkodtx]];
 	NSString *SehirUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Sehir]];
 	NSString *MsubeUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Msube]];
 	NSString *MsubetxUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Msubetx]];
-	NSString *PlakayaRezUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:PlakayaRez]];
+	NSString *GrpkodUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Grpkod]];
 	NSString *HsubeUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Hsube]];
 	NSString *HsubetxUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Hsubetx]];
 	NSString *MatnrUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Matnr]];
-	NSString *GrpkodtxUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Grpkodtx]];
+	NSString *SegmenttxUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Segmenttx]];
 	NSString *MaktxUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Maktx]];
 	NSString *SegmentUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Segment]];
-	NSString *SegmenttxUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Segmenttx]];
-	NSString *GrpkodUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Grpkod]];
+	NSString *KapiSayisiUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:KapiSayisi]];
 	NSString *MotorHacmiUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:MotorHacmi]];
 	NSString *BagajHacmiUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:BagajHacmi]];
 	NSString *BeygirGucuUri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:BeygirGucu]];
@@ -1769,7 +1803,7 @@ static ODataEntitySchema *iMPT_MSUBEEntitySchema = nil;
 	NSString *Zresim90Uri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Zresim90]];
 	NSString *Zresim135Uri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Zresim135]];
 	NSString *Zresim180Uri = [ODataQuery encodeURLParameter:[converter convertToEdmStringURI:Zresim180]];
-	NSString *relativePath = [NSString stringWithFormat:@"ET_ARACLISTESet(KapiSayisi=%@,Cekis=%@,KasaTipi=%@,KasaTipiId=%@,SanzimanTipi=%@,SanzimanTipiId=%@,YakitTipi=%@,YakitTipiId=%@,ModelYili=%@,Model=%@,Marka=%@,ModelId=%@,MarkaId=%@,KisLastik=%@,Rgbkodu=%@,Anarenktx=%@,Renktx=%@,Renk=%@,Vitrinres=%@,GencSrcYas=%@,GencSrcEhl=%@,MinYas=%@,MinEhliyet=%@,GrubaRez=%@,Sehir=%@,Msube=%@,Msubetx=%@,PlakayaRez=%@,Hsube=%@,Hsubetx=%@,Matnr=%@,Grpkodtx=%@,Maktx=%@,Segment=%@,Segmenttx=%@,Grpkod=%@,MotorHacmi=%@,BagajHacmi=%@,BeygirGucu=%@,YolcuSayisi=%@,AcilirTavan=%@,CamTavan=%@,ParkSensoruOn=%@,ParkSensoruArka=%@,YagmurSensoru=%@,IsitmaliKoltuk=%@,DjitalKlima=%@,Abs=%@,Esp=%@,StartStop=%@,XenonFar=%@,CruiseKontrol=%@,DeriDoseme=%@,GeriGorusKam=%@,Isofix=%@,Bluetooth=%@,Aux=%@,HandsFree=%@,SifirYuzHiz=%@,OrtYakitTuketim=%@,Navigasyon=%@,Zresim315=%@,Zresim45=%@,Zresim90=%@,Zresim135=%@,Zresim180=%@)", KapiSayisiUri, CekisUri, KasaTipiUri, KasaTipiIdUri, SanzimanTipiUri, SanzimanTipiIdUri, YakitTipiUri, YakitTipiIdUri, ModelYiliUri, ModelUri, MarkaUri, ModelIdUri, MarkaIdUri, KisLastikUri, RgbkoduUri, AnarenktxUri, RenktxUri, RenkUri, VitrinresUri, GencSrcYasUri, GencSrcEhlUri, MinYasUri, MinEhliyetUri, GrubaRezUri, SehirUri, MsubeUri, MsubetxUri, PlakayaRezUri, HsubeUri, HsubetxUri, MatnrUri, GrpkodtxUri, MaktxUri, SegmentUri, SegmenttxUri, GrpkodUri, MotorHacmiUri, BagajHacmiUri, BeygirGucuUri, YolcuSayisiUri, AcilirTavanUri, CamTavanUri, ParkSensoruOnUri, ParkSensoruArkaUri, YagmurSensoruUri, IsitmaliKoltukUri, DjitalKlimaUri, AbsUri, EspUri, StartStopUri, XenonFarUri, CruiseKontrolUri, DeriDosemeUri, GeriGorusKamUri, IsofixUri, BluetoothUri, AuxUri, HandsFreeUri, SifirYuzHizUri, OrtYakitTuketimUri, NavigasyonUri, Zresim315Uri, Zresim45Uri, Zresim90Uri, Zresim135Uri, Zresim180Uri];
+	NSString *relativePath = [NSString stringWithFormat:@"ET_ARACLISTESet(Cekis=%@,KasaTipi=%@,KasaTipiId=%@,SanzimanTipi=%@,SanzimanTipiId=%@,YakitTipi=%@,YakitTipiId=%@,ModelYili=%@,Model=%@,Marka=%@,ModelId=%@,MarkaId=%@,KisLastik=%@,Rgbkodu=%@,Anarenktx=%@,Renktx=%@,Renk=%@,Vitrinres=%@,GencSrcYas=%@,GencSrcEhl=%@,MinYas=%@,MinEhliyet=%@,GrubaRez=%@,PlakayaRez=%@,Grpkodtx=%@,Sehir=%@,Msube=%@,Msubetx=%@,Grpkod=%@,Hsube=%@,Hsubetx=%@,Matnr=%@,Segmenttx=%@,Maktx=%@,Segment=%@,KapiSayisi=%@,MotorHacmi=%@,BagajHacmi=%@,BeygirGucu=%@,YolcuSayisi=%@,AcilirTavan=%@,CamTavan=%@,ParkSensoruOn=%@,ParkSensoruArka=%@,YagmurSensoru=%@,IsitmaliKoltuk=%@,DjitalKlima=%@,Abs=%@,Esp=%@,StartStop=%@,XenonFar=%@,CruiseKontrol=%@,DeriDoseme=%@,GeriGorusKam=%@,Isofix=%@,Bluetooth=%@,Aux=%@,HandsFree=%@,SifirYuzHiz=%@,OrtYakitTuketim=%@,Navigasyon=%@,Zresim315=%@,Zresim45=%@,Zresim90=%@,Zresim135=%@,Zresim180=%@)", CekisUri, KasaTipiUri, KasaTipiIdUri, SanzimanTipiUri, SanzimanTipiIdUri, YakitTipiUri, YakitTipiIdUri, ModelYiliUri, ModelUri, MarkaUri, ModelIdUri, MarkaIdUri, KisLastikUri, RgbkoduUri, AnarenktxUri, RenktxUri, RenkUri, VitrinresUri, GencSrcYasUri, GencSrcEhlUri, MinYasUri, MinEhliyetUri, GrubaRezUri, PlakayaRezUri, GrpkodtxUri, SehirUri, MsubeUri, MsubetxUri, GrpkodUri, HsubeUri, HsubetxUri, MatnrUri, SegmenttxUri, MaktxUri, SegmentUri, KapiSayisiUri, MotorHacmiUri, BagajHacmiUri, BeygirGucuUri, YolcuSayisiUri, AcilirTavanUri, CamTavanUri, ParkSensoruOnUri, ParkSensoruArkaUri, YagmurSensoruUri, IsitmaliKoltukUri, DjitalKlimaUri, AbsUri, EspUri, StartStopUri, XenonFarUri, CruiseKontrolUri, DeriDosemeUri, GeriGorusKamUri, IsofixUri, BluetoothUri, AuxUri, HandsFreeUri, SifirYuzHizUri, OrtYakitTuketimUri, NavigasyonUri, Zresim315Uri, Zresim45Uri, Zresim90Uri, Zresim135Uri, Zresim180Uri];
 	ODataQuery *query = [self getQueryForRelativePath:relativePath];
 	return query;
 }

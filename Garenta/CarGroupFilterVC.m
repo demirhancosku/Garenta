@@ -14,23 +14,20 @@
 
 @implementation CarGroupFilterVC
 
-
+//kullanılmıyor
 -(id)initWithReservation:(Reservation*)aReservation andCarGroup:(NSMutableArray*)aCarGroups{
     self  = [super init];
-    _reservation = aReservation;
-    _carGroups = aCarGroups;
-    filteredCarGroups = [[NSMutableArray alloc] init];
     return self;
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    filteredCarGroups = [[NSMutableArray alloc] init];
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Devam" style:UIBarButtonItemStyleBordered target:self action:@selector(findMyCar)];
     [[self navigationItem] setRightBarButtonItem:barButton];
     [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
                                                            [ApplicationProperties getBlack], NSForegroundColorAttributeName,
                                                            [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0], NSFontAttributeName, nil]];
-    
     
 }
 
@@ -38,7 +35,7 @@
 {
     [self fillFiltersInArrays];
     
-    tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
+    tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
     
     [tableView setDelegate:self];
     [tableView setDataSource:self];
@@ -47,6 +44,7 @@
     [tableView setSeparatorInset:UIEdgeInsetsMake(0, self.view.frame.size.width * 0.15, 0, 0)];
     
     [[self view] addSubview:tableView];
+    [tableView setTintColor:[ApplicationProperties getOrange]];
 }
 
 - (void)findMyCar{
@@ -520,7 +518,7 @@
 ///ahahahahahhaahhahahahahahahhahaha anlasana  ahahahahahhahahaah
 - (void)filterBrand{
     NSMutableArray *newArray = [[NSMutableArray alloc]init];
-    //sonra nscopy implement et aalpk
+    //TODO:sonra nscopy implement et aalpk
     NSMutableArray *newTempGroupArray = [[NSMutableArray alloc] init];
     CarGroup *newCarGroup;
     for (CarGroup *temp in filteredCarGroups) {
@@ -537,6 +535,8 @@
         [newCarGroup setSegment:temp.segment];
         [newCarGroup setSegmentName:temp.segmentName];
         [newCarGroup setSampleCar:temp.sampleCar];
+        [newCarGroup setPayNowPrice:temp.payNowPrice];
+        [newCarGroup setPayLaterPrice:temp.payLaterPrice];
         [newTempGroupArray addObject:newCarGroup];
 
     }
@@ -579,7 +579,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"toCarGroupVCSegue"]) {
-        
+        CarGroupFilterVC  *filterVC = (CarGroupFilterVC*)[segue destinationViewController];
+        [filterVC setCarGroups:filteredCarGroups];
+        [filterVC setReservation:self.reservation];
     }
     
     // Get the new view controller using [segue destinationViewController].

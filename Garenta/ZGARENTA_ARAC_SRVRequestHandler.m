@@ -23,17 +23,17 @@
 
 #pragma mark - Notifications
 
-static NSString * const kResponseItem = @"item";
-static NSString * const kResponseItems = @"items";
-static NSString * const kResponseData = @"data";
-static NSString * const kRequestedMediaLink = @"mediaLink";
-static NSString * const kServerResponseError = @"serverError";
-static NSString * const kParsingError = @"parsingError";
-static NSString * const kResponseParentItem = @"parent";
-static NSString * const kBatchRequest = @"BatchRequest";
-
-// Notification keys:
-static NSString * const kAuthenticationNeededNotification = @"AuthenticationNeeded";
+//NSString * const kResponseItem = @"item";
+//NSString * const kResponseItems = @"items";
+//NSString * const kResponseData = @"data";
+//NSString * const kRequestedMediaLink = @"mediaLink";
+//NSString * const kServerResponseError = @"serverError";
+//NSString * const kParsingError = @"parsingError";
+//NSString * const kResponseParentItem = @"parent";
+//NSString * const kBatchRequest = @"BatchRequest";
+//
+//// Notification keys:
+//NSString * const kAuthenticationNeededNotification = @"AuthenticationNeeded";
 static NSString * const kBatchCompletedNotification = @"BatchCompletedNotification";
 
 static NSString * const kRequestUserInfoCompletedNotification = @"requestCompletedNotificaiton";
@@ -811,11 +811,7 @@ static NSInteger const TechnicalServiceVersionMax = 0;
     if ([responseData length] > 0) {
         NSError *error;
         AvailCarService *item = [AvailCarService parseAvailCarServiceEntryWithData:responseData error:&error];
-        NSMutableArray *expands = [AvailCarServiceV0 parseExpandedAvailCarServiceEntriesWithData:responseData andServiceDocument:service.sdmServiceDocument error:&error];
-        if ([expands count] >0) {
-            item = [expands objectAtIndex:0];
-            
-        }
+        item = [AvailCarService parseExpandedAvailCarServiceEntryWithData:responseData andServiceDocument:service.sdmServiceDocument error:&error];
         if (error) {
         	userInfoDict[kParsingError] = error;
         }
@@ -2194,10 +2190,10 @@ static NSInteger const TechnicalServiceVersionMax = 0;
 - (void)onBeforeSend:(id <Requesting>)request
 {
 	request.shouldPresentAuthenticationDialog = YES;
-    [request setTimeOutSeconds:[ApplicationProperties getTimeout]];
     [request setUsername:[ApplicationProperties getSAPUser]];
     [request setPassword:[ApplicationProperties getSAPPassword]];
-
+        [request setTimeOutSeconds:[ApplicationProperties getTimeout]];
+    
     if ([ConnectivitySettings isSUPMode]) {
         if ([KeychainHelper isCredentialsSaved]){
             NSError *error = nil;

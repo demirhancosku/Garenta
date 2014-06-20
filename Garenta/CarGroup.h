@@ -26,12 +26,15 @@
 @property(nonatomic,retain)NSString *transmissonName;
 @property(nonatomic,retain)Car *sampleCar;
 @property(nonatomic,retain)NSMutableArray *cars;
-//filtrede kullanılıyor
-+ (CarGroup*)getGroupFromList:(NSMutableArray*)carList WithCode:(NSString*)aGroupCode;
 
+#pragma mark - filter methods
++ (CarGroup*)getGroupFromList:(NSMutableArray*)carList WithCode:(NSString*)aGroupCode;
 - (NSMutableArray*)getBestCarsWithFilter:(NSString*)aFilter;
 
 #pragma mark - parsing
 + (NSMutableArray*)getCarGroupsFromServiceResponse:(AvailCarServiceV0*) aServiceResponse withOffices:(NSMutableArray*)offices;
 + (NSString*)urlOfResolution:(NSString*)aResolution fromBaseUrl:(NSString*)baseUrl;
+
+#pragma mark - util methods
+- (NSMutableArray*)carGroupOffices;
 @end

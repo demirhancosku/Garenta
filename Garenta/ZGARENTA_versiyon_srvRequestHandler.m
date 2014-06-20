@@ -20,20 +20,20 @@
 #import "SUPHelper.h"
 #import "ServiceErrorXmlParser.h"
 #import "ServiceErrorJsonParser.h"
-
+#import "ParsingConstants.h"
 #pragma mark - Notifications
 
-static NSString * const kResponseItem = @"item";
-static NSString * const kResponseItems = @"items";
-static NSString * const kResponseData = @"data";
-static NSString * const kRequestedMediaLink = @"mediaLink";
-static NSString * const kServerResponseError = @"serverError";
-static NSString * const kParsingError = @"parsingError";
-static NSString * const kResponseParentItem = @"parent";
-static NSString * const kBatchRequest = @"BatchRequest";
-
-// Notification keys:
-static NSString * const kAuthenticationNeededNotification = @"AuthenticationNeeded";
+// NSString * const kResponseItem = @"item";
+// NSString * const kResponseItems = @"items";
+// NSString * const kResponseData = @"data";
+// NSString * const kRequestedMediaLink = @"mediaLink";
+// NSString * const kServerResponseError = @"serverError";
+// NSString * const kParsingError = @"parsingError";
+// NSString * const kResponseParentItem = @"parent";
+// NSString * const kBatchRequest = @"BatchRequest";
+//
+//// Notification keys:
+// NSString * const kAuthenticationNeededNotification = @"AuthenticationNeeded";
 static NSString * const kBatchCompletedNotification = @"BatchCompletedNotification";
 
 static NSString * const kRequestUserInfoCompletedNotification = @"requestCompletedNotificaiton";

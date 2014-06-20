@@ -15,4 +15,5 @@
 @property (nonatomic,retain)NSDecimalNumber *payNowPrice; //sadece tl alıyoruz simdilik
 @property (nonatomic,retain)NSDecimalNumber *payLaterPrice;
 @property (nonatomic,retain)NSDecimalNumber *carSelectPrice;
+@property (nonatomic,strong)NSDecimalNumber *dayCount;
 @end

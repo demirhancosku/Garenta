@@ -23,17 +23,17 @@
 
 #pragma mark - Notifications
 
-static NSString * const kResponseItem = @"item";
-static NSString * const kResponseItems = @"items";
-static NSString * const kResponseData = @"data";
-static NSString * const kRequestedMediaLink = @"mediaLink";
-static NSString * const kServerResponseError = @"serverError";
-static NSString * const kParsingError = @"parsingError";
-static NSString * const kResponseParentItem = @"parent";
-static NSString * const kBatchRequest = @"BatchRequest";
-
-// Notification keys:
-static NSString * const kAuthenticationNeededNotification = @"AuthenticationNeeded";
+//static NSString * const kResponseItem = @"item";
+//static NSString * const kResponseItems = @"items";
+//static NSString * const kResponseData = @"data";
+//static NSString * const kRequestedMediaLink = @"mediaLink";
+//static NSString * const kServerResponseError = @"serverError";
+//static NSString * const kParsingError = @"parsingError";
+//static NSString * const kResponseParentItem = @"parent";
+//static NSString * const kBatchRequest = @"BatchRequest";
+//
+//// Notification keys:
+//static NSString * const kAuthenticationNeededNotification = @"AuthenticationNeeded";
 static NSString * const kBatchCompletedNotification = @"BatchCompletedNotification";
 
 static NSString * const kRequestUserInfoCompletedNotification = @"requestCompletedNotificaiton";

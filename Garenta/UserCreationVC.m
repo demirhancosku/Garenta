@@ -112,8 +112,8 @@
         alertString =  @"T.C. Kimlik No alanının doldurulması gerekmektedir";
     else if ([tcknNoTextField.text length] != 11)
         alertString =  @"T.C: Kimlik No alanının 11 Karakter olması gerekmektedir";
-    else if ([control idChecker:[tcknNoTextField text] andName:[[nameTextField text] uppercaseStringWithLocale:[NSLocale localeWithLocaleIdentifier:@"tr"]] andSurname:[[surnameTextField text] uppercaseStringWithLocale:[NSLocale localeWithLocaleIdentifier:@"tr"]] andBirthYear:birtdayYearString] && !([nationSegmentedControl selectedSegmentIndex] == 1))
-        alertString = @"Girdiğiniz T.C. Kimlik No Sistemde bulunamamıştır.";
+//    else if ([control idChecker:[tcknNoTextField text] andName:[[nameTextField text] uppercaseStringWithLocale:[NSLocale localeWithLocaleIdentifier:@"tr"]] andSurname:[[surnameTextField text] uppercaseStringWithLocale:[NSLocale localeWithLocaleIdentifier:@"tr"]] andBirthYear:birtdayYearString] && !([nationSegmentedControl selectedSegmentIndex] == 1))
+//        alertString = @"Girdiğiniz T.C. Kimlik No Sistemde bulunamamıştır.";
     else if ([countryTextField.text isEqualToString:@""])
         alertString =  @"Ülkenin seçilmesi gerekmektedir";
     else if ([adressTextField.text isEqualToString:@""])

@@ -9,6 +9,8 @@
 #import "MenuSelectionVC.h"
 #import "MenuTableCellView.h"
 #import "MinimumInfoVC.h"
+#import "ZGARENTA_versiyon_srvServiceV0.h"
+#import "ZGARENTA_versiyon_srvRequestHandler.h"
 @interface MenuSelectionVC ()
 - (IBAction)locationBasedSearchSelected:(id)sender;
 - (IBAction)normalSearchSelected:(id)sender;
@@ -37,6 +39,8 @@ static int kGarentaLogoId = 1;
     [super viewDidLoad];
     
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
+
+    //    [[[self tabBarController] tabBar] setHidden:YES];
 	// Do any additional setup after loading the view.
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
         [self checkVersion];
@@ -47,12 +51,12 @@ static int kGarentaLogoId = 1;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self putLogo];
+        [self putLogo];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [self removeLogo];
+        [self removeLogo];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -64,11 +68,37 @@ static int kGarentaLogoId = 1;
 
 #pragma mark - util methods
 - (void)checkVersion{
-//    NSString *connectionString = [ApplicationProperties getVersionUrl];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:150.0];
-//    
-//    NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
-    
+    //maybe we will do somehing different for here..
+    loaderVC = [LoaderAnimationVC uniqueInstance];
+    [loaderVC playAnimation:self.view];
+    [ApplicationProperties configureVersionService];
+    VersiyonServiceV0 *aService = [VersiyonServiceV0 new];
+    [aService setIVers:[NSString stringWithFormat:@"%.01f",[ApplicationProperties getAppVersion]]];
+    [aService setIAppName:@"rezApp"];
+    NSOperationQueue *operationQueue = [NSOperationQueue new];
+    [[NSNotificationCenter defaultCenter] addObserverForName:kLoadVersiyonServiceCompletedNotification object:nil queue:operationQueue usingBlock:^(NSNotification *notification){
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            [loaderVC stopAnimation];
+        });
+        if ([notification userInfo][kServerResponseError]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Sistemlerimizde bakım çalışması yapılmaktadır. Lütfen daha sonra tekrar deneyiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+            [alert show];
+            return;
+        }
+        VersiyonServiceV0 *response = (VersiyonServiceV0*)[[notification userInfo][kResponseItems] objectAtIndex:0];
+        
+        if ([response.EReturn isEqualToString:@"T"]) {
+            [[NSUserDefaults standardUserDefaults]
+             setObject:@"T"forKey:@"ACTIVEVERSION"];
+        }else{
+            [[NSUserDefaults standardUserDefaults]
+             setObject:@"F"forKey:@"ACTIVEVERSION"];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bilgi" message:@"Uygulamamızın yeni versiyonunu indirmenizi rica ederiz. Teşekkürler." delegate:self cancelButtonTitle:@"Vazgeç" otherButtonTitles:@"İndir",nil];
+            [alert show];
+        }
+        
+    }];
+    [[ZGARENTA_versiyon_srvRequestHandler uniqueInstance] loadVersiyonService:aService];
 }
 
 //puts logo on navigation bar
@@ -96,21 +126,21 @@ static int kGarentaLogoId = 1;
 - (void)prepareScreen
 {
     
-    
-    NSString *barString;
-    if ([[ApplicationProperties getUser] isLoggedIn]) {
-        barString = @"Çıkış";
-        [[[self tabBarController] tabBar] setHidden:NO];
-    }else{
-        [[[self tabBarController] tabBar] setHidden:YES];
-        barString = NSLocalizedString(@"Login", nil);
-    }
-    
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:barString style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
-    [[self navigationItem] setRightBarButtonItem:barButton];
-    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-                                                           [ApplicationProperties getBlack], NSForegroundColorAttributeName,
-                                                           [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0], NSFontAttributeName, nil]];
+    //
+    //    NSString *barString;
+    //    if ([[ApplicationProperties getUser] isLoggedIn]) {
+    //        barString = @"Çıkış";
+    //        [[[self tabBarController] tabBar] setHidden:NO];
+    //    }else{
+    //        [[[self tabBarController] tabBar] setHidden:YES];
+    //        barString = NSLocalizedString(@"Login", nil);
+    //    }
+    //
+    //    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:barString style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
+    //    [[self navigationItem] setRightBarButtonItem:barButton];
+    //    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+    //                                                           [ApplicationProperties getBlack], NSForegroundColorAttributeName,
+    //                                                           [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0], NSFontAttributeName, nil]];
     return;
     
     
@@ -173,59 +203,7 @@ static int kGarentaLogoId = 1;
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-#pragma mark - nurlconnection delegate methods
 
-- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)space
-{
-    return YES;
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
-{
-    if ([challenge previousFailureCount] == 0)
-    {
-        NSLog(@"received authentication challenge");
-        NSURLCredential *newCredential = [NSURLCredential credentialWithUser:@"gw_admin" password:@"1qa2ws3ed"persistence:NSURLCredentialPersistenceForSession];
-        NSLog(@"credential created");
-        [[challenge sender] useCredential:newCredential forAuthenticationChallenge:challenge];
-        NSLog(@"responded to authentication challenge");
-    }
-    else
-    {
-        NSLog(@"previous authentication failure");
-    }
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    NSError *err;
-    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
-    if(err!=nil){
-        //hata msjı
-    }
-    
-    NSDictionary *result = [jsonDict objectForKey:@"d"];
-    
-    
-    NSString *updateLink;
-    if([[result objectForKey:@"EReturn"] isEqualToString:@"T"]){
-        [[NSUserDefaults standardUserDefaults]
-         setObject:@"T"forKey:@"ACTIVEVERSION"];
-        
-    }else{
-        newAppLink = [result objectForKey:@"ELink"];
-        [[NSUserDefaults standardUserDefaults]
-         setObject:@"F"forKey:@"ACTIVEVERSION"];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bilgi" message:@"Uygulamamızın yeni versiyonunu indirmenizi rica ederiz. Teşekkürler." delegate:self cancelButtonTitle:@"Vazgeç" otherButtonTitles:       @"İndir",nil];
-        [alert show];
-    }
-    [loaderVC stopAnimation];
-}
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1)
@@ -235,13 +213,6 @@ static int kGarentaLogoId = 1;
     }
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    
-}
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    [loaderVC stopAnimation];
-}
 
 @end
