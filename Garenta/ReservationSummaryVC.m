@@ -285,12 +285,49 @@
     NSMutableArray *itSdRezerv = [NSMutableArray new];
     for (ET_RESERVV0 *etReservLine in _reservation.etReserv) {
         sdRezervLine = [IT_SDREZERVV0 new];
-        [sdRezervLine setAugru:etReservLine.Augru];
-        [sdRezervLine setBonusKazanir:etReservLine.BonusKazanir];
-        [sdRezervLine setFiyatKodu:etReservLine.FiyatKodu];
-        [sdRezervLine setGrnttlKazanir:etReservLine.GrnttlKazanir];
-        [sdRezervLine setGrupKodu:etReservLine.GrupKodu];
-        [sdRezervLine setHdfsube:etReservLine.Hdfsube];
+        if ([etReservLine.Augru isEqualToString:@""]) {
+            [sdRezervLine setAugru:@" "];
+        }else{
+            [sdRezervLine setAugru:etReservLine.Augru];
+        }
+        if ([etReservLine.BonusKazanir isEqualToString:@""]) {
+            [sdRezervLine setBonusKazanir:@" "];
+            
+        }else{
+            [sdRezervLine setBonusKazanir:etReservLine.BonusKazanir];
+        }
+        
+        if ([etReservLine.FiyatKodu isEqualToString:@""]) {
+            [sdRezervLine setFiyatKodu:@" "];
+        }else{
+            [sdRezervLine setFiyatKodu:etReservLine.FiyatKodu];
+        }
+        if ([etReservLine.GrnttlKazanir isEqualToString:@""]) {
+            [sdRezervLine setGrnttlKazanir:@" "];
+            
+        }else{
+            [sdRezervLine setGrnttlKazanir:etReservLine.GrnttlKazanir];
+            
+        }
+        if ([etReservLine.GrupKodu isEqualToString:@""]) {
+            [sdRezervLine setGrupKodu:@" "];
+            
+        }else{
+            
+            [sdRezervLine setGrupKodu:etReservLine.GrupKodu];
+            
+        }
+        
+        if ([etReservLine.Hdfsube isEqualToString:@""]) {
+            [sdRezervLine setHdfsube:etReservLine.Hdfsube];
+            
+        }else{
+            
+            [sdRezervLine setHdfsube:etReservLine.Hdfsube];
+            
+        }
+        
+        
         [sdRezervLine setKunnr:etReservLine.Kunnr];
         [sdRezervLine setMatnr:etReservLine.Matnr];
         [sdRezervLine setMilKazanir:etReservLine.MilKazanir];
@@ -304,6 +341,28 @@
         [sdRezervLine setTutar:etReservLine.Tutar];
         [sdRezervLine setVkorg:etReservLine.Vkorg];
         [sdRezervLine setVtweg:etReservLine.Vtweg];
+        
+        
+        
+        [sdRezervLine setAugru:@" "];
+        [sdRezervLine setBonusKazanir:@" "];
+        [sdRezervLine setFiyatKodu:@"L1"];
+        [sdRezervLine setGrnttlKazanir:@"1"];
+        [sdRezervLine setGrupKodu:@"A2"];
+        [sdRezervLine setHdfsube:@"3071"];
+        [sdRezervLine setKunnr:@"12345"];
+        [sdRezervLine setMatnr:@"J2345678"];
+        [sdRezervLine setMilKazanir:@"T"];
+        [sdRezervLine setRAuart:@" "];
+        [sdRezervLine setRGjahr:@"2014"];
+        [sdRezervLine setRPosnr:@"10"];
+        [sdRezervLine setRVbeln:@"0123456789"];
+        [sdRezervLine setSpart:@"T"];
+        [sdRezervLine setSube:@"3071"];
+        [sdRezervLine setTarih:[NSDate date]];
+        [sdRezervLine setTutar:[NSDecimalNumber decimalNumberWithString:@"30.0"]];
+        [sdRezervLine setVkorg:@"1011"];
+        [sdRezervLine setVtweg:@"23"];
         [itSdRezerv addObject:sdRezervLine];
     }
     IT_TAHSILATV0 *itTahsilatLine = [IT_TAHSILATV0 new];
