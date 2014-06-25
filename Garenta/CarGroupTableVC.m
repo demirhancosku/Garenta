@@ -71,15 +71,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    CarGroupManagerViewController *alp = (CarGroupManagerViewController *)_parentViewController;
-//    [[(CarGroupManagerViewController *)_parentViewController reservation] setCheckOutOffice:[[_activeCarGroup carGroupOffices] objectAtIndex:indexPath.row]];
-//    [[(CarGroupManagerViewController *)_parentViewController reservation] setSelectedCarGroup:_activeCarGroup];
-//    [_parentViewController performSegueWithIdentifier:@"toAdditionalEquipmentSegue" sender:self];
-    NSMutableDictionary *aDic = [NSMutableDictionary new];
-    [aDic setValue:_activeCarGroup forKey:@"selectedCarGroup"];
-    [aDic setValue:[[_activeCarGroup carGroupOffices] objectAtIndex:indexPath.row] forKey:@"selectedOffice"];
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"CarGroupSelected" object:nil userInfo:aDic];
+    [_delegate carGroupSelected:_activeCarGroup withOffice:[[_activeCarGroup carGroupOffices] objectAtIndex:indexPath.row] ];
 }
 /*
 // Override to support conditional editing of the table view.

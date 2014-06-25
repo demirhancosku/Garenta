@@ -285,6 +285,7 @@
      return YES;
      */
 }
+//TODO: need loader
 - (BOOL)checkTckn:(NSString*)tckn andName:(NSString*)name andSurname:(NSString*)surname andBirthday:(NSString*)birthday{
     IDController *tcknChecker = [IDController new];
     __block BOOL returnValue = NO;

@@ -8,7 +8,7 @@
 
 #import "ReservationSummaryViewController.h"
 #import "ReservationSummaryCell.h"
-#import "ReservationApprovalVC.h"
+
 #define isiPhone5  ([[UIScreen mainScreen] bounds].size.height == 568)?TRUE:FALSE
 @interface ReservationSummaryViewController ()
 
@@ -232,8 +232,8 @@
         return;
     }
     [reservation setNumber:reservationNo];
-    ReservationApprovalVC *approvalVC = [[ReservationApprovalVC alloc] initWithReservation:reservation];
-    [[self navigationController] pushViewController:approvalVC animated:YES];
+//    ReservationApprovalVC *approvalVC = [[ReservationApprovalVC alloc] initWithReservation:reservation];
+//    [[self navigationController] pushViewController:approvalVC animated:YES];
 
 }
 

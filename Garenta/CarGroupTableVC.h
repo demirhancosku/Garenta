@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "CarGroup.h"
+#import "CarSelectedProtocol.h"
 @interface CarGroupTableVC : UITableViewController
 @property(weak,nonatomic)CarGroup *activeCarGroup;
+@property(strong,nonatomic)id<CarSelectedProtocol> delegate;
 @end

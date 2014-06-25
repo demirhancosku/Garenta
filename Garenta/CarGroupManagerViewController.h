@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "Reservation.h"
 #import "Car.h"
-
+#import "CarSelectedProtocol.h"
 #import "CarGroupViewController.h"
-@interface CarGroupManagerViewController : UIViewController<UIPageViewControllerDataSource,UIPageViewControllerDelegate>{
+@interface CarGroupManagerViewController : UIViewController<UIPageViewControllerDataSource,UIPageViewControllerDelegate,CarSelectedProtocol>{
 
     NSMutableArray *groupVCs;
     CarGroup *activeCarGroup;
@@ -20,4 +20,5 @@
 @property(nonatomic,strong)Reservation *reservation;
 @property (strong, nonatomic) UIPageViewController *pageViewController;
 - (id)initWithCarGroups:(NSMutableArray*)someCarGroups andReservartion:(Reservation*)aReservation;
+- (void)carGroupSelected:(CarGroup*)aCarGroup withOffice:(Office*)anOffice;
 @end

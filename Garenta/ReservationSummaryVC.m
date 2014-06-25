@@ -10,25 +10,26 @@
 #import "ZGARENTA_REZERVASYON_SRVServiceV0.h"
 #import "PaymentTableViewController.h"
 #import "AdditionalEquipment.h"
-
+#import "ReservationApprovalVC.h"
 @interface ReservationSummaryVC ()
 
 - (IBAction)payLaterButtonPressed:(id)sender;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
 @property (weak, nonatomic) IBOutlet UILabel *brandModelLabel;
-
 @property (weak, nonatomic) IBOutlet UIImageView *carImageView;
-
 @property (weak, nonatomic) IBOutlet UILabel *fuelLabel;
-
 @property (weak, nonatomic) IBOutlet UILabel *transmissionLabel;
-
 @property (weak, nonatomic) IBOutlet UILabel *acLabel;
-
 @property (weak, nonatomic) IBOutlet UILabel *passangerNumberLabel;
-
 @property (weak, nonatomic) IBOutlet UILabel *doorCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *checkOutOfficeLabel;
+//@property (weak, nonatomic) IBOutlet UILabel *checkOutTimeLablel;//dd.MM.yyyy/hh:mm
+//@property (weak, nonatomic) IBOutlet UILabel *checkInOfficeLabel;
+//@property (weak, nonatomic) IBOutlet UILabel *checkInTimeLabel;
+//@property (weak, nonatomic) IBOutlet UILabel *totalPriceLabel;
+//@property (weak, nonatomic) IBOutlet UIButton *payNowButton;
+//@property (weak, nonatomic) IBOutlet UIButton *payLaterButton;//xxxx.xx TL
+
 
 @property (assign,nonatomic) BOOL isTotalPressed;
 
@@ -61,34 +62,74 @@
 {
     [super viewDidLoad];
     _isTotalPressed =NO;
-    //    const CGFloat fontSize = 13;
-    //    UIFont *boldFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
-    //    UIFont *regularFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
-    //    UIColor *foregroundColor = [UIColor lightGrayColor];
-    //
-    //    // Create the attributes
-    //    NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:
-    //                           boldFont, NSFontAttributeName,
-    //                           foregroundColor, NSForegroundColorAttributeName, nil];
-    //    NSDictionary *subAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
-    //                              regularFont, NSFontAttributeName, nil];
-    //    const NSRange range = NSMakeRange(8,12); // range of " 2012/10/14 ". Ideally this should not be hardcoded
-    //
-    //    // Create the attributed string (text + attributes)
-    //    NSMutableAttributedString *attributedText =
-    //    [[NSMutableAttributedString alloc] initWithString:@"osman ve digerleri rulez"
-    //                                           attributes:attrs];
-    //    [attributedText setAttributes:subAttrs range:range];
-    //
-    //    // Set it in our UILabel and we are done!
-    //    [_brandModelLabel setAttributedText:attributedText];
-    //rest
+    //model marka label
+    
+    const CGFloat fontSize = 13;
+    UIFont *boldFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
+    UIFont *regularFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
+    UIColor *foregroundColor = [UIColor lightGrayColor];
+    NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:
+                           regularFont, NSFontAttributeName,
+                           foregroundColor, NSForegroundColorAttributeName, nil];
+    NSDictionary *subAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
+                              boldFont, NSFontAttributeName, nil];
+    NSString *brandModelString;
+    int boldLenght = 0;
+    if (_reservation.selectedCar) {
+        brandModelString = [NSString stringWithFormat:@"%@ %@",_reservation.selectedCar.brandName,_reservation.selectedCar.modelName];
+        boldLenght = brandModelString.length;
+    }else{
+        brandModelString = [NSString stringWithFormat:@"%@ %@",_reservation.selectedCarGroup.sampleCar.brandName, _reservation.selectedCarGroup.sampleCar.modelName];
+        boldLenght = brandModelString.length;
+        brandModelString = [NSString stringWithFormat:@"%@ yada benzeri",brandModelString];
+    }
+    
+    const NSRange range = NSMakeRange(0,boldLenght); // range of " 2012/10/14 ". Ideally this should not be hardcoded
+        NSMutableAttributedString *attributedText =
+        [[NSMutableAttributedString alloc] initWithString:brandModelString
+                                               attributes:attrs];
+        [attributedText setAttributes:subAttrs range:range];
+        [_brandModelLabel setAttributedText:attributedText];
+    
     [_carImageView setImage:_reservation.selectedCarGroup.sampleCar
      .image];
+    [_fuelLabel setText:_reservation.selectedCarGroup.fuelName];
+    [_transmissionLabel setText:_reservation.selectedCarGroup.transmissonName];
+    [_acLabel setText:@"Klima"];
+    [_passangerNumberLabel setText:_reservation.selectedCarGroup.sampleCar.passangerNumber];
+    [_doorCountLabel setText:_reservation.selectedCarGroup.sampleCar.doorNumber];
+    [[NSNotificationCenter defaultCenter] addObserverForName:kCreateReservationServiceCompletedNotification object:nil queue:[NSOperationQueue new] usingBlock:^(NSNotification *notification){
+        //handle req
+        ReservationServiceV0 *response = notification.userInfo[@"item"];
+        UIAlertView *alert;
+        if ([response.EvSubrc intValue]== 0) {
+            [_reservation setReservationNumber:response.EsOutput.RezNo];
+            alert = [[UIAlertView alloc] initWithTitle:@"Başarılı" message:[NSString stringWithFormat:@"%@ numaralı rezervasyonunuz başarıyla oluşturulmuştur.",_reservation.reservationNumber] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        }else{
+            alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"CRMDE hata alındı." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        }
+        
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:kCreateReservationServiceCompletedNotification object:nil];
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            [[LoaderAnimationVC uniqueInstance] stopAnimation];
+            if ([response.EvSubrc intValue]== 0) {
+                [self performSegueWithIdentifier:@"toReservationApprovalVCSegue" sender:self];
+            }else{
+                [alert show];
+            }
+        });
+    }];
+
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+}
 
-
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+}
 - (void)didReceiveMemoryWarning
 
 {
@@ -171,6 +212,10 @@
     [isUserInfo setUlke:@"TR"];//??? TR yada bos
     [isUserInfo setUyruk:@"TR"];//???? tr veya boş
     [isUserInfo setVergino:@" "]; //free text siniri 11
+    [isUserInfo setInboundcallid:@" "];
+    [isUserInfo setCalluser:@" "];
+    [isUserInfo setArayan:@" "];
+    
     //buraya availdeki arac matnrsini cak
     IT_ARACLARV0 *itAracLine;
     NSMutableArray * itAraclar = [NSMutableArray new];
@@ -183,6 +228,45 @@
     NSMutableArray *itItem = [NSMutableArray new];
     IT_EKSURUCUV0 *itEksurucuLine;
     IT_ITEMSV0 *itemLine ;
+    
+    //Arac ekliyorum
+    itemLine = [IT_ITEMSV0 new];
+    [itemLine setAlisSubesi:_reservation.checkOutOffice.mainOfficeCode];
+
+    [itemLine setAracRenk:@" "];//???renk kodu available aracta ff bilmnenmen?
+    //TODO check addtional
+    [itemLine setCKislastik:@" "];//??? X sadece arac satirinda olcak
+    [itemLine setFiloSegment:_reservation.selectedCarGroup.segment];// segment kod
+    [itemLine setFiyat:[NSDecimalNumber decimalNumberWithString:_reservation.selectedCarGroup.payLaterPrice]];
+    [itemLine setFiyatKodu:@" "]; //avail aracta donudo
+    [itemLine setKalemTipi:@" "]; //update ici create de bos 1:farkl tes cikis 2:farkli tes donus 3: sure uzat 4: kisaltma
+    [itemLine setKampanyaId:@" "]; //et_rezervdeki id
+    [itemLine setMiktar:[NSDecimalNumber decimalNumberWithString:@"1.0"]];
+    [itemLine setParaBirimi:@"TRY"]; //konustuk bunu
+    if (_reservation.selectedCar != nil) {
+        //        [itemLine setPlakaNo:_reservation.selectedCar.plateNumber]; //plaka kullanılmiyor zaten donmuyor da
+        [itemLine setAracGrubu:@" "];
+        [itemLine setMalzemeNo:_reservation.selectedCar.materialCode]; //matnr
+        [itemLine setJatoMarka:@" "]; //avail arac
+        [itemLine setJatoModel:@" "];//avail arac
+    }else{
+        [itemLine setAracGrubu:_reservation.selectedCarGroup.groupCode];
+        [itemLine setMalzemeNo:@" "]; //matnr
+        [itemLine setJatoMarka:@" "]; //avail arac
+        [itemLine setJatoModel:@" "];//avail arac
+    }
+    [itemLine setPlakaNo:@" "];
+    [itemLine setRezBegda:_reservation.checkOutTime];//headerla ayni
+    [itemLine setRezBegtime:[dateFormatter stringFromDate:_reservation.checkOutTime]];
+    [itemLine setRezEndda:_reservation.checkInTime];
+    [itemLine setRezEndtime:[dateFormatter stringFromDate:_reservation.checkInTime]];
+    [itemLine setRezKalemNo:@" "]; //update icin create
+    [itemLine setSasiNo:@" "]; // avail aractan
+    [itemLine setSatisBurosu:_reservation.checkOutOffice.mainOfficeCode]; //chekout office
+    [itemLine setTeslimSubesi:_reservation.checkInOffice.mainOfficeCode];
+    [itemLine setUpdateStatu:@" "]; // kullanilmior
+    [itItem addObject:itemLine];
+    
     for (AdditionalEquipment *tempEquipment in _reservation.additionalEquipments) {
         for (int sayac = 0; sayac <tempEquipment.quantity; sayac++) {
             if (tempEquipment.type == additionalDriver) {
@@ -205,12 +289,12 @@
                 [itEksurucu addObject:itEksurucuLine];
             }else{
                 itemLine = [IT_ITEMSV0 new];
-                [itemLine setAlisSubesi:_reservation.checkOutOffice.mainOfficeCode];
-                [itemLine setAracGrubu:_reservation.selectedCarGroup.groupCode];//sadece aracta
+                [itemLine setAlisSubesi:@" "];
+                [itemLine setAracGrubu:@" "];//sadece aracta
                 [itemLine setAracRenk:@" "];//???renk kodu available aracta ff bilmnenmen?
                 //TODO check addtional
                 [itemLine setCKislastik:@" "];//??? X sadece arac satirinda olcak
-                [itemLine setFiloSegment:_reservation.selectedCarGroup.segment];// segment kod
+                [itemLine setFiloSegment:@" "];// segment kod
                 [itemLine setFiyat:tempEquipment.price];
                 [itemLine setFiyatKodu:@" "]; //avail aracta donudo
                 [itemLine setJatoMarka:@" "]; //avail arac
@@ -227,8 +311,8 @@
                 [itemLine setRezEndtime:[dateFormatter stringFromDate:_reservation.checkInTime]];
                 [itemLine setRezKalemNo:@" "]; //update icin create
                 [itemLine setSasiNo:@" "]; // avail aractan
-                [itemLine setSatisBurosu:_reservation.checkOutOffice.mainOfficeCode]; //chekout office
-                [itemLine setTeslimSubesi:_reservation.checkInOffice.mainOfficeCode];
+                [itemLine setSatisBurosu:@" "]; //chekout office
+                [itemLine setTeslimSubesi:@" "];
                 [itemLine setUpdateStatu:@" "]; // kullanilmior
                 [itItem addObject:itemLine];
             }
@@ -252,35 +336,8 @@
     [itFaturaAdresLine setUlke:@" "];//1 ise
     [itFaturaAdresLine setVergidairesi:@" "]; //2 ise
     [itFaturaAdresLine setVergino:@" "];//2 ise
-    //Arac ekliyorum
-    itemLine = [IT_ITEMSV0 new];
-    [itemLine setAlisSubesi:_reservation.checkOutOffice.mainOfficeCode];
-    [itemLine setAracGrubu:_reservation.selectedCarGroup.groupCode];//sadece aracta
-    [itemLine setAracRenk:@" "];//???renk kodu available aracta ff bilmnenmen?
-    //TODO check addtional
-    [itemLine setCKislastik:@" "];//??? X sadece arac satirinda olcak
-    [itemLine setFiloSegment:_reservation.selectedCarGroup.segment];// segment kod
-    [itemLine setFiyat:[NSDecimalNumber decimalNumberWithString:_reservation.selectedCarGroup.payLaterPrice]];
-    [itemLine setFiyatKodu:@" "]; //avail aracta donudo
-    [itemLine setKalemTipi:@" "]; //update ici create de bos 1:farkl tes cikis 2:farkli tes donus 3: sure uzat 4: kisaltma
-    [itemLine setKampanyaId:@" "]; //et_rezervdeki id
-    [itemLine setMiktar:[NSDecimalNumber decimalNumberWithString:@"1.0"]];
-    [itemLine setParaBirimi:@"TRY"]; //konustuk bunu
-    if (_reservation.selectedCar != nil) {
-        //        [itemLine setPlakaNo:_reservation.selectedCar.plateNumber]; //plaka kullanılmiyor zaten donmuyor da
-        [itemLine setMalzemeNo:_reservation.selectedCar.materialCode]; //matnr
-        [itemLine setJatoMarka:@" "]; //avail arac
-        [itemLine setJatoModel:@" "];//avail arac
-    }
-    [itemLine setRezBegda:_reservation.checkOutTime];//headerla ayni
-    [itemLine setRezBegtime:[dateFormatter stringFromDate:_reservation.checkOutTime]];
-    [itemLine setRezEndda:_reservation.checkInTime];
-    [itemLine setRezEndtime:[dateFormatter stringFromDate:_reservation.checkInTime]];
-    [itemLine setRezKalemNo:@" "]; //update icin create
-    [itemLine setSasiNo:@" "]; // avail aractan
-    [itemLine setSatisBurosu:_reservation.checkOutOffice.mainOfficeCode]; //chekout office
-    [itemLine setTeslimSubesi:_reservation.checkInOffice.mainOfficeCode];
-    [itemLine setUpdateStatu:@" "]; // kullanilmior
+    
+    
     IT_SDREZERVV0 *sdRezervLine;
     NSMutableArray *itSdRezerv = [NSMutableArray new];
     for (ET_RESERVV0 *etReservLine in _reservation.etReserv) {
@@ -319,52 +376,84 @@
         }
         
         if ([etReservLine.Hdfsube isEqualToString:@""]) {
-            [sdRezervLine setHdfsube:etReservLine.Hdfsube];
+            [sdRezervLine setHdfsube:@" "];
             
         }else{
-            
             [sdRezervLine setHdfsube:etReservLine.Hdfsube];
             
         }
         
+        if ([etReservLine.Kunnr isEqualToString:@""]) {
+            [sdRezervLine setKunnr:@" "];
+        }else{
+            [sdRezervLine setKunnr:etReservLine.Kunnr];
+        }
         
-        [sdRezervLine setKunnr:etReservLine.Kunnr];
-        [sdRezervLine setMatnr:etReservLine.Matnr];
-        [sdRezervLine setMilKazanir:etReservLine.MilKazanir];
-        [sdRezervLine setRAuart:etReservLine.RAuart];
-        [sdRezervLine setRGjahr:etReservLine.RGjahr];
-        [sdRezervLine setRPosnr:etReservLine.RPosnr];
-        [sdRezervLine setRVbeln:etReservLine.RVbeln];
-        [sdRezervLine setSpart:etReservLine.Spart];
-        [sdRezervLine setSube:etReservLine.Sube];
+        if ([etReservLine.Matnr isEqualToString:@""]) {
+            [sdRezervLine setMatnr:@" "];
+        }else{
+            [sdRezervLine setMatnr:etReservLine.Matnr];
+        }
+        
+        if ([etReservLine.MilKazanir isEqualToString:@""]) {
+            [sdRezervLine setMilKazanir:@" "];
+        }else{
+            [sdRezervLine setMilKazanir:etReservLine.MilKazanir];
+        }
+        
+        if ([etReservLine.RAuart isEqualToString:@""]) {
+            [sdRezervLine setRAuart:@" "];
+        }else{
+            [sdRezervLine setRAuart:etReservLine.RAuart];
+        }
+        
+        if ([etReservLine.RGjahr isEqualToString:@""]) {
+            [sdRezervLine setRGjahr:@" "];
+        }else{
+            [sdRezervLine setRGjahr:etReservLine.RGjahr];
+        }
+        
+        if ([etReservLine.RPosnr isEqualToString:@""]) {
+            [sdRezervLine setRPosnr:@" "];
+        }else{
+            [sdRezervLine setRPosnr:etReservLine.RPosnr];
+        }
+        if ([etReservLine.RVbeln isEqualToString:@""]) {
+            [sdRezervLine setRVbeln:@" "];
+        }else{
+            [sdRezervLine setRVbeln:etReservLine.RVbeln];
+        }
+        
+        if ([etReservLine.Spart isEqualToString:@""]) {
+            [sdRezervLine setSpart:@" "];
+        }else{
+            [sdRezervLine setSpart:etReservLine.Spart];
+        }
+        
+        
+        if ([etReservLine.Sube isEqualToString:@""]) {
+            [sdRezervLine setSube:@" "];
+        }else{
+            [sdRezervLine setSube:etReservLine.Sube];
+        }
+        //humm bakalm bu datee
         [sdRezervLine setTarih:etReservLine.Tarih];
         [sdRezervLine setTutar:etReservLine.Tutar];
-        [sdRezervLine setVkorg:etReservLine.Vkorg];
-        [sdRezervLine setVtweg:etReservLine.Vtweg];
+        if ([etReservLine.Vkorg isEqualToString:@""]) {
+            [sdRezervLine setVkorg:@" "];
+        }else{
+            [sdRezervLine setVkorg:etReservLine.Vkorg];
+        }
         
+        if ([etReservLine.Vtweg isEqualToString:@""]) {
+            [sdRezervLine setVtweg:@" "];
+        }else{
+            [sdRezervLine setVtweg:etReservLine.Vtweg];
+        }
         
-        
-        [sdRezervLine setAugru:@" "];
-        [sdRezervLine setBonusKazanir:@" "];
-        [sdRezervLine setFiyatKodu:@"L1"];
-        [sdRezervLine setGrnttlKazanir:@"1"];
-        [sdRezervLine setGrupKodu:@"A2"];
-        [sdRezervLine setHdfsube:@"3071"];
-        [sdRezervLine setKunnr:@"12345"];
-        [sdRezervLine setMatnr:@"J2345678"];
-        [sdRezervLine setMilKazanir:@"T"];
-        [sdRezervLine setRAuart:@" "];
-        [sdRezervLine setRGjahr:@"2014"];
-        [sdRezervLine setRPosnr:@"10"];
-        [sdRezervLine setRVbeln:@"0123456789"];
-        [sdRezervLine setSpart:@"T"];
-        [sdRezervLine setSube:@"3071"];
-        [sdRezervLine setTarih:[NSDate date]];
-        [sdRezervLine setTutar:[NSDecimalNumber decimalNumberWithString:@"30.0"]];
-        [sdRezervLine setVkorg:@"1011"];
-        [sdRezervLine setVtweg:@"23"];
         [itSdRezerv addObject:sdRezervLine];
     }
+    
     IT_TAHSILATV0 *itTahsilatLine = [IT_TAHSILATV0 new];
     [itTahsilatLine setAmount:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
     [itTahsilatLine setAy:@"10"];
@@ -443,11 +532,12 @@
     [aService setEvSubrc:[NSNumber numberWithInt:2]];
     [aService setEsOutput:esOutput];
     [aService setET_RETURNSet:etReturn];
+    
+    
+    [aService setET_KK_RETURNSet:[NSMutableArray arrayWithObject:etKKReturnLine]];
     NSOperationQueue *operationQueue = [NSOperationQueue new];
-    [[NSNotificationCenter defaultCenter] addObserverForName:kCreateReservationServiceCompletedNotification object:nil queue:operationQueue usingBlock:^(NSNotification *notification){
-        //handle req
-    }];
     [[ZGARENTA_REZERVASYON_SRVRequestHandler uniqueInstance] createReservationService:aService];
+    [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
 }
 
 
@@ -471,16 +561,40 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *aCell;
+    UILabel *checkOutOffice;
+    UILabel *checkInOffice;
+    UILabel *checkOutTime;
+    UILabel *checkInTime;
+    UILabel *totalPrice;
+    UIButton *payNowButton;
+    UIButton *payLaterButton;
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    [dateFormatter setDateFormat:@"dd.MM.yyy/hh:mm"];
     if (!_isTotalPressed) {
         switch (indexPath.row) {
             case 0:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"officeDateCell" forIndexPath:indexPath];
+                
+                checkOutOffice = (UILabel*)[aCell viewWithTag:1];
+                [checkOutOffice setText:_reservation.checkOutOffice.mainOfficeName];
+                
+                checkOutTime = (UILabel*)[aCell viewWithTag:2];
+                [checkOutTime setText:[dateFormatter stringFromDate:_reservation.checkOutTime]];
+                
+                checkInOffice = (UILabel*)[aCell viewWithTag:3];
+                [checkInOffice setText:_reservation.checkInOffice.mainOfficeName];
+                
+                checkInTime = (UILabel*)[aCell viewWithTag:4];
+                [checkInTime setText:[dateFormatter stringFromDate:_reservation.checkInTime]];
+                
                 break;
             case 1:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"serviceScopeCell" forIndexPath:indexPath];
                 break;
             case 2:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"totalPaymentCell" forIndexPath:indexPath];
+                totalPrice = (UILabel*)[aCell viewWithTag:1];
+                [totalPrice setText:[NSString stringWithFormat:@"%@",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES]]];
                 break;
             default:
                 break;
@@ -489,6 +603,19 @@
         switch (indexPath.row) {
             case 0:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"officeDateCell" forIndexPath:indexPath];
+                
+                checkOutOffice = (UILabel*)[aCell viewWithTag:1];
+                [checkOutOffice setText:_reservation.checkOutOffice.mainOfficeName];
+                
+                checkOutTime = (UILabel*)[aCell viewWithTag:2];
+                [checkOutTime setText:[dateFormatter stringFromDate:_reservation.checkOutTime]];
+                
+                checkInOffice = (UILabel*)[aCell viewWithTag:3];
+                [checkInOffice setText:_reservation.checkInOffice.mainOfficeName];
+                
+                checkInTime = (UILabel*)[aCell viewWithTag:4];
+                [checkInTime setText:[dateFormatter stringFromDate:_reservation.checkInTime]];
+                
                 break;
             case 1:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"serviceScopeCell" forIndexPath:indexPath];
@@ -498,6 +625,10 @@
                 break;
             case 3:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"payNowLaterButtonsCell" forIndexPath:indexPath];
+                payNowButton = (UIButton*)[aCell viewWithTag:1];
+                payLaterButton = (UIButton*)[aCell viewWithTag:2];
+                [payNowButton setTitle:[NSString stringWithFormat:@"%@ TL",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES]] forState:UIControlStateNormal];
+                [payLaterButton setTitle:[NSString stringWithFormat:@"%@ TL",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO]] forState:UIControlStateNormal];
                 break;
             default:
                 break;
@@ -583,6 +714,9 @@
     if ([[segue identifier] isEqualToString:@"toPaymentVCSegue"]) {
         [(PaymentTableViewController*)[segue destinationViewController] setReservation:_reservation];
     }
+    if ([[segue identifier] isEqualToString:@"toReservationApprovalVCSegue"]) {
+        [(ReservationApprovalVC*)[segue destinationViewController] setReservation:_reservation];
+    }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
@@ -614,5 +748,12 @@
     [self createReservation];
 }
 
+- (void)addObservers{
+    
+}
+
+-(void)removeObservers{
+    
+}
 @end
 

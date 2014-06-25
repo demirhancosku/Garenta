@@ -17,9 +17,9 @@
     iSurname = [iSurname uppercaseStringWithLocale:[NSLocale localeWithLocaleIdentifier:@"tr"]];
     
     NSString *header = [NSString stringWithFormat:@"<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ws=\"http://tckimlik.nvi.gov.tr/WS\">"
-                                                   "<soapenv:Header/>"
-                                                   "<soapenv:Body>"
-                                                   "<ws:TCKimlikNoDogrula>"];
+                        "<soapenv:Header/>"
+                        "<soapenv:Body>"
+                        "<ws:TCKimlikNoDogrula>"];
     
     NSString *body = [NSString stringWithFormat:@"<ws:TCKimlikNo>%@</ws:TCKimlikNo>"
                       "<ws:Ad>%@</ws:Ad>"
@@ -27,8 +27,8 @@
                       "<ws:DogumYili>%@</ws:DogumYili>", iID, iName, iSurname, iYear];
     
     NSString *footer = [NSString stringWithFormat:@"</ws:TCKimlikNoDogrula>"
-                                                   "</soapenv:Body>"
-                                                   "</soapenv:Envelope>"];
+                        "</soapenv:Body>"
+                        "</soapenv:Envelope>"];
     
     
     NSString *soapMsg = @"";
@@ -41,23 +41,23 @@
     [soapReq setHTTPBody:[soapMsg dataUsingEncoding:NSUTF8StringEncoding]];
     
     
-//    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:soapReq delegate:self];
+    //    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:soapReq delegate:self];
     NSURLResponse *headerResponse;
     NSError *error;
     NSData *data = [NSURLConnection sendSynchronousRequest:soapReq returningResponse:&headerResponse error:&error];
     NSString *response = [[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding];
-//    NSMutableArray *valueList = [[NSMutableArray alloc] init];
+    //    NSMutableArray *valueList = [[NSMutableArray alloc] init];
     NSString *openTag = [NSString stringWithFormat:@"<%@>",@"TCKimlikNoDogrulaResult"];
     NSString *closeTag = [NSString stringWithFormat:@"</%@>",@"TCKimlikNoDogrulaResult"];
     NSMutableArray *components = [NSMutableArray arrayWithArray:[response componentsSeparatedByString:openTag]];
     components = [NSMutableArray arrayWithArray:[(NSString*)[components objectAtIndex:1] componentsSeparatedByString:closeTag]];
     
     if ([(NSString*)[components objectAtIndex:0] isEqualToString:@"true"]) {
-                completion(true,error);
+        completion(true,error);
     }else{
         completion(false,error);
     }
-
+    
     
     return NO;
 }
@@ -78,14 +78,14 @@
     
     
     
-
     
-
+    
+    
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     NSLog(@"asd");
-
+    
 }
 
 

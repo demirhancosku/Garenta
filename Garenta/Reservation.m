@@ -60,13 +60,26 @@
 }
 #pragma mark - reservation pricing methods
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow{
-    NSDecimalNumber *totalPrice  =[NSDecimalNumber decimalNumberWithString:@"0.00"];
+    float totalPrice = 0.00f;
     if ([currency isEqualToString:@"TRY"]) {
+        if (isPayNow) {
+            totalPrice = totalPrice + [selectedCarGroup.sampleCar.pricing.payNowPrice floatValue];
+        }else{
+            totalPrice = totalPrice + [selectedCarGroup.sampleCar.pricing.payLaterPrice floatValue];
+        }
+        if (_selectedCar) {
+            totalPrice = totalPrice + [_selectedCar.pricing.carSelectPrice floatValue];
+        }
         
+        for (AdditionalEquipment *tempEquipment in _additionalEquipments) {
+            if (tempEquipment.quantity >0) {
+                totalPrice = totalPrice + (tempEquipment.quantity * [tempEquipment.price floatValue]);
+            }
+        }
         
     }
     
-    return totalPrice;
+    return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.2f",totalPrice]];
 
 }
 

@@ -62,14 +62,12 @@
     [_tableViewVC setActiveCarGroup:[_carGroups objectAtIndex:0]];
     //  //  [self.pageViewController didMoveToParentViewController:self];
 
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"CarGroupSelected" object:nil queue:[NSOperationQueue new] usingBlock:^(NSNotification*note){
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            _reservation.checkOutOffice = [note userInfo] [@"selectedOffice" ];
-            _reservation.selectedCarGroup = [note.userInfo valueForKey:@"selectedCarGroup"];
-            [self performSegueWithIdentifier:@"toAdditionalEquipmentSegue" sender:self];
-        });
-        
-    }];
+//    [[NSNotificationCenter defaultCenter] addObserverForName:@"CarGroupSelected" object:nil queue:[NSOperationQueue new] usingBlock:^(NSNotification*note){
+//        dispatch_async(dispatch_get_main_queue(), ^(void){
+//            
+//        });
+    
+//    }];
 }
 
 
@@ -89,12 +87,9 @@
     groupVCs = [[NSMutableArray alloc] init];
     CarGroupViewController *carGroupVC ;
     for (int sayac = 0; sayac<self.carGroups.count; sayac++) {
-        //        carGroupVC = [[CarGroupViewController alloc] initWithFrame:_rootView.frame andCarGroups:[self.carGroups objectAtIndex:sayac]];
-        
         carGroupVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CarGroupView"];
         [carGroupVC setCarGroup:[self.carGroups objectAtIndex:sayac]];
         [[carGroupVC view] setFrame:CGRectMake(0, 0, _rootView.frame.size.width, _rootView.frame.size.height)];
-        
         if (sayac == 0) {
             [carGroupVC setLeftArrowShouldHide:YES];
         }
@@ -243,12 +238,19 @@
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"CarGroupTableVCEmbedSeugue"]){
         _tableViewVC = (CarGroupTableVC*)[segue destinationViewController];
+        [_tableViewVC setDelegate:self];
     }
     
     if ([segue.identifier isEqualToString:@"toAdditionalEquipmentSegue"]) {
         EquipmentVC *additionalEquipmentsVC = (EquipmentVC*)segue.destinationViewController;
         [additionalEquipmentsVC setReservation:_reservation];
     }
+}
+
+- (void)carGroupSelected:(CarGroup*)aCarGroup withOffice:(Office*)anOffice{
+    _reservation.checkOutOffice = anOffice;
+    _reservation.selectedCarGroup = aCarGroup;
+    [self performSegueWithIdentifier:@"toAdditionalEquipmentSegue" sender:self];
 }
 
 @end

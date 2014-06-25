@@ -141,6 +141,7 @@
     for (Price *tempPrice in aPriceList) {
         if ([[tempPrice modelId] isEqualToString:[aCar modelId]] && [[tempPrice brandId] isEqualToString:[aCar brandId]] && [[tempPrice carGroup] isEqualToString:[[aCar carGroup] groupCode]]) {
             [aCar setPricing:tempPrice];
+            break;
         }
     }
 }
