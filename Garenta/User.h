@@ -15,7 +15,7 @@
 @property (nonatomic,strong) NSString *password;
 @property (nonatomic,strong) NSString *name;
 @property (nonatomic,strong) NSString *surname;
-@property (nonatomic,strong) NSString *garentaTl;
+@property (nonatomic,strong) NSDecimalNumber *garentaTl;
 @property (nonatomic,strong) NSString *mobile;
 @property (nonatomic,strong) NSString *email;
 @property (nonatomic,strong) NSString *tckno;
@@ -31,7 +31,7 @@
 @property (nonatomic,assign) BOOL isLoggedIn;
 @property (nonatomic, strong) NSString *country;
 @property (nonatomic, strong) NSString *address;
-
+@property (nonatomic, strong) NSString *partnerType;
 
 
 

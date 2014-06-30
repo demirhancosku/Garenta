@@ -302,7 +302,7 @@
     [_surnameTextField setText:@"Keser"];
     [_birthdayTextField setText:@"03/10/1988"];
     [_mobileNumberTextField setText:@"5337656704"];
-    [_emailTextField setText:@"alp.keser@abh.com.tr"];
+    [_emailTextField setText:@"kerem.balaban@abh.com.tr"];
     [_tcknTextField setText:@"46558353458"];
 }
 @end

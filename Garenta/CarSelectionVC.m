@@ -49,7 +49,7 @@ static NSString *cellIdentifier;
     Car *car = [_reservation.selectedCarGroup.cars objectAtIndex:indexPath.row];
     UILabel *brandModelName = (UILabel*)[cell viewWithTag:1];
     [brandModelName setText:[NSString stringWithFormat:@"%@ %@",car.brandName,car.modelName]];
-    
+    [(UILabel*)[cell viewWithTag:2] setText:[NSString stringWithFormat:@"+ %@",car.pricing.carSelectPrice]];
     return cell;
 }
 

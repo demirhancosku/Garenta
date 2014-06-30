@@ -8,6 +8,9 @@
 
 #import "BaseVC.h"
 #import "Reservation.h"
-@interface ReservationSummaryVC : UIViewController<UITableViewDelegate,UITableViewDataSource>
+#import <WYStoryboardPopoverSegue.h>
+@interface ReservationSummaryVC : UIViewController<UITableViewDelegate,UITableViewDataSource,WYPopoverControllerDelegate>{
+    WYPopoverController* popoverController;
+}
 @property (strong,nonatomic)Reservation *reservation;
 @end

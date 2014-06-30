@@ -11,6 +11,7 @@
 #import "PaymentTableViewController.h"
 #import "AdditionalEquipment.h"
 #import "ReservationApprovalVC.h"
+
 @interface ReservationSummaryVC ()
 
 - (IBAction)payLaterButtonPressed:(id)sender;
@@ -56,11 +57,11 @@
 }
 
 
-
 - (void)viewDidLoad
 
 {
     [super viewDidLoad];
+    //preping ui
     _isTotalPressed =NO;
     //model marka label
     
@@ -98,37 +99,16 @@
     [_acLabel setText:@"Klima"];
     [_passangerNumberLabel setText:_reservation.selectedCarGroup.sampleCar.passangerNumber];
     [_doorCountLabel setText:_reservation.selectedCarGroup.sampleCar.doorNumber];
-    [[NSNotificationCenter defaultCenter] addObserverForName:kCreateReservationServiceCompletedNotification object:nil queue:[NSOperationQueue new] usingBlock:^(NSNotification *notification){
-        //handle req
-        ReservationServiceV0 *response = notification.userInfo[@"item"];
-        UIAlertView *alert;
-        if ([response.EvSubrc intValue]== 0) {
-            [_reservation setReservationNumber:response.EsOutput.RezNo];
-            alert = [[UIAlertView alloc] initWithTitle:@"Başarılı" message:[NSString stringWithFormat:@"%@ numaralı rezervasyonunuz başarıyla oluşturulmuştur.",_reservation.reservationNumber] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-        }else{
-            alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"CRMDE hata alındı." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-        }
-        
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:kCreateReservationServiceCompletedNotification object:nil];
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            [[LoaderAnimationVC uniqueInstance] stopAnimation];
-            if ([response.EvSubrc intValue]== 0) {
-                [self performSegueWithIdentifier:@"toReservationApprovalVCSegue" sender:self];
-            }else{
-                [alert show];
-            }
-        });
-    }];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self addObservers];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    
+        [self removeObservers];
 }
 - (void)didReceiveMemoryWarning
 
@@ -155,6 +135,7 @@
     [ApplicationProperties configureReservationService];
     ReservationServiceV0 *aService = [ReservationServiceV0 new];
     IsInputV0 *isInput = [IsInputV0 new];
+    [ApplicationProperties fillProperties:isInput];
     [isInput setAlisSubesi:_reservation.checkInOffice.mainOfficeCode];
     [isInput setBonus:[NSDecimalNumber decimalNumberWithString:@"0.0"]];// yok
     [isInput setCCorpPriority:@" "];//X coorp priorityse x
@@ -184,9 +165,8 @@
     [isInput setUsername:@" "];
     User *currentUser = (User*)[ApplicationProperties getUser];
     IsUserinfoV0 *isUserInfo = [IsUserinfoV0 new];
+    [ApplicationProperties fillProperties:isUserInfo];
     [isUserInfo setAdress:@" "]; //il ilce adres zorunlu
-    [isUserInfo setBirthdate:[ currentUser birthday]];
-    [isUserInfo setCinsiyet:[currentUser gender]];//???1 erkek 2 kadın
     [isUserInfo setSalesOrganization:@"3063"];//????fix
     [isUserInfo setDistributionChannel:@"33"];//???3063 fix
     [isUserInfo setDivision:@"65"];//???fix
@@ -194,19 +174,31 @@
     [isUserInfo setEhliyetNo:@" "];//free zorunlu?
     [isUserInfo setEhliyetSinifi:@" "];//combo sabit siteden bak
     [isUserInfo setEhliyetTarihi:[NSDate date]];
-    [isUserInfo setEmail:currentUser.email]; //zoeunlu
-    [isUserInfo setFirstname:currentUser.name];
     [isUserInfo setIlcekod:@" "];//ilce kod rfcsiden alcak
     [isUserInfo setIlkodu:@" "];
     [isUserInfo setKanalturu:@"Z07"]; // sabit
-    [isUserInfo setLastname:currentUser.surname];
+
     [isUserInfo setMiddlename:@" "];
-    [isUserInfo setMusterino:@" "]; //kunnr loginse must
-    //birinden biri
+    if (currentUser.isLoggedIn) {
+        [isUserInfo setMusterino:currentUser.kunnr]; //kunnr loginse must
+         [isUserInfo setBirthdate:[ NSDate date]];
+        //birinden biri
+    }else{
+            [isUserInfo setLastname:currentUser.surname];
+            [isUserInfo setBirthdate:[ currentUser birthday]];
+        [isUserInfo setCinsiyet:[currentUser gender]];//???1 erkek 2 kadın
+        [isUserInfo setMusterino:@" "]; //kunnr loginse must
+        
+        [isUserInfo setEmail:currentUser.email]; //zoeunlu
+        [isUserInfo setFirstname:currentUser.name];
+        //birinden biri
+        [isUserInfo setTckn:currentUser.tckno];
+        [isUserInfo setTelno:currentUser.mobile]; //no533
+    }
+
     //nationalitye gore
     [isUserInfo setPasaportno:@" "];
-    [isUserInfo setTckn:currentUser.tckno];
-    [isUserInfo setTelno:currentUser.mobile]; //no533
+
     [isUserInfo setTelnoUlke:@"90"];//90
     [isUserInfo setTkKartno:@" "];//???tk almıyoruz
     [isUserInfo setUlke:@"TR"];//??? TR yada bos
@@ -542,6 +534,28 @@
 
 
 
+- (void)parseReservationResponse:(NSNotification*)notification{
+    ReservationServiceV0 *response = notification.userInfo[@"item"];
+    UIAlertView *alert;
+    if ([response.EvSubrc intValue]== 0) {
+        [_reservation setReservationNumber:response.EsOutput.RezNo];
+        alert = [[UIAlertView alloc] initWithTitle:@"Başarılı" message:[NSString stringWithFormat:@"%@ numaralı rezervasyonunuz başarıyla oluşturulmuştur.",_reservation.reservationNumber] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+    }else{
+        alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Fahrettin/Ahmet hata alındı." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+    }
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kCreateReservationServiceCompletedNotification object:nil];
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        [[LoaderAnimationVC uniqueInstance] stopAnimation];
+        if ([response.EvSubrc intValue]== 0) {
+            [self performSegueWithIdentifier:@"toReservationApprovalVCSegue" sender:self];
+        }else{
+            [alert show];
+        }
+    });
+
+}
+
 #pragma mark - tableview delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -691,6 +705,7 @@
     switch (indexPath.row) {
         case 1:
             //popover
+            [self performSegueWithIdentifier:@"toPopoverVCSegue" sender:(UITableViewCell*)[_tableView cellForRowAtIndexPath:indexPath]];
             break;
         case 2:
             [self totalButtonPressed];
@@ -717,9 +732,21 @@
     if ([[segue identifier] isEqualToString:@"toReservationApprovalVCSegue"]) {
         [(ReservationApprovalVC*)[segue destinationViewController] setReservation:_reservation];
     }
+    
+    if ([segue.identifier isEqualToString:@"toPopoverVCSegue"])
+    {
+        WYStoryboardPopoverSegue* popoverSegue = (WYStoryboardPopoverSegue*)segue;
+        
+        UIViewController* destinationViewController = (UIViewController *)segue.destinationViewController;
+        destinationViewController.preferredContentSize = CGSizeMake(280, 280);       // Deprecated in iOS7. Use 'preferredContentSize' instead.
+        
+        popoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionAny animated:YES];
+        popoverController.delegate = self;
+    }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
+
 
 
 
@@ -750,10 +777,35 @@
 
 - (void)addObservers{
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(parseReservationResponse:) name:kCreateReservationServiceCompletedNotification object:nil];
 }
 
 -(void)removeObservers{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kCreateReservationServiceCompletedNotification object:nil];
+}
+
+- (void)sendMailToCRM:(NSString*)errMsg{
+    NSString *recipients = @"mailto:first@example.com?cc=second@example.com,third@example.com&subject=Hello from California!";
     
+    NSString *body = @"&body=Rezervasyon yaratırken hata aldım!";
+    
+    NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
+    
+    email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+}
+
+
+- (BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)controller
+{
+    return YES;
+}
+
+- (void)popoverControllerDidDismissPopover:(WYPopoverController *)controller
+{
+    popoverController.delegate = nil;
+    popoverController = nil;
 }
 @end
 

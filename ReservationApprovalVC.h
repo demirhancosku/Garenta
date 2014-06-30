@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ReservationApprovalVC : UIViewController
+@interface ReservationApprovalVC : UIViewController<UIAlertViewDelegate>
 @property (strong,nonatomic)Reservation *reservation;
 @end

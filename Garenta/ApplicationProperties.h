@@ -51,8 +51,11 @@ typedef enum{
 + (void)configureAdditionalEquipmentService;
 + (void)configureVersionService;
 + (void)configureReservationService;
++ (void)configureLoginService;
 //aktiflik
 + (BOOL)isActiveVersion;
 
 + (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation;
+
++ (void)fillProperties:(id)object;
 @end

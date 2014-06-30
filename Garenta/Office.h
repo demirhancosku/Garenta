@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OfficeWorkingTime.h"
-
+#import "ZGARENTA_OFIS_SRVServiceV0.h"
 @interface Office : NSObject
 
 @property (nonatomic, retain) NSString *mainOfficeName;
@@ -25,8 +25,8 @@
 @property (nonatomic, retain) NSString *latitude;
 @property (nonatomic, retain) NSString *longitude;
 
-@property (nonatomic, retain) NSMutableArray *workingHours;
-@property (nonatomic, retain) NSMutableArray *holidayDates;
+@property (nonatomic, strong) NSArray *workingDates;
+@property (nonatomic, strong) NSArray *holidayDates;
 
 + (Office*)getOfficeFrom:(NSMutableArray*)offices withCode:(NSString*)officeCode;
 + (Office*)getClosestOfficeFromList:(NSMutableArray*)officeList withCoordinate:(Coordinate*) lastLocation;

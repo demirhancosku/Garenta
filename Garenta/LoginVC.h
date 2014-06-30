@@ -12,14 +12,13 @@
 #import "MenuSelectionVC.h"
 #import "UserCreationVC.h"
 
-@interface LoginVC : BaseVC <UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface LoginVC : BaseVC <UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
     UIButton *hideButton;
     CGRect viewFrame;
     UIImageView *userImageView;
     UIButton *loginButton;
     UILabel *infoLabel;
-    User *user; //temp user if succ. assign to singleton
     UIButton *createUserButton;
 }
 

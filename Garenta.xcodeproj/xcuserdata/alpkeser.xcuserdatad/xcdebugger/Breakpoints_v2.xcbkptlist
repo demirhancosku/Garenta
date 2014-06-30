@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Garenta/ReservationSummaryVC.m"
-            timestampString = "425401979.637433"
+            timestampString = "425564827.088584"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "399"
-            endingLineNumber = "399"
+            startingLineNumber = "412"
+            endingLineNumber = "412"
             landmarkName = "-createReservation"
             landmarkType = "5">
          </BreakpointContent>
@@ -63,23 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "782"
             endingLineNumber = "782"
-            landmarkName = "-createReservationServiceCompleted:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Garenta/ReservationSummaryVC.m"
-            timestampString = "425310625.946744"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
-            landmarkName = "-viewDidLoad"
+            landmarkName = "-loadET_KK_RETURNSetForReservationServiceCompleted:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

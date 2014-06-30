@@ -53,6 +53,12 @@
 
 - (void)selectDateAndTime:(id)sender
 {
+    
+    //TODO burda bir hata var saat degismiyence slected date sanki nil bakmak lazım
+    if (!selectedTime) {
+       [[self navigationController] popViewControllerAnimated:YES];
+        return;
+    }
     //buraya zaten saat secili geliyor biz sadece yil ay gun duzenliyoruz
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *selectedTimeComponents =[gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:selectedTime];

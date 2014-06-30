@@ -389,8 +389,8 @@
     User *user =[ApplicationProperties getUser];
     if ([ user isLoggedIn]) {
         [availableCarService setImppKunnr:[user kunnr]];
-        [availableCarService setImppEhdat:[user driversLicenseDate]];
-        [availableCarService setImppGbdat:[user birthday]];
+        [availableCarService setImppEhdat:[NSDate dateWithTimeIntervalSince1970:0]];//[user driversLicenseDate]
+        [availableCarService setImppGbdat:[NSDate dateWithTimeIntervalSince1970:0]]; //[user birthday]
     }else{
         [availableCarService setImppKunnr:@" "];
         [availableCarService setImppEhdat:[NSDate dateWithTimeIntervalSince1970:0]];
@@ -548,40 +548,40 @@
     [priceImport addObject:dummyFiyat];
     [availableCarService setET_FIYATSet:priceImport];
     /*
-    ET_KAMPANYAV0 *dummyKampanya = [ET_KAMPANYAV0 new];
-    [dummyKampanya setKalanciro:@" "];
-    [dummyKampanya setKalanadet:@" "];
-    [dummyKampanya setZzkmphedefgun:@" "];
-    [dummyKampanya setZzkmpharictutbas:[NSDate date]];
-    [dummyKampanya setZzkmpharictutbit:[NSDate date]];
-    [dummyKampanya setZzkmprezolusbit:[NSDate date]];
-    [dummyKampanya setZzkmprezolusbas:[NSDate date]];
-    [dummyKampanya setZzszlsmefreegun:@" "];
-    [dummyKampanya setZzerkeniadeucrt:@" "];
-    [dummyKampanya setZzsureuzatucrt:@" "];
-    [dummyKampanya setZzaracdonustar:[NSDate date]];
-    [dummyKampanya setZzaraccikistar:[NSDate date]];
-    [dummyKampanya setZzkmprezolusma:@" "];
-    [dummyKampanya setZzkmprezolusma:@" "];
-    [dummyKampanya setKampanyatipi:@" "];
-    [dummyKampanya setLandingPath:@" "];
-    [dummyKampanya setIconPath:@" "];
+     ET_KAMPANYAV0 *dummyKampanya = [ET_KAMPANYAV0 new];
+     [dummyKampanya setKalanciro:@" "];
+     [dummyKampanya setKalanadet:@" "];
+     [dummyKampanya setZzkmphedefgun:@" "];
+     [dummyKampanya setZzkmpharictutbas:[NSDate date]];
+     [dummyKampanya setZzkmpharictutbit:[NSDate date]];
+     [dummyKampanya setZzkmprezolusbit:[NSDate date]];
+     [dummyKampanya setZzkmprezolusbas:[NSDate date]];
+     [dummyKampanya setZzszlsmefreegun:@" "];
+     [dummyKampanya setZzerkeniadeucrt:@" "];
+     [dummyKampanya setZzsureuzatucrt:@" "];
+     [dummyKampanya setZzaracdonustar:[NSDate date]];
+     [dummyKampanya setZzaraccikistar:[NSDate date]];
+     [dummyKampanya setZzkmprezolusma:@" "];
+     [dummyKampanya setZzkmprezolusma:@" "];
+     [dummyKampanya setKampanyatipi:@" "];
+     [dummyKampanya setLandingPath:@" "];
+     [dummyKampanya setIconPath:@" "];
      [dummyKampanya setGarentatl:@""];
-    [dummyKampanya setBonusKazanir:@" "];
-    [dummyKampanya setMilKazanir:@" "];
-    [dummyKampanya setKampDurum:@" "];
-    [dummyKampanya setPlanEndda:[NSDate date]];
-    [dummyKampanya setPlanBegda:[NSDate date]];
-    [dummyKampanya setDonusSube:@" "];
-    [dummyKampanya setCikisSube:@" "];
-    [dummyKampanya setKampTanim:@" "];
-    [dummyKampanya setIsbirligi:@" "];
-    [dummyKampanya setObjectType:@" "];
-    [dummyKampanya setCampType:@" "];
-    [dummyKampanya setKampanyaId:@" "];
-    [dummyKampanya setOncelik:@" "];
-    [availableCarService setET_KAMPANYASet:[NSMutableArray arrayWithObject:dummyKampanya]];
-*/
+     [dummyKampanya setBonusKazanir:@" "];
+     [dummyKampanya setMilKazanir:@" "];
+     [dummyKampanya setKampDurum:@" "];
+     [dummyKampanya setPlanEndda:[NSDate date]];
+     [dummyKampanya setPlanBegda:[NSDate date]];
+     [dummyKampanya setDonusSube:@" "];
+     [dummyKampanya setCikisSube:@" "];
+     [dummyKampanya setKampTanim:@" "];
+     [dummyKampanya setIsbirligi:@" "];
+     [dummyKampanya setObjectType:@" "];
+     [dummyKampanya setCampType:@" "];
+     [dummyKampanya setKampanyaId:@" "];
+     [dummyKampanya setOncelik:@" "];
+     [availableCarService setET_KAMPANYASet:[NSMutableArray arrayWithObject:dummyKampanya]];
+     */
     ET_EXPIRYV0 *dummyExpiry = [ET_EXPIRYV0 new];
     [dummyExpiry setAracGrubu:@" "];
     [dummyExpiry setDonemBasi:[NSDate date]];
@@ -590,7 +590,7 @@
     [dummyExpiry setModelId:@" "];
     [dummyExpiry setParaBirimi:@" "];
     [dummyExpiry setTutar:[NSDecimalNumber decimalNumberWithString:@"0.00"]];
-
+    
     [availableCarService setET_EXPIRYSet:[NSMutableArray arrayWithObject:dummyExpiry]];
     
     ET_INDIRIMLISTV0 *dummyDiscount = [ET_INDIRIMLISTV0 new];
@@ -683,7 +683,7 @@
     
     [[LoaderAnimationVC uniqueInstance] stopAnimation];
     if ([notification userInfo][kServerResponseError] != nil) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Zaman aşımı" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Sistemlerimizde bakım çalışması yapılmaktadır. Lütfen daha sonra tekrar deneyiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
         [alertView show];
         return;
         
@@ -691,7 +691,15 @@
     AvailCarServiceV0 *availServiceResponse = (AvailCarServiceV0*)[[notification userInfo] objectForKey:kResponseItem];
     availableCarGroups = [CarGroup getCarGroupsFromServiceResponse:availServiceResponse withOffices:offices];
     [reservation setEtReserv:availServiceResponse.ET_RESERVSet];
-    [self navigateToNextVC];
+    [self checkDates:^(BOOL isOK,NSString *errorMsg){
+        if (isOK) {
+            [self navigateToNextVC];
+        }else{
+            UIAlertView*alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:errorMsg delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+            [alert show];
+        }
+    }];
+
 }
 
 
@@ -733,6 +741,11 @@
         [tempOffice setCityName:tempOfficeInfo.Sehirtx];
         [tempOffice setLongitude:tempOfficeInfo.Xkord];
         [tempOffice setLatitude:tempOfficeInfo.Ykord];
+        
+        //calisma ve tatil zamanlarini ekliyoruz
+            NSPredicate *officeCodeQuery = [NSPredicate predicateWithFormat:@"MerkezSube=%@",tempOffice.mainOfficeCode];
+        [tempOffice setWorkingDates:[officeServiceResponse.EXPT_CALISMA_ZAMANISet filteredArrayUsingPredicate:officeCodeQuery]];
+        [tempOffice setHolidayDates:[officeServiceResponse.EXPT_TATIL_ZAMANISet filteredArrayUsingPredicate:officeCodeQuery]];
         [offices addObject:tempOffice];
     }
     //parsing data
@@ -857,5 +870,25 @@
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+}
+
+-(void)checkDates:(void(^)(BOOL isOk, NSString *errorMsg))completion{
+    //checkout date
+    NSDateComponents *checkOutTimecomponents = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit|NSMinuteCalendarUnit | NSWeekdayCalendarUnit) fromDate:reservation.checkOutTime];
+    NSPredicate *dayPredicate = [NSPredicate predicateWithFormat:@"Caday=%@",[NSString stringWithFormat:@"%@%i",@"0",[checkOutTimecomponents weekday]]];
+    NSArray *dayArray = [reservation.checkOutOffice.workingDates filteredArrayUsingPredicate:dayPredicate];
+    EXPT_CALISMA_ZAMANIV0 *checkOutWorkingTime = [dayArray objectAtIndex:0];
+    //TODO:formatlari duzeltelim yada kaldir direk hata ver!
+    if (checkOutWorkingTime.Begti.hours > checkOutTimecomponents.hour || (checkOutWorkingTime.Begti.hours == checkOutTimecomponents.hour && checkOutWorkingTime.Begti.minutes > checkOutTimecomponents.minute)) {
+        completion(NO,[NSString stringWithFormat:@"%@ şubesinin açılış saatleri %i:%i - %i:%i arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkOutOffice.mainOfficeName,checkOutWorkingTime.Begti.hours,checkOutWorkingTime.Begti.minutes,checkOutWorkingTime.Endti.hours,checkOutWorkingTime.Endti.minutes]);
+        return;
+    }
+    if (checkOutWorkingTime.Begti.hours > checkOutTimecomponents.hour || (checkOutWorkingTime.Begti.hours == checkOutTimecomponents.hour && checkOutWorkingTime.Begti.minutes > checkOutTimecomponents.minute)) {
+        completion(NO,[NSString stringWithFormat:@"%@ şubesinin açılış saatleri %i:%i - %i:%i arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkOutOffice.mainOfficeName,checkOutWorkingTime.Begti.hours,checkOutWorkingTime.Begti.minutes,checkOutWorkingTime.Endti.hours,checkOutWorkingTime.Endti.minutes]);
+        return;
+    }
+    
+    completion(YES,@"");
+    
 }
 @end

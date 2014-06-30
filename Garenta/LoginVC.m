@@ -7,6 +7,8 @@
 //
 
 #import "LoginVC.h"
+#import "ZGARENTA_LOGIN_SRV_01RequestHandler.h"
+#import "ZGARENTA_LOGIN_SRV_01ServiceV0.h"
 @interface LoginVC ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
@@ -24,12 +26,9 @@
     return self;
 }
 
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    user = [[User alloc] init];
     UITapGestureRecognizer *singleFingerTap =
     [[UITapGestureRecognizer alloc] initWithTarget:self
                                             action:@selector(releaseAllTextFields)];
@@ -38,13 +37,21 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super   viewWillAppear:animated];
     //ToDo: aalpk
-    [_usernameTextField setText:@"12345678901"];
-    [_passwordTextField setText:@"19850000"];
+    [_usernameTextField setText:@"semih.senvardar@hityazilim.com"];
+    [_passwordTextField setText:@"123456"];
     
     [[self view] setBackgroundColor:[ApplicationProperties getWhite]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(parseLoginResponse:) name:kLoadLoginServiceCompletedNotification object:nil];
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kLoadLoginServiceCompletedNotification object:nil];
+    
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -56,11 +63,16 @@
     
     if (![_usernameTextField.text isEqualToString:@""] && ![_passwordTextField.text isEqualToString:@""])
     {
-        [user setUsername:_usernameTextField.text];
-        [user setPassword:_passwordTextField.text];
+        
+        @try {
+            [self loginToSap];
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+        }
 
-        [self loginToSap];
-        //[[self navigationController] popViewControllerAnimated:YES];
         
     }
     else
@@ -96,112 +108,43 @@
 
 - (void)loginToSap
 {
-    
     [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
-    NSString *connectionString = [NSString stringWithFormat: @"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_LOGIN_SRV/LoginService(IvFreetext='%@',IvPassword='%@',IvLangu='T')?$expand=ET_PARTNERSSet,ET_CARDTYPESSet&$format=json",user.username,user.password];
+    [ApplicationProperties configureLoginService];
+    LoginServiceV0 *aService = [LoginServiceV0 new];
+    [ApplicationProperties fillProperties:aService];
+    [aService setIvFreetext:_usernameTextField.text];
+    NSData *passwordData = [_passwordTextField.text
+                      dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]
-                                             cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                         timeoutInterval:20.0];
+    // Get NSString from NSData object in Base64
+    NSString *base64Encoded = [passwordData base64EncodedStringWithOptions:0];
     
-    NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
-//    [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES]; aalpk : gene warning
-}
-- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)space
-{
-    return YES;
-}
-- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
-{
-    if ([challenge previousFailureCount] == 0) {
-        NSLog(@"received authentication challenge");
-        NSURLCredential *newCredential = [NSURLCredential credentialWithUser:[ApplicationProperties getSAPUser]
-                                                                    password:[ApplicationProperties getSAPPassword]
-                                                                 persistence:NSURLCredentialPersistenceForSession];
-        NSLog(@"credential created");
-        [[challenge sender] useCredential:newCredential forAuthenticationChallenge:challenge];
-        NSLog(@"responded to authentication challenge");
-    }
-    else {
-        NSLog(@"previous authentication failure");
-    }
-}
+    // Print the Base64 encoded string
+    NSLog(@"Encoded: %@", base64Encoded);
+    [aService setIvPassword:base64Encoded];
+    
+    ET_CARDTYPESV0 *dummyCardTypeLine = [ET_CARDTYPESV0 new];
+    [ApplicationProperties fillProperties:dummyCardTypeLine];
+    [aService setET_CARDTYPESSet:[NSMutableArray arrayWithObject:dummyCardTypeLine]];
+    
+    ET_PARTNERSV0 *dummyPartnersLine = [ET_PARTNERSV0 new];
+    [ApplicationProperties fillProperties:dummyPartnersLine];
+    [aService setET_PARTNERSSet:[NSMutableArray arrayWithObject:dummyPartnersLine]];
+    
+    ET_LOGRETURNV0 *dummyReturnLine = [ET_LOGRETURNV0 new];
+    
+    [ApplicationProperties fillProperties:dummyReturnLine];
+    [dummyReturnLine setRow:[NSNumber numberWithInt:0]];
+    [aService setET_RETURNSet:[NSMutableArray arrayWithObject:dummyReturnLine]];
+    
+    [aService setEvSubrc:[NSNumber numberWithInt:0]];
+    
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
+    [[ZGARENTA_LOGIN_SRV_01RequestHandler uniqueInstance] loadLoginService:aService expand:YES];
     
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    NSError *err;
-    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
-    
-    NSDictionary *result = [jsonDict objectForKey:@"d"];
-    
-    
-    NSDictionary *partnersSet = [result objectForKey:@"ET_PARTNERSSet"];
-    NSDictionary *cardsSet = [result objectForKey:@"ET_CARDTYPESSet"];
-
-    //getpartner result
-
-    NSDictionary *partnerResult = [partnersSet objectForKey:@"results"];
-    NSDictionary *cardsResult = [cardsSet objectForKey:@"results"];
-    
-    
-    if (partnerResult.count == 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Hatalı bir kullanıcı adı ve şifre girdiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
-        [alert show];
-        [[LoaderAnimationVC uniqueInstance] stopAnimation];
-        return;
-    }
-    for ( NSDictionary *aPartner in partnerResult) {
-      
-        user.kunnr = [aPartner objectForKey:@"Partner"];
-        user.garentaTl = [aPartner objectForKey:@"Garentatl"];
-        user.middleName = [aPartner objectForKey:@"NameMiddle"];
-        user.mobile = [aPartner objectForKey:@"Mobile"];
-//        user.kunnr = [aPartner objectForKey:@""];password
-//        user.kunnr = [aPartner objectForKey:@"Partner"];ismaster
-        user.companyName2 = [aPartner objectForKey:@"FirmaName2"];
-        user.name = [aPartner objectForKey:@"McName2"];
-        user.email = [aPartner objectForKey:@"Email"];
-        user.tckno = [aPartner objectForKey:@"Tckno"];
-        user.company = [aPartner objectForKey:@"Firma"];
-        user.companyName = [aPartner objectForKey:@"FirmaName1"];
-        user.username = _usernameTextField.text;
-        user.password = _passwordTextField.text;
-       //priority check
-//        NSString *tempKunnr;
-        for (NSDictionary *aCard in cardsResult) {
-            if ([user.kunnr isEqualToString:(NSString*)[aCard objectForKey:@"Partner"]]) {
-                user.accountType = [aCard objectForKey:@"CardType"];
-            }
-        }
-    }
-    //save to db
-    [[NSUserDefaults standardUserDefaults]
-     setObject:user.kunnr forKey:@"KUNNR"];
-    [[NSUserDefaults standardUserDefaults]
-     setObject:user.password forKey:@"PASSWORD"];
-    [user setIsLoggedIn:YES];
-    [ApplicationProperties setUser:user];
-    [[LoaderAnimationVC uniqueInstance] stopAnimation];
-    [[self navigationController] popViewControllerAnimated:YES];
 
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    NSLog(@"gateway hatasi");
-        [[LoaderAnimationVC uniqueInstance] stopAnimation];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Sistemde bir hata oluştu." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
-    [alert show];
-}
 
 /*
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -209,4 +152,41 @@
 }
 */
 
+/*
+ AALPK: ilk gelen accountu aliyoruz bu accountlar seçtirilecek
+ */
+- (void)parseLoginResponse:(NSNotification*)notification{
+    [[LoaderAnimationVC uniqueInstance] stopAnimation];
+    LoginServiceV0* response = notification.userInfo[@"item"];
+    UIAlertView *alert;
+        User *user = [ApplicationProperties getUser];
+    if ([response.EvSubrc intValue] == 0 && response.ET_PARTNERSSet.count > 0) {
+        //congrats logged in
+        [user setIsLoggedIn:YES];
+        ET_PARTNERSV0 *partnerLine = [response.ET_PARTNERSSet objectAtIndex:0];
+        [user setName:partnerLine.McName2];
+        [user setMiddleName:partnerLine.Namemiddle];
+        [user setSurname:partnerLine.McName1];
+        [user setKunnr:partnerLine.Partner];
+        [user setUsername:_usernameTextField.text];
+        [user setPassword:_passwordTextField.text];
+        [user setPartnerType:partnerLine.Partnertype];
+        [user setCompany:partnerLine.Firma];
+        [user setCompanyName:partnerLine.FirmaName1];
+        [user setCompanyName2:partnerLine.FirmaName2];
+        [user setMobile:partnerLine.Mobile];
+        [user setEmail:partnerLine.Email];
+        [user setTckno:partnerLine.Tckno];
+        [user setGarentaTl:partnerLine.Garentatl];
+        [ApplicationProperties setUser:user];
+        alert = [[UIAlertView alloc] initWithTitle:@"Hoşgeldiniz" message:[NSString stringWithFormat:@"Sayın %@ %@, başarıyla giriş yaptınız.",user.name,user.surname] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+            [[self navigationController] popToRootViewControllerAnimated:YES];
+    }else{
+        [user setIsLoggedIn:NO];
+        alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Kullanıcı adı ve şifrenizi kontrol ederek lütfen tekrar deneyiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+    }
+    [alert show];
+
+    
+}
 @end

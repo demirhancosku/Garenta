@@ -18,6 +18,7 @@
 #import "ZGARENTA_REZERVASYON_SRVRequestHandler.h"
 #import "ZGARENTA_REZERVASYON_SRVServiceV0.h"
 #import "CarGroup.h"
+#import "IPFinder.h"
 @interface IntegrationTests : XCTestCase
 
 @end
@@ -569,7 +570,10 @@
     
 }
 
-
+- (void)testIpFinder{
+    IPFinder *ipFinder = [IPFinder new];
+    NSLog(@"%@",[ipFinder myIP]);
+}
 
 
 

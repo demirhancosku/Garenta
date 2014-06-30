@@ -39,7 +39,7 @@ static int kGarentaLogoId = 1;
     [super viewDidLoad];
     
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
-
+    
     //    [[[self tabBarController] tabBar] setHidden:YES];
 	// Do any additional setup after loading the view.
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
@@ -51,12 +51,17 @@ static int kGarentaLogoId = 1;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-        [self putLogo];
+    [self putLogo];
+    if ([[ApplicationProperties getUser] isLoggedIn]) {
+        [[[self navigationItem] rightBarButtonItem] setTitle:@"Çıkış"];
+    }else{
+        [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-        [self removeLogo];
+    [self removeLogo];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -199,7 +204,20 @@ static int kGarentaLogoId = 1;
     if ([segue.identifier isEqualToString:@"toSearchVCSegue"]) {
         
     }
-    
+    if ([segue.identifier isEqualToString:@"toLoginVCSegue"]) {
+        if ([[ApplicationProperties getUser] isLoggedIn]) {
+            //then logout
+            [[NSUserDefaults standardUserDefaults]
+             setObject:@""forKey:@"KUNNR"];
+            [[NSUserDefaults standardUserDefaults]
+             setObject:@"" forKey:@"PASSWORD"];
+            [[ApplicationProperties getUser] setPassword:@""];
+            [[ApplicationProperties getUser] setUsername:@""];
+            [[ApplicationProperties getUser] setIsLoggedIn:NO];
+            [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
+            return;
+        }
+    }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }

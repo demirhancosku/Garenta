@@ -12,6 +12,8 @@
 #import "ZGARENTA_EKHIZMET_SRVRequestHandler.h"
 #import "ZGARENTA_versiyon_srvRequestHandler.h"
 #import "ZGARENTA_REZERVASYON_SRVRequestHandler.h"
+#import "ZGARENTA_LOGIN_SRV_01RequestHandler.h"
+#import <objc/runtime.h>
 @implementation ApplicationProperties
 MainSelection mainSelection;
 User* myUser;
@@ -94,7 +96,9 @@ static float  appVersion = 1.0;
     return offices;
 }
 + (void)setUser:(User*)aUser{
-    myUser = aUser;
+    [[NSUserDefaults standardUserDefaults] setObject:aUser.kunnr forKey:@"KUNNR"];
+    [[NSUserDefaults standardUserDefaults] setObject:aUser.password forKey:@"PASSWORD"];
+    
 }
 
 + (NSString*)getSAPUser{
@@ -214,7 +218,7 @@ static float  appVersion = 1.0;
     __block NSMutableArray *closestOffices = [[NSMutableArray alloc] init];
     NSDictionary *distances = [NSDictionary new];
     CLLocation *tempOfficeLocation;
-   
+    
     NSArray *sortedArray;
     sortedArray = [someOffices sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
         CLLocation *firstOfficeLocation = [[CLLocation alloc] initWithLatitude:[[(Office*)a latitude] doubleValue] longitude:[[(Office*)a longitude] doubleValue]];
@@ -321,5 +325,49 @@ static float  appVersion = 1.0;
     
     /* Set to 'YES' to use JSON in HTTP requests */
     requestHandler.useJSON = NO;
+}
+
++ (void)configureLoginService{
+    ZGARENTA_LOGIN_SRV_01RequestHandler *requestHandler = [ZGARENTA_LOGIN_SRV_01RequestHandler uniqueInstance];
+    [requestHandler setServiceDocumentURL:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_LOGIN_SRV_01"];
+    [requestHandler setSAPClient:@""];
+    
+    /* Set to 'NO' to disable service negotiation */
+    requestHandler.useServiceNegotiation = YES;
+    
+	/* Set to 'YES' to use local metadata for service proxy initialization */
+    requestHandler.useLocalMetadata = NO;
+    
+    /* Set to 'YES' to use JSON in HTTP requests */
+    requestHandler.useJSON = NO;
+}
+
++ (void)fillProperties:(id)object{
+    unsigned int count;
+    objc_property_t *properties = class_copyPropertyList([object class], &count);
+    for (NSUInteger i = 0; i < count; i++) {
+        objc_property_t property = properties[i];
+        NSString *key = [NSString stringWithUTF8String:property_getName(property)];
+        if ([ApplicationProperties isNSString:property]) {
+            [object setValue:@" " forKey:key];
+        }
+    }
+    
+    free(properties);
+    
+}
++ (BOOL) isNSString:(objc_property_t)prop{
+    
+    const char * propAttr = property_getAttributes(prop);
+    NSString *propString = [NSString stringWithUTF8String:propAttr];
+    
+    NSRange isRange = [propString rangeOfString:@"NSString" options:NSCaseInsensitiveSearch];
+    if(isRange.length == 0) {
+        return NO;
+    } else {
+        return YES;
+    }
+    
+    
 }
 @end
