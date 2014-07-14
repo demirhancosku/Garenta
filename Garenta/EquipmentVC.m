@@ -274,6 +274,7 @@
 }
 
 - (IBAction)minusButtonPressed:(id)sender {
+    
     AdditionalEquipment*additionalEquipment = [_additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
     int newValue = [additionalEquipment quantity]-1;
     [additionalEquipment setQuantity:newValue];
