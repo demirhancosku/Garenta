@@ -52,6 +52,7 @@ typedef enum{
 + (void)configureVersionService;
 + (void)configureReservationService;
 + (void)configureLoginService;
++ (void)configureCreditCardService;
 //aktiflik
 + (BOOL)isActiveVersion;
 

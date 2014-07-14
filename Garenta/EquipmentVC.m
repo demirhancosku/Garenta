@@ -15,11 +15,14 @@
 #import "ReservationSummaryVC.h"
 #import "UserInfoTableViewController.h"
 #import "CarSelectionVC.h"
-@interface EquipmentVC ()
+#import "AdditionalDriverVC.h"
+
+@interface EquipmentVC ()<WYPopoverControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *additionalEquipmentsTableView;
 @property (weak, nonatomic) IBOutlet UILabel *totalPriceLabel;
 @property (weak, nonatomic) IBOutlet UIButton *buyButton;
 @property (strong,nonatomic)NSMutableArray *additionalEquipments;
+@property (strong,nonatomic)WYPopoverController *myPopoverController;
 - (IBAction)plusButtonPressed:(id)sender;
 - (IBAction)minusButtonPressed:(id)sender;
 - (IBAction)selectCarPressed:(id)sender;
@@ -259,26 +262,39 @@
         total = total + [_reservation.selectedCar.pricing.carSelectPrice floatValue];
     }
     dispatch_async(dispatch_get_main_queue(), ^(void){
-                [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f",total]];
+        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f",total]];
     });
-
+    
 }
 
 
 #pragma mark - IBActions
 - (IBAction)plusButtonPressed:(id)sender {
     AdditionalEquipment*additionalEquipment = [_additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
-    int newValue = [additionalEquipment quantity]+1;
-    [additionalEquipment setQuantity:newValue];
-    [self recalculate];
+    if (additionalEquipment.type == additionalDriver) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[(UIButton*)sender tag] inSection:0];
+        [self.additionalEquipmentsTableView scrollToRowAtIndexPath:indexPath
+                             atScrollPosition:UITableViewScrollPositionBottom
+                                     animated:NO];
+        
+        [self performSegueWithIdentifier:@"toAdditionalDriverVCSegue" sender:sender];
+    }else{
+        int newValue = [additionalEquipment quantity]+1;
+        [additionalEquipment setQuantity:newValue];
+        [self recalculate];
+    }
 }
 
 - (IBAction)minusButtonPressed:(id)sender {
     
     AdditionalEquipment*additionalEquipment = [_additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
-    int newValue = [additionalEquipment quantity]-1;
-    [additionalEquipment setQuantity:newValue];
-    [self recalculate];
+    if (additionalEquipment.type ==additionalDriver) {
+        
+    }else{
+        int newValue = [additionalEquipment quantity]-1;
+        [additionalEquipment setQuantity:newValue];
+        [self recalculate];
+    }
 }
 
 #pragma mark - Navigation
@@ -296,6 +312,19 @@
         [(CarSelectionVC*)  [segue destinationViewController] setReservation:_reservation];
         
     }
+    
+    if ([[segue identifier] isEqualToString:@"toAdditionalDriverVCSegue"]) {
+        WYStoryboardPopoverSegue* popoverSegue = (WYStoryboardPopoverSegue*)segue;
+        
+        UIViewController* destinationViewController = (UIViewController *)segue.destinationViewController;
+        destinationViewController.preferredContentSize = CGSizeMake(320, self.view.frame.size.width);       // Deprecated in iOS7. Use 'preferredContentSize' instead.
+        
+        self.myPopoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionDown animated:YES];
+        self.myPopoverController.delegate = self;
+        
+//        [(AdditionalDriverVC*)segue.destinationViewController 
+    }
 }
+
 
 @end

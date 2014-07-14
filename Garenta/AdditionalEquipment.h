@@ -23,5 +23,8 @@ typedef enum{
 @property(assign,nonatomic)int quantity;
 @property(strong,nonatomic)NSDecimalNumber *price;
 @property(strong,nonatomic)NSDecimalNumber *maxQuantity;
+@property(strong,nonatomic)NSString *additionalDriverFirstname;
+@property(strong,nonatomic)NSString *additionalDriverSurname;
+@property(strong,nonatomic)NSDate *additionalDriverBirthday;
 @property(assign)EquipmentType type;
 @end

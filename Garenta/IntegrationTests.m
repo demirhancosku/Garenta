@@ -17,6 +17,8 @@
 #import "ZGARENTA_versiyon_srvServiceV0.h"
 #import "ZGARENTA_REZERVASYON_SRVRequestHandler.h"
 #import "ZGARENTA_REZERVASYON_SRVServiceV0.h"
+#import "ZGARENTA_GET_CUST_KK_SRVRequestHandler.h"
+#import "ZGARENTA_GET_CUST_KK_SRVServiceV0.h"
 #import "CarGroup.h"
 #import "IPFinder.h"
 @interface IntegrationTests : XCTestCase
@@ -550,22 +552,22 @@
     [aService setEvSubrc:[NSNumber numberWithInt:2]];
     [aService setEsOutput:esOutput];
     [aService setET_RETURNSet:etReturn];
-    
-    __block BOOL waitingForBlock = YES;
-    NSOperationQueue *operationQueue = [NSOperationQueue new];
-    [[NSNotificationCenter defaultCenter] addObserverForName:kCreateReservationServiceCompletedNotification object:nil queue:operationQueue usingBlock:^(NSNotification *notification){
-        waitingForBlock = NO;
-        XCTAssertNil([notification userInfo][kServerResponseError] , @"Error");
-        XCTAssertNotNil([notification userInfo][kResponseItem] , @"Reservation service no response");
-    }];
-    [[ZGARENTA_REZERVASYON_SRVRequestHandler uniqueInstance] createReservationService:aService];
-    while(waitingForBlock) {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-    }
-    
-    
-    
+//    
+//    __block BOOL waitingForBlock = YES;
+//    NSOperationQueue *operationQueue = [NSOperationQueue new];
+//    [[NSNotificationCenter defaultCenter] addObserverForName:kCreateReservationServiceCompletedNotification object:nil queue:operationQueue usingBlock:^(NSNotification *notification){
+//        waitingForBlock = NO;
+//        XCTAssertNil([notification userInfo][kServerResponseError] , @"Error");
+//        XCTAssertNotNil([notification userInfo][kResponseItem] , @"Reservation service no response");
+//    }];
+//    [[ZGARENTA_REZERVASYON_SRVRequestHandler uniqueInstance] createReservationService:aService];
+//    while(waitingForBlock) {
+//        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+//                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+//    }
+//    
+//    
+//    
     
     
 }
@@ -575,6 +577,23 @@
     NSLog(@"%@",[ipFinder myIP]);
 }
 
-
+- (void)testKKService{
+    [ApplicationProperties configureCreditCardService];
+    
+    CustKKServiceV0 *aService = [CustKKServiceV0 new];
+    [aService setIKunnr:@"18000017"];
+    __block BOOL waitingForBlock = YES;
+    NSOperationQueue *operationQueue = [NSOperationQueue new];
+    [[NSNotificationCenter defaultCenter] addObserverForName:kLoadCustKKServiceCompletedNotification object:nil queue:operationQueue usingBlock:^(NSNotification *notification){
+        waitingForBlock = NO;
+                XCTAssertNotNil([notification userInfo][kResponseItem] , @"Reservation service no response");
+        
+    }];
+    [[ZGARENTA_GET_CUST_KK_SRVRequestHandler uniqueInstance] loadCustKKService:aService expand:YES];
+    while(waitingForBlock) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    }
+}
 
 @end

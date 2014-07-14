@@ -121,13 +121,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Garenta/IPFinder.m"
-            timestampString = "425806771.784989"
+            filePath = "Garenta/ZGARENTA_GET_CUST_KK_SRVRequestHandler.m"
+            timestampString = "427033653.007808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
-            landmarkName = "-myIP"
+            startingLineNumber = "579"
+            endingLineNumber = "579"
+            landmarkName = "-loadCustKKServiceCompleted:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -137,14 +137,58 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Garenta/IPFinder.m"
-            timestampString = "425806771.784989"
+            filePath = "Garenta/IntegrationTests.m"
+            timestampString = "427034657.293079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "-myIP"
+            startingLineNumber = "589"
+            endingLineNumber = "589"
+            landmarkName = "-testKKService"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__33-[IntegrationTests testKKService]_block_invoke"
+                  moduleName = "GarentaTests"
+                  urlString = "file:///Users/alpkeser/Documents/workspace/Garenta/Garenta/IntegrationTests.m"
+                  timestampString = "427035040.234119"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "589"
+                  endingLineNumber = "589"
+                  offsetFromSymbolStart = "74">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__33-[IntegrationTests testKKService]_block_invoke"
+                  moduleName = "GarentaTests"
+                  urlString = "file:///Users/alpkeser/Documents/workspace/Garenta/Garenta/IntegrationTests.m"
+                  timestampString = "427035040.234357"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "589"
+                  endingLineNumber = "589"
+                  offsetFromSymbolStart = "528">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__33-[IntegrationTests testKKService]_block_invoke"
+                  moduleName = "GarentaTests"
+                  urlString = "file:///Users/alpkeser/Documents/workspace/Garenta/Garenta/IntegrationTests.m"
+                  timestampString = "427035040.234707"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "589"
+                  endingLineNumber = "589"
+                  offsetFromSymbolStart = "921">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

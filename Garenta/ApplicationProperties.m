@@ -13,6 +13,7 @@
 #import "ZGARENTA_versiyon_srvRequestHandler.h"
 #import "ZGARENTA_REZERVASYON_SRVRequestHandler.h"
 #import "ZGARENTA_LOGIN_SRV_01RequestHandler.h"
+#import "ZGARENTA_GET_CUST_KK_SRVRequestHandler.h"
 #import <objc/runtime.h>
 @implementation ApplicationProperties
 MainSelection mainSelection;
@@ -341,7 +342,20 @@ static float  appVersion = 1.0;
     /* Set to 'YES' to use JSON in HTTP requests */
     requestHandler.useJSON = NO;
 }
-
++ (void)configureCreditCardService{
+    ZGARENTA_GET_CUST_KK_SRVRequestHandler *requestHandler = [ZGARENTA_GET_CUST_KK_SRVRequestHandler uniqueInstance];
+    [requestHandler setServiceDocumentURL:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_GET_CUST_KK_SRV"];
+    [requestHandler setSAPClient:@""];
+    
+    /* Set to 'NO' to disable service negotiation */
+    requestHandler.useServiceNegotiation = YES;
+    
+	/* Set to 'YES' to use local metadata for service proxy initialization */
+    requestHandler.useLocalMetadata = NO;
+    
+    /* Set to 'YES' to use JSON in HTTP requests */
+    requestHandler.useJSON = NO;
+}
 + (void)fillProperties:(id)object{
     unsigned int count;
     objc_property_t *properties = class_copyPropertyList([object class], &count);
