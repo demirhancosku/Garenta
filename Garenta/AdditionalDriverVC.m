@@ -7,11 +7,12 @@
 //
 
 #import "AdditionalDriverVC.h"
-
+#import "AdditionalEquipment.h"
 @interface AdditionalDriverVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *surnameTextField;
 @property (weak, nonatomic) IBOutlet UIDatePicker *birthdayPicker;
+- (IBAction)addButtonPressed:(id)sender;
 
 
 @end
@@ -39,6 +40,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (BOOL)checkFields{
+    if ([self.nameTextField.text isEqualToString:@""] || [self.surnameTextField.text isEqualToString:@""]) {
+        return NO;
+    }
+    return YES;
+}
 /*
 #pragma mark - Navigation
 
@@ -50,4 +58,19 @@
 }
 */
 
+- (IBAction)addButtonPressed:(id)sender {
+    if ([self checkFields]) {
+        if(!self.reservation.additionalDrivers){
+            self.reservation.additionalDrivers = [NSMutableArray new];
+        }
+        [[self myDriver] setAdditionalDriverFirstname:self.nameTextField.text];
+        [[self myDriver] setAdditionalDriverSurname:self.surnameTextField.text];
+        [[self myDriver] setAdditionalDriverBirthday:self.birthdayPicker.date];
+        [self.reservation.additionalDrivers addObject:self.myDriver];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"additionalDriverAdded" object:nil];
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyari" message:@"Lutfen butun alanlari doldurunuz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        [alert show];
+    }
+}
 @end

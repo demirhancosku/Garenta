@@ -140,6 +140,7 @@
 		B5A3353F191759B000B29C2B /* IntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A3353E191759B000B29C2B /* IntegrationTests.m */; };
 		B5A3354519176DCA00B29C2B /* GarentaTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5A3354419176DCA00B29C2B /* GarentaTests-Info.plist */; };
 		B5A3354C19177D3200B29C2B /* ParseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A3354B19177D3200B29C2B /* ParseTests.m */; };
+		B5B017BC19755A0000F1BD18 /* AdditionalDriverListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B017BB19755A0000F1BD18 /* AdditionalDriverListVC.m */; };
 		B5BBE94E195021CF000AD4E2 /* UIViewController+Garenta.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BBE94D195021CF000AD4E2 /* UIViewController+Garenta.m */; };
 		B5BBE95119503907000AD4E2 /* UIColor+GarentaColors.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BBE95019503907000AD4E2 /* UIColor+GarentaColors.m */; };
 		B5BBE953195040CB000AD4E2 /* passanger_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B5BBE952195040CB000AD4E2 /* passanger_icon.png */; };
@@ -529,6 +530,8 @@
 		B5A3353E191759B000B29C2B /* IntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegrationTests.m; sourceTree = "<group>"; };
 		B5A3354419176DCA00B29C2B /* GarentaTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GarentaTests-Info.plist"; path = "GarentaTests/GarentaTests-Info.plist"; sourceTree = SOURCE_ROOT; };
 		B5A3354B19177D3200B29C2B /* ParseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseTests.m; sourceTree = "<group>"; };
+		B5B017BA19755A0000F1BD18 /* AdditionalDriverListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdditionalDriverListVC.h; sourceTree = "<group>"; };
+		B5B017BB19755A0000F1BD18 /* AdditionalDriverListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdditionalDriverListVC.m; sourceTree = "<group>"; };
 		B5BBE94C195021CF000AD4E2 /* UIViewController+Garenta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Garenta.h"; sourceTree = "<group>"; };
 		B5BBE94D195021CF000AD4E2 /* UIViewController+Garenta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Garenta.m"; sourceTree = "<group>"; };
 		B5BBE94F19503906000AD4E2 /* UIColor+GarentaColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+GarentaColors.h"; sourceTree = "<group>"; };
@@ -922,6 +925,8 @@
 				B5E064A4194F1E0E0046E789 /* CarSelectionVC.m */,
 				B545A2CD1973AB68005AD025 /* AdditionalDriverVC.h */,
 				B545A2CE1973AB68005AD025 /* AdditionalDriverVC.m */,
+				B5B017BA19755A0000F1BD18 /* AdditionalDriverListVC.h */,
+				B5B017BB19755A0000F1BD18 /* AdditionalDriverListVC.m */,
 			);
 			name = Equipments;
 			sourceTree = "<group>";
@@ -1678,6 +1683,7 @@
 				0CBA75CE1864356A0008CE29 /* AppDelegate.m in Sources */,
 				B5118CC01917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.m in Sources */,
 				0C0DA9A51865BEA5003EDDA0 /* Coordinate.m in Sources */,
+				B5B017BC19755A0000F1BD18 /* AdditionalDriverListVC.m in Sources */,
 				B59211A2195E981400A54E0E /* CreditCard.m in Sources */,
 				B5BBE94E195021CF000AD4E2 /* UIViewController+Garenta.m in Sources */,
 				0CBA75CC186435460008CE29 /* main.m in Sources */,

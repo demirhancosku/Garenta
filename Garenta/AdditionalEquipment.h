@@ -12,7 +12,7 @@
  ayırırken xxx class methodu çağırılarak ilgili tabloya eklenir.
  Hadi öptüm gözlerinizden
  */
-@interface AdditionalEquipment : NSObject
+@interface AdditionalEquipment : NSObject<NSCopying>
 typedef enum{
     additionalDriver = 0, //ek surucu
     additionalInsurance, //sigorta

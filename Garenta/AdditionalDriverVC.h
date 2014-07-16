@@ -7,7 +7,9 @@
 //
 
 #import "BaseTableVC.h"
+#import "Reservation.h"
 #import "AdditionalEquipment.h"
 @interface AdditionalDriverVC : UITableViewController
-@property(strong,nonatomic)AdditionalEquipment *additionalDriver;
+@property(strong,nonatomic)Reservation *reservation;
+@property(copy,nonatomic)AdditionalEquipment *myDriver;
 @end

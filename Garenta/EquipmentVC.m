@@ -49,7 +49,12 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
         [self getAdditionalEquipmentsFromSAP];
     });
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"carSelected" object:nil queue:[NSOperationQueue new] usingBlock:^(NSNotification*note){
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"carSelected" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
+        [self recalculate];
+        [_additionalEquipmentsTableView reloadData];
+    }];
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"additionalDriverAdded" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
+        [[self myPopoverController] dismissPopoverAnimated:YES];
         [self recalculate];
         [_additionalEquipmentsTableView reloadData];
     }];
@@ -322,7 +327,14 @@
         self.myPopoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionDown animated:YES];
         self.myPopoverController.delegate = self;
         
-//        [(AdditionalDriverVC*)segue.destinationViewController 
+        [(AdditionalDriverVC*)segue.destinationViewController setReservation:self.reservation];
+        for (AdditionalEquipment *tempEquipment in self.additionalEquipments) {
+            if (tempEquipment.type == additionalDriver) {
+                [(AdditionalDriverVC*)segue.destinationViewController setMyDriver:tempEquipment];
+                break;
+            }
+        }
+        
     }
 }
 

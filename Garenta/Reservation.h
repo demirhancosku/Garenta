@@ -20,6 +20,7 @@
 @property (nonatomic,retain) NSDate *checkInTime;
 @property (nonatomic,retain) NSString *number;
 @property (strong,nonatomic) NSMutableArray *additionalEquipments;
+@property (strong,nonatomic) NSMutableArray *additionalDrivers;
 @property (strong,nonatomic) NSMutableArray *etReserv; //just passing to create reservation
 @property (strong,nonatomic)Car *selectedCar;
 @property (copy,nonatomic) NSString *reservationNumber;
