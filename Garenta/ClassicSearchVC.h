@@ -16,6 +16,7 @@
 #import "Destination.h"
 #import "Arrival.h"
 #import "Reservation.h"
+#import "WYPopoverController.h"
 
 
 @interface ClassicSearchVC : UIViewController <UITableViewDataSource,UITableViewDelegate,NSURLConnectionDelegate, UIPopoverControllerDelegate,CLLocationManagerDelegate>
@@ -33,6 +34,7 @@
     CLLocation  *lastLocation;
 }
 
+@property (strong,nonatomic) WYPopoverController *myPopoverController;
 @property (nonatomic, retain) UIPopoverController *popOver;
 - (id)initWithFrame:(CGRect)frame;
 

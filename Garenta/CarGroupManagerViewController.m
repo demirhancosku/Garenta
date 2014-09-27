@@ -118,6 +118,7 @@
     
     return [groupVCs objectAtIndex:index];
 }
+
 //http://www.appcoda.com/uipageviewcontroller-storyboard-tutorial/
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
 {

@@ -86,7 +86,7 @@
 {
     [super viewDidLoad];
 
-    officeListTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
+    officeListTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.tabBarController.tabBar.frame.size.height - 44) style:UITableViewStyleGrouped];
     
     [officeListTable setDelegate:self];
     [officeListTable setDataSource:self];
@@ -150,7 +150,6 @@
     }
     
     [[cell textLabel] setText:[tempOffice subOfficeName]];
-    
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     return cell;
 }

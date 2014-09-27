@@ -14,15 +14,14 @@
 #import "Office.h"
 #import "Reservation.h"
 #pragma mark - CalendarMonthViewController
-@interface CalendarTimeVC : TKCalendarMonthViewController
+
+@interface CalendarTimeVC : UITableViewController //TKCalendarMonthViewController
 {
-    UISlider *mySlider;
-    UITextField *sliderText;
     NSDate *selectedTime;
-//    TKCalendarMonthView *monthView;
-    Reservation *reservation;
+    NSDate *tempTime;
     int tag;
-    UIDatePicker *datePicker;
 }
+
+@property(strong,nonatomic)Reservation *reservation;
 - (id)initWithReservation:(Reservation*)aReservation andTag:(int) aTag;
 @end

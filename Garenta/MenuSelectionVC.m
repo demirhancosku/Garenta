@@ -72,7 +72,8 @@ static int kGarentaLogoId = 1;
 
 
 #pragma mark - util methods
-- (void)checkVersion{
+- (void)checkVersion
+{
     //maybe we will do somehing different for here..
     loaderVC = [LoaderAnimationVC uniqueInstance];
     [loaderVC playAnimation:self.view];
@@ -160,8 +161,6 @@ static int kGarentaLogoId = 1;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bilgi" message:@"Uygulamamızın yeni versiyonunu indirmenizi rica ederiz. Teşekkürler." delegate:self cancelButtonTitle:@"Vazgeç" otherButtonTitles:       @"İndir",nil];
     [alert show];
 }
-
-
 
 #pragma mark - action methods
 - (IBAction)locationBasedSearchSelected:(id)sender{

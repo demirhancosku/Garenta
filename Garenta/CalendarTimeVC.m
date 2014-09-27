@@ -8,8 +8,18 @@
 
 #import "CalendarTimeVC.h"
 
-#pragma mark - CalendarMonthViewController
+@interface CalendarTimeVC ()<UITableViewDataSource,UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (weak, nonatomic) IBOutlet UILabel      *timeText;
+@property (weak, nonatomic) IBOutlet UISlider     *timeSlider;
+
+- (IBAction)selectTimeButtonPressed:(id)sender;
+- (IBAction)sliderValueChanged:(id)sender;
+
+
+@end
 @implementation CalendarTimeVC
+@synthesize reservation,datePicker,timeSlider,timeText;
     static int secondsInDay = 60 * 60 * 24;
 - (NSUInteger) supportedInterfaceOrientations{
 	return  UIInterfaceOrientationMaskPortrait;
@@ -20,70 +30,64 @@
 
 - (id)initWithReservation:(Reservation*)aReservation andTag:(int) aTag
 {
-    self = [super initWithSunday:NO];
     reservation = aReservation;
     tag = aTag;
     
     return self;
 }
 
-
 #pragma mark View Lifecycle
-- (void) viewDidLoad{
+- (void) viewDidLoad
+{
 	[super viewDidLoad];
     
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Tarih Seç" style:UIBarButtonItemStyleBordered target:self action:@selector(selectDateAndTime:)];
-    [[self navigationItem] setRightBarButtonItem:barButton];
-    
-    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-                                                           [ApplicationProperties getBlack], NSForegroundColorAttributeName,
-                                                           [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0], NSFontAttributeName, nil]];
-    
-    
-    
+    [self prepareDateAndtime];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self prepareUI];
-    
-    
 }
 
-- (void)selectDateAndTime:(id)sender
+- (void)prepareDateAndtime
 {
+    [datePicker setMinimumDate:[NSDate date]];
     
-    //TODO burda bir hata var saat degismiyence slected date sanki nil bakmak lazım
-    if (!selectedTime) {
-       [[self navigationController] popViewControllerAnimated:YES];
-        return;
-    }
-    //buraya zaten saat secili geliyor biz sadece yil ay gun duzenliyoruz
+    NSDate *today = [[NSDate alloc] init];
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *selectedTimeComponents =[gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:selectedTime];
-    NSDateComponents *selectedMonthViewComponents =[gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[self.monthView dateSelected]];
-    [selectedTimeComponents setYear:selectedMonthViewComponents.year];
-    [selectedTimeComponents setMonth:selectedMonthViewComponents.month];
-    [selectedTimeComponents setDay:selectedMonthViewComponents.day];
-    selectedTime = [gregorian dateFromComponents:selectedTimeComponents];
+    NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
+    [offsetComponents setYear:1];
+    NSDate *nextYear = [gregorian dateByAddingComponents:offsetComponents toDate:today options:0];
+    
+    [datePicker setMaximumDate:nextYear];
+    
+    NSDate *defaultDate;
+
     switch (tag) {
-        case 0://checkout
-            //            [reservation setCheckOutDay:selectedDay];
-            [reservation setCheckOutTime:selectedTime];
+        case 0: //checkout
+            defaultDate = reservation.checkOutTime;
             break;
-        case 1: //checkin
-            //            [reservation setCheckInDay:selectedDay];
-            [reservation setCheckInTime:selectedTime];
+        case 1:
+            defaultDate = reservation.checkInTime;
             break;
         default:
             break;
     }
+
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"HH:mm"];
+    [timeText setText:[dateFormatter stringFromDate:defaultDate]];
     
-    [[self navigationController] popViewControllerAnimated:YES];
+    [timeSlider setThumbImage:[UIImage imageNamed: @"SliderHandle.png"]  forState:UIControlStateNormal];
+    //biraz yukari alalim ikonu
+    [timeSlider setTintColor:[ApplicationProperties getOrange]];
+    [timeSlider setMinimumValue:0];
+    [timeSlider setMaximumValue:secondsInDay];
+    [self setSliderDefaultValue];
 }
 
-- (void)setSliderDefaultValue{
+- (void)setSliderDefaultValue
+{
     NSDate *defaultDate;
     
     //Optionally for time zone converstions
@@ -101,33 +105,19 @@
     NSCalendar *myCalnedar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *dateComps = [myCalnedar components:(NSHourCalendarUnit|NSMinuteCalendarUnit) fromDate:defaultDate];
     int defaultDateBySeconds = dateComps.hour * 60 * 60 + dateComps.minute*60;
-    [mySlider setValue:defaultDateBySeconds];
+    [timeSlider setValue:defaultDateBySeconds];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"HH:mm"];
-    [sliderText setText:[dateFormatter stringFromDate:defaultDate]];
-  
-
+    [timeText setText:[dateFormatter stringFromDate:defaultDate]];
     
+    selectedTime = [dateFormatter dateFromString:timeText.text];
 }
 
-- (void)setCalendarDefaultValue{
-    switch (tag) {
-        case 0:
-            [self.monthView selectDate:reservation.checkOutTime];
-            break;
-        case 1:
-            [self.monthView selectDate:reservation.checkInTime];
-            break;
-        default:
-            break;
-    }
-}
-
-- (void)sliderValueChanged:(id)sender
+- (IBAction)sliderValueChanged:(id)sender
 {
     //TODO: burasi yalnis
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSNumber *number = [NSNumber numberWithFloat:[mySlider value]];
+    NSNumber *number = [NSNumber numberWithFloat:[timeSlider value]];
     
     int selectedSeconds = [number intValue];
     NSDateComponents *dateComps = [calendar components:(NSHourCalendarUnit|NSMinuteCalendarUnit) fromDate:[NSDate date]];
@@ -156,70 +146,41 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"HH:mm"];
     selectedTime = myTime;
-    [sliderText setText:[dateFormatter stringFromDate:myTime]];
-    
+    [timeText setText:[dateFormatter stringFromDate:myTime]];
 }
 
-- (void)prepareUI{
+- (IBAction)selectTimeButtonPressed:(id)sender
+{
+    //TODO burda bir hata var saat degismiyence slected date sanki nil bakmak lazım
+    if (!selectedTime) {
+        [[self navigationController] popViewControllerAnimated:YES];
+        return;
+    }
     
-    //burasi biraz karisti center mi verdik framede mi ayarladik. neyse
+    //buraya zaten saat secili geliyor biz sadece yil ay gun duzenliyoruz
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *selectedDateComponents =[gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit ) fromDate:datePicker.date];
     
-    //configure calendar
-    [self setCalendarDefaultValue];
-    //adding label
-    float labelOriginHeight = self.monthView.frame.size.height + (self.view.frame.size.height - self.monthView.frame.size.height) * 0.20;
-    float sliderOriginHeight = self.monthView.frame.size.height + (self.view.frame.size.height - self.monthView.frame.size.height) * 0.40;
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.05, labelOriginHeight , self.monthView.frame.size.width * 0.6, 50)];
-    [label setText:@"Saat Seçiniz :"];
-    [label sizeToFit];
-    [label setTextColor:[ApplicationProperties getOrange]];
-    [[self view] addSubview:label];
+    NSDateComponents *selectedTimeComponents = [gregorian components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:selectedTime];
+
+    selectedDateComponents.hour = selectedTimeComponents.hour;
+    selectedDateComponents.minute = selectedTimeComponents.minute;
     
-    //adding time text
-    sliderText = [[UITextField alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.05, self.monthView.frame.size.height * 1.1, self.monthView.frame.size.width * 0.20, 50)];
-    [sliderText setCenter:CGPointMake(self.view.frame.size.width * 0.5, label.center.y)];
+    selectedTime = [gregorian dateFromComponents:selectedDateComponents];
     
-    //adding slider
-    mySlider = [[UISlider alloc] initWithFrame:CGRectMake(self.monthView.frame.size.width * 0.25, sliderOriginHeight, self.monthView.frame.size.width * 0.6, 50)];
-    [mySlider addTarget:self action:@selector(sliderValueChanged:)
-       forControlEvents:UIControlEventValueChanged];
-    [mySlider setThumbImage:[UIImage imageNamed: @"SliderHandle.png"]  forState:UIControlStateNormal];
-    //biraz yukari alalim ikonu
-//    CGRect sliderIconFrame = mySl
-    [mySlider setTintColor:[ApplicationProperties getOrange]];
-    [mySlider setMinimumValue:0];
-    [mySlider setMaximumValue:secondsInDay];
-    [self setSliderDefaultValue];
-    [[self view] addSubview:sliderText];
-    [[self view] addSubview:mySlider];
+    switch (tag) {
+        case 0://checkout
+            [reservation setCheckOutTime:selectedTime];
+            break;
+        case 1: //checkin
+            [reservation setCheckInTime:selectedTime];
+            break;
+        default:
+            break;
+    }
     
-    //adding clock icon
-    UIImageView *myClockIcon = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    [myClockIcon setCenter:CGPointMake(self.view.frame.size.width * 0.2 ,mySlider.center.y)];
-    [myClockIcon setImage:[UIImage imageNamed:@"clock_icon.png"]];
-    [[self view] addSubview:myClockIcon];
-    
+   [[NSNotificationCenter defaultCenter] postNotificationName:@"dateAndTimeSelected" object:nil];
 }
 
-//- (void)calendarMonthView:(TKCalendarMonthView *)monthView didSelectDate:(NSDate *)selectedDate
-//{
-//    if([selectedDate compare:[NSDate date]] == NSOrderedAscending)
-//    {
-//        NSString *today=[NSString stringWithFormat:@"%@",[NSDate date]];
-//        NSString *chooseday=[NSString stringWithFormat:@"%@",selectedDate];
-//        NSArray *date1=[today componentsSeparatedByString:@" "];
-//        NSArray *date2=[chooseday componentsSeparatedByString:@" "];
-//        
-//        if([[date1 objectAtIndex:0] isEqualToString:[date2 objectAtIndex:0]])
-//        {
-//            NSLog(@"Today date clicked");
-//        }
-//        else
-//        {
-//            
-//            NSLog(@"Past date clicked");
-//        }
-//    }
-//}
 @end
 

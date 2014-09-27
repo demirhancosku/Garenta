@@ -16,10 +16,11 @@
 #import "ZGARENTA_ARAC_SRVServiceV0.h"
 #import "ZGARENTA_ARAC_SRVRequestHandler.h"
 #import "ParsingConstants.h"
+#import "WYStoryboardPopoverSegue.h"
 #define kCheckOutTag 0
 #define kCheckInTag 1
 
-@interface ClassicSearchVC ()
+@interface ClassicSearchVC () <WYPopoverControllerDelegate>
 
 @end
 
@@ -65,8 +66,6 @@
     // Dispose of any resources that can be recreated.
     [self removeNotifcations];
 }
-
-
 
 
 #pragma mark - Table view data source
@@ -183,10 +182,11 @@
         }
         if(indexPath.row == 1 )
         {
-            UIViewController *vc;
-            vc = [[CalendarTimeVC alloc] initWithReservation:reservation andTag:tableView.tag];
-            [self.navigationController pushViewController:vc animated:YES];
-            
+//            UIViewController *vc;
+//            vc = [[CalendarTimeVC alloc] initWithReservation:reservation andTag:tableView.tag];
+//            [self.navigationController pushViewController:vc animated:YES];
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            [self performSegueWithIdentifier:@"toDateTimeVCSegue" sender:cell];
         }
     }
     else
@@ -198,11 +198,11 @@
         }
         else
         {
-            UIViewController *vc;
-            vc = [[CalendarTimeVC alloc] initWithReservation:reservation andTag:tableView.tag];
-            [self.navigationController pushViewController:vc animated:YES];
-            
-            
+//            UIViewController *vc;
+//            vc = [[CalendarTimeVC alloc] initWithReservation:reservation andTag:tableView.tag];
+//            [self.navigationController pushViewController:vc animated:YES];
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            [self performSegueWithIdentifier:@"toDateTimeVCSegue" sender:cell];
         }
     }
 }
@@ -833,6 +833,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(parseOffices:) name:kLoadOfficeServiceCompletedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(parseCars:) name:kCreateAvailCarServiceCompletedNotification object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"dateAndTimeSelected" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
+        [[self myPopoverController] dismissPopoverAnimated:YES];
+        [arrivalTableView reloadData];
+        [destinationTableView reloadData];
+    }];
+    
 }
 
 - (void)removeNotifcations{
@@ -868,14 +874,30 @@
         [filterVC setCarGroups:availableCarGroups];
         [filterVC setReservation:reservation];
     }
+    
+    if ([[segue identifier] isEqualToString:@"toDateTimeVCSegue"]) {
+        WYStoryboardPopoverSegue* popoverSegue = (WYStoryboardPopoverSegue*)segue;
+        
+        UIViewController* destinationViewController = (UIViewController *)segue.destinationViewController;
+        destinationViewController.preferredContentSize = CGSizeMake(320, self.view.frame.size.width);       // Deprecated in iOS7. Use 'preferredContentSize' instead.
+        
+        self.myPopoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionNone animated:YES];
+        self.myPopoverController.delegate = self;
+        
+        CalendarTimeVC *calendarTime = (CalendarTimeVC*)[segue destinationViewController];
+        [calendarTime setReservation:reservation];
+
+    }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
 
--(void)checkDates:(void(^)(BOOL isOk, NSString *errorMsg))completion{
+-(void)checkDates:(void(^)(BOOL isOk, NSString *errorMsg))completion
+{
     //checkout date
     NSDateComponents *checkOutTimecomponents = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit|NSMinuteCalendarUnit | NSWeekdayCalendarUnit) fromDate:reservation.checkOutTime];
     NSPredicate *dayPredicate = [NSPredicate predicateWithFormat:@"Caday=%@",[NSString stringWithFormat:@"%@%i",@"0",[checkOutTimecomponents weekday]]];
+    
     NSArray *dayArray = [reservation.checkOutOffice.workingDates filteredArrayUsingPredicate:dayPredicate];
     EXPT_CALISMA_ZAMANIV0 *checkOutWorkingTime = [dayArray objectAtIndex:0];
     //TODO:formatlari duzeltelim yada kaldir direk hata ver!
@@ -889,6 +911,5 @@
     }
     
     completion(YES,@"");
-    
 }
 @end

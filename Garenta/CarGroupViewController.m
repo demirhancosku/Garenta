@@ -95,7 +95,8 @@
     }
 }
 
-- (void)prepareUI{
+- (void)prepareUI
+{
     [_fuelLabel setText:carGroup.fuelName];
     [_transmissionLabel setText:carGroup.transmissonName];
     [_acLabel setText:@"Klima"];

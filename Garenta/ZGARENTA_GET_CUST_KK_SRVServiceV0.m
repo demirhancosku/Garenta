@@ -91,7 +91,6 @@ static ODataEntitySchema *custKKServiceEntitySchema = nil;
     	}
 }
 
-
 + (NSString *)getLabelForProperty:(NSString *)aPropertyName
 {
     return [BaseODataObject getLabelFromDictionary:custKKServiceLabels forProperty:aPropertyName];
