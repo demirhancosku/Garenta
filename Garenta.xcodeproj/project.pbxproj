@@ -180,6 +180,8 @@
 		B5F5F95E193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */; };
 		B5FDB0C01918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB0BE1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml */; };
 		B5FDB0C11918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB0BF1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml */; };
+		E1D2AB6719D45EAA00806868 /* SAPJSONHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D2AB6619D45EAA00806868 /* SAPJSONHandler.m */; };
+		E1D2AB6A19D45EB600806868 /* ConnectionProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D2AB6919D45EB600806868 /* ConnectionProperties.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -590,6 +592,10 @@
 		B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdditionalEquipmentTableViewCell.m; sourceTree = "<group>"; };
 		B5FDB0BE1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml; sourceTree = "<group>"; };
 		B5FDB0BF1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml; sourceTree = "<group>"; };
+		E1D2AB6519D45EAA00806868 /* SAPJSONHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SAPJSONHandler.h; sourceTree = "<group>"; };
+		E1D2AB6619D45EAA00806868 /* SAPJSONHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SAPJSONHandler.m; sourceTree = "<group>"; };
+		E1D2AB6819D45EB600806868 /* ConnectionProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionProperties.h; sourceTree = "<group>"; };
+		E1D2AB6919D45EB600806868 /* ConnectionProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionProperties.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -783,6 +789,10 @@
 				B5BBE95019503907000AD4E2 /* UIColor+GarentaColors.m */,
 				B5E63C5419613BAD005D7D5C /* IPFinder.h */,
 				B5E63C5519613BAD005D7D5C /* IPFinder.m */,
+				E1D2AB6519D45EAA00806868 /* SAPJSONHandler.h */,
+				E1D2AB6619D45EAA00806868 /* SAPJSONHandler.m */,
+				E1D2AB6819D45EB600806868 /* ConnectionProperties.h */,
+				E1D2AB6919D45EB600806868 /* ConnectionProperties.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -790,10 +800,9 @@
 		0C4C9A9A1846331200CD3728 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B5BBE954195040F6000AD4E2 /* door_icon.png */,
+				0C5B5FCA186479800060BECD /* Calendar */,
 				B50715C818B7AC1D00419189 /* Price.h */,
 				B50715C918B7AC1E00419189 /* Price.m */,
-				0C5B5FCA186479800060BECD /* Calendar */,
 				9E212F76186343C3004B9B80 /* Office.h */,
 				9E212F77186343C3004B9B80 /* Office.m */,
 				9E212F7918634A96004B9B80 /* OfficeWorkingTime.h */,
@@ -827,6 +836,7 @@
 		0C4C9A9B1846331D00CD3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B5BBE954195040F6000AD4E2 /* door_icon.png */,
 				B59211A3195ECE2F00A54E0E /* calendar_icon.png */,
 				B5921193195D934900A54E0E /* triangle_green.png */,
 				B5921194195D934900A54E0E /* triangle_white.png */,
@@ -1663,6 +1673,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C5B5FE5186482860060BECD /* UIColor+TKCategory.m in Sources */,
+				E1D2AB6719D45EAA00806868 /* SAPJSONHandler.m in Sources */,
 				0C5B5FDA186481670060BECD /* NSDate+TKCategory.m in Sources */,
 				0CBA77BD186447AB0008CE29 /* LoginVC.m in Sources */,
 				B5A2CAE81872B60100271DE9 /* MinimumInfoVC.m in Sources */,
@@ -1711,6 +1722,7 @@
 				B5E486C1195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVRequestHandler.m in Sources */,
 				B592119B195D9D9900A54E0E /* WYPopoverController.m in Sources */,
 				B5E63C5619613BAD005D7D5C /* IPFinder.m in Sources */,
+				E1D2AB6A19D45EB600806868 /* ConnectionProperties.m in Sources */,
 				B5041BEA1973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceV0.m in Sources */,
 				B50715CA18B7AC1E00419189 /* Price.m in Sources */,
 				B50B09D71874988F00649165 /* ReservationSummaryViewController.m in Sources */,

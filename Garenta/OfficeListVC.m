@@ -22,33 +22,43 @@
     }
     return self;
 }
-- (id)initWithReservation:(Reservation*)aReservation andTag:(int)aTag andOfficeList:(NSMutableArray*) anOfficeList{
+- (id)initWithReservation:(Reservation*)aReservation andTag:(int)aTag andOfficeList:(NSMutableArray*) anOfficeList {
+    
     self = [super init];
+    
     officeList = anOfficeList;
     tag = aTag;
+    
     if (tag ==0 ) {
         [self addCitiesAsOffice];
     }
+    
     reservation = aReservation;
     return self;
 }
-- (void)addCitiesAsOffice{
+- (void)addCitiesAsOffice {
+    
     NSMutableArray *newOfficeList = [[NSMutableArray alloc] init];
     Office *newOffice;
+    
     for (Office *tempOffice in officeList) {
         if (![self cityList:newOfficeList hasCityWithCode:tempOffice.cityCode]) {
+            
             newOffice = [[Office alloc] init];
             [newOffice setCityCode:tempOffice.cityCode];
             [newOffice setCityName:tempOffice.cityName];
             [newOffice setSubOfficeName:[NSString stringWithFormat:@"%@ Tümü",newOffice.cityName]];
+            [newOffice setIsPseudoOffice:YES];
             [newOfficeList addObject:newOffice];
         }
     }
+    
     [newOfficeList addObjectsFromArray:officeList];
     officeList = newOfficeList;
 }
 
-- (BOOL)cityList:(NSMutableArray*)cityList hasCityWithCode:(NSString*)cityCode{
+- (BOOL)cityList:(NSMutableArray*)cityList hasCityWithCode:(NSString*)cityCode {
+    
     for (Office *tempOffice in cityList) {
         if ([tempOffice.cityCode isEqualToString:cityCode]) {
             return YES;
@@ -91,9 +101,11 @@
     [officeListTable setDelegate:self];
     [officeListTable setDataSource:self];
     
+    [[self view] addSubview:officeListTable];
+    
     tempOffice = [[Office alloc] init];
     
-    [[self view] addSubview:officeListTable];
+    [self setTitle:@"Ofis Listesi"];
     
     searchData = [[NSMutableArray alloc]init];
     
@@ -105,11 +117,10 @@
     
     officeListTable.tableHeaderView = searchBar;
     
-    NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"subOfficeName" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"cityCode" ascending:YES];
+    NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"subOfficeCode" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor1, sortDescriptor2, nil];
     [officeList sortUsingDescriptors:sortDescriptors];
-	// Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
@@ -149,10 +160,35 @@
         tempOffice = [officeList objectAtIndex:indexPath.row];
     }
     
+    [[cell textLabel] setFont:[ApplicationProperties getFont]];
+    
+    if (tempOffice.isPseudoOffice) {
+        [[cell textLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]];
+    }
     [[cell textLabel] setText:[tempOffice subOfficeName]];
+    [[cell textLabel] setNumberOfLines:0];
     
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        tempOffice = [searchData objectAtIndex:indexPath.row];
+    }
+    else
+    {
+        tempOffice = [officeList objectAtIndex:indexPath.row];
+    }
+    
+    if (tempOffice.isPseudoOffice) {
+        return 0;
+    }
+    else {
+        return 1;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
