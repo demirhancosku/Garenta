@@ -11,6 +11,7 @@
 #import "MinimumInfoVC.h"
 #import "ZGARENTA_versiyon_srvServiceV0.h"
 #import "ZGARENTA_versiyon_srvRequestHandler.h"
+
 @interface MenuSelectionVC ()
 - (IBAction)locationBasedSearchSelected:(id)sender;
 - (IBAction)normalSearchSelected:(id)sender;
@@ -40,12 +41,7 @@ static int kGarentaLogoId = 1;
     
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
     
-    //    [[[self tabBarController] tabBar] setHidden:YES];
-	// Do any additional setup after loading the view.
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
-        [self checkVersion];
-    });
-    
+    [self checkVersion];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -77,34 +73,30 @@ static int kGarentaLogoId = 1;
     //maybe we will do somehing different for here..
     loaderVC = [LoaderAnimationVC uniqueInstance];
     [loaderVC playAnimation:self.view];
-    [ApplicationProperties configureVersionService];
-    VersiyonServiceV0 *aService = [VersiyonServiceV0 new];
-    [aService setIVers:[NSString stringWithFormat:@"%.01f",[ApplicationProperties getAppVersion]]];
-    [aService setIAppName:@"rezApp"];
-    NSOperationQueue *operationQueue = [NSOperationQueue new];
-    [[NSNotificationCenter defaultCenter] addObserverForName:kLoadVersiyonServiceCompletedNotification object:nil queue:operationQueue usingBlock:^(NSNotification *notification){
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            [loaderVC stopAnimation];
-        });
-        if ([notification userInfo][kServerResponseError]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Sistemlerimizde bakım çalışması yapılmaktadır. Lütfen daha sonra tekrar deneyiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-            [alert show];
-            return;
-        }
-        VersiyonServiceV0 *response = (VersiyonServiceV0*)[[notification userInfo][kResponseItems] objectAtIndex:0];
+    
+    SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZMOB_CHECK_VERSIYON"];
+    
+    [handler addImportParameter:@"I_APP_NAME" andValue:[ApplicationProperties getAppName]];
+    [handler addImportParameter:@"I_VERS" andValue:[ApplicationProperties getAppVersion]];
+    
+    NSDictionary *resultDict = [handler prepCall];
+    
+    if (resultDict != nil) {
+        NSDictionary *exportDict = [resultDict valueForKey:@"EXPORT"];
+        NSString *returnValue = [exportDict valueForKey:@"E_RETURN"];
         
-        if ([response.EReturn isEqualToString:@"T"]) {
-            [[NSUserDefaults standardUserDefaults]
-             setObject:@"T"forKey:@"ACTIVEVERSION"];
-        }else{
-            [[NSUserDefaults standardUserDefaults]
-             setObject:@"F"forKey:@"ACTIVEVERSION"];
+        if ([returnValue isEqualToString:@"T"]) {
+            [[NSUserDefaults standardUserDefaults] setObject:@"T" forKey:@"ACTIVEVERSION"];
+        }
+        else {
+            [[NSUserDefaults standardUserDefaults] setObject:@"F" forKey:@"ACTIVEVERSION"];
+
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bilgi" message:@"Uygulamamızın yeni versiyonunu indirmenizi rica ederiz. Teşekkürler." delegate:self cancelButtonTitle:@"Vazgeç" otherButtonTitles:@"İndir",nil];
             [alert show];
         }
-        
-    }];
-    [[ZGARENTA_versiyon_srvRequestHandler uniqueInstance] loadVersiyonService:aService];
+    }
+    
+    [loaderVC stopAnimation];
 }
 
 //puts logo on navigation bar

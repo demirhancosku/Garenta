@@ -38,7 +38,8 @@ typedef enum{
 + (NSString*)getSAPUser;
 + (NSString*)getSAPPassword;
 + (int)getTimeout;
-+(float)getAppVersion;
++ (NSString *)getAppVersion;
++ (NSString *)getAppName;
 
 + (NSString*)getAvailableCarURLWithCheckOutOffice:(Office*) checkOutOffice andCheckInOffice:(Office*) checkInOffice andCheckOutDay:(NSDate*)checkOutDay andCheckOutTime:(NSDate*)checkOutTime andCheckInDay:(NSDate*)checkInDay andCheckInTime:(NSDate*)checkInTime;
 + (NSString*)getCreateReservationURLWithReservation:(Reservation*)aReservation;

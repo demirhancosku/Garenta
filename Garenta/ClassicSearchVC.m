@@ -49,13 +49,17 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     // ekranki component'ların ayarlaması yapılıyor
     [self prepareScreen];
+    
     //only once singleton koydum devam etsin burdan
     offices = [ApplicationProperties getOffices];
+    
     if (offices.count ==0) {
         [self getOfficesFromSAP];
     }
+    
     [self correctCheckIndate];
     
 }
@@ -263,16 +267,96 @@
 
 #pragma mark - gateway connection delegates
 
-- (void)getOfficesFromSAP{
-    [ApplicationProperties configureOfficeService];
-    //prepare object
-    OfficeServiceV0 *officeService = [[OfficeServiceV0 alloc] init];
-    [officeService setImppBolge:@" "];
-    [officeService setImppMerkezSube:@" "];
-    [officeService setImppAltSube:@" "];
-    //aalpk method override
-    [[ZGARENTA_OFIS_SRVRequestHandler uniqueInstance] loadOfficeService:officeService expand:YES];
-    [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
+- (void)getOfficesFromSAP {
+    
+    @try {
+        [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
+        
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZMOB_KDK_GET_SUBE_CALISMA_SAAT"];
+        
+        NSDictionary *resultDict = [handler prepCall];
+        
+        if (resultDict != nil) {
+            NSDictionary *resultTables = [resultDict valueForKey:@"EXPORT"];
+            
+            NSDictionary *officeInformation = [resultTables valueForKey:@"EXPT_SUBE_BILGILERI"];
+            NSDictionary *officeInformationArray = [officeInformation valueForKey:@"ZMOB_TT_SUBE_MASTER"];
+            
+            NSDictionary *officeWorkingHours = [resultTables valueForKey:@"EXPT_CALISMA_ZAMANI"];
+            NSDictionary *officeWorkingHoursArray = [officeWorkingHours valueForKey:@"ZMOB_TT_SUBE_CALSAAT"];
+            
+            NSDictionary *officeHolidays = [resultTables valueForKey:@"EXPT_TATIL_ZAMANI"];
+            NSDictionary *officeHolidayArray = [officeHolidays valueForKey:@"ZMOB_TT_SUBE_TATIL"];
+            
+            for (NSDictionary *tempDict in officeInformationArray) {
+                
+                // Aktif olmayan şubeleri almıyoruz
+                if (![[tempDict valueForKey:@"AKTIFSUBE"] isEqualToString:@"X"]) {
+                    continue;
+                }
+                
+                Office *tempOffice = [[Office alloc] init];
+                [tempOffice setMainOfficeCode:[tempDict valueForKey:@"MERKEZ_SUBE"]];
+                [tempOffice setMainOfficeName:[tempDict valueForKey:@"MERKEZ_SUBETX"]];
+                [tempOffice setSubOfficeCode:[tempDict valueForKey:@"ALT_SUBE"]];
+                [tempOffice setSubOfficeName:[tempDict valueForKey:@"ALT_SUBETX"]];
+                [tempOffice setSubOfficeType:[tempDict valueForKey:@"ALT_SUBETIPTX"]];
+                [tempOffice setSubOfficeTypeCode:[tempDict valueForKey:@"ALT_SUBETIP"]];
+                [tempOffice setCityCode:[tempDict valueForKey:@"SEHIR"]];
+                [tempOffice setCityName:[tempDict valueForKey:@"SEHIRTX"]];
+                [tempOffice setAddress:[tempDict valueForKey:@"ADRES"]];
+                [tempOffice setTel:[tempDict valueForKey:@"TEL"]];
+                [tempOffice setFax:[tempDict valueForKey:@"FAX"]];
+                [tempOffice setLongitude:[tempDict valueForKey:@"YKORD"]];
+                [tempOffice setLatitude:[tempDict valueForKey:@"XKORD"]];
+                
+
+                NSMutableArray *workingHoursArray = [NSMutableArray new];
+                
+                for (NSDictionary *tempWorkHourDict in officeWorkingHoursArray) {
+                    if ([[tempWorkHourDict valueForKey:@"MERKEZ_SUBE"] isEqualToString:[tempOffice mainOfficeCode]]) {
+                        OfficeWorkingTime *tempTime = [[OfficeWorkingTime alloc] init];
+                        tempTime.startTime = [tempWorkHourDict valueForKey:@"BEGTI"];
+                        tempTime.endingHour = [tempWorkHourDict valueForKey:@"ENDTI"];
+                        tempTime.weekDayCode = [tempWorkHourDict valueForKey:@"CADAY"];
+                        tempTime.weekDayName = [tempWorkHourDict valueForKey:@"CADAYTX"];
+                        tempTime.subOffice = [tempWorkHourDict valueForKey:@"ALT_SUBE"];
+                        tempTime.mainOffice = [tempWorkHourDict valueForKey:@"MERKEZ_SUBE"];
+                        
+                        [workingHoursArray addObject:tempTime];
+                    }
+                }
+                
+                [tempOffice setWorkingDates:[workingHoursArray copy]];
+                
+                NSMutableArray *holidayArray = [NSMutableArray new];
+                
+                for (NSDictionary *tempHolidayDict in officeHolidayArray) {
+                    if ([[tempHolidayDict valueForKey:@"MERKEZ_SUBE"] isEqualToString:[tempOffice mainOfficeCode]]) {
+                        OfficeWorkingTime *tempTime = [[OfficeWorkingTime alloc] init];
+                        tempTime.startTime = [tempHolidayDict valueForKey:@"BEGTI"];
+                        tempTime.endingHour = [tempHolidayDict valueForKey:@"ENDTI"];
+                        tempTime.weekDayCode = [tempHolidayDict valueForKey:@"CADAY"];
+                        tempTime.weekDayName = [tempHolidayDict valueForKey:@"CADAYTX"];
+                        tempTime.subOffice = [tempHolidayDict valueForKey:@"ALT_SUBE"];
+                        tempTime.mainOffice = [tempHolidayDict valueForKey:@"MERKEZ_SUBE"];
+                        
+                        [holidayArray addObject:tempTime];
+                    }
+                }
+                
+                [tempOffice setHolidayDates:[holidayArray copy]];
+                
+                [offices addObject:tempOffice];
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        [[LoaderAnimationVC uniqueInstance] stopAnimation];
+    }
 }
 
 - (void)showCarGroup:(id)sender
@@ -347,11 +431,7 @@
         
     }
     
-    
-    
     [self getAvailableCarsFromSAP];
-    
-    
 }
 
 - (void)getAvailableCarsFromSAP{
@@ -699,7 +779,7 @@
             [alert show];
         }
     }];
-
+    
 }
 
 
@@ -721,46 +801,12 @@
     return carImage;
 }
 
-- (void)parseOffices:(NSNotification *)notification{
-    [[LoaderAnimationVC uniqueInstance] stopAnimation];
-    //aalpk ofisler iki kere gelebiliyor. kontrol
-    if (offices.count>0) {
-        return;
-    }
-    OfficeServiceV0 *officeServiceResponse = (OfficeServiceV0*)[[notification userInfo] objectForKey:kResponseItem];
-    Office *tempOffice;
-    for (EXPT_SUBE_BILGILERIV0 *tempOfficeInfo in officeServiceResponse.EXPT_SUBE_BILGILERISet) {
-        tempOffice = [[Office alloc] init];
-        [tempOffice setMainOfficeCode:tempOfficeInfo.MerkezSube];
-        [tempOffice setMainOfficeName:tempOfficeInfo.MerkezSubetx];
-        [tempOffice setSubOfficeCode:tempOfficeInfo.AltSube];
-        [tempOffice setSubOfficeName:tempOfficeInfo.AltSubetx];
-        [tempOffice setSubOfficeType:tempOfficeInfo.AltSubetiptx];
-        [tempOffice setSubOfficeTypeCode:tempOfficeInfo.AltSubetip];
-        [tempOffice setCityCode:tempOfficeInfo.Sehir];
-        [tempOffice setCityName:tempOfficeInfo.Sehirtx];
-        [tempOffice setLongitude:tempOfficeInfo.Xkord];
-        [tempOffice setLatitude:tempOfficeInfo.Ykord];
-        
-        //calisma ve tatil zamanlarini ekliyoruz
-            NSPredicate *officeCodeQuery = [NSPredicate predicateWithFormat:@"MerkezSube=%@",tempOffice.mainOfficeCode];
-        [tempOffice setWorkingDates:[officeServiceResponse.EXPT_CALISMA_ZAMANISet filteredArrayUsingPredicate:officeCodeQuery]];
-        [tempOffice setHolidayDates:[officeServiceResponse.EXPT_TATIL_ZAMANISet filteredArrayUsingPredicate:officeCodeQuery]];
-        [offices addObject:tempOffice];
-    }
-    //parsing data
-    
-}
-
 
 //checks wheather the checkin date before checkout and correct accordingly
-- (void)correctCheckIndate{
-    
+- (void)correctCheckIndate {
     if ([reservation.checkOutTime compare:reservation.checkInTime] == NSOrderedDescending) {
         reservation.checkInTime = [reservation.checkOutTime copy];
-        
     }
-    
 }
 
 - (void)prepareScreen
@@ -912,4 +958,5 @@
     
     completion(YES,@"");
 }
+
 @end

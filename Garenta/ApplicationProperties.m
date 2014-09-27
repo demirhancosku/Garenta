@@ -21,7 +21,8 @@ User* myUser;
 NSMutableArray *offices;
 static NSString *GATEWAY_USER = @"GW_ADMIN";
 static NSString *GATEWAY_PASS = @"1qa2ws3ed";
-static float  appVersion = 1.0;
+static NSString *appVersion = @"1.0";
+static NSString *appName = @"REZ";
 
 + (UIColor *)getOrange{
     return [UIColor colorWithRed:255/255.0 green:80.0/255.0 blue:0.0/255.0 alpha:1.0];
@@ -113,9 +114,14 @@ static float  appVersion = 1.0;
     return 60;
 }
 
-+(float)getAppVersion{
++ (NSString *)getAppVersion{
     return appVersion;
 }
+
++ (NSString *)getAppName {
+    return appName;
+}
+
 #pragma mark - URL Methods: will be deleted soon
 
 + (NSString*)getAvailableCarURLWithCheckOutOffice:(Office*) checkOutOffice andCheckInOffice:(Office*) checkInOffice andCheckOutDay:(NSDate*)checkOutDay andCheckOutTime:(NSDate*)checkOutTime andCheckInDay:(NSDate*)checkInDay andCheckInTime:(NSDate*)checkInTime{

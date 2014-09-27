@@ -18,4 +18,6 @@
     #import "LoaderAnimationVC.h"
     #import "ParsingConstants.h"
     #import "UIColor+GarentaColors.h"
+    #import "SAPJSONHandler.h"
+    #import "ConnectionProperties.h"
 #endif
