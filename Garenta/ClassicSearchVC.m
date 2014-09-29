@@ -435,14 +435,14 @@
     }
     
     [self getAvailableCarsFromSAP];
-//    [self checkDates:^(BOOL isOK,NSString *errorMsg){
-//        if (isOK) {
-//            [self navigateToNextVC];
-//        }else{
-//            UIAlertView*alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:errorMsg delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-//            [alert show];
-//        }
-//    }];
+    //    [self checkDates:^(BOOL isOK,NSString *errorMsg){
+    //        if (isOK) {
+    //            [self navigateToNextVC];
+    //        }else{
+    //            UIAlertView*alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:errorMsg delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+    //            [alert show];
+    //        }
+    //    }];
 }
 
 - (void)getAvailableCarsFromSAP {
@@ -491,14 +491,14 @@
                 return;
             }
         }
-
+        
         [handler addImportParameter:@"IMPP_HDFSUBE" andValue:reservation.checkInOffice.subOfficeCode];
         
         [handler addImportParameter:@"IMPP_LANGU" andValue:@"T"];
         [handler addImportParameter:@"IMPP_LAND" andValue:@"TR"];
         [handler addImportParameter:@"IMPP_WAERS" andValue:@"TRY"];
         [handler addImportParameter:@"IMPP_KDGRP" andValue:@"40"];
-
+        
         User *user =[ApplicationProperties getUser];
         if ([ user isLoggedIn]) {
             [handler addImportParameter:@"IMPP_KUNNR" andValue:[user kunnr]];
@@ -517,11 +517,11 @@
         [handler addTableForReturn:@"ET_INDIRIMLIST"];
         [handler addTableForReturn:@"ET_FIYAT"];
         [handler addTableForReturn:@"ET_EXPIRY"];
-
+        
         NSDictionary *resultDict = [handler prepCall];
         
-        if (resultDict != nil) {
-            
+        if (resultDict != nil)
+        {
             NSDictionary *export = [resultDict objectForKey:@"EXPORT"];
             
             NSString *subrc = [export valueForKey:@"EXPP_SUBRC"];
@@ -533,7 +533,7 @@
                 availableCarGroups = [CarGroup getCarGroupsFromServiceResponse:tables withOffices:offices];
                 
                 // TODO : buna mutlaka bakmak lazım hiç anlamadım
-//                [reservation setEtReserv:availServiceResponse.ET_RESERVSet];
+                //                [reservation setEtReserv:availServiceResponse.ET_RESERVSet];
                 
                 [self checkDates:^(BOOL isOK,NSString *errorMsg) {
                     
@@ -561,9 +561,9 @@
 - (Office *) prepareOfficeImport {
     
     if ([ApplicationProperties getMainSelection] == location_search) {
-
+        
         NSMutableArray *closestoffices = [ApplicationProperties closestFirst:1 fromOffices:[ApplicationProperties getOffices] toMyLocation:lastLocation];
-
+        
         for (Office *tempOffice in closestoffices) {
             return tempOffice;
         }
