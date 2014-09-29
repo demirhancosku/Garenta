@@ -101,16 +101,22 @@
         if ([indexPath row] == 0)
         {
             if (reservation.checkOutOffice == nil)
-            {   if([ApplicationProperties getMainSelection] != location_search){
-                [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
-            }else{
-                [[cell textLabel] setText:@"Size En Yakın Araçlar"];
-                [cell setAccessoryType:UITableViewCellAccessoryNone];
-            }
+            {
+                if([ApplicationProperties getMainSelection] != location_search)
+                {
+                    [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
+                }
+                else{
+                    [[cell textLabel] setText:@"Size En Yakın Araçlar"];
+                    [cell setAccessoryType:UITableViewCellAccessoryNone];
+                }
                 [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
             }
             else
+            {
                 [[cell textLabel] setText:reservation.checkOutOffice.subOfficeName];
+                [[cell textLabel] setNumberOfLines:0];
+            }
         }
         else
         {
@@ -144,11 +150,13 @@
                 [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
             }
             else
+            {
                 [[cell textLabel] setText:reservation.checkInOffice.subOfficeName];
+                [[cell textLabel] setNumberOfLines:0];
+            }
         }
         else
         {
-            
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setDateFormat:@"dd.MM.yyyy"];
             
@@ -186,9 +194,7 @@
         }
         if(indexPath.row == 1 )
         {
-            //            UIViewController *vc;
-            //            vc = [[CalendarTimeVC alloc] initWithReservation:reservation andTag:tableView.tag];
-            //            [self.navigationController pushViewController:vc animated:YES];
+            selectedTag = tableView.tag;
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             [self performSegueWithIdentifier:@"toDateTimeVCSegue" sender:cell];
         }
@@ -202,9 +208,7 @@
         }
         else
         {
-            //            UIViewController *vc;
-            //            vc = [[CalendarTimeVC alloc] initWithReservation:reservation andTag:tableView.tag];
-            //            [self.navigationController pushViewController:vc animated:YES];
+            selectedTag = tableView.tag;
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             [self performSegueWithIdentifier:@"toDateTimeVCSegue" sender:cell];
         }
@@ -290,7 +294,6 @@
             NSDictionary *officeHolidayArray = [officeHolidays valueForKey:@"ZMOB_TT_SUBE_TATIL"];
             
             for (NSDictionary *tempDict in officeInformationArray) {
-                
                 // Aktif olmayan şubeleri almıyoruz
                 if (![[tempDict valueForKey:@"AKTIFSUBE"] isEqualToString:@"X"]) {
                     continue;
@@ -334,11 +337,10 @@
                 
                 for (NSDictionary *tempHolidayDict in officeHolidayArray) {
                     if ([[tempHolidayDict valueForKey:@"MERKEZ_SUBE"] isEqualToString:[tempOffice mainOfficeCode]]) {
-                        OfficeWorkingTime *tempTime = [[OfficeWorkingTime alloc] init];
+                        OfficeHolidayTime *tempTime = [[OfficeHolidayTime alloc] init];
                         tempTime.startTime = [tempHolidayDict valueForKey:@"BEGTI"];
                         tempTime.endingHour = [tempHolidayDict valueForKey:@"ENDTI"];
-                        tempTime.weekDayCode = [tempHolidayDict valueForKey:@"CADAY"];
-                        tempTime.weekDayName = [tempHolidayDict valueForKey:@"CADAYTX"];
+                        tempTime.holidayDate = [tempHolidayDict valueForKey:@"BEGDA"];
                         tempTime.subOffice = [tempHolidayDict valueForKey:@"ALT_SUBE"];
                         tempTime.mainOffice = [tempHolidayDict valueForKey:@"MERKEZ_SUBE"];
                         
@@ -433,6 +435,14 @@
     }
     
     [self getAvailableCarsFromSAP];
+//    [self checkDates:^(BOOL isOK,NSString *errorMsg){
+//        if (isOK) {
+//            [self navigateToNextVC];
+//        }else{
+//            UIAlertView*alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:errorMsg delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+//            [alert show];
+//        }
+//    }];
 }
 
 - (void)getAvailableCarsFromSAP {
@@ -594,8 +604,21 @@
 //checks wheather the checkin date before checkout and correct accordingly
 - (void)correctCheckIndate {
     if ([reservation.checkOutTime compare:reservation.checkInTime] == NSOrderedDescending) {
-        reservation.checkInTime = [reservation.checkOutTime copy];
+        //        reservation.checkInTime = [reservation.checkOutTime copy];
+        
+        NSDate *checkInDate = [reservation.checkOutTime copy];
+        
+        //once 15 dk ekliyoruz
+        NSTimeInterval aTimeInterval =  24 * 60 * 60;
+        checkInDate = [checkInDate dateByAddingTimeInterval:aTimeInterval];
+        //sonra dakikaları 0lıyoruz.
+        NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDateComponents *components = [gregorianCalendar components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit
+                                                            fromDate:checkInDate];
+        NSInteger difference = components.minute % 15;
+        reservation.checkInTime = [checkInDate dateByAddingTimeInterval:-(NSTimeInterval)difference*60];
     }
+    
 }
 
 - (void)prepareScreen
@@ -668,10 +691,10 @@
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"dateAndTimeSelected" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
         [[self myPopoverController] dismissPopoverAnimated:YES];
+        [self correctCheckIndate];
         [arrivalTableView reloadData];
         [destinationTableView reloadData];
     }];
-    
 }
 
 - (void)removeNotifcations{
@@ -719,6 +742,7 @@
         
         CalendarTimeVC *calendarTime = (CalendarTimeVC*)[segue destinationViewController];
         [calendarTime setReservation:reservation];
+        [calendarTime setTag:selectedTag];
         
     }
     // Get the new view controller using [segue destinationViewController].
@@ -727,19 +751,199 @@
 
 -(void)checkDates:(void(^)(BOOL isOk, NSString *errorMsg))completion
 {
-    //checkout date
-    NSDateComponents *checkOutTimecomponents = [[NSCalendar currentCalendar] components:(NSHourCalendarUnit|NSMinuteCalendarUnit | NSWeekdayCalendarUnit) fromDate:reservation.checkOutTime];
-    NSPredicate *dayPredicate = [NSPredicate predicateWithFormat:@"Caday=%@",[NSString stringWithFormat:@"%@%i",@"0",[checkOutTimecomponents weekday]]];
+    // TESLİM ALACAĞI ŞUBENİN KONTROLLERİ
+    // teslim alacağı günün haftanın kaçıncı günü olduğunu bulur
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    [gregorian setFirstWeekday:2]; // Sunday == 1, Saturday == 7
+    NSUInteger checkOutWeekday = [gregorian ordinalityOfUnit:NSWeekdayCalendarUnit inUnit:NSWeekCalendarUnit forDate:reservation.checkOutTime];
     
-    NSArray *dayArray = [reservation.checkOutOffice.workingDates filteredArrayUsingPredicate:dayPredicate];
-    EXPT_CALISMA_ZAMANIV0 *checkOutWorkingTime = [dayArray objectAtIndex:0];
-    //TODO:formatlari duzeltelim yada kaldir direk hata ver!
-    if (checkOutWorkingTime.Begti.hours > checkOutTimecomponents.hour || (checkOutWorkingTime.Begti.hours == checkOutTimecomponents.hour && checkOutWorkingTime.Begti.minutes > checkOutTimecomponents.minute)) {
-        completion(NO,[NSString stringWithFormat:@"%@ şubesinin açılış saatleri %i:%i - %i:%i arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkOutOffice.mainOfficeName,checkOutWorkingTime.Begti.hours,checkOutWorkingTime.Begti.minutes,checkOutWorkingTime.Endti.hours,checkOutWorkingTime.Endti.minutes]);
+    
+    //TESLİM ALACAĞI ŞUBENİN TATİL GÜNLERİNİ KONTROL EDER
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *checkOutHolidayDate = [formatter stringFromDate:reservation.checkOutTime];
+    
+    NSDateFormatter *timeFormatter = [[NSDateFormatter alloc] init];
+    [timeFormatter setDateFormat:@"HH:mm:ss"];
+    NSString *checkOutTimeStr = [timeFormatter stringFromDate:reservation.checkOutTime];
+    NSDate   *checkOutTime       = [timeFormatter dateFromString:checkOutTimeStr];
+    
+    NSPredicate *holidayPredicate = [NSPredicate predicateWithFormat:@"holidayDate=%@",[NSString stringWithFormat:@"%@",checkOutHolidayDate]];
+    NSArray *checkOutHolidayArray = [reservation.checkOutOffice.holidayDates filteredArrayUsingPredicate:holidayPredicate];
+    
+    if ([checkOutHolidayArray count] > 0)
+    {
+        for (OfficeHolidayTime *temp in checkOutHolidayArray)
+        {
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"yyyy-MM-dd"];
+            NSDate *holidayDate = [formatter dateFromString:temp.holidayDate];
+            
+            NSDateFormatter *formatter2 = [[NSDateFormatter alloc] init];
+            [formatter2 setDateFormat:@"dd.MM.yyyy"];
+            NSString *holidayDateString = [formatter2 stringFromDate:holidayDate];
+            
+            NSDate *holidayStartTime = [timeFormatter dateFromString:temp.startTime];
+            NSDate *holidayEndTime   = [timeFormatter dateFromString:temp.endingHour];
+            
+            NSComparisonResult checkOutresult = [holidayStartTime compare:checkOutTime];
+            if (checkOutresult == NSOrderedDescending)
+            {
+                NSComparisonResult checkOutresult2 = [holidayEndTime compare:checkOutTime];
+                if (checkOutresult2 == NSOrderedAscending)
+                {
+                    completion(NO,[NSString stringWithFormat:@"%@ şubesi %@, %@ - %@ aralığında tatil sebebiyle kapalıdır. Lütfen tekrar kontrol ediniz.",reservation.checkOutOffice.subOfficeName,holidayDateString,temp.startTime,temp.endingHour]);
+                    
+                    return;
+                }
+            }
+            else
+            {
+                completion(NO,[NSString stringWithFormat:@"%@ şubesi %@, %@ - %@ aralığında tatil sebebiyle kapalıdır. Lütfen tekrar kontrol ediniz.",reservation.checkOutOffice.subOfficeName,holidayDateString,temp.startTime,temp.endingHour]);
+                
+                return;
+            }
+        }
+    }
+    
+    
+    //TESLİM EDECEĞİ ŞUBENİN TATİL GÜNLERİNİ KONTROL EDER
+    NSDateFormatter *formatter2 = [[NSDateFormatter alloc] init];
+    [formatter2 setDateFormat:@"yyyy-MM-dd"];
+    NSString *checkInHolidayDate = [formatter2 stringFromDate:reservation.checkInTime];
+    
+    NSDateFormatter *timeFormatter2 = [[NSDateFormatter alloc] init];
+    [timeFormatter2 setDateFormat:@"HH:mm:ss"];
+    NSString *checkInTimeStr = [timeFormatter2 stringFromDate:reservation.checkInTime];
+    NSDate   *checkInTime       = [timeFormatter2 dateFromString:checkInTimeStr];
+    
+    NSPredicate *holidayPredicate2 = [NSPredicate predicateWithFormat:@"holidayDate=%@",[NSString stringWithFormat:@"%@",checkInHolidayDate]];
+    NSArray *checkInHolidayArray = [reservation.checkInOffice.holidayDates filteredArrayUsingPredicate:holidayPredicate2];
+    
+    if ([checkInHolidayArray count] > 0)
+    {
+        for (OfficeHolidayTime *temp in checkInHolidayArray)
+        {
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"yyyy-MM-dd"];
+            NSDate *holidayDate = [formatter dateFromString:temp.holidayDate];
+            
+            NSDateFormatter *formatter2 = [[NSDateFormatter alloc] init];
+            [formatter2 setDateFormat:@"dd.MM.yyyy"];
+            NSString *holidayDateString = [formatter2 stringFromDate:holidayDate];
+            
+            NSDate *holidayStartTime = [timeFormatter dateFromString:temp.startTime];
+            NSDate *holidayEndTime   = [timeFormatter dateFromString:temp.endingHour];
+            
+            NSComparisonResult checkOutresult = [holidayStartTime compare:checkInTime];
+            if (checkOutresult == NSOrderedDescending)
+            {
+                NSComparisonResult checkOutresult2 = [holidayEndTime compare:checkInTime];
+                if (checkOutresult2 == NSOrderedAscending)
+                {
+                    completion(NO,[NSString stringWithFormat:@"%@ şubesi %@, %@ - %@ aralığında tatil sebebiyle kapalıdır. Lütfen tekrar kontrol ediniz.",reservation.checkInOffice.subOfficeName,holidayDateString,temp.startTime,temp.endingHour]);
+                    
+                    return;
+                }
+            }
+            else
+            {
+                completion(NO,[NSString stringWithFormat:@"%@ şubesi %@, %@ - %@ aralığında tatil sebebiyle kapalıdır. Lütfen tekrar kontrol ediniz.",reservation.checkInOffice.subOfficeName,holidayDateString,temp.startTime,temp.endingHour]);
+                
+                return;
+            }
+            
+        }
+    }
+    
+    // teslim alacağı şubenin çalıştığı günler seçilen teslim tarihi içersindemi değilmi kontrolü
+    NSPredicate *dayPredicate = [NSPredicate predicateWithFormat:@"weekDayCode=%@",[NSString stringWithFormat:@"%@%i",@"0",checkOutWeekday]];
+    NSArray *checkOutDayArray = [reservation.checkOutOffice.workingDates filteredArrayUsingPredicate:dayPredicate];
+    
+    if ([checkOutDayArray count] == 0)
+    {
+        completion(NO,[NSString stringWithFormat:@"%@ seçmiş olduğunuz gün çalışmamaktadır. Lütfen tekrar kontrol ediniz.",reservation.checkOutOffice.subOfficeName]);
+        
         return;
     }
-    if (checkOutWorkingTime.Begti.hours > checkOutTimecomponents.hour || (checkOutWorkingTime.Begti.hours == checkOutTimecomponents.hour && checkOutWorkingTime.Begti.minutes > checkOutTimecomponents.minute)) {
-        completion(NO,[NSString stringWithFormat:@"%@ şubesinin açılış saatleri %i:%i - %i:%i arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkOutOffice.mainOfficeName,checkOutWorkingTime.Begti.hours,checkOutWorkingTime.Begti.minutes,checkOutWorkingTime.Endti.hours,checkOutWorkingTime.Endti.minutes]);
+    
+    // İADE EDECEĞİ ŞUBENİN KONTROLLERİ
+    NSUInteger checkInWeekday = [gregorian ordinalityOfUnit:NSWeekdayCalendarUnit inUnit:NSWeekCalendarUnit forDate:reservation.checkInTime];
+    
+    // teslim alacağı şubenin çalıştığı günler seçilen iade tarihi içersindemi değilmi kontrolü
+    NSPredicate *dayPredicate2 = [NSPredicate predicateWithFormat:@"weekDayCode=%@",[NSString stringWithFormat:@"%@%i",@"0",checkInWeekday]];
+    
+    NSArray *checkInDayArray = [reservation.checkOutOffice.workingDates filteredArrayUsingPredicate:dayPredicate2];
+    
+    if ([checkInDayArray count] == 0)
+    {
+        completion(NO,[NSString stringWithFormat:@"%@ seçmiş olduğunuz gün çalışmamaktadır. Lütfen tekrar kontrol ediniz.",reservation.checkInOffice.subOfficeName]);
+        
+        return;
+    }
+    
+    OfficeWorkingTime *checkOutWorkingTime = [checkOutDayArray objectAtIndex:0];
+    OfficeWorkingTime *checkInWorkingTime  = [checkInDayArray objectAtIndex:0];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"HH:mm:ss"];
+    
+    // TESLİM ALACAĞI OFİSİN AÇILIŞ SAATİ
+    NSDate *checkOutStartTime = [dateFormatter dateFromString:checkOutWorkingTime.startTime];
+    
+    // TESLİM ALACAĞI OFİSİN KAPANIŞ SAATİ
+    NSDate *checkOutEndTime = [dateFormatter dateFromString:checkOutWorkingTime.endingHour];
+    
+    NSString *str = [dateFormatter stringFromDate:reservation.checkOutTime];
+    NSDate *reservationCheckOutTime = [dateFormatter dateFromString:str];
+    
+    
+    
+    // TESLİM EDECEĞİ OFİSİN AÇILIŞ SAATİ
+    NSDate *checkInStartTime = [dateFormatter dateFromString:checkInWorkingTime.startTime];
+    
+    // TESLİM EDECEĞİ OFİSİN KAPANIŞ SAATİ
+    NSDate *checkInEndTime = [dateFormatter dateFromString:checkInWorkingTime.endingHour];
+    
+    NSString *str2 = [dateFormatter stringFromDate:reservation.checkInTime];
+    NSDate *reservationCheckInTime = [dateFormatter dateFromString:str2];
+    
+    
+    // SEÇİLEN SAAT TESLİM ALACAĞI ŞUBENİN ÇALIŞMA SAATLERİ ARASINDAMI KONTROLÜ
+    NSComparisonResult checkOutresult = [checkOutStartTime compare:reservationCheckOutTime];
+    if (checkOutresult == NSOrderedAscending)
+    {
+        NSComparisonResult checkOutresult2 = [checkOutEndTime compare:reservationCheckOutTime];
+        if (checkOutresult2 == NSOrderedAscending)
+        {
+            completion(NO,[NSString stringWithFormat:@"%@ şubesinin açılış saatleri %@ - %@ arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkOutOffice.subOfficeName,checkOutWorkingTime.startTime,checkOutWorkingTime.endingHour]);
+            
+            return;
+        }
+    }
+    else if (checkOutresult == NSOrderedDescending)
+    {
+        completion(NO,[NSString stringWithFormat:@"%@ şubesinin açılış saatleri %@ - %@ arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkOutOffice.subOfficeName,checkOutWorkingTime.startTime,checkOutWorkingTime.endingHour]);
+        
+        return;
+    }
+    
+    // SEÇİLEN SAAT IADE EDECEĞİ ŞUBENİN ÇALIŞMA SAATLERİ ARASINDAMI KONTROLÜ
+    NSComparisonResult checkInResult = [checkInStartTime compare:reservationCheckInTime];
+    if(checkInResult == NSOrderedAscending)
+    {
+        NSComparisonResult checkInResult2 = [checkInEndTime compare:reservationCheckInTime];
+        if (checkInResult2 == NSOrderedAscending)
+        {
+            completion(NO,[NSString stringWithFormat:@"%@ şubesinin açılış saatleri %@ - %@ arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkInOffice.subOfficeName,checkInWorkingTime.startTime,checkInWorkingTime.endingHour]);
+            
+            return;
+        }
+    }
+    else if (checkInResult == NSOrderedDescending)
+    {
+        completion(NO,[NSString stringWithFormat:@"%@ şubesinin açılış saatleri %@ - %@ arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkInOffice.subOfficeName,checkInWorkingTime.startTime,checkInWorkingTime.endingHour]);
+        
         return;
     }
     

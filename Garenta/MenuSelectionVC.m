@@ -68,9 +68,8 @@ static int kGarentaLogoId = 1;
 
 
 #pragma mark - util methods
-- (void)checkVersion
-{
-    //maybe we will do somehing different for here..
+
+- (void)checkVersion {
     loaderVC = [LoaderAnimationVC uniqueInstance];
     [loaderVC playAnimation:self.view];
     
