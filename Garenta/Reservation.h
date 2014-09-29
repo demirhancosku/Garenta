@@ -21,7 +21,7 @@
 @property (nonatomic,retain) NSString *number;
 @property (strong,nonatomic) NSMutableArray *additionalEquipments;
 @property (strong,nonatomic) NSMutableArray *additionalDrivers;
-@property (strong,nonatomic) NSMutableArray *etReserv; //just passing to create reservation
+@property (strong,nonatomic) NSMutableArray *etReserv;
 @property (strong,nonatomic)Car *selectedCar;
 @property (copy,nonatomic) NSString *reservationNumber;
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow;

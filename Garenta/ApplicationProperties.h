@@ -17,6 +17,7 @@ typedef enum{
     location_search,
     advanced_search
 }MainSelection;
+
 + (UIColor *) getOrange;
 + (UIColor *) getBlack;
 + (UIColor *) getWhite;

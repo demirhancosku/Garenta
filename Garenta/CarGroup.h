@@ -32,7 +32,7 @@
 - (NSMutableArray*)getBestCarsWithFilter:(NSString*)aFilter;
 
 #pragma mark - parsing
-+ (NSMutableArray*)getCarGroupsFromServiceResponse:(AvailCarServiceV0*) aServiceResponse withOffices:(NSMutableArray*)offices;
++ (NSMutableArray*)getCarGroupsFromServiceResponse:(NSDictionary *)serviceResponse withOffices:(NSMutableArray*)offices;
 + (NSString*)urlOfResolution:(NSString*)aResolution fromBaseUrl:(NSString*)baseUrl;
 
 #pragma mark - util methods
