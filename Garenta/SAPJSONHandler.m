@@ -87,7 +87,7 @@
         
         NSArray *arr = [tableValues objectAtIndex:rowCount];
         NSString *values = @"{";
-
+        
         for (int columnCount = 0; columnCount < [columns count]; columnCount++) {
             
             if ([values isEqualToString:@"{"]) {
@@ -112,9 +112,9 @@
 }
 
 - (void)addTableForReturn:(NSString *)tableName {
-
+    
     self.isAnyImport = YES;
-
+    
     if (self.tableForReturn == nil || [self.tableForReturn isEqualToString:@""]) {
         self.tableForReturn = [NSString stringWithFormat:@"{\"tipi\":\"1\",\"%@\":[]}", tableName];
     }
@@ -126,7 +126,7 @@
 - (void)addTableForImport:(NSString *)tableName andColumns:(NSArray *)columns andValues:(NSArray *)tableValues {
     
     self.isAnyImport = YES;
-
+    
     if (self.tableForImport == nil || [self.tableForImport isEqualToString:@""]) {
         self.tableForImport = [NSString stringWithFormat:@"{\"tipi\":\"0\",\"%@\":[", tableName];
     }
@@ -214,14 +214,14 @@
             
             if (error == nil && dict != nil) {
                 
-                NSDictionary *expentionDict = [dict objectForKey:@"ABAP_EXCEPTION"];
+                NSDictionary *resultDict = [dict objectForKey:@"RETURN"];
                 
-                if (expentionDict == nil && [expentionDict count] < 1) {
-                    NSDictionary *resultDict = [dict objectForKey:@"RETURN"];
+                if (resultDict != nil) {
+                    NSLog(@"%@", resultDict);
                     
-                    if (resultDict != nil) {
-                        NSLog(@"%@", resultDict);
-                        
+                    NSDictionary *expentionDict = [dict objectForKey:@"ABAP_EXCEPTION"];
+                    
+                    if (expentionDict == nil && [expentionDict count] < 1) {
                         return resultDict;
                     }
                     else {
@@ -270,17 +270,17 @@
 - (BOOL)checkReachability
 {
     return YES;
-//    Reachability *reachability = [Reachability reachabilityWithHostName:@"google.com"];
-//    NetworkStatus remoteHostStatus = [reachability currentReachabilityStatus];
-//    
-//    BOOL isInternetAvailable;
-//    
-//    if(remoteHostStatus == NotReachable)
-//        isInternetAvailable = NO;
-//    else
-//        isInternetAvailable = YES;
-//    
-//    return isInternetAvailable;
+    //    Reachability *reachability = [Reachability reachabilityWithHostName:@"google.com"];
+    //    NetworkStatus remoteHostStatus = [reachability currentReachabilityStatus];
+    //
+    //    BOOL isInternetAvailable;
+    //
+    //    if(remoteHostStatus == NotReachable)
+    //        isInternetAvailable = NO;
+    //    else
+    //        isInternetAvailable = YES;
+    //
+    //    return isInternetAvailable;
 }
 
 @end

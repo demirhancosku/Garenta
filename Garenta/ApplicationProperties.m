@@ -223,8 +223,6 @@ static NSString *appName = @"REZ";
 
 + (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation{
     __block NSMutableArray *closestOffices = [[NSMutableArray alloc] init];
-    NSDictionary *distances = [NSDictionary new];
-    CLLocation *tempOfficeLocation;
     
     NSArray *sortedArray;
     sortedArray = [someOffices sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
@@ -242,6 +240,7 @@ static NSString *appName = @"REZ";
         }
         
     }];
+    
     __block NSPredicate *officeCodePredicate; // to get rid of suboffices
     [sortedArray enumerateObjectsUsingBlock:^(id obj,NSUInteger idx, BOOL *stop){
         officeCodePredicate = [NSPredicate predicateWithFormat:@"mainOfficeCode = %@",[(Office*)obj mainOfficeCode]];

@@ -9,7 +9,9 @@
 #import "CarGroup.h"
 #import "GTMBase64.h"
 #import "Price.h"
+
 @implementation CarGroup
+
 @synthesize groupCode,groupName,imagePath,payNowPrice,payLaterPrice,bodyName,bodyId,fuelId,fuelName,cars,segment,segmentName,transmissonId,transmissonName;
 
 + (CarGroup*)getGroupFromList:(NSMutableArray*)carList WithCode:(NSString*)aGroupCode{
@@ -34,78 +36,94 @@
     return nil;
 }
 
-+ (NSMutableArray*)getCarGroupsFromServiceResponse:(AvailCarServiceV0*) aServiceResponse withOffices:(NSMutableArray*)offices{
++ (NSMutableArray *)getCarGroupsFromServiceResponse:(NSDictionary *)serviceResponse withOffices:(NSMutableArray *)offices {
     
     NSMutableArray *availableCarGroups = [NSMutableArray new];
     
     
-    Car *tempCar;
-    Price *tempPrice;
-    CarGroup *tempCarGroup;
-    NSPredicate *officeFilter;
+    // ET_FIYAT
+    NSDictionary *etFiyatArray = [serviceResponse objectForKey:@"ZSD_KDK_FIYATLANDIRMA_FUNC_EXP"];
     
     NSMutableArray *prices= [[NSMutableArray alloc] init];
-    for (ET_FIYATV0 *tempPriceListResult  in aServiceResponse.ET_FIYATSet) {
-        tempPrice = [Price new];
-        [tempPrice setModelId:tempPriceListResult.ModelId];
-        [tempPrice setBrandId:tempPriceListResult.MarkaId];
-        [tempPrice setCarGroup:tempPriceListResult.AracGrubu];
-        [tempPrice setPayNowPrice:tempPriceListResult.SimdiOdeFiyatTry];
-        [tempPrice setPayLaterPrice:tempPriceListResult.SonraOdeFiyatTry];
-        [tempPrice setCarSelectPrice:tempPriceListResult.AracSecimFarkTry];
-        [tempPrice setDayCount:tempPriceListResult.GunSayisi];
+    
+    for (NSDictionary *tempDict in etFiyatArray) {
+        Price *tempPrice = [Price new];
+        
+        [tempPrice setBrandId:[tempDict valueForKey:@"MARKA_ID"]];
+        [tempPrice setModelId:[tempDict valueForKey:@"MODEL_ID"]];
+        [tempPrice setCarGroup:[tempDict valueForKey:@"ARAC_GRUBU"]];
+        [tempPrice setPayNowPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"SIMDI_ODE_FIYAT_TRY"]]];
+        [tempPrice setPayLaterPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"SONRA_ODE_FIYAT_TRY"]]];
+        [tempPrice setCarSelectPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"ARAC_SECIM_FARK_TRY"]]];
+        [tempPrice setDayCount:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"GUN_SAYISI"]]];
+
         [prices addObject:tempPrice];
     }
     
+    // ET_ARACLISTE
+    NSDictionary *etAracListeArray = [serviceResponse objectForKey:@"ZPM_S_ARACLISTE"];
     
-    for (ET_ARACLISTEV0 *tempAracListe in aServiceResponse.ET_ARACLISTESet) {
-        tempCar = [Car new];
-        [tempCar setMaterialCode:tempAracListe.Matnr];
-        [tempCar setMaterialName:tempAracListe.Maktx];
-        [tempCar setBrandId:tempAracListe.MarkaId];
-        [tempCar setBrandName:tempAracListe.Marka];
-        [tempCar setModelId:tempAracListe.ModelId];
-        [tempCar setModelName:tempAracListe.Model];
-        [tempCar setModelYear:tempAracListe.ModelYili];
-        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[CarGroup urlOfResolution:@"400" fromBaseUrl:tempAracListe.Zresim315]]]]];
-        //temp: due to dns change no image can be loaded
+    for (NSDictionary *tempDict in etAracListeArray) {
+        
+        Car *tempCar = [Car new];
+        
+        [tempCar setMaterialCode:[tempDict valueForKey:@"MATNR"]];
+        [tempCar setMaterialName:[tempDict valueForKey:@"MAKTX"]];
+        [tempCar setBrandId:[tempDict valueForKey:@"MARKA_ID"]];
+        [tempCar setBrandName:[tempDict valueForKey:@"MARKA"]];
+        [tempCar setModelId:[tempDict valueForKey:@"MODEL_ID"]];
+        [tempCar setModelName:[tempDict valueForKey:@"MODEL"]];
+        [tempCar setModelYear:[tempDict valueForKey:@"MODEL_YILI"]];
+        
+        
+        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[CarGroup urlOfResolution:@"400" fromBaseUrl:[tempDict valueForKey:@"ZRESIM_315"]]]]]];
+
         if (tempCar.image == nil) {
             [tempCar setImage:[UIImage imageNamed:@"sample_car.png"]];
         }
-        [tempCar setDoorNumber:tempAracListe.KapiSayisi];
-        [tempCar setPassangerNumber:tempAracListe.YolcuSayisi];
-        //TODO: arac subesi buluncak nspredicate class method
-        [tempCar setOfficeCode:tempAracListe.Msube];
-        tempCarGroup = [CarGroup getGroupFromList:availableCarGroups WithCode:tempAracListe.Grpkod];
+        
+        [tempCar setDoorNumber:[tempDict valueForKey:@"KAPI_SAYISI"]];
+        [tempCar setPassangerNumber:[tempDict valueForKey:@"YOLCU_SAYISI"]];
+        [tempCar setOfficeCode:[tempDict valueForKey:@"MSUBE"]];
+        
+        CarGroup *tempCarGroup = [CarGroup getGroupFromList:availableCarGroups WithCode:[tempDict valueForKey:@"GRPKOD"]];
+        
         if (tempCarGroup == nil) {
-            tempCarGroup = [CarGroup new];
+            CarGroup *tempCarGroup = [CarGroup new];
             tempCarGroup.cars = [NSMutableArray new];
-            [tempCarGroup setGroupCode:tempAracListe.Grpkod];
-            [tempCarGroup setGroupName:tempAracListe.Grpkodtx];
-            [tempCarGroup setTransmissonId:tempAracListe.SanzimanTipiId];
-            [tempCarGroup setTransmissonName:tempAracListe.SanzimanTipi];
-            [tempCarGroup setFuelId:tempAracListe.YakitTipiId];
-            [tempCarGroup setFuelName:tempAracListe.YakitTipi];
-            [tempCarGroup setBodyId:tempAracListe.KasaTipiId];
-            [tempCarGroup setBodyName:tempAracListe.KasaTipi];
-            [tempCarGroup setSegment:tempAracListe.Segment];
-            [tempCarGroup setSegmentName:tempAracListe.Segmenttx];
+            
+            [tempCarGroup setGroupCode:[tempDict valueForKey:@"GRPKOD"]];
+            [tempCarGroup setGroupName:[tempDict valueForKey:@"GRPKODTX"]];
+            [tempCarGroup setTransmissonId:[tempDict valueForKey:@"SANZIMAN_TIPI_ID"]];
+            [tempCarGroup setTransmissonName:[tempDict valueForKey:@"SANZIMAN_TIPI"]];
+            [tempCarGroup setFuelId:[tempDict valueForKey:@"YAKIT_TIPI_ID"]];
+            [tempCarGroup setFuelName:[tempDict valueForKey:@"YAKIT_TIPI"]];
+            [tempCarGroup setBodyId:[tempDict valueForKey:@"KASA_TIPI_ID"]];
+            [tempCarGroup setBodyName:[tempDict valueForKey:@"KASA_TIPI"]];
+            [tempCarGroup setSegment:[tempDict valueForKey:@"SEGMENT"]];
+            [tempCarGroup setSegmentName:[tempDict valueForKey:@"SEGMENTTX"]];
+            
             [availableCarGroups addObject:tempCarGroup];
         }
+        
         [tempCar setCarGroup:tempCarGroup];
+        
         [CarGroup setPriceForCar:tempCar withPriceList:prices];
-        if ([tempAracListe.Vitrinres isEqualToString:@"X"]) {
+        
+        if ([[tempDict valueForKey:@"VITRINRES"] isEqualToString:@"X"]) {
             [tempCarGroup setSampleCar:tempCar];
             [tempCarGroup setPayLaterPrice:[NSString stringWithFormat:@"%@",tempCar.pricing.payLaterPrice]];
             [tempCarGroup setPayNowPrice:[NSString stringWithFormat:@"%@",tempCar.pricing.payNowPrice]];
         }
+        
         [tempCarGroup.cars addObject:tempCar];
+        
     }
 
-    return [CarGroup sortCarGroupsPriceAscending:availableCarGroups];;
+    return availableCarGroups;
 }
 
-+ (UIImage*)getImageFromJSONResults:(NSDictionary*)pics withPath:(NSString*)aPath{
++ (UIImage*)getImageFromJSONResults:(NSDictionary*)pics withPath:(NSString*)aPath {
     UIImage *carImage = [[UIImage alloc] init];
     NSString *picBinaryString;
     NSData *picData;
@@ -137,7 +155,8 @@
     
 }
 //model marka ara grubu belli olmali
-+ (void)setPriceForCar:(Car*)aCar withPriceList:(NSMutableArray*)aPriceList{
++ (void)setPriceForCar:(Car*)aCar withPriceList:(NSMutableArray*)aPriceList {
+    
     for (Price *tempPrice in aPriceList) {
         if ([[tempPrice modelId] isEqualToString:[aCar modelId]] && [[tempPrice brandId] isEqualToString:[aCar brandId]] && [[tempPrice carGroup] isEqualToString:[[aCar carGroup] groupCode]]) {
             [aCar setPricing:tempPrice];
@@ -147,7 +166,7 @@
 }
 
 #pragma mark - util methods
-- (NSMutableArray*)carGroupOffices{
+- (NSMutableArray*)carGroupOffices {
     NSMutableArray*offices = [NSMutableArray new];
     NSArray *filterResult;
     NSPredicate *officePredicate;
