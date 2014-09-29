@@ -166,6 +166,7 @@
         [[cell textLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]];
     }
     [[cell textLabel] setText:[tempOffice subOfficeName]];
+    [[cell textLabel] setNumberOfLines:0];
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     return cell;
 }

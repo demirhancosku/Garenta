@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="VjG-Ef-6NL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="VjG-Ef-6NL">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -52,7 +52,7 @@
             </objects>
             <point key="canvasLocation" x="3148" y="-1225"/>
         </scene>
-        <!--Car Group Manager View Controller - Arac Grubu-->
+        <!--Car Group Manager View Controller - Araç Grubu-->
         <scene sceneID="UKo-aG-roz">
             <objects>
                 <viewController id="yjG-hs-2N6" customClass="CarGroupManagerViewController" sceneMemberID="viewController">
@@ -104,7 +104,7 @@
                             <constraint firstItem="vlE-Bt-c6f" firstAttribute="top" secondItem="OiW-eD-v11" secondAttribute="top" id="zsS-jS-8dd"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Arac Grubu" id="TOV-Xx-h0S"/>
+                    <navigationItem key="navigationItem" title="Araç Grubu" id="TOV-Xx-h0S"/>
                     <connections>
                         <outlet property="rootView" destination="vlE-Bt-c6f" id="n7f-0q-oK1"/>
                         <segue destination="Kql-SQ-3XS" kind="push" identifier="toAdditionalEquipmentSegue" id="hwC-3n-j6g"/>
@@ -345,7 +345,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Aracımı Seçmek İstiyorum" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V5r-Mz-uX2">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Aracımı Seçmek İstiyorum" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="182" translatesAutoresizingMaskIntoConstraints="NO" id="V5r-Mz-uX2">
                                                     <rect key="frame" x="20" y="19" width="182" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
@@ -2091,6 +2091,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                                     <date key="date" timeIntervalSinceReferenceDate="433445547.49628502">
                                                         <!--2014-09-26 17:32:27 +0000-->
                                                     </date>
+                                                    <locale key="locale" localeIdentifier="tr"/>
                                                     <timeZone key="timeZone" name="America/Los_Angeles">
                                                         <data key="data">
 VFppZgAAAAAAAAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAAAC5AAAABAAAABCepkign7sVkKCGKqChmveQ
@@ -2583,7 +2584,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Hj2-5d-FZ6"/>
+        <segue reference="8V1-Ga-zPI"/>
         <segue reference="Jja-3F-2kb"/>
     </inferredMetricsTieBreakers>
 </document>

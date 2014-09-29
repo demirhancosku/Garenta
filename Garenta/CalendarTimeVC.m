@@ -19,7 +19,7 @@
 
 @end
 @implementation CalendarTimeVC
-@synthesize reservation,datePicker,timeSlider,timeText;
+@synthesize reservation,datePicker,timeSlider,timeText ,tag;
     static int secondsInDay = 60 * 60 * 24;
 - (NSUInteger) supportedInterfaceOrientations{
 	return  UIInterfaceOrientationMaskPortrait;
@@ -28,13 +28,13 @@
 	return UIInterfaceOrientationIsPortrait(interfaceOrientation);
 }
 
-- (id)initWithReservation:(Reservation*)aReservation andTag:(int) aTag
-{
-    reservation = aReservation;
-    tag = aTag;
-    
-    return self;
-}
+//- (id)initWithReservation:(Reservation*)aReservation andTag:(int)aTag
+//{
+//    reservation = aReservation;
+//    tag = aTag;
+//    
+//    return self;
+//}
 
 #pragma mark View Lifecycle
 - (void) viewDidLoad
@@ -52,6 +52,11 @@
 - (void)prepareDateAndtime
 {
     [datePicker setMinimumDate:[NSDate date]];
+    
+    if (tag == 0)
+        [datePicker setDate:reservation.checkOutTime];
+    else
+        [datePicker setDate:reservation.checkInTime];
     
     NSDate *today = [[NSDate alloc] init];
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];

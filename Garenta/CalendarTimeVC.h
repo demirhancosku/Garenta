@@ -7,10 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TapkuLibrary.h"
 #import "Destination.h"
 #import "Arrival.h"
-#import "TKCalendarMonthView.h"
 #import "Office.h"
 #import "Reservation.h"
 #pragma mark - CalendarMonthViewController
@@ -19,9 +17,10 @@
 {
     NSDate *selectedTime;
     NSDate *tempTime;
-    int tag;
 }
 
 @property(strong,nonatomic)Reservation *reservation;
-- (id)initWithReservation:(Reservation*)aReservation andTag:(int) aTag;
+@property(nonatomic) int tag;
+
+//- (id)initWithReservation:(Reservation*)aReservation andTag:(int) aTag;
 @end

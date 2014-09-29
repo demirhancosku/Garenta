@@ -24,15 +24,6 @@
 		0C4C9A8418462EAB00CD3728 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6918462EAB00CD3728 /* Foundation.framework */; };
 		0C4C9A8518462EAB00CD3728 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6D18462EAB00CD3728 /* UIKit.framework */; };
 		0C5B5FC81864770F0060BECD /* CalendarTimeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FC71864770F0060BECD /* CalendarTimeVC.m */; };
-		0C5B5FD3186479AB0060BECD /* TKCalendarMonthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FCC186479AB0060BECD /* TKCalendarMonthViewController.m */; };
-		0C5B5FD5186479AB0060BECD /* TKCalendarMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FD0186479AB0060BECD /* TKCalendarMonthView.m */; };
-		0C5B5FD6186479AB0060BECD /* NSDate+CalendarGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FD2186479AB0060BECD /* NSDate+CalendarGrid.m */; };
-		0C5B5FDA186481670060BECD /* NSDate+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FD9186481670060BECD /* NSDate+TKCategory.m */; };
-		0C5B5FDC186481BF0060BECD /* TapkuLibrary.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0C5B5FDB186481BF0060BECD /* TapkuLibrary.bundle */; };
-		0C5B5FDF186481EF0060BECD /* TKGlobal.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FDE186481EF0060BECD /* TKGlobal.m */; };
-		0C5B5FE2186482500060BECD /* TKGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE1186482500060BECD /* TKGradientView.m */; };
-		0C5B5FE5186482860060BECD /* UIColor+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE4186482860060BECD /* UIColor+TKCategory.m */; };
-		0C5B5FE8186482A50060BECD /* UIImage+TKCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE7186482A50060BECD /* UIImage+TKCategory.m */; };
 		0C5B5FEA18649A870060BECD /* UserLoginPic.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE918649A870060BECD /* UserLoginPic.png */; };
 		0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */; };
 		0C893D87187884E5006AFF0A /* SliderHandle.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C893D86187884E5006AFF0A /* SliderHandle.png */; };
@@ -231,24 +222,6 @@
 		0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableVC.m; sourceTree = "<group>"; };
 		0C5B5FC61864770F0060BECD /* CalendarTimeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarTimeVC.h; sourceTree = "<group>"; };
 		0C5B5FC71864770F0060BECD /* CalendarTimeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarTimeVC.m; sourceTree = "<group>"; };
-		0C5B5FCB186479AB0060BECD /* TKCalendarMonthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKCalendarMonthViewController.h; sourceTree = "<group>"; };
-		0C5B5FCC186479AB0060BECD /* TKCalendarMonthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKCalendarMonthViewController.m; sourceTree = "<group>"; };
-		0C5B5FCF186479AB0060BECD /* TKCalendarMonthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKCalendarMonthView.h; sourceTree = "<group>"; };
-		0C5B5FD0186479AB0060BECD /* TKCalendarMonthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKCalendarMonthView.m; sourceTree = "<group>"; };
-		0C5B5FD1186479AB0060BECD /* NSDate+CalendarGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+CalendarGrid.h"; sourceTree = "<group>"; };
-		0C5B5FD2186479AB0060BECD /* NSDate+CalendarGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CalendarGrid.m"; sourceTree = "<group>"; };
-		0C5B5FD7186480B20060BECD /* TapkuLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TapkuLibrary.h; sourceTree = "<group>"; };
-		0C5B5FD81864814D0060BECD /* NSDate+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+TKCategory.h"; sourceTree = "<group>"; };
-		0C5B5FD9186481670060BECD /* NSDate+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TKCategory.m"; sourceTree = "<group>"; };
-		0C5B5FDB186481BF0060BECD /* TapkuLibrary.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TapkuLibrary.bundle; sourceTree = "<group>"; };
-		0C5B5FDD186481EF0060BECD /* TKGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKGlobal.h; sourceTree = "<group>"; };
-		0C5B5FDE186481EF0060BECD /* TKGlobal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKGlobal.m; sourceTree = "<group>"; };
-		0C5B5FE0186482500060BECD /* TKGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKGradientView.h; sourceTree = "<group>"; };
-		0C5B5FE1186482500060BECD /* TKGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKGradientView.m; sourceTree = "<group>"; };
-		0C5B5FE3186482860060BECD /* UIColor+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+TKCategory.h"; sourceTree = "<group>"; };
-		0C5B5FE4186482860060BECD /* UIColor+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+TKCategory.m"; sourceTree = "<group>"; };
-		0C5B5FE6186482A50060BECD /* UIImage+TKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+TKCategory.h"; sourceTree = "<group>"; };
-		0C5B5FE7186482A50060BECD /* UIImage+TKCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TKCategory.m"; sourceTree = "<group>"; };
 		0C5B5FE918649A870060BECD /* UserLoginPic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UserLoginPic.png; sourceTree = "<group>"; };
 		0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GarentaSmallLogo.png; sourceTree = SOURCE_ROOT; };
 		0C893D86187884E5006AFF0A /* SliderHandle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SliderHandle.png; sourceTree = "<group>"; };
@@ -800,7 +773,6 @@
 		0C4C9A9A1846331200CD3728 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0C5B5FCA186479800060BECD /* Calendar */,
 				B50715C818B7AC1D00419189 /* Price.h */,
 				B50715C918B7AC1E00419189 /* Price.m */,
 				9E212F76186343C3004B9B80 /* Office.h */,
@@ -895,31 +867,6 @@
 				B5688AF1186AECCA009D830E /* MenuTableCellView.m */,
 			);
 			name = MainMenu;
-			sourceTree = "<group>";
-		};
-		0C5B5FCA186479800060BECD /* Calendar */ = {
-			isa = PBXGroup;
-			children = (
-				0C5B5FDB186481BF0060BECD /* TapkuLibrary.bundle */,
-				0C5B5FE6186482A50060BECD /* UIImage+TKCategory.h */,
-				0C5B5FE7186482A50060BECD /* UIImage+TKCategory.m */,
-				0C5B5FE3186482860060BECD /* UIColor+TKCategory.h */,
-				0C5B5FE4186482860060BECD /* UIColor+TKCategory.m */,
-				0C5B5FDD186481EF0060BECD /* TKGlobal.h */,
-				0C5B5FDE186481EF0060BECD /* TKGlobal.m */,
-				0C5B5FE0186482500060BECD /* TKGradientView.h */,
-				0C5B5FE1186482500060BECD /* TKGradientView.m */,
-				0C5B5FD7186480B20060BECD /* TapkuLibrary.h */,
-				0C5B5FD81864814D0060BECD /* NSDate+TKCategory.h */,
-				0C5B5FD9186481670060BECD /* NSDate+TKCategory.m */,
-				0C5B5FCB186479AB0060BECD /* TKCalendarMonthViewController.h */,
-				0C5B5FCC186479AB0060BECD /* TKCalendarMonthViewController.m */,
-				0C5B5FCF186479AB0060BECD /* TKCalendarMonthView.h */,
-				0C5B5FD0186479AB0060BECD /* TKCalendarMonthView.m */,
-				0C5B5FD1186479AB0060BECD /* NSDate+CalendarGrid.h */,
-				0C5B5FD2186479AB0060BECD /* NSDate+CalendarGrid.m */,
-			);
-			name = Calendar;
 			sourceTree = "<group>";
 		};
 		0C9299DC18689E63007DE6B8 /* Equipments */ = {
@@ -1554,7 +1501,6 @@
 				B5688B13186B3A2E009D830E /* load_11.png in Resources */,
 				B5E486C5195C00B6009C1363 /* ZGARENTA_REZERVASYON_SRVServiceDocumentV0.xml in Resources */,
 				B5BBE957195055CC000AD4E2 /* up_arrow.png in Resources */,
-				0C5B5FDC186481BF0060BECD /* TapkuLibrary.bundle in Resources */,
 				B5F2C4F41901258700F713DF /* ZGARENTA_OFIS_SRVServiceMetadataV0.xml in Resources */,
 				B5F2C4F31901258700F713DF /* ZGARENTA_OFIS_SRVServiceDocumentV0.xml in Resources */,
 				B5E486D6195C131E009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceMetadataV0.xml in Resources */,
@@ -1672,9 +1618,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C5B5FE5186482860060BECD /* UIColor+TKCategory.m in Sources */,
 				E1D2AB6719D45EAA00806868 /* SAPJSONHandler.m in Sources */,
-				0C5B5FDA186481670060BECD /* NSDate+TKCategory.m in Sources */,
 				0CBA77BD186447AB0008CE29 /* LoginVC.m in Sources */,
 				B5A2CAE81872B60100271DE9 /* MinimumInfoVC.m in Sources */,
 				B592119F195DA38D00A54E0E /* ReservationScopePopoverVC.m in Sources */,
@@ -1685,7 +1629,6 @@
 				B5E486C2195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVServiceV0.m in Sources */,
 				B5E03444186DEAE100226DAB /* CarGroupViewController.m in Sources */,
 				B58D438D192C826D000AF1EB /* CarGroupTableViewCell.m in Sources */,
-				0C5B5FDF186481EF0060BECD /* TKGlobal.m in Sources */,
 				B5E03447186DEC9A00226DAB /* CarGroupManagerViewController.m in Sources */,
 				B5041BE91973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVRequestHandler.m in Sources */,
 				B533CE4218FE7C8C002FE236 /* ZGARENTA_OFIS_SRVRequestHandler.m in Sources */,
@@ -1715,7 +1658,6 @@
 				0C0DA9B31865E23F003EDDA0 /* Arrival.m in Sources */,
 				B5688B1E186C2479009D830E /* OfficeHolidayTime.m in Sources */,
 				B533CE4118FE7C8C002FE236 /* ZGARENTA_OFIS_SRVServiceV0.m in Sources */,
-				0C5B5FE2186482500060BECD /* TKGradientView.m in Sources */,
 				0C0DA9A21865BE31003EDDA0 /* User.m in Sources */,
 				0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */,
 				B5688B04186B39F4009D830E /* LoaderAnimationVC.m in Sources */,
@@ -1728,17 +1670,14 @@
 				B50B09D71874988F00649165 /* ReservationSummaryViewController.m in Sources */,
 				0CBA75C7186435260008CE29 /* Office.m in Sources */,
 				0CBA75C8186435260008CE29 /* OfficeWorkingTime.m in Sources */,
-				0C5B5FD6186479AB0060BECD /* NSDate+CalendarGrid.m in Sources */,
 				B533CE1F18FD173D002FE236 /* IDController.m in Sources */,
 				B592119C195D9D9900A54E0E /* WYStoryboardPopoverSegue.m in Sources */,
-				0C5B5FD5186479AB0060BECD /* TKCalendarMonthView.m in Sources */,
 				B5BBE95119503907000AD4E2 /* UIColor+GarentaColors.m in Sources */,
 				B5688B01186B2E25009D830E /* GTMBase64.m in Sources */,
 				B560AFEF194B24C2005AF604 /* ZGARENTA_ARAC_SRVServiceV0.m in Sources */,
 				0C0DA9B01865E234003EDDA0 /* Destination.m in Sources */,
 				B5F45A5C193DFD1700E4656D /* AdditionalEquipment.m in Sources */,
 				B57E43B5191CC18800686A47 /* ZGARENTA_versiyon_srvRequestHandler.m in Sources */,
-				0C5B5FD3186479AB0060BECD /* TKCalendarMonthViewController.m in Sources */,
 				B5688AF2186AECCA009D830E /* MenuTableCellView.m in Sources */,
 				B545A2CF1973AB68005AD025 /* AdditionalDriverVC.m in Sources */,
 				0CBA75C9186435260008CE29 /* BaseVC.m in Sources */,
@@ -1748,7 +1687,6 @@
 				B5E0344A186ED57C00226DAB /* CarGroup.m in Sources */,
 				B52B64E31945A6240017A5D5 /* ReservationSummaryVC.m in Sources */,
 				B560AFEE194B24C2005AF604 /* ZGARENTA_ARAC_SRVRequestHandler.m in Sources */,
-				0C5B5FE8186482A50060BECD /* UIImage+TKCategory.m in Sources */,
 				B5F5F95E193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1820,7 +1758,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "05e5049d-3f21-4409-817e-8babd9343314";
+				PROVISIONING_PROFILE = "2461f97a-fcbb-45b4-8ed7-c571bfae20ac";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1855,7 +1793,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "05e5049d-3f21-4409-817e-8babd9343314";
+				PROVISIONING_PROFILE = "2461f97a-fcbb-45b4-8ed7-c571bfae20ac";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1884,7 +1822,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1d62190e-b478-453f-82a3-729b50adcf27";
+				PROVISIONING_PROFILE = "2461f97a-fcbb-45b4-8ed7-c571bfae20ac";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -1913,7 +1851,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1d62190e-b478-453f-82a3-729b50adcf27";
+				PROVISIONING_PROFILE = "2461f97a-fcbb-45b4-8ed7-c571bfae20ac";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;

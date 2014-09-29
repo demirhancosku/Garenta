@@ -32,6 +32,7 @@
     Reservation *reservation;
     NSMutableArray *availableCarGroups;
     CLLocation  *lastLocation;
+    int selectedTag;
 }
 
 @property (strong,nonatomic) WYPopoverController *myPopoverController;
