@@ -459,7 +459,8 @@
         return;
     }
     
-    [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
+    LoaderAnimationVC *loader = [LoaderAnimationVC uniqueInstance];
+    [loader playAnimation:self.view];
     
     @try {
         
