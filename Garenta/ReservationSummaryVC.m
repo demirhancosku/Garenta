@@ -11,6 +11,7 @@
 #import "PaymentTableViewController.h"
 #import "AdditionalEquipment.h"
 #import "ReservationApprovalVC.h"
+#import "ReservationScopePopoverVC.h"
 
 @interface ReservationSummaryVC ()
 
@@ -719,8 +720,6 @@
 
 #pragma mark - Navigation
 
-
-
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -739,6 +738,8 @@
         
         UIViewController* destinationViewController = (UIViewController *)segue.destinationViewController;
         destinationViewController.preferredContentSize = CGSizeMake(280, 280);       // Deprecated in iOS7. Use 'preferredContentSize' instead.
+        
+        [(ReservationScopePopoverVC *)[segue destinationViewController] setReservation:_reservation];
         
         popoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionAny animated:YES];
         popoverController.delegate = self;

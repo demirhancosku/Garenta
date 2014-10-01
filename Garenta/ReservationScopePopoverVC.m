@@ -7,7 +7,27 @@
 //
 
 #import "ReservationScopePopoverVC.h"
+#import "AdditionalEquipment.h"
 
 @implementation ReservationScopePopoverVC
+@synthesize reservation,textView;
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self prepareScopeInformation];
+}
+
+- (void)prepareScopeInformation
+{
+    for (AdditionalEquipment *temp in reservation.additionalEquipments)
+    {
+        if (temp.quantity > 0)
+        {
+            [textView setText:[NSString stringWithFormat:@"%@- %@(%i adet)\n",textView.text, temp.materialDescription,temp.quantity]];
+        }
+    }
+}
 
 @end

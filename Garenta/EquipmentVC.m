@@ -82,11 +82,9 @@
 // Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row <_additionalEquipments.count) {
-        return [self additionalEquipmentTableViewCellForIndex:indexPath.row fromTable:tableView];
-    }
-    int newIndex = indexPath.row-_additionalEquipments.count;
-    switch (newIndex) {
+    
+//    int newIndex = indexPath.row-_additionalEquipments.count;
+    switch (indexPath.row) {
         case 0:
             //aracımı seçcem!
             return [self selectCarTableView:tableView];
@@ -95,6 +93,11 @@
         default:
             break;
     }
+    
+    if (indexPath.row - 1 <_additionalEquipments.count) {
+        return [self additionalEquipmentTableViewCellForIndex:indexPath.row - 1 fromTable:tableView];
+    }
+
     return nil;
 }
 
@@ -128,9 +131,9 @@
     [[cell minusButton] setTag:index];
     [[cell plusButton] setTag:index];
     [[cell itemNameLabel] setText:additionalEquipment.materialDescription];
-    [[cell itemPriceLabel] setText:[NSString stringWithFormat:@"%@",additionalEquipment.price]];
+    [[cell itemPriceLabel] setText:[NSString stringWithFormat:@"%.02f",additionalEquipment.price.floatValue]];
     [[cell itemQuantityLabel] setText:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]];
-    [[cell itemTotalPriceLabel] setText:[NSString stringWithFormat:@"%i",(additionalEquipment.quantity*[additionalEquipment.price intValue])]];
+    [[cell itemTotalPriceLabel] setText:[NSString stringWithFormat:@"%.02f",(additionalEquipment.quantity*[additionalEquipment.price floatValue])]];
     
     [[cell textLabel] setNumberOfLines:0];
     
@@ -150,7 +153,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    if (indexPath.row == ([self dataSourceCount] - 1)) {
+    
+// aracımı seçmek istiyorum en yukarı alındı
+//    if (indexPath.row == ([self dataSourceCount] - 1))
+    if (indexPath.row == 0)
+    {
         if (_reservation.selectedCar == nil) {
             [self performSegueWithIdentifier:@"toCarSelectionVCSegue" sender:self];
         }else{
@@ -246,7 +253,11 @@
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_ADET"]]];
                 [tempEquip setQuantity:0];
-                [tempEquip setType:additionalInsurance];
+                if ([[tempEquip materialNumber] isEqualToString:@"HZM0004"])
+                    [tempEquip setType:additionalDriver];
+                else
+                    [tempEquip setType:additionalInsurance];
+                
                 [_additionalEquipments addObject:tempEquip];
             }
             
