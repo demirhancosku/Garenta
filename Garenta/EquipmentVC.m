@@ -45,6 +45,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [_totalPriceLabel setText:@"0"];
+    
     [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
