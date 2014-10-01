@@ -854,7 +854,7 @@
     NSPredicate *dayPredicate = [NSPredicate predicateWithFormat:@"weekDayCode=%@",[NSString stringWithFormat:@"%@%i",@"0",checkOutWeekday]];
     NSArray *checkOutDayArray = [reservation.checkOutOffice.workingDates filteredArrayUsingPredicate:dayPredicate];
     
-    if ([checkOutDayArray count] == 0)
+    if ([checkOutDayArray count] == 0 && !reservation.checkOutOffice.isPseudoOffice)
     {
         completion(NO,[NSString stringWithFormat:@"%@ seçmiş olduğunuz gün çalışmamaktadır. Lütfen tekrar kontrol ediniz.",reservation.checkOutOffice.subOfficeName]);
         
@@ -867,9 +867,9 @@
     // teslim alacağı şubenin çalıştığı günler seçilen iade tarihi içersindemi değilmi kontrolü
     NSPredicate *dayPredicate2 = [NSPredicate predicateWithFormat:@"weekDayCode=%@",[NSString stringWithFormat:@"%@%i",@"0",checkInWeekday]];
     
-    NSArray *checkInDayArray = [reservation.checkOutOffice.workingDates filteredArrayUsingPredicate:dayPredicate2];
+    NSArray *checkInDayArray = [reservation.checkInOffice.workingDates filteredArrayUsingPredicate:dayPredicate2];
     
-    if ([checkInDayArray count] == 0)
+    if ([checkInDayArray count] == 0 && !reservation.checkInOffice.isPseudoOffice)
     {
         completion(NO,[NSString stringWithFormat:@"%@ seçmiş olduğunuz gün çalışmamaktadır. Lütfen tekrar kontrol ediniz.",reservation.checkInOffice.subOfficeName]);
         

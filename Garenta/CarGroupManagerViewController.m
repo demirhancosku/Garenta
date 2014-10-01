@@ -108,7 +108,7 @@
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
 {
     
-    CarGroupViewController *temp =(CarGroupViewController*)viewController;
+    CarGroupViewController *temp = (CarGroupViewController*)viewController;
     NSUInteger index = temp.index;
     if ((index == 0) ) {
         return nil;
