@@ -76,7 +76,11 @@
         [tempCar setModelYear:[tempDict valueForKey:@"MODEL_YILI"]];
         
         
-        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[CarGroup urlOfResolution:@"400" fromBaseUrl:[tempDict valueForKey:@"ZRESIM_315"]]]]]];
+//        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[CarGroup urlOfResolution:@"400" fromBaseUrl:[tempDict valueForKey:@"ZRESIM_315"]]]]]];
+        
+        NSString *imagePath = [tempDict valueForKey:@"ZRESIM_315"];
+        
+        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imagePath]]]];
 
         if (tempCar.image == nil) {
             [tempCar setImage:[UIImage imageNamed:@"sample_car.png"]];
@@ -89,7 +93,7 @@
         CarGroup *tempCarGroup = [CarGroup getGroupFromList:availableCarGroups WithCode:[tempDict valueForKey:@"GRPKOD"]];
         
         if (tempCarGroup == nil) {
-            CarGroup *tempCarGroup = [CarGroup new];
+            tempCarGroup = [CarGroup new];
             tempCarGroup.cars = [NSMutableArray new];
             
             [tempCarGroup setGroupCode:[tempDict valueForKey:@"GRPKOD"]];
@@ -120,7 +124,7 @@
         
     }
 
-    return availableCarGroups;
+    return [self sortCarGroupsPriceAscending:availableCarGroups];
 }
 
 + (UIImage*)getImageFromJSONResults:(NSDictionary*)pics withPath:(NSString*)aPath {

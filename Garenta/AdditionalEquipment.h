@@ -13,18 +13,20 @@
  Hadi öptüm gözlerinizden
  */
 @interface AdditionalEquipment : NSObject<NSCopying>
+
 typedef enum{
     additionalDriver = 0, //ek surucu
     additionalInsurance, //sigorta
     standartEquipment //ek ekipman
 }EquipmentType;
-@property(strong,nonatomic)NSString*materialNumber;
-@property(strong,nonatomic)NSString*description;
-@property(assign,nonatomic)int quantity;
-@property(strong,nonatomic)NSDecimalNumber *price;
-@property(strong,nonatomic)NSDecimalNumber *maxQuantity;
-@property(strong,nonatomic)NSString *additionalDriverFirstname;
-@property(strong,nonatomic)NSString *additionalDriverSurname;
-@property(strong,nonatomic)NSDate *additionalDriverBirthday;
-@property(assign)EquipmentType type;
+
+@property(strong,nonatomic) NSString *materialNumber;
+@property(strong,nonatomic) NSString *materialDescription;
+@property(assign,nonatomic) int quantity;
+@property(strong,nonatomic) NSDecimalNumber *price;
+@property(strong,nonatomic) NSDecimalNumber *maxQuantity;
+@property(strong,nonatomic) NSString *additionalDriverFirstname;
+@property(strong,nonatomic) NSString *additionalDriverSurname;
+@property(strong,nonatomic) NSDate *additionalDriverBirthday;
+@property(assign) EquipmentType type;
 @end
