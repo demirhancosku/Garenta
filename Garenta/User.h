@@ -38,6 +38,8 @@
 @property (nonatomic, strong) NSString *priceCode;
 @property (nonatomic, strong) NSString *priceType;
 
+@property (nonatomic, strong) NSArray *creditCards;
+
 
 
 @property (nonatomic,retain) Coordinate *userLocation;
