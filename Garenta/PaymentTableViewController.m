@@ -49,11 +49,11 @@
     _requiredFields = [NSArray arrayWithObjects:_creditCardNumberTextField,_nameOnCardTextField,_expirationMonthTextField,_expirationYearTextField,_cvvTextField, nil];
     
     //temp for test
-    [_nameOnCardTextField setText:@"Yusuf Alp Keser"]; //Musteri ismi ile aynı olcak yoksa hata donuyor
-    [_creditCardNumberTextField  setText:@"4022774022774026"];
-    [_expirationYearTextField setText:@"2018"];
-    [_expirationMonthTextField setText:@"12"];
-    [_cvvTextField setText:@"000"];
+//    [_nameOnCardTextField setText:@"Yusuf Alp Keser"]; //Musteri ismi ile aynı olcak yoksa hata donuyor
+//    [_creditCardNumberTextField  setText:@"4022774022774026"];
+//    [_expirationYearTextField setText:@"2018"];
+//    [_expirationMonthTextField setText:@"12"];
+//    [_cvvTextField setText:@"000"];
 }
 
 
@@ -71,6 +71,67 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField.tag == 1) //kart no
+    {
+        NSCharacterSet *myCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+        for (int i = 0; i < [string length]; i++) {
+            unichar c = [string characterAtIndex:i];
+            if (![myCharSet characterIsMember:c]) {
+                return NO;
+            }
+        }
+        
+        if (range.location == 19) {
+            return NO;
+        }
+        
+        if ([string length] == 0)
+        {
+            return YES;
+        }
+        
+        if ((range.location == 4) || (range.location == 9) || (range.location == 14)) {
+            NSString *str = [NSString stringWithFormat:@"%@ ",_creditCardNumberTextField.text];
+            _creditCardNumberTextField.text = str;
+        }
+        
+        return YES;
+    }
+    
+    if (textField.tag == 2 || textField.tag == 3 || textField.tag == 4) // tarih ay-yıl alanı
+    {
+        NSCharacterSet *myCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+        for (int i = 0; i < [string length]; i++) {
+            unichar c = [string characterAtIndex:i];
+            if (![myCharSet characterIsMember:c]) {
+                return NO;
+            }
+        }
+        
+        switch (textField.tag)
+        {
+            case 2:
+                if (range.location == 2)
+                    return NO;
+                break;
+            case 3:
+                if (range.location == 4)
+                    return NO;
+                break;
+            case 4:
+                if (range.location == 3)
+                    return NO;
+                break;
+            default:
+                break;
+        }
+    }
+    
+    return YES;
 }
 
 #pragma mark - Table view data source
@@ -160,11 +221,47 @@
 #pragma mark - custom methods
 
 - (BOOL)checkRequiredFields{
+    
+    NSString *errorMessage;
+    
+    NSDateComponents *dateComponents =[[NSCalendar currentCalendar] components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit ) fromDate:NSDate.date];
+    
     for (UITextField *temTextField in _requiredFields) {
         if (temTextField.text.length == 0) {
-            return NO;
+            errorMessage = @"Lütfen tüm zorunlu alanları doldurunuz.";
         }
     }
+    
+    if (_creditCardNumberTextField.text.length < 19)
+        errorMessage = @"Kredi kartı numaranız 16 hane olmalıdır, lütfen kontrol edin.";
+    
+    else if (_expirationMonthTextField.text.length < 2)
+        errorMessage = @"Girmiş olduğunuz ay değeri 2 hane olmalıdır, lütfen kontrol edin.";
+    
+    else if (_expirationMonthTextField.text.integerValue > 12 || _expirationMonthTextField.text.integerValue == 0)
+        errorMessage = @"Girmiş olduğunuz ay değeri geçerli formatta değildir, lütfen kontrol edin.";
+    
+    else if (_expirationYearTextField.text.length < 4)
+        errorMessage = @"Girmiş olduğunuz yıl değeri 4 hane olmalıdır, lütfen kontrol edin.";
+    
+    else if (_expirationYearTextField.text.integerValue < dateComponents.year)
+        errorMessage = @"Girmiş olduğunuz yıl değeri mevcut yıldan küçük olamaz, lütfen kontrol edin.";
+    
+    else if (_expirationYearTextField.text.integerValue == dateComponents.year && _expirationMonthTextField.text.integerValue < dateComponents.month)
+        errorMessage = @"Girmiş olduğunuz son kullanma tarihini kontrol edin.";
+    
+    else if (_cvvTextField.text.length < 3)
+        errorMessage = @"CVV numarası 3 hane olmalıdır, lütfen kontrol edin.";
+    
+
+    if (errorMessage != nil)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:errorMessage delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+        return NO;
+    }
+
     return YES;
 }
 
@@ -593,12 +690,15 @@
 }
 
 - (IBAction)reservationCompleteButtonPressed:(id)sender {
-    if ([self checkRequiredFields]) {
+    if ([self checkRequiredFields])
+    {
+        [[self view] endEditing:YES];
         [self createReservation];
-    }else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Lütfen zorunlu alanları doldurunuz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-        [alert show];
     }
+//    }else{
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Lütfen zorunlu alanları doldurunuz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+//        [alert show];
+//    }
 }
 
 - (NSString *)getIPAddress {

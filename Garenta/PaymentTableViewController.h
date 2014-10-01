@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "Reservation.h"
-@interface PaymentTableViewController : UITableViewController<UIAlertViewDelegate>
+@interface PaymentTableViewController : UITableViewController<UIAlertViewDelegate, UITextViewDelegate>
+
+@property (strong,nonatomic) UIButton *hideButton;
 @property (strong,nonatomic) Reservation *reservation;
 @end
