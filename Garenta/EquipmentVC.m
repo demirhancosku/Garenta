@@ -46,9 +46,11 @@
 	// Do any additional setup after loading the view.
     [_totalPriceLabel setText:@"0"];
     [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
         [self getAdditionalEquipmentsFromSAP];
     });
+    
     [[NSNotificationCenter defaultCenter] addObserverForName:@"carSelected" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
         [self recalculate];
         [_additionalEquipmentsTableView reloadData];
@@ -125,10 +127,12 @@
     
     [[cell minusButton] setTag:index];
     [[cell plusButton] setTag:index];
-    [[cell itemNameLabel] setText:additionalEquipment.description];
+    [[cell itemNameLabel] setText:additionalEquipment.materialDescription];
     [[cell itemPriceLabel] setText:[NSString stringWithFormat:@"%@",additionalEquipment.price]];
     [[cell itemQuantityLabel] setText:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]];
     [[cell itemTotalPriceLabel] setText:[NSString stringWithFormat:@"%i",(additionalEquipment.quantity*[additionalEquipment.price intValue])]];
+    
+    [[cell textLabel] setNumberOfLines:0];
     
     //hide buttons wrt max min values
     if (additionalEquipment.quantity <= 0) {
@@ -143,6 +147,7 @@
     }
     return cell;
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     if (indexPath.row == ([self dataSourceCount] - 1)) {
@@ -173,76 +178,87 @@
     }
 }
 #pragma mark - custom methods
--(void)getAdditionalEquipmentsFromSAP{
-    [ApplicationProperties configureAdditionalEquipmentService];
-    AdditionalEquipmentServiceV0 *aService = [[AdditionalEquipmentServiceV0 alloc] init];
-    NSDateFormatter *dateformater = [NSDateFormatter new];
-    [dateformater setDateFormat:@"HH:mm"];
-    [aService setImppBegda:_reservation.checkOutTime];
-    [aService setImppBeguz:[dateformater stringFromDate:_reservation.checkOutTime]];
-    [aService setImppEnduz:[dateformater stringFromDate:_reservation.checkInTime]];
-    [aService setImppEndda:_reservation.checkInTime];
-    [aService setImppFikod:@" "];
-    [aService setImppGrpkod:_reservation.selectedCarGroup.groupCode];
-    [aService setImppMsube:_reservation.checkOutOffice.mainOfficeCode];
-    [aService setImppDsube:_reservation.checkInOffice.mainOfficeCode];
-    [aService setImppLangu:@"T"];
-    [aService setImppMarkaid:@" "];
-    [aService setImppModelid:@" "];
-    [aService setImppKampid:@" "];
-    [aService setImppSozno:@" "];
-    [aService setImppRezno:@" "];
-    
-    
-    NSOperationQueue *operationQueue = [NSOperationQueue new];
-    [[NSNotificationCenter defaultCenter] addObserverForName:kLoadAdditionalEquipmentServiceCompletedNotification object:nil queue:operationQueue usingBlock:^(NSNotification *notification){
+-(void)getAdditionalEquipmentsFromSAP {
+    @try {
         
-        AdditionalEquipmentServiceV0 *response = [notification userInfo][kResponseItem];
-        [self parseEquipmentService:response];
-    }];
-    [[ZGARENTA_EKHIZMET_SRVRequestHandler uniqueInstance] loadAdditionalEquipmentService:aService expand:YES];
-    
-}
-- (void)parseEquipmentService:(AdditionalEquipmentServiceV0*)service{
-    _additionalEquipments = [NSMutableArray new];
-    AdditionalEquipment *tempEquipment;
-    for (EXPT_EKPLISTV0 *tempEkplist in service.EXPT_EKPLISTSet) {
-        tempEquipment = [AdditionalEquipment new];
-        [tempEquipment setMaterialNumber:tempEkplist.Matnr];
-        [tempEquipment setDescription:tempEkplist.MusTanimi];
-        [tempEquipment setPrice:tempEkplist.Netwr];
-        [tempEquipment setMaxQuantity:tempEkplist.MaxMiktar];
-        [tempEquipment setQuantity:0];
-        [tempEquipment setType:standartEquipment];
-        [_additionalEquipments addObject:tempEquipment];
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZMOB_KDK_GET_EQUIPMENT_LIST"];
+        
+        NSDateFormatter *dateFormatter  = [NSDateFormatter new];
+        [dateFormatter setDateFormat:@"yyyyMMdd"];
+        
+        NSDateFormatter *timeFormatter  = [NSDateFormatter new];
+        [timeFormatter setDateFormat:@"hh:mm:ss"];
+        
+        [handler addImportParameter:@"IMPP_MSUBE" andValue:self.reservation.checkOutOffice.subOfficeCode];
+        [handler addImportParameter:@"IMPP_DSUBE" andValue:self.reservation.checkInOffice.subOfficeCode];
+        [handler addImportParameter:@"IMPP_LANGU" andValue:@"T"];
+        [handler addImportParameter:@"IMPP_GRPKOD" andValue:self.reservation.selectedCarGroup.groupCode];
+        [handler addImportParameter:@"IMPP_BEGDA" andValue:[dateFormatter stringFromDate:self.reservation.checkOutTime]];
+        [handler addImportParameter:@"IMPP_ENDDA" andValue:[dateFormatter stringFromDate:self.reservation.checkInTime]];
+        [handler addImportParameter:@"IMPP_BEGUZ" andValue:[timeFormatter stringFromDate:self.reservation.checkOutTime]];
+        [handler addImportParameter:@"IMPP_ENDUZ" andValue:[timeFormatter stringFromDate:self.reservation.checkInTime]];
+        [handler addImportParameter:@"IMPP_KANAL" andValue:@"40"];
+        
+        [handler addTableForReturn:@"EXPT_EKPLIST"];
+        [handler addTableForReturn:@"EXPT_SIGORTA"];
+        [handler addTableForReturn:@"EXPT_EKSURUCU"];
+        
+        NSDictionary *resultDict = [handler prepCall];
+        
+        if (resultDict != nil)
+        {
+            NSDictionary *tables = [resultDict objectForKey:@"TABLES"];
+            
+            _additionalEquipments = [NSMutableArray new];
+            
+            NSDictionary *equipmentList = [tables objectForKey:@"ZPM_S_EKIPMAN_LISTE"];
+            
+            for (NSDictionary *tempDict in equipmentList) {
+                AdditionalEquipment *tempEquip = [AdditionalEquipment new];
+                [tempEquip setMaterialNumber:[tempDict valueForKey:@"MATNR"]];
+                [tempEquip setMaterialDescription:[tempDict valueForKey:@"MUS_TANIMI"]];
+                [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"NETWR"]]];
+                [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_MIKTAR"]]];
+                [tempEquip setQuantity:0];
+                [tempEquip setType:standartEquipment];
+                [_additionalEquipments addObject:tempEquip];
+            }
+            
+            NSDictionary *assuranceList = [tables objectForKey:@"ZMOB_KDK_S_SIGORTA"];
+            
+            for (NSDictionary *tempDict in assuranceList) {
+                AdditionalEquipment *tempEquip = [AdditionalEquipment new];
+                [tempEquip setMaterialNumber:[tempDict valueForKey:@"MALZEME"]];
+                [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
+                [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
+                [tempEquip setQuantity:0];
+                [tempEquip setType:additionalInsurance];
+                [_additionalEquipments addObject:tempEquip];
+            }
+            
+            NSDictionary *additionalEquipmentList = [tables objectForKey:@"ZMOB_KDK_S_EKSURUCU"];
+            
+            for (NSDictionary *tempDict in additionalEquipmentList) {
+                AdditionalEquipment *tempEquip = [AdditionalEquipment new];
+                [tempEquip setMaterialNumber:[tempDict valueForKey:@"MALZEME"]];
+                [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
+                [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_ADET"]]];
+                [tempEquip setQuantity:0];
+                [tempEquip setType:additionalInsurance];
+                [_additionalEquipments addObject:tempEquip];
+            }
+            
+        }
     }
-    
-    for (EXPT_SIGORTAV0 *tempSigorta in service.EXPT_SIGORTASet) {
-        tempEquipment = [AdditionalEquipment new];
-        [tempEquipment setMaterialNumber:tempSigorta.Malzeme];
-        [tempEquipment setDescription:tempSigorta.Maktx];
-        [tempEquipment setPrice:tempSigorta.Tutar];
-        [tempEquipment setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
-        [tempEquipment setQuantity:0];
-        [tempEquipment setType:additionalInsurance];
-        [_additionalEquipments addObject:tempEquipment];
+    @catch (NSException *exception) {
+        
     }
-    for (EXPT_EKSURUCUV0 *tempEkSurucu in service.EXPT_EKSURUCUSet) {
-        tempEquipment = [AdditionalEquipment new];
-        [tempEquipment setMaterialNumber:tempEkSurucu.Malzeme];
-        [tempEquipment setDescription:tempEkSurucu.Maktx];
-        [tempEquipment setPrice:tempEkSurucu.Tutar];
-        [tempEquipment setMaxQuantity:[NSDecimalNumber decimalNumberWithString:tempEkSurucu.MaxAdet]];
-        [tempEquipment setQuantity:0];
-        [tempEquipment setType:additionalDriver];
-        [_additionalEquipments addObject:tempEquipment];
-    }
-    
-    dispatch_async(dispatch_get_main_queue(), ^(void){
+    @finally {
         [_additionalEquipmentsTableView reloadData];
         [[LoaderAnimationVC uniqueInstance] stopAnimation];
-    });
-    
+    }
 }
 
 - (IBAction)selectCarPressed:(id)sender {

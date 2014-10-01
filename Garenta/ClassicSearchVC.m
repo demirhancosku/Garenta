@@ -57,7 +57,7 @@
     offices = [ApplicationProperties getOffices];
     
     if (offices.count ==0) {
-        [self getOfficesFromSAP];
+            [self getOfficesFromSAP];
     }
     
     [self correctCheckIndate];
@@ -272,9 +272,7 @@
 #pragma mark - gateway connection delegates
 
 - (void)getOfficesFromSAP {
-    
-    [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
-    
+        
     @try {
         
         SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZMOB_KDK_GET_SUBE_CALISMA_SAAT"];
@@ -360,6 +358,7 @@
     @finally {
         [[LoaderAnimationVC uniqueInstance] stopAnimation];
     }
+    
 }
 
 - (void)showCarGroup:(id)sender
@@ -434,15 +433,17 @@
         
     }
     
-    [self getAvailableCarsFromSAP];
-    //    [self checkDates:^(BOOL isOK,NSString *errorMsg){
-    //        if (isOK) {
-    //            [self navigateToNextVC];
-    //        }else{
-    //            UIAlertView*alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:errorMsg delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-    //            [alert show];
-    //        }
-    //    }];
+    [self checkDates:^(BOOL isOK,NSString *errorMsg) {
+        
+        if (isOK) {
+            [self getAvailableCarsFromSAP];
+        }
+        else {
+            UIAlertView*alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:errorMsg delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+            [alert show];
+        }
+    }];
+    
 }
 
 - (void)getAvailableCarsFromSAP {
@@ -458,9 +459,6 @@
         [errorAlertView show];
         return;
     }
-    
-    LoaderAnimationVC *loader = [LoaderAnimationVC uniqueInstance];
-    [loader playAnimation:self.view];
     
     @try {
         
@@ -535,18 +533,7 @@
                 
                 // TODO : buna mutlaka bakmak lazım hiç anlamadım
                 //                [reservation setEtReserv:availServiceResponse.ET_RESERVSet];
-                
-                [self checkDates:^(BOOL isOK,NSString *errorMsg) {
-                    
-                    if (isOK) {
-                        [self navigateToNextVC];
-                    }
-                    else {
-                        UIAlertView*alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:errorMsg delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-                        
-                        [alert show];
-                    }
-                }];
+                [self navigateToNextVC];
             }
         }
     }
