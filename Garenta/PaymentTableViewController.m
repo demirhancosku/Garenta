@@ -118,6 +118,67 @@
     }
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField.tag == 1) //kart no
+    {
+        NSCharacterSet *myCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+        for (int i = 0; i < [string length]; i++) {
+            unichar c = [string characterAtIndex:i];
+            if (![myCharSet characterIsMember:c]) {
+                return NO;
+            }
+        }
+        
+        if (range.location == 19) {
+            return NO;
+        }
+        
+        if ([string length] == 0)
+        {
+            return YES;
+        }
+        
+        if ((range.location == 4) || (range.location == 9) || (range.location == 14)) {
+            NSString *str = [NSString stringWithFormat:@"%@ ",_creditCardNumberTextField.text];
+            _creditCardNumberTextField.text = str;
+        }
+        
+        return YES;
+    }
+    
+    if (textField.tag == 2 || textField.tag == 3 || textField.tag == 4) // tarih ay-yıl alanı
+    {
+        NSCharacterSet *myCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+        for (int i = 0; i < [string length]; i++) {
+            unichar c = [string characterAtIndex:i];
+            if (![myCharSet characterIsMember:c]) {
+                return NO;
+            }
+        }
+        
+        switch (textField.tag)
+        {
+            case 2:
+                if (range.location == 2)
+                    return NO;
+                break;
+            case 3:
+                if (range.location == 4)
+                    return NO;
+                break;
+            case 4:
+                if (range.location == 3)
+                    return NO;
+                break;
+            default:
+                break;
+        }
+    }
+    
+    return YES;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
