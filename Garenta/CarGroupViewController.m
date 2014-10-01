@@ -102,7 +102,7 @@
     [_acLabel setText:@"Klima"];
     [_passangerLabel setText:carGroup.sampleCar.passangerNumber];
     [_doorsLabel setText:carGroup.sampleCar.doorNumber];
-    [_officeLabel setText:[(Office*)[Office getOfficeFrom:[ApplicationProperties getOffices] withCode:carGroup.sampleCar.officeCode] mainOfficeName]];
+    [_officeLabel setText:[(Office*)[Office getOfficeFrom:[ApplicationProperties getOffices] withCode:carGroup.sampleCar.officeCode] subOfficeName]];
     [_carGroupLabel setText:carGroup.groupName];
     [_carModelLabel setText:[NSString stringWithFormat:@"%@ ve benzeri",carGroup.sampleCar.modelName]];
     [_carImageView setImage:carGroup.sampleCar.image];

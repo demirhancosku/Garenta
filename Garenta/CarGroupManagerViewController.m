@@ -135,7 +135,6 @@
 }
 
 
-
 - (void)pageViewController:(UIPageViewController *)pvc didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
 {
     // If the page did not turn
