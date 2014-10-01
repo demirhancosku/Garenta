@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WYPopoverController.h"
-@interface ReservationScopePopoverVC : WYPopoverController
+//#import "WYPopoverController.h"
 
+@interface ReservationScopePopoverVC : UIViewController
+
+@property (nonatomic,strong) IBOutlet UITextView *textView;
+@property (strong,nonatomic) Reservation *reservation;
 @end
+
