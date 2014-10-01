@@ -16,6 +16,7 @@
 @property (nonatomic,strong) NSString *name;
 @property (nonatomic,strong) NSString *surname;
 @property (nonatomic,strong) NSDecimalNumber *garentaTl;
+@property (nonatomic, strong) NSString *mobileCountry;
 @property (nonatomic,strong) NSString *mobile;
 @property (nonatomic,strong) NSString *email;
 @property (nonatomic,strong) NSString *tckno;
@@ -29,9 +30,13 @@
 @property (nonatomic,strong) NSDate *birthday;
 @property (nonatomic,strong) NSDate *driversLicenseDate;
 @property (nonatomic,assign) BOOL isLoggedIn;
+@property (nonatomic, assign) BOOL isPriority;
 @property (nonatomic, strong) NSString *country;
 @property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSString *partnerType;
+
+@property (nonatomic, strong) NSString *priceCode;
+@property (nonatomic, strong) NSString *priceType;
 
 
 

@@ -501,8 +501,14 @@
         User *user =[ApplicationProperties getUser];
         if ([ user isLoggedIn]) {
             [handler addImportParameter:@"IMPP_KUNNR" andValue:[user kunnr]];
-            [handler addImportParameter:@"IMPP_EHDAT" andValue:[dateFormatter stringFromDate:[user driversLicenseDate]]];
-            [handler addImportParameter:@"IMPP_GBDAT" andValue:[dateFormatter stringFromDate:[user birthday]]];
+            
+            if ([user driversLicenseDate] != nil) {
+                [handler addImportParameter:@"IMPP_EHDAT" andValue:[dateFormatter stringFromDate:[user driversLicenseDate]]];
+            }
+            
+            if ([user birthday] != nil) {
+                [handler addImportParameter:@"IMPP_GBDAT" andValue:[dateFormatter stringFromDate:[user birthday]]];
+            }
         }
         
         [handler addImportParameter:@"IMPP_BEGDA" andValue:[dateFormatter stringFromDate:reservation.checkOutTime]];
