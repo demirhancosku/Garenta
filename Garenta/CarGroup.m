@@ -175,7 +175,7 @@
     NSArray *filterResult;
     NSPredicate *officePredicate;
     for (Car *tempCar in self.cars) {
-       officePredicate = [NSPredicate predicateWithFormat:@"mainOfficeCode = %@",tempCar.officeCode];
+       officePredicate = [NSPredicate predicateWithFormat:@"subOfficeCode = %@",tempCar.officeCode];
         filterResult = [offices filteredArrayUsingPredicate:officePredicate];
         if ([filterResult count] == 0) {
             [offices addObjectsFromArray:[[ApplicationProperties getOffices] filteredArrayUsingPredicate:officePredicate]];

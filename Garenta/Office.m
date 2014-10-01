@@ -15,7 +15,7 @@
 
 + (Office*)getOfficeFrom:(NSMutableArray*)offices withCode:(NSString*)officeCode{
     for (Office *tempOffice in offices) {
-        if ([tempOffice.mainOfficeCode isEqualToString:officeCode]) {
+        if ([tempOffice.subOfficeCode isEqualToString:officeCode]) {
             return tempOffice;
         }
     }

@@ -471,7 +471,7 @@
         [timeFormatter setDateFormat:@"hh:mm:ss"];
         
         if ([ApplicationProperties getMainSelection] != location_search) {
-            if (reservation.checkInOffice.isPseudoOffice) {
+            if (reservation.checkOutOffice.isPseudoOffice) {
                 [handler addImportParameter:@"IMPP_SEHIR" andValue:reservation.checkInOffice.cityCode];
             }
             else {
