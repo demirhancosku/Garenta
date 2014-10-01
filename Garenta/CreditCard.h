@@ -14,4 +14,5 @@
 @property (strong,nonatomic) NSString *nameOnTheCard;
 @property (strong,nonatomic) NSString *expirationMonth;
 @property (strong,nonatomic) NSString *expirationYear;
+@property (nonatomic, strong) NSString *uniqueId;
 @end

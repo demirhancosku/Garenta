@@ -47,10 +47,7 @@
     [_totalPriceLabel setText:@"0"];
     
     [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
-        [self getAdditionalEquipmentsFromSAP];
-    });
+    [self getAdditionalEquipmentsFromSAP];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"carSelected" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
         [self recalculate];
@@ -268,8 +265,8 @@
         
     }
     @finally {
-        [_additionalEquipmentsTableView reloadData];
         [[LoaderAnimationVC uniqueInstance] stopAnimation];
+        [_additionalEquipmentsTableView reloadData];
     }
 }
 

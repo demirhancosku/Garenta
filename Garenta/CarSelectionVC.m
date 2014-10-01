@@ -15,6 +15,7 @@
 
 @implementation CarSelectionVC
 static NSString *cellIdentifier;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -28,9 +29,34 @@ static NSString *cellIdentifier;
 {
     [super viewDidLoad];
     _selectedIndex = 0;
-    // Do any additional setup after loading the view.
-//    CarSelectionCell
-//    [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"CarSelectionCell"];
+    
+    carSelectionArray = [NSMutableArray new];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    for (Car *tempCar in _reservation.selectedCarGroup.cars) {
+        if ([carSelectionArray count] == 0) {
+            [carSelectionArray addObject:tempCar];
+        }
+        else {
+            BOOL isNewModelId = YES;
+            
+            for (int i = 0; i < [carSelectionArray count]; i++) {
+                if ([[[carSelectionArray objectAtIndex:i] modelId] isEqualToString:tempCar.modelId]) {
+                    isNewModelId = NO;
+                    break;
+                }
+            }
+            
+            if (isNewModelId) {
+                [carSelectionArray addObject:tempCar];
+            }
+        }
+    }
+    
+    [[self tableView] reloadData];  
 }
 
 - (void)didReceiveMemoryWarning
@@ -40,13 +66,13 @@ static NSString *cellIdentifier;
 }
 #pragma mark - tableView methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  _reservation.selectedCarGroup.cars.count;
+    return  carSelectionArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CarSelectionCell" forIndexPath:indexPath];
-    Car *car = [_reservation.selectedCarGroup.cars objectAtIndex:indexPath.row];
+    Car *car = [carSelectionArray objectAtIndex:indexPath.row];
     UILabel *brandModelName = (UILabel*)[cell viewWithTag:1];
     [brandModelName setText:[NSString stringWithFormat:@"%@ %@",car.brandName,car.modelName]];
     [(UILabel*)[cell viewWithTag:2] setText:[NSString stringWithFormat:@"+ %@",car.pricing.carSelectPrice]];
@@ -55,7 +81,7 @@ static NSString *cellIdentifier;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     _selectedIndex = indexPath.row;
-    Car *car = [_reservation.selectedCarGroup.cars objectAtIndex:_selectedIndex];
+    Car *car = [carSelectionArray objectAtIndex:_selectedIndex];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Onay" message:
                           [NSString stringWithFormat:@"%@ %@ modeli rezervasyonunuza eklemek istedidiğinizden emin misiniz?",car.brandName,car.modelName]	 delegate:self cancelButtonTitle:@"Hayır" otherButtonTitles: @"Evet",nil];
     [alert show];
@@ -69,7 +95,7 @@ static NSString *cellIdentifier;
             break;
             case 1:
            //YES
-            [_reservation setSelectedCar:[_reservation.selectedCarGroup.cars objectAtIndex:_selectedIndex]];
+            [_reservation setSelectedCar:[carSelectionArray objectAtIndex:_selectedIndex]];
             [[self navigationController] popViewControllerAnimated:YES];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"carSelected" object:nil];
             break;
