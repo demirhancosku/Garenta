@@ -50,7 +50,6 @@
 	// Do any additional setup after loading the view.
     
     [self clearAllEquipments];
-    
     _carSelectionArray = [NSMutableArray new];
     
     [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
@@ -69,10 +68,18 @@
     }];
 }
 
+- (void)clearAllEquipments {
+    [_totalPriceLabel setText:@"0"];
+    _reservation.selectedCar = nil;
+    _reservation.additionalDrivers = nil;
+    _reservation.additionalEquipments = nil;
+}
+
 - (IBAction)infoButtonPressed:(id)sender
 {
     [self performSegueWithIdentifier:@"toEquipmentInfoSegue" sender:sender];
 }
+
 
 - (void)getCarSelectionPrice
 {
