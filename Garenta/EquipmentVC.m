@@ -44,7 +44,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    [_totalPriceLabel setText:@"0"];
+    
+    [self clearAllEquipments];
     
     [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
     [self getAdditionalEquipmentsFromSAP];
@@ -53,11 +54,20 @@
         [self recalculate];
         [_additionalEquipmentsTableView reloadData];
     }];
+    
     [[NSNotificationCenter defaultCenter] addObserverForName:@"additionalDriverAdded" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
         [[self myPopoverController] dismissPopoverAnimated:YES];
         [self recalculate];
         [_additionalEquipmentsTableView reloadData];
     }];
+}
+
+- (void)clearAllEquipments {
+    [_totalPriceLabel setText:@"0"];
+
+    _reservation.selectedCar = nil;
+    _reservation.additionalDrivers = nil;
+    _reservation.additionalEquipments = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -99,11 +109,13 @@
     return nil;
 }
 
-- (SelectCarTableViewCell*)selectCarTableView:(UITableView*)tableView{
+- (SelectCarTableViewCell*)selectCarTableView:(UITableView*)tableView {
+    
     SelectCarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"selectCarCell"];
     if (!cell) {
         cell = [SelectCarTableViewCell new];
     }
+    
     [cell.mainText setText: @"Aracımı Seçmek İstiyorum"];
     if (_reservation.selectedCar == nil) {
         [cell.selectButton setImage:[UIImage imageNamed:@"unticked_button.png"] forState:UIControlStateNormal];
@@ -119,6 +131,7 @@
     }
     return cell;
 }
+
 - (AdditionalEquipmentTableViewCell*)additionalEquipmentTableViewCellForIndex:(int)index fromTable:(UITableView*)tableView{
     AdditionalEquipmentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"additionalEquipmentCell"];
     if (!cell) {
@@ -300,7 +313,9 @@
 
 #pragma mark - IBActions
 - (IBAction)plusButtonPressed:(id)sender {
-    AdditionalEquipment*additionalEquipment = [_additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
+    
+    AdditionalEquipment *additionalEquipment = [_additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
+    
     if (additionalEquipment.type == additionalDriver) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[(UIButton*)sender tag] inSection:0];
         [self.additionalEquipmentsTableView scrollToRowAtIndexPath:indexPath
@@ -308,8 +323,36 @@
                                      animated:NO];
         
         [self performSegueWithIdentifier:@"toAdditionalDriverVCSegue" sender:sender];
-    }else{
-        int newValue = [additionalEquipment quantity]+1;
+    }
+    else
+    {
+        if ([[additionalEquipment materialNumber] isEqualToString:@"HZM0012"]) {
+            
+            for (AdditionalEquipment *temp in _additionalEquipments) {
+                if (([[temp materialNumber] isEqualToString:@"HZM0011"] || [[temp materialNumber] isEqualToString:@"HZM0024"] || [[temp materialNumber] isEqualToString:@"HZM0009"] || [[temp materialNumber] isEqualToString:@"HZM0006"]) && [temp quantity] == 1) {
+                    [temp setQuantity:0];
+                }
+            }
+        }
+        else {
+            BOOL isMaximumSafetyAdded = NO;
+            
+            for (AdditionalEquipment *temp in _additionalEquipments) {
+                if ([[temp materialNumber] isEqualToString:@"HZM0012"] && [temp quantity] == 1) {
+                    isMaximumSafetyAdded = YES;
+                }
+            }
+            
+            if (isMaximumSafetyAdded) {
+                if ([[additionalEquipment materialNumber] isEqualToString:@"HZM0011"] || [[additionalEquipment materialNumber] isEqualToString:@"HZM0024"] || [[additionalEquipment materialNumber] isEqualToString:@"HZM0009"] || [[additionalEquipment materialNumber] isEqualToString:@"HZM0006"]) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Eklemiş olduğunuz maksimum güvence bu hizmeti kapsamaktadır" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                    [alert show];
+                    return;
+                }
+            }
+        }
+        
+        int newValue = [additionalEquipment quantity] + 1;
         [additionalEquipment setQuantity:newValue];
         [self recalculate];
     }

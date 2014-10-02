@@ -35,7 +35,7 @@
 {
     [self fillFiltersInArrays];
     
-    tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
+    tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
     
     [tableView setDelegate:self];
     [tableView setDataSource:self];
@@ -50,15 +50,14 @@
 - (void)findMyCar{
     
     [self filterCars];
+    
     if (filteredCarGroups.count <= 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Aradığınız filtrelerde aracımız bulunumamıştır." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
         [alert show];
         return;
     }
+    
     [self performSegueWithIdentifier:@"toCarGroupVCSegue" sender:self];
-//    CarGroupManagerViewController *carGroupVC = [[CarGroupManagerViewController alloc] initWithCarGroups:filteredCarGroups andReservartion:reservation];
-//
-//    [[self navigationController] pushViewController:carGroupVC animated:YES];
 }
 
 - (void)calculateFilterResult:(NSMutableArray *)filterArray

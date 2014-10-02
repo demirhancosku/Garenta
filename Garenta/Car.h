@@ -38,4 +38,5 @@
 @property(nonatomic,retain)NSString *currency;
 @property(nonatomic,retain)NSString *bluetooth;
 @property(nonatomic,retain)UIImage  *image;
+
 @end

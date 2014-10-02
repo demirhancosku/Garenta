@@ -12,7 +12,7 @@
 #import "MenuSelectionVC.h"
 #import "UserCreationVC.h"
 
-@interface LoginVC : BaseVC <UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
+@interface LoginVC : BaseVC <UITextFieldDelegate, UIAlertViewDelegate>
 {
     UIButton *hideButton;
     CGRect viewFrame;
@@ -22,7 +22,6 @@
     UIButton *createUserButton;
 }
 
-- (id)initWithFrame:(CGRect)frame andUser:(User *)userInfo;
 - (void)goToCreateUserView:(id)sender;
 
 @end

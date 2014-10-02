@@ -7,12 +7,13 @@
 //
 
 #import "LoginVC.h"
-#import "ZGARENTA_LOGIN_SRV_01RequestHandler.h"
-#import "ZGARENTA_LOGIN_SRV_01ServiceV0.h"
+
 @interface LoginVC ()
+
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 - (IBAction)login:(id)sender;
+
 @end
 
 @implementation LoginVC
@@ -60,6 +61,14 @@
     if (![_usernameTextField.text isEqualToString:@""] && ![_passwordTextField.text isEqualToString:@""])
     {
         [self loginToSap];
+    
+        User *user = [ApplicationProperties getUser];
+        
+        if ([user isLoggedIn]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hoşgeldiniz" message:[NSString stringWithFormat:@"Sayın %@ %@", [user name], [user surname]] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+            [alert show];
+            [[self navigationController] popToRootViewControllerAnimated:YES];
+        }
     }
     else
     {
@@ -94,7 +103,6 @@
 
 - (void)loginToSap
 {
-    
     @try {
         SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZMOB_REZ_LOGIN"];
         
@@ -132,7 +140,7 @@
                         [user setSurname:[tempDict valueForKey:@"MC_NAME1"]];
                         [user setKunnr:[tempDict valueForKey:@"PARTNER"]];
                         [user setUsername:_usernameTextField.text];
-                        [user setPassword:_passwordTextField.text];
+                        [user setPassword:base64Encoded];
                         [user setPartnerType:[tempDict valueForKey:@"MUSTERI_TIPI"]];
                         [user setCompany:[tempDict valueForKey:@"FIRMA_KODU"]];
                         [user setCompanyName:[tempDict valueForKey:@"FIRMA_NAME1"]];
@@ -174,14 +182,6 @@
     }
     @finally {
         
-    }
-    
-    User *user = [ApplicationProperties getUser];
-    
-    if ([user isLoggedIn]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hoşgeldiniz" message:[NSString stringWithFormat:@"Sayın %@ %@", [user name], [user surname]] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
-        [alert show];
-        [[self navigationController] popToRootViewControllerAnimated:YES];
     }
 }
 
