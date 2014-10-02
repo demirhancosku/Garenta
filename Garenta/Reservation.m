@@ -27,9 +27,8 @@
 + (NSDate*)defaultCheckInDate{
     NSDate *checkInDate = [NSDate date];
 
-
-    //once 15 dk ekliyoruz
-    NSTimeInterval aTimeInterval = 15 * 60; //15 dk
+    //once 2 saat 15 dk ekliyoruz
+    NSTimeInterval aTimeInterval = 135 * 60; //2 saat 15 dk
     checkInDate = [checkInDate dateByAddingTimeInterval:aTimeInterval];
     //sonra 1gun ekliyoruz
     aTimeInterval = 24 * 60 * 60;
@@ -43,11 +42,13 @@
     return checkInDate;
 }
 
-+ (NSDate*)defaultCheckOutDate{
++ (NSDate*)defaultCheckOutDate
+{
     NSDate *checkOutDate = [NSDate date];
     //once 15 dk ekliyoruz
-    NSTimeInterval aTimeInterval = 15 * 60; //15 dk
+    NSTimeInterval aTimeInterval = 135 * 60; //15 dk
     checkOutDate = [checkOutDate dateByAddingTimeInterval:aTimeInterval];
+
     //sonra dakikaları bir ger dilime
     NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     

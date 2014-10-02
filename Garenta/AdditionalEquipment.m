@@ -14,6 +14,7 @@
     if (copy) {
         [copy setMaterialNumber:[self.materialNumber copyWithZone:zone]];
         [copy setMaterialDescription:[self.materialDescription copyWithZone:zone]];
+        [copy setMaterialInfo:[self.materialInfo copyWithZone:zone]];
         [copy setQuantity:self.quantity];
         [copy setPrice:[self.price copyWithZone:zone]];
         [copy setMaxQuantity:[self.maxQuantity copyWithZone:zone]];

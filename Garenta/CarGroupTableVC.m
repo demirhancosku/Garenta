@@ -65,7 +65,7 @@
         cell = [CarGroupTableViewCell new];
     }
     [[cell officeNameLabel] setText:[(Office*)[_activeCarGroup.carGroupOffices objectAtIndex:indexPath.row] subOfficeName]];
-    [[cell payLaterPriceLabel] setText:_activeCarGroup.payLaterPrice];
+    [[cell payLaterPriceLabel] setText:[NSString stringWithFormat:@"%.02f",_activeCarGroup.payLaterPrice.floatValue]];
     
     return cell;
 }

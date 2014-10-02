@@ -15,6 +15,7 @@
 
 @implementation CarSelectionVC
 static NSString *cellIdentifier;
+@synthesize carSelectionArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,34 +30,6 @@ static NSString *cellIdentifier;
 {
     [super viewDidLoad];
     _selectedIndex = 0;
-    
-    carSelectionArray = [NSMutableArray new];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    for (Car *tempCar in _reservation.selectedCarGroup.cars) {
-        if ([carSelectionArray count] == 0) {
-            [carSelectionArray addObject:tempCar];
-        }
-        else {
-            BOOL isNewModelId = YES;
-            
-            for (int i = 0; i < [carSelectionArray count]; i++) {
-                if ([[[carSelectionArray objectAtIndex:i] modelId] isEqualToString:tempCar.modelId]) {
-                    isNewModelId = NO;
-                    break;
-                }
-            }
-            
-            if (isNewModelId) {
-                [carSelectionArray addObject:tempCar];
-            }
-        }
-    }
-    
-    [[self tableView] reloadData];  
 }
 
 - (void)didReceiveMemoryWarning
@@ -75,7 +48,7 @@ static NSString *cellIdentifier;
     Car *car = [carSelectionArray objectAtIndex:indexPath.row];
     UILabel *brandModelName = (UILabel*)[cell viewWithTag:1];
     [brandModelName setText:[NSString stringWithFormat:@"%@ %@",car.brandName,car.modelName]];
-    [(UILabel*)[cell viewWithTag:2] setText:[NSString stringWithFormat:@"+ %@",car.pricing.carSelectPrice]];
+    [(UILabel*)[cell viewWithTag:2] setText:[NSString stringWithFormat:@"+ %.02f",car.pricing.carSelectPrice.floatValue]];
     return cell;
 }
 

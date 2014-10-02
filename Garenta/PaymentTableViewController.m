@@ -103,7 +103,7 @@
                 
                 for (NSDictionary *tempDict in cardsArray) {
                     CreditCard *tempCard = [[CreditCard alloc] init];
-                    tempCard.cardNumber = [tempDict valueForKey:@"KARNO"];
+                    tempCard.cardNumber = [tempDict valueForKey:@"KARTNO"];
                     tempCard.uniqueId = [tempDict valueForKey:@"UNIQUE_ID"];
                     [creditCards addObject:tempCard];
                 }
