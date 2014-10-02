@@ -86,6 +86,10 @@ static int kGarentaLogoId = 1;
         
         if ([returnValue isEqualToString:@"T"]) {
             [[NSUserDefaults standardUserDefaults] setObject:@"T" forKey:@"ACTIVEVERSION"];
+            
+            if ([[ApplicationProperties getUser] isLoggedIn]) {
+                [self getUserInfoFromSAP];
+            }
         }
         else {
             [[NSUserDefaults standardUserDefaults] setObject:@"F" forKey:@"ACTIVEVERSION"];
@@ -96,6 +100,84 @@ static int kGarentaLogoId = 1;
     }
     
     [loaderVC stopAnimation];
+}
+
+- (void)getUserInfoFromSAP {
+    @try {
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZMOB_REZ_LOGIN"];
+        
+        [handler addImportParameter:@"IV_PASSWORD" andValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"PASSWORD"]];
+        [handler addImportParameter:@"IV_FREETEXT" andValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"USERNAME"]];
+        [handler addImportParameter:@"IV_LANGU" andValue:@"T"];
+        
+        [handler addTableForReturn:@"ET_RETURN"];
+        [handler addTableForReturn:@"ET_PARTNERS"];
+        [handler addTableForReturn:@"ET_CARDTYPES"];
+        
+        NSDictionary *response = [handler prepCall];
+        
+        if (response != nil) {
+            
+            NSDictionary *export = [response objectForKey:@"EXPORT"];
+            
+            NSString *sysubrc = [export valueForKey:@"EV_SUBRC"];
+            
+            if ([sysubrc isEqualToString:@"0"]) {
+                
+                NSDictionary *tables = [response objectForKey:@"TABLES"];
+                NSDictionary *allPartners = [tables objectForKey:@"ZNET_LOGIN_ALL_PARTNERS"];
+                
+                if (allPartners.count > 0) {
+                    
+                    for (NSDictionary *tempDict in allPartners) {
+                        User *user = [ApplicationProperties getUser];
+                        
+                        [user setName:[tempDict valueForKey:@"MC_NAME2"]];
+                        [user setMiddleName:[tempDict valueForKey:@"NAMEMIDDLE"]];
+                        [user setSurname:[tempDict valueForKey:@"MC_NAME1"]];
+                        [user setKunnr:[tempDict valueForKey:@"PARTNER"]];
+                        [user setPartnerType:[tempDict valueForKey:@"MUSTERI_TIPI"]];
+                        [user setCompany:[tempDict valueForKey:@"FIRMA_KODU"]];
+                        [user setCompanyName:[tempDict valueForKey:@"FIRMA_NAME1"]];
+                        [user setCompanyName2:[tempDict valueForKey:@"FIRMA_NAME2"]];
+                        [user setMobileCountry:[tempDict valueForKey:@"MOBILE_ULKE"]];
+                        [user setMobile:[tempDict valueForKey:@"MOBILE"]];
+                        [user setEmail:[tempDict valueForKey:@"EMAIL"]];
+                        [user setTckno:[tempDict valueForKey:@"TCKNO"]];
+                        [user setGarentaTl:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"GARENTATL"]]];
+                        [user setPriceCode:[tempDict valueForKey:@"FIYAT_KODU"]];
+                        [user setPriceType:[tempDict valueForKey:@"FIYAT_TIPI"]];
+                        
+                        if ([[tempDict valueForKey:@"C_PRIORITY"] isEqualToString:@"X"]) {
+                            [user setIsPriority:YES];
+                        }
+                        
+                        if ([[user partnerType] isEqualToString:@"B"]) {
+                            [user setIsLoggedIn:YES];
+                            [ApplicationProperties setUser:user];
+                        }
+                        else {
+                            // Şu an sadece bireysel kullanıcıları alıyoruz
+                        }
+                    }
+                }
+                else {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Kullanıcı adı ve şifrenizi kontrol ederek lütfen tekrar deneyiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+                    [alert show];
+                }
+            }
+            else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Kullanıcı adı ve şifrenizi kontrol ederek lütfen tekrar deneyiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+                [alert show];
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
 }
 
 //puts logo on navigation bar
@@ -122,34 +204,15 @@ static int kGarentaLogoId = 1;
 
 - (void)prepareScreen
 {
-    
-    //
-    //    NSString *barString;
-    //    if ([[ApplicationProperties getUser] isLoggedIn]) {
-    //        barString = @"Çıkış";
-    //        [[[self tabBarController] tabBar] setHidden:NO];
-    //    }else{
-    //        [[[self tabBarController] tabBar] setHidden:YES];
-    //        barString = NSLocalizedString(@"Login", nil);
-    //    }
-    //
-    //    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:barString style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
-    //    [[self navigationItem] setRightBarButtonItem:barButton];
-    //    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-    //                                                           [ApplicationProperties getBlack], NSForegroundColorAttributeName,
-    //                                                           [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0], NSFontAttributeName, nil]];
     return;
-    
-    
 }
 
-- (BOOL)checkAppVersion{
+- (BOOL)checkAppVersion {
     return [ApplicationProperties isActiveVersion];
-    
 }
 
-- (void)showVersionAlert{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bilgi" message:@"Uygulamamızın yeni versiyonunu indirmenizi rica ederiz. Teşekkürler." delegate:self cancelButtonTitle:@"Vazgeç" otherButtonTitles:       @"İndir",nil];
+- (void)showVersionAlert {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bilgi" message:@"Uygulamamızın yeni versiyonunu indirmenizi rica ederiz. Teşekkürler." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
     [alert show];
 }
 
@@ -173,17 +236,16 @@ static int kGarentaLogoId = 1;
 {
     if ([[ApplicationProperties getUser] isLoggedIn]) {
         //then logout
-        [[NSUserDefaults standardUserDefaults]
-         setObject:@""forKey:@"KUNNR"];
-        [[NSUserDefaults standardUserDefaults]
-         setObject:@"" forKey:@"PASSWORD"];
+        [[NSUserDefaults standardUserDefaults] setObject:@""forKey:@"KUNNR"];
+        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"PASSWORD"];
         [[ApplicationProperties getUser] setPassword:@""];
         [[ApplicationProperties getUser] setUsername:@""];
         [[ApplicationProperties getUser] setIsLoggedIn:NO];
         [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
         return;
     }
-    LoginVC *login = [[LoginVC alloc] initWithFrame:self.view.frame andUser:nil];
+    
+    LoginVC *login = [[LoginVC alloc] init];
     [[self navigationController] pushViewController:login animated:YES];
 }
 
@@ -208,8 +270,6 @@ static int kGarentaLogoId = 1;
             return;
         }
     }
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
 }
 
 
@@ -217,7 +277,6 @@ static int kGarentaLogoId = 1;
     if (buttonIndex == 1)
     {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:newAppLink]];
-        
     }
 }
 

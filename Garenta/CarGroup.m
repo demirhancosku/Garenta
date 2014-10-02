@@ -12,7 +12,7 @@
 
 @implementation CarGroup
 
-@synthesize groupCode,groupName,imagePath,payNowPrice,payLaterPrice,bodyName,bodyId,fuelId,fuelName,cars,segment,segmentName,transmissonId,transmissonName;
+@synthesize groupCode,groupName,imagePath,payNowPrice,payLaterPrice,bodyName,bodyId,fuelId,fuelName,cars,segment,segmentName,transmissonId,transmissonName, minAge, minDriverLicense, minYoungDriverAge, minYoungDriverLicense;
 
 + (CarGroup*)getGroupFromList:(NSMutableArray*)carList WithCode:(NSString*)aGroupCode{
     for (CarGroup*tempCarGroup in carList) {
@@ -75,9 +75,6 @@
         [tempCar setModelName:[tempDict valueForKey:@"MODEL"]];
         [tempCar setModelYear:[tempDict valueForKey:@"MODEL_YILI"]];
         
-        
-//        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[CarGroup urlOfResolution:@"400" fromBaseUrl:[tempDict valueForKey:@"ZRESIM_315"]]]]]];
-        
         NSString *imagePath = [tempDict valueForKey:@"ZRESIM_315"];
         
         [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imagePath]]]];
@@ -106,6 +103,11 @@
             [tempCarGroup setBodyName:[tempDict valueForKey:@"KASA_TIPI"]];
             [tempCarGroup setSegment:[tempDict valueForKey:@"SEGMENT"]];
             [tempCarGroup setSegmentName:[tempDict valueForKey:@"SEGMENTTX"]];
+            
+            [tempCarGroup setMinAge:[[tempDict valueForKey:@"MIN_YAS"] integerValue]];
+            [tempCarGroup setMinDriverLicense:[[tempDict valueForKey:@"MIN_EHLIYET"] integerValue]];
+            [tempCarGroup setMinYoungDriverAge:[[tempDict valueForKey:@"GENC_SRC_YAS"] integerValue]];
+            [tempCarGroup setMinYoungDriverLicense:[[tempDict valueForKey:@"GENC_SRC_EHL"] integerValue]];
             
             [availableCarGroups addObject:tempCarGroup];
         }

@@ -78,10 +78,11 @@ static NSString *appName = @"REZ";
 + (User*)getUser{
     if (myUser == nil) {
         myUser = [[User alloc] init];
-        myUser.kunnr = [[NSUserDefaults standardUserDefaults]
-                        stringForKey:@"KUNNR"];
-        myUser.password = [[NSUserDefaults standardUserDefaults]
-                           stringForKey:@"PASSWORD"];
+        
+        myUser.kunnr = [[NSUserDefaults standardUserDefaults] stringForKey:@"KUNNR"];
+        myUser.password = [[NSUserDefaults standardUserDefaults] stringForKey:@"PASSWORD"];
+        myUser.username = [[NSUserDefaults standardUserDefaults] stringForKey:@"USERNAME"];
+        
         if ([myUser.kunnr isEqualToString:@""] || myUser.kunnr == nil) {
             [myUser setIsLoggedIn:NO];
         }else{
@@ -100,7 +101,7 @@ static NSString *appName = @"REZ";
 + (void)setUser:(User*)aUser{
     [[NSUserDefaults standardUserDefaults] setObject:aUser.kunnr forKey:@"KUNNR"];
     [[NSUserDefaults standardUserDefaults] setObject:aUser.password forKey:@"PASSWORD"];
-    
+    [[NSUserDefaults standardUserDefaults] setObject:aUser.username forKey:@"USERNAME"];
 }
 
 + (NSString*)getSAPUser{

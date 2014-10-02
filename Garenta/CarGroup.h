@@ -27,6 +27,11 @@
 @property(nonatomic,retain)Car *sampleCar;
 @property(nonatomic,retain)NSMutableArray *cars;
 
+@property (nonatomic) NSInteger minAge;
+@property (nonatomic) NSInteger minDriverLicense;
+@property (nonatomic) NSInteger minYoungDriverAge;
+@property (nonatomic) NSInteger minYoungDriverLicense;
+
 #pragma mark - filter methods
 + (CarGroup*)getGroupFromList:(NSMutableArray*)carList WithCode:(NSString*)aGroupCode;
 - (NSMutableArray*)getBestCarsWithFilter:(NSString*)aFilter;
