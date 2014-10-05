@@ -23,10 +23,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *buyButton;
 @property (strong,nonatomic)NSMutableArray *additionalEquipments;
 @property (strong,nonatomic)WYPopoverController *myPopoverController;
+@property (strong,nonatomic)NSMutableArray *carSelectionArray;
+@property (strong,nonatomic) AdditionalEquipment *tempEquipment;
+
 - (IBAction)plusButtonPressed:(id)sender;
 - (IBAction)minusButtonPressed:(id)sender;
 - (IBAction)selectCarPressed:(id)sender;
 - (IBAction)resumePressed:(id)sender;
+- (IBAction)infoButtonPressed:(id)sender;
 @end
 
 @implementation EquipmentVC
@@ -46,9 +50,11 @@
 	// Do any additional setup after loading the view.
     
     [self clearAllEquipments];
+    _carSelectionArray = [NSMutableArray new];
     
     [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
     [self getAdditionalEquipmentsFromSAP];
+    [self getCarSelectionPrice];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"carSelected" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
         [self recalculate];
@@ -64,10 +70,40 @@
 
 - (void)clearAllEquipments {
     [_totalPriceLabel setText:@"0"];
-
     _reservation.selectedCar = nil;
     _reservation.additionalDrivers = nil;
     _reservation.additionalEquipments = nil;
+}
+
+- (IBAction)infoButtonPressed:(id)sender
+{
+    [self performSegueWithIdentifier:@"toEquipmentInfoSegue" sender:sender];
+}
+
+
+- (void)getCarSelectionPrice
+{
+    for (Car *tempCar in _reservation.selectedCarGroup.cars)
+    {
+        if ([_carSelectionArray count] == 0) {
+            [_carSelectionArray addObject:tempCar];
+        }
+        else {
+            BOOL isNewModelId = YES;
+            
+            for (int i = 0; i < [_carSelectionArray count]; i++) {
+                if ([[[_carSelectionArray objectAtIndex:i] modelId] isEqualToString:tempCar.modelId]) {
+                    isNewModelId = NO;
+                    break;
+                }
+            }
+            
+            if (isNewModelId) {
+                [_carSelectionArray addObject:tempCar];
+            }
+        }
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -122,7 +158,14 @@
         //hiç görünmesin daha iyi ya çirkin oldu boşu
         [cell.selectButton setHidden:YES];
         [cell.priceLabel setText:@"0.00"];
-        [[cell carLabel] setText:@""];
+        
+        if ([_carSelectionArray count] == 0)
+            [[cell carLabel] setText:@""];
+        else
+        {
+            Car *car = [_carSelectionArray objectAtIndex:0];
+            [[cell carLabel] setText:[NSString stringWithFormat:@"Sadece %.02f TL ödeyerek aracınızı seçebilirsiniz.",[car.pricing.carSelectPrice floatValue]]];
+        }
     }else{
         [cell.selectButton setImage:[UIImage imageNamed:@"ticked_button.png"] forState:UIControlStateNormal];
         [cell.selectButton setHidden:NO];
@@ -141,12 +184,18 @@
     
     [[cell minusButton] setTag:index];
     [[cell plusButton] setTag:index];
+    [[cell infoButton] setTag:index];
     [[cell itemNameLabel] setText:additionalEquipment.materialDescription];
     [[cell itemPriceLabel] setText:[NSString stringWithFormat:@"%.02f",additionalEquipment.price.floatValue]];
     [[cell itemQuantityLabel] setText:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]];
     [[cell itemTotalPriceLabel] setText:[NSString stringWithFormat:@"%.02f",(additionalEquipment.quantity*[additionalEquipment.price floatValue])]];
     
     [[cell textLabel] setNumberOfLines:0];
+    
+    if ([additionalEquipment.materialInfo isEqualToString:@""] || additionalEquipment.materialInfo == nil)
+        [cell.infoButton setHidden:YES];
+    else
+        [cell.infoButton setHidden:NO];
     
     //hide buttons wrt max min values
     if (additionalEquipment.quantity <= 0) {
@@ -248,6 +297,7 @@
                 AdditionalEquipment *tempEquip = [AdditionalEquipment new];
                 [tempEquip setMaterialNumber:[tempDict valueForKey:@"MALZEME"]];
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
+                [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
                 [tempEquip setQuantity:0];
@@ -261,6 +311,7 @@
                 AdditionalEquipment *tempEquip = [AdditionalEquipment new];
                 [tempEquip setMaterialNumber:[tempDict valueForKey:@"MALZEME"]];
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
+                [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_ADET"]]];
                 [tempEquip setQuantity:0];
@@ -312,10 +363,9 @@
 
 
 #pragma mark - IBActions
-- (IBAction)plusButtonPressed:(id)sender {
-    
-    AdditionalEquipment *additionalEquipment = [_additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
-    
+- (IBAction)plusButtonPressed:(id)sender
+{
+    AdditionalEquipment*additionalEquipment = [_additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
     if (additionalEquipment.type == additionalDriver) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[(UIButton*)sender tag] inSection:0];
         [self.additionalEquipmentsTableView scrollToRowAtIndexPath:indexPath
@@ -383,7 +433,7 @@
     }
     if ([[segue identifier] isEqualToString:@"toCarSelectionVCSegue"]) {
         [(CarSelectionVC*)  [segue destinationViewController] setReservation:_reservation];
-        
+        [(CarSelectionVC*)  [segue destinationViewController] setCarSelectionArray:_carSelectionArray];
     }
     
     if ([[segue identifier] isEqualToString:@"toAdditionalDriverVCSegue"]) {
@@ -402,7 +452,21 @@
                 break;
             }
         }
+    }
+    
+    if ([[segue identifier] isEqualToString:@"toEquipmentInfoSegue"])
+    {
+        WYStoryboardPopoverSegue* popoverSegue = (WYStoryboardPopoverSegue*)segue;
         
+        UIViewController* destinationViewController = (UIViewController *)segue.destinationViewController;
+        destinationViewController.preferredContentSize = CGSizeMake(280, 75);       // Deprecated in iOS7. Use 'preferredContentSize' instead.
+        
+        AdditionalEquipment *tempEquipment = [_additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
+       [(AdditionalEquipmentInfoVC *)segue.destinationViewController setInfoText:tempEquipment.materialInfo];
+    
+        self.myPopoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionAny animated:YES];
+        self.myPopoverController.delegate = self;
+    
     }
 }
 

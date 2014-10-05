@@ -891,8 +891,7 @@
     NSString *str = [dateFormatter stringFromDate:reservation.checkOutTime];
     NSDate *reservationCheckOutTime = [dateFormatter dateFromString:str];
     
-    
-    
+
     // TESLİM EDECEĞİ OFİSİN AÇILIŞ SAATİ
     NSDate *checkInStartTime = [dateFormatter dateFromString:checkInWorkingTime.startTime];
     
@@ -902,6 +901,33 @@
     NSString *str2 = [dateFormatter stringFromDate:reservation.checkInTime];
     NSDate *reservationCheckInTime = [dateFormatter dateFromString:str2];
     
+    
+    
+    NSDate *checkOutMinTime = [NSDate date];
+    //once 135 dk ekliyoruz
+    NSTimeInterval aTimeInterval = 135 * 60; //135 dk
+    checkOutMinTime = [checkOutMinTime dateByAddingTimeInterval:aTimeInterval];
+    
+    //sonra dakikaları bir ger dilime
+    NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    
+    NSDateComponents *components = [gregorianCalendar components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:checkOutMinTime];
+    
+    NSInteger difference = components.minute % 15;
+    checkOutMinTime = [checkOutMinTime dateByAddingTimeInterval:-(NSTimeInterval)difference*60];
+    
+    NSDateFormatter *dateFormatter2 = [[NSDateFormatter alloc] init];
+    [dateFormatter2 setDateFormat:@"yyyy-MM-dd HH:mm"];
+    
+    NSString *minTime = [dateFormatter2 stringFromDate:checkOutMinTime];
+    checkOutMinTime = [dateFormatter2 dateFromString:minTime];
+    
+    NSComparisonResult checkOutMinTimeResult = [checkOutMinTime compare:reservation.checkOutTime];
+    if (checkOutMinTimeResult == NSOrderedDescending)
+    {
+        completion(NO,@"Rezervasyonunuzu güncel saatten en az 2 saat sonrasına yapabilirsiniz.");
+        return;
+    }
     
     // SEÇİLEN SAAT TESLİM ALACAĞI ŞUBENİN ÇALIŞMA SAATLERİ ARASINDAMI KONTROLÜ
     NSComparisonResult checkOutresult = [checkOutStartTime compare:reservationCheckOutTime];

@@ -9,9 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Reservation.h"
 @interface CarSelectionVC : UIViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
-{
-    NSMutableArray *carSelectionArray;
-}
 
 @property(strong,nonatomic)Reservation*reservation;
+@property(strong,nonatomic)NSMutableArray *carSelectionArray;
 @end
