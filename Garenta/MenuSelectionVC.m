@@ -41,7 +41,15 @@ static int kGarentaLogoId = 1;
     
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
     
-    [self checkVersion];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        
+        [self checkVersion];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        });
+    });
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -70,8 +78,6 @@ static int kGarentaLogoId = 1;
 #pragma mark - util methods
 
 - (void)checkVersion {
-    loaderVC = [LoaderAnimationVC uniqueInstance];
-    [loaderVC playAnimation:self.view];
     
     SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZMOB_CHECK_VERSIYON"];
     
@@ -99,7 +105,6 @@ static int kGarentaLogoId = 1;
         }
     }
     
-    [loaderVC stopAnimation];
 }
 
 - (void)getUserInfoFromSAP {

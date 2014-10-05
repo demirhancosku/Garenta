@@ -17,6 +17,7 @@
 #import "ZGARENTA_ARAC_SRVRequestHandler.h"
 #import "ParsingConstants.h"
 #import "WYStoryboardPopoverSegue.h"
+
 #define kCheckOutTag 0
 #define kCheckInTag 1
 
@@ -57,7 +58,16 @@
     offices = [ApplicationProperties getOffices];
     
     if (offices.count ==0) {
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            
             [self getOfficesFromSAP];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            });
+        });
     }
     
     [self correctCheckIndate];
@@ -436,7 +446,19 @@
     [self checkDates:^(BOOL isOK,NSString *errorMsg) {
         
         if (isOK) {
-            [self getAvailableCarsFromSAP];
+            
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                
+                [self getAvailableCarsFromSAP];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    
+                    if (availableCarGroups.count > 0)
+                        [self navigateToNextVC];
+                });
+            });
         }
         else {
             UIAlertView*alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:errorMsg delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
@@ -539,7 +561,7 @@
                 
                 // TODO : buna mutlaka bakmak lazım hiç anlamadım
                 //                [reservation setEtReserv:availServiceResponse.ET_RESERVSet];
-                [self navigateToNextVC];
+//                [self navigateToNextVC];
             }
         }
     }
@@ -547,7 +569,7 @@
         
     }
     @finally {
-        [[LoaderAnimationVC uniqueInstance] stopAnimation];
+        
     }
 }
 

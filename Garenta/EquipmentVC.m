@@ -16,6 +16,7 @@
 #import "UserInfoTableViewController.h"
 #import "CarSelectionVC.h"
 #import "AdditionalDriverVC.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface EquipmentVC ()<WYPopoverControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *additionalEquipmentsTableView;
@@ -52,9 +53,18 @@
     [self clearAllEquipments];
     _carSelectionArray = [NSMutableArray new];
     
-    [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
-    [self getAdditionalEquipmentsFromSAP];
-    [self getCarSelectionPrice];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        
+        [self getAdditionalEquipmentsFromSAP];
+        [self getCarSelectionPrice];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [_additionalEquipmentsTableView reloadInputViews];
+            [_additionalEquipmentsTableView reloadData];
+        });
+    });
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"carSelected" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
         [self recalculate];
@@ -66,6 +76,7 @@
         [self recalculate];
         [_additionalEquipmentsTableView reloadData];
     }];
+    
 }
 
 - (void)clearAllEquipments {
@@ -104,6 +115,7 @@
         }
     }
     
+    [_additionalEquipmentsTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -114,20 +126,12 @@
 
 #pragma mark - tableviews
 
-- (int)dataSourceCount{
-    //son satir aracımı seçmek istiyorum.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _additionalEquipments.count+1;
 }
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [self dataSourceCount];
-}
-
-// Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
-// Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-//    int newIndex = indexPath.row-_additionalEquipments.count;
     switch (indexPath.row) {
         case 0:
             //aracımı seçcem!
@@ -329,8 +333,6 @@
         
     }
     @finally {
-        [[LoaderAnimationVC uniqueInstance] stopAnimation];
-        [_additionalEquipmentsTableView reloadData];
     }
 }
 

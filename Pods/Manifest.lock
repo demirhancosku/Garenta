@@ -1,10 +1,10 @@
 PODS:
-  - WYPopoverController (0.2.2)
+  - MBProgressHUD (0.9)
 
 DEPENDENCIES:
-  - WYPopoverController (~> 0.2.0)
+  - MBProgressHUD (~> 0.8)
 
 SPEC CHECKSUMS:
-  WYPopoverController: c233d69fdfd5c7e316b481df1060624d7a9e629d
+  MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
 
-COCOAPODS: 0.33.1
+COCOAPODS: 0.34.1

@@ -55,12 +55,12 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    // check if user has any credit cards available
-    
     if ([[ApplicationProperties getUser] isLoggedIn]) {
-//        if ([[ApplicationProperties getUser] isPriority]) {
+        if ([[ApplicationProperties getUser] isPriority]) {
             [self getUserCreditCardsFromSAP];
-//        }
+        }
+        
+        self.garentaTlTextField.placeholder = [NSString stringWithFormat:@"Bakiyeniz : %@", [[ApplicationProperties getUser] garentaTl]];
     }
     
     [self addObservers];

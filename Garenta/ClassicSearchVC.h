@@ -17,6 +17,7 @@
 #import "Arrival.h"
 #import "Reservation.h"
 #import "WYPopoverController.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 
 @interface ClassicSearchVC : UIViewController <UITableViewDataSource,UITableViewDelegate,NSURLConnectionDelegate, UIPopoverControllerDelegate,CLLocationManagerDelegate>
