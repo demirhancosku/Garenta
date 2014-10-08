@@ -22,6 +22,6 @@
     UIButton *createUserButton;
 }
 
-- (void)goToCreateUserView:(id)sender;
+- (IBAction)login:(id)sender;
 
 @end

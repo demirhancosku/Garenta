@@ -55,7 +55,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)login:(id)sender
+- (IBAction)login:(id)sender
 {
     
     if (![_usernameTextField.text isEqualToString:@""] && ![_passwordTextField.text isEqualToString:@""])
@@ -78,15 +78,6 @@
     return;
     }
 }
-
-
-- (void)goToCreateUserView:(id)sender
-{
-    UserCreationVC *vc = [[UserCreationVC alloc] init];
-    [[self navigationController] pushViewController:vc animated:YES];
-}
-
-
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
