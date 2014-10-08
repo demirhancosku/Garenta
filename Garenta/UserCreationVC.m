@@ -7,15 +7,38 @@
 //
 
 #import "UserCreationVC.h"
-#import "iToast.h"
 #import "IDController.h"
 
 @interface UserCreationVC ()
 
+@property (weak, nonatomic) IBOutlet UISegmentedControl *genderSegmentedControl;
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *middleNameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *surnameTextField;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *nationalitySegmentedControl;
+@property (weak, nonatomic) IBOutlet UITextField *tcknoTextField;
+@property (weak, nonatomic) IBOutlet UITextField *driverLicenseNoTextField;
+@property (weak, nonatomic) IBOutlet UITextField *driverLicenseLocationTextField;
+@property (weak, nonatomic) IBOutlet UITextField *countryTextField;
+@property (weak, nonatomic) IBOutlet UITextField *cityTextField;
+@property (weak, nonatomic) IBOutlet UITextField *countyTextField;
+@property (weak, nonatomic) IBOutlet UITextField *adressTextField;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (weak, nonatomic) IBOutlet UITextField *mobilePhoneTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet UITextField *password2TextField;
+@property (weak, nonatomic) IBOutlet UITextField *securityQuestionTextField;
+@property (weak, nonatomic) IBOutlet UITextField *securityAnswerTextField;
+@property (weak, nonatomic) IBOutlet UILabel *tcknoLabel;
+@property (weak, nonatomic) IBOutlet UIDatePicker *driverLicenseDatePicker;
+@property (weak, nonatomic) IBOutlet UIDatePicker *birthdayDatePicker;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *driverLicenseTypeSegmentedControl;
+
+@property (nonatomic) NSInteger selectedTextField;
+
 @end
 
 @implementation UserCreationVC
-@synthesize adressTextField, birthdayTextField, countryTextField, mobileTextField, headerLabel, emailTextField, nameTextField, passwordTextField, password2TextField, scrollView, secretQuestionTextField, secretAnswerTextField, surnameTextField, tcknNoTextField, nationSegmentedControl;
 
 - (void)viewDidLoad
 {
@@ -35,15 +58,18 @@
     [super viewWillAppear:animated];
     
     [self prepareScreen];
-    [self getLocationInformationFromSAP];
-    [self getSecretQuestionsFromSAP];
+//    [self getLocationInformationFromSAP];
+//    [self getSecretQuestionsFromSAP];
 }
 
 - (void)prepareScreen
 {
-    [scrollView setContentSize:CGSizeMake(scrollView.frame.size.width, 550)];
+    [[UITextField appearance] setTintColor:[UIColor blackColor]];
+    [[UITableViewCell appearance] setSelectionStyle:UITableViewCellSelectionStyleNone];
     
-    [nationSegmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
+    self.nationalitySegmentedControl.selectedSegmentIndex = -1;
+    self.genderSegmentedControl.selectedSegmentIndex = -1;
+    self.driverLicenseTypeSegmentedControl.selectedSegmentIndex = -1;
     
     NSCalendar * gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
     NSDate * currentDate = [NSDate date];
@@ -53,231 +79,170 @@
     [comps setYear: -100];
     NSDate * minDate = [gregorian dateByAddingComponents: comps toDate: currentDate options: 0];
     
+    [self.birthdayDatePicker setMaximumDate:maxDate];
+    [self.birthdayDatePicker setMinimumDate:minDate];
+    [self.birthdayDatePicker setDate:maxDate];
     
-    datePicker = [[UIDatePicker alloc] init];
-    [datePicker setFrame:CGRectMake(0, self.view.frame.size.height - datePicker.frame.size.height, datePicker.frame.size.width, datePicker.frame.size.height)];
-    [datePicker setBackgroundColor:[ApplicationProperties getGrey]];
-    [datePicker setMaximumDate:maxDate];
-    [datePicker setMinimumDate:minDate];
-    [datePicker setDate:maxDate];
-    [datePicker setDatePickerMode:UIDatePickerModeDate];
-    [datePicker addTarget:self action:@selector(dateIsChanged:) forControlEvents:UIControlEventValueChanged];
-    [[self view] addSubview:datePicker];
-    [datePicker setHidden:YES];
-    
-    userCreationPickerView = [[UIPickerView alloc] initWithFrame:[datePicker frame]];
+    userCreationPickerView = [[UIPickerView alloc] initWithFrame:[self.birthdayDatePicker frame]];
     [userCreationPickerView setDelegate:self];
     [userCreationPickerView setDataSource:self];
     [userCreationPickerView setBackgroundColor:[UIColor lightGrayColor]];
     [[self view] addSubview:userCreationPickerView];
     [userCreationPickerView setHidden:YES];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self releaseAllTextFields];
+}
+
+- (void)continueButtonPressed:(id)sender {
     
-    barButton = [[UIBarButtonItem alloc] initWithTitle:@"Üye Ol" style:UIBarButtonItemStyleBordered target:self action:@selector(resume)];
+}
+
+- (void)nationalitySegmentChanged:(id)sender {
+    UISegmentedControl *nationality = (UISegmentedControl *)sender;
     
-    [[self navigationItem] setRightBarButtonItem:barButton];
-    
-    [self registerForKeyboardNotifications];
-    
-    UITapGestureRecognizer *singleFingerTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(handleSingleTap:)];
-    [scrollView addGestureRecognizer:singleFingerTap];
-    
-    [self setTextFieldsCorners];
+    if (nationality.selectedSegmentIndex == 0) {
+        self.tcknoLabel.text = @"T.C. Kimlik No*";
+    }
+    else if (nationality.selectedSegmentIndex == 1) {
+        self.tcknoLabel.text = @"Pasaport No*";
+    }
 }
 
 - (void)resume
 {
-    // ATA burda kontroller yapılıcak
-    NSString *alertString = @"";
-    IDController *control = [[IDController alloc] init];
-    
-    NSDateFormatter *bdayFormatter = [[NSDateFormatter alloc] init];
-    [bdayFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSDate *birthdayDate = [bdayFormatter dateFromString:[birthdayTextField text]];
-    
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *weekdayComponents =[gregorian components:NSYearCalendarUnit fromDate:birthdayDate];
-    NSString *birtdayYearString = [NSString stringWithFormat:@"%li", (long)weekdayComponents.year];
-    
-    if ([nameTextField.text isEqualToString:@""])
-        alertString =  @"Ad alanının doldurulması gerekmektedir";
-    else if ([surnameTextField.text isEqualToString:@""])
-        alertString =  @"Soyad alanının doldurulması gerekmektedir";
-    else if ([birthdayTextField.text isEqualToString:@""])
-        alertString =  @"Doğum Tarihi alanının doldurulması gerekmektedir";
-    else if (!( [nationSegmentedControl selectedSegmentIndex] == 0 || [nationSegmentedControl selectedSegmentIndex] == 1) )
-        alertString = @"Uyruk alanının seçilmesi gerekmektedir";
-    else if ([tcknNoTextField.text isEqualToString:@""])
-        alertString =  @"T.C. Kimlik No alanının doldurulması gerekmektedir";
-    else if ([tcknNoTextField.text length] != 11)
-        alertString =  @"T.C: Kimlik No alanının 11 Karakter olması gerekmektedir";
-//    else if ([control idChecker:[tcknNoTextField text] andName:[[nameTextField text] uppercaseStringWithLocale:[NSLocale localeWithLocaleIdentifier:@"tr"]] andSurname:[[surnameTextField text] uppercaseStringWithLocale:[NSLocale localeWithLocaleIdentifier:@"tr"]] andBirthYear:birtdayYearString] && !([nationSegmentedControl selectedSegmentIndex] == 1))
-//        alertString = @"Girdiğiniz T.C. Kimlik No Sistemde bulunamamıştır.";
-    else if ([countryTextField.text isEqualToString:@""])
-        alertString =  @"Ülkenin seçilmesi gerekmektedir";
-    else if ([adressTextField.text isEqualToString:@""])
-        alertString =  @"Adres alanının doldurulması gerekmektedir";
-    else if ([emailTextField.text isEqualToString:@""])
-        alertString =  @"E-mail alanının doldurulması gerekmektedir";
-    else if ([mobileTextField.text isEqualToString:@""])
-        alertString =  @"Cep Telefonu alanının doldurulması gerekmektedir";
-    else if ([passwordTextField.text isEqualToString:@""])
-        alertString =  @"Şifre alanının doldurulması gerekmektedir";
-    else if ([password2TextField.text isEqualToString:@""])
-        alertString =  @"Şifre(Tekrar) alanının doldurulması gerekmektedir";
-    else if (![passwordTextField.text isEqualToString:[password2TextField text]])
-        alertString =  @"Şifre alanlarının aynı olması gerekmektedir";
-    else if ([secretQuestionTextField.text isEqualToString:@""])
-        alertString =  @"Gizli Sorunun seçilmesi gerekmektedir";
-    else if ([secretAnswerTextField.text isEqualToString:@""])
-        alertString =  @"Gizli soru cevabı alanının doldurulması gerekmektedir";
-    
-    if (![alertString isEqualToString:@""])
-    {
-        iToastSettings *theSettings = [iToastSettings getSharedSettings];
-        [theSettings setGravity:iToastGravityCenter];
-        [theSettings setFontSize:16.0];
-        [[iToast makeText:alertString] show];
-        
-        return;
-    }
-    
-    NSCharacterSet *charactersToRemove = [NSCharacterSet characterSetWithCharactersInString:@"() "];
-    NSString *trimmedReplacement = [[mobileTextField.text componentsSeparatedByCharactersInSet:charactersToRemove] componentsJoinedByString:@""];
-    
-    // Ata sonra atcaz etcez
-    User *createdUser = [[User alloc] init];
-    [createdUser setName:[nameTextField text]];
-    [createdUser setSurname:[surnameTextField text]];
-    [createdUser setBirthday:birthdayDate];
-    [createdUser setTckno:[tcknNoTextField text]];
-    [createdUser setCountry:[countryTextField text]]; // buna bakıcam
-    [createdUser setAddress:[adressTextField text]];
-    [createdUser setEmail:[emailTextField text]];
-    [createdUser setMobile:trimmedReplacement];
-    [createdUser setPassword:[passwordTextField text]];
-    
-    //tc ise tr değil ise boş
-    NSString *nationality = @"";
-    NSString *pasaportNo = @"";
-    
-    if ([nationSegmentedControl selectedSegmentIndex] == 0)
-        nationality = @"TR";
-    else
-        pasaportNo = [tcknNoTextField text];
-    
-    NSString *mtype = @"X";
-    NSString *distributionChannel = @"33";
-    NSString *salesOrganization = @"3063";
-    NSString *division = @"65";
-    NSString *smsFlag = @"";
-    NSString *kanalTuru = @"Z01";
-    
-    NSString *connectionString = [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_CREATE_CUST_SRV_01/IS_INPUTSet(Firstname='%@',Middlename='',Lastname='%@',Birthdate=datetime'%@T00:00:00',Tckn='%@',Vergidairesi='',Vergino='',Mtype='%@',Email='%@',Telno='%@',Nickname='',Password='%@',Ilkodu='',Ilcekod='',Adress='%@',Uyruk='%@',Ulke='%@',Ehliyetno='',Ehliyettarihi='',Pasaportno='%@',Smsflag='%@',SalesOrganization='%@',DistributionChannel='%@',Division='%@',Cinsiyet='',Guvensoru='%@',GuvensoruTxt='',Guvencevap='%@',EhliyetAlisyeri='',EhliyetSinifi='',TkKartno='',Kanalturu='%@',TelnoUlke='')?$format=json", [createdUser name], [createdUser surname], [birthdayTextField text], [createdUser tckno], mtype, [createdUser email], [createdUser mobile], [createdUser password], [createdUser address], nationality, countryCode, pasaportNo, smsFlag, salesOrganization, distributionChannel, division, secretQuestionNumber, [secretAnswerTextField text], kanalTuru];
-    
-    [self createUserAtSAP:connectionString];
-}
-
-- (void)dateIsChanged:(id)sender{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
-    
-    [birthdayTextField setText:[formatter stringFromDate:[datePicker date]]];
-}
-
-//The event handling method
-- (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
-    [self releaseAllTextFields];
+//    // ATA burda kontroller yapılıcak
+//    NSString *alertString = @"";
+//    IDController *control = [[IDController alloc] init];
+//    
+//    NSDateFormatter *bdayFormatter = [[NSDateFormatter alloc] init];
+//    [bdayFormatter setDateFormat:@"yyyy-MM-dd"];
+//    NSDate *birthdayDate = [bdayFormatter dateFromString:[birthdayTextField text]];
+//    
+//    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+//    NSDateComponents *weekdayComponents =[gregorian components:NSYearCalendarUnit fromDate:birthdayDate];
+//    NSString *birtdayYearString = [NSString stringWithFormat:@"%li", (long)weekdayComponents.year];
+//    
+//    if ([nameTextField.text isEqualToString:@""])
+//        alertString =  @"Ad alanının doldurulması gerekmektedir";
+//    else if ([surnameTextField.text isEqualToString:@""])
+//        alertString =  @"Soyad alanının doldurulması gerekmektedir";
+//    else if ([birthdayTextField.text isEqualToString:@""])
+//        alertString =  @"Doğum Tarihi alanının doldurulması gerekmektedir";
+//    else if (!( [nationSegmentedControl selectedSegmentIndex] == 0 || [nationSegmentedControl selectedSegmentIndex] == 1) )
+//        alertString = @"Uyruk alanının seçilmesi gerekmektedir";
+//    else if ([tcknNoTextField.text isEqualToString:@""])
+//        alertString =  @"T.C. Kimlik No alanının doldurulması gerekmektedir";
+//    else if ([tcknNoTextField.text length] != 11)
+//        alertString =  @"T.C: Kimlik No alanının 11 Karakter olması gerekmektedir";
+//    else if ([countryTextField.text isEqualToString:@""])
+//        alertString =  @"Ülkenin seçilmesi gerekmektedir";
+//    else if ([adressTextField.text isEqualToString:@""])
+//        alertString =  @"Adres alanının doldurulması gerekmektedir";
+//    else if ([emailTextField.text isEqualToString:@""])
+//        alertString =  @"E-mail alanının doldurulması gerekmektedir";
+//    else if ([mobileTextField.text isEqualToString:@""])
+//        alertString =  @"Cep Telefonu alanının doldurulması gerekmektedir";
+//    else if ([passwordTextField.text isEqualToString:@""])
+//        alertString =  @"Şifre alanının doldurulması gerekmektedir";
+//    else if ([password2TextField.text isEqualToString:@""])
+//        alertString =  @"Şifre(Tekrar) alanının doldurulması gerekmektedir";
+//    else if (![passwordTextField.text isEqualToString:[password2TextField text]])
+//        alertString =  @"Şifre alanlarının aynı olması gerekmektedir";
+//    else if ([secretQuestionTextField.text isEqualToString:@""])
+//        alertString =  @"Gizli Sorunun seçilmesi gerekmektedir";
+//    else if ([secretAnswerTextField.text isEqualToString:@""])
+//        alertString =  @"Gizli soru cevabı alanının doldurulması gerekmektedir";
+//    
+//    if (![alertString isEqualToString:@""])
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+//        [alert show];
+//        
+//        return;
+//    }
+//    
+//    NSCharacterSet *charactersToRemove = [NSCharacterSet characterSetWithCharactersInString:@"() "];
+//    NSString *trimmedReplacement = [[mobileTextField.text componentsSeparatedByCharactersInSet:charactersToRemove] componentsJoinedByString:@""];
+//    
+//    // Ata sonra atcaz etcez
+//    User *createdUser = [[User alloc] init];
+//    [createdUser setName:[nameTextField text]];
+//    [createdUser setSurname:[surnameTextField text]];
+//    [createdUser setBirthday:birthdayDate];
+//    [createdUser setTckno:[tcknNoTextField text]];
+//    [createdUser setCountry:[countryTextField text]]; // buna bakıcam
+//    [createdUser setAddress:[adressTextField text]];
+//    [createdUser setEmail:[emailTextField text]];
+//    [createdUser setMobile:trimmedReplacement];
+//    [createdUser setPassword:[passwordTextField text]];
+//    
+//    //tc ise tr değil ise boş
+//    NSString *nationality = @"";
+//    NSString *pasaportNo = @"";
+//    
+//    if ([nationSegmentedControl selectedSegmentIndex] == 0)
+//        nationality = @"TR";
+//    else
+//        pasaportNo = [tcknNoTextField text];
+//    
+//    NSString *mtype = @"X";
+//    NSString *distributionChannel = @"33";
+//    NSString *salesOrganization = @"3063";
+//    NSString *division = @"65";
+//    NSString *smsFlag = @"";
+//    NSString *kanalTuru = @"Z01";
+//    
+//    NSString *connectionString = [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_CREATE_CUST_SRV_01/IS_INPUTSet(Firstname='%@',Middlename='',Lastname='%@',Birthdate=datetime'%@T00:00:00',Tckn='%@',Vergidairesi='',Vergino='',Mtype='%@',Email='%@',Telno='%@',Nickname='',Password='%@',Ilkodu='',Ilcekod='',Adress='%@',Uyruk='%@',Ulke='%@',Ehliyetno='',Ehliyettarihi='',Pasaportno='%@',Smsflag='%@',SalesOrganization='%@',DistributionChannel='%@',Division='%@',Cinsiyet='',Guvensoru='%@',GuvensoruTxt='',Guvencevap='%@',EhliyetAlisyeri='',EhliyetSinifi='',TkKartno='',Kanalturu='%@',TelnoUlke='')?$format=json", [createdUser name], [createdUser surname], [birthdayTextField text], [createdUser tckno], mtype, [createdUser email], [createdUser mobile], [createdUser password], [createdUser address], nationality, countryCode, pasaportNo, smsFlag, salesOrganization, distributionChannel, division, secretQuestionNumber, [secretAnswerTextField text], kanalTuru];
+//    
+//    [self createUserAtSAP:connectionString];
 }
 
 - (void)releaseAllTextFields
 {
-    [nameTextField resignFirstResponder];
-    [surnameTextField resignFirstResponder];
-    [mobileTextField resignFirstResponder];
-    [birthdayTextField resignFirstResponder];
-    [emailTextField resignFirstResponder];
-    [tcknNoTextField resignFirstResponder];
-    [datePicker setHidden:YES];
+    [self.nameTextField resignFirstResponder];
+    [self.middleNameTextField resignFirstResponder];
+    [self.surnameTextField resignFirstResponder];
+    [self.tcknoTextField resignFirstResponder];
+    [self.driverLicenseNoTextField resignFirstResponder];
+    [self.driverLicenseLocationTextField resignFirstResponder];
+    [self.emailTextField resignFirstResponder];
+    [self.mobilePhoneTextField resignFirstResponder];
+    [self.countyTextField resignFirstResponder];
+    [self.cityTextField resignFirstResponder];
+    [self.countyTextField resignFirstResponder];
+    [self.passwordTextField resignFirstResponder];
+    [self.password2TextField resignFirstResponder];
+    [self.securityQuestionTextField resignFirstResponder];
+    [self.securityAnswerTextField resignFirstResponder];
+
     [userCreationPickerView setHidden:YES];
-    [passwordTextField resignFirstResponder];
-    [password2TextField resignFirstResponder];
-    [secretQuestionTextField resignFirstResponder];
-    [secretAnswerTextField resignFirstResponder];
-    [countryTextField resignFirstResponder];
-    [adressTextField resignFirstResponder];
-}
-
-// Call this method somewhere in your view controller setup code.
-- (void)registerForKeyboardNotifications
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWasShown:)
-                                                 name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillBeHidden:)
-                                                 name:UIKeyboardWillHideNotification object:nil];
-}
-
-// Called when the UIKeyboardDidShowNotification is sent.
-- (void)keyboardWasShown:(NSNotification*)aNotification
-{
-    NSDictionary* info = [aNotification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
-    scrollView.contentInset = contentInsets;
-    scrollView.scrollIndicatorInsets = contentInsets;
-    
-    // If active text field is hidden by keyboard, scroll it so it's visible
-    // Your application might not need or want this behavior.
-    CGRect aRect = self.view.frame;
-    aRect.size.height = aRect.size.height - kbSize.height - self.navigationController.navigationBar.frame.size.height;
-    
-    CGPoint scrollPoint = CGPointMake(0.0, activeField.frame.origin.y-kbSize.height);
-//    scrollPoint = scrollView.contentOffset;
-//    scrollPoint.y = scrollPoint.y - kbSize.height;
-    
-    if (scrollPoint.y > 0)
-        [scrollView setContentOffset:scrollPoint animated:YES];
-}
-
-// Called when the UIKeyboardWillHideNotification is sent
-- (void)keyboardWillBeHidden:(NSNotification*)aNotification
-{
-    [scrollView setContentOffset:CGPointZero];
 }
 
 #pragma mark - textfield delegates
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    activeField = textField;
+    self.selectedTextField = textField.tag;
     
-    if ([textField tag] == 1) // doğum tarihi
-    {
-        [self releaseAllTextFields];
-        [datePicker setHidden:NO];
-        
-        return NO;
-    }
-    else if ([textField tag] == 4) // Ülke ise
-    {
-        [self releaseAllTextFields];
-        [userCreationPickerView setTag:1];
-        [userCreationPickerView setHidden:NO];
-        [userCreationPickerView reloadAllComponents];
-        return NO;
-    }
-    else if ([textField tag] == 5) // Güvenlik sorusu
-    {
-        [self releaseAllTextFields];
-        [userCreationPickerView setTag:2];
-        [userCreationPickerView setHidden:NO];
-        [userCreationPickerView reloadAllComponents];
-        return NO;
-    }
-    else
-        return YES;
+//    else if ([textField tag] == 4) // Ülke ise
+//    {
+//        [self releaseAllTextFields];
+//        [userCreationPickerView setTag:1];
+//        [userCreationPickerView setHidden:NO];
+//        [userCreationPickerView reloadAllComponents];
+//        return NO;
+//    }
+//    else if ([textField tag] == 5) // Güvenlik sorusu
+//    {
+//        [self releaseAllTextFields];
+//        [userCreationPickerView setTag:2];
+//        [userCreationPickerView setHidden:NO];
+//        [userCreationPickerView reloadAllComponents];
+//        return NO;
+//    }
+
+    return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -288,7 +253,7 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if ([textField tag] == 2)
+    if ([textField tag] == 15)
     {
         switch ([textField.text length])
         {
@@ -312,63 +277,8 @@
     return YES;
 }
 
-- (void)setTextFieldsCorners
-{
-    [[nameTextField layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
-    [[nameTextField layer] setBorderWidth:0.5f];
-    nameTextField.layer.cornerRadius=8.0f;
-    
-    [[surnameTextField layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
-    [[surnameTextField layer] setBorderWidth:0.5f];
-    surnameTextField.layer.cornerRadius=8.0f;
-    
-    [mobileTextField setTag:2];
-    [[mobileTextField layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
-    [[mobileTextField layer] setBorderWidth:0.5f];
-    mobileTextField.layer.cornerRadius=8.0f;
-    
-    [birthdayTextField setTag:1];
-    [[birthdayTextField layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
-    [[birthdayTextField layer] setBorderWidth:0.5f];
-    birthdayTextField.layer.cornerRadius=8.0f;
-    
-    [[emailTextField layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
-    [[emailTextField layer] setBorderWidth:0.5f];
-    emailTextField.layer.cornerRadius=8.0f;
-    
-    [[tcknNoTextField layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
-    [[tcknNoTextField layer] setBorderWidth:0.5f];
-    tcknNoTextField.layer.cornerRadius=8.0f;
-    
-    [password2TextField setSecureTextEntry:YES];
-    [[password2TextField layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
-    [[password2TextField layer] setBorderWidth:0.5f];
-    password2TextField.layer.cornerRadius=8.0f;
-    
-    [passwordTextField setSecureTextEntry:YES];
-    [[passwordTextField layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
-    [[passwordTextField layer] setBorderWidth:0.5f];
-    passwordTextField.layer.cornerRadius=8.0f;
-    
-    [[adressTextField layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
-    [[adressTextField layer] setBorderWidth:0.5f];
-    adressTextField.layer.cornerRadius=8.0f;
-    
-    [countryTextField setTag:4];
-    [[countryTextField layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
-    [[countryTextField layer] setBorderWidth:0.5f];
-    countryTextField.layer.cornerRadius=8.0f;
-    
-    [[secretAnswerTextField layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
-    [[secretAnswerTextField layer] setBorderWidth:0.5f];
-    secretAnswerTextField.layer.cornerRadius=8.0f;
-    
-    [secretQuestionTextField setTag:5];
-    [[secretQuestionTextField layer] setBorderColor:[[ApplicationProperties getOrange] CGColor]];
-    [[secretQuestionTextField layer] setBorderWidth:0.5f];
-    secretQuestionTextField.layer.cornerRadius=8.0f;
-}
 
+/// Burdan sonrasını salla
 - (void)createUserAtSAP:(NSString *)iConnectionString
 {
     
@@ -583,16 +493,16 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    if ([pickerView tag] == 1)
-    {
-        countryTextField.text = [[countryArray objectAtIndex:row] objectAtIndex:1];
-        countryCode = [[countryArray objectAtIndex:row] objectAtIndex:0];
-    }
-    if ([pickerView tag] == 2)
-    {
-        secretQuestionTextField.text = [[secretQuestionsArray objectAtIndex:row] objectAtIndex:0];
-        secretQuestionNumber = [[secretQuestionsArray objectAtIndex:row] objectAtIndex:1];
-    }
+//    if ([pickerView tag] == 1)
+//    {
+//        countryTextField.text = [[countryArray objectAtIndex:row] objectAtIndex:1];
+//        countryCode = [[countryArray objectAtIndex:row] objectAtIndex:0];
+//    }
+//    if ([pickerView tag] == 2)
+//    {
+//        secretQuestionTextField.text = [[secretQuestionsArray objectAtIndex:row] objectAtIndex:0];
+//        secretQuestionNumber = [[secretQuestionsArray objectAtIndex:row] objectAtIndex:1];
+//    }
 }
 
 
