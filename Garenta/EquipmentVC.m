@@ -16,7 +16,7 @@
 #import "UserInfoTableViewController.h"
 #import "CarSelectionVC.h"
 #import "AdditionalDriverVC.h"
-#import <MBProgressHUD/MBProgressHUD.h>
+#import "MBProgressHUD.h"
 
 @interface EquipmentVC ()<WYPopoverControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *additionalEquipmentsTableView;
