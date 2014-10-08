@@ -39,7 +39,6 @@
 		0CBA75CC186435460008CE29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7518462EAB00CD3728 /* main.m */; };
 		0CBA75CE1864356A0008CE29 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7918462EAB00CD3728 /* AppDelegate.m */; };
 		0CBA77BD186447AB0008CE29 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA77BC186447AB0008CE29 /* LoginVC.m */; };
-		112E93EA00F0A70C33D6AD23 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FDD6020B7E5DB98312693BD /* libPods.a */; };
 		9E38C3BD1869EA8100EBD29E /* CarGroupFilterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E38C3BC1869EA8100EBD29E /* CarGroupFilterVC.m */; };
 		9E38C3C01869EF4200EBD29E /* FilterObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E38C3BF1869EF4200EBD29E /* FilterObject.m */; };
 		9E38C3C7186A033200EBD29E /* OrangeArrowDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E38C3C5186A033200EBD29E /* OrangeArrowDown.png */; };
@@ -175,6 +174,7 @@
 		B5FDB0C11918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB0BF1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml */; };
 		E1D2AB6719D45EAA00806868 /* SAPJSONHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D2AB6619D45EAA00806868 /* SAPJSONHandler.m */; };
 		E1D2AB6A19D45EB600806868 /* ConnectionProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D2AB6919D45EB600806868 /* ConnectionProperties.m */; };
+		E1ED735C19E5486C00D3E324 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E1ED735B19E5486C00D3E324 /* MBProgressHUD.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -236,8 +236,6 @@
 		0CA631351864697900CC529F /* MenuSelectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuSelectionVC.m; sourceTree = "<group>"; };
 		0CBA77BB186447AB0008CE29 /* LoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginVC.h; sourceTree = "<group>"; };
 		0CBA77BC186447AB0008CE29 /* LoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginVC.m; sourceTree = "<group>"; };
-		31CF2D29C0B0600F21644493 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		4FDD6020B7E5DB98312693BD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E212F76186343C3004B9B80 /* Office.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Office.h; sourceTree = "<group>"; };
 		9E212F77186343C3004B9B80 /* Office.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Office.m; sourceTree = "<group>"; };
 		9E212F7918634A96004B9B80 /* OfficeWorkingTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfficeWorkingTime.h; sourceTree = "<group>"; };
@@ -569,11 +567,12 @@
 		B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdditionalEquipmentTableViewCell.m; sourceTree = "<group>"; };
 		B5FDB0BE1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml; sourceTree = "<group>"; };
 		B5FDB0BF1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml; sourceTree = "<group>"; };
-		DDEEDC2C0C5E6F7629BE540B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E1D2AB6519D45EAA00806868 /* SAPJSONHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SAPJSONHandler.h; sourceTree = "<group>"; };
 		E1D2AB6619D45EAA00806868 /* SAPJSONHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SAPJSONHandler.m; sourceTree = "<group>"; };
 		E1D2AB6819D45EB600806868 /* ConnectionProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionProperties.h; sourceTree = "<group>"; };
 		E1D2AB6919D45EB600806868 /* ConnectionProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionProperties.m; sourceTree = "<group>"; };
+		E1ED735A19E5486C00D3E324 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		E1ED735B19E5486C00D3E324 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -606,7 +605,6 @@
 				B533CE3418FE7C27002FE236 /* libParser.a in Frameworks */,
 				B533CE3518FE7C27002FE236 /* libPerformanceLib.a in Frameworks */,
 				B533CE3318FE7C27002FE236 /* libLogger.a in Frameworks */,
-				112E93EA00F0A70C33D6AD23 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -663,7 +661,6 @@
 				0C4C9A6F18462EAB00CD3728 /* Garenta */,
 				0C4C9A6818462EAB00CD3728 /* Frameworks */,
 				0C4C9A6718462EAB00CD3728 /* Products */,
-				671C1FC06B71089C5203D9C0 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -694,7 +691,6 @@
 				0C4C9A6B18462EAB00CD3728 /* CoreGraphics.framework */,
 				0C4C9A6D18462EAB00CD3728 /* UIKit.framework */,
 				0C4C9A8218462EAB00CD3728 /* XCTest.framework */,
-				4FDD6020B7E5DB98312693BD /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -753,6 +749,8 @@
 				B5921198195D9D9900A54E0E /* WYPopoverController.m */,
 				B5921199195D9D9900A54E0E /* WYStoryboardPopoverSegue.h */,
 				B592119A195D9D9900A54E0E /* WYStoryboardPopoverSegue.m */,
+				E1ED735A19E5486C00D3E324 /* MBProgressHUD.h */,
+				E1ED735B19E5486C00D3E324 /* MBProgressHUD.m */,
 				B533CE1D18FD173D002FE236 /* IDController.h */,
 				B533CE1E18FD173D002FE236 /* IDController.m */,
 				9EB383881876C01400B214E1 /* iToast.h */,
@@ -894,15 +892,6 @@
 				0C48234D19DDBAF800C73301 /* AdditionalEquipmentInfoVC.m */,
 			);
 			name = Equipments;
-			sourceTree = "<group>";
-		};
-		671C1FC06B71089C5203D9C0 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				31CF2D29C0B0600F21644493 /* Pods.debug.xcconfig */,
-				DDEEDC2C0C5E6F7629BE540B /* Pods.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		9E38C3BA1869EA2B00EBD29E /* CarGroups */ = {
@@ -1666,6 +1655,7 @@
 				0C9299DF18689E95007DE6B8 /* EquipmentVC.m in Sources */,
 				0C0DA9AD1865D2FD003EDDA0 /* Reservation.m in Sources */,
 				B56F5F6D19598764005B5B92 /* ReservationApprovalVC.m in Sources */,
+				E1ED735C19E5486C00D3E324 /* MBProgressHUD.m in Sources */,
 				B52462231924D8A100FC482B /* CarGroupTableVC.m in Sources */,
 				9EB3838A1876C01400B214E1 /* iToast.m in Sources */,
 				0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */,
@@ -1822,7 +1812,6 @@
 		};
 		0C4C9A9318462EAB00CD3728 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 31CF2D29C0B0600F21644493 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1852,7 +1841,6 @@
 		};
 		0C4C9A9418462EAB00CD3728 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDEEDC2C0C5E6F7629BE540B /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
