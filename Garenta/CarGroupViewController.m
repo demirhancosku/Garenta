@@ -10,6 +10,7 @@
 #import <CoreText/CoreText.h>
 @interface CarGroupViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *officeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *minInfoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *carGroupLabel;
 @property (weak, nonatomic) IBOutlet UILabel *carModelLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *carImageView;
@@ -102,7 +103,9 @@
     [_acLabel setText:@"Klima"];
     [_passangerLabel setText:carGroup.sampleCar.passangerNumber];
     [_doorsLabel setText:carGroup.sampleCar.doorNumber];
-    [_officeLabel setText:[(Office*)[Office getOfficeFrom:[ApplicationProperties getOffices] withCode:carGroup.sampleCar.officeCode] subOfficeName]];
+    [_minInfoLabel setText:[NSString stringWithFormat:@"Min.Yaş:%i - Min.Ehliyet:%i",carGroup.minAge,carGroup.minDriverLicense]];
+//    [_officeLabel setText:[(Office*)[Office getOfficeFrom:[ApplicationProperties getOffices] withCode:carGroup.sampleCar.officeCode] subOfficeName]];
+    [_officeLabel setText:[(Office*)[carGroup.carGroupOffices objectAtIndex:0] subOfficeName]];
     [_carGroupLabel setText:carGroup.groupName];
     [_carModelLabel setText:[NSString stringWithFormat:@"%@ ve benzeri",carGroup.sampleCar.modelName]];
     [_carImageView setImage:carGroup.sampleCar.image];

@@ -111,7 +111,7 @@
     NSDateFormatter *dayFormatter = [[NSDateFormatter alloc] init];
     NSDateFormatter *timeFormatter = [[NSDateFormatter alloc] init];
     [dayFormatter setDateFormat:@"dd.MM.YYYY"];
-    [timeFormatter setDateFormat:@"hh:mm"];
+    [timeFormatter setDateFormat:@"HH:mm"];
     switch (indexPath.row) {
         case 0:
             carGroupVC = [[CarGroupViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 221) andCarGroups:reservation.selectedCarGroup];

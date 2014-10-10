@@ -24,6 +24,6 @@
 @property (strong,nonatomic) NSMutableArray *etReserv;
 @property (strong,nonatomic)Car *selectedCar;
 @property (copy,nonatomic) NSString *reservationNumber;
--(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow;
+-(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl;
 
 @end

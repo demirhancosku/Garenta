@@ -21,6 +21,12 @@
         [copy setAdditionalDriverFirstname:@""];
         [copy setAdditionalDriverSurname:@""];
         [copy setAdditionalDriverBirthday:[NSDate date]];
+        [copy setAdditionalDriverGender:@""];
+        [copy setAdditionalDriverLicenseClass:@""];
+        [copy setAdditionalDriverLicenseNumber:@""];
+        [copy setAdditionalDriverLicensePlace:@""];
+        [copy setAdditionalDriverLicenseDate:[NSDate date]];
+        
         [(AdditionalEquipment*)copy setType:self.type];
     }
     

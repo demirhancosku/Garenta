@@ -132,7 +132,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    switch (indexPath.row) {
+    switch (indexPath.row)
+    {
         case 0:
             //aracımı seçcem!
             return [self selectCarTableView:tableView];
@@ -258,7 +259,7 @@
         [dateFormatter setDateFormat:@"yyyyMMdd"];
         
         NSDateFormatter *timeFormatter  = [NSDateFormatter new];
-        [timeFormatter setDateFormat:@"hh:mm:ss"];
+        [timeFormatter setDateFormat:@"HH:mm"];
         
         [handler addImportParameter:@"IMPP_MSUBE" andValue:self.reservation.checkOutOffice.subOfficeCode];
         [handler addImportParameter:@"IMPP_DSUBE" andValue:self.reservation.checkInOffice.subOfficeCode];
@@ -352,6 +353,9 @@
     [_additionalEquipmentsTableView reloadData];
     float total = 0;
     for (AdditionalEquipment*temp in _additionalEquipments) {
+        if (temp.type == additionalDriver) {
+            [temp setQuantity:self.reservation.additionalDrivers.count];
+        }
         total = total + ([temp.price floatValue] * temp.quantity);
     }
     if (_reservation.selectedCar) {
@@ -369,11 +373,6 @@
 {
     AdditionalEquipment*additionalEquipment = [_additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
     if (additionalEquipment.type == additionalDriver) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[(UIButton*)sender tag] inSection:0];
-        [self.additionalEquipmentsTableView scrollToRowAtIndexPath:indexPath
-                             atScrollPosition:UITableViewScrollPositionBottom
-                                     animated:NO];
-        
         [self performSegueWithIdentifier:@"toAdditionalDriverVCSegue" sender:sender];
     }
     else
@@ -413,9 +412,18 @@
 - (IBAction)minusButtonPressed:(id)sender {
     
     AdditionalEquipment*additionalEquipment = [_additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
-    if (additionalEquipment.type ==additionalDriver) {
+    if (additionalEquipment.type ==additionalDriver)
+    {
+        AdditionalEquipment *temp = [self.reservation.additionalDrivers objectAtIndex:self.reservation.additionalDrivers.count - 1];
         
-    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:[NSString stringWithFormat:@"%@ %@ isimli ek sürücü silinmiştir",temp.additionalDriverFirstname, temp.additionalDriverSurname] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        [self.reservation.additionalDrivers removeLastObject];
+        [self recalculate];
+    }
+    else
+    {
         int newValue = [additionalEquipment quantity]-1;
         [additionalEquipment setQuantity:newValue];
         [self recalculate];
@@ -444,7 +452,7 @@
         UIViewController* destinationViewController = (UIViewController *)segue.destinationViewController;
         destinationViewController.preferredContentSize = CGSizeMake(320, self.view.frame.size.width);       // Deprecated in iOS7. Use 'preferredContentSize' instead.
         
-        self.myPopoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionDown animated:YES];
+        self.myPopoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionNone animated:YES];
         self.myPopoverController.delegate = self;
         
         [(AdditionalDriverVC*)segue.destinationViewController setReservation:self.reservation];

@@ -125,7 +125,7 @@
                 if (allPartners.count > 0) {
                     
                     for (NSDictionary *tempDict in allPartners) {
-                        User *user = [ApplicationProperties getUser];
+                        User *user = [User new];
                         
                         [user setName:[tempDict valueForKey:@"MC_NAME2"]];
                         [user setMiddleName:[tempDict valueForKey:@"NAMEMIDDLE"]];

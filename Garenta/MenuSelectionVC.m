@@ -135,12 +135,14 @@ static int kGarentaLogoId = 1;
                 if (allPartners.count > 0) {
                     
                     for (NSDictionary *tempDict in allPartners) {
-                        User *user = [ApplicationProperties getUser];
+                        User *user = [User new];
                         
                         [user setName:[tempDict valueForKey:@"MC_NAME2"]];
                         [user setMiddleName:[tempDict valueForKey:@"NAMEMIDDLE"]];
                         [user setSurname:[tempDict valueForKey:@"MC_NAME1"]];
                         [user setKunnr:[tempDict valueForKey:@"PARTNER"]];
+                        [user setUsername:[[NSUserDefaults standardUserDefaults] valueForKey:@"USERNAME"]];
+                        [user setPassword:[[NSUserDefaults standardUserDefaults] valueForKey:@"PASSWORD"]];
                         [user setPartnerType:[tempDict valueForKey:@"MUSTERI_TIPI"]];
                         [user setCompany:[tempDict valueForKey:@"FIRMA_KODU"]];
                         [user setCompanyName:[tempDict valueForKey:@"FIRMA_NAME1"]];
@@ -264,13 +266,14 @@ static int kGarentaLogoId = 1;
     if ([segue.identifier isEqualToString:@"toLoginVCSegue"]) {
         if ([[ApplicationProperties getUser] isLoggedIn]) {
             //then logout
-            [[NSUserDefaults standardUserDefaults]
-             setObject:@""forKey:@"KUNNR"];
-            [[NSUserDefaults standardUserDefaults]
-             setObject:@"" forKey:@"PASSWORD"];
+            [[NSUserDefaults standardUserDefaults] setObject:@""forKey:@"KUNNR"];
+            [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"PASSWORD"];
+            [ApplicationProperties setUser:nil];
             [[ApplicationProperties getUser] setPassword:@""];
             [[ApplicationProperties getUser] setUsername:@""];
             [[ApplicationProperties getUser] setIsLoggedIn:NO];
+
+            
             [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
             return;
         }
@@ -284,7 +287,6 @@ static int kGarentaLogoId = 1;
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:newAppLink]];
     }
 }
-
 
 
 @end

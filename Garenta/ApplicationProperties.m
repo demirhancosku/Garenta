@@ -17,7 +17,8 @@
 #import <objc/runtime.h>
 @implementation ApplicationProperties
 MainSelection mainSelection;
-User* myUser;
+static User* myUser;
+
 NSMutableArray *offices;
 static NSString *GATEWAY_USER = @"GW_ADMIN";
 static NSString *GATEWAY_PASS = @"1qa2ws3ed";
@@ -76,10 +77,11 @@ static NSString *appName = @"REZ";
 }
 
 + (User*)getUser{
-    if (myUser == nil) {
+    if (myUser == nil)
+    {
         myUser = [[User alloc] init];
         
-        myUser.kunnr = [[NSUserDefaults standardUserDefaults] stringForKey:@"KUNNR"];
+        myUser.kunnr    = [[NSUserDefaults standardUserDefaults] stringForKey:@"KUNNR"];
         myUser.password = [[NSUserDefaults standardUserDefaults] stringForKey:@"PASSWORD"];
         myUser.username = [[NSUserDefaults standardUserDefaults] stringForKey:@"USERNAME"];
         
@@ -89,6 +91,7 @@ static NSString *appName = @"REZ";
             [myUser setIsLoggedIn:YES];
         }
     }
+    
     return myUser;
 }
 
@@ -98,10 +101,14 @@ static NSString *appName = @"REZ";
     }
     return offices;
 }
-+ (void)setUser:(User*)aUser{
+
++ (void)setUser:(User*)aUser
+{
     [[NSUserDefaults standardUserDefaults] setObject:aUser.kunnr forKey:@"KUNNR"];
     [[NSUserDefaults standardUserDefaults] setObject:aUser.password forKey:@"PASSWORD"];
     [[NSUserDefaults standardUserDefaults] setObject:aUser.username forKey:@"USERNAME"];
+    
+    myUser = aUser;
 }
 
 + (NSString*)getSAPUser{
@@ -224,7 +231,7 @@ static NSString *appName = @"REZ";
 
 + (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation{
     __block NSMutableArray *closestOffices = [[NSMutableArray alloc] init];
-    
+    NSLog(@"%f",userLocation.coordinate.latitude);
     NSArray *sortedArray;
     sortedArray = [someOffices sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
         CLLocation *firstOfficeLocation = [[CLLocation alloc] initWithLatitude:[[(Office*)a latitude] doubleValue] longitude:[[(Office*)a longitude] doubleValue]];

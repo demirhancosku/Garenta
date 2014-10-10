@@ -132,7 +132,7 @@
 
 - (void)createReservation{
     NSDateFormatter *dateFormatter =[NSDateFormatter new];
-    [dateFormatter setDateFormat:@"hh:mm"];
+    [dateFormatter setDateFormat:@"HH:mm"];
     [ApplicationProperties configureReservationService];
     ReservationServiceV0 *aService = [ReservationServiceV0 new];
     IsInputV0 *isInput = [IsInputV0 new];
@@ -162,7 +162,7 @@
     [isInput setRezNo:@" "];
     [isInput setSatisBurosu:_reservation.checkOutOffice.mainOfficeCode];// checkout office
     [isInput setTeslimSubesi:_reservation.checkInOffice.mainOfficeCode];
-    [isInput setToplamTutar:[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO]];
+    [isInput setToplamTutar:[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0"]];
     [isInput setUsername:@" "];
     User *currentUser = (User*)[ApplicationProperties getUser];
     IsUserinfoV0 *isUserInfo = [IsUserinfoV0 new];
@@ -584,7 +584,7 @@
     UIButton *payNowButton;
     UIButton *payLaterButton;
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setDateFormat:@"dd.MM.yyy/hh:mm"];
+    [dateFormatter setDateFormat:@"dd.MM.yyy/HH:mm"];
     if (!_isTotalPressed) {
         switch (indexPath.row) {
             case 0:
@@ -609,7 +609,7 @@
             case 2:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"totalPaymentCell" forIndexPath:indexPath];
                 totalPrice = (UILabel*)[aCell viewWithTag:1];
-                [totalPrice setText:[NSString stringWithFormat:@"%@",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES]]];
+                [totalPrice setText:[NSString stringWithFormat:@"%@",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0"]]];
                 break;
             default:
                 break;
@@ -642,8 +642,8 @@
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"payNowLaterButtonsCell" forIndexPath:indexPath];
                 payNowButton = (UIButton*)[aCell viewWithTag:1];
                 payLaterButton = (UIButton*)[aCell viewWithTag:2];
-                [payNowButton setTitle:[NSString stringWithFormat:@"%@ TL",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES]] forState:UIControlStateNormal];
-                [payLaterButton setTitle:[NSString stringWithFormat:@"%@ TL",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO]] forState:UIControlStateNormal];
+                [payNowButton setTitle:[NSString stringWithFormat:@"%@ TL",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0"]] forState:UIControlStateNormal];
+                [payLaterButton setTitle:[NSString stringWithFormat:@"%@ TL",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0"]] forState:UIControlStateNormal];
                 break;
             default:
                 break;

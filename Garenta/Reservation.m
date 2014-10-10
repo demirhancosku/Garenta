@@ -60,11 +60,13 @@
     return checkOutDate;
 }
 #pragma mark - reservation pricing methods
--(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow{
+-(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl
+{
     float totalPrice = 0.00f;
-    if ([currency isEqualToString:@"TRY"]) {
+    if ([currency isEqualToString:@"TRY"])
+    {
         if (isPayNow) {
-            totalPrice = totalPrice + [selectedCarGroup.sampleCar.pricing.payNowPrice floatValue];
+            totalPrice = totalPrice + [selectedCarGroup.sampleCar.pricing.payNowPrice floatValue] - garentaTl.floatValue;
         }else{
             totalPrice = totalPrice + [selectedCarGroup.sampleCar.pricing.payLaterPrice floatValue];
         }

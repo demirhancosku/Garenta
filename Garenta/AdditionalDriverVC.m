@@ -9,10 +9,19 @@
 #import "AdditionalDriverVC.h"
 #import "AdditionalEquipment.h"
 @interface AdditionalDriverVC ()<UITableViewDataSource,UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *surnameTextField;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *genderSegment;
+@property (weak, nonatomic) IBOutlet UITextField  *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField  *surnameTextField;
 @property (weak, nonatomic) IBOutlet UIDatePicker *birthdayPicker;
+
+@property (weak, nonatomic) IBOutlet UISegmentedControl *classSegment;
+@property (weak, nonatomic) IBOutlet UITextField  *licenseNoTextField;
+@property (weak, nonatomic) IBOutlet UITextField  *licensePlaceTextField;
+@property (weak, nonatomic) IBOutlet UIDatePicker *licenseDatePicker;
+
 - (IBAction)addButtonPressed:(id)sender;
+- (IBAction)genderSegmentChanged:(id)sender;
+- (IBAction)classSegmentChanged:(id)sender;
 
 
 @end
@@ -31,7 +40,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSCalendar * gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
+    NSDate * currentDate = [NSDate date];
+    NSDateComponents * comps = [[NSDateComponents alloc] init];
+    [comps setYear: - 18];
+    NSDate * maxDate = [gregorian dateByAddingComponents: comps toDate: currentDate options: 0];
+    [comps setYear: - 100];
+    NSDate * minDate = [gregorian dateByAddingComponents: comps toDate: currentDate options: 0];
     // Do any additional setup after loading the view.
+    
+    [self.birthdayPicker setMaximumDate:maxDate];
+    [self.birthdayPicker setMinimumDate:minDate];
+    [self.birthdayPicker setDate:maxDate];
 }
 
 - (void)didReceiveMemoryWarning
@@ -40,37 +61,67 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self releaseAllTextFields];
+}
+
+- (void)releaseAllTextFields
+{
+    [self.nameTextField resignFirstResponder];
+    [self.surnameTextField resignFirstResponder];
+    [self.licenseNoTextField resignFirstResponder];
+    [self.licensePlaceTextField resignFirstResponder];
+}
 
 - (BOOL)checkFields{
-    if ([self.nameTextField.text isEqualToString:@""] || [self.surnameTextField.text isEqualToString:@""]) {
+    if ([self.nameTextField.text isEqualToString:@""] || [self.surnameTextField.text isEqualToString:@""] || [self.licenseNoTextField.text isEqualToString:@""] || [self.licensePlaceTextField.text isEqualToString:@""]) {
         return NO;
     }
     return YES;
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (IBAction)addButtonPressed:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-- (IBAction)addButtonPressed:(id)sender {
-    if ([self checkFields]) {
+    if ([self checkFields])
+    {
         if(!self.reservation.additionalDrivers){
             self.reservation.additionalDrivers = [NSMutableArray new];
         }
-        [[self myDriver] setAdditionalDriverFirstname:self.nameTextField.text];
-        [[self myDriver] setAdditionalDriverSurname:self.surnameTextField.text];
+        
+        // ek sürücü genel bilgiler
+        if ([self.genderSegment selectedSegmentIndex] == 0)
+            [[self myDriver] setAdditionalDriverGender:@"1"];   //Bay
+        else
+            [[self myDriver] setAdditionalDriverGender:@"2"];   //Bayan
+        
+        [[self myDriver] setAdditionalDriverFirstname:self.nameTextField.text.uppercaseString];
+        [[self myDriver] setAdditionalDriverSurname:self.surnameTextField.text.uppercaseString];
         [[self myDriver] setAdditionalDriverBirthday:self.birthdayPicker.date];
+        
+        // ek sürücü ehliyet bilgileri
+        [[self myDriver] setAdditionalDriverLicenseClass:[self.classSegment titleForSegmentAtIndex:self.classSegment.selectedSegmentIndex]];
+        [[self myDriver] setAdditionalDriverLicenseNumber:self.licenseNoTextField.text];
+        [[self myDriver] setAdditionalDriverLicensePlace:self.licensePlaceTextField.text.uppercaseString];
+        [[self myDriver] setAdditionalDriverLicenseDate:self.licenseDatePicker.date];
+        
         [self.reservation.additionalDrivers addObject:self.myDriver];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"additionalDriverAdded" object:nil];
-    }else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyari" message:@"Lutfen butun alanlari doldurunuz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyari" message:@"Lütfen bütün alanları doldurunuz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
         [alert show];
     }
+}
+
+- (IBAction)genderSegmentChanged:(id)sender
+{
+    
+}
+
+- (IBAction)classSegmentChanged:(id)sender
+{
+    
 }
 @end
