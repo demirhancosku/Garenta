@@ -139,7 +139,6 @@
                 [cell setAccessoryType:UITableViewCellAccessoryNone];
             }
             
-            [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
         }
         else
         {
@@ -253,32 +252,32 @@
     }
 }
 
-- (UITableViewCell *)getMenuCell:(UITableViewCellStyle)style
-{
-    static NSString *cellType = @"Cell";
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:cellType];
-    
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    [cell setBackgroundColor:[ApplicationProperties getMenuCellBackground]];
-    [cell setOpaque:YES];
-    [[cell textLabel] setTextColor:[ApplicationProperties getBlack]];
-    [[cell textLabel] setFont:[UIFont fontWithName:[ApplicationProperties getFont] size:24.0]];
-    [[cell detailTextLabel] setFont:[UIFont fontWithName:[ApplicationProperties getFont] size:16.0]];
-    
-    return cell;
-}
-
-- (UITableViewCell *)refreshCell:(UITableViewCell *)cell
-{
-    [[cell imageView] setImage:nil];
-    [[cell textLabel] setText:@""];
-    [[cell detailTextLabel] setText:@""];
-    [cell setAccessoryType:UITableViewCellAccessoryNone];
-    [cell setAccessoryView:nil];
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    
-    return cell;
-}
+//- (UITableViewCell *)getMenuCell:(UITableViewCellStyle)style
+//{
+//    static NSString *cellType = @"Cell";
+//    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:cellType];
+//    
+//    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+//    [cell setBackgroundColor:[ApplicationProperties getMenuCellBackground]];
+//    [cell setOpaque:YES];
+//    [[cell textLabel] setTextColor:[ApplicationProperties getBlack]];
+//    [[cell textLabel] setFont:[UIFont fontWithName:[ApplicationProperties getFont] size:24.0]];
+//    [[cell detailTextLabel] setFont:[UIFont fontWithName:[ApplicationProperties getFont] size:16.0]];
+//    
+//    return cell;
+//}
+//
+//- (UITableViewCell *)refreshCell:(UITableViewCell *)cell
+//{
+//    [[cell imageView] setImage:nil];
+//    [[cell textLabel] setText:@""];
+//    [[cell detailTextLabel] setText:@""];
+//    [cell setAccessoryType:UITableViewCellAccessoryNone];
+//    [cell setAccessoryView:nil];
+//    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+//    
+//    return cell;
+//}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -686,27 +685,6 @@
     
     [arrivalTableView reloadData];
     [destinationTableView reloadData];
-}
-
-- (void)setIphoneLayer
-{
-    
-    [arrivalTableView setRowHeight:50];
-    [destinationTableView setRowHeight:50];
-    
-    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-    
-    destinationTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,viewFrame.origin.y + (viewFrame.size.height * 0.05),viewFrame.size.width * 0.9, 115) style:UITableViewStyleGrouped];
-    
-    arrivalTableView = [[UITableView alloc] initWithFrame:
-                        CGRectMake (viewFrame.size.width * 0.05 ,
-                                    destinationTableView.frame.size.height+destinationTableView.frame.origin.y + (viewFrame.size.height *0.10) ,
-                                    viewFrame.size.width * 0.9,
-                                    115) style:UITableViewStyleGrouped];
-    
-    searchButton = [[UIButton alloc] initWithFrame:CGRectMake (viewFrame.size.width * 0.05,
-                                                               arrivalTableView.frame.origin.y + arrivalTableView.frame.size.height + viewFrame.size.height * 0.10, arrivalTableView.frame.size.width, 40)];
-    
 }
 
 - (void)addNotifications{

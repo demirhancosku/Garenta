@@ -144,14 +144,14 @@
                                     <outlet property="delegate" destination="FuZ-DE-V3d" id="uhC-yN-myR"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uyE-Gk-80w">
-                                <rect key="frame" x="16" y="326" width="288" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="50y-rr-DQ5">
+                                <rect key="frame" x="16" y="322" width="288" height="40"/>
                                 <color key="backgroundColor" red="0.47450980390000003" green="0.61960784310000006" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Teklifleri Göster">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="showCarGroup:" destination="FuZ-DE-V3d" eventType="touchUpInside" id="ygE-GU-axD"/>
+                                    <action selector="showCarGroup:" destination="FuZ-DE-V3d" eventType="touchUpInside" id="D38-QS-SPa"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -161,7 +161,7 @@
                     <connections>
                         <outlet property="arrivalTableView" destination="CZV-WI-4t4" id="zPI-pA-pm0"/>
                         <outlet property="destinationTableView" destination="ryd-Dh-pcc" id="m9U-mV-jnZ"/>
-                        <outlet property="searchButton" destination="uyE-Gk-80w" id="Q0B-hz-GGg"/>
+                        <outlet property="searchButton" destination="50y-rr-DQ5" id="rYP-dS-3ll"/>
                         <segue destination="kTv-Bi-s1s" kind="push" id="By3-1x-6AB"/>
                         <segue destination="S7d-aD-8yt" kind="push" id="6o0-WM-nJW"/>
                         <segue destination="yjG-hs-2N6" kind="push" identifier="toCarGroupVCSegue" id="Hj2-5d-FZ6"/>
