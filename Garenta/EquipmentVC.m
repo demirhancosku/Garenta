@@ -564,7 +564,7 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:[NSString stringWithFormat:@"%@ %@ isimli ek sürücü silinmiştir",temp.additionalDriverFirstname, temp.additionalDriverSurname] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
     [alert show];
     
-    if (temp.isAdditionalYoungDriver && !_isYoungDriver)
+    if (temp.isAdditionalYoungDriver)
     {
         NSPredicate *youngDriverPredicate = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0007"];
         NSPredicate *maxSecure = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0012"];
@@ -589,7 +589,6 @@
                 [youngDriverTemp setQuantity:youngDriverTemp.quantity - 1];
         }
     }
-    
 }
 
 #pragma mark - Navigation
