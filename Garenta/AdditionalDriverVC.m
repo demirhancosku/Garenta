@@ -74,10 +74,32 @@
     [self.licensePlaceTextField resignFirstResponder];
 }
 
-- (BOOL)checkFields{
-    if ([self.nameTextField.text isEqualToString:@""] || [self.surnameTextField.text isEqualToString:@""] || [self.licenseNoTextField.text isEqualToString:@""] || [self.licensePlaceTextField.text isEqualToString:@""]) {
+- (BOOL)checkFields
+{
+    if ([self.nameTextField.text isEqualToString:@""] || [self.surnameTextField.text isEqualToString:@""] || [self.licenseNoTextField.text isEqualToString:@""] || [self.licensePlaceTextField.text isEqualToString:@""] || self.licenseDatePicker.date == nil)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyari" message:@"Lütfen bütün alanları doldurunuz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        [alert show];
         return NO;
     }
+    
+    // min.genç sürücü yaşı ve min.ehliyet yılı kontrollerine göre ek sürücünün eklenip eklenemeyeceğine bakılır
+    if ([ApplicationProperties isCarGroupAvailableByAge:_reservation.selectedCarGroup andBirthday:_birthdayPicker.date])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:[NSString stringWithFormat:@"Seçilen araç grubuna rezervasyon yapılamaz. (Min.Genç Sürücü yaşı: %i - Min.Genç Sürücü Ehliyet Yılı: %i)",_reservation.selectedCarGroup.minYoungDriverAge,_reservation.selectedCarGroup.minYoungDriverLicense] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+        return NO;
+    }
+    
+    //min.Yaş ve min.Ehliyet yılı kontrollerine bakarak hizmet bedeli alınıp alınmayacağına bakar.
+    if ([ApplicationProperties checkYoungDriverAddition:_reservation.selectedCarGroup andBirthday:_birthdayPicker.date andLicenseDate:_licenseDatePicker.date])
+    {
+        
+        [[self myDriver] setIsAdditionalYoungDriver:YES];
+        return YES;
+    }
+
     return YES;
 }
 
@@ -110,8 +132,7 @@
     }
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyari" message:@"Lütfen bütün alanları doldurunuz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-        [alert show];
+
     }
 }
 

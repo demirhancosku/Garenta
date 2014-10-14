@@ -545,7 +545,7 @@
         [handler addImportParameter:@"IMPP_KDGRP" andValue:@"40"];
         
         User *user =[ApplicationProperties getUser];
-        if ([ user isLoggedIn]) {
+        if ([user isLoggedIn]) {
             [handler addImportParameter:@"IMPP_KUNNR" andValue:[user kunnr]];
             
             if ([user driversLicenseDate] != nil) {

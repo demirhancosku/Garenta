@@ -13,6 +13,7 @@
 @interface EquipmentVC : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (strong,nonatomic) Reservation *reservation;
+@property BOOL isYoungDriver;
 
 
 @end

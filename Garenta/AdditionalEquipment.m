@@ -26,6 +26,7 @@
         [copy setAdditionalDriverLicenseNumber:@""];
         [copy setAdditionalDriverLicensePlace:@""];
         [copy setAdditionalDriverLicenseDate:[NSDate date]];
+        [copy setIsRequired:NO];
         
         [(AdditionalEquipment*)copy setType:self.type];
     }

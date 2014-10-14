@@ -40,7 +40,5 @@
 
 @property (nonatomic, strong) NSArray *creditCards;
 
-
-
 @property (nonatomic,retain) Coordinate *userLocation;
 @end

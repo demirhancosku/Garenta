@@ -71,7 +71,26 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [_delegate carGroupSelected:_activeCarGroup withOffice:[[_activeCarGroup carGroupOffices] objectAtIndex:indexPath.row] ];
+    
+    User *tempUser = [ApplicationProperties getUser];
+    if ([self checkIsCarGroupAvailable:tempUser.birthday])
+    {
+        [_delegate carGroupSelected:_activeCarGroup withOffice:[[_activeCarGroup carGroupOffices] objectAtIndex:indexPath.row] ];
+    }
+}
+
+- (BOOL)checkIsCarGroupAvailable:(NSDate *)birthday
+{
+    if ([ApplicationProperties isCarGroupAvailableByAge:_activeCarGroup andBirthday:birthday])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:[NSString stringWithFormat:@"Seçilen araç grubuna rezervasyon yapılamaz. (Min.Genç Sürücü yaşı: %i - Min.Genç Sürücü Ehliyet Yılı: %i)",_activeCarGroup.minYoungDriverAge,_activeCarGroup.minYoungDriverLicense] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+        
+        return NO;
+    }
+    
+    return YES;
 }
 /*
 // Override to support conditional editing of the table view.

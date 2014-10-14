@@ -120,12 +120,15 @@
             if ([sysubrc isEqualToString:@"0"]) {
                 
                 NSDictionary *tables = [response objectForKey:@"TABLES"];
-                NSDictionary *allPartners = [tables objectForKey:@"ZNET_LOGIN_ALL_PARTNERS"];
+                NSDictionary *allPartners = [tables objectForKey:@"ZMOB_LOGIN_ALL_PARTNERS"];
                 
                 if (allPartners.count > 0) {
                     
                     for (NSDictionary *tempDict in allPartners) {
                         User *user = [User new];
+                        
+                        NSDateFormatter *formatter = [NSDateFormatter new];
+                        [formatter setDateFormat:@"yyyy-MM-dd"];
                         
                         [user setName:[tempDict valueForKey:@"MC_NAME2"]];
                         [user setMiddleName:[tempDict valueForKey:@"NAMEMIDDLE"]];
@@ -144,6 +147,8 @@
                         [user setGarentaTl:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"GARENTATL"]]];
                         [user setPriceCode:[tempDict valueForKey:@"FIYAT_KODU"]];
                         [user setPriceType:[tempDict valueForKey:@"FIYAT_TIPI"]];
+                        [user setBirthday:[formatter dateFromString:[tempDict valueForKey:@"BIRTHDAY"]]];
+                        [user setDriversLicenseDate:[formatter dateFromString:[tempDict valueForKey:@"EHLIYET_TARIHI"]]];
                         
                         if ([[tempDict valueForKey:@"C_PRIORITY"] isEqualToString:@"X"]) {
                             [user setIsPriority:YES];

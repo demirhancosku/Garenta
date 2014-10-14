@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *totalPriceLabel;
 @property (weak, nonatomic) IBOutlet UIButton *buyButton;
 @property (strong,nonatomic)NSMutableArray *additionalEquipments;
+@property (strong,nonatomic)NSMutableArray *additionalEquipmentsFullList;
 @property (strong,nonatomic)WYPopoverController *myPopoverController;
 @property (strong,nonatomic)NSMutableArray *carSelectionArray;
 @property (strong,nonatomic) AdditionalEquipment *tempEquipment;
@@ -48,7 +49,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     
     [self clearAllEquipments];
     _carSelectionArray = [NSMutableArray new];
@@ -61,6 +62,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self showAlertForYoungDriver];
             [_additionalEquipmentsTableView reloadInputViews];
             [_additionalEquipmentsTableView reloadData];
         });
@@ -73,10 +75,72 @@
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"additionalDriverAdded" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
         [[self myPopoverController] dismissPopoverAnimated:YES];
+        [self addYoungDriver];
         [self recalculate];
         [_additionalEquipmentsTableView reloadData];
     }];
+}
+
+- (void)addYoungDriver
+{
+    NSPredicate *youngDriverPredicate = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0007"];
+    NSPredicate *maxSecure = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0012"];
     
+    AdditionalEquipment *temp = self.reservation.additionalDrivers.lastObject;
+    
+    // eklenen ek sürücü için genç sürücü gereklimi
+    if (temp.isAdditionalYoungDriver)
+    {
+        NSArray *filterResult;
+        filterResult = [_additionalEquipments filteredArrayUsingPredicate:youngDriverPredicate];
+        
+        // eğer daha önce bir "genç sürücü" eklendiyse, ek sürücüden kaynaklı "genç sürücü" için 1 arttırılır
+        if (filterResult.count > 0)
+        {
+            AdditionalEquipment *tempEqui = [filterResult objectAtIndex:0];
+            [tempEqui setQuantity:tempEqui.quantity + 1];
+            [tempEqui setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",tempEqui.quantity]]];
+        }
+        // eğer daha önce "genç sürücü" eklenmediyse, ek sürücüden dolayı "genç sürücü" hizmeti eklenir.
+        else
+        {
+            NSArray *youngDriverFilter;
+            NSArray *maxSecureFilter;
+            youngDriverFilter = [_additionalEquipmentsFullList filteredArrayUsingPredicate:youngDriverPredicate];
+            maxSecureFilter = [_additionalEquipments filteredArrayUsingPredicate:maxSecure];
+            
+            if (youngDriverFilter.count > 0)
+            {
+                AdditionalEquipment *tempYoungDriverEqui = [youngDriverFilter objectAtIndex:0];
+                AdditionalEquipment *tempSecureEqui = [maxSecureFilter objectAtIndex:0];
+                
+                [tempYoungDriverEqui setIsRequired:YES];
+                [tempYoungDriverEqui setQuantity:1];
+                [tempYoungDriverEqui setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
+                [_additionalEquipments insertObject:tempYoungDriverEqui atIndex:0];
+                
+                // eğer daha önce max.güvence himeti eklenmediyse 1 arttırılır
+                if (tempSecureEqui.quantity == 0)
+                    tempSecureEqui.quantity = 1;
+            }
+        }
+    }
+    
+}
+
+- (void)showAlertForYoungDriver
+{
+    NSArray *filterResult;
+    NSPredicate *youngDriverPredicate;
+    youngDriverPredicate = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0007"];
+    filterResult = [_additionalEquipments filteredArrayUsingPredicate:youngDriverPredicate];
+    
+    if (filterResult.count > 0)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Genç sürücü seçtiğiniz için maksimum güvence hizmeti de eklenmiştir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+    }
 }
 
 - (void)clearAllEquipments {
@@ -146,7 +210,7 @@
     if (indexPath.row - 1 <_additionalEquipments.count) {
         return [self additionalEquipmentTableViewCellForIndex:indexPath.row - 1 fromTable:tableView];
     }
-
+    
     return nil;
 }
 
@@ -203,11 +267,12 @@
         [cell.infoButton setHidden:NO];
     
     //hide buttons wrt max min values
-    if (additionalEquipment.quantity <= 0) {
+    if (additionalEquipment.quantity <= 0 || additionalEquipment.isRequired) {
         [[cell minusButton] setHidden:YES];
     }else{
         [[cell minusButton] setHidden:NO];
     }
+    
     if ([additionalEquipment.maxQuantity intValue] != 0 && additionalEquipment.quantity == [additionalEquipment.maxQuantity intValue]) {
         [[cell plusButton] setHidden:YES];
     }else{
@@ -219,8 +284,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
-// aracımı seçmek istiyorum en yukarı alındı
-//    if (indexPath.row == ([self dataSourceCount] - 1))
+    // aracımı seçmek istiyorum en yukarı alındı
+    //    if (indexPath.row == ([self dataSourceCount] - 1))
     if (indexPath.row == 0)
     {
         if (_reservation.selectedCar == nil) {
@@ -243,6 +308,7 @@
         case 1:
             //YES
             [_reservation setSelectedCar:nil];
+            [self recalculate];
             [_additionalEquipmentsTableView reloadData];
             break;
         default:
@@ -282,10 +348,12 @@
             NSDictionary *tables = [resultDict objectForKey:@"TABLES"];
             
             _additionalEquipments = [NSMutableArray new];
+            _additionalEquipmentsFullList = [NSMutableArray new];
             
             NSDictionary *equipmentList = [tables objectForKey:@"ZPM_S_EKIPMAN_LISTE"];
             
-            for (NSDictionary *tempDict in equipmentList) {
+            for (NSDictionary *tempDict in equipmentList)
+            {
                 AdditionalEquipment *tempEquip = [AdditionalEquipment new];
                 [tempEquip setMaterialNumber:[tempDict valueForKey:@"MATNR"]];
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MUS_TANIMI"]];
@@ -294,20 +362,47 @@
                 [tempEquip setQuantity:0];
                 [tempEquip setType:standartEquipment];
                 [_additionalEquipments addObject:tempEquip];
+                [_additionalEquipmentsFullList addObject:tempEquip];
             }
             
             NSDictionary *assuranceList = [tables objectForKey:@"ZMOB_KDK_S_SIGORTA"];
             
-            for (NSDictionary *tempDict in assuranceList) {
+            for (NSDictionary *tempDict in assuranceList)
+            {
                 AdditionalEquipment *tempEquip = [AdditionalEquipment new];
                 [tempEquip setMaterialNumber:[tempDict valueForKey:@"MALZEME"]];
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
                 [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
-                [tempEquip setQuantity:0];
                 [tempEquip setType:additionalInsurance];
-                [_additionalEquipments addObject:tempEquip];
+                [tempEquip setQuantity:0];
+                
+                if ([[tempEquip materialNumber] isEqualToString:@"HZM0020"] && tempEquip.price.floatValue > 0) //tek yön ücreti varsa hep 1 olacak
+                {
+                    [tempEquip setQuantity:1];
+                    [tempEquip setIsRequired:YES];
+                    [_additionalEquipments insertObject:tempEquip atIndex:0];
+                    [_additionalEquipmentsFullList addObject:tempEquip];
+                }
+                
+                // ARAÇ SEÇİM FARKI full list içinde var, ekrana gösterdiğimiz array de yok
+                else if ([[tempEquip materialNumber] isEqualToString:@"HZM0031"])
+                    [_additionalEquipmentsFullList addObject:tempEquip];
+                
+                // EĞER GENÇ SÜRÜCÜ VARSA MAKSİMUM GÜVENCE EN ÜSTE EKLENİYO VE ZORUNLU OLUYO
+                else if ([[tempEquip materialNumber]isEqualToString:@"HZM0012"] && _isYoungDriver)
+                {
+                    [tempEquip setQuantity:1];
+                    [tempEquip setIsRequired:YES];
+                    [_additionalEquipments insertObject:tempEquip atIndex:0];
+                    [_additionalEquipmentsFullList addObject:tempEquip];
+                }
+                else
+                {
+                    [_additionalEquipments addObject:tempEquip];
+                    [_additionalEquipmentsFullList addObject:tempEquip];
+                }
             }
             
             NSDictionary *additionalEquipmentList = [tables objectForKey:@"ZMOB_KDK_S_EKSURUCU"];
@@ -325,10 +420,31 @@
                 else
                     [tempEquip setType:additionalInsurance];
                 
-                [_additionalEquipments addObject:tempEquip];
+                // GENÇ SÜRÜCÜ full list içinde var, ekrana gösterdiğimiz array de yok
+                // GENÇ SÜRÜCÜ eklenince silinmemesi için isRequired = YES
+                // GENÇ SÜRÜCÜ 1'den fazla ekleyememesi için MaxQuantity = 1
+                if ([[tempEquip materialNumber] isEqualToString:@"HZM0007"])
+                {
+                    if (_isYoungDriver)
+                    {
+                        [tempEquip setIsRequired:YES];
+                        [tempEquip setQuantity:1];
+                        [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
+                        [_additionalEquipments insertObject:tempEquip atIndex:0];
+                        [_additionalEquipmentsFullList addObject:tempEquip];
+                    }
+                    else
+                        [_additionalEquipmentsFullList addObject:tempEquip];
+                }
+                else
+                {
+                    [_additionalEquipments addObject:tempEquip];
+                    [_additionalEquipmentsFullList addObject:tempEquip];
+                }
             }
-            
         }
+        
+        [self recalculate];
     }
     @catch (NSException *exception) {
         
@@ -352,12 +468,14 @@
 - (void)recalculate{
     [_additionalEquipmentsTableView reloadData];
     float total = 0;
-    for (AdditionalEquipment*temp in _additionalEquipments) {
+    for (AdditionalEquipment*temp in _additionalEquipments)
+    {
         if (temp.type == additionalDriver) {
             [temp setQuantity:self.reservation.additionalDrivers.count];
         }
         total = total + ([temp.price floatValue] * temp.quantity);
     }
+    
     if (_reservation.selectedCar) {
         total = total + [_reservation.selectedCar.pricing.carSelectPrice floatValue];
     }
@@ -459,6 +577,7 @@
         for (AdditionalEquipment *tempEquipment in self.additionalEquipments) {
             if (tempEquipment.type == additionalDriver) {
                 [(AdditionalDriverVC*)segue.destinationViewController setMyDriver:tempEquipment];
+                [(AdditionalDriverVC*)segue.destinationViewController setReservation:_reservation];
                 break;
             }
         }
@@ -472,11 +591,11 @@
         destinationViewController.preferredContentSize = CGSizeMake(280, 75);       // Deprecated in iOS7. Use 'preferredContentSize' instead.
         
         AdditionalEquipment *tempEquipment = [_additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
-       [(AdditionalEquipmentInfoVC *)segue.destinationViewController setInfoText:tempEquipment.materialInfo];
-    
+        [(AdditionalEquipmentInfoVC *)segue.destinationViewController setInfoText:tempEquipment.materialInfo];
+        
         self.myPopoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionAny animated:YES];
         self.myPopoverController.delegate = self;
-    
+        
     }
 }
 

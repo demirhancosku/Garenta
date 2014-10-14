@@ -25,7 +25,7 @@
     {
         if (temp.quantity > 0)
         {
-            [textView setText:[NSString stringWithFormat:@"%@- %@(%i adet)\n",textView.text, temp.materialDescription,temp.quantity]];
+            [textView setText:[NSString stringWithFormat:@"%@- %@ (%i adet) - %.02f TL\n",textView.text, temp.materialDescription,temp.quantity,temp.price.floatValue]];
         }
     }
 }
