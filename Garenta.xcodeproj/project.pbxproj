@@ -44,7 +44,6 @@
 		9E38C3C7186A033200EBD29E /* OrangeArrowDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E38C3C5186A033200EBD29E /* OrangeArrowDown.png */; };
 		9E38C3C8186A033200EBD29E /* OrangeArrowUp.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E38C3C6186A033200EBD29E /* OrangeArrowUp.png */; };
 		9E53F68E18BF8F150076CFFF /* UserCreationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E53F68C18BF8F150076CFFF /* UserCreationVC.m */; };
-		9EB3838A1876C01400B214E1 /* iToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EB383891876C01400B214E1 /* iToast.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		B5041BE21973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceDocumentV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5041BE01973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceDocumentV0.xml */; };
 		B5041BE31973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5041BE11973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceMetadataV0.xml */; };
 		B5041BE91973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5041BE51973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVRequestHandler.m */; };
@@ -159,7 +158,6 @@
 		B5E486D6195C131E009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5E486D4195C131E009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceMetadataV0.xml */; };
 		B5E486DC195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01RequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E486D8195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01RequestHandler.m */; };
 		B5E486DD195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceV0.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E486DA195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceV0.m */; };
-		B5E63C5619613BAD005D7D5C /* IPFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E63C5519613BAD005D7D5C /* IPFinder.m */; };
 		B5EE728F18701DC400F634D3 /* kislastik.png in Resources */ = {isa = PBXBuildFile; fileRef = B5EE728B18701DC400F634D3 /* kislastik.png */; };
 		B5EE729018701DC400F634D3 /* klima.png in Resources */ = {isa = PBXBuildFile; fileRef = B5EE728C18701DC400F634D3 /* klima.png */; };
 		B5EE729118701DC400F634D3 /* vites.png in Resources */ = {isa = PBXBuildFile; fileRef = B5EE728D18701DC400F634D3 /* vites.png */; };
@@ -175,6 +173,7 @@
 		E1D2AB6719D45EAA00806868 /* SAPJSONHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D2AB6619D45EAA00806868 /* SAPJSONHandler.m */; };
 		E1D2AB6A19D45EB600806868 /* ConnectionProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D2AB6919D45EB600806868 /* ConnectionProperties.m */; };
 		E1ED735C19E5486C00D3E324 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E1ED735B19E5486C00D3E324 /* MBProgressHUD.m */; };
+		E1ED735F19E564FC00D3E324 /* CountrySelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E1ED735E19E564FC00D3E324 /* CountrySelectionVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -248,8 +247,6 @@
 		9E38C3C6186A033200EBD29E /* OrangeArrowUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OrangeArrowUp.png; sourceTree = "<group>"; };
 		9E53F68B18BF8F150076CFFF /* UserCreationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCreationVC.h; sourceTree = "<group>"; };
 		9E53F68C18BF8F150076CFFF /* UserCreationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCreationVC.m; sourceTree = "<group>"; };
-		9EB383881876C01400B214E1 /* iToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iToast.h; sourceTree = "<group>"; };
-		9EB383891876C01400B214E1 /* iToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iToast.m; sourceTree = "<group>"; };
 		B5041BE01973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceDocumentV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_GET_CUST_KK_SRVServiceDocumentV0.xml; sourceTree = "<group>"; };
 		B5041BE11973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceMetadataV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_GET_CUST_KK_SRVServiceMetadataV0.xml; sourceTree = "<group>"; };
 		B5041BE41973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_GET_CUST_KK_SRVRequestHandler.h; sourceTree = "<group>"; };
@@ -550,8 +547,6 @@
 		B5E486D9195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_LOGIN_SRV_01ServiceDeclarations.h; sourceTree = "<group>"; };
 		B5E486DA195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceV0.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_LOGIN_SRV_01ServiceV0.m; sourceTree = "<group>"; };
 		B5E486DB195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceV0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_LOGIN_SRV_01ServiceV0.h; sourceTree = "<group>"; };
-		B5E63C5419613BAD005D7D5C /* IPFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPFinder.h; sourceTree = "<group>"; };
-		B5E63C5519613BAD005D7D5C /* IPFinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPFinder.m; sourceTree = "<group>"; };
 		B5EE728B18701DC400F634D3 /* kislastik.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kislastik.png; sourceTree = "<group>"; };
 		B5EE728C18701DC400F634D3 /* klima.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = klima.png; sourceTree = "<group>"; };
 		B5EE728D18701DC400F634D3 /* vites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vites.png; sourceTree = "<group>"; };
@@ -573,6 +568,8 @@
 		E1D2AB6919D45EB600806868 /* ConnectionProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionProperties.m; sourceTree = "<group>"; };
 		E1ED735A19E5486C00D3E324 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		E1ED735B19E5486C00D3E324 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		E1ED735D19E564FC00D3E324 /* CountrySelectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountrySelectionVC.h; sourceTree = "<group>"; };
+		E1ED735E19E564FC00D3E324 /* CountrySelectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountrySelectionVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -629,6 +626,8 @@
 				0CBA77BC186447AB0008CE29 /* LoginVC.m */,
 				9E53F68B18BF8F150076CFFF /* UserCreationVC.h */,
 				9E53F68C18BF8F150076CFFF /* UserCreationVC.m */,
+				E1ED735D19E564FC00D3E324 /* CountrySelectionVC.h */,
+				E1ED735E19E564FC00D3E324 /* CountrySelectionVC.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -753,8 +752,6 @@
 				E1ED735B19E5486C00D3E324 /* MBProgressHUD.m */,
 				B533CE1D18FD173D002FE236 /* IDController.h */,
 				B533CE1E18FD173D002FE236 /* IDController.m */,
-				9EB383881876C01400B214E1 /* iToast.h */,
-				9EB383891876C01400B214E1 /* iToast.m */,
 				B5688B02186B39F4009D830E /* LoaderAnimationVC.h */,
 				B5688B03186B39F4009D830E /* LoaderAnimationVC.m */,
 				B5688AFF186B2E25009D830E /* GTMBase64.h */,
@@ -763,8 +760,6 @@
 				0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */,
 				B5BBE94F19503906000AD4E2 /* UIColor+GarentaColors.h */,
 				B5BBE95019503907000AD4E2 /* UIColor+GarentaColors.m */,
-				B5E63C5419613BAD005D7D5C /* IPFinder.h */,
-				B5E63C5519613BAD005D7D5C /* IPFinder.m */,
 				E1D2AB6519D45EAA00806868 /* SAPJSONHandler.h */,
 				E1D2AB6619D45EAA00806868 /* SAPJSONHandler.m */,
 				E1D2AB6819D45EB600806868 /* ConnectionProperties.h */,
@@ -1657,7 +1652,6 @@
 				B56F5F6D19598764005B5B92 /* ReservationApprovalVC.m in Sources */,
 				E1ED735C19E5486C00D3E324 /* MBProgressHUD.m in Sources */,
 				B52462231924D8A100FC482B /* CarGroupTableVC.m in Sources */,
-				9EB3838A1876C01400B214E1 /* iToast.m in Sources */,
 				0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */,
 				9E53F68E18BF8F150076CFFF /* UserCreationVC.m in Sources */,
 				9E38C3BD1869EA8100EBD29E /* CarGroupFilterVC.m in Sources */,
@@ -1671,7 +1665,6 @@
 				B5688B04186B39F4009D830E /* LoaderAnimationVC.m in Sources */,
 				B5E486C1195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVRequestHandler.m in Sources */,
 				B592119B195D9D9900A54E0E /* WYPopoverController.m in Sources */,
-				B5E63C5619613BAD005D7D5C /* IPFinder.m in Sources */,
 				E1D2AB6A19D45EB600806868 /* ConnectionProperties.m in Sources */,
 				B5041BEA1973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceV0.m in Sources */,
 				B50715CA18B7AC1E00419189 /* Price.m in Sources */,
@@ -1691,6 +1684,7 @@
 				0CBA75C9186435260008CE29 /* BaseVC.m in Sources */,
 				B5E064A5194F1E0E0046E789 /* CarSelectionVC.m in Sources */,
 				B5E03441186DD02500226DAB /* Car.m in Sources */,
+				E1ED735F19E564FC00D3E324 /* CountrySelectionVC.m in Sources */,
 				0CBA75CA186435260008CE29 /* BaseTableVC.m in Sources */,
 				B5E0344A186ED57C00226DAB /* CarGroup.m in Sources */,
 				B52B64E31945A6240017A5D5 /* ReservationSummaryVC.m in Sources */,

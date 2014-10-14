@@ -151,10 +151,8 @@
     
     if (![alertString isEqualToString:@""])
     {
-        iToastSettings *theSettings = [iToastSettings getSharedSettings];
-        [theSettings setGravity:iToastGravityCenter];
-        [theSettings setFontSize:16.0];
-        [[iToast makeText:alertString] show];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+        [alert show];
         
         return;
     }

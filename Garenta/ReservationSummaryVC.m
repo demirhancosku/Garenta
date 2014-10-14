@@ -62,9 +62,8 @@
 
 {
     [super viewDidLoad];
-    //preping ui
+    
     _isTotalPressed =NO;
-    //model marka label
     
     const CGFloat fontSize = 13;
     UIFont *boldFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
@@ -86,12 +85,12 @@
         brandModelString = [NSString stringWithFormat:@"%@ yada benzeri",brandModelString];
     }
     
-    const NSRange range = NSMakeRange(0,boldLenght); // range of " 2012/10/14 ". Ideally this should not be hardcoded
-        NSMutableAttributedString *attributedText =
-        [[NSMutableAttributedString alloc] initWithString:brandModelString
-                                               attributes:attrs];
-        [attributedText setAttributes:subAttrs range:range];
-        [_brandModelLabel setAttributedText:attributedText];
+    const NSRange range = NSMakeRange(0,boldLenght);
+    NSMutableAttributedString *attributedText =
+    [[NSMutableAttributedString alloc] initWithString:brandModelString
+                                           attributes:attrs];
+    [attributedText setAttributes:subAttrs range:range];
+    [_brandModelLabel setAttributedText:attributedText];
     
     [_carImageView setImage:_reservation.selectedCarGroup.sampleCar
      .image];
@@ -109,7 +108,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-        [self removeObservers];
+    [self removeObservers];
 }
 - (void)didReceiveMemoryWarning
 
@@ -118,17 +117,242 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - rezervasyon
 
+- (void)createReservationAtSAP {
 
-#pragma mark - custom methods
+    @try {
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZNET_CREATE_REZERVASYON"];
+        
+        NSDateFormatter *dateFormatter = [NSDateFormatter new];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSDateFormatter *timeFormatter = [NSDateFormatter new];
+        [timeFormatter setDateFormat:@"HH:mm"];
+        
+        // IS_INPUT
+        
+        NSArray *isInputColumns = @[@"REZ_NO", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"ODEME_TURU", @"GARENTA_TL", @"BONUS", @"MILES_SMILES", @"GUN_SAYISI", @"TOPLAM_TUTAR", @"C_PRIORITY", @"C_CORP_PRIORITY", @"REZ_KANAL", @"FT_CIKIS_IL", @"FT_CIKIS_ILCE", @"FT_CIKIS_ADRES", @"FT_DONUS_IL", @"FT_DONUS_ILCE", @"FT_DONUS_ADRES", @"PARA_BIRIMI", @"FT_MALIYET_TIPI", @"USERNAME", @"PUAN_TIPI", @"UCUS_SAATI", @"UCUS_NO", @"ODEME_BICIMI", @"FATURA_ACIKLAMA", @"EMAIL_CONFIRM", @"TELNO_CONFIRM"];
+        
+        NSString *isPriority = @"";
+        
+        if ([[ApplicationProperties getUser] isPriority]) {
+            isPriority = @"X";
+        }
+        
+        // satış burosunu onurla konuşcam
+        NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  @"2", @"", @"", @"", [_reservation.selectedCarGroup.sampleCar.pricing.dayCount stringValue], [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO] stringValue], isPriority, @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"", @"", @"", @"", @"", @"", @""];
+        [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
+        
+        // IS_USERINFO
+        
+        NSArray *isUserInfoColumns;
+        NSArray *isUserInfoValues;
+        
+        if ([[ApplicationProperties getUser] isLoggedIn]) {
+            isUserInfoColumns = @[@"MUSTERINO"];
+            isUserInfoValues = @[[[ApplicationProperties getUser] kunnr]];
+        }
+        else {
+            
+            isUserInfoColumns = @[@"MUSTERINO", @"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN", @"VERGINO", @"ADRESS", @"EMAIL", @"TELNO", @"UYRUK", @"ULKE", @"SALES_ORGANIZATION", @"DISTRIBUTION_CHANNEL", @"DIVISION", @"KANALTURU", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"ILKODU", @"ILCEKOD", @"MIDDLENAME", @"PASAPORTNO", @"TK_KARTNO", @"TELNO_ULKE"];
+            isUserInfoValues = @[@""];
+            
+            return;// Şimdilik
+        }
+        
+        [handler addImportStructure:@"IS_USERINFO" andColumns:isUserInfoColumns andValues:isUserInfoValues];
+        
+        // IT_ARACLAR
+        NSArray *itAraclarColumns = @[@"MATNR"];
+        NSMutableArray *itAraclarValues = [NSMutableArray new];
+        
+        for (Car *tempCar in _reservation.selectedCarGroup.cars) {
+            NSArray *arr = @[[tempCar materialCode]];
+            [itAraclarValues addObject:arr];
+        }
+        
+        [handler addTableForImport:@"IT_ARACLAR" andColumns:itAraclarColumns andValues:itAraclarValues];
+        
+        // IT_ITEMS
+        NSArray *itItemsColumns = @[@"REZ_KALEM_NO", @"MALZEME_NO", @"MIKTAR", @"ARAC_GRUBU", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"KAMPANYA_ID", @"FIYAT", @"C_KISLASTIK", @"ARAC_RENK", @"SASI_NO", @"PLAKA_NO", @"JATO_MARKA", @"JATO_MODEL", @"FILO_SEGMENT", @"FIYAT_KODU", @"UPDATE_STATU", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"KALEM_TIPI", @"PARA_BIRIMI", @"IS_AYLIK", @"KURUM_BIREYSEL"];
+        
+        NSMutableArray *itItemsValues = [NSMutableArray new];
+        
+        // ARAÇ
+        
+        NSString *aracGrubu = @"";
+        NSString *malzemeNo = @"";
+        NSString *jatoMarka = @"";
+        NSString *jatoModel = @"";
+        
+        if (_reservation.selectedCar != nil) {
+            malzemeNo = _reservation.selectedCar.materialCode;
+            jatoMarka = _reservation.selectedCar.brandId;
+            jatoModel = _reservation.selectedCar.modelId;
+        }
+        else {
+            aracGrubu = _reservation.selectedCarGroup.groupCode;
+        }
+        
+        NSArray *vehicleLine = @[@"", malzemeNo, @"1", aracGrubu, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", _reservation.selectedCarGroup.payLaterPrice, @"", @"", @"", @"", jatoMarka, jatoModel, _reservation.selectedCarGroup.segment, @"", @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
+        
+        [itItemsValues addObject:vehicleLine];
+        
+        // Ekipmanlar, Hizmetler
+        
+        for (AdditionalEquipment *tempEquipment in _reservation.additionalEquipments) {
+            for (int count = 0; count < tempEquipment.quantity; count++) {
+                if (tempEquipment.type != additionalDriver) {
+                    NSArray *equipmentLine = @[@"", tempEquipment.materialNumber, @"1", @"", _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", [tempEquipment.price stringValue], @"", @"", @"", @"", @"", @"", @"", @"", @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
+                    
+                    [itItemsValues addObject:equipmentLine];
+                }
+            }
+        }
+        
+        [handler addTableForImport:@"IT_ITEMS" andColumns:itItemsColumns andValues:itItemsValues];
 
-
-
-/*
- 
- -----------!BEWARE!----------
- 
- */
+        
+        // IT_EKSURUCU
+        NSArray *itEkSurucuColumns = @[@"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN", @"TELNO", @"UYRUK", @"ULKE", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"EKSURUCU_NO", @"UPDATE_STATU", @"KALEM_NO"];
+        
+        NSMutableArray *itEkSurucuValues = [NSMutableArray new];
+        
+//        for (User *additionalDriver in _reservation.additionalDrivers) {
+//            
+//        }
+        
+        if ([itEkSurucuValues count] > 0) {
+            [handler addTableForImport:@"IT_EKSURUCU" andColumns:itEkSurucuColumns andValues:itEkSurucuValues];
+        }
+        
+        
+//        IT_SDREZERVV0 *sdRezervLine;
+//        NSMutableArray *itSdRezerv = [NSMutableArray new];
+//        for (ET_RESERVV0 *etReservLine in _reservation.etReserv) {
+//            sdRezervLine = [IT_SDREZERVV0 new];
+//            if ([etReservLine.Augru isEqualToString:@""]) {
+//                [sdRezervLine setAugru:@" "];
+//            }else{
+//                [sdRezervLine setAugru:etReservLine.Augru];
+//            }
+//            if ([etReservLine.BonusKazanir isEqualToString:@""]) {
+//                [sdRezervLine setBonusKazanir:@" "];
+//                
+//            }else{
+//                [sdRezervLine setBonusKazanir:etReservLine.BonusKazanir];
+//            }
+//            
+//            if ([etReservLine.FiyatKodu isEqualToString:@""]) {
+//                [sdRezervLine setFiyatKodu:@" "];
+//            }else{
+//                [sdRezervLine setFiyatKodu:etReservLine.FiyatKodu];
+//            }
+//            if ([etReservLine.GrnttlKazanir isEqualToString:@""]) {
+//                [sdRezervLine setGrnttlKazanir:@" "];
+//                
+//            }else{
+//                [sdRezervLine setGrnttlKazanir:etReservLine.GrnttlKazanir];
+//                
+//            }
+//            if ([etReservLine.GrupKodu isEqualToString:@""]) {
+//                [sdRezervLine setGrupKodu:@" "];
+//                
+//            }else{
+//                
+//                [sdRezervLine setGrupKodu:etReservLine.GrupKodu];
+//                
+//            }
+//            
+//            if ([etReservLine.Hdfsube isEqualToString:@""]) {
+//                [sdRezervLine setHdfsube:@" "];
+//                
+//            }else{
+//                [sdRezervLine setHdfsube:etReservLine.Hdfsube];
+//                
+//            }
+//            
+//            if ([etReservLine.Kunnr isEqualToString:@""]) {
+//                [sdRezervLine setKunnr:@" "];
+//            }else{
+//                [sdRezervLine setKunnr:etReservLine.Kunnr];
+//            }
+//            
+//            if ([etReservLine.Matnr isEqualToString:@""]) {
+//                [sdRezervLine setMatnr:@" "];
+//            }else{
+//                [sdRezervLine setMatnr:etReservLine.Matnr];
+//            }
+//            
+//            if ([etReservLine.MilKazanir isEqualToString:@""]) {
+//                [sdRezervLine setMilKazanir:@" "];
+//            }else{
+//                [sdRezervLine setMilKazanir:etReservLine.MilKazanir];
+//            }
+//            
+//            if ([etReservLine.RAuart isEqualToString:@""]) {
+//                [sdRezervLine setRAuart:@" "];
+//            }else{
+//                [sdRezervLine setRAuart:etReservLine.RAuart];
+//            }
+//            
+//            if ([etReservLine.RGjahr isEqualToString:@""]) {
+//                [sdRezervLine setRGjahr:@" "];
+//            }else{
+//                [sdRezervLine setRGjahr:etReservLine.RGjahr];
+//            }
+//            
+//            if ([etReservLine.RPosnr isEqualToString:@""]) {
+//                [sdRezervLine setRPosnr:@" "];
+//            }else{
+//                [sdRezervLine setRPosnr:etReservLine.RPosnr];
+//            }
+//            if ([etReservLine.RVbeln isEqualToString:@""]) {
+//                [sdRezervLine setRVbeln:@" "];
+//            }else{
+//                [sdRezervLine setRVbeln:etReservLine.RVbeln];
+//            }
+//            
+//            if ([etReservLine.Spart isEqualToString:@""]) {
+//                [sdRezervLine setSpart:@" "];
+//            }else{
+//                [sdRezervLine setSpart:etReservLine.Spart];
+//            }
+//            
+//            
+//            if ([etReservLine.Sube isEqualToString:@""]) {
+//                [sdRezervLine setSube:@" "];
+//            }else{
+//                [sdRezervLine setSube:etReservLine.Sube];
+//            }
+//            //humm bakalm bu datee
+//            [sdRezervLine setTarih:etReservLine.Tarih];
+//            [sdRezervLine setTutar:etReservLine.Tutar];
+//            if ([etReservLine.Vkorg isEqualToString:@""]) {
+//                [sdRezervLine setVkorg:@" "];
+//            }else{
+//                [sdRezervLine setVkorg:etReservLine.Vkorg];
+//            }
+//            
+//            if ([etReservLine.Vtweg isEqualToString:@""]) {
+//                [sdRezervLine setVtweg:@" "];
+//            }else{
+//                [sdRezervLine setVtweg:etReservLine.Vtweg];
+//            }
+//            
+//            [itSdRezerv addObject:sdRezervLine];
+//        }
+        
+        
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+    
+}
 
 - (void)createReservation{
     NSDateFormatter *dateFormatter =[NSDateFormatter new];
@@ -178,15 +402,15 @@
     [isUserInfo setIlcekod:@" "];//ilce kod rfcsiden alcak
     [isUserInfo setIlkodu:@" "];
     [isUserInfo setKanalturu:@"Z07"]; // sabit
-
+    
     [isUserInfo setMiddlename:@" "];
     if (currentUser.isLoggedIn) {
         [isUserInfo setMusterino:currentUser.kunnr]; //kunnr loginse must
-         [isUserInfo setBirthdate:[ NSDate date]];
+        [isUserInfo setBirthdate:[ NSDate date]];
         //birinden biri
     }else{
-            [isUserInfo setLastname:currentUser.surname];
-            [isUserInfo setBirthdate:[ currentUser birthday]];
+        [isUserInfo setLastname:currentUser.surname];
+        [isUserInfo setBirthdate:[ currentUser birthday]];
         [isUserInfo setCinsiyet:[currentUser gender]];//???1 erkek 2 kadın
         [isUserInfo setMusterino:@" "]; //kunnr loginse must
         
@@ -196,10 +420,10 @@
         [isUserInfo setTckn:currentUser.tckno];
         [isUserInfo setTelno:currentUser.mobile]; //no533
     }
-
+    
     //nationalitye gore
     [isUserInfo setPasaportno:@" "];
-
+    
     [isUserInfo setTelnoUlke:@"90"];//90
     [isUserInfo setTkKartno:@" "];//???tk almıyoruz
     [isUserInfo setUlke:@"TR"];//??? TR yada bos
@@ -225,7 +449,7 @@
     //Arac ekliyorum
     itemLine = [IT_ITEMSV0 new];
     [itemLine setAlisSubesi:_reservation.checkOutOffice.mainOfficeCode];
-
+    
     [itemLine setAracRenk:@" "];//???renk kodu available aracta ff bilmnenmen?
     //TODO check addtional
     [itemLine setCKislastik:@" "];//??? X sadece arac satirinda olcak
@@ -280,7 +504,8 @@
                 [itEksurucuLine setUyruk:@" "];//digerse bos
                 [itEksurucuLine setUpdateStatu:@" "];//update icin create gereksiz
                 [itEksurucu addObject:itEksurucuLine];
-            }else{
+            }
+            else {
                 itemLine = [IT_ITEMSV0 new];
                 [itemLine setAlisSubesi:@" "];
                 [itemLine setAracGrubu:@" "];//sadece aracta
@@ -554,25 +779,16 @@
             [alert show];
         }
     });
-
+    
 }
 
 #pragma mark - tableview delegate
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (_isTotalPressed) {
         return 4;
     }
     return 3;
 }
-
-
-
-// Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
-
-// Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
-
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *aCell;
@@ -652,15 +868,7 @@
     return aCell;
 }
 
-
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    /*
-     UITableViewCell *aCell = [tableView cellForRowAtIndexPath:indexPath];
-     if (aCell.tag) {
-     <#statements#>
-     }
-     */
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (!_isTotalPressed) {
         switch (indexPath.row) {
             case 0:
@@ -698,10 +906,6 @@
     return 60;
 }
 
-
-
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.row) {
         case 1:
@@ -719,9 +923,6 @@
 
 
 #pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 
 {
@@ -744,8 +945,6 @@
         popoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionAny animated:YES];
         popoverController.delegate = self;
     }
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
 }
 
 
@@ -757,7 +956,6 @@
     }else{
         _isTotalPressed = YES;
     }
-    //    [_tableView reloadData];
     [_tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
@@ -766,7 +964,6 @@
 
 
 - (IBAction)payNowPressed:(id)sender {
-    //nav to payment
     [self performSegueWithIdentifier:@"toPaymentVCSegue" sender:self];
 }
 

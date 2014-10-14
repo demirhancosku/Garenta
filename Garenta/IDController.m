@@ -10,8 +10,7 @@
 
 @implementation IDController
 
-- (BOOL)idChecker:(NSString *)iID andName:(NSString *)iName andSurname:(NSString *)iSurname andBirthYear:(NSString *)iYear onCompletion:(void(^)(BOOL isTrue,NSError*error)) completion
-{
+- (BOOL)idChecker:(NSString *)iID andName:(NSString *)iName andSurname:(NSString *)iSurname andBirthYear:(NSString *)iYear {
     
     iName = [iName uppercaseStringWithLocale:[NSLocale localeWithLocaleIdentifier:@"tr"]];
     iSurname = [iSurname uppercaseStringWithLocale:[NSLocale localeWithLocaleIdentifier:@"tr"]];
@@ -41,25 +40,12 @@
     [soapReq setHTTPBody:[soapMsg dataUsingEncoding:NSUTF8StringEncoding]];
     
     
-    //    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:soapReq delegate:self];
     NSURLResponse *headerResponse;
     NSError *error;
     NSData *data = [NSURLConnection sendSynchronousRequest:soapReq returningResponse:&headerResponse error:&error];
     NSString *response = [[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding];
-    //    NSMutableArray *valueList = [[NSMutableArray alloc] init];
-    NSString *openTag = [NSString stringWithFormat:@"<%@>",@"TCKimlikNoDogrulaResult"];
-    NSString *closeTag = [NSString stringWithFormat:@"</%@>",@"TCKimlikNoDogrulaResult"];
-    NSMutableArray *components = [NSMutableArray arrayWithArray:[response componentsSeparatedByString:openTag]];
-    components = [NSMutableArray arrayWithArray:[(NSString*)[components objectAtIndex:1] componentsSeparatedByString:closeTag]];
-    
-    if ([(NSString*)[components objectAtIndex:0] isEqualToString:@"true"]) {
-        completion(true,error);
-    }else{
-        completion(false,error);
-    }
-    
-    
-    return NO;
+
+    return [response containsString:@"true"];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -75,12 +61,6 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSString *response = [[NSString alloc] initWithBytes:[webData mutableBytes] length:[webData length] encoding:NSUTF8StringEncoding];
-    
-    
-    
-    
-    
-    
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{

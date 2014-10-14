@@ -98,7 +98,7 @@ static NSString *appName = @"REZ";
     }
     return offices;
 }
-+ (void)setUser:(User*)aUser{
++ (void)setUser:(User*)aUser {
     [[NSUserDefaults standardUserDefaults] setObject:aUser.kunnr forKey:@"KUNNR"];
     [[NSUserDefaults standardUserDefaults] setObject:aUser.password forKey:@"PASSWORD"];
     [[NSUserDefaults standardUserDefaults] setObject:aUser.username forKey:@"USERNAME"];

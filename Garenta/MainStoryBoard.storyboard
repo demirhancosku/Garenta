@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="VjG-Ef-6NL">
     <dependencies>
-        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -2163,8 +2162,8 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Y4E-rs-yJn" id="mfG-fn-soB">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="İkinci Adınız*" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7qL-Lm-RqF">
-                                                    <rect key="frame" x="8" y="11" width="98" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="İkinci Adınız" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7qL-Lm-RqF">
+                                                    <rect key="frame" x="8" y="11" width="92" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -2242,6 +2241,7 @@
                                                     <color key="tintColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
                                                         <action selector="nationalitySegmentChanged:" destination="VGe-73-i9q" eventType="valueChanged" id="ayM-Ia-GDg"/>
+                                                        <action selector="nationalitySegmentChanged:" destination="DBj-Xo-gU0" eventType="valueChanged" id="o7G-J8-Iip"/>
                                                     </connections>
                                                 </segmentedControl>
                                             </subviews>
@@ -2366,7 +2366,7 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Adres Bilgileri" id="cEE-SZ-nEz">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="u0z-Lc-1Tl">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="u0z-Lc-1Tl">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u0z-Lc-1Tl" id="VaT-DO-nyW">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -2377,18 +2377,19 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="10" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Da6-tp-BtQ">
-                                                    <rect key="frame" x="159" y="8" width="153" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="DBj-Xo-gU0" id="hNk-GF-Zrd"/>
-                                                    </connections>
-                                                </textField>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v5O-3i-SQU">
+                                                    <rect key="frame" x="162" y="8" width="117" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="ilm-N5-Ru3" kind="push" identifier="CountrySelectionSegue" id="ryI-Ae-gEa"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4i8-Xf-GeW">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4i8-Xf-GeW">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4i8-Xf-GeW" id="bcA-oM-CIj">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -2399,18 +2400,19 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="11" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FpV-Ay-Si7">
-                                                    <rect key="frame" x="159" y="8" width="153" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="DBj-Xo-gU0" id="62S-c1-Qyp"/>
-                                                    </connections>
-                                                </textField>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2TJ-vr-y7N">
+                                                    <rect key="frame" x="162" y="8" width="117" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="ilm-N5-Ru3" kind="push" identifier="CitySelectionSegue" id="Vuj-C8-Hjn"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="KhD-1T-320">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="KhD-1T-320">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KhD-1T-320" id="lz1-qK-ncA">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -2421,16 +2423,17 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="12" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f6p-w1-mgA">
-                                                    <rect key="frame" x="159" y="8" width="153" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="DBj-Xo-gU0" id="feI-A0-NF8"/>
-                                                    </connections>
-                                                </textField>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vCj-di-Zhc">
+                                                    <rect key="frame" x="162" y="8" width="117" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="ilm-N5-Ru3" kind="push" identifier="CountySelectionSegue" id="iy0-pn-MPV"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="mIA-a5-fSu">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -2563,6 +2566,10 @@
                                                 </label>
                                                 <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZXG-fh-gPe">
                                                     <rect key="frame" x="0.0" y="29" width="320" height="162"/>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="DBj-Xo-gU0" id="svW-xB-4Yn"/>
+                                                        <outlet property="delegate" destination="DBj-Xo-gU0" id="rg7-Ko-p3g"/>
+                                                    </connections>
                                                 </pickerView>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -2606,15 +2613,18 @@
                                 <state key="normal" title="Devam">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="continueButtonPressed:" destination="DBj-Xo-gU0" eventType="touchUpInside" id="EQQ-ye-bV9"/>
+                                </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="adressTextField" destination="Ytj-gq-6tU" id="iSZ-YT-aH6"/>
                         <outlet property="birthdayDatePicker" destination="vzs-wk-7RJ" id="6w7-mB-jNH"/>
-                        <outlet property="cityTextField" destination="FpV-Ay-Si7" id="JhK-ru-Uon"/>
-                        <outlet property="countryTextField" destination="Da6-tp-BtQ" id="feX-N1-Pgz"/>
-                        <outlet property="countyTextField" destination="f6p-w1-mgA" id="98x-Dc-441"/>
+                        <outlet property="cityLabel" destination="2TJ-vr-y7N" id="RCg-Le-san"/>
+                        <outlet property="countryLabel" destination="v5O-3i-SQU" id="rgx-7f-T2l"/>
+                        <outlet property="countyLabel" destination="vCj-di-Zhc" id="Ks3-ju-mmq"/>
                         <outlet property="driverLicenseDatePicker" destination="hNg-VE-kmH" id="MYa-IJ-VQj"/>
                         <outlet property="driverLicenseLocationTextField" destination="92e-wb-cff" id="MzU-E8-eCv"/>
                         <outlet property="driverLicenseNoTextField" destination="NyP-F8-xug" id="S1x-PF-3Wc"/>
@@ -2627,6 +2637,7 @@
                         <outlet property="nationalitySegmentedControl" destination="Uro-SO-XYW" id="2sn-LH-uNK"/>
                         <outlet property="password2TextField" destination="nYo-rM-YCg" id="YsZ-Z0-AFE"/>
                         <outlet property="passwordTextField" destination="dOB-JW-Ybd" id="TfU-O0-qtq"/>
+                        <outlet property="secretQuestionPickerView" destination="ZXG-fh-gPe" id="32j-y5-f2j"/>
                         <outlet property="securityAnswerTextField" destination="klI-gn-7bM" id="JL6-cy-Mu3"/>
                         <outlet property="surnameTextField" destination="poe-Wy-Pij" id="ehq-Fe-cZN"/>
                         <outlet property="tcknoLabel" destination="B8p-k4-rxa" id="DnY-hv-Z5G"/>
@@ -2635,7 +2646,55 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VGe-73-i9q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1927" y="-2321"/>
+            <point key="canvasLocation" x="1971" y="-2287"/>
+        </scene>
+        <!--Seçiniz..-->
+        <scene sceneID="gig-ke-A1s">
+            <objects>
+                <tableViewController storyboardIdentifier="CountrySelectionVC" title="Seçiniz.." id="ilm-N5-Ru3" customClass="CountrySelectionVC" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="IWT-7I-P7w">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="JBy-Zb-9KC">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="ilm-N5-Ru3" id="aNI-9E-pBR"/>
+                            </connections>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Da2-9B-i1R">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Da2-9B-i1R" id="xWd-Eo-dQp">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ilm-N5-Ru3" id="OY2-2w-2WW"/>
+                            <outlet property="delegate" destination="ilm-N5-Ru3" id="l0K-ea-JIR"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Seçiniz.." id="yJw-n9-eaH"/>
+                    <connections>
+                        <outlet property="searchBar" destination="JBy-Zb-9KC" id="Na7-TN-csB"/>
+                        <outlet property="searchBarController" destination="JGb-7o-gd9" id="i6r-kU-jff"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FM0-yI-WgD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="JGb-7o-gd9">
+                    <connections>
+                        <outlet property="delegate" destination="ilm-N5-Ru3" id="WFF-6f-V9Y"/>
+                        <outlet property="searchBar" destination="JBy-Zb-9KC" id="TZC-2L-KOm"/>
+                        <outlet property="searchContentsController" destination="ilm-N5-Ru3" id="f9l-sg-91h"/>
+                        <outlet property="searchResultsDataSource" destination="ilm-N5-Ru3" id="W0v-3I-hAD"/>
+                        <outlet property="searchResultsDelegate" destination="ilm-N5-Ru3" id="ncj-wy-KZC"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="2417" y="-2287"/>
         </scene>
         <!--LoginVC-->
         <scene sceneID="jD4-zs-a2L">
@@ -2676,6 +2735,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="login:" destination="xGJ-xJ-rCM" eventType="touchUpInside" id="NzF-Kd-G7d"/>
                                     <action selector="login:" destination="Vcu-MY-gH4" eventType="touchDragInside" id="p3t-tQ-9fE"/>
                                 </connections>
                             </button>
@@ -2696,7 +2756,7 @@
                     <navigationItem key="navigationItem" id="mzo-zk-wJe">
                         <barButtonItem key="rightBarButtonItem" title="Giriş" id="JNr-PG-ZNI">
                             <connections>
-                                <action selector="login:" destination="Vcu-MY-gH4" id="foH-0Z-c2e"/>
+                                <action selector="login:" destination="xGJ-xJ-rCM" id="d95-8C-cH8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -2985,8 +3045,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="8V1-Ga-zPI"/>
         <segue reference="fjv-e4-iFe"/>
+        <segue reference="8V1-Ga-zPI"/>
+        <segue reference="iy0-pn-MPV"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

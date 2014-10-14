@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "BaseVC.h"
 #import "Reservation.h"
-#import "iToast.h"
 
 @interface MinimumInfoVC : BaseVC <UITextFieldDelegate, UIScrollViewDelegate>
 {

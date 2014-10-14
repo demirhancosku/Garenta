@@ -16,7 +16,8 @@
 @property (nonatomic, strong) NSString *importTableParameters;
 @property (nonatomic, strong) NSString *tableForReturn;
 @property (nonatomic, strong) NSString *tableForImport;
-@property BOOL isAnyImport;
+@property BOOL isParameterImportExist;
+@property BOOL isTableImportExist;
 
 @end
 
@@ -34,7 +35,8 @@
         
         self.connectionURL = [NSString stringWithFormat:@"%@?strJSON={\"sap_props\":{\"hostName\":\"%@\",\"client\":\"%@\",\"destination\":\"%@\",\"systemNumber\":\"%@\",\"userId\":\"%@\",\"password\":\"%@\",\"rfcName\":\"%@\"}", [ConnectionProperties getJSONConnectionURL], hostName, client, destination, systemNumber, userId, password, RFCName];
         
-        self.isAnyImport = NO;
+        self.isParameterImportExist = NO;
+        self.isTableImportExist = NO;
     }
     
     return self;
@@ -42,7 +44,7 @@
 
 - (void)addImportParameter:(NSString *)parameterName andValue:(NSString *)parameterValue {
     
-    self.isAnyImport = YES;
+    self.isParameterImportExist = YES;
     
     if (self.importParameters == nil || [self.importParameters isEqualToString:@""]) {
         self.importParameters = [NSString stringWithFormat:@"\"import\":{\"%@\":\"%@\"", parameterName, parameterValue];
@@ -54,7 +56,7 @@
 
 - (void)addImportStructure:(NSString *)structureName andColumns:(NSArray *)columns andValues:(NSArray *)structureValues {
     
-    self.isAnyImport = YES;
+    self.isParameterImportExist = YES;
     
     NSString *values = @"";
     
@@ -77,7 +79,7 @@
 
 - (void)addImportTable:(NSString *)tableName andColumns:(NSArray *)columns andValues:(NSArray *)tableValues {
     
-    self.isAnyImport = YES;
+    self.isParameterImportExist = YES;
     
     if (self.importParameters == nil || [self.importParameters isEqualToString:@""]) {
         self.importParameters = @"\"import\":{";
@@ -113,7 +115,7 @@
 
 - (void)addTableForReturn:(NSString *)tableName {
     
-    self.isAnyImport = YES;
+    self.isTableImportExist = YES;
     
     if (self.tableForReturn == nil || [self.tableForReturn isEqualToString:@""]) {
         self.tableForReturn = [NSString stringWithFormat:@"{\"tipi\":\"1\",\"%@\":[]}", tableName];
@@ -125,7 +127,7 @@
 
 - (void)addTableForImport:(NSString *)tableName andColumns:(NSArray *)columns andValues:(NSArray *)tableValues {
     
-    self.isAnyImport = YES;
+    self.isTableImportExist = YES;
     
     if (self.tableForImport == nil || [self.tableForImport isEqualToString:@""]) {
         self.tableForImport = [NSString stringWithFormat:@"{\"tipi\":\"0\",\"%@\":[", tableName];
@@ -177,7 +179,7 @@
         if (self.importTableParameters != nil && ![self.importTableParameters isEqualToString:@""]) {
             self.connectionURL = [NSString stringWithFormat:@"%@}", self.connectionURL];
         }
-        else {
+        else if (self.isParameterImportExist) {
             self.connectionURL = [NSString stringWithFormat:@"%@}", self.connectionURL];
         }
         
@@ -195,10 +197,8 @@
             self.connectionURL = [NSString stringWithFormat:@"%@]", self.connectionURL];
         }
         
-        if (self.isAnyImport) {
-            self.connectionURL = [NSString stringWithFormat:@"%@}", self.connectionURL];
-        }
-        
+        self.connectionURL = [NSString stringWithFormat:@"%@}", self.connectionURL];
+
         NSLog(@"%@", self.connectionURL);
         
         [self.request setURL:[NSURL URLWithString:[self.connectionURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];

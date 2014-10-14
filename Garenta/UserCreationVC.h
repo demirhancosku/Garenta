@@ -7,24 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CountrySelectionVC.h"
 
-@interface UserCreationVC : UITableViewController <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+@interface UserCreationVC : UITableViewController <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIAlertViewDelegate>
 {
-    NSMutableData *bigData;
     NSMutableArray *countryArray;
     NSMutableArray *cityArray;
     NSMutableArray *countyArray;
-    UIPickerView *userCreationPickerView;
     NSMutableArray *secretQuestionsArray;
-    NSString *countryCode;
-    NSString *secretQuestionNumber;
-    
-    NSURLConnection *getCountryCon;
-    NSURLConnection *createUserCon;
-    NSURLConnection *getSecretQuestionsCon;
 }
 
 - (IBAction)continueButtonPressed:(id)sender;
 - (IBAction)nationalitySegmentChanged:(id)sender;
+- (void)getCountryInformationFromSAP;
 
 @end
