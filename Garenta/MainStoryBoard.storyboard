@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="VjG-Ef-6NL">
     <dependencies>
+        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -555,7 +556,7 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="29"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ek Hizmetler" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FOu-UL-ojI">
-                                        <rect key="frame" x="115" y="4" width="92" height="20.5"/>
+                                        <rect key="frame" x="115" y="4" width="92" height="21"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1982,7 +1983,7 @@
                                     <action selector="returnToMenu:" destination="oUa-3P-8jU" eventType="touchUpInside" id="mkZ-Wt-2oc"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Takvime Ekle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tKk-WF-BHy">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Takvime Ekle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tKk-WF-BHy">
                                 <rect key="frame" x="140" y="400" width="84" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="fuT-EQ-hFb"/>
@@ -1991,14 +1992,14 @@
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="calendar_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ajj-CX-YBR">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="calendar_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ajj-CX-YBR">
                                 <rect key="frame" x="97" y="395" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="RtF-vA-RqI"/>
                                     <constraint firstAttribute="height" constant="30" id="r8j-eV-ebe"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2o5-ko-mHw">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2o5-ko-mHw">
                                 <rect key="frame" x="90" y="395" width="140" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="3m9-sA-ezf"/>
@@ -3422,9 +3423,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="fjv-e4-iFe"/>
-        <segue reference="8V1-Ga-zPI"/>
-        <segue reference="iy0-pn-MPV"/>
+        <segue reference="Jja-3F-2kb"/>
+        <segue reference="Hj2-5d-FZ6"/>
+        <segue reference="ryI-Ae-gEa"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
