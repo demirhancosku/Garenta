@@ -56,6 +56,7 @@ static int kGarentaLogoId = 1;
 {
     [super viewWillAppear:animated];
     [self putLogo];
+    
     if ([[ApplicationProperties getUser] isLoggedIn]) {
         [[[self navigationItem] rightBarButtonItem] setTitle:@"Çıkış"];
     }else{
@@ -100,7 +101,7 @@ static int kGarentaLogoId = 1;
         else {
             [[NSUserDefaults standardUserDefaults] setObject:@"F" forKey:@"ACTIVEVERSION"];
 
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bilgi" message:@"Uygulamamızın yeni versiyonunu indirmenizi rica ederiz. Teşekkürler." delegate:self cancelButtonTitle:@"Vazgeç" otherButtonTitles:@"İndir",nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bilgi" message:@"Uygulamamızın yeni versiyonunu indirmenizi rica ederiz. Teşekkürler." delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
             [alert show];
         }
     }
@@ -108,6 +109,9 @@ static int kGarentaLogoId = 1;
 }
 
 - (void)getUserInfoFromSAP {
+    
+    NSString *alertString = @"";
+    
     @try {
         SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZMOB_REZ_LOGIN"];
         
@@ -174,13 +178,11 @@ static int kGarentaLogoId = 1;
                     }
                 }
                 else {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Kullanıcı adı ve şifrenizi kontrol ederek lütfen tekrar deneyiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-                    [alert show];
+                    alertString = @"Kullanıcı adı ve şifrenizi kontrol ederek lütfen tekrar deneyiniz.";
                 }
             }
             else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Kullanıcı adı ve şifrenizi kontrol ederek lütfen tekrar deneyiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-                [alert show];
+                alertString = @"Kullanıcı adı ve şifrenizi kontrol ederek lütfen tekrar deneyiniz.";
             }
         }
     }
@@ -188,7 +190,12 @@ static int kGarentaLogoId = 1;
         
     }
     @finally {
-        
+        if (![alertString isEqualToString:@""]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                [alert show];
+            });
+        }
     }
 }
 
@@ -282,14 +289,6 @@ static int kGarentaLogoId = 1;
             [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
             return;
         }
-    }
-}
-
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1)
-    {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:newAppLink]];
     }
 }
 

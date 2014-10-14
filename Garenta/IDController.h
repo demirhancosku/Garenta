@@ -12,6 +12,6 @@
 {
     NSMutableData *webData;
 }
-- (BOOL)idChecker:(NSString *)iID andName:(NSString *)iName andSurname:(NSString *)iSurname andBirthYear:(NSString *)iYear onCompletion:(void(^)(BOOL isTrue,NSError*error)) completion;
+- (BOOL)idChecker:(NSString *)iID andName:(NSString *)iName andSurname:(NSString *)iSurname andBirthYear:(NSString *)iYear;
 
 @end

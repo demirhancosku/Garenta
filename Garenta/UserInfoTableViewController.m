@@ -213,7 +213,6 @@
         [user setMobile:_mobileNumberTextField.text];
         [user setBirthday:birthdayDate];
         [user setGender:[NSString stringWithFormat:@"%ld",(long)_sexSegmentControl.selectedSegmentIndex +1]];
-        //        user setCountry:<#(NSString *)#>
 
         [self performSegueWithIdentifier:@"toReservationSummaryVCSegue" sender:self];
     }
@@ -288,15 +287,9 @@
 //TODO: need loader
 - (BOOL)checkTckn:(NSString*)tckn andName:(NSString*)name andSurname:(NSString*)surname andBirthday:(NSString*)birthday{
     IDController *tcknChecker = [IDController new];
-    __block BOOL returnValue = NO;
-    [tcknChecker idChecker:tckn andName:name andSurname:surname andBirthYear:birthday onCompletion:^(BOOL isTrue,NSError *error){
-        
-        if (!error) {
-            returnValue = isTrue;
-        }
-    }];
-    return returnValue;
+    return [tcknChecker idChecker:tckn andName:name andSurname:surname andBirthYear:birthday];
 }
+            
 -(void)fillTestData{
     [_nameTextField setText:@"Yusuf Alp"];
     [_surnameTextField setText:@"Keser"];
