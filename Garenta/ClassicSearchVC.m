@@ -17,6 +17,7 @@
 #import "ZGARENTA_ARAC_SRVRequestHandler.h"
 #import "ParsingConstants.h"
 #import "WYStoryboardPopoverSegue.h"
+#import "SDReservObject.h"
 
 #define kCheckOutTag 0
 #define kCheckInTag 1
@@ -313,16 +314,16 @@
         NSDictionary *resultDict = [handler prepCall];
         
         if (resultDict != nil) {
-            NSDictionary *resultTables = [resultDict valueForKey:@"EXPORT"];
+            NSDictionary *resultTables = [resultDict objectForKey:@"EXPORT"];
             
-            NSDictionary *officeInformation = [resultTables valueForKey:@"EXPT_SUBE_BILGILERI"];
-            NSDictionary *officeInformationArray = [officeInformation valueForKey:@"ZMOB_TT_SUBE_MASTER"];
+            NSDictionary *officeInformation = [resultTables objectForKey:@"EXPT_SUBE_BILGILERI"];
+            NSDictionary *officeInformationArray = [officeInformation objectForKey:@"ZMOB_TT_SUBE_MASTER"];
             
-            NSDictionary *officeWorkingHours = [resultTables valueForKey:@"EXPT_CALISMA_ZAMANI"];
-            NSDictionary *officeWorkingHoursArray = [officeWorkingHours valueForKey:@"ZMOB_TT_SUBE_CALSAAT"];
+            NSDictionary *officeWorkingHours = [resultTables objectForKey:@"EXPT_CALISMA_ZAMANI"];
+            NSDictionary *officeWorkingHoursArray = [officeWorkingHours objectForKey:@"ZMOB_TT_SUBE_CALSAAT"];
             
-            NSDictionary *officeHolidays = [resultTables valueForKey:@"EXPT_TATIL_ZAMANI"];
-            NSDictionary *officeHolidayArray = [officeHolidays valueForKey:@"ZMOB_TT_SUBE_TATIL"];
+            NSDictionary *officeHolidays = [resultTables objectForKey:@"EXPT_TATIL_ZAMANI"];
+            NSDictionary *officeHolidayArray = [officeHolidays objectForKey:@"ZMOB_TT_SUBE_TATIL"];
             
             for (NSDictionary *tempDict in officeInformationArray) {
                 // Aktif olmayan şubeleri almıyoruz
@@ -583,9 +584,37 @@
                 
                 availableCarGroups = [CarGroup getCarGroupsFromServiceResponse:tables withOffices:offices];
                 
-                // TODO : buna mutlaka bakmak lazım hiç anlamadım
-                //                [reservation setEtReserv:availServiceResponse.ET_RESERVSet];
-                //                [self navigateToNextVC];
+                NSDictionary *sdReserv = [tables objectForKey:@"ZSD_KDK_REZERV"];
+                
+                NSMutableArray *sdReservArray = [NSMutableArray new];
+                
+                for (NSDictionary *tempDict in sdReserv) {
+                    SDReservObject *tempObject = [SDReservObject new];
+                    
+                    [tempObject setOffice:[tempDict valueForKey:@"SUBE"]];
+                    [tempObject setGroupCode:[tempDict valueForKey:@"GRUP_KODU"]];
+                    [tempObject setPriceCode:[tempDict valueForKey:@"FIYAT_KODU"]];
+                    [tempObject setDate:[tempDict valueForKey:@"TARIH"]];
+                    [tempObject setRVbeln:[tempDict valueForKey:@"R_VBELN"]];
+                    [tempObject setRPosnr:[tempDict valueForKey:@"R_POSNR"]];
+                    [tempObject setRGjahr:[tempDict valueForKey:@"R_GJAHR"]];
+                    [tempObject setRAuart:[tempDict valueForKey:@"R_AUART"]];
+                    [tempObject setMatnr:[tempDict valueForKey:@"MATNR"]];
+                    [tempObject setEqunr:[tempDict valueForKey:@"EQUNR"]];
+                    [tempObject setKunnr:[tempDict valueForKey:@"KUNNR"]];
+                    [tempObject setDestinationOffice:[tempDict valueForKey:@"HDFSUBE"]];
+                    [tempObject setAugru:[tempDict valueForKey:@"AUGRU"]];
+                    [tempObject setVkorg:[tempDict valueForKey:@"VKORG"]];
+                    [tempObject setVtweg:[tempDict valueForKey:@"VTWEG"]];
+                    [tempObject setSpart:[tempDict valueForKey:@"SPART"]];
+                    [tempObject setPrice:[tempDict valueForKey:@"TUTAR"]];
+                    [tempObject setIsGarentaTl:[tempDict valueForKey:@"GRNTTL_KAZANIR"]];
+                    [tempObject setIsMiles:[tempDict valueForKey:@"MIL_KAZANIR"]];
+                    [tempObject setIsBonus:[tempDict valueForKey:@"BONUS_KAZANIR"]];
+                    [sdReservArray addObject:tempObject];
+                }
+                
+                reservation.etReserv = sdReservArray;
             }
         }
     }

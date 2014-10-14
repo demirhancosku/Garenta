@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CountrySelectionVC : UITableViewController <UISearchBarDelegate, UISearchDisplayDelegate, UISearchControllerDelegate>
+@interface CountrySelectionVC : UITableViewController <UISearchBarDelegate, UISearchDisplayDelegate>
 
 @property (nonatomic, strong) NSArray *selectionArray;
 @property (nonatomic, strong) NSArray *filterResultArray;

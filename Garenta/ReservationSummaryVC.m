@@ -12,6 +12,8 @@
 #import "AdditionalEquipment.h"
 #import "ReservationApprovalVC.h"
 #import "ReservationScopePopoverVC.h"
+#import "SDReservObject.h"
+#import "MBProgressHUD.h"
 
 @interface ReservationSummaryVC ()
 
@@ -119,665 +121,172 @@
 
 #pragma mark - rezervasyon
 
-- (void)createReservationAtSAP {
-
-    @try {
-        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZNET_CREATE_REZERVASYON"];
+- (void)createReservation {
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
-        NSDateFormatter *dateFormatter = [NSDateFormatter new];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        NSDateFormatter *timeFormatter = [NSDateFormatter new];
-        [timeFormatter setDateFormat:@"HH:mm"];
+        NSString *alertString = @"";
         
-        // IS_INPUT
-        
-        NSArray *isInputColumns = @[@"REZ_NO", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"ODEME_TURU", @"GARENTA_TL", @"BONUS", @"MILES_SMILES", @"GUN_SAYISI", @"TOPLAM_TUTAR", @"C_PRIORITY", @"C_CORP_PRIORITY", @"REZ_KANAL", @"FT_CIKIS_IL", @"FT_CIKIS_ILCE", @"FT_CIKIS_ADRES", @"FT_DONUS_IL", @"FT_DONUS_ILCE", @"FT_DONUS_ADRES", @"PARA_BIRIMI", @"FT_MALIYET_TIPI", @"USERNAME", @"PUAN_TIPI", @"UCUS_SAATI", @"UCUS_NO", @"ODEME_BICIMI", @"FATURA_ACIKLAMA", @"EMAIL_CONFIRM", @"TELNO_CONFIRM"];
-        
-        NSString *isPriority = @"";
-        
-        if ([[ApplicationProperties getUser] isPriority]) {
-            isPriority = @"X";
-        }
-        
-        // satış burosunu onurla konuşcam
-        NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  @"2", @"", @"", @"", [_reservation.selectedCarGroup.sampleCar.pricing.dayCount stringValue], [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO] stringValue], isPriority, @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"", @"", @"", @"", @"", @"", @""];
-        [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
-        
-        // IS_USERINFO
-        
-        NSArray *isUserInfoColumns;
-        NSArray *isUserInfoValues;
-        
-        if ([[ApplicationProperties getUser] isLoggedIn]) {
-            isUserInfoColumns = @[@"MUSTERINO"];
-            isUserInfoValues = @[[[ApplicationProperties getUser] kunnr]];
-        }
-        else {
+        @try {
+            SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZNET_CREATE_REZERVASYON"];
             
-            isUserInfoColumns = @[@"MUSTERINO", @"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN", @"VERGINO", @"ADRESS", @"EMAIL", @"TELNO", @"UYRUK", @"ULKE", @"SALES_ORGANIZATION", @"DISTRIBUTION_CHANNEL", @"DIVISION", @"KANALTURU", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"ILKODU", @"ILCEKOD", @"MIDDLENAME", @"PASAPORTNO", @"TK_KARTNO", @"TELNO_ULKE"];
-            isUserInfoValues = @[@""];
+            NSDateFormatter *dateFormatter = [NSDateFormatter new];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            NSDateFormatter *timeFormatter = [NSDateFormatter new];
+            [timeFormatter setDateFormat:@"HH:mm"];
             
-            return;// Şimdilik
-        }
-        
-        [handler addImportStructure:@"IS_USERINFO" andColumns:isUserInfoColumns andValues:isUserInfoValues];
-        
-        // IT_ARACLAR
-        NSArray *itAraclarColumns = @[@"MATNR"];
-        NSMutableArray *itAraclarValues = [NSMutableArray new];
-        
-        for (Car *tempCar in _reservation.selectedCarGroup.cars) {
-            NSArray *arr = @[[tempCar materialCode]];
-            [itAraclarValues addObject:arr];
-        }
-        
-        [handler addTableForImport:@"IT_ARACLAR" andColumns:itAraclarColumns andValues:itAraclarValues];
-        
-        // IT_ITEMS
-        NSArray *itItemsColumns = @[@"REZ_KALEM_NO", @"MALZEME_NO", @"MIKTAR", @"ARAC_GRUBU", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"KAMPANYA_ID", @"FIYAT", @"C_KISLASTIK", @"ARAC_RENK", @"SASI_NO", @"PLAKA_NO", @"JATO_MARKA", @"JATO_MODEL", @"FILO_SEGMENT", @"FIYAT_KODU", @"UPDATE_STATU", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"KALEM_TIPI", @"PARA_BIRIMI", @"IS_AYLIK", @"KURUM_BIREYSEL"];
-        
-        NSMutableArray *itItemsValues = [NSMutableArray new];
-        
-        // ARAÇ
-        
-        NSString *aracGrubu = @"";
-        NSString *malzemeNo = @"";
-        NSString *jatoMarka = @"";
-        NSString *jatoModel = @"";
-        
-        if (_reservation.selectedCar != nil) {
-            malzemeNo = _reservation.selectedCar.materialCode;
-            jatoMarka = _reservation.selectedCar.brandId;
-            jatoModel = _reservation.selectedCar.modelId;
-        }
-        else {
-            aracGrubu = _reservation.selectedCarGroup.groupCode;
-        }
-        
-        NSArray *vehicleLine = @[@"", malzemeNo, @"1", aracGrubu, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", _reservation.selectedCarGroup.payLaterPrice, @"", @"", @"", @"", jatoMarka, jatoModel, _reservation.selectedCarGroup.segment, @"", @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
-        
-        [itItemsValues addObject:vehicleLine];
-        
-        // Ekipmanlar, Hizmetler
-        
-        for (AdditionalEquipment *tempEquipment in _reservation.additionalEquipments) {
-            for (int count = 0; count < tempEquipment.quantity; count++) {
-                if (tempEquipment.type != additionalDriver) {
+            // IS_INPUT
+            
+            NSArray *isInputColumns = @[@"REZ_NO", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"ODEME_TURU", @"GARENTA_TL", @"BONUS", @"MILES_SMILES", @"GUN_SAYISI", @"TOPLAM_TUTAR", @"C_PRIORITY", @"C_CORP_PRIORITY", @"REZ_KANAL", @"FT_CIKIS_IL", @"FT_CIKIS_ILCE", @"FT_CIKIS_ADRES", @"FT_DONUS_IL", @"FT_DONUS_ILCE", @"FT_DONUS_ADRES", @"PARA_BIRIMI", @"FT_MALIYET_TIPI", @"USERNAME", @"PUAN_TIPI", @"UCUS_SAATI", @"UCUS_NO", @"ODEME_BICIMI", @"FATURA_ACIKLAMA", @"EMAIL_CONFIRM", @"TELNO_CONFIRM"];
+            
+            NSString *isPriority = @"";
+            
+            if ([[ApplicationProperties getUser] isPriority]) {
+                isPriority = @"X";
+            }
+            
+            // satış burosunu onurla konuşcam
+            NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  @"2", @"", @"", @"", [_reservation.selectedCarGroup.sampleCar.pricing.dayCount stringValue], [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:nil] stringValue], isPriority, @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"", @"", @"", @"", @"", @"", @""];
+            [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
+            
+            // IS_USERINFO
+            
+            NSArray *isUserInfoColumns;
+            NSArray *isUserInfoValues;
+            
+            if ([[ApplicationProperties getUser] isLoggedIn]) {
+                isUserInfoColumns = @[@"MUSTERINO"];
+                isUserInfoValues = @[[[ApplicationProperties getUser] kunnr]];
+            }
+            else {
+                
+                isUserInfoColumns = @[@"MUSTERINO", @"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN", @"VERGINO", @"ADRESS", @"EMAIL", @"TELNO", @"UYRUK", @"ULKE", @"SALES_ORGANIZATION", @"DISTRIBUTION_CHANNEL", @"DIVISION", @"KANALTURU", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"ILKODU", @"ILCEKOD", @"MIDDLENAME", @"PASAPORTNO", @"TK_KARTNO", @"TELNO_ULKE"];
+                isUserInfoValues = @[@""];
+                
+                return;// Şimdilik
+            }
+            
+            [handler addImportStructure:@"IS_USERINFO" andColumns:isUserInfoColumns andValues:isUserInfoValues];
+            
+            // IT_ARACLAR
+            NSArray *itAraclarColumns = @[@"MATNR"];
+            NSMutableArray *itAraclarValues = [NSMutableArray new];
+            
+            for (Car *tempCar in _reservation.selectedCarGroup.cars) {
+                NSArray *arr = @[[tempCar materialCode]];
+                [itAraclarValues addObject:arr];
+            }
+            
+            [handler addTableForImport:@"IT_ARACLAR" andColumns:itAraclarColumns andValues:itAraclarValues];
+            
+            // IT_ITEMS
+            NSArray *itItemsColumns = @[@"REZ_KALEM_NO", @"MALZEME_NO", @"MIKTAR", @"ARAC_GRUBU", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"KAMPANYA_ID", @"FIYAT", @"C_KISLASTIK", @"ARAC_RENK", @"SASI_NO", @"PLAKA_NO", @"JATO_MARKA", @"JATO_MODEL", @"FILO_SEGMENT", @"FIYAT_KODU", @"UPDATE_STATU", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"KALEM_TIPI", @"PARA_BIRIMI", @"IS_AYLIK", @"KURUM_BIREYSEL"];
+            
+            NSMutableArray *itItemsValues = [NSMutableArray new];
+            
+            // ARAÇ
+            
+            NSString *aracGrubu = @"";
+            NSString *malzemeNo = @"";
+            NSString *jatoMarka = @"";
+            NSString *jatoModel = @"";
+            
+            if (_reservation.selectedCar != nil) {
+                malzemeNo = _reservation.selectedCar.materialCode;
+                jatoMarka = _reservation.selectedCar.brandId;
+                jatoModel = _reservation.selectedCar.modelId;
+            }
+            else {
+                aracGrubu = _reservation.selectedCarGroup.groupCode;
+            }
+            
+            NSArray *vehicleLine = @[@"", malzemeNo, @"1", aracGrubu, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", _reservation.selectedCarGroup.payLaterPrice, @"", @"", @"", @"", jatoMarka, jatoModel, _reservation.selectedCarGroup.segment, @"", @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
+            
+            [itItemsValues addObject:vehicleLine];
+            
+            // Ekipmanlar, Hizmetler
+            
+            for (AdditionalEquipment *tempEquipment in _reservation.additionalEquipments) {
+                for (int count = 0; count < tempEquipment.quantity; count++) {
                     NSArray *equipmentLine = @[@"", tempEquipment.materialNumber, @"1", @"", _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", [tempEquipment.price stringValue], @"", @"", @"", @"", @"", @"", @"", @"", @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
                     
                     [itItemsValues addObject:equipmentLine];
                 }
             }
-        }
-        
-        [handler addTableForImport:@"IT_ITEMS" andColumns:itItemsColumns andValues:itItemsValues];
-
-        
-        // IT_EKSURUCU
-        NSArray *itEkSurucuColumns = @[@"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN", @"TELNO", @"UYRUK", @"ULKE", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"EKSURUCU_NO", @"UPDATE_STATU", @"KALEM_NO"];
-        
-        NSMutableArray *itEkSurucuValues = [NSMutableArray new];
-        
-//        for (User *additionalDriver in _reservation.additionalDrivers) {
-//            
-//        }
-        
-        if ([itEkSurucuValues count] > 0) {
-            [handler addTableForImport:@"IT_EKSURUCU" andColumns:itEkSurucuColumns andValues:itEkSurucuValues];
-        }
-        
-        
-//        IT_SDREZERVV0 *sdRezervLine;
-//        NSMutableArray *itSdRezerv = [NSMutableArray new];
-//        for (ET_RESERVV0 *etReservLine in _reservation.etReserv) {
-//            sdRezervLine = [IT_SDREZERVV0 new];
-//            if ([etReservLine.Augru isEqualToString:@""]) {
-//                [sdRezervLine setAugru:@" "];
-//            }else{
-//                [sdRezervLine setAugru:etReservLine.Augru];
-//            }
-//            if ([etReservLine.BonusKazanir isEqualToString:@""]) {
-//                [sdRezervLine setBonusKazanir:@" "];
-//                
-//            }else{
-//                [sdRezervLine setBonusKazanir:etReservLine.BonusKazanir];
-//            }
-//            
-//            if ([etReservLine.FiyatKodu isEqualToString:@""]) {
-//                [sdRezervLine setFiyatKodu:@" "];
-//            }else{
-//                [sdRezervLine setFiyatKodu:etReservLine.FiyatKodu];
-//            }
-//            if ([etReservLine.GrnttlKazanir isEqualToString:@""]) {
-//                [sdRezervLine setGrnttlKazanir:@" "];
-//                
-//            }else{
-//                [sdRezervLine setGrnttlKazanir:etReservLine.GrnttlKazanir];
-//                
-//            }
-//            if ([etReservLine.GrupKodu isEqualToString:@""]) {
-//                [sdRezervLine setGrupKodu:@" "];
-//                
-//            }else{
-//                
-//                [sdRezervLine setGrupKodu:etReservLine.GrupKodu];
-//                
-//            }
-//            
-//            if ([etReservLine.Hdfsube isEqualToString:@""]) {
-//                [sdRezervLine setHdfsube:@" "];
-//                
-//            }else{
-//                [sdRezervLine setHdfsube:etReservLine.Hdfsube];
-//                
-//            }
-//            
-//            if ([etReservLine.Kunnr isEqualToString:@""]) {
-//                [sdRezervLine setKunnr:@" "];
-//            }else{
-//                [sdRezervLine setKunnr:etReservLine.Kunnr];
-//            }
-//            
-//            if ([etReservLine.Matnr isEqualToString:@""]) {
-//                [sdRezervLine setMatnr:@" "];
-//            }else{
-//                [sdRezervLine setMatnr:etReservLine.Matnr];
-//            }
-//            
-//            if ([etReservLine.MilKazanir isEqualToString:@""]) {
-//                [sdRezervLine setMilKazanir:@" "];
-//            }else{
-//                [sdRezervLine setMilKazanir:etReservLine.MilKazanir];
-//            }
-//            
-//            if ([etReservLine.RAuart isEqualToString:@""]) {
-//                [sdRezervLine setRAuart:@" "];
-//            }else{
-//                [sdRezervLine setRAuart:etReservLine.RAuart];
-//            }
-//            
-//            if ([etReservLine.RGjahr isEqualToString:@""]) {
-//                [sdRezervLine setRGjahr:@" "];
-//            }else{
-//                [sdRezervLine setRGjahr:etReservLine.RGjahr];
-//            }
-//            
-//            if ([etReservLine.RPosnr isEqualToString:@""]) {
-//                [sdRezervLine setRPosnr:@" "];
-//            }else{
-//                [sdRezervLine setRPosnr:etReservLine.RPosnr];
-//            }
-//            if ([etReservLine.RVbeln isEqualToString:@""]) {
-//                [sdRezervLine setRVbeln:@" "];
-//            }else{
-//                [sdRezervLine setRVbeln:etReservLine.RVbeln];
-//            }
-//            
-//            if ([etReservLine.Spart isEqualToString:@""]) {
-//                [sdRezervLine setSpart:@" "];
-//            }else{
-//                [sdRezervLine setSpart:etReservLine.Spart];
-//            }
-//            
-//            
-//            if ([etReservLine.Sube isEqualToString:@""]) {
-//                [sdRezervLine setSube:@" "];
-//            }else{
-//                [sdRezervLine setSube:etReservLine.Sube];
-//            }
-//            //humm bakalm bu datee
-//            [sdRezervLine setTarih:etReservLine.Tarih];
-//            [sdRezervLine setTutar:etReservLine.Tutar];
-//            if ([etReservLine.Vkorg isEqualToString:@""]) {
-//                [sdRezervLine setVkorg:@" "];
-//            }else{
-//                [sdRezervLine setVkorg:etReservLine.Vkorg];
-//            }
-//            
-//            if ([etReservLine.Vtweg isEqualToString:@""]) {
-//                [sdRezervLine setVtweg:@" "];
-//            }else{
-//                [sdRezervLine setVtweg:etReservLine.Vtweg];
-//            }
-//            
-//            [itSdRezerv addObject:sdRezervLine];
-//        }
-        
-        
-    }
-    @catch (NSException *exception) {
-        
-    }
-    @finally {
-        
-    }
-    
-}
-
-- (void)createReservation{
-    NSDateFormatter *dateFormatter =[NSDateFormatter new];
-    [dateFormatter setDateFormat:@"HH:mm"];
-    [ApplicationProperties configureReservationService];
-    ReservationServiceV0 *aService = [ReservationServiceV0 new];
-    IsInputV0 *isInput = [IsInputV0 new];
-    [ApplicationProperties fillProperties:isInput];
-    [isInput setAlisSubesi:_reservation.checkInOffice.mainOfficeCode];
-    [isInput setBonus:[NSDecimalNumber decimalNumberWithString:@"0.0"]];// yok
-    [isInput setCCorpPriority:@" "];//X coorp priorityse x
-    [isInput setCPriority:@" "];//X priority
-    [isInput setFtCikisAdres:@" "];// free text
-    [isInput setFtCikisIl:@" "]; //plaka
-    [isInput setFtCikisIlce:@" "]; //ilce citykod crmden donen
-    [isInput setFtDonusAdres:@" "]; //freetext
-    [isInput setFtDonusIl:@" "];
-    [isInput setFtDonusIlce:@" "];
-    [isInput setFtMaliyetTipi:@" "];//???// masraf yansitilcak alinmiycak canlida yok
-    [isInput setGarentaTl:[NSDecimalNumber decimalNumberWithString:@"0.0"]]; //free
-    [isInput setGunSayisi:_reservation.selectedCarGroup.sampleCar.pricing.dayCount]; //available aractan donen gun sayisi*
-    [isInput setMilesSmiles:[NSDecimalNumber decimalNumberWithString:@"0.0"]]; //
-    [isInput setOdemeTuru:@"2"];//1,2,3 hemen ödeme sonra öde ön ödemeli iptal edilemez
-    [isInput setParaBirimi:@"TRY"]; //TRY EUR USD GBP
-    [isInput setPuanTipi:@" "];//?? M ıse mıl G ıse garenta tl
-    [isInput setRezBegda:_reservation.checkOutTime];
-    [isInput setRezBegtime:[dateFormatter stringFromDate:_reservation.checkOutTime]];
-    [isInput setRezEndda:[_reservation checkInTime]];
-    [isInput setRezEndtime:[dateFormatter stringFromDate:_reservation.checkInTime]];
-    [isInput setRezKanal:@"40"]; //Mobil 40
-    [isInput setRezNo:@" "];
-    [isInput setSatisBurosu:_reservation.checkOutOffice.mainOfficeCode];// checkout office
-    [isInput setTeslimSubesi:_reservation.checkInOffice.mainOfficeCode];
-    [isInput setToplamTutar:[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0"]];
-    [isInput setUsername:@" "];
-    User *currentUser = (User*)[ApplicationProperties getUser];
-    IsUserinfoV0 *isUserInfo = [IsUserinfoV0 new];
-    [ApplicationProperties fillProperties:isUserInfo];
-    [isUserInfo setAdress:@" "]; //il ilce adres zorunlu
-    [isUserInfo setSalesOrganization:@"3063"];//????fix
-    [isUserInfo setDistributionChannel:@"33"];//???3063 fix
-    [isUserInfo setDivision:@"65"];//???fix
-    [isUserInfo setEhliyetAlisyeri:@" "];//free zorunlu?
-    [isUserInfo setEhliyetNo:@" "];//free zorunlu?
-    [isUserInfo setEhliyetSinifi:@" "];//combo sabit siteden bak
-    [isUserInfo setEhliyetTarihi:[NSDate date]];
-    [isUserInfo setIlcekod:@" "];//ilce kod rfcsiden alcak
-    [isUserInfo setIlkodu:@" "];
-    [isUserInfo setKanalturu:@"Z07"]; // sabit
-    
-    [isUserInfo setMiddlename:@" "];
-    if (currentUser.isLoggedIn) {
-        [isUserInfo setMusterino:currentUser.kunnr]; //kunnr loginse must
-        [isUserInfo setBirthdate:[ NSDate date]];
-        //birinden biri
-    }else{
-        [isUserInfo setLastname:currentUser.surname];
-        [isUserInfo setBirthdate:[ currentUser birthday]];
-        [isUserInfo setCinsiyet:[currentUser gender]];//???1 erkek 2 kadın
-        [isUserInfo setMusterino:@" "]; //kunnr loginse must
-        
-        [isUserInfo setEmail:currentUser.email]; //zoeunlu
-        [isUserInfo setFirstname:currentUser.name];
-        //birinden biri
-        [isUserInfo setTckn:currentUser.tckno];
-        [isUserInfo setTelno:currentUser.mobile]; //no533
-    }
-    
-    //nationalitye gore
-    [isUserInfo setPasaportno:@" "];
-    
-    [isUserInfo setTelnoUlke:@"90"];//90
-    [isUserInfo setTkKartno:@" "];//???tk almıyoruz
-    [isUserInfo setUlke:@"TR"];//??? TR yada bos
-    [isUserInfo setUyruk:@"TR"];//???? tr veya boş
-    [isUserInfo setVergino:@" "]; //free text siniri 11
-    [isUserInfo setInboundcallid:@" "];
-    [isUserInfo setCalluser:@" "];
-    [isUserInfo setArayan:@" "];
-    
-    //buraya availdeki arac matnrsini cak
-    IT_ARACLARV0 *itAracLine;
-    NSMutableArray * itAraclar = [NSMutableArray new];
-    for (Car *tempCar in _reservation.selectedCarGroup.cars) {
-        itAracLine = [IT_ARACLARV0 new];
-        [itAracLine setMatnr:tempCar.materialCode];
-        [itAraclar addObject:itAracLine];
-    }
-    NSMutableArray *itEksurucu = [NSMutableArray new];
-    NSMutableArray *itItem = [NSMutableArray new];
-    IT_EKSURUCUV0 *itEksurucuLine;
-    IT_ITEMSV0 *itemLine ;
-    
-    //Arac ekliyorum
-    itemLine = [IT_ITEMSV0 new];
-    [itemLine setAlisSubesi:_reservation.checkOutOffice.mainOfficeCode];
-    
-    [itemLine setAracRenk:@" "];//???renk kodu available aracta ff bilmnenmen?
-    //TODO check addtional
-    [itemLine setCKislastik:@" "];//??? X sadece arac satirinda olcak
-    [itemLine setFiloSegment:_reservation.selectedCarGroup.segment];// segment kod
-    [itemLine setFiyat:[NSDecimalNumber decimalNumberWithString:_reservation.selectedCarGroup.payLaterPrice]];
-    [itemLine setFiyatKodu:@" "]; //avail aracta donudo
-    [itemLine setKalemTipi:@" "]; //update ici create de bos 1:farkl tes cikis 2:farkli tes donus 3: sure uzat 4: kisaltma
-    [itemLine setKampanyaId:@" "]; //et_rezervdeki id
-    [itemLine setMiktar:[NSDecimalNumber decimalNumberWithString:@"1.0"]];
-    [itemLine setParaBirimi:@"TRY"]; //konustuk bunu
-    if (_reservation.selectedCar != nil) {
-        //        [itemLine setPlakaNo:_reservation.selectedCar.plateNumber]; //plaka kullanılmiyor zaten donmuyor da
-        [itemLine setAracGrubu:@" "];
-        [itemLine setMalzemeNo:_reservation.selectedCar.materialCode]; //matnr
-        [itemLine setJatoMarka:@" "]; //avail arac
-        [itemLine setJatoModel:@" "];//avail arac
-    }else{
-        [itemLine setAracGrubu:_reservation.selectedCarGroup.groupCode];
-        [itemLine setMalzemeNo:@" "]; //matnr
-        [itemLine setJatoMarka:@" "]; //avail arac
-        [itemLine setJatoModel:@" "];//avail arac
-    }
-    [itemLine setPlakaNo:@" "];
-    [itemLine setRezBegda:_reservation.checkOutTime];//headerla ayni
-    [itemLine setRezBegtime:[dateFormatter stringFromDate:_reservation.checkOutTime]];
-    [itemLine setRezEndda:_reservation.checkInTime];
-    [itemLine setRezEndtime:[dateFormatter stringFromDate:_reservation.checkInTime]];
-    [itemLine setRezKalemNo:@" "]; //update icin create
-    [itemLine setSasiNo:@" "]; // avail aractan
-    [itemLine setSatisBurosu:_reservation.checkOutOffice.mainOfficeCode]; //chekout office
-    [itemLine setTeslimSubesi:_reservation.checkInOffice.mainOfficeCode];
-    [itemLine setUpdateStatu:@" "]; // kullanilmior
-    [itItem addObject:itemLine];
-    
-    for (AdditionalEquipment *tempEquipment in _reservation.additionalEquipments) {
-        for (int sayac = 0; sayac <tempEquipment.quantity; sayac++) {
-            if (tempEquipment.type == additionalDriver) {
-                itEksurucuLine = [IT_EKSURUCUV0 new];
-                [itEksurucuLine setBirthdate:[NSDate date]];
-                [itEksurucuLine setCinsiyet:@" "];//1 erkek 2 kadin
-                [itEksurucuLine setEhliyetAlisyeri:@" "];
-                [itEksurucuLine setEhliyetNo:@" "];
-                [itEksurucuLine setEhliyetSinifi:@" "];
-                [itEksurucuLine setEhliyetTarihi:[NSDate date]];
-                [itEksurucuLine setEksurucuNo:@" "];//update icin create gereksiz
-                [itEksurucuLine setFirstname:@" "];
-                [itEksurucuLine setKalemNo:@" "];//update icin create gereksiz
-                [itEksurucuLine setLastname:@" "];
-                [itEksurucuLine setTckn:@" "];
-                [itEksurucuLine setTelno:@" "];
-                [itEksurucuLine setUlke:@" "];//digerse bos
-                [itEksurucuLine setUyruk:@" "];//digerse bos
-                [itEksurucuLine setUpdateStatu:@" "];//update icin create gereksiz
-                [itEksurucu addObject:itEksurucuLine];
+            
+            [handler addTableForImport:@"IT_ITEMS" andColumns:itItemsColumns andValues:itItemsValues];
+            
+            
+            // IT_EKSURUCU
+            NSArray *itEkSurucuColumns = @[@"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN", @"TELNO", @"UYRUK", @"ULKE", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"EKSURUCU_NO", @"UPDATE_STATU", @"KALEM_NO"];
+            
+            NSMutableArray *itEkSurucuValues = [NSMutableArray new];
+            
+            for (AdditionalEquipment *temp in _reservation.additionalDrivers) {
+                NSArray *additionalDriverLine = @[temp.additionalDriverGender, temp.additionalDriverFirstname, temp.additionalDriverSurname, [dateFormatter stringFromDate:temp.additionalDriverBirthday], @"", @"", @"", @"", temp.additionalDriverLicensePlace, temp.additionalDriverLicenseClass, temp.additionalDriverLicenseNumber, [dateFormatter stringFromDate:temp.additionalDriverLicenseDate], @"", @"", @""];
+                [itEkSurucuValues addObject:additionalDriverLine];
             }
-            else {
-                itemLine = [IT_ITEMSV0 new];
-                [itemLine setAlisSubesi:@" "];
-                [itemLine setAracGrubu:@" "];//sadece aracta
-                [itemLine setAracRenk:@" "];//???renk kodu available aracta ff bilmnenmen?
-                //TODO check addtional
-                [itemLine setCKislastik:@" "];//??? X sadece arac satirinda olcak
-                [itemLine setFiloSegment:@" "];// segment kod
-                [itemLine setFiyat:tempEquipment.price];
-                [itemLine setFiyatKodu:@" "]; //avail aracta donudo
-                [itemLine setJatoMarka:@" "]; //avail arac
-                [itemLine setJatoModel:@" "];//avail arac
-                [itemLine setKalemTipi:@" "]; //update ici create de bos 1:farkl tes cikis 2:farkli tes donus 3: sure uzat 4: kisaltma
-                [itemLine setKampanyaId:@" "]; //et_rezervdeki id
-                [itemLine setMalzemeNo:tempEquipment.materialNumber]; //matnr
-                [itemLine setMiktar:[NSDecimalNumber decimalNumberWithString:@"1.0"]];
-                [itemLine setParaBirimi:@"TRY"]; //konustuk bunu
-                [itemLine setPlakaNo:@" "]; //sadece aracta aracı sectiyse
-                [itemLine setRezBegda:_reservation.checkOutTime];//headerla ayni
-                [itemLine setRezBegtime:[dateFormatter stringFromDate:_reservation.checkOutTime]];
-                [itemLine setRezEndda:_reservation.checkInTime];
-                [itemLine setRezEndtime:[dateFormatter stringFromDate:_reservation.checkInTime]];
-                [itemLine setRezKalemNo:@" "]; //update icin create
-                [itemLine setSasiNo:@" "]; // avail aractan
-                [itemLine setSatisBurosu:@" "]; //chekout office
-                [itemLine setTeslimSubesi:@" "];
-                [itemLine setUpdateStatu:@" "]; // kullanilmior
-                [itItem addObject:itemLine];
+            
+            if ([itEkSurucuValues count] > 0) {
+                [handler addTableForImport:@"IT_EKSURUCU" andColumns:itEkSurucuColumns andValues:itEkSurucuValues];
+            }
+            
+            // IT_SD Reserv
+            
+            NSArray *itSDReservColumns = @[@"SUBE", @"GRUP_KODU", @"FIYAT_KODU", @"TARIH", @"R_VBELN", @"R_POSNR", @"R_GJAHR", @"R_AUART", @"MATNR", @"KUNNR", @"HDFSUBE", @"AUGRU", @"VKORG", @"VTWEG", @"SPART", @"TUTAR", @"GRNTTL_KAZANIR", @"MIL_KAZANIR", @"BONUS_KAZANIR"];
+            
+            NSMutableArray *itSDReservValues = [NSMutableArray new];
+            
+            for (SDReservObject *tempObject in _reservation.etReserv) {
+                if ([tempObject.office isEqualToString:_reservation.checkOutOffice.subOfficeCode] && [tempObject.groupCode isEqualToString:_reservation.selectedCarGroup.groupCode]) {
+                    NSArray *arr = @[tempObject.office, tempObject.groupCode, tempObject.priceCode, tempObject.date, tempObject.rVbeln, tempObject.rPosnr, tempObject.RGjahr, tempObject.rAuart, tempObject.matnr, tempObject.kunnr, tempObject.destinationOffice, tempObject.augru, tempObject.vkorg, tempObject.vtweg, tempObject.spart, tempObject.price, tempObject.isGarentaTl, tempObject.isMiles, tempObject.isBonus];
+                    [itSDReservValues addObject:arr];
+                }
+            }
+            
+            [handler addTableForImport:@"IT_SDREZERV" andColumns:itSDReservColumns andValues:itSDReservValues];
+            
+            [handler addTableForReturn:@"ET_RETURN"];
+            [handler addTableForReturn:@"ET_KK_RETURN"];
+            
+            NSDictionary *response = [handler prepCall];
+            
+            if (response != nil) {
+                NSDictionary *export = [response objectForKey:@"EXPORT"];
+                
+                NSString *subrc = [export valueForKey:@"EV_SUBRC"];
+                
+                if ([subrc isEqualToString:@"0"]) {
+                    NSDictionary *esOutput = [export objectForKey:@"ZNET_INT_S007"];
+                    
+                    NSString *reservationNo = [esOutput valueForKey:@"REZ_NO"];
+                    _reservation.reservationNumber = reservationNo;
+                }
+                else {
+                    alertString = @"Rezervasyon yaratımı sırasında hata oluştu. Lütfen tekrar deneyiniz";
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (![alertString isEqualToString:@""]) {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                        [alert show];
+                    }
+                    else if (_reservation.reservationNumber != nil && ![_reservation.reservationNumber isEqualToString:@""]) {
+                        [self performSegueWithIdentifier:@"toReservationApprovalVCSegue" sender:self];
+                    }
+                });
             }
         }
-    }
-    IT_FATURA_ADRESV0 *itFaturaAdresLine = [IT_FATURA_ADRESV0 new];
-    [itFaturaAdresLine setAddrnumber:@" "];//???donen adreslerde var bu alan ordan alcan
-    [itFaturaAdresLine setAdres:@" "];
-    [itFaturaAdresLine setAdresKaydet:@" "];//????x yada bos
-    [itFaturaAdresLine setAdresTanim:@" "];
-    [itFaturaAdresLine setAyniAdres:@" "];//faturayla ayni adres
-    [itFaturaAdresLine setFatTip:@" "];//???Bireysel mi 2-kurumsal mi
-    [itFaturaAdresLine setFirmaAdi:@" "]; //2 ise
-    [itFaturaAdresLine setFirstname:@" "];//1 ise
-    [itFaturaAdresLine setIlcekod:@" "];
-    [itFaturaAdresLine setIlkodu:@" "];
-    [itFaturaAdresLine setLastname:@" "];//1 ise
-    [itFaturaAdresLine setMiddlename:@" "];//1 ise
-    [itFaturaAdresLine setPasaportno:@" "];//1 ise
-    [itFaturaAdresLine setTckn:@" "];//1 ise
-    [itFaturaAdresLine setUlke:@" "];//1 ise
-    [itFaturaAdresLine setVergidairesi:@" "]; //2 ise
-    [itFaturaAdresLine setVergino:@" "];//2 ise
-    
-    
-    IT_SDREZERVV0 *sdRezervLine;
-    NSMutableArray *itSdRezerv = [NSMutableArray new];
-    for (ET_RESERVV0 *etReservLine in _reservation.etReserv) {
-        sdRezervLine = [IT_SDREZERVV0 new];
-        if ([etReservLine.Augru isEqualToString:@""]) {
-            [sdRezervLine setAugru:@" "];
-        }else{
-            [sdRezervLine setAugru:etReservLine.Augru];
-        }
-        if ([etReservLine.BonusKazanir isEqualToString:@""]) {
-            [sdRezervLine setBonusKazanir:@" "];
-            
-        }else{
-            [sdRezervLine setBonusKazanir:etReservLine.BonusKazanir];
-        }
-        
-        if ([etReservLine.FiyatKodu isEqualToString:@""]) {
-            [sdRezervLine setFiyatKodu:@" "];
-        }else{
-            [sdRezervLine setFiyatKodu:etReservLine.FiyatKodu];
-        }
-        if ([etReservLine.GrnttlKazanir isEqualToString:@""]) {
-            [sdRezervLine setGrnttlKazanir:@" "];
-            
-        }else{
-            [sdRezervLine setGrnttlKazanir:etReservLine.GrnttlKazanir];
+        @catch (NSException *exception) {
             
         }
-        if ([etReservLine.GrupKodu isEqualToString:@""]) {
-            [sdRezervLine setGrupKodu:@" "];
-            
-        }else{
-            
-            [sdRezervLine setGrupKodu:etReservLine.GrupKodu];
+        @finally {
             
         }
-        
-        if ([etReservLine.Hdfsube isEqualToString:@""]) {
-            [sdRezervLine setHdfsube:@" "];
-            
-        }else{
-            [sdRezervLine setHdfsube:etReservLine.Hdfsube];
-            
-        }
-        
-        if ([etReservLine.Kunnr isEqualToString:@""]) {
-            [sdRezervLine setKunnr:@" "];
-        }else{
-            [sdRezervLine setKunnr:etReservLine.Kunnr];
-        }
-        
-        if ([etReservLine.Matnr isEqualToString:@""]) {
-            [sdRezervLine setMatnr:@" "];
-        }else{
-            [sdRezervLine setMatnr:etReservLine.Matnr];
-        }
-        
-        if ([etReservLine.MilKazanir isEqualToString:@""]) {
-            [sdRezervLine setMilKazanir:@" "];
-        }else{
-            [sdRezervLine setMilKazanir:etReservLine.MilKazanir];
-        }
-        
-        if ([etReservLine.RAuart isEqualToString:@""]) {
-            [sdRezervLine setRAuart:@" "];
-        }else{
-            [sdRezervLine setRAuart:etReservLine.RAuart];
-        }
-        
-        if ([etReservLine.RGjahr isEqualToString:@""]) {
-            [sdRezervLine setRGjahr:@" "];
-        }else{
-            [sdRezervLine setRGjahr:etReservLine.RGjahr];
-        }
-        
-        if ([etReservLine.RPosnr isEqualToString:@""]) {
-            [sdRezervLine setRPosnr:@" "];
-        }else{
-            [sdRezervLine setRPosnr:etReservLine.RPosnr];
-        }
-        if ([etReservLine.RVbeln isEqualToString:@""]) {
-            [sdRezervLine setRVbeln:@" "];
-        }else{
-            [sdRezervLine setRVbeln:etReservLine.RVbeln];
-        }
-        
-        if ([etReservLine.Spart isEqualToString:@""]) {
-            [sdRezervLine setSpart:@" "];
-        }else{
-            [sdRezervLine setSpart:etReservLine.Spart];
-        }
-        
-        
-        if ([etReservLine.Sube isEqualToString:@""]) {
-            [sdRezervLine setSube:@" "];
-        }else{
-            [sdRezervLine setSube:etReservLine.Sube];
-        }
-        //humm bakalm bu datee
-        [sdRezervLine setTarih:etReservLine.Tarih];
-        [sdRezervLine setTutar:etReservLine.Tutar];
-        if ([etReservLine.Vkorg isEqualToString:@""]) {
-            [sdRezervLine setVkorg:@" "];
-        }else{
-            [sdRezervLine setVkorg:etReservLine.Vkorg];
-        }
-        
-        if ([etReservLine.Vtweg isEqualToString:@""]) {
-            [sdRezervLine setVtweg:@" "];
-        }else{
-            [sdRezervLine setVtweg:etReservLine.Vtweg];
-        }
-        
-        [itSdRezerv addObject:sdRezervLine];
-    }
-    
-    IT_TAHSILATV0 *itTahsilatLine = [IT_TAHSILATV0 new];
-    [itTahsilatLine setAmount:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
-    [itTahsilatLine setAy:@"10"];
-    [itTahsilatLine setCompanyname:@"CompName"]; // adamin full ismi
-    [itTahsilatLine setCustomerEmail:@"alp@alp.com"];
-    [itTahsilatLine setCustomerFullname:@"Yusuf Alp Keser"]; // adamin full ismi
-    [itTahsilatLine setCustomerIp:@"10.90.30.12"];
-    [itTahsilatLine setGarentaTl:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
-    [itTahsilatLine setGuvenlikkodu:@"344"];
-    [itTahsilatLine setIsPoint:@"X"]; //bonus ukardaki doluysa
-    [itTahsilatLine setKartNumarasi:@"4565467645646764"];
-    [itTahsilatLine setKartSahibi:@"Yusuf Alp Keser"];
-    [itTahsilatLine setKunnr:@"1234567890"];
-    [itTahsilatLine setMerKey:@"123"]; // merchant safe key
-    [itTahsilatLine setMusterionay:@"X"]; //kk saklansin 10 kk saklanmasin 20
-    [itTahsilatLine setOAwkey:@" "];
-    [itTahsilatLine setOAwlog:@" "];
-    [itTahsilatLine setOCode:@" "];
-    [itTahsilatLine setOErrMessage:@"Err msg "];
-    [itTahsilatLine setOIpt:@"O"];
-    [itTahsilatLine setOIpterr:@"1"];
-    [itTahsilatLine setOIpterrmes:@"a"];
-    [itTahsilatLine setOMessage:@"Message"];
-    [itTahsilatLine setOMskayit:@"a"];
-    [itTahsilatLine setOPoint:@" "];
-    [itTahsilatLine setOProv:@"x"];
-    [itTahsilatLine setOrderId:@"12"];
-    [itTahsilatLine setOSanal:@"X"];
-    [itTahsilatLine setOStatus:@"s"];
-    [itTahsilatLine setPoint:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
-    [itTahsilatLine setPointTutar:[NSDecimalNumber decimalNumberWithString:@"0.0"]];
-    [itTahsilatLine setTahstip:@"1"]; //K kart cekim t teminat p provizyon
-    [itTahsilatLine setVkbur:@"1023"];// bos crm cakmis
-    [itTahsilatLine setYil:@"2014"];
-    EsOutputV0 *esOutput = [EsOutputV0 new];
-    [esOutput setAvail:@" "];
-    [esOutput setEksurucuNo:@" "];
-    [esOutput setFaturaMusteriNo:@" "];
-    [esOutput setFtCikisBp:@" "];
-    [esOutput setFtDonusBp:@" "];
-    [esOutput setIsRegistered:@" "];
-    [esOutput setMusterino:@" "];
-    [esOutput setRezNo:@" "];
-    [esOutput setTahsilDrm:@" "];
-    ET_RETURNV0 *etReturnLine = [ET_RETURNV0 new];
-    [etReturnLine setId:@" "];
-    [etReturnLine setLogMsgNo:@"1"];
-    [etReturnLine setLogNo:@"2"];
-    [etReturnLine setMessage:@" "];
-    [etReturnLine setMessageV1:@" "];
-    [etReturnLine setMessageV2:@" "];
-    [etReturnLine setMessageV3:@" "];
-    [etReturnLine setMessageV4:@" "];
-    [etReturnLine setNumber:@" "];
-    [etReturnLine setType:@" "];
-    [etReturnLine setParameter:@" "];
-    [etReturnLine setRow:[NSNumber numberWithInt:1]];
-    [etReturnLine setField:@" "];
-    [etReturnLine setSystem:@" "];
-    ET_KK_RETURNV0 *etKKReturnLine = [ET_KK_RETURNV0 new];
-    [etKKReturnLine setOErrMessage:@" "];
-    NSMutableArray *itFaturaAdres = [NSMutableArray new];
-    NSMutableArray *itTahsilat = [NSMutableArray new];
-    NSMutableArray *etReturn = [NSMutableArray new];
-    [itFaturaAdres addObject:itFaturaAdresLine];
-    [itTahsilat addObject:itTahsilatLine];
-    [etReturn addObject:etReturnLine];
-    [aService setIsInput:isInput];
-    [aService setIsUserinfo:isUserInfo];
-    [aService setIT_ARACLARSet:itAraclar];
-    [aService setIT_EKSURUCUSet:itEksurucu];
-    [aService setIT_FATURA_ADRESSet:itFaturaAdres];
-    [aService setIT_ITEMSSet:itItem];
-    [aService setIT_SDREZERVSet:itSdRezerv];
-    [aService setIT_TAHSILATSet:itTahsilat];
-    [aService setEvSubrc:[NSNumber numberWithInt:2]];
-    [aService setEsOutput:esOutput];
-    [aService setET_RETURNSet:etReturn];
-    
-    
-    [aService setET_KK_RETURNSet:[NSMutableArray arrayWithObject:etKKReturnLine]];
-    NSOperationQueue *operationQueue = [NSOperationQueue new];
-    [[ZGARENTA_REZERVASYON_SRVRequestHandler uniqueInstance] createReservationService:aService];
-    [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
-}
-
-
-
-- (void)parseReservationResponse:(NSNotification*)notification{
-    ReservationServiceV0 *response = notification.userInfo[@"item"];
-    UIAlertView *alert;
-    if ([response.EvSubrc intValue]== 0) {
-        [_reservation setReservationNumber:response.EsOutput.RezNo];
-        alert = [[UIAlertView alloc] initWithTitle:@"Başarılı" message:[NSString stringWithFormat:@"%@ numaralı rezervasyonunuz başarıyla oluşturulmuştur.",_reservation.reservationNumber] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-    }else{
-        alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Fahrettin/Ahmet hata alındı." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-    }
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kCreateReservationServiceCompletedNotification object:nil];
-    dispatch_async(dispatch_get_main_queue(), ^(void){
-        [[LoaderAnimationVC uniqueInstance] stopAnimation];
-        if ([response.EvSubrc intValue]== 0) {
-            [self performSegueWithIdentifier:@"toReservationApprovalVCSegue" sender:self];
-        }else{
-            [alert show];
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        });
     });
     
 }
@@ -807,13 +316,13 @@
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"officeDateCell" forIndexPath:indexPath];
                 
                 checkOutOffice = (UILabel*)[aCell viewWithTag:1];
-                [checkOutOffice setText:_reservation.checkOutOffice.mainOfficeName];
+                [checkOutOffice setText:_reservation.checkOutOffice.subOfficeName];
                 
                 checkOutTime = (UILabel*)[aCell viewWithTag:2];
                 [checkOutTime setText:[dateFormatter stringFromDate:_reservation.checkOutTime]];
                 
                 checkInOffice = (UILabel*)[aCell viewWithTag:3];
-                [checkInOffice setText:_reservation.checkInOffice.mainOfficeName];
+                [checkInOffice setText:_reservation.checkInOffice.subOfficeName];
                 
                 checkInTime = (UILabel*)[aCell viewWithTag:4];
                 [checkInTime setText:[dateFormatter stringFromDate:_reservation.checkInTime]];
@@ -836,13 +345,13 @@
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"officeDateCell" forIndexPath:indexPath];
                 
                 checkOutOffice = (UILabel*)[aCell viewWithTag:1];
-                [checkOutOffice setText:_reservation.checkOutOffice.mainOfficeName];
+                [checkOutOffice setText:_reservation.checkOutOffice.subOfficeName];
                 
                 checkOutTime = (UILabel*)[aCell viewWithTag:2];
                 [checkOutTime setText:[dateFormatter stringFromDate:_reservation.checkOutTime]];
                 
                 checkInOffice = (UILabel*)[aCell viewWithTag:3];
-                [checkInOffice setText:_reservation.checkInOffice.mainOfficeName];
+                [checkInOffice setText:_reservation.checkInOffice.subOfficeName];
                 
                 checkInTime = (UILabel*)[aCell viewWithTag:4];
                 [checkInTime setText:[dateFormatter stringFromDate:_reservation.checkInTime]];
