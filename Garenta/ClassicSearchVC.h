@@ -17,14 +17,12 @@
 #import "Arrival.h"
 #import "Reservation.h"
 #import "WYPopoverController.h"
-#import "MBProgressHUD.h"
+#import "OfficeSelectionCell.h"
+#import "TimeSelectionCell.h"
 
 
 @interface ClassicSearchVC : UIViewController <UITableViewDataSource,UITableViewDelegate,NSURLConnectionDelegate, UIPopoverControllerDelegate,CLLocationManagerDelegate>
 {
-    UITableView *destinationTableView;
-    UITableView *arrivalTableView;
-    UIButton *searchButton;
     CGRect viewFrame;
     UIDatePicker *datePicker;
     NSMutableArray *offices;
@@ -36,8 +34,13 @@
     int selectedTag;
 }
 
+@property (strong,nonatomic) IBOutlet UITableView *destinationTableView;
+@property (strong,nonatomic) IBOutlet UITableView *arrivalTableView;
+@property (strong,nonatomic) IBOutlet UIButton *searchButton;
 @property (strong,nonatomic) WYPopoverController *myPopoverController;
 @property (nonatomic, retain) UIPopoverController *popOver;
+
+- (IBAction)showCarGroup:(id)sender;
 - (id)initWithFrame:(CGRect)frame;
 
 @end

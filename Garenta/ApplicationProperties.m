@@ -17,7 +17,8 @@
 #import <objc/runtime.h>
 @implementation ApplicationProperties
 MainSelection mainSelection;
-User* myUser;
+static User* myUser;
+
 NSMutableArray *offices;
 static NSString *GATEWAY_USER = @"GW_ADMIN";
 static NSString *GATEWAY_PASS = @"1qa2ws3ed";
@@ -76,10 +77,11 @@ static NSString *appName = @"REZ";
 }
 
 + (User*)getUser{
-    if (myUser == nil) {
+    if (myUser == nil)
+    {
         myUser = [[User alloc] init];
         
-        myUser.kunnr = [[NSUserDefaults standardUserDefaults] stringForKey:@"KUNNR"];
+        myUser.kunnr    = [[NSUserDefaults standardUserDefaults] stringForKey:@"KUNNR"];
         myUser.password = [[NSUserDefaults standardUserDefaults] stringForKey:@"PASSWORD"];
         myUser.username = [[NSUserDefaults standardUserDefaults] stringForKey:@"USERNAME"];
         
@@ -89,6 +91,7 @@ static NSString *appName = @"REZ";
             [myUser setIsLoggedIn:YES];
         }
     }
+    
     return myUser;
 }
 
@@ -102,6 +105,8 @@ static NSString *appName = @"REZ";
     [[NSUserDefaults standardUserDefaults] setObject:aUser.kunnr forKey:@"KUNNR"];
     [[NSUserDefaults standardUserDefaults] setObject:aUser.password forKey:@"PASSWORD"];
     [[NSUserDefaults standardUserDefaults] setObject:aUser.username forKey:@"USERNAME"];
+    
+    myUser = aUser;
 }
 
 + (NSString*)getSAPUser{
@@ -224,7 +229,7 @@ static NSString *appName = @"REZ";
 
 + (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation{
     __block NSMutableArray *closestOffices = [[NSMutableArray alloc] init];
-    
+    NSLog(@"%f",userLocation.coordinate.latitude);
     NSArray *sortedArray;
     sortedArray = [someOffices sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
         CLLocation *firstOfficeLocation = [[CLLocation alloc] initWithLatitude:[[(Office*)a latitude] doubleValue] longitude:[[(Office*)a longitude] doubleValue]];
@@ -387,7 +392,58 @@ static NSString *appName = @"REZ";
     } else {
         return YES;
     }
-    
-    
 }
+
++ (BOOL)checkYoungDriverAddition:(CarGroup *)selectedCarGroup andBirthday:(NSDate *)birthday andLicenseDate:(NSDate *)licenseDate
+{
+    if (birthday == nil || licenseDate == nil) {
+        return NO;
+    }
+    
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSString *customerBirthdayYear = [[formatter stringFromDate:birthday] substringToIndex:4];
+    NSString *customerLicenseYear = [[formatter stringFromDate:licenseDate] substringToIndex:4];
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
+    NSInteger currentYear = [components year];
+    
+    NSInteger age = currentYear - customerBirthdayYear.integerValue;
+    NSInteger licenceYear = currentYear - customerLicenseYear.integerValue;
+    
+    if (selectedCarGroup.minAge > age)
+        return YES;
+    else if (selectedCarGroup.minDriverLicense > licenceYear)
+        return YES;
+    
+    return NO;
+}
+
++ (BOOL)isCarGroupAvailableByAge:(CarGroup *)activeCarGroup andBirthday:(NSDate *)birthday
+{
+    if (birthday == nil) {
+        return NO;
+    }
+    
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSString *customerBirthdayYear = [[formatter stringFromDate:birthday] substringToIndex:4];
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
+    NSInteger currentYear = [components year];
+    
+    NSInteger age = currentYear - customerBirthdayYear.integerValue;
+    
+    if (activeCarGroup.minYoungDriverAge > age)
+        return YES;
+    else if (activeCarGroup.minYoungDriverLicense > age)
+        return YES;
+    
+    return NO;
+}
+
 @end

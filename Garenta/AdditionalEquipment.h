@@ -26,8 +26,17 @@ typedef enum{
 @property(assign,nonatomic) int quantity;
 @property(strong,nonatomic) NSDecimalNumber *price;
 @property(strong,nonatomic) NSDecimalNumber *maxQuantity;
+@property BOOL isRequired;
+
+@property(strong,nonatomic) NSString *additionalDriverGender;
 @property(strong,nonatomic) NSString *additionalDriverFirstname;
 @property(strong,nonatomic) NSString *additionalDriverSurname;
-@property(strong,nonatomic) NSDate *additionalDriverBirthday;
+@property(strong,nonatomic) NSDate   *additionalDriverBirthday;
+
+@property(strong,nonatomic) NSString *additionalDriverLicenseClass;
+@property(strong,nonatomic) NSString *additionalDriverLicenseNumber;
+@property(strong,nonatomic) NSString *additionalDriverLicensePlace;
+@property(strong,nonatomic) NSDate   *additionalDriverLicenseDate;
+@property BOOL isAdditionalYoungDriver;
 @property(assign) EquipmentType type;
 @end

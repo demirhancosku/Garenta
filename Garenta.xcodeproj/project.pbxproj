@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C0012E919E54A95009AF050 /* visa_mastercard.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C0012E819E54A95009AF050 /* visa_mastercard.png */; };
+		0C0012EC19E54EF8009AF050 /* OldCardSelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0012EB19E54EF8009AF050 /* OldCardSelectionVC.m */; };
 		0C0DA9A21865BE31003EDDA0 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9A11865BE31003EDDA0 /* User.m */; };
 		0C0DA9A51865BEA5003EDDA0 /* Coordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9A41865BEA5003EDDA0 /* Coordinate.m */; };
 		0C0DA9A71865BF78003EDDA0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C0DA9A61865BF78003EDDA0 /* CoreLocation.framework */; };
@@ -17,6 +19,7 @@
 		0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9B81865EB7E003EDDA0 /* ClassicSearchVC.m */; };
 		0C48234B19DD95BB00C73301 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C48234A19DD95BB00C73301 /* info.png */; };
 		0C48234E19DDBAF800C73301 /* AdditionalEquipmentInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C48234D19DDBAF800C73301 /* AdditionalEquipmentInfoVC.m */; };
+		0C4A55A619E82B2000251545 /* OfficeSelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4A55A519E82B2000251545 /* OfficeSelectionCell.m */; };
 		0C4C9A6A18462EAB00CD3728 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6918462EAB00CD3728 /* Foundation.framework */; };
 		0C4C9A6C18462EAB00CD3728 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6B18462EAB00CD3728 /* CoreGraphics.framework */; };
 		0C4C9A6E18462EAB00CD3728 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6D18462EAB00CD3728 /* UIKit.framework */; };
@@ -30,6 +33,7 @@
 		0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */; };
 		0C893D87187884E5006AFF0A /* SliderHandle.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C893D86187884E5006AFF0A /* SliderHandle.png */; };
 		0C9299DF18689E95007DE6B8 /* EquipmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9299DE18689E95007DE6B8 /* EquipmentVC.m */; };
+		0C99695C19E830E3008E7199 /* TimeSelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C99695B19E830E3008E7199 /* TimeSelectionCell.m */; };
 		0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA631351864697900CC529F /* MenuSelectionVC.m */; };
 		0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */; };
 		0CBA75C7186435260008CE29 /* Office.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E212F77186343C3004B9B80 /* Office.m */; };
@@ -187,6 +191,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0C0012E819E54A95009AF050 /* visa_mastercard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visa_mastercard.png; sourceTree = "<group>"; };
+		0C0012EA19E54EF8009AF050 /* OldCardSelectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldCardSelectionVC.h; sourceTree = "<group>"; };
+		0C0012EB19E54EF8009AF050 /* OldCardSelectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldCardSelectionVC.m; sourceTree = "<group>"; };
 		0C0DA9A01865BE31003EDDA0 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		0C0DA9A11865BE31003EDDA0 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		0C0DA9A31865BEA5003EDDA0 /* Coordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coordinate.h; sourceTree = "<group>"; };
@@ -205,6 +212,8 @@
 		0C48234A19DD95BB00C73301 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		0C48234C19DDBAF800C73301 /* AdditionalEquipmentInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdditionalEquipmentInfoVC.h; sourceTree = "<group>"; };
 		0C48234D19DDBAF800C73301 /* AdditionalEquipmentInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdditionalEquipmentInfoVC.m; sourceTree = "<group>"; };
+		0C4A55A419E82B2000251545 /* OfficeSelectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfficeSelectionCell.h; sourceTree = "<group>"; };
+		0C4A55A519E82B2000251545 /* OfficeSelectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfficeSelectionCell.m; sourceTree = "<group>"; };
 		0C4C9A6618462EAB00CD3728 /* Garenta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Garenta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C4C9A6918462EAB00CD3728 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0C4C9A6B18462EAB00CD3728 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -231,6 +240,8 @@
 		0C893D86187884E5006AFF0A /* SliderHandle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SliderHandle.png; sourceTree = "<group>"; };
 		0C9299DD18689E95007DE6B8 /* EquipmentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipmentVC.h; sourceTree = "<group>"; };
 		0C9299DE18689E95007DE6B8 /* EquipmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EquipmentVC.m; sourceTree = "<group>"; };
+		0C99695A19E830E3008E7199 /* TimeSelectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeSelectionCell.h; sourceTree = "<group>"; };
+		0C99695B19E830E3008E7199 /* TimeSelectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeSelectionCell.m; sourceTree = "<group>"; };
 		0CA631341864697900CC529F /* MenuSelectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuSelectionVC.h; sourceTree = "<group>"; };
 		0CA631351864697900CC529F /* MenuSelectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuSelectionVC.m; sourceTree = "<group>"; };
 		0CBA77BB186447AB0008CE29 /* LoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginVC.h; sourceTree = "<group>"; };
@@ -637,6 +648,10 @@
 			children = (
 				0C0DA9B71865EB7E003EDDA0 /* ClassicSearchVC.h */,
 				0C0DA9B81865EB7E003EDDA0 /* ClassicSearchVC.m */,
+				0C4A55A419E82B2000251545 /* OfficeSelectionCell.h */,
+				0C4A55A519E82B2000251545 /* OfficeSelectionCell.m */,
+				0C99695A19E830E3008E7199 /* TimeSelectionCell.h */,
+				0C99695B19E830E3008E7199 /* TimeSelectionCell.m */,
 				0C0DA9A81865D04B003EDDA0 /* OfficeListVC.h */,
 				0C0DA9A91865D04B003EDDA0 /* OfficeListVC.m */,
 				0C5B5FC61864770F0060BECD /* CalendarTimeVC.h */,
@@ -806,6 +821,7 @@
 		0C4C9A9B1846331D00CD3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0C0012E819E54A95009AF050 /* visa_mastercard.png */,
 				0C48234A19DD95BB00C73301 /* info.png */,
 				B5BBE954195040F6000AD4E2 /* door_icon.png */,
 				B59211A3195ECE2F00A54E0E /* calendar_icon.png */,
@@ -947,6 +963,8 @@
 				B52B64E21945A6240017A5D5 /* ReservationSummaryVC.m */,
 				B5BBE95E1952DCC3000AD4E2 /* PaymentTableViewController.h */,
 				B5BBE95F1952DCC3000AD4E2 /* PaymentTableViewController.m */,
+				0C0012EA19E54EF8009AF050 /* OldCardSelectionVC.h */,
+				0C0012EB19E54EF8009AF050 /* OldCardSelectionVC.m */,
 				B56F5F6B19598764005B5B92 /* ReservationApprovalVC.h */,
 				B56F5F6C19598764005B5B92 /* ReservationApprovalVC.m */,
 				B592119D195DA38D00A54E0E /* ReservationScopePopoverVC.h */,
@@ -1522,6 +1540,7 @@
 				B5E0649F194F12F90046E789 /* sample_car.png in Resources */,
 				0C48234B19DD95BB00C73301 /* info.png in Resources */,
 				B5688B1B186B3A2E009D830E /* load_9.png in Resources */,
+				0C0012E919E54A95009AF050 /* visa_mastercard.png in Resources */,
 				B5688B11186B3A2E009D830E /* load_1.png in Resources */,
 				B5921195195D934900A54E0E /* triangle_green.png in Resources */,
 				B5EE729118701DC400F634D3 /* vites.png in Resources */,
@@ -1621,6 +1640,7 @@
 			files = (
 				E1D2AB6719D45EAA00806868 /* SAPJSONHandler.m in Sources */,
 				0CBA77BD186447AB0008CE29 /* LoginVC.m in Sources */,
+				0C99695C19E830E3008E7199 /* TimeSelectionCell.m in Sources */,
 				B5A2CAE81872B60100271DE9 /* MinimumInfoVC.m in Sources */,
 				B592119F195DA38D00A54E0E /* ReservationScopePopoverVC.m in Sources */,
 				0C5B5FC81864770F0060BECD /* CalendarTimeVC.m in Sources */,
@@ -1634,6 +1654,7 @@
 				B5041BE91973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVRequestHandler.m in Sources */,
 				B533CE4218FE7C8C002FE236 /* ZGARENTA_OFIS_SRVRequestHandler.m in Sources */,
 				B56304B51941CE40001D4603 /* UserInfoTableViewController.m in Sources */,
+				0C0012EC19E54EF8009AF050 /* OldCardSelectionVC.m in Sources */,
 				B5E486DC195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01RequestHandler.m in Sources */,
 				0CBA75CE1864356A0008CE29 /* AppDelegate.m in Sources */,
 				B5118CC01917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.m in Sources */,
@@ -1670,6 +1691,7 @@
 				B50715CA18B7AC1E00419189 /* Price.m in Sources */,
 				B50B09D71874988F00649165 /* ReservationSummaryViewController.m in Sources */,
 				0CBA75C7186435260008CE29 /* Office.m in Sources */,
+				0C4A55A619E82B2000251545 /* OfficeSelectionCell.m in Sources */,
 				0CBA75C8186435260008CE29 /* OfficeWorkingTime.m in Sources */,
 				B533CE1F18FD173D002FE236 /* IDController.m in Sources */,
 				B592119C195D9D9900A54E0E /* WYStoryboardPopoverSegue.m in Sources */,

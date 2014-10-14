@@ -12,6 +12,8 @@
 #import "User.h"
 #import "CarGroupFilterVC.h"
 #import "ApplicationProperties.h"
+#import "MBProgressHUD.h"
+
 @interface MenuSelectionVC : UIViewController<UITableViewDataSource,UITableViewDelegate>
 {
     UILabel *welcomeLabel;
@@ -20,4 +22,5 @@
 }
 @property(nonatomic,retain)LoaderAnimationVC *loaderVC;
 - (id)initWithFrame:(CGRect)frame;
+
 @end

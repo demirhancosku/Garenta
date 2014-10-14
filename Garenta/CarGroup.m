@@ -23,8 +23,6 @@
     return nil;
 }
 
-
-
 - (Car*)findCarWithOffice:(Office*)anOffice fromList:(NSMutableArray*)aCarList{
     
     for (Car *tempCar in aCarList) {
@@ -56,15 +54,16 @@
         [tempPrice setPayLaterPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"SONRA_ODE_FIYAT_TRY"]]];
         [tempPrice setCarSelectPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"ARAC_SECIM_FARK_TRY"]]];
         [tempPrice setDayCount:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"GUN_SAYISI"]]];
-
+        [tempPrice setSalesOffice:[tempDict valueForKey:@"CIKIS_SUBE"]];
+        
         [prices addObject:tempPrice];
     }
     
     // ET_ARACLISTE
     NSDictionary *etAracListeArray = [serviceResponse objectForKey:@"ZPM_S_ARACLISTE"];
     
-    for (NSDictionary *tempDict in etAracListeArray) {
-        
+    for (NSDictionary *tempDict in etAracListeArray)
+    {
         Car *tempCar = [Car new];
         
         [tempCar setMaterialCode:[tempDict valueForKey:@"MATNR"]];
@@ -74,6 +73,7 @@
         [tempCar setModelId:[tempDict valueForKey:@"MODEL_ID"]];
         [tempCar setModelName:[tempDict valueForKey:@"MODEL"]];
         [tempCar setModelYear:[tempDict valueForKey:@"MODEL_YILI"]];
+        [tempCar setSalesOffice:[tempDict valueForKey:@"MSUBE"]];
         
         NSString *imagePath = [tempDict valueForKey:@"ZRESIM_315"];
         
@@ -85,7 +85,7 @@
         
         [tempCar setDoorNumber:[tempDict valueForKey:@"KAPI_SAYISI"]];
         [tempCar setPassangerNumber:[tempDict valueForKey:@"YOLCU_SAYISI"]];
-        [tempCar setOfficeCode:[tempDict valueForKey:@"MSUBE"]];
+        [tempCar setOfficeCode:[tempDict valueForKey:@"ASUBE"]];
         
         CarGroup *tempCarGroup = [CarGroup getGroupFromList:availableCarGroups WithCode:[tempDict valueForKey:@"GRPKOD"]];
         
@@ -164,7 +164,7 @@
 + (void)setPriceForCar:(Car*)aCar withPriceList:(NSMutableArray*)aPriceList {
     
     for (Price *tempPrice in aPriceList) {
-        if ([[tempPrice modelId] isEqualToString:[aCar modelId]] && [[tempPrice brandId] isEqualToString:[aCar brandId]] && [[tempPrice carGroup] isEqualToString:[[aCar carGroup] groupCode]]) {
+        if ([[tempPrice modelId] isEqualToString:[aCar modelId]] && [[tempPrice brandId] isEqualToString:[aCar brandId]] && [[tempPrice carGroup] isEqualToString:[[aCar carGroup] groupCode]] && [[tempPrice salesOffice] isEqualToString:[aCar salesOffice]]) {
             [aCar setPricing:tempPrice];
             break;
         }

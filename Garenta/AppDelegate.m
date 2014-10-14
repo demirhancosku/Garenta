@@ -39,6 +39,7 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(nav.navig
     [self.window setRootViewController:nav];
     [self.window makeKeyAndVisible];
      */
+
     return YES;
 }
 

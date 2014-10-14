@@ -20,4 +20,5 @@
     #import "UIColor+GarentaColors.h"
     #import "SAPJSONHandler.h"
     #import "ConnectionProperties.h"
+    #import "ApplicationProperties.h"
 #endif

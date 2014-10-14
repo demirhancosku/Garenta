@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "Reservation.h"
-@interface PaymentTableViewController : UITableViewController<UIAlertViewDelegate, UITextViewDelegate>
+#import "WYPopoverController.h"
+
+@interface PaymentTableViewController : UITableViewController <UIAlertViewDelegate, UITextFieldDelegate,WYPopoverControllerDelegate>
 
 @property (strong,nonatomic) UIButton *hideButton;
 @property (strong,nonatomic) Reservation *reservation;
+
 @end

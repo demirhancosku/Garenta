@@ -46,7 +46,7 @@
 {
     [super viewDidLoad];
     
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     [self initVCsWithCars];
     CGRect aFrame = CGRectMake(0, 0, _rootView.frame.size.width, _rootView.frame.size.height);
     self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
@@ -61,13 +61,13 @@
     //    _tableViewVC = [[self storyboard] instantiateViewControllerWithIdentifier:@"CarGroupTable"];
     [_tableViewVC setActiveCarGroup:[_carGroups objectAtIndex:0]];
     //  //  [self.pageViewController didMoveToParentViewController:self];
-
-//    [[NSNotificationCenter defaultCenter] addObserverForName:@"CarGroupSelected" object:nil queue:[NSOperationQueue new] usingBlock:^(NSNotification*note){
-//        dispatch_async(dispatch_get_main_queue(), ^(void){
-//            
-//        });
     
-//    }];
+    //    [[NSNotificationCenter defaultCenter] addObserverForName:@"CarGroupSelected" object:nil queue:[NSOperationQueue new] usingBlock:^(NSNotification*note){
+    //        dispatch_async(dispatch_get_main_queue(), ^(void){
+    //
+    //        });
+    
+    //    }];
 }
 
 
@@ -133,7 +133,6 @@
     
     return [groupVCs objectAtIndex:index];
 }
-
 
 - (void)pageViewController:(UIPageViewController *)pvc didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
 {
@@ -242,7 +241,10 @@
     }
     
     if ([segue.identifier isEqualToString:@"toAdditionalEquipmentSegue"]) {
+        User *tempUser = [ApplicationProperties getUser];
+        
         EquipmentVC *additionalEquipmentsVC = (EquipmentVC*)segue.destinationViewController;
+        [additionalEquipmentsVC setIsYoungDriver:[ApplicationProperties checkYoungDriverAddition:_tableViewVC.activeCarGroup andBirthday:tempUser.birthday andLicenseDate:tempUser.driversLicenseDate]];
         [additionalEquipmentsVC setReservation:_reservation];
     }
 }

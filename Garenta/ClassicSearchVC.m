@@ -26,7 +26,7 @@
 @end
 
 @implementation ClassicSearchVC
-@synthesize popOver;
+@synthesize popOver,destinationTableView,arrivalTableView,searchButton;
 
 
 #pragma mark - View lifcycles
@@ -57,8 +57,8 @@
     //only once singleton koydum devam etsin burdan
     offices = [ApplicationProperties getOffices];
     
-    if (offices.count ==0) {
-        
+    if ( offices.count == 0 || [ApplicationProperties getMainSelection] == location_search )
+    {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
             
@@ -66,6 +66,12 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+                // en yakın ofisi bulup ekrana yazıyo
+                if ([ApplicationProperties getMainSelection] == location_search)
+                {
+                    reservation.checkOutOffice = [self prepareOfficeImport];
+                    [destinationTableView reloadData];
+                }
             });
         });
     }
@@ -98,98 +104,119 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    switch (indexPath.row)
+    {
+        case 0:
+            // ofis seçimi
+            return [self officeSelectTableViewCell:tableView];
+            break;
+        case 1:
+            return [self timeSelectTableViewCell:tableView];
+            break;
+        default:
+            break;
+    }
     
-    if (cell == nil)
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    return nil;
+}
+
+- (OfficeSelectionCell *)officeSelectTableViewCell:(UITableView *)tableView
+{
+    OfficeSelectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"officeCell"];
+    if (!cell) {
+        cell = [OfficeSelectionCell new];
+    }
     
-    
-    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     if ([tableView tag] == kCheckOutTag)
     {
-        if ([indexPath row] == 0)
+        if (reservation.checkOutOffice == nil)
         {
-            if (reservation.checkOutOffice == nil)
-            {
-                if([ApplicationProperties getMainSelection] != location_search)
-                {
-                    [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
-                }
-                else{
-                    [[cell textLabel] setText:@"Size En Yakın Araçlar"];
-                    [cell setAccessoryType:UITableViewCellAccessoryNone];
-                }
-                [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
-            }
+            if([ApplicationProperties getMainSelection] != location_search)
+                [[cell officeLabel] setText:@"Şehir / Havalimanı Seçiniz"];
             else
             {
-                [[cell textLabel] setText:reservation.checkOutOffice.subOfficeName];
-                [[cell textLabel] setNumberOfLines:0];
+                [[cell officeLabel] setText:@"Size En Yakın Araçlar"];
+                [cell setAccessoryType:UITableViewCellAccessoryNone];
             }
+            
         }
         else
         {
-            
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"dd.MM.yyyy"];
-            
-            NSDateFormatter *formatter2 = [[NSDateFormatter alloc] init];
-            [formatter2 setDateFormat:@"HH:mm"];
-            
-            //Optionally for time zone converstions
-            NSString *stringFromDate = [formatter stringFromDate:[reservation checkOutTime]];
-            NSString *stringFromTime = [formatter2 stringFromDate:[reservation checkOutTime]];
-            
-            if (reservation.checkOutTime == nil && reservation.checkOutTime == nil)
+            if([ApplicationProperties getMainSelection] == location_search)
             {
-                [[cell textLabel] setText:@"Tarih / Saat Seçiniz"];
-                [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
+                [[cell officeLabel] setTextColor:[UIColor lightGrayColor]];
+                [cell setAccessoryType:UITableViewCellAccessoryNone];
             }
-            else
-                [[cell textLabel] setText:[NSString stringWithFormat:@"%@%@%@",stringFromDate,@" - ",stringFromTime]];
+            
+            [[cell officeLabel] setText:reservation.checkOutOffice.subOfficeName];
         }
     }
     else
     {
-        if ([indexPath row] == 0)
+        if (reservation.checkInOffice == nil)
         {
-            if (reservation.checkInOffice == nil)
-            {
-                [[cell textLabel] setText:@"Şehir / Havalimanı Seçiniz"];
-                [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
-            }
-            else
-            {
-                [[cell textLabel] setText:reservation.checkInOffice.subOfficeName];
-                [[cell textLabel] setNumberOfLines:0];
-            }
+            [[cell officeLabel] setText:@"Şehir / Havalimanı Seçiniz"];
         }
         else
         {
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"dd.MM.yyyy"];
-            
-            NSDateFormatter *formatter2 = [[NSDateFormatter alloc] init];
-            [formatter2 setDateFormat:@"HH:mm"];
-            
-            //Optionally for time zone converstions
-            NSString *stringFromDate = [formatter stringFromDate:[reservation checkInTime]];
-            NSString *stringFromTime = [formatter2 stringFromDate:[reservation checkInTime]];
-            
-            if (reservation.checkOutTime == nil)
-            {
-                [[cell textLabel] setText:@"Tarih / Saat Seçiniz"];
-                [[cell textLabel] setTextColor:[UIColor lightGrayColor]];
-            }
-            else
-                [[cell textLabel] setText:[NSString stringWithFormat:@"%@%@%@",stringFromDate,@" - ",stringFromTime]];
+            [[cell officeLabel] setText:reservation.checkInOffice.subOfficeName];
+            [[cell officeLabel] setNumberOfLines:0];
         }
     }
     
+    return cell;
+}
+
+- (TimeSelectionCell *)timeSelectTableViewCell:(UITableView *)tableView
+{
     
+    TimeSelectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"timeCell"];
+    if (!cell) {
+        cell = [TimeSelectionCell new];
+    }
+    
+    if ([tableView tag] == kCheckOutTag)
+    {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"dd.MM.yyyy"];
+        
+        NSDateFormatter *formatter2 = [[NSDateFormatter alloc] init];
+        [formatter2 setDateFormat:@"HH:mm"];
+        
+        //Optionally for time zone converstions
+        NSString *stringFromDate = [formatter stringFromDate:[reservation checkOutTime]];
+        NSString *stringFromTime = [formatter2 stringFromDate:[reservation checkOutTime]];
+        
+        if (reservation.checkOutTime == nil && reservation.checkOutTime == nil)
+        {
+            [[cell timeLabel] setText:@"Tarih / Saat Seçiniz"];
+        }
+        else
+            [[cell timeLabel] setText:[NSString stringWithFormat:@"%@%@%@",stringFromDate,@" - ",stringFromTime]];
+    }
+    else
+    {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"dd.MM.yyyy"];
+        
+        NSDateFormatter *formatter2 = [[NSDateFormatter alloc] init];
+        [formatter2 setDateFormat:@"HH:mm"];
+        
+        //Optionally for time zone converstions
+        NSString *stringFromDate = [formatter stringFromDate:[reservation checkInTime]];
+        NSString *stringFromTime = [formatter2 stringFromDate:[reservation checkInTime]];
+        
+        if (reservation.checkInTime == nil)
+        {
+            [[cell timeLabel] setText:@"Tarih / Saat Seçiniz"];
+            [[cell timeLabel] setTextColor:[UIColor lightGrayColor]];
+        }
+        else
+            [[cell timeLabel] setText:[NSString stringWithFormat:@"%@%@%@",stringFromDate,@" - ",stringFromTime]];
+    }
     
     return cell;
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -225,49 +252,45 @@
     }
 }
 
-- (UITableViewCell *)getMenuCell:(UITableViewCellStyle)style
-{
-    static NSString *cellType = @"Cell";
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:cellType];
-    
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    [cell setBackgroundColor:[ApplicationProperties getMenuCellBackground]];
-    [cell setOpaque:YES];
-    [[cell textLabel] setTextColor:[ApplicationProperties getBlack]];
-    [[cell textLabel] setFont:[UIFont fontWithName:[ApplicationProperties getFont] size:24.0]];
-    [[cell detailTextLabel] setFont:[UIFont fontWithName:[ApplicationProperties getFont] size:16.0]];
-    
-    return cell;
-}
-
-- (UITableViewCell *)refreshCell:(UITableViewCell *)cell
-{
-    [[cell imageView] setImage:nil];
-    [[cell textLabel] setText:@""];
-    [[cell detailTextLabel] setText:@""];
-    [cell setAccessoryType:UITableViewCellAccessoryNone];
-    [cell setAccessoryView:nil];
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    
-    return cell;
-}
+//- (UITableViewCell *)getMenuCell:(UITableViewCellStyle)style
+//{
+//    static NSString *cellType = @"Cell";
+//    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:cellType];
+//    
+//    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+//    [cell setBackgroundColor:[ApplicationProperties getMenuCellBackground]];
+//    [cell setOpaque:YES];
+//    [[cell textLabel] setTextColor:[ApplicationProperties getBlack]];
+//    [[cell textLabel] setFont:[UIFont fontWithName:[ApplicationProperties getFont] size:24.0]];
+//    [[cell detailTextLabel] setFont:[UIFont fontWithName:[ApplicationProperties getFont] size:16.0]];
+//    
+//    return cell;
+//}
+//
+//- (UITableViewCell *)refreshCell:(UITableViewCell *)cell
+//{
+//    [[cell imageView] setImage:nil];
+//    [[cell textLabel] setText:@""];
+//    [[cell detailTextLabel] setText:@""];
+//    [cell setAccessoryType:UITableViewCellAccessoryNone];
+//    [cell setAccessoryView:nil];
+//    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+//    
+//    return cell;
+//}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSString *sectionName;
     if (tableView == destinationTableView) {
-        sectionName = @"ARAÇ TESLİM";
+        sectionName = @"Alış";
     }
     else
     {
-        sectionName = @"ARAÇ İADE";
+        sectionName = @"Dönüş";
     }
     
     return sectionName;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 25;
 }
 
 - (void)tableViewDidReturn:(id)sender
@@ -282,7 +305,7 @@
 #pragma mark - gateway connection delegates
 
 - (void)getOfficesFromSAP {
-        
+    
     @try {
         
         SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZMOB_KDK_GET_SUBE_CALISMA_SAAT"];
@@ -319,8 +342,8 @@
                 [tempOffice setAddress:[tempDict valueForKey:@"ADRES"]];
                 [tempOffice setTel:[tempDict valueForKey:@"TEL"]];
                 [tempOffice setFax:[tempDict valueForKey:@"FAX"]];
-                [tempOffice setLongitude:[tempDict valueForKey:@"YKORD"]];
-                [tempOffice setLatitude:[tempDict valueForKey:@"XKORD"]];
+                [tempOffice setLongitude:[tempDict valueForKey:@"XKORD"]];
+                [tempOffice setLatitude:[tempDict valueForKey:@"YKORD"]];
                 
                 
                 NSMutableArray *workingHoursArray = [NSMutableArray new];
@@ -371,9 +394,8 @@
     
 }
 
-- (void)showCarGroup:(id)sender
+- (IBAction)showCarGroup:(id)sender
 {
-    
     NSDate *checkInTime;
     NSDate *checkInDate;
     NSDate *checkOutTime;
@@ -409,6 +431,19 @@
     checkInTime = [calendar dateFromComponents:checkInTimeComp];
     checkOutTime = [calendar dateFromComponents:checkOutTimeComp];
     nowTime = [calendar dateFromComponents:nowTimeComp];
+    
+    UIAlertView *errorAlertView;
+    if ([ApplicationProperties getMainSelection] != location_search && reservation.checkOutOffice == nil) {
+        errorAlertView = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Lütfen çıkış ofisi seçiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        [errorAlertView show];
+        return;
+    }
+    if (reservation.checkInOffice == nil) {
+        errorAlertView = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Lütfen dönüş ofisi seçiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        [errorAlertView show];
+        return;
+    }
+    
     if([checkOutDate compare:nowDate] == NSOrderedAscending){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Geçmişe dönük rezervasyon yapılamaz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
         
@@ -431,6 +466,7 @@
         [alert show];
         return;
     }
+    
     else if ([checkInDate compare:checkOutDate] == NSOrderedSame)
     {
         if ([checkInTime compare:checkOutTime] == NSOrderedAscending) {
@@ -470,18 +506,6 @@
 
 - (void)getAvailableCarsFromSAP {
     
-    UIAlertView *errorAlertView;
-    if ([ApplicationProperties getMainSelection] != location_search && reservation.checkOutOffice == nil) {
-        errorAlertView = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Lütfen çıkış ofisi seçiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-        [errorAlertView show];
-        return;
-    }
-    if (reservation.checkInOffice == nil) {
-        errorAlertView = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Lütfen dönüş ofisi seçiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-        [errorAlertView show];
-        return;
-    }
-    
     @try {
         
         SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZMOB_GET_AVAIL_ARAC"];
@@ -490,21 +514,21 @@
         [dateFormatter setDateFormat:@"yyyyMMdd"];
         
         NSDateFormatter *timeFormatter  = [NSDateFormatter new];
-        [timeFormatter setDateFormat:@"hh:mm:ss"];
+        [timeFormatter setDateFormat:@"HH:mm"];
         
         if ([ApplicationProperties getMainSelection] != location_search) {
             if (reservation.checkOutOffice.isPseudoOffice) {
-                [handler addImportParameter:@"IMPP_SEHIR" andValue:reservation.checkInOffice.cityCode];
+                [handler addImportParameter:@"IMPP_SEHIR" andValue:reservation.checkOutOffice.cityCode];
             }
             else {
-                [handler addImportParameter:@"IMPP_MSUBE" andValue:reservation.checkInOffice.subOfficeCode];
+                [handler addImportParameter:@"IMPP_MSUBE" andValue:reservation.checkOutOffice.subOfficeCode];
             }
         }
         else {
             Office *closestOffice = [self prepareOfficeImport];
             
             if (closestOffice != nil) {
-                [handler addImportParameter:@"IMPP_MSUBE" andValue:reservation.checkInOffice.subOfficeCode];
+                [handler addImportParameter:@"IMPP_MSUBE" andValue:closestOffice.subOfficeCode];
             }
             else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Bulunduğunuz noktaya yakın şube bulunamadı. Lütfen lokasyon servislerinizin çalıştığından emin olup, tekrar deneyiniz" delegate:nil cancelButtonTitle:@"tamam" otherButtonTitles:nil];
@@ -521,7 +545,7 @@
         [handler addImportParameter:@"IMPP_KDGRP" andValue:@"40"];
         
         User *user =[ApplicationProperties getUser];
-        if ([ user isLoggedIn]) {
+        if ([user isLoggedIn]) {
             [handler addImportParameter:@"IMPP_KUNNR" andValue:[user kunnr]];
             
             if ([user driversLicenseDate] != nil) {
@@ -561,7 +585,7 @@
                 
                 // TODO : buna mutlaka bakmak lazım hiç anlamadım
                 //                [reservation setEtReserv:availServiceResponse.ET_RESERVSet];
-//                [self navigateToNextVC];
+                //                [self navigateToNextVC];
             }
         }
     }
@@ -590,6 +614,10 @@
 
 #pragma mark - Location Delegation Methods
 
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    lastLocation = locations.lastObject;
+}
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
     lastLocation = newLocation;
 }
@@ -639,33 +667,12 @@
 
 - (void)prepareScreen
 {
-    
-    [self setIphoneLayer];
-    [arrivalTableView setRowHeight:45];
-    [destinationTableView setRowHeight:45];
-    
-    //
-    //    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Giriş" style:UIBarButtonItemStyleBordered target:self action:@selector(login:)];
-    //    [[self navigationItem] setRightBarButtonItem:barButton];
-    
-    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-                                                           [ApplicationProperties getBlack], NSForegroundColorAttributeName,
-                                                           [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0], NSFontAttributeName, nil]];
-    
-    [searchButton setTitle:@"Teklifleri Göster" forState:UIControlStateNormal];
     [[searchButton layer] setCornerRadius:5.0f];
-    [searchButton setBackgroundColor:[ApplicationProperties getGreen]];
-    [searchButton setTintColor:[ApplicationProperties getWhite]];
-    [searchButton addTarget:self action:@selector(showCarGroup:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.view addSubview:searchButton];
     
     // aracın alınacağı yer
     [[destinationTableView layer] setCornerRadius:5.0f];
     [[destinationTableView layer] setBorderWidth:0.3f];
     [destinationTableView setClipsToBounds:YES];
-    [destinationTableView setDelegate:self];
-    [destinationTableView setDataSource:self];
     [destinationTableView setScrollEnabled:NO];
     [destinationTableView setTag:kCheckOutTag];
     
@@ -673,34 +680,11 @@
     [[arrivalTableView layer] setCornerRadius:5.0f];
     [[arrivalTableView layer] setBorderWidth:0.3f];
     [arrivalTableView setClipsToBounds:YES];
-    [arrivalTableView setDelegate:self];
-    [arrivalTableView setDataSource:self];
     [arrivalTableView setScrollEnabled:NO];
     [arrivalTableView setTag:kCheckInTag];
     
-    [self.view addSubview:destinationTableView];
-    [self.view addSubview:arrivalTableView];
-}
-
-- (void)setIphoneLayer
-{
-    
-    [arrivalTableView setRowHeight:50];
-    [destinationTableView setRowHeight:50];
-    
-    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-    
-    destinationTableView = [[UITableView alloc] initWithFrame:CGRectMake(viewFrame.size.width * 0.05 ,viewFrame.origin.y + (viewFrame.size.height * 0.05),viewFrame.size.width * 0.9, 115) style:UITableViewStyleGrouped];
-    
-    arrivalTableView = [[UITableView alloc] initWithFrame:
-                        CGRectMake (viewFrame.size.width * 0.05 ,
-                                    destinationTableView.frame.size.height+destinationTableView.frame.origin.y + (viewFrame.size.height *0.10) ,
-                                    viewFrame.size.width * 0.9,
-                                    115) style:UITableViewStyleGrouped];
-    
-    searchButton = [[UIButton alloc] initWithFrame:CGRectMake (viewFrame.size.width * 0.05,
-                                                               arrivalTableView.frame.origin.y + arrivalTableView.frame.size.height + viewFrame.size.height * 0.10, arrivalTableView.frame.size.width, 40)];
-    
+    [arrivalTableView reloadData];
+    [destinationTableView reloadData];
 }
 
 - (void)addNotifications{
@@ -876,7 +860,7 @@
     NSPredicate *dayPredicate = [NSPredicate predicateWithFormat:@"weekDayCode=%@",[NSString stringWithFormat:@"%@%i",@"0",checkOutWeekday]];
     NSArray *checkOutDayArray = [reservation.checkOutOffice.workingDates filteredArrayUsingPredicate:dayPredicate];
     
-    if ([checkOutDayArray count] == 0 && !reservation.checkOutOffice.isPseudoOffice)
+    if ([checkOutDayArray count] == 0 && !reservation.checkOutOffice.isPseudoOffice && [ApplicationProperties getMainSelection] != location_search)
     {
         completion(NO,[NSString stringWithFormat:@"%@ seçmiş olduğunuz gün çalışmamaktadır. Lütfen tekrar kontrol ediniz.",reservation.checkOutOffice.subOfficeName]);
         
@@ -913,7 +897,7 @@
     NSString *str = [dateFormatter stringFromDate:reservation.checkOutTime];
     NSDate *reservationCheckOutTime = [dateFormatter dateFromString:str];
     
-
+    
     // TESLİM EDECEĞİ OFİSİN AÇILIŞ SAATİ
     NSDate *checkInStartTime = [dateFormatter dateFromString:checkInWorkingTime.startTime];
     

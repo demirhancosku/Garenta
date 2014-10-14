@@ -10,6 +10,7 @@
 #import "User.h"
 #import "Office.h"
 #import "Reservation.h"
+#import "CarGroupTableVC.h"
 #import <CoreLocation/CoreLocation.h>
 @interface ApplicationProperties : NSObject
 typedef enum{
@@ -57,6 +58,9 @@ typedef enum{
 + (void)configureCreditCardService;
 //aktiflik
 + (BOOL)isActiveVersion;
+
++ (BOOL)checkYoungDriverAddition:(CarGroup *)selectedCarGroup andBirthday:(NSDate *)birthday andLicenseDate:(NSDate *)licenseDate;
++ (BOOL)isCarGroupAvailableByAge:(CarGroup *)activeCarGroup andBirthday:(NSDate *)birthday;
 
 + (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation;
 
