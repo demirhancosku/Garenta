@@ -119,6 +119,7 @@
 
 #pragma mark - rezervasyon
 
+/*
 - (void)createReservationAtSAP {
 
     @try {
@@ -353,7 +354,7 @@
     }
     
 }
-
+*/
 - (void)createReservation{
     NSDateFormatter *dateFormatter =[NSDateFormatter new];
     [dateFormatter setDateFormat:@"HH:mm"];
