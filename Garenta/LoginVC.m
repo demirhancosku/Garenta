@@ -41,7 +41,7 @@
     [super   viewWillAppear:animated];
 
     [_usernameTextField setText:@"suleyman.nalci@abh.com.tr"];
-    [_passwordTextField setText:@"p1976"];
+    [_passwordTextField setText:@"numq0"];
     
     [[self view] setBackgroundColor:[ApplicationProperties getWhite]];
 }
