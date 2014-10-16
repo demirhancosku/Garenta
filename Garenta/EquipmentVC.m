@@ -74,7 +74,7 @@
     }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"additionalDriverAdded" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
-        [[self myPopoverController] dismissPopoverAnimated:YES];
+//        [[self myPopoverController] dismissPopoverAnimated:YES];
         [self addYoungDriver];
         [self recalculate];
         [_additionalEquipmentsTableView reloadData];
@@ -114,18 +114,31 @@
                 AdditionalEquipment *tempYoungDriverEqui = [youngDriverFilter objectAtIndex:0];
                 AdditionalEquipment *tempSecureEqui = [maxSecureFilter objectAtIndex:0];
                 
+                // eğer daha önce max.güvence himeti eklenmediyse 1 eklenir
+                if (tempSecureEqui.quantity == 0)
+                {
+                    [_additionalEquipments removeObject:tempSecureEqui];
+                    
+                    tempSecureEqui.quantity = 1;
+                    tempSecureEqui.isRequired = YES;
+                    [_additionalEquipments insertObject:tempSecureEqui atIndex:0];
+                }
+                else if (tempSecureEqui.quantity > 0 && !tempSecureEqui.isRequired)
+                {
+                    [_additionalEquipments removeObject:tempSecureEqui];
+                    tempSecureEqui.isRequired = YES;
+                    [_additionalEquipments insertObject:tempSecureEqui atIndex:0];
+                }
+                
                 [tempYoungDriverEqui setIsRequired:YES];
                 [tempYoungDriverEqui setQuantity:1];
                 [tempYoungDriverEqui setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
                 [_additionalEquipments insertObject:tempYoungDriverEqui atIndex:0];
                 
-                // eğer daha önce max.güvence himeti eklenmediyse 1 arttırılır
-                if (tempSecureEqui.quantity == 0)
-                    tempSecureEqui.quantity = 1;
+                [self showAlertForYoungDriver];
             }
         }
     }
-    
 }
 
 - (void)showAlertForYoungDriver
@@ -532,19 +545,49 @@
     AdditionalEquipment*additionalEquipment = [_additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
     if (additionalEquipment.type ==additionalDriver)
     {
-        AdditionalEquipment *temp = [self.reservation.additionalDrivers objectAtIndex:self.reservation.additionalDrivers.count - 1];
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:[NSString stringWithFormat:@"%@ %@ isimli ek sürücü silinmiştir",temp.additionalDriverFirstname, temp.additionalDriverSurname] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
-        [alert show];
-        
+        [self deleteAdditionalDriver];
         [self.reservation.additionalDrivers removeLastObject];
-        [self recalculate];
     }
     else
     {
         int newValue = [additionalEquipment quantity]-1;
         [additionalEquipment setQuantity:newValue];
-        [self recalculate];
+    }
+    
+    [self recalculate];
+}
+
+- (void)deleteAdditionalDriver
+{
+    AdditionalEquipment *temp = [self.reservation.additionalDrivers objectAtIndex:self.reservation.additionalDrivers.count - 1];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:[NSString stringWithFormat:@"%@ %@ isimli ek sürücü silinmiştir",temp.additionalDriverFirstname, temp.additionalDriverSurname] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+    [alert show];
+    
+    if (temp.isAdditionalYoungDriver)
+    {
+        NSPredicate *youngDriverPredicate = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0007"];
+        NSPredicate *maxSecure = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0012"];
+        NSArray *youngDriverFilter;
+        NSArray *maxSecureFilter;
+        youngDriverFilter = [_additionalEquipments filteredArrayUsingPredicate:youngDriverPredicate];
+        maxSecureFilter = [_additionalEquipments filteredArrayUsingPredicate:maxSecure];
+        
+        if (youngDriverFilter.count > 0)
+        {
+            AdditionalEquipment *youngDriverTemp = [youngDriverFilter objectAtIndex:0];
+            if (youngDriverTemp.quantity == 1)
+            {
+                [_additionalEquipments removeObject:[youngDriverFilter objectAtIndex:0]];
+                if (maxSecureFilter.count > 0)
+                {
+                    [[maxSecureFilter objectAtIndex:0] setIsRequired:NO];
+                    [[maxSecureFilter objectAtIndex:0] setQuantity:0];
+                }
+            }
+            else if (youngDriverTemp.quantity > 1)
+                [youngDriverTemp setQuantity:youngDriverTemp.quantity - 1];
+        }
     }
 }
 
@@ -564,15 +607,8 @@
         [(CarSelectionVC*)  [segue destinationViewController] setCarSelectionArray:_carSelectionArray];
     }
     
-    if ([[segue identifier] isEqualToString:@"toAdditionalDriverVCSegue"]) {
-        WYStoryboardPopoverSegue* popoverSegue = (WYStoryboardPopoverSegue*)segue;
-        
-        UIViewController* destinationViewController = (UIViewController *)segue.destinationViewController;
-        destinationViewController.preferredContentSize = CGSizeMake(320, self.view.frame.size.width);       // Deprecated in iOS7. Use 'preferredContentSize' instead.
-        
-        self.myPopoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionNone animated:YES];
-        self.myPopoverController.delegate = self;
-        
+    if ([[segue identifier] isEqualToString:@"toAdditionalDriverVCSegue"])
+    {
         [(AdditionalDriverVC*)segue.destinationViewController setReservation:self.reservation];
         for (AdditionalEquipment *tempEquipment in self.additionalEquipments) {
             if (tempEquipment.type == additionalDriver) {

@@ -95,7 +95,6 @@
     //min.Yaş ve min.Ehliyet yılı kontrollerine bakarak hizmet bedeli alınıp alınmayacağına bakar.
     if ([ApplicationProperties checkYoungDriverAddition:_reservation.selectedCarGroup andBirthday:_birthdayPicker.date andLicenseDate:_licenseDatePicker.date])
     {
-        
         [[self myDriver] setIsAdditionalYoungDriver:YES];
         return YES;
     }
@@ -129,6 +128,7 @@
         
         [self.reservation.additionalDrivers addObject:self.myDriver];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"additionalDriverAdded" object:nil];
+        [[self navigationController] popViewControllerAnimated:YES];
     }
     else
     {
