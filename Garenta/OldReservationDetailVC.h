@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "WYStoryboardPopoverSegue.h"
 
-@interface OldReservationDetailVC : UIViewController <WYPopoverControllerDelegate>
+@interface OldReservationDetailVC : UIViewController <WYPopoverControllerDelegate,UIActionSheetDelegate,UIAlertViewDelegate>
 {
     WYPopoverController* popoverController;
 }

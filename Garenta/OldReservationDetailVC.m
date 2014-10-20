@@ -9,6 +9,7 @@
 #import "OldReservationDetailVC.h"
 #import "MBProgressHUD.h"
 #import "ReservationScopePopoverVC.h"
+#import "ClassicSearchVC.h"
 
 @interface OldReservationDetailVC ()
 
@@ -21,6 +22,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *passangerNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *doorCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *checkOutOfficeLabel;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *processButton;
+
+-(IBAction)processButtonPressed:(id)sender;
 
 @end
 
@@ -33,14 +37,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
+    
     NSString *brandModelString;
     if (_reservation.selectedCar) {
         brandModelString = [NSString stringWithFormat:@"%@ %@",_reservation.selectedCar.brandName,_reservation.selectedCar.modelName];
     }else{
         brandModelString = [NSString stringWithFormat:@"%@ %@ ve benzeri",_reservation.selectedCarGroup.sampleCar.brandName, _reservation.selectedCarGroup.sampleCar.modelName];
     }
-
+    
     [_brandModelLabel setText:brandModelString];
     
     [_carImageView setImage:_reservation.selectedCarGroup.sampleCar.image];
@@ -49,7 +53,14 @@
     [_acLabel setText:@"Klima"];
     [_passangerNumberLabel setText:_reservation.selectedCarGroup.sampleCar.passangerNumber];
     [_doorCountLabel setText:_reservation.selectedCarGroup.sampleCar.doorNumber];
+    
+}
 
+- (IBAction)processButtonPressed:(id)sender
+{
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Lütfen yapmak istediğiniz işlemi seçiniz." delegate:self cancelButtonTitle:@"Geri" destructiveButtonTitle:@"Araç Değişikliği" otherButtonTitles:@"Rezervasyon Güncelleme",@"Rezervasyon İptal", nil];
+    
+    [sheet showInView:self.view];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -138,6 +149,11 @@
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    if ([segue.identifier isEqualToString:@"toChangeSearchVCSegue"])
+    {
+        [(ClassicSearchVC *)[segue destinationViewController] setReservation:_reservation];
+        [(ClassicSearchVC *)[segue destinationViewController] setIsReservationChange:YES];
+    }
     if ([segue.identifier isEqualToString:@"toDetailPopoverVCSegue"])
     {
         WYStoryboardPopoverSegue* popoverSegue = (WYStoryboardPopoverSegue*)segue;
@@ -151,6 +167,171 @@
         popoverController.delegate = self;
     }
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (alertView.tag)
+    {
+        case 0:
+            if (buttonIndex == 1)
+            {
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                    
+                   [self cancelReservation];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    });
+                });
+            }
+            break;
+        case 1:
+            if (buttonIndex == 0)
+                [[self navigationController] popViewControllerAnimated:YES];
+            break;
+        case 2:
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0: //araç değişikliği
+            break;
+        case 1: // rezervasyon güncelleme
+            [self changeReservation];
+            break;
+        case 2: // rezervasyon iptal
+            [self getFineAndRefundPrice]; //belgeyi iptal ederken iade ve ceza tutarlarını çağırır.
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)changeReservation
+{
+    [self performSegueWithIdentifier:@"toChangeSearchVCSegue" sender:nil];
+}
+
+// REZERVASYON BELGESİNİ İPTAL EDER
+- (void)cancelReservation
+{
+    NSString *alertString = @"";
+    BOOL isOk = NO;
+    
+    @try
+    {
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZNET_CANCEL_REZERVASYON"];
+        
+        [handler addImportParameter:@"IV_REZ_NO" andValue:_reservation.reservationNumber];
+        
+        NSDictionary *response = [handler prepCall];
+        
+        if (response != nil)
+        {
+            NSDictionary *export = [response objectForKey:@"EXPORT"];
+            NSString *subrc = [export valueForKey:@"EV_SUBRC"];
+            
+            if ([subrc isEqualToString:@"0"])
+            {
+                alertString = [NSString stringWithFormat:@"%@ numaralı rezervasyonunuz başarıyla iptal edilmiştir.",_reservation.reservationNumber];
+                isOk = YES;
+            }
+            else
+            {
+                alertString = @"Rezervasyonunuz iptal edilirken sorun oluşmuştur, lütfen tekrar deneyiniz.";
+            }
+        }
+        else
+        {
+            alertString = @"Rezervasyonunuz iptal edilirken sorun oluşmuştur, lütfen tekrar deneyiniz.";
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!isOk)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                [alert show];
+            }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Başarılı" message:alertString delegate:self cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                alert.tag = 1;
+                [alert show];
+            }
+        });
+    }
+}
+
+// CEZA VE İADE TUTARINI ÇEKER, EĞER KULLANICI ONAYLIYORSA "cancelReservation" METODU ÇAĞIRILIR.
+- (void)getFineAndRefundPrice
+{
+    NSString *alertString = @"";
+    BOOL isOk = NO;
+    
+    @try
+    {
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZNET_IPTAL_CEZA_TUTAR"];
+        
+        [handler addImportParameter:@"IV_REZ_NO" andValue:_reservation.reservationNumber];
+        
+        NSDictionary *response = [handler prepCall];
+        
+        if (response != nil)
+        {
+            NSDictionary *export = [response objectForKey:@"EXPORT"];
+            NSString *subrc = [export valueForKey:@"EV_SUBRC"];
+            
+            if ([subrc isEqualToString:@"0"])
+            {
+                NSString *finePrice = [export valueForKey:@"EV_CEZA_TUTAR"];
+                NSString *refundPrice = [export valueForKey:@"EV_IADE_TUTAR"];
+                
+                alertString = [NSString stringWithFormat:@"Ödemeniz gereken ceza tutarı: %.02f TL, İade edilecek tutar: %.02f TL",finePrice.floatValue,refundPrice.floatValue];
+                
+                isOk = YES;
+            }
+            else
+            {
+                alertString = @"İptal sırasında bir sorun oluşmuştur lütfen tekrar deneyiniz.";
+            }
+        }
+        else
+        {
+            alertString = @"İptal sırasında bir sorun oluşmuştur lütfen tekrar deneyiniz.";
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!isOk)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                [alert show];
+            }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"İptal işlemini onaylıyor musunuz?" message:alertString delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Evet",nil];
+                alert.tag = 0;
+                [alert show];
+            }
+        });
+    }
+}
+
 
 /*
  #pragma mark - Navigation

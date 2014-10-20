@@ -15,6 +15,7 @@
 #import "ZGARENTA_LOGIN_SRV_01RequestHandler.h"
 #import "ZGARENTA_GET_CUST_KK_SRVRequestHandler.h"
 #import <objc/runtime.h>
+#import "OfficeHolidayTime.h"
 @implementation ApplicationProperties
 MainSelection mainSelection;
 static User* myUser;

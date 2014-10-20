@@ -28,19 +28,19 @@
     NSMutableArray *offices;
     CLLocationManager *locationManager;
     NSMutableData *bigData;
-    Reservation *reservation;
     NSMutableArray *availableCarGroups;
     CLLocation  *lastLocation;
     int selectedTag;
 }
 
+@property BOOL isReservationChange;
 @property (strong,nonatomic) IBOutlet UITableView *destinationTableView;
 @property (strong,nonatomic) IBOutlet UITableView *arrivalTableView;
 @property (strong,nonatomic) IBOutlet UIButton *searchButton;
 @property (strong,nonatomic) WYPopoverController *myPopoverController;
+@property (strong,nonatomic) Reservation *reservation;
 @property (nonatomic, retain) UIPopoverController *popOver;
 
 - (IBAction)showCarGroup:(id)sender;
-- (id)initWithFrame:(CGRect)frame;
 
 @end

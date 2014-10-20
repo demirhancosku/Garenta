@@ -23,7 +23,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     reservationList = [NSMutableArray new];
     _reservation = [Reservation new];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -248,6 +252,7 @@
                     CarGroup *tempCarGroup = [CarGroup new];
                     
                     tempCarGroup = [CarGroup new];
+                    tempCarGroup.cars = [NSMutableArray new];
                     
                     [tempCarGroup setGroupCode:[tempDict valueForKey:@"GRPKOD"]];
                     [tempCarGroup setGroupName:[tempDict valueForKey:@"GRPKODTX"]];
@@ -266,6 +271,7 @@
                     [tempCarGroup setMinYoungDriverLicense:[[tempDict valueForKey:@"GENC_SRC_EHL"] integerValue]];
                     
                     [tempCarGroup setSampleCar:tempCar];
+                    [tempCarGroup.cars addObject:tempCar];
                     
                     [_reservation setSelectedCarGroup:tempCarGroup];
                 }
