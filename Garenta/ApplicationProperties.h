@@ -65,4 +65,6 @@ typedef enum{
 + (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation;
 
 + (void)fillProperties:(id)object;
+
++ (void)loginToSap:(NSString *)username andPassword:(NSString *)password;
 @end

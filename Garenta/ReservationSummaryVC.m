@@ -48,7 +48,6 @@
 @implementation ReservationSummaryVC
 
 
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 
 {
@@ -429,8 +428,6 @@
     }
 }
 
-
-
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 
@@ -455,9 +452,6 @@
         popoverController.delegate = self;
     }
 }
-
-
-
 
 - (void)totalButtonPressed{
     if (_isTotalPressed) {

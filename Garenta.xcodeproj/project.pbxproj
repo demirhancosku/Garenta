@@ -28,9 +28,12 @@
 		0C4C9A8318462EAB00CD3728 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A8218462EAB00CD3728 /* XCTest.framework */; };
 		0C4C9A8418462EAB00CD3728 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6918462EAB00CD3728 /* Foundation.framework */; };
 		0C4C9A8518462EAB00CD3728 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6D18462EAB00CD3728 /* UIKit.framework */; };
+		0C4FF37919EFFE3C00E06A71 /* OldReservationListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4FF37819EFFE3C00E06A71 /* OldReservationListVC.m */; };
+		0C4FF37C19F00BF300E06A71 /* OldReservationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4FF37B19F00BF300E06A71 /* OldReservationTableViewCell.m */; };
 		0C5B5FC81864770F0060BECD /* CalendarTimeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5B5FC71864770F0060BECD /* CalendarTimeVC.m */; };
 		0C5B5FEA18649A870060BECD /* UserLoginPic.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE918649A870060BECD /* UserLoginPic.png */; };
 		0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */; };
+		0C6CF63E19F064AC006B3174 /* OldReservationDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6CF63D19F064AC006B3174 /* OldReservationDetailVC.m */; };
 		0C893D87187884E5006AFF0A /* SliderHandle.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C893D86187884E5006AFF0A /* SliderHandle.png */; };
 		0C9299DF18689E95007DE6B8 /* EquipmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9299DE18689E95007DE6B8 /* EquipmentVC.m */; };
 		0C99695C19E830E3008E7199 /* TimeSelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C99695B19E830E3008E7199 /* TimeSelectionCell.m */; };
@@ -234,10 +237,16 @@
 		0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationProperties.m; sourceTree = "<group>"; };
 		0C4C9AA8184639FE00CD3728 /* BaseTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableVC.h; sourceTree = "<group>"; };
 		0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableVC.m; sourceTree = "<group>"; };
+		0C4FF37719EFFE3C00E06A71 /* OldReservationListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationListVC.h; sourceTree = "<group>"; };
+		0C4FF37819EFFE3C00E06A71 /* OldReservationListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationListVC.m; sourceTree = "<group>"; };
+		0C4FF37A19F00BF300E06A71 /* OldReservationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationTableViewCell.h; sourceTree = "<group>"; };
+		0C4FF37B19F00BF300E06A71 /* OldReservationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationTableViewCell.m; sourceTree = "<group>"; };
 		0C5B5FC61864770F0060BECD /* CalendarTimeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarTimeVC.h; sourceTree = "<group>"; };
 		0C5B5FC71864770F0060BECD /* CalendarTimeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarTimeVC.m; sourceTree = "<group>"; };
 		0C5B5FE918649A870060BECD /* UserLoginPic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UserLoginPic.png; sourceTree = "<group>"; };
 		0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GarentaSmallLogo.png; sourceTree = SOURCE_ROOT; };
+		0C6CF63C19F064AC006B3174 /* OldReservationDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationDetailVC.h; sourceTree = "<group>"; };
+		0C6CF63D19F064AC006B3174 /* OldReservationDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationDetailVC.m; sourceTree = "<group>"; };
 		0C893D86187884E5006AFF0A /* SliderHandle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SliderHandle.png; sourceTree = "<group>"; };
 		0C9299DD18689E95007DE6B8 /* EquipmentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipmentVC.h; sourceTree = "<group>"; };
 		0C9299DE18689E95007DE6B8 /* EquipmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EquipmentVC.m; sourceTree = "<group>"; };
@@ -1330,6 +1339,12 @@
 		B5A2CAE41872B51700271DE9 /* oldReservationVCs */ = {
 			isa = PBXGroup;
 			children = (
+				0C4FF37719EFFE3C00E06A71 /* OldReservationListVC.h */,
+				0C4FF37819EFFE3C00E06A71 /* OldReservationListVC.m */,
+				0C6CF63C19F064AC006B3174 /* OldReservationDetailVC.h */,
+				0C6CF63D19F064AC006B3174 /* OldReservationDetailVC.m */,
+				0C4FF37A19F00BF300E06A71 /* OldReservationTableViewCell.h */,
+				0C4FF37B19F00BF300E06A71 /* OldReservationTableViewCell.m */,
 				B5A2CAE51872B60100271DE9 /* MinimumInfoVC.h */,
 				B5A2CAE61872B60100271DE9 /* MinimumInfoVC.m */,
 				B5A2CAE71872B60100271DE9 /* MinimumInfoVC.xib */,
@@ -1647,6 +1662,7 @@
 				0CBA77BD186447AB0008CE29 /* LoginVC.m in Sources */,
 				0C99695C19E830E3008E7199 /* TimeSelectionCell.m in Sources */,
 				B5A2CAE81872B60100271DE9 /* MinimumInfoVC.m in Sources */,
+				0C6CF63E19F064AC006B3174 /* OldReservationDetailVC.m in Sources */,
 				B592119F195DA38D00A54E0E /* ReservationScopePopoverVC.m in Sources */,
 				0C5B5FC81864770F0060BECD /* CalendarTimeVC.m in Sources */,
 				B57E43B6191CC18800686A47 /* ZGARENTA_versiyon_srvServiceV0.m in Sources */,
@@ -1678,6 +1694,7 @@
 				B56F5F6D19598764005B5B92 /* ReservationApprovalVC.m in Sources */,
 				E1ED735C19E5486C00D3E324 /* MBProgressHUD.m in Sources */,
 				B52462231924D8A100FC482B /* CarGroupTableVC.m in Sources */,
+				0C4FF37919EFFE3C00E06A71 /* OldReservationListVC.m in Sources */,
 				0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */,
 				9E53F68E18BF8F150076CFFF /* UserCreationVC.m in Sources */,
 				9E38C3BD1869EA8100EBD29E /* CarGroupFilterVC.m in Sources */,
@@ -1687,6 +1704,7 @@
 				B5688B1E186C2479009D830E /* OfficeHolidayTime.m in Sources */,
 				B533CE4118FE7C8C002FE236 /* ZGARENTA_OFIS_SRVServiceV0.m in Sources */,
 				0C0DA9A21865BE31003EDDA0 /* User.m in Sources */,
+				0C4FF37C19F00BF300E06A71 /* OldReservationTableViewCell.m in Sources */,
 				0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */,
 				B5688B04186B39F4009D830E /* LoaderAnimationVC.m in Sources */,
 				B5E486C1195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVRequestHandler.m in Sources */,

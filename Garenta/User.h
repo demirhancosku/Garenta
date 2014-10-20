@@ -39,6 +39,7 @@
 @property (nonatomic, strong) NSString *priceType;
 
 @property (nonatomic, strong) NSArray *creditCards;
+@property (nonatomic, strong) NSArray *reservationList;
 
 @property (nonatomic,retain) Coordinate *userLocation;
 @end
