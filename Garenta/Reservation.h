@@ -21,6 +21,7 @@
 @property (nonatomic,retain) Office *checkInOffice;
 @property (nonatomic,retain) NSDate *checkInTime;
 @property (nonatomic,retain) NSString *number;
+@property (nonatomic,retain) NSString *reservationStatu;
 @property (strong,nonatomic) NSMutableArray *additionalEquipments;
 @property (strong,nonatomic) NSMutableArray *additionalDrivers;
 @property (strong,nonatomic) NSMutableArray *etReserv;

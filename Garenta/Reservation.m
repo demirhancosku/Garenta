@@ -9,7 +9,7 @@
 #import "Reservation.h"
 #import "AdditionalEquipment.h"
 @implementation Reservation
-@synthesize  checkOutTime,checkInTime,checkInOffice,checkOutOffice, selectedCarGroup,number;
+@synthesize  checkOutTime,checkInTime,checkInOffice,checkOutOffice, selectedCarGroup,number,reservationStatu;
 
 -(id)init{
     self = [super init];

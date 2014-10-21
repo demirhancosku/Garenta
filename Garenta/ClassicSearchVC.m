@@ -13,6 +13,7 @@
 #import "CarGroupFilterVC.h"
 #import "WYStoryboardPopoverSegue.h"
 #import "SDReservObject.h"
+#import "EquipmentVC.h"
 
 #define kCheckOutTag 0
 #define kCheckInTag 1
@@ -22,7 +23,7 @@
 @end
 
 @implementation ClassicSearchVC
-@synthesize popOver,destinationTableView,arrivalTableView,searchButton;
+@synthesize popOver,destinationTableView,arrivalTableView,searchButton,reservation;
 
 
 #pragma mark - View lifcycles
@@ -33,7 +34,9 @@
     CGRect navigationBarFrame = [[[self navigationController] navigationBar] frame];
     //ysinde navigationBarFrame.size.height vardi viewwillapear super cagirilmamaisti onu cagirinca buna gerek kalmadi
     viewFrame =CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.width - navigationBarFrame.size.height );
+
     reservation = [[Reservation alloc] init];
+    
     [self addNotifications];
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
     locationManager = [[CLLocationManager alloc] init];
@@ -41,6 +44,7 @@
     [locationManager setDistanceFilter:25];
     [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
     [locationManager startUpdatingLocation];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -53,7 +57,7 @@
     //only once singleton koydum devam etsin burdan
     offices = [ApplicationProperties getOffices];
     
-    if ( offices.count == 0 || [ApplicationProperties getMainSelection] == location_search )
+    if (offices.count == 0 || [ApplicationProperties getMainSelection] == location_search)
     {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -71,9 +75,24 @@
             });
         });
     }
-    
     [self correctCheckIndate];
     
+}
+
+// REZERVASYON DEĞİŞTİR İLE GELDİĞİMİZDE ALIŞ VE DÖNÜŞ OFİSLERİNİN BÜTÜN BİLGİLERİNİ REZERVASYON OBJESİNE ATIYORUZ
+- (void)setOfficeForChangeDocument
+{
+    NSPredicate *checkOutOfficePredicate = [NSPredicate predicateWithFormat:@"subOfficeCode=%@",[NSString stringWithFormat:@"%@",reservation.checkOutOffice.subOfficeCode]];
+    NSArray *checkOutOfficeArray = [offices filteredArrayUsingPredicate:checkOutOfficePredicate];
+    
+    NSPredicate *checkInOfficePredicate = [NSPredicate predicateWithFormat:@"subOfficeCode=%@",[NSString stringWithFormat:@"%@",reservation.checkInOffice.subOfficeCode]];
+    NSArray *checkInOfficeArray = [offices filteredArrayUsingPredicate:checkInOfficePredicate];
+    
+    if (checkOutOfficeArray.count > 0)
+        reservation.checkOutOffice = [checkOutOfficeArray objectAtIndex:0];
+    
+    if (checkInOfficeArray.count > 0)
+        reservation.checkInOffice = [checkInOfficeArray objectAtIndex:0];
 }
 
 - (void)didReceiveMemoryWarning
@@ -165,7 +184,6 @@
 
 - (TimeSelectionCell *)timeSelectTableViewCell:(UITableView *)tableView
 {
-    
     TimeSelectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"timeCell"];
     if (!cell) {
         cell = [TimeSelectionCell new];
@@ -219,7 +237,8 @@
 {
     if ([tableView tag] == kCheckOutTag)
     {
-        if (indexPath.row == 0 && [ApplicationProperties getMainSelection] != location_search) {
+        if (indexPath.row == 0 && [ApplicationProperties getMainSelection] != location_search)
+        {
             
             OfficeListVC *office = [[OfficeListVC alloc] initWithReservation:reservation andTag:tableView.tag andOfficeList:offices ];
             [[self navigationController] pushViewController:office animated:YES];
@@ -473,7 +492,6 @@
             [alert show];
         }
     }];
-    
 }
 
 - (void)getAvailableCarsFromSAP {
@@ -664,7 +682,6 @@
         NSInteger difference = components.minute % 15;
         reservation.checkInTime = [checkInDate dateByAddingTimeInterval:-(NSTimeInterval)difference*60];
     }
-    
 }
 
 - (void)prepareScreen
@@ -704,8 +721,10 @@
 }
 
 #pragma mark - Navigation methods
-- (void)navigateToNextVC{
-    if ([availableCarGroups count] <= 0) {
+- (void)navigateToNextVC
+{
+    if ([availableCarGroups count] <= 0)
+    {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uzgunuz" message:@"Aradiginiz kriterlerde arac bulunamamistir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
         [alertView show];
         return;
@@ -718,7 +737,6 @@
     }
 }
 
-
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -727,6 +745,7 @@
         [carGroupVC setCarGroups:availableCarGroups];
         [carGroupVC setReservation:reservation];
     }
+    
     if ([segue.identifier isEqualToString:@"toFilterVCSegue"]) {
         CarGroupFilterVC  *filterVC = (CarGroupFilterVC*)[segue destinationViewController];
         [filterVC setCarGroups:availableCarGroups];

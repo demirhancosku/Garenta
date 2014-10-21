@@ -89,7 +89,8 @@
         
         CarGroup *tempCarGroup = [CarGroup getGroupFromList:availableCarGroups WithCode:[tempDict valueForKey:@"GRPKOD"]];
         
-        if (tempCarGroup == nil) {
+        if (tempCarGroup == nil)
+        {
             tempCarGroup = [CarGroup new];
             tempCarGroup.cars = [NSMutableArray new];
             

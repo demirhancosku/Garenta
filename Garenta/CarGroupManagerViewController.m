@@ -8,8 +8,6 @@
 
 #import "CarGroupManagerViewController.h"
 
-#import "MinimumInfoVC.h"
-#import "ReservationSummaryViewController.h"
 #import "CarGroupTableVC.h"
 #import "EquipmentVC.h"
 @interface CarGroupManagerViewController ()
