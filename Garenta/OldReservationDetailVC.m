@@ -10,6 +10,7 @@
 #import "MBProgressHUD.h"
 #import "ReservationScopePopoverVC.h"
 #import "ClassicSearchVC.h"
+#import "OldReservationSearchVC.h"
 
 @interface OldReservationDetailVC ()
 
@@ -149,11 +150,6 @@
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"toChangeSearchVCSegue"])
-    {
-        [(ClassicSearchVC *)[segue destinationViewController] setReservation:_reservation];
-        [(ClassicSearchVC *)[segue destinationViewController] setIsReservationChange:YES];
-    }
     if ([segue.identifier isEqualToString:@"toDetailPopoverVCSegue"])
     {
         WYStoryboardPopoverSegue* popoverSegue = (WYStoryboardPopoverSegue*)segue;
@@ -215,7 +211,9 @@
 
 - (void)changeReservation
 {
-    [self performSegueWithIdentifier:@"toChangeSearchVCSegue" sender:nil];
+    OldReservationSearchVC *temp = (OldReservationSearchVC *)[self.storyboard instantiateViewControllerWithIdentifier:@"kerem"];
+    
+    [self presentViewController:temp animated:YES completion:nil];
 }
 
 // REZERVASYON BELGESİNİ İPTAL EDER

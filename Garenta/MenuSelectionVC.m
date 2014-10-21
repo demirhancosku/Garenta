@@ -8,7 +8,6 @@
 
 #import "MenuSelectionVC.h"
 #import "MenuTableCellView.h"
-#import "MinimumInfoVC.h"
 #import "ZGARENTA_versiyon_srvServiceV0.h"
 #import "ZGARENTA_versiyon_srvRequestHandler.h"
 

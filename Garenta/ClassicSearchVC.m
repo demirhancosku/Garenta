@@ -39,12 +39,8 @@
     CGRect navigationBarFrame = [[[self navigationController] navigationBar] frame];
     //ysinde navigationBarFrame.size.height vardi viewwillapear super cagirilmamaisti onu cagirinca buna gerek kalmadi
     viewFrame =CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.width - navigationBarFrame.size.height );
-    
-    // rezervasyon değişiklik ile gelmişse obje sıfırlanmasın
-    if (!_isReservationChange)
-        reservation = [[Reservation alloc] init];
-    else
-        [self.searchButton setTitle:@"Yeniden Hesapla" forState:UIControlStateNormal];
+
+    reservation = [[Reservation alloc] init];
     
     [self addNotifications];
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
@@ -75,8 +71,6 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
-                if (_isReservationChange)
-                    [self setOfficeForChangeDocument];
                 // en yakın ofisi bulup ekrana yazıyo
                 if ([ApplicationProperties getMainSelection] == location_search)
                 {
@@ -86,9 +80,6 @@
             });
         });
     }
-    else if (offices.count > 0 && _isReservationChange)
-        [self setOfficeForChangeDocument];
-    
     [self correctCheckIndate];
     
 }
@@ -179,13 +170,6 @@
             
             [[cell officeLabel] setText:reservation.checkOutOffice.subOfficeName];
         }
-        
-        //REZERVASYON DEĞİŞİKLİK İLE GELİNMİŞSE ÇIKIŞ ŞUBE DEĞİŞEMEZ
-        if (_isReservationChange)
-        {
-            [[cell officeLabel] setTextColor:[UIColor lightGrayColor]];
-            [cell setAccessoryType:UITableViewCellAccessoryNone];
-        }
     }
     else
     {
@@ -258,7 +242,7 @@
 {
     if ([tableView tag] == kCheckOutTag)
     {
-        if (indexPath.row == 0 && [ApplicationProperties getMainSelection] != location_search && !_isReservationChange)
+        if (indexPath.row == 0 && [ApplicationProperties getMainSelection] != location_search)
         {
             
             OfficeListVC *office = [[OfficeListVC alloc] initWithReservation:reservation andTag:tableView.tag andOfficeList:offices ];
@@ -519,24 +503,18 @@
         
         if (isOK) {
             
-            if (_isReservationChange) {
-                [self performSegueWithIdentifier:@"toChangeAdditionalEquipmentSegue" sender:self];
-            }
-            else
-            {
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                
+                [self getAvailableCarsFromSAP];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
                     
-                    [self getAvailableCarsFromSAP];
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [MBProgressHUD hideHUDForView:self.view animated:YES];
-                        
-                        if (availableCarGroups.count > 0)
-                            [self navigateToNextVC];
-                    });
+                    if (availableCarGroups.count > 0)
+                        [self navigateToNextVC];
                 });
-            }
+            });
         }
         else {
             UIAlertView*alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:errorMsg delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
@@ -793,12 +771,6 @@
         CarGroupManagerViewController *carGroupVC = (CarGroupManagerViewController*)[segue destinationViewController];
         [carGroupVC setCarGroups:availableCarGroups];
         [carGroupVC setReservation:reservation];
-    }
-    
-    if ([segue.identifier isEqualToString:@"toChangeAdditionalEquipmentSegue"]) {
-        
-        EquipmentVC *additionalEquipmentsVC = (EquipmentVC*)segue.destinationViewController;
-        [additionalEquipmentsVC setReservation:reservation];
     }
     
     if ([segue.identifier isEqualToString:@"toFilterVCSegue"]) {

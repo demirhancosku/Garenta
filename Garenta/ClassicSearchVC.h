@@ -33,7 +33,6 @@
     int selectedTag;
 }
 
-@property BOOL isReservationChange;
 @property (strong,nonatomic) IBOutlet UITableView *destinationTableView;
 @property (strong,nonatomic) IBOutlet UITableView *arrivalTableView;
 @property (strong,nonatomic) IBOutlet UIButton *searchButton;

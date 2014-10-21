@@ -30,7 +30,7 @@
         <!--Şube - Tarih-->
         <scene sceneID="eIa-UL-dmT">
             <objects>
-                <viewController id="FuZ-DE-V3d" customClass="ClassicSearchVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="kerem" id="FuZ-DE-V3d" customClass="ClassicSearchVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="x52-SJ-ZkP"/>
                         <viewControllerLayoutGuide type="bottom" id="TX4-t3-kCb"/>
@@ -166,7 +166,6 @@
                         <segue destination="yjG-hs-2N6" kind="push" identifier="toCarGroupVCSegue" id="Hj2-5d-FZ6"/>
                         <segue destination="6DV-WP-ie6" kind="push" identifier="toFilterVCSegue" id="lC9-rR-OVU"/>
                         <segue destination="vg1-g2-U6W" kind="custom" identifier="toDateTimeVCSegue" customClass="WYStoryboardPopoverSegue" id="nTw-8o-Pk5"/>
-                        <segue destination="Kql-SQ-3XS" kind="push" identifier="toChangeAdditionalEquipmentSegue" id="saD-Ua-cwV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dx3-pf-FNm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3676,7 +3675,6 @@
                         <outlet property="tableView" destination="LPC-ep-NVI" id="PZd-Jq-x5p"/>
                         <outlet property="transmissionLabel" destination="Erh-Mh-XVh" id="YUn-02-hax"/>
                         <segue destination="fOQ-5T-IX3" kind="custom" identifier="toDetailPopoverVCSegue" customClass="WYStoryboardPopoverSegue" id="CB7-4R-l6r"/>
-                        <segue destination="FuZ-DE-V3d" kind="push" identifier="toChangeSearchVCSegue" id="Bph-QD-EbR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XK3-h8-lff" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3720,12 +3718,10 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Bph-QD-EbR"/>
-        <segue reference="CB7-4R-l6r"/>
-        <segue reference="saD-Ua-cwV"/>
         <segue reference="Hj2-5d-FZ6"/>
-        <segue reference="Jja-3F-2kb"/>
+        <segue reference="CB7-4R-l6r"/>
         <segue reference="ryI-Ae-gEa"/>
+        <segue reference="Jja-3F-2kb"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
