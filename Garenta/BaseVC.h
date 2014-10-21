@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LoaderAnimationVC.h"
 @interface BaseVC : UIViewController{
 
 }

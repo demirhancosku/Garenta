@@ -11,6 +11,8 @@
 #import "Arrival.h"
 #import "CarGroup.h"
 #import "Car.h"
+#import "CreditCard.h"
+
 @interface Reservation : NSObject
 
 @property (nonatomic, retain) CarGroup *selectedCarGroup;
@@ -24,6 +26,8 @@
 @property (strong,nonatomic) NSMutableArray *etReserv;
 @property (strong,nonatomic) Car *selectedCar;
 @property (copy,nonatomic) NSString *reservationNumber;
+@property (strong, nonatomic) CreditCard *paymentNowCard;
+
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl;
 
 @end

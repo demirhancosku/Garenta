@@ -44,10 +44,13 @@
     NSError *error;
     NSData *data = [NSURLConnection sendSynchronousRequest:soapReq returningResponse:&headerResponse error:&error];
     NSString *response = [[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding];
-
     
-    // Değişmeli bu
-    return [response containsString:@"true"];
+    if ([response rangeOfString:@"true"].location == NSNotFound) {
+        return NO;
+    }
+    else {
+        return YES;
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response

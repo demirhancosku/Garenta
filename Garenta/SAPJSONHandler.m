@@ -7,6 +7,7 @@
 //
 
 #import "SAPJSONHandler.h"
+#import "MBProgressHUD.h"
 
 @interface SAPJSONHandler ()
 
@@ -31,9 +32,9 @@
         self.request = [[NSMutableURLRequest alloc] init];
         [self.request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
         [self.request setTimeoutInterval:300];
-        [self.request setHTTPMethod:@"GET"];
+        [self.request setHTTPMethod:@"POST"];
         
-        self.connectionURL = [NSString stringWithFormat:@"%@?strJSON={\"sap_props\":{\"hostName\":\"%@\",\"client\":\"%@\",\"destination\":\"%@\",\"systemNumber\":\"%@\",\"userId\":\"%@\",\"password\":\"%@\",\"rfcName\":\"%@\"}", [ConnectionProperties getJSONConnectionURL], hostName, client, destination, systemNumber, userId, password, RFCName];
+        self.connectionURL = [NSString stringWithFormat:@"{\"sap_props\":{\"hostName\":\"%@\",\"client\":\"%@\",\"destination\":\"%@\",\"systemNumber\":\"%@\",\"userId\":\"%@\",\"password\":\"%@\",\"rfcName\":\"%@\"}" ,hostName, client, destination, systemNumber, userId, password, RFCName];
         
         self.isParameterImportExist = NO;
         self.isTableImportExist = NO;
@@ -152,7 +153,7 @@
         
         value = [NSString stringWithFormat:@"%@}", value];
         
-        if ([self.tableForImport isEqualToString:[NSString stringWithFormat:@"{\"tipi\":\"0\",\"%@\":[", tableName]]) {
+        if (rowCount == 0) {
             self.tableForImport = [NSString stringWithFormat:@"%@%@", self.tableForImport, value];
         }
         else {
@@ -166,6 +167,8 @@
 - (NSDictionary *)prepCall {
     
     BOOL isInternetAvailable = [self checkReachability];
+    
+    NSString *alertString = @"";
     
     if (isInternetAvailable) {
         if (self.importParameters != nil && ![self.importParameters isEqualToString:@""]) {
@@ -190,7 +193,10 @@
                 self.connectionURL = [NSString stringWithFormat:@"%@%@", self.connectionURL, self.tableForImport];
             }
             
-            if (self.tableForReturn != nil && ![self.tableForReturn isEqualToString:@""]) {
+            if (self.tableForReturn != nil && ![self.tableForReturn isEqualToString:@""] && (self.tableForImport != nil && ![self.tableForImport isEqualToString:@""])) {
+                self.connectionURL = [NSString stringWithFormat:@"%@,%@", self.connectionURL, self.tableForReturn];
+            }
+            else if (self.tableForReturn != nil && ![self.tableForReturn isEqualToString:@""]) {
                 self.connectionURL = [NSString stringWithFormat:@"%@%@", self.connectionURL, self.tableForReturn];
             }
             
@@ -198,10 +204,16 @@
         }
         
         self.connectionURL = [NSString stringWithFormat:@"%@}", self.connectionURL];
-
+        
         NSLog(@"%@", self.connectionURL);
         
-        [self.request setURL:[NSURL URLWithString:[self.connectionURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+        self.connectionURL = [self.connectionURL stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *body = [NSString stringWithFormat:@"strJSON=%@", self.connectionURL];
+        
+        NSData *requestData = [body dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+
+        [self.request setURL:[NSURL URLWithString:[ConnectionProperties getJSONConnectionURL]]];
+        [self.request setHTTPBody:requestData];
         
         NSError *error;
         NSURLResponse *response;
@@ -225,44 +237,31 @@
                         return resultDict;
                     }
                     else {
-                        LoaderAnimationVC *loader = [LoaderAnimationVC uniqueInstance];
-                        [loader stopAnimation];
-                        
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"İşlem sırasında hata oluştu. Lütfen tekrar deneyiniz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
-                        [alert show];
+                        alertString = @"İşlem sırasında hata oluştu. Lütfen tekrar deneyiniz";
                     }
                 }
                 else {
-                    LoaderAnimationVC *loader = [LoaderAnimationVC uniqueInstance];
-                    [loader stopAnimation];
-                    
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"İşlem sırasında hata oluştu. Lütfen tekrar deneyiniz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
-                    [alert show];
+                   alertString = @"İşlem sırasında hata oluştu. Lütfen tekrar deneyiniz";
                 }
             }
             else {
-                LoaderAnimationVC *loader = [LoaderAnimationVC uniqueInstance];
-                [loader stopAnimation];
-                
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Veri alımı sırasında hata oluştu" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
-                [alert show];
+                alertString = @"Veri alımı sırasında hata oluştu";
             }
         }
         else {
-            LoaderAnimationVC *loader = [LoaderAnimationVC uniqueInstance];
-            [loader stopAnimation];
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Server'a ulaşılamadı" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
-            [alert show];
+            alertString = @"Server'a ulaşılamadı";
         }
     }
     else {
-        LoaderAnimationVC *loader = [LoaderAnimationVC uniqueInstance];
-        [loader stopAnimation];
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Lütfen Internet erişiminizi kontrol ediniz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
-        [alert show];
+        alertString = @"Lütfen Internet erişiminizi kontrol ediniz";
     }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![alertString isEqualToString:@""]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+            [alert show];
+        }
+    });
     
     return nil;
 }

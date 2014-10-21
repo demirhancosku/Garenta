@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "Car.h"
-#import "ZGARENTA_ARAC_SRVServiceV0.h"
 @interface CarGroup : NSObject
 
 @property(nonatomic,retain)NSString *segment;

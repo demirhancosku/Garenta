@@ -17,10 +17,9 @@
 @interface MenuSelectionVC : UIViewController<UITableViewDataSource,UITableViewDelegate>
 {
     UILabel *welcomeLabel;
-        LoaderAnimationVC * loaderVC;
     NSString*newAppLink;
 }
-@property(nonatomic,retain)LoaderAnimationVC *loaderVC;
+
 - (id)initWithFrame:(CGRect)frame;
 
 @end

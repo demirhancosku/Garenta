@@ -9,8 +9,6 @@
 #import "EquipmentVC.h"
 #import "AdditionalEquipmentTableViewCell.h"
 #import "SelectCarTableViewCell.h"
-#import "ZGARENTA_EKHIZMET_SRVRequestHandler.h"
-#import "ZGARENTA_EKHIZMET_SRVServiceV0.h"
 #import "AdditionalEquipment.h"
 #import "ReservationSummaryVC.h"
 #import "UserInfoTableViewController.h"
@@ -237,7 +235,6 @@
     [cell.mainText setText: @"Aracımı Seçmek İstiyorum"];
     if (_reservation.selectedCar == nil) {
         [cell.selectButton setImage:[UIImage imageNamed:@"unticked_button.png"] forState:UIControlStateNormal];
-        //hiç görünmesin daha iyi ya çirkin oldu boşu
         [cell.selectButton setHidden:YES];
         [cell.priceLabel setText:@"0.00"];
         

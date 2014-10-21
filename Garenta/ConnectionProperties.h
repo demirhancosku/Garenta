@@ -10,7 +10,6 @@
 
 @interface ConnectionProperties : NSObject
 
-+ (NSString *)getConnectionURL;
 + (NSString *)getJSONConnectionURL;
 
 + (NSString *)getCRMHostName;

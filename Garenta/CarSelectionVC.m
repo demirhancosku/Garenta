@@ -67,7 +67,6 @@ static NSString *cellIdentifier;
             //NO
             break;
             case 1:
-           //YES
             [_reservation setSelectedCar:[carSelectionArray objectAtIndex:_selectedIndex]];
             [[self navigationController] popViewControllerAnimated:YES];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"carSelected" object:nil];
@@ -76,16 +75,5 @@ static NSString *cellIdentifier;
             break;
     }
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

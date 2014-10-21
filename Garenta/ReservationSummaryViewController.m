@@ -41,17 +41,14 @@
     
     [tableView reloadData];
 }
+
 - (void)prepareScreen{
     
-    //504
     tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     [tableView setDelegate:self];
     [tableView setDataSource:self];
     
     [[self view] addSubview:tableView];
-
-    
-    
     
     resumeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [resumeButton setFrame:CGRectMake(0,0,100,35)];
@@ -67,24 +64,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-
-- (void)resumeSelected{
-    [self doReservation];
-    //res cagir
-    
-}
-
--(void)doReservation{
-    NSString *connectionString = [ApplicationProperties getCreateReservationURLWithReservation:reservation];
-    
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:connectionString]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:150.0];
-    
-    NSURLConnection *con = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
-    
-    [[LoaderAnimationVC uniqueInstance] playAnimation:self.view];
-
 }
 
 #pragma mark  - tableview delegate datasource methods
@@ -183,71 +162,5 @@
     return self.view.frame.size.height /4 ;
     
 }
-
-
-#pragma mark - rest delegate methods
-- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)space
-{
-    return YES;
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
-{
-    if ([challenge previousFailureCount] == 0)
-    {
-        NSLog(@"received authentication challenge");
-        NSURLCredential *newCredential = [NSURLCredential credentialWithUser:@"gw_admin" password:@"1qa2ws3ed"persistence:NSURLCredentialPersistenceForSession];
-        NSLog(@"credential created");
-        [[challenge sender] useCredential:newCredential forAuthenticationChallenge:challenge];
-        NSLog(@"responded to authentication challenge");
-    }
-    else
-    {
-        NSLog(@"previous authentication failure");
-    }
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    [[LoaderAnimationVC uniqueInstance] stopAnimation];
-    NSError *err;
-    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&err];
-    if(err!=nil){
-        //hata msjı
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Bağlantı sırasında bir hata oluştu. Lütfen bağlantı ayarlarını kontrol ediniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-        [alert show];
-        return;
-    }
-    
-    NSDictionary *result = [jsonDict objectForKey:@"d"];
-    NSString *reservationNo= [result objectForKey:@"ERezNo"];
-    if ([reservationNo isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Rezervasyon oluşturma sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-        [alert show];
-        return;
-    }
-    [reservation setNumber:reservationNo];
-//    ReservationApprovalVC *approvalVC = [[ReservationApprovalVC alloc] initWithReservation:reservation];
-//    [[self navigationController] pushViewController:approvalVC animated:YES];
-
-}
-
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    [[LoaderAnimationVC uniqueInstance] stopAnimation];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Bağlantı sırasında bir hata oluştu. Lütfen bağlantı ayarlarını kontrol ediniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
-    [alert show];
-}
-
 
 @end

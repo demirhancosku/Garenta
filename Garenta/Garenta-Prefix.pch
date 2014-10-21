@@ -15,8 +15,6 @@
     #import <Foundation/Foundation.h>
     #import "BaseVC.h"
     #import "BaseTableVC.h"
-    #import "LoaderAnimationVC.h"
-    #import "ParsingConstants.h"
     #import "UIColor+GarentaColors.h"
     #import "SAPJSONHandler.h"
     #import "ConnectionProperties.h"

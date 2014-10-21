@@ -12,6 +12,7 @@
 #import "Reservation.h"
 #import "CarGroupTableVC.h"
 #import <CoreLocation/CoreLocation.h>
+
 @interface ApplicationProperties : NSObject
 typedef enum{
     classic_search,
@@ -45,17 +46,8 @@ typedef enum{
 
 + (NSString*)getAvailableCarURLWithCheckOutOffice:(Office*) checkOutOffice andCheckInOffice:(Office*) checkInOffice andCheckOutDay:(NSDate*)checkOutDay andCheckOutTime:(NSDate*)checkOutTime andCheckInDay:(NSDate*)checkInDay andCheckInTime:(NSDate*)checkInTime;
 + (NSString*)getCreateReservationURLWithReservation:(Reservation*)aReservation;
-+ (NSString*)getVersionUrl;
 + (NSString *)getLocations;
 
-#pragma mark - service configurations
-+ (void)configureOfficeService;
-+ (void)configureCarService;
-+ (void)configureAdditionalEquipmentService;
-+ (void)configureVersionService;
-+ (void)configureReservationService;
-+ (void)configureLoginService;
-+ (void)configureCreditCardService;
 //aktiflik
 + (BOOL)isActiveVersion;
 
@@ -65,4 +57,8 @@ typedef enum{
 + (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation;
 
 + (void)fillProperties:(id)object;
+
++ (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow;
++ (NSString *)getCustomerIP;
+
 @end

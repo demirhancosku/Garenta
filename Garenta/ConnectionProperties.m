@@ -10,7 +10,6 @@
 
 @implementation ConnectionProperties
 
-static NSString *connectionUrl = @"http://webservices.celikmotor.com/SapRFCWebService/services/RFCService";
 static NSString *jsonConnectionURL = @"http://webservicesJSON.celikmotor.com/SapJSONWebserviceRfc/rest/serviceRFCJSON/getServiceRFC";
 
 // R3 Canlı Bilgileri
@@ -61,11 +60,6 @@ NSString *crmPassword = @"Ws123456";
 //NSString *crmSystemNumber = @"00";
 //NSString *crmUsername = @"ABATAC";
 //NSString *crmPassword = @"1Q2w3e4r5t";
-
-+ (NSString *)getConnectionURL
-{
-    return connectionUrl;
-}
 
 + (NSString *)getJSONConnectionURL {
     return jsonConnectionURL;

@@ -9,8 +9,6 @@
 #import "MenuSelectionVC.h"
 #import "MenuTableCellView.h"
 #import "MinimumInfoVC.h"
-#import "ZGARENTA_versiyon_srvServiceV0.h"
-#import "ZGARENTA_versiyon_srvRequestHandler.h"
 
 @interface MenuSelectionVC ()
 - (IBAction)locationBasedSearchSelected:(id)sender;
@@ -20,7 +18,7 @@
 @end
 
 @implementation MenuSelectionVC
-@synthesize loaderVC;
+
 static int kGarentaLogoId = 1;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

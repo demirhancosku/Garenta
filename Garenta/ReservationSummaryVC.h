@@ -10,10 +10,14 @@
 #import "Reservation.h"
 #import "WYStoryboardPopoverSegue.h"
 
-@interface ReservationSummaryVC : UIViewController<UITableViewDelegate,UITableViewDataSource,WYPopoverControllerDelegate>{
+@interface ReservationSummaryVC : UIViewController <UITableViewDelegate, UITableViewDataSource, WYPopoverControllerDelegate, UIAlertViewDelegate>{
     WYPopoverController* popoverController;
 }
 
-@property (strong,nonatomic)Reservation *reservation;
+@property (strong,nonatomic) Reservation *reservation;
+
+- (IBAction)payNowPressed:(id)sender;
+
+- (IBAction)payLaterPressed:(id)sender;
 
 @end

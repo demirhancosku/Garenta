@@ -11,11 +11,6 @@
 #import "CarGroupManagerViewController.h"
 #import "GTMBase64.h"
 #import "CarGroupFilterVC.h"
-#import "ZGARENTA_OFIS_SRVServiceV0.h"
-#import "ZGARENTA_OFIS_SRVRequestHandler.h"
-#import "ZGARENTA_ARAC_SRVServiceV0.h"
-#import "ZGARENTA_ARAC_SRVRequestHandler.h"
-#import "ParsingConstants.h"
 #import "WYStoryboardPopoverSegue.h"
 #import "SDReservObject.h"
 
@@ -253,33 +248,6 @@
     }
 }
 
-//- (UITableViewCell *)getMenuCell:(UITableViewCellStyle)style
-//{
-//    static NSString *cellType = @"Cell";
-//    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:cellType];
-//    
-//    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-//    [cell setBackgroundColor:[ApplicationProperties getMenuCellBackground]];
-//    [cell setOpaque:YES];
-//    [[cell textLabel] setTextColor:[ApplicationProperties getBlack]];
-//    [[cell textLabel] setFont:[UIFont fontWithName:[ApplicationProperties getFont] size:24.0]];
-//    [[cell detailTextLabel] setFont:[UIFont fontWithName:[ApplicationProperties getFont] size:16.0]];
-//    
-//    return cell;
-//}
-//
-//- (UITableViewCell *)refreshCell:(UITableViewCell *)cell
-//{
-//    [[cell imageView] setImage:nil];
-//    [[cell textLabel] setText:@""];
-//    [[cell detailTextLabel] setText:@""];
-//    [cell setAccessoryType:UITableViewCellAccessoryNone];
-//    [cell setAccessoryView:nil];
-//    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-//    
-//    return cell;
-//}
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSString *sectionName;
@@ -390,7 +358,6 @@
         
     }
     @finally {
-        [[LoaderAnimationVC uniqueInstance] stopAnimation];
     }
     
 }
@@ -494,6 +461,10 @@
                     
                     if (availableCarGroups.count > 0)
                         [self navigateToNextVC];
+                    else {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Seçmiş olduğunuz şube ve saatlerde uygun araç bulunamadı" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                        [alert show];
+                    }
                 });
             });
         }
@@ -532,9 +503,11 @@
                 [handler addImportParameter:@"IMPP_MSUBE" andValue:closestOffice.subOfficeCode];
             }
             else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Bulunduğunuz noktaya yakın şube bulunamadı. Lütfen lokasyon servislerinizin çalıştığından emin olup, tekrar deneyiniz" delegate:nil cancelButtonTitle:@"tamam" otherButtonTitles:nil];
-                [alert show];
-                return;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Bulunduğunuz noktaya yakın şube bulunamadı. Lütfen lokasyon servislerinizin çalıştığından emin olup, tekrar deneyiniz" delegate:nil cancelButtonTitle:@"tamam" otherButtonTitles:nil];
+                    [alert show];
+                    return;
+                });
             }
         }
         

@@ -48,10 +48,6 @@
 		9E38C3C7186A033200EBD29E /* OrangeArrowDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E38C3C5186A033200EBD29E /* OrangeArrowDown.png */; };
 		9E38C3C8186A033200EBD29E /* OrangeArrowUp.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E38C3C6186A033200EBD29E /* OrangeArrowUp.png */; };
 		9E53F68E18BF8F150076CFFF /* UserCreationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E53F68C18BF8F150076CFFF /* UserCreationVC.m */; };
-		B5041BE21973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceDocumentV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5041BE01973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceDocumentV0.xml */; };
-		B5041BE31973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5041BE11973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceMetadataV0.xml */; };
-		B5041BE91973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5041BE51973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVRequestHandler.m */; };
-		B5041BEA1973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceV0.m in Sources */ = {isa = PBXBuildFile; fileRef = B5041BE81973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceV0.m */; };
 		B50715CA18B7AC1E00419189 /* Price.m in Sources */ = {isa = PBXBuildFile; fileRef = B50715C918B7AC1E00419189 /* Price.m */; };
 		B50B09D71874988F00649165 /* ReservationSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B50B09D51874988F00649165 /* ReservationSummaryViewController.m */; };
 		B50B09D81874988F00649165 /* ReservationSummaryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B50B09D61874988F00649165 /* ReservationSummaryViewController.xib */; };
@@ -62,26 +58,11 @@
 		B50B09E31874EC7B00649165 /* ReservationSummaryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B50B09E21874EC7B00649165 /* ReservationSummaryCell.m */; };
 		B50B09FB187580C200649165 /* onay_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B50B09FA187580C200649165 /* onay_icon.png */; };
 		B50B09FD187592CC00649165 /* BackAccessoryButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B50B09FC187592CB00649165 /* BackAccessoryButton.png */; };
-		B5118CC01917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5118CBC1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.m */; };
-		B5118CC11917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.m in Sources */ = {isa = PBXBuildFile; fileRef = B5118CBF1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.m */; };
 		B51D5AD21870F1E700966B48 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B51D5AD11870F1E700966B48 /* CoreText.framework */; };
 		B52462231924D8A100FC482B /* CarGroupTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B52462221924D8A100FC482B /* CarGroupTableVC.m */; };
 		B52B64E31945A6240017A5D5 /* ReservationSummaryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B52B64E21945A6240017A5D5 /* ReservationSummaryVC.m */; };
 		B533CE1F18FD173D002FE236 /* IDController.m in Sources */ = {isa = PBXBuildFile; fileRef = B533CE1E18FD173D002FE236 /* IDController.m */; };
 		B533CE2118FD21CC002FE236 /* clock_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B533CE2018FD21CC002FE236 /* clock_icon.png */; };
-		B533CE2F18FE7C27002FE236 /* libCoreServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE2418FE7C27002FE236 /* libCoreServices.a */; };
-		B533CE3018FE7C27002FE236 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE2518FE7C27002FE236 /* libcrypto.a */; };
-		B533CE3118FE7C27002FE236 /* libE2ETrace.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE2618FE7C27002FE236 /* libE2ETrace.a */; };
-		B533CE3218FE7C27002FE236 /* libGWConsumption.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE2718FE7C27002FE236 /* libGWConsumption.a */; };
-		B533CE3318FE7C27002FE236 /* libLogger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE2818FE7C27002FE236 /* libLogger.a */; };
-		B533CE3418FE7C27002FE236 /* libParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE2918FE7C27002FE236 /* libParser.a */; };
-		B533CE3518FE7C27002FE236 /* libPerformanceLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE2A18FE7C27002FE236 /* libPerformanceLib.a */; };
-		B533CE3618FE7C27002FE236 /* libRequest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE2B18FE7C27002FE236 /* libRequest.a */; };
-		B533CE3718FE7C27002FE236 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE2C18FE7C27002FE236 /* libsqlcipher.a */; };
-		B533CE3818FE7C27002FE236 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE2D18FE7C27002FE236 /* libssl.a */; };
-		B533CE3918FE7C27002FE236 /* libConnectivity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE2E18FE7C27002FE236 /* libConnectivity.a */; };
-		B533CE4118FE7C8C002FE236 /* ZGARENTA_OFIS_SRVServiceV0.m in Sources */ = {isa = PBXBuildFile; fileRef = B533CE3D18FE7C8C002FE236 /* ZGARENTA_OFIS_SRVServiceV0.m */; };
-		B533CE4218FE7C8C002FE236 /* ZGARENTA_OFIS_SRVRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B533CE4018FE7C8C002FE236 /* ZGARENTA_OFIS_SRVRequestHandler.m */; };
 		B533CE4418FE7D83002FE236 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE4318FE7D83002FE236 /* QuartzCore.framework */; };
 		B533CE4618FE7D8E002FE236 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE4518FE7D8E002FE236 /* MessageUI.framework */; };
 		B533CE4818FE7D9B002FE236 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE4718FE7D9B002FE236 /* SystemConfiguration.framework */; };
@@ -92,10 +73,6 @@
 		B533CE5218FE7DD5002FE236 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE5118FE7DD5002FE236 /* libstdc++.dylib */; };
 		B533CE5618FE8DDE002FE236 /* libicucore.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE5518FE8DDE002FE236 /* libicucore.A.dylib */; };
 		B545A2CF1973AB68005AD025 /* AdditionalDriverVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B545A2CE1973AB68005AD025 /* AdditionalDriverVC.m */; };
-		B560AFE7194B24BA005AF604 /* ZGARENTA_ARAC_SRVServiceDocumentV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B560AFE5194B24BA005AF604 /* ZGARENTA_ARAC_SRVServiceDocumentV0.xml */; };
-		B560AFE8194B24BA005AF604 /* ZGARENTA_ARAC_SRVServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B560AFE6194B24BA005AF604 /* ZGARENTA_ARAC_SRVServiceMetadataV0.xml */; };
-		B560AFEE194B24C2005AF604 /* ZGARENTA_ARAC_SRVRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B560AFEA194B24C2005AF604 /* ZGARENTA_ARAC_SRVRequestHandler.m */; };
-		B560AFEF194B24C2005AF604 /* ZGARENTA_ARAC_SRVServiceV0.m in Sources */ = {isa = PBXBuildFile; fileRef = B560AFED194B24C2005AF604 /* ZGARENTA_ARAC_SRVServiceV0.m */; };
 		B56304B51941CE40001D4603 /* UserInfoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B56304B41941CE40001D4603 /* UserInfoTableViewController.m */; };
 		B5688AF2186AECCA009D830E /* MenuTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5688AF1186AECCA009D830E /* MenuTableCellView.m */; };
 		B5688AF6186B167E009D830E /* AccessoryButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688AF3186B167E009D830E /* AccessoryButton.png */; };
@@ -103,7 +80,6 @@
 		B5688AFC186B17EA009D830E /* detail_search.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688AFA186B17EA009D830E /* detail_search.png */; };
 		B5688AFE186B1A78009D830E /* location_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688AFD186B1A78009D830E /* location_icon.png */; };
 		B5688B01186B2E25009D830E /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = B5688B00186B2E25009D830E /* GTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		B5688B04186B39F4009D830E /* LoaderAnimationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B5688B03186B39F4009D830E /* LoaderAnimationVC.m */; };
 		B5688B11186B3A2E009D830E /* load_1.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688B06186B3A2E009D830E /* load_1.png */; };
 		B5688B12186B3A2E009D830E /* load_10.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688B07186B3A2E009D830E /* load_10.png */; };
 		B5688B13186B3A2E009D830E /* load_11.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688B08186B3A2E009D830E /* load_11.png */; };
@@ -117,10 +93,6 @@
 		B5688B1B186B3A2E009D830E /* load_9.png in Resources */ = {isa = PBXBuildFile; fileRef = B5688B10186B3A2E009D830E /* load_9.png */; };
 		B5688B1E186C2479009D830E /* OfficeHolidayTime.m in Sources */ = {isa = PBXBuildFile; fileRef = B5688B1D186C2479009D830E /* OfficeHolidayTime.m */; };
 		B56F5F6D19598764005B5B92 /* ReservationApprovalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F5F6C19598764005B5B92 /* ReservationApprovalVC.m */; };
-		B57E43B5191CC18800686A47 /* ZGARENTA_versiyon_srvRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B57E43B1191CC18800686A47 /* ZGARENTA_versiyon_srvRequestHandler.m */; };
-		B57E43B6191CC18800686A47 /* ZGARENTA_versiyon_srvServiceV0.m in Sources */ = {isa = PBXBuildFile; fileRef = B57E43B4191CC18800686A47 /* ZGARENTA_versiyon_srvServiceV0.m */; };
-		B57E43BA191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceDocumentV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B57E43B8191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceDocumentV0.xml */; };
-		B57E43BB191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B57E43B9191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceMetadataV0.xml */; };
 		B58D438D192C826D000AF1EB /* CarGroupTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B58D438C192C826D000AF1EB /* CarGroupTableViewCell.m */; };
 		B5921195195D934900A54E0E /* triangle_green.png in Resources */ = {isa = PBXBuildFile; fileRef = B5921193195D934900A54E0E /* triangle_green.png */; };
 		B5921196195D934900A54E0E /* triangle_white.png in Resources */ = {isa = PBXBuildFile; fileRef = B5921194195D934900A54E0E /* triangle_white.png */; };
@@ -132,9 +104,7 @@
 		B59492101910F82F009BBAC8 /* MainStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B594920F1910F82F009BBAC8 /* MainStoryBoard.storyboard */; };
 		B5A2CAE81872B60100271DE9 /* MinimumInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A2CAE61872B60100271DE9 /* MinimumInfoVC.m */; };
 		B5A2CAE91872B60100271DE9 /* MinimumInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5A2CAE71872B60100271DE9 /* MinimumInfoVC.xib */; };
-		B5A3353F191759B000B29C2B /* IntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A3353E191759B000B29C2B /* IntegrationTests.m */; };
 		B5A3354519176DCA00B29C2B /* GarentaTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5A3354419176DCA00B29C2B /* GarentaTests-Info.plist */; };
-		B5A3354C19177D3200B29C2B /* ParseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A3354B19177D3200B29C2B /* ParseTests.m */; };
 		B5B017BC19755A0000F1BD18 /* AdditionalDriverListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B017BB19755A0000F1BD18 /* AdditionalDriverListVC.m */; };
 		B5BBE94E195021CF000AD4E2 /* UIViewController+Garenta.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BBE94D195021CF000AD4E2 /* UIViewController+Garenta.m */; };
 		B5BBE95119503907000AD4E2 /* UIColor+GarentaColors.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BBE95019503907000AD4E2 /* UIColor+GarentaColors.m */; };
@@ -154,26 +124,14 @@
 		B5E064A2194F1DEB0046E789 /* SelectCarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E064A1194F1DEB0046E789 /* SelectCarTableViewCell.m */; };
 		B5E064A5194F1E0E0046E789 /* CarSelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E064A4194F1E0E0046E789 /* CarSelectionVC.m */; };
 		B5E486A7195AF02A009C1363 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B533CE4318FE7D83002FE236 /* QuartzCore.framework */; };
-		B5E486C1195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E486BC195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVRequestHandler.m */; };
-		B5E486C2195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVServiceV0.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E486C0195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVServiceV0.m */; };
-		B5E486C5195C00B6009C1363 /* ZGARENTA_REZERVASYON_SRVServiceDocumentV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5E486C3195C00B6009C1363 /* ZGARENTA_REZERVASYON_SRVServiceDocumentV0.xml */; };
-		B5E486C6195C00B6009C1363 /* ZGARENTA_REZERVASYON_SRVServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5E486C4195C00B6009C1363 /* ZGARENTA_REZERVASYON_SRVServiceMetadataV0.xml */; };
-		B5E486D5195C131E009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceDocumentV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5E486D3195C131E009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceDocumentV0.xml */; };
-		B5E486D6195C131E009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5E486D4195C131E009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceMetadataV0.xml */; };
-		B5E486DC195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01RequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E486D8195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01RequestHandler.m */; };
-		B5E486DD195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceV0.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E486DA195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceV0.m */; };
 		B5EE728F18701DC400F634D3 /* kislastik.png in Resources */ = {isa = PBXBuildFile; fileRef = B5EE728B18701DC400F634D3 /* kislastik.png */; };
 		B5EE729018701DC400F634D3 /* klima.png in Resources */ = {isa = PBXBuildFile; fileRef = B5EE728C18701DC400F634D3 /* klima.png */; };
 		B5EE729118701DC400F634D3 /* vites.png in Resources */ = {isa = PBXBuildFile; fileRef = B5EE728D18701DC400F634D3 /* vites.png */; };
 		B5EE729218701DC400F634D3 /* yakit.png in Resources */ = {isa = PBXBuildFile; fileRef = B5EE728E18701DC400F634D3 /* yakit.png */; };
-		B5F2C4F31901258700F713DF /* ZGARENTA_OFIS_SRVServiceDocumentV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5F2C4F11901258700F713DF /* ZGARENTA_OFIS_SRVServiceDocumentV0.xml */; };
-		B5F2C4F41901258700F713DF /* ZGARENTA_OFIS_SRVServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5F2C4F21901258700F713DF /* ZGARENTA_OFIS_SRVServiceMetadataV0.xml */; };
 		B5F45A5C193DFD1700E4656D /* AdditionalEquipment.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F45A5B193DFD1700E4656D /* AdditionalEquipment.m */; };
 		B5F5F95A193C6907009B8D31 /* minus_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B5F5F958193C6907009B8D31 /* minus_icon.png */; };
 		B5F5F95B193C6907009B8D31 /* plus_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B5F5F959193C6907009B8D31 /* plus_icon.png */; };
 		B5F5F95E193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */; };
-		B5FDB0C01918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB0BE1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml */; };
-		B5FDB0C11918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB0BF1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml */; };
 		E1227B2719ED3ECD005D88A5 /* SDReservObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E1227B2619ED3ECD005D88A5 /* SDReservObject.m */; };
 		E1D2AB6719D45EAA00806868 /* SAPJSONHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D2AB6619D45EAA00806868 /* SAPJSONHandler.m */; };
 		E1D2AB6A19D45EB600806868 /* ConnectionProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D2AB6919D45EB600806868 /* ConnectionProperties.m */; };
@@ -259,13 +217,6 @@
 		9E38C3C6186A033200EBD29E /* OrangeArrowUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OrangeArrowUp.png; sourceTree = "<group>"; };
 		9E53F68B18BF8F150076CFFF /* UserCreationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCreationVC.h; sourceTree = "<group>"; };
 		9E53F68C18BF8F150076CFFF /* UserCreationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCreationVC.m; sourceTree = "<group>"; };
-		B5041BE01973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceDocumentV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_GET_CUST_KK_SRVServiceDocumentV0.xml; sourceTree = "<group>"; };
-		B5041BE11973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceMetadataV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_GET_CUST_KK_SRVServiceMetadataV0.xml; sourceTree = "<group>"; };
-		B5041BE41973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_GET_CUST_KK_SRVRequestHandler.h; sourceTree = "<group>"; };
-		B5041BE51973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_GET_CUST_KK_SRVRequestHandler.m; sourceTree = "<group>"; };
-		B5041BE61973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_GET_CUST_KK_SRVServiceDeclarations.h; sourceTree = "<group>"; };
-		B5041BE71973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceV0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_GET_CUST_KK_SRVServiceV0.h; sourceTree = "<group>"; };
-		B5041BE81973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceV0.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_GET_CUST_KK_SRVServiceV0.m; sourceTree = "<group>"; };
 		B50715C818B7AC1D00419189 /* Price.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Price.h; sourceTree = "<group>"; };
 		B50715C918B7AC1E00419189 /* Price.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Price.m; sourceTree = "<group>"; };
 		B50B09D41874988F00649165 /* ReservationSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationSummaryViewController.h; sourceTree = "<group>"; };
@@ -279,11 +230,6 @@
 		B50B09E21874EC7B00649165 /* ReservationSummaryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationSummaryCell.m; sourceTree = "<group>"; };
 		B50B09FA187580C200649165 /* onay_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onay_icon.png; sourceTree = "<group>"; };
 		B50B09FC187592CB00649165 /* BackAccessoryButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackAccessoryButton.png; sourceTree = "<group>"; };
-		B5118CBB1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_EKHIZMET_SRVRequestHandler.h; sourceTree = "<group>"; };
-		B5118CBC1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_EKHIZMET_SRVRequestHandler.m; sourceTree = "<group>"; };
-		B5118CBD1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_EKHIZMET_SRVServiceDeclarations.h; sourceTree = "<group>"; };
-		B5118CBE1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_EKHIZMET_SRVServiceV0.h; sourceTree = "<group>"; };
-		B5118CBF1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_EKHIZMET_SRVServiceV0.m; sourceTree = "<group>"; };
 		B51D5AD11870F1E700966B48 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		B52462211924D8A100FC482B /* CarGroupTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarGroupTableVC.h; sourceTree = "<group>"; };
 		B52462221924D8A100FC482B /* CarGroupTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarGroupTableVC.m; sourceTree = "<group>"; };
@@ -292,22 +238,6 @@
 		B533CE1D18FD173D002FE236 /* IDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDController.h; sourceTree = "<group>"; };
 		B533CE1E18FD173D002FE236 /* IDController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDController.m; sourceTree = "<group>"; };
 		B533CE2018FD21CC002FE236 /* clock_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clock_icon.png; sourceTree = "<group>"; };
-		B533CE2418FE7C27002FE236 /* libCoreServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCoreServices.a; sourceTree = "<group>"; };
-		B533CE2518FE7C27002FE236 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
-		B533CE2618FE7C27002FE236 /* libE2ETrace.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libE2ETrace.a; sourceTree = "<group>"; };
-		B533CE2718FE7C27002FE236 /* libGWConsumption.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGWConsumption.a; sourceTree = "<group>"; };
-		B533CE2818FE7C27002FE236 /* libLogger.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libLogger.a; sourceTree = "<group>"; };
-		B533CE2918FE7C27002FE236 /* libParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libParser.a; sourceTree = "<group>"; };
-		B533CE2A18FE7C27002FE236 /* libPerformanceLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPerformanceLib.a; sourceTree = "<group>"; };
-		B533CE2B18FE7C27002FE236 /* libRequest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRequest.a; sourceTree = "<group>"; };
-		B533CE2C18FE7C27002FE236 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsqlcipher.a; sourceTree = "<group>"; };
-		B533CE2D18FE7C27002FE236 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
-		B533CE2E18FE7C27002FE236 /* libConnectivity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libConnectivity.a; sourceTree = "<group>"; };
-		B533CE3C18FE7C8C002FE236 /* ZGARENTA_OFIS_SRVServiceV0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_OFIS_SRVServiceV0.h; sourceTree = "<group>"; };
-		B533CE3D18FE7C8C002FE236 /* ZGARENTA_OFIS_SRVServiceV0.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_OFIS_SRVServiceV0.m; sourceTree = "<group>"; };
-		B533CE3E18FE7C8C002FE236 /* ZGARENTA_OFIS_SRVServiceDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_OFIS_SRVServiceDeclarations.h; sourceTree = "<group>"; };
-		B533CE3F18FE7C8C002FE236 /* ZGARENTA_OFIS_SRVRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_OFIS_SRVRequestHandler.h; sourceTree = "<group>"; };
-		B533CE4018FE7C8C002FE236 /* ZGARENTA_OFIS_SRVRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_OFIS_SRVRequestHandler.m; sourceTree = "<group>"; };
 		B533CE4318FE7D83002FE236 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B533CE4518FE7D8E002FE236 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		B533CE4718FE7D9B002FE236 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -317,150 +247,8 @@
 		B533CE4F18FE7DC8002FE236 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		B533CE5118FE7DD5002FE236 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		B533CE5518FE8DDE002FE236 /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = usr/lib/libicucore.A.dylib; sourceTree = SDKROOT; };
-		B533CE5918FEA2C8002FE236 /* SeedDataAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeedDataAPI.h; sourceTree = "<group>"; };
-		B533CE5A18FEA2C8002FE236 /* SeedingAPISynchronous.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeedingAPISynchronous.h; sourceTree = "<group>"; };
-		B533CE5C18FEA2C8002FE236 /* Cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cache.h; sourceTree = "<group>"; };
-		B533CE5D18FEA2C8002FE236 /* Caching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Caching.h; sourceTree = "<group>"; };
-		B533CE5E18FEA2C8002FE236 /* EncryptionKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptionKeyManager.h; sourceTree = "<group>"; };
-		B533CE6018FEA2C8002FE236 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		B533CE6118FEA2C8002FE236 /* RouteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteManager.h; sourceTree = "<group>"; };
-		B533CE6218FEA2C8002FE236 /* SDMCacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMCacheDelegate.h; sourceTree = "<group>"; };
-		B533CE6318FEA2C8002FE236 /* SDMConnectivityException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMConnectivityException.h; sourceTree = "<group>"; };
-		B533CE6418FEA2C8002FE236 /* SDMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMConstants.h; sourceTree = "<group>"; };
-		B533CE6518FEA2C8002FE236 /* SDMDownloadCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMDownloadCache.h; sourceTree = "<group>"; };
-		B533CE6618FEA2C8002FE236 /* SDMFormDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMFormDataRequest.h; sourceTree = "<group>"; };
-		B533CE6718FEA2C8002FE236 /* SDMHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMHttpRequest.h; sourceTree = "<group>"; };
-		B533CE6818FEA2C8002FE236 /* SDMHttpRequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMHttpRequestDelegate.h; sourceTree = "<group>"; };
-		B533CE6918FEA2C8002FE236 /* SDMNetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMNetworkQueue.h; sourceTree = "<group>"; };
-		B533CE6A18FEA2C8002FE236 /* SDMProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMProgressDelegate.h; sourceTree = "<group>"; };
-		B533CE6B18FEA2C8002FE236 /* SDMRequestBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMRequestBuilder.h; sourceTree = "<group>"; };
-		B533CE6C18FEA2C8002FE236 /* SDMRequesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMRequesting.h; sourceTree = "<group>"; };
-		B533CE6E18FEA2C8002FE236 /* SMPAppSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMPAppSettings.h; sourceTree = "<group>"; };
-		B533CE6F18FEA2C8002FE236 /* SMPClientConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMPClientConnection.h; sourceTree = "<group>"; };
-		B533CE7018FEA2C8002FE236 /* SMPUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMPUserManager.h; sourceTree = "<group>"; };
-		B533CE7218FEA2C8002FE236 /* SAPExtendedPassport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SAPExtendedPassport.h; sourceTree = "<group>"; };
-		B533CE7318FEA2C8002FE236 /* SUPE2ETraceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUPE2ETraceController.h; sourceTree = "<group>"; };
-		B533CE7418FEA2C8002FE236 /* SUPE2ETraceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUPE2ETraceRequest.h; sourceTree = "<group>"; };
-		B533CE7518FEA2C8002FE236 /* SUPE2ETraceSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUPE2ETraceSettings.h; sourceTree = "<group>"; };
-		B533CE7618FEA2C8002FE236 /* SUPE2ETraceStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUPE2ETraceStep.h; sourceTree = "<group>"; };
-		B533CE7718FEA2C8002FE236 /* SUPE2ETraceTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUPE2ETraceTransaction.h; sourceTree = "<group>"; };
-		B533CE7918FEA2C8002FE236 /* Authenticating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Authenticating.h; sourceTree = "<group>"; };
-		B533CE7A18FEA2C8002FE236 /* BaseComplexType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseComplexType.h; sourceTree = "<group>"; };
-		B533CE7B18FEA2C8002FE236 /* BaseEntityType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseEntityType.h; sourceTree = "<group>"; };
-		B533CE7C18FEA2C8002FE236 /* BaseODataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseODataObject.h; sourceTree = "<group>"; };
-		B533CE7D18FEA2C8002FE236 /* BaseServiceObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseServiceObject.h; sourceTree = "<group>"; };
-		B533CE7E18FEA2C8002FE236 /* CertificateAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CertificateAuthenticator.h; sourceTree = "<group>"; };
-		B533CE7F18FEA2C8002FE236 /* ConnectivitySettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectivitySettings.h; sourceTree = "<group>"; };
-		B533CE8018FEA2C8002FE236 /* CredentialsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CredentialsData.h; sourceTree = "<group>"; };
-		B533CE8118FEA2C8002FE236 /* CSRFData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSRFData.h; sourceTree = "<group>"; };
-		B533CE8218FEA2C8002FE236 /* ErrorHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorHandling.h; sourceTree = "<group>"; };
-		B533CE8318FEA2C8002FE236 /* FormData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormData.h; sourceTree = "<group>"; };
-		B533CE8418FEA2C8002FE236 /* FormsBasedSAMLAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormsBasedSAMLAuthenticator.h; sourceTree = "<group>"; };
-		B533CE8518FEA2C8002FE236 /* KeychainHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainHelper.h; sourceTree = "<group>"; };
-		B533CE8618FEA2C8002FE236 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
-		B533CE8718FEA2C8002FE236 /* MediaLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaLink.h; sourceTree = "<group>"; };
-		B533CE8818FEA2C8002FE236 /* ODataQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataQuery.h; sourceTree = "<group>"; };
-		B533CE8918FEA2C8002FE236 /* PortalAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortalAuthenticator.h; sourceTree = "<group>"; };
-		B533CE8A18FEA2C8002FE236 /* SDMConnectivityHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMConnectivityHelper.h; sourceTree = "<group>"; };
-		B533CE8B18FEA2C8002FE236 /* SDMConnectivityHelperDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMConnectivityHelperDelegate.h; sourceTree = "<group>"; };
-		B533CE8C18FEA2C8002FE236 /* ServiceError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceError.h; sourceTree = "<group>"; };
-		B533CE8D18FEA2C8002FE236 /* ServiceErrorJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceErrorJsonParser.h; sourceTree = "<group>"; };
-		B533CE8E18FEA2C8002FE236 /* ServiceErrorXmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceErrorXmlParser.h; sourceTree = "<group>"; };
-		B533CE8F18FEA2C8002FE236 /* ServiceNegotiator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceNegotiator.h; sourceTree = "<group>"; };
-		B533CE9018FEA2C8002FE236 /* SUPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUPHelper.h; sourceTree = "<group>"; };
-		B533CE9118FEA2C8002FE236 /* TypeConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeConverter.h; sourceTree = "<group>"; };
-		B533CE9218FEA2C8002FE236 /* UsernamePasswordAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsernamePasswordAuthenticator.h; sourceTree = "<group>"; };
-		B533CE9418FEA2C8002FE236 /* SDMLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMLogger.h; sourceTree = "<group>"; };
-		B533CE9518FEA2C8002FE236 /* SDMLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMLogging.h; sourceTree = "<group>"; };
-		B533CE9618FEA2C8002FE236 /* SDMPerfTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMPerfTimer.h; sourceTree = "<group>"; };
-		B533CE9818FEA2C8002FE236 /* NSStringConversionExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringConversionExtension.h; sourceTree = "<group>"; };
-		B533CE9918FEA2C8002FE236 /* NSStringExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringExtension.h; sourceTree = "<group>"; };
-		B533CE9A18FEA2C8002FE236 /* OData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OData.h; sourceTree = "<group>"; };
-		B533CE9B18FEA2C8002FE236 /* ODataCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataCollection.h; sourceTree = "<group>"; };
-		B533CE9C18FEA2C8002FE236 /* ODataDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataDataParser.h; sourceTree = "<group>"; };
-		B533CE9D18FEA2C8002FE236 /* ODataEntitySchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataEntitySchema.h; sourceTree = "<group>"; };
-		B533CE9E18FEA2C8002FE236 /* ODataEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataEntry.h; sourceTree = "<group>"; };
-		B533CE9F18FEA2C8002FE236 /* ODataError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataError.h; sourceTree = "<group>"; };
-		B533CEA018FEA2C8002FE236 /* ODataErrorXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataErrorXMLParser.h; sourceTree = "<group>"; };
-		B533CEA118FEA2C8002FE236 /* ODataFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataFeed.h; sourceTree = "<group>"; };
-		B533CEA218FEA2C8002FE236 /* ODataFunctionImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataFunctionImport.h; sourceTree = "<group>"; };
-		B533CEA318FEA2C8002FE236 /* ODataFunctionImportResultParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataFunctionImportResultParser.h; sourceTree = "<group>"; };
-		B533CEA418FEA2C8002FE236 /* ODataGenericParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataGenericParser.h; sourceTree = "<group>"; };
-		B533CEA518FEA2C8002FE236 /* ODataIconInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataIconInfo.h; sourceTree = "<group>"; };
-		B533CEA618FEA2C8002FE236 /* ODataLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataLink.h; sourceTree = "<group>"; };
-		B533CEA718FEA2C8002FE236 /* ODataMetaDocumentParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataMetaDocumentParser.h; sourceTree = "<group>"; };
-		B533CEA818FEA2C8002FE236 /* ODataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataParser.h; sourceTree = "<group>"; };
-		B533CEA918FEA2C8002FE236 /* ODataParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataParserDelegate.h; sourceTree = "<group>"; };
-		B533CEAA18FEA2C8002FE236 /* ODataParserException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataParserException.h; sourceTree = "<group>"; };
-		B533CEAB18FEA2C8002FE236 /* ODataProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataProperty.h; sourceTree = "<group>"; };
-		B533CEAC18FEA2C8002FE236 /* ODataPropertyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataPropertyInfo.h; sourceTree = "<group>"; };
-		B533CEAD18FEA2C8002FE236 /* ODataPropertyValueFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataPropertyValueFactory.h; sourceTree = "<group>"; };
-		B533CEAE18FEA2C8002FE236 /* ODataPropertyValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataPropertyValues.h; sourceTree = "<group>"; };
-		B533CEAF18FEA2C8002FE236 /* ODataSchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataSchema.h; sourceTree = "<group>"; };
-		B533CEB018FEA2C8002FE236 /* ODataServiceDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataServiceDocument.h; sourceTree = "<group>"; };
-		B533CEB118FEA2C8002FE236 /* ODataServiceDocumentParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataServiceDocumentParser.h; sourceTree = "<group>"; };
-		B533CEB218FEA2C8002FE236 /* ODataSubscriptionXMLBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataSubscriptionXMLBuilder.h; sourceTree = "<group>"; };
-		B533CEB318FEA2C8002FE236 /* ODataWorkspace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataWorkspace.h; sourceTree = "<group>"; };
-		B533CEB418FEA2C8002FE236 /* ODataXMLBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODataXMLBuilder.h; sourceTree = "<group>"; };
-		B533CEB518FEA2C8002FE236 /* OpenSearchDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenSearchDescription.h; sourceTree = "<group>"; };
-		B533CEB618FEA2C8002FE236 /* OpenSearchDescriptionXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenSearchDescriptionXMLParser.h; sourceTree = "<group>"; };
-		B533CEB718FEA2C8002FE236 /* PerformanceUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerformanceUtil.h; sourceTree = "<group>"; };
-		B533CEB818FEA2C8002FE236 /* SDMCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMCache.h; sourceTree = "<group>"; };
-		B533CEB918FEA2C8002FE236 /* SDMCacheException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMCacheException.h; sourceTree = "<group>"; };
-		B533CEBA18FEA2C8002FE236 /* SDMCaching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMCaching.h; sourceTree = "<group>"; };
-		B533CEBB18FEA2C8002FE236 /* SDMFunctionImportResultParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMFunctionImportResultParser.h; sourceTree = "<group>"; };
-		B533CEBC18FEA2C8002FE236 /* SDMGenericParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMGenericParser.h; sourceTree = "<group>"; };
-		B533CEBD18FEA2C8002FE236 /* SDMOData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMOData.h; sourceTree = "<group>"; };
-		B533CEBE18FEA2C8002FE236 /* SDMODataCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataCollection.h; sourceTree = "<group>"; };
-		B533CEBF18FEA2C8002FE236 /* SDMODataDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataDataParser.h; sourceTree = "<group>"; };
-		B533CEC018FEA2C8002FE236 /* SDMODataEntitySchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataEntitySchema.h; sourceTree = "<group>"; };
-		B533CEC118FEA2C8002FE236 /* SDMODataEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataEntry.h; sourceTree = "<group>"; };
-		B533CEC218FEA2C8002FE236 /* SDMODataError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataError.h; sourceTree = "<group>"; };
-		B533CEC318FEA2C8002FE236 /* SDMODataErrorXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataErrorXMLParser.h; sourceTree = "<group>"; };
-		B533CEC418FEA2C8002FE236 /* SDMODataFunctionImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataFunctionImport.h; sourceTree = "<group>"; };
-		B533CEC518FEA2C8002FE236 /* SDMODataIconInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataIconInfo.h; sourceTree = "<group>"; };
-		B533CEC618FEA2C8002FE236 /* SDMODataLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataLink.h; sourceTree = "<group>"; };
-		B533CEC718FEA2C8002FE236 /* SDMODataMetaDocumentParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataMetaDocumentParser.h; sourceTree = "<group>"; };
-		B533CEC818FEA2C8002FE236 /* SDMODataProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataProperty.h; sourceTree = "<group>"; };
-		B533CEC918FEA2C8002FE236 /* SDMODataPropertyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataPropertyInfo.h; sourceTree = "<group>"; };
-		B533CECA18FEA2C8002FE236 /* SDMODataPropertyValueFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataPropertyValueFactory.h; sourceTree = "<group>"; };
-		B533CECB18FEA2C8002FE236 /* SDMODataPropertyValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataPropertyValues.h; sourceTree = "<group>"; };
-		B533CECC18FEA2C8002FE236 /* SDMODataSchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataSchema.h; sourceTree = "<group>"; };
-		B533CECD18FEA2C8002FE236 /* SDMODataServiceDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataServiceDocument.h; sourceTree = "<group>"; };
-		B533CECE18FEA2C8002FE236 /* SDMODataServiceDocumentParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataServiceDocumentParser.h; sourceTree = "<group>"; };
-		B533CECF18FEA2C8002FE236 /* SDMODataWorkspace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataWorkspace.h; sourceTree = "<group>"; };
-		B533CED018FEA2C8002FE236 /* SDMODataXMLBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMODataXMLBuilder.h; sourceTree = "<group>"; };
-		B533CED118FEA2C8002FE236 /* SDMOpenSearchDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMOpenSearchDescription.h; sourceTree = "<group>"; };
-		B533CED218FEA2C8002FE236 /* SDMOpenSearchDescriptionXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMOpenSearchDescriptionXMLParser.h; sourceTree = "<group>"; };
-		B533CED318FEA2C8002FE236 /* SDMParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMParser.h; sourceTree = "<group>"; };
-		B533CED418FEA2C8002FE236 /* SDMParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMParserDelegate.h; sourceTree = "<group>"; };
-		B533CED518FEA2C8002FE236 /* SDMParserException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMParserException.h; sourceTree = "<group>"; };
-		B533CED618FEA2C8002FE236 /* SDMPerformanceUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMPerformanceUtil.h; sourceTree = "<group>"; };
-		B533CED718FEA2C8002FE236 /* SDMPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMPersistence.h; sourceTree = "<group>"; };
-		B533CED818FEA2C8002FE236 /* SDMPersisting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMPersisting.h; sourceTree = "<group>"; };
-		B533CED918FEA2C8002FE236 /* SDMSubscriptionXMLBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDMSubscriptionXMLBuilder.h; sourceTree = "<group>"; };
-		B533CEDB18FEA2C8002FE236 /* PerformanceAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerformanceAgent.h; sourceTree = "<group>"; };
-		B533CEDC18FEA2C8002FE236 /* PerformanceCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerformanceCounter.h; sourceTree = "<group>"; };
-		B533CEDE18FEA2C8002FE236 /* BatchRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchRequest.h; sourceTree = "<group>"; };
-		B533CEDF18FEA2C8002FE236 /* CacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheDelegate.h; sourceTree = "<group>"; };
-		B533CEE018FEA2C8002FE236 /* ConnectivityException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectivityException.h; sourceTree = "<group>"; };
-		B533CEE118FEA2C8002FE236 /* DownloadCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadCache.h; sourceTree = "<group>"; };
-		B533CEE218FEA2C8002FE236 /* FormDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormDataRequest.h; sourceTree = "<group>"; };
-		B533CEE318FEA2C8002FE236 /* NetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkQueue.h; sourceTree = "<group>"; };
-		B533CEE418FEA2C8002FE236 /* ProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressDelegate.h; sourceTree = "<group>"; };
-		B533CEE518FEA2C8002FE236 /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
-		B533CEE618FEA2C8002FE236 /* RequestBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestBuilder.h; sourceTree = "<group>"; };
-		B533CEE718FEA2C8002FE236 /* RequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestDelegate.h; sourceTree = "<group>"; };
-		B533CEE818FEA2C8002FE236 /* Requesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Requesting.h; sourceTree = "<group>"; };
 		B545A2CD1973AB68005AD025 /* AdditionalDriverVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdditionalDriverVC.h; sourceTree = "<group>"; };
 		B545A2CE1973AB68005AD025 /* AdditionalDriverVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdditionalDriverVC.m; sourceTree = "<group>"; };
-		B560AFE5194B24BA005AF604 /* ZGARENTA_ARAC_SRVServiceDocumentV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_ARAC_SRVServiceDocumentV0.xml; sourceTree = "<group>"; };
-		B560AFE6194B24BA005AF604 /* ZGARENTA_ARAC_SRVServiceMetadataV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_ARAC_SRVServiceMetadataV0.xml; sourceTree = "<group>"; };
-		B560AFE9194B24C2005AF604 /* ZGARENTA_ARAC_SRVRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_ARAC_SRVRequestHandler.h; sourceTree = "<group>"; };
-		B560AFEA194B24C2005AF604 /* ZGARENTA_ARAC_SRVRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_ARAC_SRVRequestHandler.m; sourceTree = "<group>"; };
-		B560AFEB194B24C2005AF604 /* ZGARENTA_ARAC_SRVServiceDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_ARAC_SRVServiceDeclarations.h; sourceTree = "<group>"; };
-		B560AFEC194B24C2005AF604 /* ZGARENTA_ARAC_SRVServiceV0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_ARAC_SRVServiceV0.h; sourceTree = "<group>"; };
-		B560AFED194B24C2005AF604 /* ZGARENTA_ARAC_SRVServiceV0.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_ARAC_SRVServiceV0.m; sourceTree = "<group>"; };
 		B56304B31941CE40001D4603 /* UserInfoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoTableViewController.h; sourceTree = "<group>"; };
 		B56304B41941CE40001D4603 /* UserInfoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoTableViewController.m; sourceTree = "<group>"; };
 		B5688AF0186AECCA009D830E /* MenuTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableCellView.h; sourceTree = "<group>"; };
@@ -471,8 +259,6 @@
 		B5688AFD186B1A78009D830E /* location_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_icon.png; sourceTree = "<group>"; };
 		B5688AFF186B2E25009D830E /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
 		B5688B00186B2E25009D830E /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
-		B5688B02186B39F4009D830E /* LoaderAnimationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoaderAnimationVC.h; sourceTree = "<group>"; };
-		B5688B03186B39F4009D830E /* LoaderAnimationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoaderAnimationVC.m; sourceTree = "<group>"; };
 		B5688B06186B3A2E009D830E /* load_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = load_1.png; sourceTree = "<group>"; };
 		B5688B07186B3A2E009D830E /* load_10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = load_10.png; sourceTree = "<group>"; };
 		B5688B08186B3A2E009D830E /* load_11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = load_11.png; sourceTree = "<group>"; };
@@ -489,13 +275,6 @@
 		B56F5F6B19598764005B5B92 /* ReservationApprovalVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReservationApprovalVC.h; path = ../ReservationApprovalVC.h; sourceTree = "<group>"; };
 		B56F5F6C19598764005B5B92 /* ReservationApprovalVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReservationApprovalVC.m; path = ../ReservationApprovalVC.m; sourceTree = "<group>"; };
 		B575C3C71958526700F148EC /* CarSelectedProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CarSelectedProtocol.h; sourceTree = "<group>"; };
-		B57E43B0191CC18800686A47 /* ZGARENTA_versiyon_srvRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_versiyon_srvRequestHandler.h; sourceTree = "<group>"; };
-		B57E43B1191CC18800686A47 /* ZGARENTA_versiyon_srvRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_versiyon_srvRequestHandler.m; sourceTree = "<group>"; };
-		B57E43B2191CC18800686A47 /* ZGARENTA_versiyon_srvServiceDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_versiyon_srvServiceDeclarations.h; sourceTree = "<group>"; };
-		B57E43B3191CC18800686A47 /* ZGARENTA_versiyon_srvServiceV0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_versiyon_srvServiceV0.h; sourceTree = "<group>"; };
-		B57E43B4191CC18800686A47 /* ZGARENTA_versiyon_srvServiceV0.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_versiyon_srvServiceV0.m; sourceTree = "<group>"; };
-		B57E43B8191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceDocumentV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_versiyon_srvServiceDocumentV0.xml; sourceTree = "<group>"; };
-		B57E43B9191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceMetadataV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_versiyon_srvServiceMetadataV0.xml; sourceTree = "<group>"; };
 		B58D438B192C826D000AF1EB /* CarGroupTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarGroupTableViewCell.h; sourceTree = "<group>"; };
 		B58D438C192C826D000AF1EB /* CarGroupTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarGroupTableViewCell.m; sourceTree = "<group>"; };
 		B5921193195D934900A54E0E /* triangle_green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangle_green.png; sourceTree = "<group>"; };
@@ -513,9 +292,7 @@
 		B5A2CAE51872B60100271DE9 /* MinimumInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinimumInfoVC.h; sourceTree = "<group>"; };
 		B5A2CAE61872B60100271DE9 /* MinimumInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MinimumInfoVC.m; sourceTree = "<group>"; };
 		B5A2CAE71872B60100271DE9 /* MinimumInfoVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MinimumInfoVC.xib; sourceTree = "<group>"; };
-		B5A3353E191759B000B29C2B /* IntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegrationTests.m; sourceTree = "<group>"; };
 		B5A3354419176DCA00B29C2B /* GarentaTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GarentaTests-Info.plist"; path = "GarentaTests/GarentaTests-Info.plist"; sourceTree = SOURCE_ROOT; };
-		B5A3354B19177D3200B29C2B /* ParseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseTests.m; sourceTree = "<group>"; };
 		B5B017BA19755A0000F1BD18 /* AdditionalDriverListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdditionalDriverListVC.h; sourceTree = "<group>"; };
 		B5B017BB19755A0000F1BD18 /* AdditionalDriverListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdditionalDriverListVC.m; sourceTree = "<group>"; };
 		B5BBE94C195021CF000AD4E2 /* UIViewController+Garenta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Garenta.h"; sourceTree = "<group>"; };
@@ -530,7 +307,6 @@
 		B5BBE95F1952DCC3000AD4E2 /* PaymentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentTableViewController.m; sourceTree = "<group>"; };
 		B5C490321940804F00B737E8 /* ticked_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ticked_button.png; sourceTree = "<group>"; };
 		B5C490351940806E00B737E8 /* unticked_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unticked_button.png; sourceTree = "<group>"; };
-		B5D095051937217200C83E7A /* ParsingConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParsingConstants.h; sourceTree = "<group>"; };
 		B5E0343D186D95BF00226DAB /* login_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_icon.png; sourceTree = "<group>"; };
 		B5E0343F186DD02500226DAB /* Car.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Car.h; sourceTree = "<group>"; };
 		B5E03440186DD02500226DAB /* Car.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Car.m; sourceTree = "<group>"; };
@@ -545,35 +321,17 @@
 		B5E064A1194F1DEB0046E789 /* SelectCarTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCarTableViewCell.m; sourceTree = "<group>"; };
 		B5E064A3194F1E0E0046E789 /* CarSelectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarSelectionVC.h; sourceTree = "<group>"; };
 		B5E064A4194F1E0E0046E789 /* CarSelectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarSelectionVC.m; sourceTree = "<group>"; };
-		B5E486BC195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_REZERVASYON_SRVRequestHandler.m; sourceTree = "<group>"; };
-		B5E486BD195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_REZERVASYON_SRVRequestHandler.h; sourceTree = "<group>"; };
-		B5E486BE195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVServiceDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_REZERVASYON_SRVServiceDeclarations.h; sourceTree = "<group>"; };
-		B5E486BF195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVServiceV0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_REZERVASYON_SRVServiceV0.h; sourceTree = "<group>"; };
-		B5E486C0195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVServiceV0.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_REZERVASYON_SRVServiceV0.m; sourceTree = "<group>"; };
-		B5E486C3195C00B6009C1363 /* ZGARENTA_REZERVASYON_SRVServiceDocumentV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_REZERVASYON_SRVServiceDocumentV0.xml; sourceTree = "<group>"; };
-		B5E486C4195C00B6009C1363 /* ZGARENTA_REZERVASYON_SRVServiceMetadataV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_REZERVASYON_SRVServiceMetadataV0.xml; sourceTree = "<group>"; };
-		B5E486D3195C131E009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceDocumentV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_LOGIN_SRV_01ServiceDocumentV0.xml; sourceTree = "<group>"; };
-		B5E486D4195C131E009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceMetadataV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_LOGIN_SRV_01ServiceMetadataV0.xml; sourceTree = "<group>"; };
-		B5E486D7195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01RequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_LOGIN_SRV_01RequestHandler.h; sourceTree = "<group>"; };
-		B5E486D8195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01RequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_LOGIN_SRV_01RequestHandler.m; sourceTree = "<group>"; };
-		B5E486D9195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceDeclarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_LOGIN_SRV_01ServiceDeclarations.h; sourceTree = "<group>"; };
-		B5E486DA195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceV0.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGARENTA_LOGIN_SRV_01ServiceV0.m; sourceTree = "<group>"; };
-		B5E486DB195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceV0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGARENTA_LOGIN_SRV_01ServiceV0.h; sourceTree = "<group>"; };
 		B5EE728B18701DC400F634D3 /* kislastik.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kislastik.png; sourceTree = "<group>"; };
 		B5EE728C18701DC400F634D3 /* klima.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = klima.png; sourceTree = "<group>"; };
 		B5EE728D18701DC400F634D3 /* vites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vites.png; sourceTree = "<group>"; };
 		B5EE728E18701DC400F634D3 /* yakit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yakit.png; sourceTree = "<group>"; };
 		B5F2C4EF19011D4700F713DF /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		B5F2C4F11901258700F713DF /* ZGARENTA_OFIS_SRVServiceDocumentV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_OFIS_SRVServiceDocumentV0.xml; sourceTree = "<group>"; };
-		B5F2C4F21901258700F713DF /* ZGARENTA_OFIS_SRVServiceMetadataV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_OFIS_SRVServiceMetadataV0.xml; sourceTree = "<group>"; };
 		B5F45A5A193DFD1700E4656D /* AdditionalEquipment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdditionalEquipment.h; sourceTree = "<group>"; };
 		B5F45A5B193DFD1700E4656D /* AdditionalEquipment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdditionalEquipment.m; sourceTree = "<group>"; };
 		B5F5F958193C6907009B8D31 /* minus_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minus_icon.png; sourceTree = "<group>"; };
 		B5F5F959193C6907009B8D31 /* plus_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus_icon.png; sourceTree = "<group>"; };
 		B5F5F95C193C9867009B8D31 /* AdditionalEquipmentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdditionalEquipmentTableViewCell.h; sourceTree = "<group>"; };
 		B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdditionalEquipmentTableViewCell.m; sourceTree = "<group>"; };
-		B5FDB0BE1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml; sourceTree = "<group>"; };
-		B5FDB0BF1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml; sourceTree = "<group>"; };
 		E1227B2519ED3ECD005D88A5 /* SDReservObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDReservObject.h; sourceTree = "<group>"; };
 		E1227B2619ED3ECD005D88A5 /* SDReservObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDReservObject.m; sourceTree = "<group>"; };
 		E1D2AB6519D45EAA00806868 /* SAPJSONHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SAPJSONHandler.h; sourceTree = "<group>"; };
@@ -604,18 +362,7 @@
 				0C0DA9A71865BF78003EDDA0 /* CoreLocation.framework in Frameworks */,
 				0C4C9A6C18462EAB00CD3728 /* CoreGraphics.framework in Frameworks */,
 				0C4C9A6E18462EAB00CD3728 /* UIKit.framework in Frameworks */,
-				B533CE2F18FE7C27002FE236 /* libCoreServices.a in Frameworks */,
-				B533CE3818FE7C27002FE236 /* libssl.a in Frameworks */,
-				B533CE3918FE7C27002FE236 /* libConnectivity.a in Frameworks */,
-				B533CE3718FE7C27002FE236 /* libsqlcipher.a in Frameworks */,
-				B533CE3218FE7C27002FE236 /* libGWConsumption.a in Frameworks */,
 				0C4C9A6A18462EAB00CD3728 /* Foundation.framework in Frameworks */,
-				B533CE3118FE7C27002FE236 /* libE2ETrace.a in Frameworks */,
-				B533CE3618FE7C27002FE236 /* libRequest.a in Frameworks */,
-				B533CE3018FE7C27002FE236 /* libcrypto.a in Frameworks */,
-				B533CE3418FE7C27002FE236 /* libParser.a in Frameworks */,
-				B533CE3518FE7C27002FE236 /* libPerformanceLib.a in Frameworks */,
-				B533CE3318FE7C27002FE236 /* libLogger.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -715,8 +462,6 @@
 		0C4C9A6F18462EAB00CD3728 /* Garenta */ = {
 			isa = PBXGroup;
 			children = (
-				B5A3354A19177CE900B29C2B /* UnitTests */,
-				B533CE2218FE7BBA002FE236 /* Gateway */,
 				0C4C9A99184631A100CD3728 /* Utilities */,
 				0C4C9A9A1846331200CD3728 /* Model */,
 				0C4C9A9B1846331D00CD3728 /* Resources */,
@@ -770,8 +515,6 @@
 				E1ED735B19E5486C00D3E324 /* MBProgressHUD.m */,
 				B533CE1D18FD173D002FE236 /* IDController.h */,
 				B533CE1E18FD173D002FE236 /* IDController.m */,
-				B5688B02186B39F4009D830E /* LoaderAnimationVC.h */,
-				B5688B03186B39F4009D830E /* LoaderAnimationVC.m */,
 				B5688AFF186B2E25009D830E /* GTMBase64.h */,
 				B5688B00186B2E25009D830E /* GTMBase64.m */,
 				0C4C9AA5184639AC00CD3728 /* ApplicationProperties.h */,
@@ -926,41 +669,6 @@
 			name = CarGroups;
 			sourceTree = "<group>";
 		};
-		B5041BDE1973F95B0011A9B7 /* CreditCardService */ = {
-			isa = PBXGroup;
-			children = (
-				B5041BE41973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVRequestHandler.h */,
-				B5041BE51973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVRequestHandler.m */,
-				B5041BE61973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceDeclarations.h */,
-				B5041BE71973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceV0.h */,
-				B5041BE81973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceV0.m */,
-				B5041BDF1973F9720011A9B7 /* Resources */,
-			);
-			name = CreditCardService;
-			sourceTree = "<group>";
-		};
-		B5041BDF1973F9720011A9B7 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				B5041BE01973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceDocumentV0.xml */,
-				B5041BE11973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceMetadataV0.xml */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		B5118CBA1917D75700D66DBA /* AdditionalEquipmentService */ = {
-			isa = PBXGroup;
-			children = (
-				B5FDB0BD1918C5C9008CD33B /* Resources */,
-				B5118CBB1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.h */,
-				B5118CBC1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.m */,
-				B5118CBD1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceDeclarations.h */,
-				B5118CBE1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.h */,
-				B5118CBF1917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.m */,
-			);
-			name = AdditionalEquipmentService;
-			sourceTree = "<group>";
-		};
 		B52B64E01945A4A00017A5D5 /* ReservationVCs */ = {
 			isa = PBXGroup;
 			children = (
@@ -976,306 +684,6 @@
 				B592119E195DA38D00A54E0E /* ReservationScopePopoverVC.m */,
 			);
 			name = ReservationVCs;
-			sourceTree = "<group>";
-		};
-		B533CE2218FE7BBA002FE236 /* Gateway */ = {
-			isa = PBXGroup;
-			children = (
-				B533CE3A18FE7C42002FE236 /* Services */,
-				B533CE2318FE7C0E002FE236 /* Libs */,
-				B5D095051937217200C83E7A /* ParsingConstants.h */,
-			);
-			name = Gateway;
-			sourceTree = "<group>";
-		};
-		B533CE2318FE7C0E002FE236 /* Libs */ = {
-			isa = PBXGroup;
-			children = (
-				B533CE5718FEA2BA002FE236 /* Includes */,
-				B533CE2418FE7C27002FE236 /* libCoreServices.a */,
-				B533CE2518FE7C27002FE236 /* libcrypto.a */,
-				B533CE2618FE7C27002FE236 /* libE2ETrace.a */,
-				B533CE2718FE7C27002FE236 /* libGWConsumption.a */,
-				B533CE2818FE7C27002FE236 /* libLogger.a */,
-				B533CE2918FE7C27002FE236 /* libParser.a */,
-				B533CE2A18FE7C27002FE236 /* libPerformanceLib.a */,
-				B533CE2B18FE7C27002FE236 /* libRequest.a */,
-				B533CE2C18FE7C27002FE236 /* libsqlcipher.a */,
-				B533CE2D18FE7C27002FE236 /* libssl.a */,
-				B533CE2E18FE7C27002FE236 /* libConnectivity.a */,
-			);
-			name = Libs;
-			sourceTree = "<group>";
-		};
-		B533CE3A18FE7C42002FE236 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				B5041BDE1973F95B0011A9B7 /* CreditCardService */,
-				B5E486AB195BFDB3009C1363 /* LoginService */,
-				B55B5A891920EC0F001D5DF4 /* ReservationService */,
-				B57E43AF191CC15300686A47 /* VersionService */,
-				B5118CBA1917D75700D66DBA /* AdditionalEquipmentService */,
-				B5B2BFFE190E94A7001AFEC0 /* AvilCarService */,
-				B533CE3B18FE7C50002FE236 /* AvailOfficesService */,
-			);
-			name = Services;
-			sourceTree = "<group>";
-		};
-		B533CE3B18FE7C50002FE236 /* AvailOfficesService */ = {
-			isa = PBXGroup;
-			children = (
-				B5F2C4F01901257800F713DF /* Resources */,
-				B533CE3C18FE7C8C002FE236 /* ZGARENTA_OFIS_SRVServiceV0.h */,
-				B533CE3D18FE7C8C002FE236 /* ZGARENTA_OFIS_SRVServiceV0.m */,
-				B533CE3E18FE7C8C002FE236 /* ZGARENTA_OFIS_SRVServiceDeclarations.h */,
-				B533CE3F18FE7C8C002FE236 /* ZGARENTA_OFIS_SRVRequestHandler.h */,
-				B533CE4018FE7C8C002FE236 /* ZGARENTA_OFIS_SRVRequestHandler.m */,
-			);
-			name = AvailOfficesService;
-			sourceTree = "<group>";
-		};
-		B533CE5718FEA2BA002FE236 /* Includes */ = {
-			isa = PBXGroup;
-			children = (
-				B533CE5818FEA2C8002FE236 /* AfariaSLL */,
-				B533CE5B18FEA2C8002FE236 /* Cache */,
-				B533CE5F18FEA2C8002FE236 /* Connectivity */,
-				B533CE6D18FEA2C8002FE236 /* CoreServices */,
-				B533CE7118FEA2C8002FE236 /* E2ETrace */,
-				B533CE7818FEA2C8002FE236 /* GWConsumption */,
-				B533CE9318FEA2C8002FE236 /* Logger */,
-				B533CE9718FEA2C8002FE236 /* Parser */,
-				B533CEDA18FEA2C8002FE236 /* PerformanceLib */,
-				B533CEDD18FEA2C8002FE236 /* Request */,
-			);
-			name = Includes;
-			sourceTree = "<group>";
-		};
-		B533CE5818FEA2C8002FE236 /* AfariaSLL */ = {
-			isa = PBXGroup;
-			children = (
-				B533CE5918FEA2C8002FE236 /* SeedDataAPI.h */,
-				B533CE5A18FEA2C8002FE236 /* SeedingAPISynchronous.h */,
-			);
-			path = AfariaSLL;
-			sourceTree = "<group>";
-		};
-		B533CE5B18FEA2C8002FE236 /* Cache */ = {
-			isa = PBXGroup;
-			children = (
-				B533CE5C18FEA2C8002FE236 /* Cache.h */,
-				B533CE5D18FEA2C8002FE236 /* Caching.h */,
-				B533CE5E18FEA2C8002FE236 /* EncryptionKeyManager.h */,
-			);
-			path = Cache;
-			sourceTree = "<group>";
-		};
-		B533CE5F18FEA2C8002FE236 /* Connectivity */ = {
-			isa = PBXGroup;
-			children = (
-				B533CE6018FEA2C8002FE236 /* Reachability.h */,
-				B533CE6118FEA2C8002FE236 /* RouteManager.h */,
-				B533CE6218FEA2C8002FE236 /* SDMCacheDelegate.h */,
-				B533CE6318FEA2C8002FE236 /* SDMConnectivityException.h */,
-				B533CE6418FEA2C8002FE236 /* SDMConstants.h */,
-				B533CE6518FEA2C8002FE236 /* SDMDownloadCache.h */,
-				B533CE6618FEA2C8002FE236 /* SDMFormDataRequest.h */,
-				B533CE6718FEA2C8002FE236 /* SDMHttpRequest.h */,
-				B533CE6818FEA2C8002FE236 /* SDMHttpRequestDelegate.h */,
-				B533CE6918FEA2C8002FE236 /* SDMNetworkQueue.h */,
-				B533CE6A18FEA2C8002FE236 /* SDMProgressDelegate.h */,
-				B533CE6B18FEA2C8002FE236 /* SDMRequestBuilder.h */,
-				B533CE6C18FEA2C8002FE236 /* SDMRequesting.h */,
-			);
-			path = Connectivity;
-			sourceTree = "<group>";
-		};
-		B533CE6D18FEA2C8002FE236 /* CoreServices */ = {
-			isa = PBXGroup;
-			children = (
-				B533CE6E18FEA2C8002FE236 /* SMPAppSettings.h */,
-				B533CE6F18FEA2C8002FE236 /* SMPClientConnection.h */,
-				B533CE7018FEA2C8002FE236 /* SMPUserManager.h */,
-			);
-			path = CoreServices;
-			sourceTree = "<group>";
-		};
-		B533CE7118FEA2C8002FE236 /* E2ETrace */ = {
-			isa = PBXGroup;
-			children = (
-				B533CE7218FEA2C8002FE236 /* SAPExtendedPassport.h */,
-				B533CE7318FEA2C8002FE236 /* SUPE2ETraceController.h */,
-				B533CE7418FEA2C8002FE236 /* SUPE2ETraceRequest.h */,
-				B533CE7518FEA2C8002FE236 /* SUPE2ETraceSettings.h */,
-				B533CE7618FEA2C8002FE236 /* SUPE2ETraceStep.h */,
-				B533CE7718FEA2C8002FE236 /* SUPE2ETraceTransaction.h */,
-			);
-			path = E2ETrace;
-			sourceTree = "<group>";
-		};
-		B533CE7818FEA2C8002FE236 /* GWConsumption */ = {
-			isa = PBXGroup;
-			children = (
-				B533CE7918FEA2C8002FE236 /* Authenticating.h */,
-				B533CE7A18FEA2C8002FE236 /* BaseComplexType.h */,
-				B533CE7B18FEA2C8002FE236 /* BaseEntityType.h */,
-				B533CE7C18FEA2C8002FE236 /* BaseODataObject.h */,
-				B533CE7D18FEA2C8002FE236 /* BaseServiceObject.h */,
-				B533CE7E18FEA2C8002FE236 /* CertificateAuthenticator.h */,
-				B533CE7F18FEA2C8002FE236 /* ConnectivitySettings.h */,
-				B533CE8018FEA2C8002FE236 /* CredentialsData.h */,
-				B533CE8118FEA2C8002FE236 /* CSRFData.h */,
-				B533CE8218FEA2C8002FE236 /* ErrorHandling.h */,
-				B533CE8318FEA2C8002FE236 /* FormData.h */,
-				B533CE8418FEA2C8002FE236 /* FormsBasedSAMLAuthenticator.h */,
-				B533CE8518FEA2C8002FE236 /* KeychainHelper.h */,
-				B533CE8618FEA2C8002FE236 /* Logger.h */,
-				B533CE8718FEA2C8002FE236 /* MediaLink.h */,
-				B533CE8818FEA2C8002FE236 /* ODataQuery.h */,
-				B533CE8918FEA2C8002FE236 /* PortalAuthenticator.h */,
-				B533CE8A18FEA2C8002FE236 /* SDMConnectivityHelper.h */,
-				B533CE8B18FEA2C8002FE236 /* SDMConnectivityHelperDelegate.h */,
-				B533CE8C18FEA2C8002FE236 /* ServiceError.h */,
-				B533CE8D18FEA2C8002FE236 /* ServiceErrorJsonParser.h */,
-				B533CE8E18FEA2C8002FE236 /* ServiceErrorXmlParser.h */,
-				B533CE8F18FEA2C8002FE236 /* ServiceNegotiator.h */,
-				B533CE9018FEA2C8002FE236 /* SUPHelper.h */,
-				B533CE9118FEA2C8002FE236 /* TypeConverter.h */,
-				B533CE9218FEA2C8002FE236 /* UsernamePasswordAuthenticator.h */,
-			);
-			path = GWConsumption;
-			sourceTree = "<group>";
-		};
-		B533CE9318FEA2C8002FE236 /* Logger */ = {
-			isa = PBXGroup;
-			children = (
-				B533CE9418FEA2C8002FE236 /* SDMLogger.h */,
-				B533CE9518FEA2C8002FE236 /* SDMLogging.h */,
-				B533CE9618FEA2C8002FE236 /* SDMPerfTimer.h */,
-			);
-			path = Logger;
-			sourceTree = "<group>";
-		};
-		B533CE9718FEA2C8002FE236 /* Parser */ = {
-			isa = PBXGroup;
-			children = (
-				B533CE9818FEA2C8002FE236 /* NSStringConversionExtension.h */,
-				B533CE9918FEA2C8002FE236 /* NSStringExtension.h */,
-				B533CE9A18FEA2C8002FE236 /* OData.h */,
-				B533CE9B18FEA2C8002FE236 /* ODataCollection.h */,
-				B533CE9C18FEA2C8002FE236 /* ODataDataParser.h */,
-				B533CE9D18FEA2C8002FE236 /* ODataEntitySchema.h */,
-				B533CE9E18FEA2C8002FE236 /* ODataEntry.h */,
-				B533CE9F18FEA2C8002FE236 /* ODataError.h */,
-				B533CEA018FEA2C8002FE236 /* ODataErrorXMLParser.h */,
-				B533CEA118FEA2C8002FE236 /* ODataFeed.h */,
-				B533CEA218FEA2C8002FE236 /* ODataFunctionImport.h */,
-				B533CEA318FEA2C8002FE236 /* ODataFunctionImportResultParser.h */,
-				B533CEA418FEA2C8002FE236 /* ODataGenericParser.h */,
-				B533CEA518FEA2C8002FE236 /* ODataIconInfo.h */,
-				B533CEA618FEA2C8002FE236 /* ODataLink.h */,
-				B533CEA718FEA2C8002FE236 /* ODataMetaDocumentParser.h */,
-				B533CEA818FEA2C8002FE236 /* ODataParser.h */,
-				B533CEA918FEA2C8002FE236 /* ODataParserDelegate.h */,
-				B533CEAA18FEA2C8002FE236 /* ODataParserException.h */,
-				B533CEAB18FEA2C8002FE236 /* ODataProperty.h */,
-				B533CEAC18FEA2C8002FE236 /* ODataPropertyInfo.h */,
-				B533CEAD18FEA2C8002FE236 /* ODataPropertyValueFactory.h */,
-				B533CEAE18FEA2C8002FE236 /* ODataPropertyValues.h */,
-				B533CEAF18FEA2C8002FE236 /* ODataSchema.h */,
-				B533CEB018FEA2C8002FE236 /* ODataServiceDocument.h */,
-				B533CEB118FEA2C8002FE236 /* ODataServiceDocumentParser.h */,
-				B533CEB218FEA2C8002FE236 /* ODataSubscriptionXMLBuilder.h */,
-				B533CEB318FEA2C8002FE236 /* ODataWorkspace.h */,
-				B533CEB418FEA2C8002FE236 /* ODataXMLBuilder.h */,
-				B533CEB518FEA2C8002FE236 /* OpenSearchDescription.h */,
-				B533CEB618FEA2C8002FE236 /* OpenSearchDescriptionXMLParser.h */,
-				B533CEB718FEA2C8002FE236 /* PerformanceUtil.h */,
-				B533CEB818FEA2C8002FE236 /* SDMCache.h */,
-				B533CEB918FEA2C8002FE236 /* SDMCacheException.h */,
-				B533CEBA18FEA2C8002FE236 /* SDMCaching.h */,
-				B533CEBB18FEA2C8002FE236 /* SDMFunctionImportResultParser.h */,
-				B533CEBC18FEA2C8002FE236 /* SDMGenericParser.h */,
-				B533CEBD18FEA2C8002FE236 /* SDMOData.h */,
-				B533CEBE18FEA2C8002FE236 /* SDMODataCollection.h */,
-				B533CEBF18FEA2C8002FE236 /* SDMODataDataParser.h */,
-				B533CEC018FEA2C8002FE236 /* SDMODataEntitySchema.h */,
-				B533CEC118FEA2C8002FE236 /* SDMODataEntry.h */,
-				B533CEC218FEA2C8002FE236 /* SDMODataError.h */,
-				B533CEC318FEA2C8002FE236 /* SDMODataErrorXMLParser.h */,
-				B533CEC418FEA2C8002FE236 /* SDMODataFunctionImport.h */,
-				B533CEC518FEA2C8002FE236 /* SDMODataIconInfo.h */,
-				B533CEC618FEA2C8002FE236 /* SDMODataLink.h */,
-				B533CEC718FEA2C8002FE236 /* SDMODataMetaDocumentParser.h */,
-				B533CEC818FEA2C8002FE236 /* SDMODataProperty.h */,
-				B533CEC918FEA2C8002FE236 /* SDMODataPropertyInfo.h */,
-				B533CECA18FEA2C8002FE236 /* SDMODataPropertyValueFactory.h */,
-				B533CECB18FEA2C8002FE236 /* SDMODataPropertyValues.h */,
-				B533CECC18FEA2C8002FE236 /* SDMODataSchema.h */,
-				B533CECD18FEA2C8002FE236 /* SDMODataServiceDocument.h */,
-				B533CECE18FEA2C8002FE236 /* SDMODataServiceDocumentParser.h */,
-				B533CECF18FEA2C8002FE236 /* SDMODataWorkspace.h */,
-				B533CED018FEA2C8002FE236 /* SDMODataXMLBuilder.h */,
-				B533CED118FEA2C8002FE236 /* SDMOpenSearchDescription.h */,
-				B533CED218FEA2C8002FE236 /* SDMOpenSearchDescriptionXMLParser.h */,
-				B533CED318FEA2C8002FE236 /* SDMParser.h */,
-				B533CED418FEA2C8002FE236 /* SDMParserDelegate.h */,
-				B533CED518FEA2C8002FE236 /* SDMParserException.h */,
-				B533CED618FEA2C8002FE236 /* SDMPerformanceUtil.h */,
-				B533CED718FEA2C8002FE236 /* SDMPersistence.h */,
-				B533CED818FEA2C8002FE236 /* SDMPersisting.h */,
-				B533CED918FEA2C8002FE236 /* SDMSubscriptionXMLBuilder.h */,
-			);
-			path = Parser;
-			sourceTree = "<group>";
-		};
-		B533CEDA18FEA2C8002FE236 /* PerformanceLib */ = {
-			isa = PBXGroup;
-			children = (
-				B533CEDB18FEA2C8002FE236 /* PerformanceAgent.h */,
-				B533CEDC18FEA2C8002FE236 /* PerformanceCounter.h */,
-			);
-			path = PerformanceLib;
-			sourceTree = "<group>";
-		};
-		B533CEDD18FEA2C8002FE236 /* Request */ = {
-			isa = PBXGroup;
-			children = (
-				B533CEDE18FEA2C8002FE236 /* BatchRequest.h */,
-				B533CEDF18FEA2C8002FE236 /* CacheDelegate.h */,
-				B533CEE018FEA2C8002FE236 /* ConnectivityException.h */,
-				B533CEE118FEA2C8002FE236 /* DownloadCache.h */,
-				B533CEE218FEA2C8002FE236 /* FormDataRequest.h */,
-				B533CEE318FEA2C8002FE236 /* NetworkQueue.h */,
-				B533CEE418FEA2C8002FE236 /* ProgressDelegate.h */,
-				B533CEE518FEA2C8002FE236 /* Request.h */,
-				B533CEE618FEA2C8002FE236 /* RequestBuilder.h */,
-				B533CEE718FEA2C8002FE236 /* RequestDelegate.h */,
-				B533CEE818FEA2C8002FE236 /* Requesting.h */,
-			);
-			path = Request;
-			sourceTree = "<group>";
-		};
-		B55B5A891920EC0F001D5DF4 /* ReservationService */ = {
-			isa = PBXGroup;
-			children = (
-				B5E486BC195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVRequestHandler.m */,
-				B5E486BD195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVRequestHandler.h */,
-				B5E486BE195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVServiceDeclarations.h */,
-				B5E486BF195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVServiceV0.h */,
-				B5E486C0195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVServiceV0.m */,
-				B55B5A911920EC2F001D5DF4 /* Resources */,
-			);
-			name = ReservationService;
-			sourceTree = "<group>";
-		};
-		B55B5A911920EC2F001D5DF4 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				B5E486C3195C00B6009C1363 /* ZGARENTA_REZERVASYON_SRVServiceDocumentV0.xml */,
-				B5E486C4195C00B6009C1363 /* ZGARENTA_REZERVASYON_SRVServiceMetadataV0.xml */,
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 		B56304B21941CE04001D4603 /* UserInfoVC */ = {
@@ -1305,28 +713,6 @@
 			name = loader_turuncu;
 			sourceTree = "<group>";
 		};
-		B57E43AF191CC15300686A47 /* VersionService */ = {
-			isa = PBXGroup;
-			children = (
-				B57E43B7191CC18E00686A47 /* Resources */,
-				B57E43B0191CC18800686A47 /* ZGARENTA_versiyon_srvRequestHandler.h */,
-				B57E43B1191CC18800686A47 /* ZGARENTA_versiyon_srvRequestHandler.m */,
-				B57E43B2191CC18800686A47 /* ZGARENTA_versiyon_srvServiceDeclarations.h */,
-				B57E43B3191CC18800686A47 /* ZGARENTA_versiyon_srvServiceV0.h */,
-				B57E43B4191CC18800686A47 /* ZGARENTA_versiyon_srvServiceV0.m */,
-			);
-			name = VersionService;
-			sourceTree = "<group>";
-		};
-		B57E43B7191CC18E00686A47 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				B57E43B8191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceDocumentV0.xml */,
-				B57E43B9191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceMetadataV0.xml */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
 		B5A2CAE41872B51700271DE9 /* oldReservationVCs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1341,77 +727,6 @@
 				B50B09E21874EC7B00649165 /* ReservationSummaryCell.m */,
 			);
 			name = oldReservationVCs;
-			sourceTree = "<group>";
-		};
-		B5A3354A19177CE900B29C2B /* UnitTests */ = {
-			isa = PBXGroup;
-			children = (
-				B5A3353E191759B000B29C2B /* IntegrationTests.m */,
-				B5A3354B19177D3200B29C2B /* ParseTests.m */,
-			);
-			name = UnitTests;
-			sourceTree = "<group>";
-		};
-		B5B2BFFE190E94A7001AFEC0 /* AvilCarService */ = {
-			isa = PBXGroup;
-			children = (
-				B560AFE9194B24C2005AF604 /* ZGARENTA_ARAC_SRVRequestHandler.h */,
-				B560AFEA194B24C2005AF604 /* ZGARENTA_ARAC_SRVRequestHandler.m */,
-				B560AFEB194B24C2005AF604 /* ZGARENTA_ARAC_SRVServiceDeclarations.h */,
-				B560AFEC194B24C2005AF604 /* ZGARENTA_ARAC_SRVServiceV0.h */,
-				B560AFED194B24C2005AF604 /* ZGARENTA_ARAC_SRVServiceV0.m */,
-				B5B2BFFF190E9522001AFEC0 /* Resources */,
-			);
-			name = AvilCarService;
-			sourceTree = "<group>";
-		};
-		B5B2BFFF190E9522001AFEC0 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				B560AFE5194B24BA005AF604 /* ZGARENTA_ARAC_SRVServiceDocumentV0.xml */,
-				B560AFE6194B24BA005AF604 /* ZGARENTA_ARAC_SRVServiceMetadataV0.xml */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		B5E486AB195BFDB3009C1363 /* LoginService */ = {
-			isa = PBXGroup;
-			children = (
-				B5E486D7195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01RequestHandler.h */,
-				B5E486D8195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01RequestHandler.m */,
-				B5E486D9195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceDeclarations.h */,
-				B5E486DA195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceV0.m */,
-				B5E486DB195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceV0.h */,
-				B5E486C7195C026A009C1363 /* Resources */,
-			);
-			name = LoginService;
-			sourceTree = "<group>";
-		};
-		B5E486C7195C026A009C1363 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				B5E486D3195C131E009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceDocumentV0.xml */,
-				B5E486D4195C131E009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceMetadataV0.xml */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		B5F2C4F01901257800F713DF /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				B5F2C4F11901258700F713DF /* ZGARENTA_OFIS_SRVServiceDocumentV0.xml */,
-				B5F2C4F21901258700F713DF /* ZGARENTA_OFIS_SRVServiceMetadataV0.xml */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		B5FDB0BD1918C5C9008CD33B /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				B5FDB0BE1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml */,
-				B5FDB0BF1918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml */,
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1501,10 +816,8 @@
 				B50B09D81874988F00649165 /* ReservationSummaryViewController.xib in Resources */,
 				B5F5F95A193C6907009B8D31 /* minus_icon.png in Resources */,
 				B5688AFE186B1A78009D830E /* location_icon.png in Resources */,
-				B5FDB0C01918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceDocumentV0.xml in Resources */,
 				B5C490341940804F00B737E8 /* ticked_button.png in Resources */,
 				B59211A4195ECE2F00A54E0E /* calendar_icon.png in Resources */,
-				B5FDB0C11918C5D5008CD33B /* ZGARENTA_EKHIZMET_SRVServiceMetadataV0.xml in Resources */,
 				B50B09FD187592CC00649165 /* BackAccessoryButton.png in Resources */,
 				B5A2CAE91872B60100271DE9 /* MinimumInfoVC.xib in Resources */,
 				B50B09E01874E72000649165 /* ReservationSummaryCell.xib in Resources */,
@@ -1518,30 +831,21 @@
 				B5688AF6186B167E009D830E /* AccessoryButton.png in Resources */,
 				B5EE729018701DC400F634D3 /* klima.png in Resources */,
 				B5688B12186B3A2E009D830E /* load_10.png in Resources */,
-				B560AFE8194B24BA005AF604 /* ZGARENTA_ARAC_SRVServiceMetadataV0.xml in Resources */,
 				B5688AFB186B17EA009D830E /* arac_bul.png in Resources */,
 				B5688B16186B3A2E009D830E /* load_4.png in Resources */,
 				B5688B13186B3A2E009D830E /* load_11.png in Resources */,
-				B5E486C5195C00B6009C1363 /* ZGARENTA_REZERVASYON_SRVServiceDocumentV0.xml in Resources */,
 				B5BBE957195055CC000AD4E2 /* up_arrow.png in Resources */,
-				B5F2C4F41901258700F713DF /* ZGARENTA_OFIS_SRVServiceMetadataV0.xml in Resources */,
-				B5F2C4F31901258700F713DF /* ZGARENTA_OFIS_SRVServiceDocumentV0.xml in Resources */,
-				B5E486D6195C131E009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceMetadataV0.xml in Resources */,
-				B5041BE21973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceDocumentV0.xml in Resources */,
 				B5921196195D934900A54E0E /* triangle_white.png in Resources */,
 				B5EE728F18701DC400F634D3 /* kislastik.png in Resources */,
 				0C4C9A7418462EAB00CD3728 /* InfoPlist.strings in Resources */,
 				B5688B18186B3A2E009D830E /* load_6.png in Resources */,
-				B5E486D5195C131E009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceDocumentV0.xml in Resources */,
 				B5688B14186B3A2E009D830E /* load_2.png in Resources */,
 				0C5B5FEA18649A870060BECD /* UserLoginPic.png in Resources */,
-				B57E43BA191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceDocumentV0.xml in Resources */,
 				B5A3354519176DCA00B29C2B /* GarentaTests-Info.plist in Resources */,
 				B5688B17186B3A2E009D830E /* load_5.png in Resources */,
 				0C893D87187884E5006AFF0A /* SliderHandle.png in Resources */,
 				B5BBE95919505D21000AD4E2 /* white_right_arrow.png in Resources */,
 				0C4C9A7C18462EAB00CD3728 /* Images.xcassets in Resources */,
-				B5E486C6195C00B6009C1363 /* ZGARENTA_REZERVASYON_SRVServiceMetadataV0.xml in Resources */,
 				B5E0649F194F12F90046E789 /* sample_car.png in Resources */,
 				0C48234B19DD95BB00C73301 /* info.png in Resources */,
 				B5688B1B186B3A2E009D830E /* load_9.png in Resources */,
@@ -1555,10 +859,7 @@
 				9E38C3C7186A033200EBD29E /* OrangeArrowDown.png in Resources */,
 				B5688B1A186B3A2E009D830E /* load_8.png in Resources */,
 				B50B09DE1874A95200649165 /* boarder_icon.png in Resources */,
-				B5041BE31973F9850011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceMetadataV0.xml in Resources */,
 				B5E0343E186D95BF00226DAB /* login_icon.png in Resources */,
-				B560AFE7194B24BA005AF604 /* ZGARENTA_ARAC_SRVServiceDocumentV0.xml in Resources */,
-				B57E43BB191CC1A500686A47 /* ZGARENTA_versiyon_srvServiceMetadataV0.xml in Resources */,
 				B5F5F95B193C6907009B8D31 /* plus_icon.png in Resources */,
 				9E38C3C8186A033200EBD29E /* OrangeArrowUp.png in Resources */,
 				B5BBE955195040F6000AD4E2 /* door_icon.png in Resources */,
@@ -1649,27 +950,20 @@
 				B5A2CAE81872B60100271DE9 /* MinimumInfoVC.m in Sources */,
 				B592119F195DA38D00A54E0E /* ReservationScopePopoverVC.m in Sources */,
 				0C5B5FC81864770F0060BECD /* CalendarTimeVC.m in Sources */,
-				B57E43B6191CC18800686A47 /* ZGARENTA_versiyon_srvServiceV0.m in Sources */,
 				B50B09E31874EC7B00649165 /* ReservationSummaryCell.m in Sources */,
 				0C0DA9AA1865D04B003EDDA0 /* OfficeListVC.m in Sources */,
-				B5E486C2195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVServiceV0.m in Sources */,
 				B5E03444186DEAE100226DAB /* CarGroupViewController.m in Sources */,
 				B58D438D192C826D000AF1EB /* CarGroupTableViewCell.m in Sources */,
 				B5E03447186DEC9A00226DAB /* CarGroupManagerViewController.m in Sources */,
-				B5041BE91973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVRequestHandler.m in Sources */,
-				B533CE4218FE7C8C002FE236 /* ZGARENTA_OFIS_SRVRequestHandler.m in Sources */,
 				B56304B51941CE40001D4603 /* UserInfoTableViewController.m in Sources */,
 				0C0012EC19E54EF8009AF050 /* OldCardSelectionVC.m in Sources */,
-				B5E486DC195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01RequestHandler.m in Sources */,
 				0CBA75CE1864356A0008CE29 /* AppDelegate.m in Sources */,
-				B5118CC01917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVRequestHandler.m in Sources */,
 				0C0DA9A51865BEA5003EDDA0 /* Coordinate.m in Sources */,
 				B5B017BC19755A0000F1BD18 /* AdditionalDriverListVC.m in Sources */,
 				B59211A2195E981400A54E0E /* CreditCard.m in Sources */,
 				B5BBE94E195021CF000AD4E2 /* UIViewController+Garenta.m in Sources */,
 				0CBA75CC186435460008CE29 /* main.m in Sources */,
 				0C48234E19DDBAF800C73301 /* AdditionalEquipmentInfoVC.m in Sources */,
-				B5E486DD195C1332009C1363 /* ZGARENTA_LOGIN_SRV_01ServiceV0.m in Sources */,
 				B5E064A2194F1DEB0046E789 /* SelectCarTableViewCell.m in Sources */,
 				B5BBE9601952DCC3000AD4E2 /* PaymentTableViewController.m in Sources */,
 				0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */,
@@ -1681,19 +975,14 @@
 				0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */,
 				9E53F68E18BF8F150076CFFF /* UserCreationVC.m in Sources */,
 				9E38C3BD1869EA8100EBD29E /* CarGroupFilterVC.m in Sources */,
-				B5118CC11917D77700D66DBA /* ZGARENTA_EKHIZMET_SRVServiceV0.m in Sources */,
 				9E38C3C01869EF4200EBD29E /* FilterObject.m in Sources */,
 				0C0DA9B31865E23F003EDDA0 /* Arrival.m in Sources */,
 				B5688B1E186C2479009D830E /* OfficeHolidayTime.m in Sources */,
-				B533CE4118FE7C8C002FE236 /* ZGARENTA_OFIS_SRVServiceV0.m in Sources */,
 				0C0DA9A21865BE31003EDDA0 /* User.m in Sources */,
 				0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */,
-				B5688B04186B39F4009D830E /* LoaderAnimationVC.m in Sources */,
-				B5E486C1195C00A8009C1363 /* ZGARENTA_REZERVASYON_SRVRequestHandler.m in Sources */,
 				B592119B195D9D9900A54E0E /* WYPopoverController.m in Sources */,
 				E1227B2719ED3ECD005D88A5 /* SDReservObject.m in Sources */,
 				E1D2AB6A19D45EB600806868 /* ConnectionProperties.m in Sources */,
-				B5041BEA1973F99B0011A9B7 /* ZGARENTA_GET_CUST_KK_SRVServiceV0.m in Sources */,
 				B50715CA18B7AC1E00419189 /* Price.m in Sources */,
 				B50B09D71874988F00649165 /* ReservationSummaryViewController.m in Sources */,
 				0CBA75C7186435260008CE29 /* Office.m in Sources */,
@@ -1703,10 +992,8 @@
 				B592119C195D9D9900A54E0E /* WYStoryboardPopoverSegue.m in Sources */,
 				B5BBE95119503907000AD4E2 /* UIColor+GarentaColors.m in Sources */,
 				B5688B01186B2E25009D830E /* GTMBase64.m in Sources */,
-				B560AFEF194B24C2005AF604 /* ZGARENTA_ARAC_SRVServiceV0.m in Sources */,
 				0C0DA9B01865E234003EDDA0 /* Destination.m in Sources */,
 				B5F45A5C193DFD1700E4656D /* AdditionalEquipment.m in Sources */,
-				B57E43B5191CC18800686A47 /* ZGARENTA_versiyon_srvRequestHandler.m in Sources */,
 				B5688AF2186AECCA009D830E /* MenuTableCellView.m in Sources */,
 				B545A2CF1973AB68005AD025 /* AdditionalDriverVC.m in Sources */,
 				0CBA75C9186435260008CE29 /* BaseVC.m in Sources */,
@@ -1716,7 +1003,6 @@
 				0CBA75CA186435260008CE29 /* BaseTableVC.m in Sources */,
 				B5E0344A186ED57C00226DAB /* CarGroup.m in Sources */,
 				B52B64E31945A6240017A5D5 /* ReservationSummaryVC.m in Sources */,
-				B560AFEE194B24C2005AF604 /* ZGARENTA_ARAC_SRVRequestHandler.m in Sources */,
 				B5F5F95E193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1725,8 +1011,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5A3353F191759B000B29C2B /* IntegrationTests.m in Sources */,
-				B5A3354C19177D3200B29C2B /* ParseTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

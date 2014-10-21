@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "OfficeWorkingTime.h"
-#import "ZGARENTA_OFIS_SRVServiceV0.h"
 
 @interface Office : NSObject
 

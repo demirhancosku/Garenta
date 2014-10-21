@@ -7,23 +7,23 @@
 // All singleton...one place
 
 #import "ApplicationProperties.h"
-#import "ZGARENTA_OFIS_SRVRequestHandler.h"
-#import "ZGARENTA_ARAC_SRVRequestHandler.h"
-#import "ZGARENTA_EKHIZMET_SRVRequestHandler.h"
-#import "ZGARENTA_versiyon_srvRequestHandler.h"
-#import "ZGARENTA_REZERVASYON_SRVRequestHandler.h"
-#import "ZGARENTA_LOGIN_SRV_01RequestHandler.h"
-#import "ZGARENTA_GET_CUST_KK_SRVRequestHandler.h"
-#import <objc/runtime.h>
+#import "AdditionalEquipment.h"
+#import "SDReservObject.h"
+
+
 @implementation ApplicationProperties
 MainSelection mainSelection;
 static User* myUser;
 
 NSMutableArray *offices;
-static NSString *GATEWAY_USER = @"GW_ADMIN";
-static NSString *GATEWAY_PASS = @"1qa2ws3ed";
-static NSString *appVersion = @"1.0";
-static NSString *appName = @"REZ";
+
++ (NSString *)getAppName {
+    return @"REZ";
+}
+
++ (NSString *)getAppVersion {
+    return @"1.0";
+}
 
 + (UIColor *)getOrange{
     return [UIColor colorWithRed:255/255.0 green:80.0/255.0 blue:0.0/255.0 alpha:1.0];
@@ -111,109 +111,6 @@ static NSString *appName = @"REZ";
     myUser = aUser;
 }
 
-+ (NSString*)getSAPUser{
-    return GATEWAY_USER;
-}
-+ (NSString*)getSAPPassword{
-    return GATEWAY_PASS;
-}
-
-+ (int)getTimeout{
-    return 60;
-}
-
-+ (NSString *)getAppVersion{
-    return appVersion;
-}
-
-+ (NSString *)getAppName {
-    return appName;
-}
-
-#pragma mark - URL Methods: will be deleted soon
-
-+ (NSString*)getAvailableCarURLWithCheckOutOffice:(Office*) checkOutOffice andCheckInOffice:(Office*) checkInOffice andCheckOutDay:(NSDate*)checkOutDay andCheckOutTime:(NSDate*)checkOutTime andCheckInDay:(NSDate*)checkInDay andCheckInTime:(NSDate*)checkInTime{
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"yyyy-MM-ddThh:mm"];
-    NSString *checkOutDayString = [format stringFromDate:checkOutDay];
-    NSString *checkInDayString = [format stringFromDate:checkInDay];
-    
-    //aalpk iyi yollardan denedim olmadi simdi cakma zamani
-    checkOutDayString = [NSString stringWithFormat:@"%@T00:00:00",checkOutDayString];
-    checkInDayString = [NSString stringWithFormat:@"%@T00:00:00",checkInDayString];
-    [format setDateFormat:@"HH:mm"];
-    NSString *checkOutTimeString =[format stringFromDate:checkOutTime];
-    NSString *checkInTimeString =[format stringFromDate:checkInTime];
-    
-    
-    
-    // user login olmus mu
-    NSString* kunnr = [[ApplicationProperties getUser] kunnr];
-    NSString*mSube = checkOutOffice.mainOfficeCode;
-    NSString*sehir =@"";
-    
-    if (mSube == nil) {
-        mSube = @"";
-        sehir = checkOutOffice.cityCode;
-    }
-    
-    //main office vr mı
-    //aalpk : cikis main office bossa  bakıp onu yollayalım
-    
-    return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_ARAC_SRV/AvailCarServiceSet(ImppMsube='%@',ImppSehir='%@',ImppHdfsube='%@',ImppLangu='T',ImppLand='T',ImppUname='XXXXX',ImppKdgrp='',ImppKunnr='%@',ImppEhdat=datetime'2010-01-12T00:00:00',ImppGbdat=datetime'1983-07-15T00:00:00',ImppFikod='',ImppWaers='TL',ImppBegda=datetime'%@',ImppEndda=datetime'%@',ImppBeguz='%@',ImppEnduz='%@')?$expand=ET_ARACLISTESet,ET_FIYATSet&$format=json",mSube,sehir,checkInOffice.mainOfficeCode,kunnr,checkOutDayString,checkInDayString,checkOutTimeString,checkInTimeString];;
-    
-    
-}
-
-+ (NSString*)getCreateReservationURLWithReservation:(Reservation*)aReservation{
-    User *user = [ApplicationProperties getUser];
-    NSDateFormatter *dayFormat = [[NSDateFormatter alloc] init];
-    NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
-    [dayFormat setDateFormat:@"yyyy-MM-ddThh:mm"];
-    [timeFormat setDateFormat:@"HH:mm"];
-    
-    NSString *muserino = @"";
-    NSString *tckn = @"";
-    NSString *tel = @"";
-    NSString *lastname = @"";
-    NSString *firstname = @"";
-    NSString *email = @"";
-    NSString *cinsiyet = @"";
-    NSString *birthdate = @"1970-10-10";
-    if (user.isLoggedIn) {
-        muserino = user.kunnr;
-    }else{
-        tckn = user.tckno;
-        tel = user.mobile;
-        lastname = user.surname;
-        firstname = user.name;
-        email = user.email;
-        cinsiyet = user.gender;
-        birthdate = [dayFormat stringFromDate:user.birthday];
-    }
-    
-    NSString *teslimSubesi = aReservation.checkInOffice.mainOfficeCode;
-    NSString *rezEndtime = [timeFormat stringFromDate:aReservation.checkInTime];
-    NSString *rezEndda= [ dayFormat stringFromDate:aReservation.checkInTime];
-    NSString *rezBegtime = [timeFormat stringFromDate:aReservation.checkOutTime];
-    NSString *rezBegda = [dayFormat stringFromDate:aReservation.checkOutTime];
-    NSString *aracgrubu = aReservation.selectedCarGroup.groupCode;
-    NSString *alisSubesi = aReservation.checkOutOffice.mainOfficeCode;
-    NSString *toplamTutar = aReservation.selectedCarGroup.payLaterPrice;
-    
-    
-    rezEndda = [NSString stringWithFormat:@"%@T00:00:00",rezEndda];
-    rezBegda = [NSString stringWithFormat:@"%@T00:00:00",rezBegda];
-    birthdate =[NSString stringWithFormat:@"%@T00:00:00",birthdate];
-    
-    return [NSString stringWithFormat:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_temprezervasyon_SRV/ReservationService(Tckn='%@',Uyruk='',TeslimSubesi='%@',Telno='%@',RezEndtime='%@',RezEndda=datetime'%@',RezBegtime='%@',RezBegda=datetime'%@',Musterino='%@',Matnr='',Lastname='%@',GarentaTl=0.0M,Firstname='%@',Email='%@',Cinsiyet='%@',Bonus=0.0M,Birthdate=datetime'%@',Aracgrubu='%@',AlisSubesi='%@',ToplamTutar=%@M)?$format=json",tckn,teslimSubesi,tel,rezEndtime,rezEndda,rezBegtime,rezBegda,muserino,lastname,firstname,email,cinsiyet,birthdate,aracgrubu,alisSubesi,toplamTutar];
-    
-    
-}
-+ (NSString*)getVersionUrl{
-    return @"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_versiyon_SRV/VersiyonService(IAppName='rezapp',IVers='1.0')?$format=json";
-}
-
 + (BOOL)isActiveVersion{
     NSString *active = [[NSUserDefaults standardUserDefaults]
                         stringForKey:@"ACTIVEVERSION"];
@@ -221,179 +118,6 @@ static NSString *appName = @"REZ";
         return NO;
     
     return YES;
-}
-
-+ (NSString *)getLocations
-{
-    // ATA eğer ilerde maltıpıl lang. olayı gelirse buraya dokunuruz
-    return @"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_LOCATION_SRV/LocationServiceSet(IvLangu='T')?$expand=ET_ILSet,ET_ILCESet,ET_ULKESet&$format=json";
-}
-
-+ (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation{
-    __block NSMutableArray *closestOffices = [[NSMutableArray alloc] init];
-    NSLog(@"%f",userLocation.coordinate.latitude);
-    NSArray *sortedArray;
-    sortedArray = [someOffices sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-        CLLocation *firstOfficeLocation = [[CLLocation alloc] initWithLatitude:[[(Office*)a latitude] doubleValue] longitude:[[(Office*)a longitude] doubleValue]];
-        CLLocation *secondOfficeLocation = [[CLLocation alloc] initWithLatitude:[[(Office*)b latitude] doubleValue] longitude:[[(Office*)b longitude] doubleValue]];
-        
-        double firstDistance = [userLocation distanceFromLocation:firstOfficeLocation];
-        double secondDistance = [userLocation distanceFromLocation:secondOfficeLocation];
-        if (firstDistance<secondDistance) {
-            return (NSComparisonResult)NSOrderedAscending;
-        }else if(secondDistance<firstDistance){
-            return (NSComparisonResult)NSOrderedDescending;
-        }else{
-            return (NSComparisonResult)NSOrderedSame;
-        }
-        
-    }];
-    
-    __block NSPredicate *officeCodePredicate; // to get rid of suboffices
-    [sortedArray enumerateObjectsUsingBlock:^(id obj,NSUInteger idx, BOOL *stop){
-        officeCodePredicate = [NSPredicate predicateWithFormat:@"mainOfficeCode = %@",[(Office*)obj mainOfficeCode]];
-        if ([closestOffices filteredArrayUsingPredicate:officeCodePredicate].count == 0) {
-            [closestOffices addObject:obj];
-        }
-        if (closestOffices.count >= count) {
-            *stop = YES;
-        }
-    }];
-    return closestOffices;
-}
-
-
-#pragma mark - service configurations
-+ (void)configureOfficeService{
-    //Initialize the request handler with the service document URL and SAP client from the application settings.
-    ZGARENTA_OFIS_SRVRequestHandler *requestHandler = [ZGARENTA_OFIS_SRVRequestHandler uniqueInstance];
-    [requestHandler setServiceDocumentURL:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_OFIS_SRV"];
-    [requestHandler setSAPClient:@""];
-    
-    /* Set to 'NO' to disable service negotiation */
-    requestHandler.useServiceNegotiation = YES;
-    
-	/* Set to 'YES' to use local metadata for service proxy initialization */
-    requestHandler.useLocalMetadata = NO;
-    
-    /* Set to 'YES' to use JSON in HTTP requests */
-    requestHandler.useJSON = NO;
-}
-
-+ (void)configureCarService{
-    //Initialize the request handler with the service document URL and SAP client from the application settings.
-    ZGARENTA_ARAC_SRVRequestHandler *requestHandler = [ZGARENTA_ARAC_SRVRequestHandler uniqueInstance];
-    [requestHandler setServiceDocumentURL:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_ARAC_SRV"];
-    [requestHandler setSAPClient:@""];
-    
-    /* Set to 'NO' to disable service negotiation */
-    requestHandler.useServiceNegotiation = YES;
-    
-	/* Set to 'YES' to use local metadata for service proxy initialization */
-    requestHandler.useLocalMetadata = NO;
-    
-    /* Set to 'YES' to use JSON in HTTP requests */
-    requestHandler.useJSON = NO;
-}
-
-+ (void)configureAdditionalEquipmentService{
-    //Initialize the request handler with the service document URL and SAP client from the application settings.
-    ZGARENTA_EKHIZMET_SRVRequestHandler *requestHandler = [ZGARENTA_EKHIZMET_SRVRequestHandler uniqueInstance];
-    [requestHandler setServiceDocumentURL:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_EKHIZMET_SRV"];
-    [requestHandler setSAPClient:@""];
-    
-    /* Set to 'NO' to disable service negotiation */
-    requestHandler.useServiceNegotiation = YES;
-    
-	/* Set to 'YES' to use local metadata for service proxy initialization */
-    requestHandler.useLocalMetadata = NO;
-    
-    /* Set to 'YES' to use JSON in HTTP requests */
-    requestHandler.useJSON = NO;
-}
-+ (void)configureVersionService{
-    ZGARENTA_versiyon_srvRequestHandler *requestHandler = [ZGARENTA_versiyon_srvRequestHandler uniqueInstance];
-    [requestHandler setServiceDocumentURL:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_VERSIYON_SRV"];
-    [requestHandler setSAPClient:@""];
-    
-    /* Set to 'NO' to disable service negotiation */
-    requestHandler.useServiceNegotiation = YES;
-    
-	/* Set to 'YES' to use local metadata for service proxy initialization */
-    requestHandler.useLocalMetadata = NO;
-    
-    /* Set to 'YES' to use JSON in HTTP requests */
-    requestHandler.useJSON = NO;
-}
-
-+ (void)configureReservationService{
-    ZGARENTA_REZERVASYON_SRVRequestHandler *requestHandler = [ZGARENTA_REZERVASYON_SRVRequestHandler uniqueInstance];
-    [requestHandler setServiceDocumentURL:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_REZERVASYON_SRV"];
-    [requestHandler setSAPClient:@""];
-    
-    /* Set to 'NO' to disable service negotiation */
-    requestHandler.useServiceNegotiation = YES;
-    
-	/* Set to 'YES' to use local metadata for service proxy initialization */
-    requestHandler.useLocalMetadata = NO;
-    
-    /* Set to 'YES' to use JSON in HTTP requests */
-    requestHandler.useJSON = NO;
-}
-
-+ (void)configureLoginService{
-    ZGARENTA_LOGIN_SRV_01RequestHandler *requestHandler = [ZGARENTA_LOGIN_SRV_01RequestHandler uniqueInstance];
-    [requestHandler setServiceDocumentURL:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_LOGIN_SRV_01"];
-    [requestHandler setSAPClient:@""];
-    
-    /* Set to 'NO' to disable service negotiation */
-    requestHandler.useServiceNegotiation = YES;
-    
-	/* Set to 'YES' to use local metadata for service proxy initialization */
-    requestHandler.useLocalMetadata = NO;
-    
-    /* Set to 'YES' to use JSON in HTTP requests */
-    requestHandler.useJSON = NO;
-}
-+ (void)configureCreditCardService{
-    ZGARENTA_GET_CUST_KK_SRVRequestHandler *requestHandler = [ZGARENTA_GET_CUST_KK_SRVRequestHandler uniqueInstance];
-    [requestHandler setServiceDocumentURL:@"https://garentarezapp.celikmotor.com.tr:8000/sap/opu/odata/sap/ZGARENTA_GET_CUST_KK_SRV"];
-    [requestHandler setSAPClient:@""];
-    
-    /* Set to 'NO' to disable service negotiation */
-    requestHandler.useServiceNegotiation = YES;
-    
-	/* Set to 'YES' to use local metadata for service proxy initialization */
-    requestHandler.useLocalMetadata = NO;
-    
-    /* Set to 'YES' to use JSON in HTTP requests */
-    requestHandler.useJSON = NO;
-}
-+ (void)fillProperties:(id)object{
-    unsigned int count;
-    objc_property_t *properties = class_copyPropertyList([object class], &count);
-    for (NSUInteger i = 0; i < count; i++) {
-        objc_property_t property = properties[i];
-        NSString *key = [NSString stringWithUTF8String:property_getName(property)];
-        if ([ApplicationProperties isNSString:property]) {
-            [object setValue:@" " forKey:key];
-        }
-    }
-    
-    free(properties);
-    
-}
-+ (BOOL) isNSString:(objc_property_t)prop{
-    
-    const char * propAttr = property_getAttributes(prop);
-    NSString *propString = [NSString stringWithUTF8String:propAttr];
-    
-    NSRange isRange = [propString rangeOfString:@"NSString" options:NSCaseInsensitiveSearch];
-    if(isRange.length == 0) {
-        return NO;
-    } else {
-        return YES;
-    }
 }
 
 + (BOOL)checkYoungDriverAddition:(CarGroup *)selectedCarGroup andBirthday:(NSDate *)birthday andLicenseDate:(NSDate *)licenseDate
@@ -446,6 +170,261 @@ static NSString *appName = @"REZ";
         return YES;
     
     return NO;
+}
+
++ (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow {
+    NSString *alertString = @"";
+    
+    @try {
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZNET_CREATE_REZERVASYON"];
+        
+        NSDateFormatter *dateFormatter = [NSDateFormatter new];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSDateFormatter *timeFormatter = [NSDateFormatter new];
+        [timeFormatter setDateFormat:@"HH:mm"];
+        
+        // IS_INPUT
+        
+        NSArray *isInputColumns = @[@"REZ_NO", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"ODEME_TURU", @"GARENTA_TL", @"BONUS", @"MILES_SMILES", @"GUN_SAYISI", @"TOPLAM_TUTAR", @"C_PRIORITY", @"C_CORP_PRIORITY", @"REZ_KANAL", @"FT_CIKIS_IL", @"FT_CIKIS_ILCE", @"FT_CIKIS_ADRES", @"FT_DONUS_IL", @"FT_DONUS_ILCE", @"FT_DONUS_ADRES", @"PARA_BIRIMI", @"FT_MALIYET_TIPI", @"USERNAME", @"PUAN_TIPI", @"UCUS_SAATI", @"UCUS_NO", @"ODEME_BICIMI", @"FATURA_ACIKLAMA", @"EMAIL_CONFIRM", @"TELNO_CONFIRM"];
+        
+        NSString *isPriority = @"";
+        
+        if ([[ApplicationProperties getUser] isPriority]) {
+            isPriority = @"X";
+        }
+        
+        NSString *paymentType = @"";
+        
+        if (isPayNow) {
+            paymentType = @"1";
+        }
+        else {
+            paymentType = @"2";
+        }
+        
+        NSString *totalPrice = [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:nil] stringValue];
+        
+        // satış burosunu onurla konuşcam
+        NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, @"", @"", @"", [_reservation.selectedCarGroup.sampleCar.pricing.dayCount stringValue], totalPrice, isPriority, @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"", @"", @"", @"", @"", @"", @""];
+        [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
+        
+        // IS_USERINFO
+        
+        NSArray *isUserInfoColumns;
+        NSArray *isUserInfoValues;
+        
+        if ([[ApplicationProperties getUser] isLoggedIn]) {
+            isUserInfoColumns = @[@"MUSTERINO"];
+            isUserInfoValues = @[[[ApplicationProperties getUser] kunnr]];
+        }
+        else {
+            
+            isUserInfoColumns = @[@"MUSTERINO", @"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN", @"VERGINO", @"ADRESS", @"EMAIL", @"TELNO", @"UYRUK", @"ULKE", @"SALES_ORGANIZATION", @"DISTRIBUTION_CHANNEL", @"DIVISION", @"KANALTURU", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"ILKODU", @"ILCEKOD", @"MIDDLENAME", @"PASAPORTNO", @"TK_KARTNO", @"TELNO_ULKE"];
+            isUserInfoValues = @[@""];
+            
+            return @"";// Şimdilik
+        }
+        
+        [handler addImportStructure:@"IS_USERINFO" andColumns:isUserInfoColumns andValues:isUserInfoValues];
+        
+        // IT_ARACLAR
+        NSArray *itAraclarColumns = @[@"MATNR"];
+        NSMutableArray *itAraclarValues = [NSMutableArray new];
+        
+        for (Car *tempCar in _reservation.selectedCarGroup.cars) {
+            NSArray *arr = @[[tempCar materialCode]];
+            [itAraclarValues addObject:arr];
+        }
+        
+        [handler addTableForImport:@"IT_ARACLAR" andColumns:itAraclarColumns andValues:itAraclarValues];
+        
+        // IT_ITEMS
+        NSArray *itItemsColumns = @[@"REZ_KALEM_NO", @"MALZEME_NO", @"MIKTAR", @"ARAC_GRUBU", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"KAMPANYA_ID", @"FIYAT", @"C_KISLASTIK", @"ARAC_RENK", @"SASI_NO", @"PLAKA_NO", @"JATO_MARKA", @"JATO_MODEL", @"FILO_SEGMENT", @"FIYAT_KODU", @"UPDATE_STATU", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"KALEM_TIPI", @"PARA_BIRIMI", @"IS_AYLIK", @"KURUM_BIREYSEL"];
+        
+        NSMutableArray *itItemsValues = [NSMutableArray new];
+        
+        NSString *matnr = @"";
+        NSString *jatoBrandID = @"";
+        NSString *jatoModelID = @"";
+        
+        if (_reservation.selectedCar != nil) {
+            matnr = _reservation.selectedCar.materialCode;
+            jatoBrandID = _reservation.selectedCar.brandId;
+            jatoModelID = _reservation.selectedCar.modelId;
+        }
+        
+        // ARAÇ
+        
+        NSArray *vehicleLine = @[@"", matnr, @"1", _reservation.selectedCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", _reservation.selectedCarGroup.payLaterPrice, @"", @"", @"", @"", jatoBrandID, jatoModelID, _reservation.selectedCarGroup.segment, @"", @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
+        
+        [itItemsValues addObject:vehicleLine];
+        
+        // Ekipmanlar, Hizmetler
+        
+        for (AdditionalEquipment *tempEquipment in _reservation.additionalEquipments) {
+            for (int count = 0; count < tempEquipment.quantity; count++) {
+                NSArray *equipmentLine = @[@"", tempEquipment.materialNumber, @"1", @"", _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", [tempEquipment.price stringValue], @"", @"", @"", @"", @"", @"", @"", @"", @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
+                
+                [itItemsValues addObject:equipmentLine];
+            }
+        }
+        
+        // Aracını seçtiyse
+        if (_reservation.selectedCar != nil) {
+            
+            NSArray *carSelectionLine = @[@"", @"HZM0031", @"1", @"", _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", [_reservation.selectedCar.pricing.carSelectPrice stringValue], @"", @"", @"", @"", @"", @"", @"", @"", @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
+            [itItemsValues addObject:carSelectionLine];
+        }
+        
+        [handler addTableForImport:@"IT_ITEMS" andColumns:itItemsColumns andValues:itItemsValues];
+        
+        // IT_EKSURUCU
+        NSArray *itEkSurucuColumns = @[@"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN", @"TELNO", @"UYRUK", @"ULKE", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"EKSURUCU_NO", @"UPDATE_STATU", @"KALEM_NO"];
+        
+        NSMutableArray *itEkSurucuValues = [NSMutableArray new];
+        
+        for (AdditionalEquipment *temp in _reservation.additionalDrivers) {
+            NSArray *additionalDriverLine = @[temp.additionalDriverGender, temp.additionalDriverFirstname, temp.additionalDriverSurname, [dateFormatter stringFromDate:temp.additionalDriverBirthday], @"", @"", @"", @"", temp.additionalDriverLicensePlace, temp.additionalDriverLicenseClass, temp.additionalDriverLicenseNumber, [dateFormatter stringFromDate:temp.additionalDriverLicenseDate], @"", @"", @""];
+            [itEkSurucuValues addObject:additionalDriverLine];
+        }
+        
+        if ([itEkSurucuValues count] > 0) {
+            [handler addTableForImport:@"IT_EKSURUCU" andColumns:itEkSurucuColumns andValues:itEkSurucuValues];
+        }
+        
+        // IT_SD Reserv
+        
+        NSArray *itSDReservColumns = @[@"SUBE", @"GRUP_KODU", @"FIYAT_KODU", @"TARIH", @"R_VBELN", @"R_POSNR", @"R_GJAHR", @"R_AUART", @"MATNR", @"KUNNR", @"HDFSUBE", @"AUGRU", @"VKORG", @"VTWEG", @"SPART", @"TUTAR", @"GRNTTL_KAZANIR", @"MIL_KAZANIR", @"BONUS_KAZANIR"];
+        
+        NSMutableArray *itSDReservValues = [NSMutableArray new];
+        
+        for (SDReservObject *tempObject in _reservation.etReserv) {
+            if ([tempObject.office isEqualToString:_reservation.checkOutOffice.subOfficeCode] && [tempObject.groupCode isEqualToString:_reservation.selectedCarGroup.groupCode]) {
+                NSArray *arr = @[tempObject.office, tempObject.groupCode, tempObject.priceCode, tempObject.date, tempObject.rVbeln, tempObject.rPosnr, tempObject.RGjahr, tempObject.rAuart, tempObject.matnr, tempObject.kunnr, tempObject.destinationOffice, tempObject.augru, tempObject.vkorg, tempObject.vtweg, tempObject.spart, tempObject.price, tempObject.isGarentaTl, tempObject.isMiles, tempObject.isBonus];
+                [itSDReservValues addObject:arr];
+            }
+        }
+        
+        [handler addTableForImport:@"IT_SDREZERV" andColumns:itSDReservColumns andValues:itSDReservValues];
+        
+        if (isPayNow) {
+            // IT_TAHSILAT
+            
+            NSArray *itTahsilatColumns = @[@"KUNNR", @"TAHSTIP", @"KART_SAHIBI", @"KART_NUMARASI", @"MER_KEY", @"GUVENLIKKODU", @"AY", @"YIL", @"ORDER_ID", @"CUSTOMER_IP", @"CUSTOMER_EMAIL" ,@"CUSTOMER_FULLNAME", @"COMPANYNAME", @"AMOUNT", @"POINT", @"POINT_TUTAR", @"IS_POINT", @"GARENTA_TL", @"VKBUR", @"MUSTERIONAY"];
+            
+            NSMutableArray *itTahsilatValues = [NSMutableArray new];
+            
+            NSString *kunnr = @"";
+            NSString *email = @"";
+            
+            if ([[ApplicationProperties getUser] isLoggedIn]) {
+                kunnr = [[ApplicationProperties getUser] kunnr];
+                email = [[ApplicationProperties getUser] email];
+            }
+            
+            NSString *cardOwner = @"";
+            NSString *cardNumber = @"";
+            NSString *cardCV2 = @"";
+            NSString *cardMonth = @"";
+            NSString *cardYear = @"";
+            NSString *merchantSafe = @"";
+            
+            NSString *ipAdress= [ApplicationProperties getCustomerIP];
+            
+            if ([_reservation.paymentNowCard.uniqueId isEqualToString:@""] || _reservation.paymentNowCard.uniqueId == nil) {
+                cardOwner = _reservation.paymentNowCard.nameOnTheCard;
+                cardNumber = _reservation.paymentNowCard.cardNumber;
+                cardCV2 = _reservation.paymentNowCard.cvvNumber;
+                cardMonth = _reservation.paymentNowCard.expirationMonth;
+                cardYear = _reservation.paymentNowCard.expirationYear;
+            }
+            else {
+                merchantSafe = _reservation.paymentNowCard.uniqueId;
+            }
+            
+            NSArray *itTahsilatValue = @[kunnr, @"K", cardOwner, cardNumber, merchantSafe, cardCV2, cardMonth, cardYear, @"", ipAdress, email, cardOwner, @"", totalPrice, @"", @"", @"", @"", _reservation.checkOutOffice.subOfficeCode, @""];
+            [itTahsilatValues addObject:itTahsilatValue];
+            
+            [handler addTableForImport:@"IT_TAHSILAT" andColumns:itTahsilatColumns andValues:itTahsilatValues];
+        }
+        
+        [handler addTableForReturn:@"ET_RETURN"];
+        [handler addTableForReturn:@"ET_KK_RETURN"];
+        
+        NSDictionary *response = [handler prepCall];
+        
+        if (response != nil) {
+            NSDictionary *export = [response objectForKey:@"EXPORT"];
+            
+            NSString *subrc = [export valueForKey:@"EV_SUBRC"];
+            
+            if ([subrc isEqualToString:@"0"]) {
+                NSDictionary *esOutput = [export objectForKey:@"ES_OUTPUT"];
+                
+                NSString *reservationNo = [esOutput valueForKey:@"REZ_NO"];
+                return reservationNo;
+            }
+            else {
+                
+                NSDictionary *tables = [response objectForKey:@"TABLES"];
+                
+                if (isPayNow) {
+                    NSDictionary *etKKReturn = [tables objectForKey:@"ZNET_INT_TAHSILATLOG"];
+                    
+                    for (NSDictionary *temp in etKKReturn) {
+                        alertString = [temp valueForKey:@"O_ERR_MESSAGE"];
+                    }
+                    
+                    if ([alertString isEqualToString:@""]) {
+                        alertString = @"Rezervasyon yaratımı sırasında hata oluştu. Lütfen tekrar deneyiniz";
+                    }
+                }
+                else {
+                    alertString = @"Rezervasyon yaratımı sırasında hata oluştu. Lütfen tekrar deneyiniz";
+                }
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (![alertString isEqualToString:@""]) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                    [alert show];
+                }
+            });
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+    }
+    
+    return @"";
+}
+
++ (NSString *)getCustomerIP
+{
+    NSString *ipAdress = @"192.168.1.1";
+    
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://mobil.garenta.com.tr/hgs/Service1.svc/json/getip/"]];
+    
+    NSURLResponse * response = nil;
+    NSError * error = nil;
+    NSData * data = [NSURLConnection sendSynchronousRequest:urlRequest
+                                          returningResponse:&response
+                                                      error:&error];
+    
+    if (error == nil)
+    {
+        NSError *jsonError;
+        
+        NSDictionary *requestResult = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
+        
+        if (jsonError == nil) {
+            ipAdress =[requestResult valueForKey:@"GetUserIPResult"];
+        }
+    }
+    
+    return ipAdress;
 }
 
 @end
