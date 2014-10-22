@@ -60,5 +60,6 @@ typedef enum{
 
 + (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow;
 + (NSString *)getCustomerIP;
++ (void)loginToSap:(NSString *)username andPassword:(NSString *)password;
 
 @end

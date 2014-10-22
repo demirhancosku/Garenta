@@ -8,7 +8,6 @@
 
 #import "MenuSelectionVC.h"
 #import "MenuTableCellView.h"
-#import "MinimumInfoVC.h"
 
 @interface MenuSelectionVC ()
 - (IBAction)locationBasedSearchSelected:(id)sender;

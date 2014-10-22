@@ -25,10 +25,10 @@ NSString *r3HostName = @"10.98.102.18";
 NSString *r3Client = @"500";
 NSString *r3Destination = @"CDQ";
 NSString *r3SystemNumber = @"00";
-//NSString *r3Username = @"WSUSER";
-//NSString *r3Password = @"Ws123456";
-NSString *r3Username = @"AKEREMB";
-NSString *r3Password = @"123456";
+NSString *r3Username = @"WSUSER";
+NSString *r3Password = @"Ws123456";
+//NSString *r3Username = @"AKEREMB";
+//NSString *r3Password = @"123456";
 
 //// R3 Test Bilgileri
 //NSString *r3HostName = @"10.12.3.174";
