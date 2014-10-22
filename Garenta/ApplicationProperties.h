@@ -44,10 +44,6 @@ typedef enum{
 + (NSString *)getAppVersion;
 + (NSString *)getAppName;
 
-+ (NSString*)getAvailableCarURLWithCheckOutOffice:(Office*) checkOutOffice andCheckInOffice:(Office*) checkInOffice andCheckOutDay:(NSDate*)checkOutDay andCheckOutTime:(NSDate*)checkOutTime andCheckInDay:(NSDate*)checkInDay andCheckInTime:(NSDate*)checkInTime;
-+ (NSString*)getCreateReservationURLWithReservation:(Reservation*)aReservation;
-+ (NSString *)getLocations;
-
 //aktiflik
 + (BOOL)isActiveVersion;
 

@@ -621,8 +621,7 @@
     
     if ([ApplicationProperties getMainSelection] == location_search) {
         
-        NSMutableArray *closestoffices = [ApplicationProperties closestFirst:1 fromOffices:[ApplicationProperties getOffices] toMyLocation:lastLocation];
-        
+        NSMutableArray *closestoffices = [Office closestFirst:1 fromOffices:[ApplicationProperties getOffices] toMyLocation:lastLocation];
         for (Office *tempOffice in closestoffices) {
             return tempOffice;
         }

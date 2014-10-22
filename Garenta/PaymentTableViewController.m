@@ -352,7 +352,7 @@
         
         _reservation.paymentNowCard = tempCard;
         
-        _reservation.reservationNumber = [ApplicationProperties createReservationAtSAP:_reservation andIsPayNow:YES];
+        _reservation.reservationNumber = [Reservation createReservationAtSAP:_reservation andIsPayNow:YES];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];

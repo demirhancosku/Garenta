@@ -242,7 +242,7 @@
         User *tempUser = [ApplicationProperties getUser];
         
         EquipmentVC *additionalEquipmentsVC = (EquipmentVC*)segue.destinationViewController;
-        [additionalEquipmentsVC setIsYoungDriver:[ApplicationProperties checkYoungDriverAddition:_tableViewVC.activeCarGroup andBirthday:tempUser.birthday andLicenseDate:tempUser.driversLicenseDate]];
+        [additionalEquipmentsVC setIsYoungDriver:[CarGroup checkYoungDriverAddition:_tableViewVC.activeCarGroup andBirthday:tempUser.birthday andLicenseDate:tempUser.driversLicenseDate]];
         [additionalEquipmentsVC setReservation:_reservation];
     }
 }
