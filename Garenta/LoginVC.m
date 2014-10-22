@@ -39,7 +39,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super   viewWillAppear:animated];
-
+    
     [_usernameTextField setText:@"suleyman.nalci@abh.com.tr"];
     [_passwordTextField setText:@"numq0"];
     
@@ -58,28 +58,38 @@
 
 - (IBAction)login:(id)sender
 {
-    
     if (![_usernameTextField.text isEqualToString:@""] && ![_passwordTextField.text isEqualToString:@""])
     {
         NSData *passwordData = [_passwordTextField.text dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
         NSString *base64Encoded = [passwordData base64EncodedStringWithOptions:0];
         
-        [ApplicationProperties loginToSap:_usernameTextField.text andPassword:base64Encoded];
-
-        User *user = [ApplicationProperties getUser];
-        
-        if ([user isLoggedIn]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hoşgeldiniz" message:[NSString stringWithFormat:@"Sayın %@ %@", [user name], [user surname]] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
-            [alert show];
-            [[self navigationController] popToRootViewControllerAnimated:YES];
-        }
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            
+            [ApplicationProperties loginToSap:_usernameTextField.text andPassword:base64Encoded];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                User *user = [ApplicationProperties getUser];
+                
+                if ([user isLoggedIn]) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hoşgeldiniz" message:[NSString stringWithFormat:@"Sayın %@ %@", [user name], [user surname]] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                    [alert show];
+                    [[self navigationController] popToRootViewControllerAnimated:YES];
+                }
+            });
+        });
     }
     else
     {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kullanıcı adı ve şifre giriniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
-    
-    [alert show];
-    return;
+        
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kullanıcı adı ve şifre giriniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+            
+            [alert show];
+            return;
+        });
     }
 }
 
