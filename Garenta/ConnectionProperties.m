@@ -10,7 +10,7 @@
 
 @implementation ConnectionProperties
 
-static NSString *jsonConnectionURL = @"http://webservicesJSON.celikmotor.com/SapJSONWebserviceRfc/rest/serviceRFCJSON/getServiceRFC";
+static NSString *jsonConnectionURL = @"http://webservicesJSON.celikmotor.com/SapJSONWebserviceRfc/rest/serviceRFCJSON/postServiceRFC";
 
 // R3 Canlı Bilgileri
 //NSString *r3HostName = @"10.98.102.19";

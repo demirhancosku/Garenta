@@ -103,8 +103,6 @@
 		B59211A2195E981400A54E0E /* CreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = B59211A1195E981300A54E0E /* CreditCard.m */; };
 		B59211A4195ECE2F00A54E0E /* calendar_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B59211A3195ECE2F00A54E0E /* calendar_icon.png */; };
 		B59492101910F82F009BBAC8 /* MainStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B594920F1910F82F009BBAC8 /* MainStoryBoard.storyboard */; };
-		B5A2CAE81872B60100271DE9 /* MinimumInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A2CAE61872B60100271DE9 /* MinimumInfoVC.m */; };
-		B5A2CAE91872B60100271DE9 /* MinimumInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5A2CAE71872B60100271DE9 /* MinimumInfoVC.xib */; };
 		B5A3354519176DCA00B29C2B /* GarentaTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5A3354419176DCA00B29C2B /* GarentaTests-Info.plist */; };
 		B5B017BC19755A0000F1BD18 /* AdditionalDriverListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B017BB19755A0000F1BD18 /* AdditionalDriverListVC.m */; };
 		B5BBE94E195021CF000AD4E2 /* UIViewController+Garenta.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BBE94D195021CF000AD4E2 /* UIViewController+Garenta.m */; };
@@ -292,9 +290,6 @@
 		B59211A1195E981300A54E0E /* CreditCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreditCard.m; sourceTree = "<group>"; };
 		B59211A3195ECE2F00A54E0E /* calendar_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendar_icon.png; sourceTree = "<group>"; };
 		B594920F1910F82F009BBAC8 /* MainStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryBoard.storyboard; sourceTree = "<group>"; };
-		B5A2CAE51872B60100271DE9 /* MinimumInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinimumInfoVC.h; sourceTree = "<group>"; };
-		B5A2CAE61872B60100271DE9 /* MinimumInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MinimumInfoVC.m; sourceTree = "<group>"; };
-		B5A2CAE71872B60100271DE9 /* MinimumInfoVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MinimumInfoVC.xib; sourceTree = "<group>"; };
 		B5A3354419176DCA00B29C2B /* GarentaTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GarentaTests-Info.plist"; path = "GarentaTests/GarentaTests-Info.plist"; sourceTree = SOURCE_ROOT; };
 		B5B017BA19755A0000F1BD18 /* AdditionalDriverListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdditionalDriverListVC.h; sourceTree = "<group>"; };
 		B5B017BB19755A0000F1BD18 /* AdditionalDriverListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdditionalDriverListVC.m; sourceTree = "<group>"; };
@@ -419,6 +414,15 @@
 				9E38C3BC1869EA8100EBD29E /* CarGroupFilterVC.m */,
 			);
 			name = FilterScreen;
+			sourceTree = "<group>";
+		};
+		0C460DC219F78DCC00DA125E /* oldReservationUpdate */ = {
+			isa = PBXGroup;
+			children = (
+				0CB7000419F5B351001BA83F /* OldReservationSearchVC.h */,
+				0CB7000519F5B351001BA83F /* OldReservationSearchVC.m */,
+			);
+			name = oldReservationUpdate;
 			sourceTree = "<group>";
 		};
 		0C4C9A5D18462EAA00CD3728 = {
@@ -722,10 +726,9 @@
 				0C4FF37819EFFE3C00E06A71 /* OldReservationListVC.m */,
 				0C6CF63C19F064AC006B3174 /* OldReservationDetailVC.h */,
 				0C6CF63D19F064AC006B3174 /* OldReservationDetailVC.m */,
-				0CB7000419F5B351001BA83F /* OldReservationSearchVC.h */,
-				0CB7000519F5B351001BA83F /* OldReservationSearchVC.m */,
 				0C4FF37A19F00BF300E06A71 /* OldReservationTableViewCell.h */,
 				0C4FF37B19F00BF300E06A71 /* OldReservationTableViewCell.m */,
+				0C460DC219F78DCC00DA125E /* oldReservationUpdate */,
 			);
 			name = oldReservationVCs;
 			sourceTree = "<group>";
@@ -948,7 +951,6 @@
 				0CC9ED3719F69C5C00E7CF1C /* SAPJSONHandler.m in Sources */,
 				B592119F195DA38D00A54E0E /* ReservationScopePopoverVC.m in Sources */,
 				0C5B5FC81864770F0060BECD /* CalendarTimeVC.m in Sources */,
-				B50B09E31874EC7B00649165 /* ReservationSummaryCell.m in Sources */,
 				0C0DA9AA1865D04B003EDDA0 /* OfficeListVC.m in Sources */,
 				B5E03444186DEAE100226DAB /* CarGroupViewController.m in Sources */,
 				B58D438D192C826D000AF1EB /* CarGroupTableViewCell.m in Sources */,

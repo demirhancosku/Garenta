@@ -150,6 +150,11 @@
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    if ([segue.identifier isEqualToString:@"toOldReservationSearchSegue"])
+    {
+        [(OldReservationSearchVC *)[segue destinationViewController] setReservation:_reservation];
+    }
+    
     if ([segue.identifier isEqualToString:@"toDetailPopoverVCSegue"])
     {
         WYStoryboardPopoverSegue* popoverSegue = (WYStoryboardPopoverSegue*)segue;
@@ -211,9 +216,7 @@
 
 - (void)changeReservation
 {
-    OldReservationSearchVC *temp = (OldReservationSearchVC *)[self.storyboard instantiateViewControllerWithIdentifier:@"kerem"];
-    
-    [self presentViewController:temp animated:YES completion:nil];
+    [self performSegueWithIdentifier:@"toOldReservationSearchSegue" sender:self];
 }
 
 // REZERVASYON BELGESİNİ İPTAL EDER

@@ -153,7 +153,6 @@
                 [[cell officeLabel] setText:@"Size En Yakın Araçlar"];
                 [cell setAccessoryType:UITableViewCellAccessoryNone];
             }
-            
         }
         else
         {

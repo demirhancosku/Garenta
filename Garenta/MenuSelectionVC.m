@@ -93,7 +93,7 @@ static int kGarentaLogoId = 1;
             
             if ([[ApplicationProperties getUser] isLoggedIn])
             {
-                [ApplicationProperties loginToSap:[[NSUserDefaults standardUserDefaults] valueForKey:@"USERNAME"] andPassword:[[NSUserDefaults standardUserDefaults] valueForKey:@"PASSWORD"]];
+                [User loginToSap:[[NSUserDefaults standardUserDefaults] valueForKey:@"USERNAME"] andPassword:[[NSUserDefaults standardUserDefaults] valueForKey:@"PASSWORD"]];
                 
             }
         }

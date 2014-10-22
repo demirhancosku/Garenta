@@ -42,4 +42,7 @@
 @property (nonatomic, strong) NSArray *reservationList;
 
 @property (nonatomic,retain) Coordinate *userLocation;
+
++ (void)loginToSap:(NSString *)username andPassword:(NSString *)password;
+
 @end

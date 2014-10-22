@@ -429,7 +429,4 @@ NSMutableArray *offices;
     return ipAdress;
 }
 
-+ (void)loginToSap:(NSString *)username andPassword:(NSString *)password {
-    
-}
 @end
