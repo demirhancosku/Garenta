@@ -100,8 +100,10 @@ static int kGarentaLogoId = 1;
         else {
             [[NSUserDefaults standardUserDefaults] setObject:@"F" forKey:@"ACTIVEVERSION"];
 
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bilgi" message:@"Uygulamamızın yeni versiyonunu indirmenizi rica ederiz. Teşekkürler." delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
-            [alert show];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bilgi" message:@"Uygulamamızın yeni versiyonunu indirmenizi rica ederiz. Teşekkürler." delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
+                [alert show];
+            });
         }
     }
     
