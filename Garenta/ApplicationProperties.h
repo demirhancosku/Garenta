@@ -44,22 +44,9 @@ typedef enum{
 + (NSString *)getAppVersion;
 + (NSString *)getAppName;
 
-+ (NSString*)getAvailableCarURLWithCheckOutOffice:(Office*) checkOutOffice andCheckInOffice:(Office*) checkInOffice andCheckOutDay:(NSDate*)checkOutDay andCheckOutTime:(NSDate*)checkOutTime andCheckInDay:(NSDate*)checkInDay andCheckInTime:(NSDate*)checkInTime;
-+ (NSString*)getCreateReservationURLWithReservation:(Reservation*)aReservation;
-+ (NSString *)getLocations;
-
 //aktiflik
 + (BOOL)isActiveVersion;
 
-+ (BOOL)checkYoungDriverAddition:(CarGroup *)selectedCarGroup andBirthday:(NSDate *)birthday andLicenseDate:(NSDate *)licenseDate;
-+ (BOOL)isCarGroupAvailableByAge:(CarGroup *)activeCarGroup andBirthday:(NSDate *)birthday;
-
-+ (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation;
-
-+ (void)fillProperties:(id)object;
-
-+ (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow;
-+ (NSString *)getCustomerIP;
 + (void)loginToSap:(NSString *)username andPassword:(NSString *)password;
 
 @end

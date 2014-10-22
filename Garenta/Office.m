@@ -23,22 +23,38 @@
     
 }
 
-+ (Office*)getClosestOfficeFromList:(NSMutableArray*)officeList withCoordinate:(Coordinate*) lastLocation{
-    Office *closestOffice;
-    double closestDistance;
-    for (Office *tempOffice in officeList) {
-        if (closestOffice == nil) {
-            closestOffice = tempOffice;
-            closestDistance = [Office getDistanceFromOldPointY:lastLocation.coordinate.latitude andOldPointX:lastLocation.coordinate.longitude andNewPointY:[tempOffice.latitude doubleValue] andNewPointX:[tempOffice.longitude doubleValue]];
-        }else{
-            if (closestDistance > [Office getDistanceFromOldPointY:lastLocation.coordinate.latitude andOldPointX:lastLocation.coordinate.longitude andNewPointY:[tempOffice.latitude doubleValue] andNewPointX:[tempOffice.longitude doubleValue]]) {
-                closestDistance = [Office getDistanceFromOldPointY:lastLocation.coordinate.latitude andOldPointX:lastLocation.coordinate.longitude andNewPointY:[tempOffice.latitude doubleValue] andNewPointX:[tempOffice.longitude doubleValue]];
-                closestOffice = tempOffice;
-            }
-        }
 
-    }
-    return closestOffice;
++ (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation{
+    __block NSMutableArray *closestOffices = [[NSMutableArray alloc] init];
+    NSLog(@"%f",userLocation.coordinate.latitude);
+    NSArray *sortedArray;
+    sortedArray = [someOffices sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        CLLocation *firstOfficeLocation = [[CLLocation alloc] initWithLatitude:[[(Office*)a latitude] doubleValue] longitude:[[(Office*)a longitude] doubleValue]];
+        CLLocation *secondOfficeLocation = [[CLLocation alloc] initWithLatitude:[[(Office*)b latitude] doubleValue] longitude:[[(Office*)b longitude] doubleValue]];
+        
+        double firstDistance = [userLocation distanceFromLocation:firstOfficeLocation];
+        double secondDistance = [userLocation distanceFromLocation:secondOfficeLocation];
+        if (firstDistance<secondDistance) {
+            return (NSComparisonResult)NSOrderedAscending;
+        }else if(secondDistance<firstDistance){
+            return (NSComparisonResult)NSOrderedDescending;
+        }else{
+            return (NSComparisonResult)NSOrderedSame;
+        }
+        
+    }];
+    
+    __block NSPredicate *officeCodePredicate; // to get rid of suboffices
+    [sortedArray enumerateObjectsUsingBlock:^(id obj,NSUInteger idx, BOOL *stop){
+        officeCodePredicate = [NSPredicate predicateWithFormat:@"mainOfficeCode = %@",[(Office*)obj mainOfficeCode]];
+        if ([closestOffices filteredArrayUsingPredicate:officeCodePredicate].count == 0) {
+            [closestOffices addObject:obj];
+        }
+        if (closestOffices.count >= count) {
+            *stop = YES;
+        }
+    }];
+    return closestOffices;
 }
 
 + (double)getDistanceFromOldPointY:(double)old_lat andOldPointX:(double)old_lon andNewPointY:(double) new_lat andNewPointX:(double) new_lon{

@@ -41,4 +41,7 @@
 
 #pragma mark - util methods
 - (NSMutableArray*)carGroupOffices;
+
++ (BOOL)checkYoungDriverAddition:(CarGroup *)selectedCarGroup andBirthday:(NSDate *)birthday andLicenseDate:(NSDate *)licenseDate;
++ (BOOL)isCarGroupAvailableByAge:(CarGroup *)activeCarGroup andBirthday:(NSDate *)birthday;
 @end

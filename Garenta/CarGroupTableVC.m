@@ -81,7 +81,7 @@
 
 - (BOOL)checkIsCarGroupAvailable:(NSDate *)birthday
 {
-    if ([ApplicationProperties isCarGroupAvailableByAge:_activeCarGroup andBirthday:birthday])
+    if ([CarGroup isCarGroupAvailableByAge:_activeCarGroup andBirthday:birthday])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:[NSString stringWithFormat:@"Seçilen araç grubuna rezervasyon yapılamaz. (Min.Genç Sürücü yaşı: %i - Min.Genç Sürücü Ehliyet Yılı: %i)",_activeCarGroup.minYoungDriverAge,_activeCarGroup.minYoungDriverLicense] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
         

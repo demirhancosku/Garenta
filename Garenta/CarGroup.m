@@ -206,4 +206,58 @@
     }];
     return [NSMutableArray arrayWithArray:sortedArray];
 }
+
++ (BOOL)checkYoungDriverAddition:(CarGroup *)selectedCarGroup andBirthday:(NSDate *)birthday andLicenseDate:(NSDate *)licenseDate
+{
+    if (birthday == nil || licenseDate == nil) {
+        return NO;
+    }
+    
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSString *customerBirthdayYear = [[formatter stringFromDate:birthday] substringToIndex:4];
+    NSString *customerLicenseYear = [[formatter stringFromDate:licenseDate] substringToIndex:4];
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
+    NSInteger currentYear = [components year];
+    
+    NSInteger age = currentYear - customerBirthdayYear.integerValue;
+    NSInteger licenceYear = currentYear - customerLicenseYear.integerValue;
+    
+    if (selectedCarGroup.minAge > age)
+        return YES;
+    else if (selectedCarGroup.minDriverLicense > licenceYear)
+        return YES;
+    
+    return NO;
+}
+
++ (BOOL)isCarGroupAvailableByAge:(CarGroup *)activeCarGroup andBirthday:(NSDate *)birthday
+{
+    if (birthday == nil) {
+        return NO;
+    }
+    
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSString *customerBirthdayYear = [[formatter stringFromDate:birthday] substringToIndex:4];
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
+    NSInteger currentYear = [components year];
+    
+    NSInteger age = currentYear - customerBirthdayYear.integerValue;
+    
+    if (activeCarGroup.minYoungDriverAge > age)
+        return YES;
+    else if (activeCarGroup.minYoungDriverLicense > age)
+        return YES;
+    
+    return NO;
+}
+
+
 @end
