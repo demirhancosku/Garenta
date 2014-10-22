@@ -38,23 +38,10 @@ typedef enum{
 + (User*)getUser;
 + (NSMutableArray*)getOffices;
 + (void)setUser:(User*)aUser;
-+ (NSString*)getSAPUser;
-+ (NSString*)getSAPPassword;
-+ (int)getTimeout;
 + (NSString *)getAppVersion;
 + (NSString *)getAppName;
 
 //aktiflik
 + (BOOL)isActiveVersion;
-
-+ (BOOL)checkYoungDriverAddition:(CarGroup *)selectedCarGroup andBirthday:(NSDate *)birthday andLicenseDate:(NSDate *)licenseDate;
-+ (BOOL)isCarGroupAvailableByAge:(CarGroup *)activeCarGroup andBirthday:(NSDate *)birthday;
-
-+ (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation;
-
-+ (void)fillProperties:(id)object;
-
-+ (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow;
-+ (NSString *)getCustomerIP;
 
 @end
