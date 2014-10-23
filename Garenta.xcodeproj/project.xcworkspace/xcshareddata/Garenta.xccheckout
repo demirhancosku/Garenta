@@ -14,7 +14,7 @@
 		<string>https://github.com/alpkeser/Garenta.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Garenta.xcodeproj/project.xcworkspace</string>
+	<string>Garenta.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>F66A3B0CAEF86868897AF589EE9C53878237C24A</key>
