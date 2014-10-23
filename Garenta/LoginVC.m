@@ -41,7 +41,7 @@
     [super   viewWillAppear:animated];
     
     [_usernameTextField setText:@"suleyman.nalci@abh.com.tr"];
-    [_passwordTextField setText:@"numq0"];
+    [_passwordTextField setText:@"123456"];
     
     [[self view] setBackgroundColor:[ApplicationProperties getWhite]];
 }
@@ -82,7 +82,6 @@
     }
     else
     {
-        
         dispatch_async(dispatch_get_main_queue(), ^
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kullanıcı adı ve şifre giriniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];

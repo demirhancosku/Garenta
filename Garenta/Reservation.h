@@ -15,7 +15,7 @@
 
 @interface Reservation : NSObject
 
-@property (nonatomic, retain) CarGroup *selectedCarGroup;
+@property (nonatomic,retain) CarGroup *selectedCarGroup;
 @property (nonatomic,retain) Office *checkOutOffice;
 @property (nonatomic,retain) NSDate *checkOutTime;
 @property (nonatomic,retain) Office *checkInOffice;
@@ -28,6 +28,8 @@
 @property (strong,nonatomic) Car *selectedCar;
 @property (copy,nonatomic) NSString *reservationNumber;
 @property (strong, nonatomic) CreditCard *paymentNowCard;
+@property (strong, nonatomic) NSString *paymentType;
+@property (strong, nonatomic) NSDecimalNumber *changeReservationDifference; //reze günü değiştiğinde arabanın fark tutarı
 
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl;
 

@@ -8,7 +8,7 @@
 
 #import "ClassicSearchVC.h"
 
-@interface OldReservationSearchVC : ClassicSearchVC
+@interface OldReservationSearchVC : ClassicSearchVC <UIAlertViewDelegate>
 
-
+@property (strong,nonatomic) NSMutableArray *additionalEquipments;
 @end

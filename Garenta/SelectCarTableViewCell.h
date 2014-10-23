@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *selectButton;
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *carLabel;
+@property (strong,nonatomic) IBOutlet UILabel *carPayLaterLabel;
 
 @end

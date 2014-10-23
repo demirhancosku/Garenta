@@ -7,7 +7,6 @@
 //
 
 #import "EquipmentVC.h"
-#import "AdditionalEquipmentTableViewCell.h"
 #import "SelectCarTableViewCell.h"
 #import "AdditionalEquipment.h"
 #import "ReservationSummaryVC.h"
@@ -20,8 +19,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *additionalEquipmentsTableView;
 @property (weak, nonatomic) IBOutlet UILabel *totalPriceLabel;
 @property (weak, nonatomic) IBOutlet UIButton *buyButton;
-@property (strong,nonatomic)NSMutableArray *additionalEquipments;
-@property (strong,nonatomic)NSMutableArray *additionalEquipmentsFullList;
 @property (strong,nonatomic)WYPopoverController *myPopoverController;
 @property (strong,nonatomic)NSMutableArray *carSelectionArray;
 @property (strong,nonatomic) AdditionalEquipment *tempEquipment;
@@ -72,7 +69,7 @@
     }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"additionalDriverAdded" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
-//        [[self myPopoverController] dismissPopoverAnimated:YES];
+        //        [[self myPopoverController] dismissPopoverAnimated:YES];
         [self addYoungDriver];
         [self recalculate];
         [_additionalEquipmentsTableView reloadData];
@@ -146,7 +143,7 @@
     youngDriverPredicate = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0007"];
     filterResult = [_additionalEquipments filteredArrayUsingPredicate:youngDriverPredicate];
     
-    if (filterResult.count > 0)
+    if (filterResult.count > 0 && self.reservation.additionalEquipments.count == 0)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Genç sürücü seçtiğiniz için maksimum güvence hizmeti de eklenmiştir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
         
@@ -157,8 +154,11 @@
 - (void)clearAllEquipments {
     [_totalPriceLabel setText:@"0"];
     _reservation.selectedCar = nil;
-    _reservation.additionalDrivers = nil;
-    _reservation.additionalEquipments = nil;
+    
+    if (_reservation.additionalDrivers == nil)
+        _reservation.additionalDrivers = nil;
+    if (_reservation.additionalEquipments == nil)
+        _reservation.additionalEquipments = nil;
 }
 
 - (IBAction)infoButtonPressed:(id)sender
@@ -306,7 +306,6 @@
             [alert show];
         }
     }
-    
 }
 
 #pragma mark - uialertview methods
@@ -335,7 +334,7 @@
         [dateFormatter setDateFormat:@"yyyyMMdd"];
         
         NSDateFormatter *timeFormatter  = [NSDateFormatter new];
-        [timeFormatter setDateFormat:@"HH:mm"];
+        [timeFormatter setDateFormat:@"HH:mm:ss"];
         
         [handler addImportParameter:@"IMPP_MSUBE" andValue:self.reservation.checkOutOffice.subOfficeCode];
         [handler addImportParameter:@"IMPP_DSUBE" andValue:self.reservation.checkInOffice.subOfficeCode];
@@ -388,6 +387,8 @@
                 [tempEquip setType:additionalInsurance];
                 [tempEquip setQuantity:0];
                 
+                
+                
                 if ([[tempEquip materialNumber] isEqualToString:@"HZM0020"] && tempEquip.price.floatValue > 0) //tek yön ücreti varsa hep 1 olacak
                 {
                     [tempEquip setQuantity:1];
@@ -398,20 +399,41 @@
                 
                 // ARAÇ SEÇİM FARKI full list içinde var, ekrana gösterdiğimiz array de yok
                 else if ([[tempEquip materialNumber] isEqualToString:@"HZM0031"])
-                    [_additionalEquipmentsFullList addObject:tempEquip];
-                
-                // EĞER GENÇ SÜRÜCÜ VARSA MAKSİMUM GÜVENCE EN ÜSTE EKLENİYO VE ZORUNLU OLUYO
-                else if ([[tempEquip materialNumber]isEqualToString:@"HZM0012"] && _isYoungDriver)
                 {
-                    [tempEquip setQuantity:1];
-                    [tempEquip setIsRequired:YES];
-                    [_additionalEquipments insertObject:tempEquip atIndex:0];
-                    [_additionalEquipmentsFullList addObject:tempEquip];
+                    //eski ezervasyonlardan araç seçim farkı geliyomu kontrolü
+                    NSPredicate *carSelectPredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0031"];
+                    NSArray *carSelectPredicateArray = [_reservation.additionalEquipments filteredArrayUsingPredicate:carSelectPredicate];
+                    if (carSelectPredicateArray.count > 0)
+                    {
+                        [tempEquip setQuantity:1];
+                        [tempEquip setIsRequired:YES];
+                        [tempEquip setPrice:[[carSelectPredicateArray objectAtIndex:0] price]];
+                        [_additionalEquipments insertObject:tempEquip atIndex:0];
+                        [_additionalEquipmentsFullList addObject:tempEquip];
+                    }
+                    else
+                        [_additionalEquipmentsFullList addObject:tempEquip];
                 }
-                else
+                // EĞER GENÇ SÜRÜCÜ VARSA MAKSİMUM GÜVENCE EN ÜSTE EKLENİYO VE ZORUNLU OLUYO
+                else if ([[tempEquip materialNumber]isEqualToString:@"HZM0012"])
                 {
-                    [_additionalEquipments addObject:tempEquip];
-                    [_additionalEquipmentsFullList addObject:tempEquip];
+                    
+                    // eski ezervasyonlardan Maks.güvence geliyomu kontrolü
+                    NSPredicate *maxSecurePredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0012"];
+                    NSArray *maxSecurePredicateArray = [_reservation.additionalEquipments filteredArrayUsingPredicate:maxSecurePredicate];
+                    
+                    if (_isYoungDriver || maxSecurePredicateArray.count > 0)
+                    {
+                        [tempEquip setQuantity:1];
+                        [tempEquip setIsRequired:YES];
+                        [_additionalEquipments insertObject:tempEquip atIndex:0];
+                        [_additionalEquipmentsFullList addObject:tempEquip];
+                    }
+                    else
+                    {
+                        [_additionalEquipments addObject:tempEquip];
+                        [_additionalEquipmentsFullList addObject:tempEquip];
+                    }
                 }
             }
             
@@ -435,7 +457,11 @@
                 // GENÇ SÜRÜCÜ 1'den fazla ekleyememesi için MaxQuantity = 1
                 if ([[tempEquip materialNumber] isEqualToString:@"HZM0007"])
                 {
-                    if (_isYoungDriver)
+                    // eski ezervasyonlardan genç sürücü geliyomu kontrolü
+                    NSPredicate *equipmentPredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0007"];
+                    NSArray *equipmentPredicateArray = [_reservation.additionalEquipments filteredArrayUsingPredicate:equipmentPredicate];
+                    
+                    if (_isYoungDriver || equipmentPredicateArray.count > 0)
                     {
                         [tempEquip setIsRequired:YES];
                         [tempEquip setQuantity:1];
@@ -492,9 +518,7 @@
     dispatch_async(dispatch_get_main_queue(), ^(void){
         [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f",total]];
     });
-    
 }
-
 
 #pragma mark - IBActions
 - (IBAction)plusButtonPressed:(id)sender

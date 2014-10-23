@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *plusButton;
 @property (weak, nonatomic) IBOutlet UILabel *itemTotalPriceLabel;
 @property (weak, nonatomic) IBOutlet UIButton *infoButton;
+@property (strong,nonatomic) IBOutlet UILabel *equipmentPriceLabel;
+
 
 
 @end
