@@ -9,6 +9,8 @@
 #import "UserCreationVC.h"
 #import "IDController.h"
 #import "MBProgressHUD.h"
+#import "AgreementsVC.h"
+#import "SMSSoapHandler.h"
 
 @interface UserCreationVC ()
 
@@ -46,6 +48,8 @@
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSString *smsValidationCode;
 
+@property (nonatomic) BOOL isUserCreated;
+
 @end
 
 @implementation UserCreationVC
@@ -81,6 +85,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.isUserCreated = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -228,6 +233,10 @@
         selectionVC.selectionArray = countyAccordingToCity;
         selectionVC.searchType = 3;
     }
+    if ([[segue identifier] isEqualToString:@"toAgreementVCSegue"]) {
+        [(AgreementsVC*)[segue destinationViewController] setHtmlName:@"MembershipRules"];
+        [(AgreementsVC*)[segue destinationViewController] setAgreementName:@"Üyelik Kuralları"];
+    }
 }
 
 - (void)nationalitySegmentChanged:(id)sender {
@@ -314,7 +323,7 @@
             alertString =  @"Adres alanının doldurulması gerekmektedir";
         else if ([self.emailTextField.text isEqualToString:@""])
             alertString =  @"E-mail alanının doldurulması gerekmektedir";
-        else if ([self.mobilePhoneTextField.text isEqualToString:@""])
+        else if ([[self.mobilePhoneTextField.text substringFromIndex:3] isEqualToString:@""])
             alertString =  @"Cep Telefonu alanının doldurulması gerekmektedir";
         else if ([self.passwordTextField.text isEqualToString:@""])
             alertString =  @"Şifre alanının doldurulması gerekmektedir";
@@ -353,8 +362,7 @@
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                [self checkPhoneNumberValidation];
+                [self showMembershipRulesAlertView];
             });
         }
     });
@@ -363,7 +371,34 @@
     });
 }
 
+- (void)showMembershipRulesAlertView {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Üyelik kurallarını kabul ederek, kullanıcınızın yaratılmasını istiyor musunuz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Üyelik Kuralları", @"Kabul Ediyorum", nil];
+    [alert setTag:2];
+    [alert show];
+}
+
 - (void)checkPhoneNumberValidation {
+    
+    NSString *generatedCode = [SMSSoapHandler generateCode];
+    
+    if (generatedCode == nil || [generatedCode isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"SMS gönderilemedi, lütfen tekrar deneyiniz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    else {
+        self.smsValidationCode = generatedCode;
+        NSString *trimmedMobilePhone = [self.mobilePhoneTextField.text substringFromIndex:3];
+        
+        BOOL success = [SMSSoapHandler sendSMSMessage:self.smsValidationCode toNumber:trimmedMobilePhone];
+        
+        if (!success) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"SMS gönderilemedi, lütfen tekrar deneyiniz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+    }
+    
     self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
                                                      message:@"Lütfen Telefonunuza gelen onay kodunu 60 saniye içinde giriniz"
                                                     delegate:self
@@ -406,9 +441,21 @@
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [MBProgressHUD hideHUDForView:self.view animated:YES];
+                        
+                        if (self.isUserCreated) {
+                            [[self navigationController] popToRootViewControllerAnimated:YES];
+                        }
                     });
                 });
             }
+        }
+    }
+    if (alertView.tag == 2) {
+        if (buttonIndex == 1) {
+            [self performSegueWithIdentifier:@"toAgreementVCSegue" sender:self];
+        }
+        if (buttonIndex == 2) {
+            [self checkPhoneNumberValidation];
         }
     }
 }
@@ -434,15 +481,14 @@
             passportNo = self.tcknoTextField.text;
         }
         
-        NSCharacterSet *charactersToRemove = [NSCharacterSet characterSetWithCharactersInString:@"() "];
-        NSString *trimmedMobilePhone = [[self.mobilePhoneTextField.text componentsSeparatedByCharactersInSet:charactersToRemove] componentsJoinedByString:@""];
-        
+        NSString *trimmedMobilePhone = [self.mobilePhoneTextField.text substringFromIndex:3];
+       
         if (self.selectedCounty == nil) {
             self.selectedCounty = @[@"", @"", @"", @""];
         }
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyyMMdd"];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
         
         NSString *driverLicenseDate = @"";
         
@@ -467,10 +513,12 @@
         
         NSString *secretQuestion = [NSString stringWithFormat:@"00%i", [self.secretQuestionPickerView selectedRowInComponent:0]];
         
-        NSArray *value = @[self.nameTextField.text, self.middleNameTextField.text, self.surnameTextField.text, @"", tcknNo, @"X", self.emailTextField.text, trimmedMobilePhone, @"", self.passwordTextField.text, self.selectedCity[1], self.selectedCounty[2], self.adressTextField.text, @"Z07", nationality, self.selectedCountry[0], self.driverLicenseNoTextField.text, driverLicenseDate, passportNo, @"X", @"3063", @"33", @"65", gender, secretQuestion, @"", self.securityAnswerTextField.text, self.driverLicenseLocationTextField.text, driverLicenseType, @"", @"90", @"", @""];
+        NSData *passwordData = [self.passwordTextField.text dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
+        NSString *base64Encoded = [passwordData base64EncodedStringWithOptions:0];
+        
+        NSArray *value = @[self.nameTextField.text, self.middleNameTextField.text, self.surnameTextField.text, [formatter stringFromDate:self.birthdayDatePicker.date], tcknNo, @"X", self.emailTextField.text, trimmedMobilePhone, @"", base64Encoded, self.selectedCity[1], self.selectedCounty[2], self.adressTextField.text, @"Z07", nationality, self.selectedCountry[0], self.driverLicenseNoTextField.text, driverLicenseDate, passportNo, @"X", @"3063", @"33", @"65", gender, secretQuestion, @"", self.securityAnswerTextField.text, self.driverLicenseLocationTextField.text, driverLicenseType, @"", self.selectedCounty[0], @"", @""];
         
         [handler addImportStructure:@"IS_INPUT" andColumns:columns andValues:value];
-        [handler addImportParameter:@"I_BIRTHDATE_TEXT" andValue:[formatter stringFromDate:self.birthdayDatePicker.date]];
         [handler addTableForReturn:@"ET_BAPIRET"];
         
         NSDictionary *response = [handler prepCall];
@@ -481,10 +529,25 @@
             NSString *subrc = [export valueForKey:@"E_RETURN"];
             
             if ([subrc isEqualToString:@"0"]) {
+                self.isUserCreated = YES;
                 alertString = @"Kullanıcınız başarı ile yaratılmıştır. Giriş yapabilirsiniz";
             }
             else {
-                alertString = @"Kullanıcı yaratımı sırasında hata alındı. Lütfen tekrar deneyiniz";
+                
+                NSDictionary *tables = [response objectForKey:@"TABLES"];
+                NSDictionary *bapiret2 = [tables objectForKey:@"BAPIRET2"];
+                
+                for (NSDictionary *dict in bapiret2) {
+                    NSString *message = [dict valueForKey:@"MESSAGE"];
+                    
+                    if ([alertString isEqualToString:@""]) {
+                        alertString = message;
+                    }
+                }
+                
+                if ([alertString isEqualToString:@""]) {
+                    alertString = @"Kullanıcı yaratımı sırasında hata alındı. Lütfen tekrar deneyiniz";
+                }
             }
         }
     }
@@ -512,6 +575,7 @@
     [self.passwordTextField resignFirstResponder];
     [self.password2TextField resignFirstResponder];
     [self.securityAnswerTextField resignFirstResponder];
+    [self.adressTextField resignFirstResponder];
 }
 
 #pragma mark - textfield delegates
@@ -526,22 +590,8 @@
 {
     if ([textField tag] == 15)
     {
-        switch ([textField.text length])
-        {
-            case 0:
-                textField.text = [NSString stringWithFormat:@"( %@", textField.text];
-                break;
-            case 5:
-                textField.text = [NSString stringWithFormat:@"%@ ) ", textField.text];
-                break;
-            case 11:
-                textField.text = [NSString stringWithFormat:@"%@ ", textField.text];
-                break;
-            case 14:
-                textField.text = [NSString stringWithFormat:@"%@ ", textField.text];
-                break;
-            default:
-                break;
+        if ([[textField text] length] == 3 && [string isEqualToString:@""]) {
+            return NO;
         }
     }
     

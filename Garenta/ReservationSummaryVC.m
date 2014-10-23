@@ -10,6 +10,7 @@
 #import "ReservationApprovalVC.h"
 #import "ReservationScopePopoverVC.h"
 #import "MBProgressHUD.h"
+#import "AgreementsVC.h"
 
 @interface ReservationSummaryVC ()
 
@@ -273,6 +274,10 @@
         popoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionAny animated:YES];
         popoverController.delegate = self;
     }
+    if ([[segue identifier] isEqualToString:@"toAgreementVCSegue"]) {
+        [(AgreementsVC*)[segue destinationViewController] setHtmlName:@"RentingAgreement"];
+        [(AgreementsVC*)[segue destinationViewController] setAgreementName:@"Kiralama Anlaşması"];
+    }
 }
 
 - (void)totalButtonPressed{
@@ -290,7 +295,7 @@
 
 
 - (IBAction)payLaterPressed:(id)sender {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Rezervasyonunuz yaratılıcaktır. Emin misiniz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Tamam", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kiralama anlaşmasını kabul edip, rezervasyonuzun yaratılmasını istediğinize emin misiniz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Kiralama Anlaşması", @"Kabul Ediyorum", nil];
     [alert setTag:1];
     [alert show];
 }
@@ -309,6 +314,9 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 1) {
         if (buttonIndex == 1) {
+            [self performSegueWithIdentifier:@"toAgreementVCSegue" sender:self];
+        }
+        if (buttonIndex == 2) {
             [self createReservation];
         }
     }

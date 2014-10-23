@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="VjG-Ef-6NL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="VjG-Ef-6NL">
     <dependencies>
-        <deployment defaultVersion="1808" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -162,8 +163,6 @@
                         <outlet property="arrivalTableView" destination="CZV-WI-4t4" id="zPI-pA-pm0"/>
                         <outlet property="destinationTableView" destination="ryd-Dh-pcc" id="m9U-mV-jnZ"/>
                         <outlet property="searchButton" destination="50y-rr-DQ5" id="rYP-dS-3ll"/>
-                        <segue destination="kTv-Bi-s1s" kind="push" id="By3-1x-6AB"/>
-                        <segue destination="S7d-aD-8yt" kind="push" id="6o0-WM-nJW"/>
                         <segue destination="yjG-hs-2N6" kind="push" identifier="toCarGroupVCSegue" id="Hj2-5d-FZ6"/>
                         <segue destination="6DV-WP-ie6" kind="push" identifier="toFilterVCSegue" id="lC9-rR-OVU"/>
                         <segue destination="vg1-g2-U6W" kind="custom" identifier="toDateTimeVCSegue" customClass="WYStoryboardPopoverSegue" id="nTw-8o-Pk5"/>
@@ -764,6 +763,37 @@
             </objects>
             <point key="canvasLocation" x="5498" y="-2109"/>
         </scene>
+        <!--Anlaşma Sayfası-->
+        <scene sceneID="i5c-ll-faV">
+            <objects>
+                <viewController id="cmh-4w-9ud" customClass="AgreementsVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0ag-f7-X1Z"/>
+                        <viewControllerLayoutGuide type="bottom" id="qy4-cD-0Fk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="KOb-ch-SUp">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D4G-8R-pt5">
+                                <rect key="frame" x="0.0" y="42" width="320" height="397"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="delegate" destination="cmh-4w-9ud" id="Jhv-8e-UvO"/>
+                                </connections>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Anlaşma Sayfası" id="kTu-4l-aGy"/>
+                    <connections>
+                        <outlet property="webView" destination="D4G-8R-pt5" id="fws-jD-K3o"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h7b-W0-RFG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6060" y="-2093"/>
+        </scene>
         <!--Rezervasyon Özeti-->
         <scene sceneID="FBN-JT-yF3">
             <objects>
@@ -1082,11 +1112,12 @@
                         <segue destination="udP-Tc-VTM" kind="push" identifier="toPaymentVCSegue" id="L6f-zn-h6q"/>
                         <segue destination="oUa-3P-8jU" kind="push" identifier="toReservationApprovalVCSegue" id="TxX-UN-QgX"/>
                         <segue destination="fOQ-5T-IX3" kind="custom" identifier="toPopoverVCSegue" customClass="WYStoryboardPopoverSegue" id="V74-O1-TBy"/>
+                        <segue destination="cmh-4w-9ud" kind="push" identifier="toAgreementVCSegue" id="aLh-ec-Lci"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kcH-Ra-ffj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5604" y="-1357"/>
+            <point key="canvasLocation" x="5621" y="-1357"/>
         </scene>
         <!--Additional Equipment InfoVC-->
         <scene sceneID="ntk-ef-2MN">
@@ -1383,6 +1414,8 @@
                         <outlet property="nameOnCardTextField" destination="Jep-qm-hie" id="c7C-du-5uI"/>
                         <outlet property="totalPriceLabel" destination="Usd-hV-UsC" id="w19-Gi-Jm7"/>
                         <segue destination="io6-xN-tXU" kind="custom" identifier="toOldCardSegue" customClass="WYStoryboardPopoverSegue" id="yGa-mz-bZL"/>
+                        <segue destination="oUa-3P-8jU" kind="push" identifier="toReservationApprovalVCSegue" id="tMq-8T-4Dd"/>
+                        <segue destination="cmh-4w-9ud" kind="push" identifier="toAgreementVCSegue" id="y6s-gR-Pji"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lk4-qH-odI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2776,44 +2809,6 @@
             </objects>
             <point key="canvasLocation" x="3493" y="-302"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="VIV-fA-QSP">
-            <objects>
-                <viewController id="S7d-aD-8yt" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="NUk-DE-Vbq"/>
-                        <viewControllerLayoutGuide type="bottom" id="cEp-2R-uHh"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="MYo-Nb-8U9">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="Xcz-0e-58Z"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1Xz-lv-u4q" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2854" y="-2123"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="7jE-Vt-ytT">
-            <objects>
-                <viewController id="kTv-Bi-s1s" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="724-U1-he4"/>
-                        <viewControllerLayoutGuide type="bottom" id="xeI-Dq-fDT"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="fYc-Or-HSp">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="g3h-rc-N1q"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8qR-Rh-TY2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3314" y="-2107"/>
-        </scene>
         <!--Üye Olma-->
         <scene sceneID="Cy2-p9-p9g">
             <objects>
@@ -3206,7 +3201,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="15" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tso-fO-h8P">
+                                                <textField opaque="NO" clipsSubviews="YES" tag="15" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="+90" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tso-fO-h8P">
                                                     <rect key="frame" x="159" y="8" width="153" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -3354,6 +3349,7 @@
                         <outlet property="surnameTextField" destination="poe-Wy-Pij" id="ehq-Fe-cZN"/>
                         <outlet property="tcknoLabel" destination="B8p-k4-rxa" id="DnY-hv-Z5G"/>
                         <outlet property="tcknoTextField" destination="6GR-kd-7Jn" id="qUc-lX-c4P"/>
+                        <segue destination="cmh-4w-9ud" kind="push" identifier="toAgreementVCSegue" id="gCN-lj-B0n"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VGe-73-i9q" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4141,6 +4137,11 @@
         <segue reference="cx4-X2-B8e"/>
         <segue reference="B1Y-91-ynY"/>
         <segue reference="ryI-Ae-gEa"/>
+        <segue reference="gCN-lj-B0n"/>
+        <segue reference="ryI-Ae-gEa"/>
+        <segue reference="Jja-3F-2kb"/>
+        <segue reference="V74-O1-TBy"/>
+        <segue reference="tMq-8T-4Dd"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

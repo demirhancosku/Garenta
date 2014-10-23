@@ -12,6 +12,8 @@
 #import "WYStoryboardPopoverSegue.h"
 #import "OldCardSelectionVC.h"
 #import "MBProgressHUD.h"
+#import "ReservationApprovalVC.h"
+#import "AgreementsVC.h"
 
 @interface PaymentTableViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *creditCardNumberTextField;
@@ -22,8 +24,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *garentaTlTextField;
 @property (weak, nonatomic) IBOutlet UILabel *totalPriceLabel;
 
-@property (strong,nonatomic)WYPopoverController *myPopoverController;
-@property(strong,nonatomic)NSArray *requiredFields;
+@property (strong,nonatomic) WYPopoverController *myPopoverController;
+@property(strong,nonatomic) NSArray *requiredFields;
 @property (strong,nonatomic) CreditCard *creditCard;
 
 - (IBAction)reservationCompleteButtonPressed:(id)sender;
@@ -266,12 +268,19 @@
         WYStoryboardPopoverSegue* popoverSegue = (WYStoryboardPopoverSegue*)segue;
         
         UIViewController* destinationViewController = (UIViewController *)segue.destinationViewController;
-        destinationViewController.preferredContentSize = CGSizeMake(320, 280);       // Deprecated in iOS7. Use 'preferredContentSize' instead.
+        destinationViewController.preferredContentSize = CGSizeMake(320, 280);   
         
         self.myPopoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionUp animated:YES];
         self.myPopoverController.delegate = self;
         
         [(OldCardSelectionVC *)segue.destinationViewController setPickerData:[[ApplicationProperties getUser] creditCards]];
+    }
+    if ([[segue identifier] isEqualToString:@"toReservationApprovalVCSegue"]) {
+        [(ReservationApprovalVC*)[segue destinationViewController] setReservation:_reservation];
+    }
+    if ([[segue identifier] isEqualToString:@"toAgreementVCSegue"]) {
+        [(AgreementsVC*)[segue destinationViewController] setHtmlName:@"RentingAgreement"];
+        [(AgreementsVC*)[segue destinationViewController] setAgreementName:@"Kiralama Anlaşması"];
     }
 }
 
@@ -280,6 +289,9 @@
     if (alertView.tag == 1) {
         if (buttonIndex == 1) {
             [[self view] endEditing:YES];
+            [self performSegueWithIdentifier:@"toAgreementVCSegue" sender:self];
+        }
+        if (buttonIndex == 2) {
             [self createReservation];
         }
     }
@@ -343,7 +355,7 @@
             tempCard.uniqueId = _creditCard.uniqueId;
         }
         else {
-            tempCard.cardNumber = self.creditCardNumberTextField.text;
+            tempCard.cardNumber = [self.creditCardNumberTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
             tempCard.nameOnTheCard = self.nameOnCardTextField.text;
             tempCard.cvvNumber = self.cvvTextField.text;
             tempCard.expirationYear = self.expirationYearTextField.text;
@@ -367,7 +379,7 @@
 - (IBAction)reservationCompleteButtonPressed:(id)sender {
     if ([self checkRequiredFields])
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Rezervasyonunuz yaratılıcaktır. Emin misiniz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Tamam", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kiralama anlaşmasını kabul edip, rezervasyonuzun yaratılmasını istediğinize emin misiniz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Kiralama Anlaşması", @"Kabul Ediyorum", nil];
         [alert setTag:1];
         [alert show];
     }

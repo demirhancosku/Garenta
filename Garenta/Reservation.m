@@ -292,7 +292,6 @@
             else {
                 
                 NSDictionary *tables = [response objectForKey:@"TABLES"];
-                NSDictionary *allPartners = [tables objectForKey:@"ZMOB_LOGIN_ALL_PARTNERS"];
                 
                 if (isPayNow) {
                     NSDictionary *etKKReturn = [tables objectForKey:@"ZNET_INT_TAHSILATLOG"];

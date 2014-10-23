@@ -538,6 +538,15 @@
         [handler addImportParameter:@"IMPP_WAERS" andValue:@"TRY"];
         [handler addImportParameter:@"IMPP_KDGRP" andValue:@"40"];
         
+        // Fiyat Kodu
+        NSString *priceCode = @"";
+        
+        if ([[ApplicationProperties getUser] isLoggedIn]) {
+            priceCode = [[ApplicationProperties getUser] priceCode];
+        }
+        
+        [handler addImportParameter:@"IMPP_FIKOD" andValue:priceCode];
+        
         User *user =[ApplicationProperties getUser];
         if ([user isLoggedIn]) {
             [handler addImportParameter:@"IMPP_KUNNR" andValue:[user kunnr]];

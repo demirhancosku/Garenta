@@ -133,6 +133,10 @@
 		B5F5F95B193C6907009B8D31 /* plus_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B5F5F959193C6907009B8D31 /* plus_icon.png */; };
 		B5F5F95E193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */; };
 		E1227B2719ED3ECD005D88A5 /* SDReservObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E1227B2619ED3ECD005D88A5 /* SDReservObject.m */; };
+		E15DFF8519F7A3040078E06F /* RentingAgreement.html in Resources */ = {isa = PBXBuildFile; fileRef = E15DFF8419F7A3040078E06F /* RentingAgreement.html */; };
+		E15DFF8819F7A6660078E06F /* AgreementsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E15DFF8719F7A6660078E06F /* AgreementsVC.m */; };
+		E15DFF8A19F7C6770078E06F /* MembershipRules.html in Resources */ = {isa = PBXBuildFile; fileRef = E15DFF8919F7C6770078E06F /* MembershipRules.html */; };
+		E15DFF8D19F7CA450078E06F /* SMSSoapHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E15DFF8C19F7CA450078E06F /* SMSSoapHandler.m */; };
 		E1D2AB6A19D45EB600806868 /* ConnectionProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D2AB6919D45EB600806868 /* ConnectionProperties.m */; };
 		E1ED735C19E5486C00D3E324 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E1ED735B19E5486C00D3E324 /* MBProgressHUD.m */; };
 		E1ED735F19E564FC00D3E324 /* CountrySelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E1ED735E19E564FC00D3E324 /* CountrySelectionVC.m */; };
@@ -335,6 +339,12 @@
 		B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdditionalEquipmentTableViewCell.m; sourceTree = "<group>"; };
 		E1227B2519ED3ECD005D88A5 /* SDReservObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDReservObject.h; sourceTree = "<group>"; };
 		E1227B2619ED3ECD005D88A5 /* SDReservObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDReservObject.m; sourceTree = "<group>"; };
+		E15DFF8419F7A3040078E06F /* RentingAgreement.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RentingAgreement.html; sourceTree = "<group>"; };
+		E15DFF8619F7A6660078E06F /* AgreementsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgreementsVC.h; sourceTree = "<group>"; };
+		E15DFF8719F7A6660078E06F /* AgreementsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AgreementsVC.m; sourceTree = "<group>"; };
+		E15DFF8919F7C6770078E06F /* MembershipRules.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = MembershipRules.html; sourceTree = "<group>"; };
+		E15DFF8B19F7CA450078E06F /* SMSSoapHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSSoapHandler.h; sourceTree = "<group>"; };
+		E15DFF8C19F7CA450078E06F /* SMSSoapHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMSSoapHandler.m; sourceTree = "<group>"; };
 		E1D2AB6519D45EAA00806868 /* SAPJSONHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SAPJSONHandler.h; sourceTree = "<group>"; };
 		E1D2AB6819D45EB600806868 /* ConnectionProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionProperties.h; sourceTree = "<group>"; };
 		E1D2AB6919D45EB600806868 /* ConnectionProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionProperties.m; sourceTree = "<group>"; };
@@ -536,6 +546,8 @@
 				0CC9ED3619F69C5C00E7CF1C /* SAPJSONHandler.m */,
 				E1D2AB6819D45EB600806868 /* ConnectionProperties.h */,
 				E1D2AB6919D45EB600806868 /* ConnectionProperties.m */,
+				E15DFF8B19F7CA450078E06F /* SMSSoapHandler.h */,
+				E15DFF8C19F7CA450078E06F /* SMSSoapHandler.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -615,6 +627,8 @@
 				9E38C3C6186A033200EBD29E /* OrangeArrowUp.png */,
 				0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */,
 				0C5B5FE918649A870060BECD /* UserLoginPic.png */,
+				E15DFF8419F7A3040078E06F /* RentingAgreement.html */,
+				E15DFF8919F7C6770078E06F /* MembershipRules.html */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -628,6 +642,8 @@
 				0C4C9AA9184639FE00CD3728 /* BaseTableVC.m */,
 				B5BBE94C195021CF000AD4E2 /* UIViewController+Garenta.h */,
 				B5BBE94D195021CF000AD4E2 /* UIViewController+Garenta.m */,
+				E15DFF8619F7A6660078E06F /* AgreementsVC.h */,
+				E15DFF8719F7A6660078E06F /* AgreementsVC.m */,
 			);
 			name = BaseVCs;
 			sourceTree = "<group>";
@@ -843,7 +859,9 @@
 				B5BBE957195055CC000AD4E2 /* up_arrow.png in Resources */,
 				B5921196195D934900A54E0E /* triangle_white.png in Resources */,
 				B5EE728F18701DC400F634D3 /* kislastik.png in Resources */,
+				E15DFF8A19F7C6770078E06F /* MembershipRules.html in Resources */,
 				0C4C9A7418462EAB00CD3728 /* InfoPlist.strings in Resources */,
+				E15DFF8519F7A3040078E06F /* RentingAgreement.html in Resources */,
 				B5688B18186B3A2E009D830E /* load_6.png in Resources */,
 				B5688B14186B3A2E009D830E /* load_2.png in Resources */,
 				0C5B5FEA18649A870060BECD /* UserLoginPic.png in Resources */,
@@ -951,6 +969,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0CBA77BD186447AB0008CE29 /* LoginVC.m in Sources */,
+				E15DFF8819F7A6660078E06F /* AgreementsVC.m in Sources */,
 				0C99695C19E830E3008E7199 /* TimeSelectionCell.m in Sources */,
 				0C6CF63E19F064AC006B3174 /* OldReservationDetailVC.m in Sources */,
 				0CC9ED3719F69C5C00E7CF1C /* SAPJSONHandler.m in Sources */,
@@ -986,6 +1005,7 @@
 				B5688B1E186C2479009D830E /* OfficeHolidayTime.m in Sources */,
 				0C0DA9A21865BE31003EDDA0 /* User.m in Sources */,
 				0C4FF37C19F00BF300E06A71 /* OldReservationTableViewCell.m in Sources */,
+				E15DFF8D19F7CA450078E06F /* SMSSoapHandler.m in Sources */,
 				0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */,
 				B592119B195D9D9900A54E0E /* WYPopoverController.m in Sources */,
 				E1227B2719ED3ECD005D88A5 /* SDReservObject.m in Sources */,
