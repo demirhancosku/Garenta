@@ -22,6 +22,8 @@
     UIButton *createUserButton;
 }
 
+@property (nonatomic, strong) Reservation *reservation;
+
 - (IBAction)login:(id)sender;
 
 @end
