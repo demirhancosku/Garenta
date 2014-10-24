@@ -435,6 +435,11 @@
                         [_additionalEquipmentsFullList addObject:tempEquip];
                     }
                 }
+                else
+                {
+                    [_additionalEquipments addObject:tempEquip];
+                    [_additionalEquipmentsFullList addObject:tempEquip];
+                }
             }
             
             NSDictionary *additionalEquipmentList = [tables objectForKey:@"ZMOB_KDK_S_EKSURUCU"];

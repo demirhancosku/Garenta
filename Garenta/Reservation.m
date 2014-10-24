@@ -62,27 +62,37 @@
 #pragma mark - reservation pricing methods
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl
 {
-    float totalPrice = 0.00f;
+    NSDecimalNumber *totalPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
+    NSDecimalNumber *totalEquiPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
+    
+    if ([garentaTl isEqualToString:@""]) {
+        garentaTl = @"0";
+    }
+    
     if ([currency isEqualToString:@"TRY"])
     {
         if (isPayNow) {
-            totalPrice = totalPrice + [selectedCarGroup.sampleCar.pricing.payNowPrice floatValue] - garentaTl.floatValue;
+            totalPrice = [[totalPrice decimalNumberByAdding:selectedCarGroup.sampleCar.pricing.payNowPrice] decimalNumberBySubtracting:[NSDecimalNumber decimalNumberWithString:garentaTl]];
+            
         }else{
-            totalPrice = totalPrice + [selectedCarGroup.sampleCar.pricing.payLaterPrice floatValue];
+            totalPrice = [totalPrice decimalNumberByAdding:selectedCarGroup.sampleCar.pricing.payLaterPrice];
         }
         if (_selectedCar) {
-            totalPrice = totalPrice + [_selectedCar.pricing.carSelectPrice floatValue];
+            totalPrice = [totalPrice decimalNumberByAdding:_selectedCar.pricing.carSelectPrice];
         }
         
         for (AdditionalEquipment *tempEquipment in _additionalEquipments) {
             if (tempEquipment.quantity >0) {
-                totalPrice = totalPrice + (tempEquipment.quantity * [tempEquipment.price floatValue]);
+                totalEquiPrice = [totalEquiPrice decimalNumberByAdding:([tempEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",tempEquipment.quantity]]])];
             }
         }
         
+        totalPrice = [totalPrice decimalNumberByAdding:totalEquiPrice];
+        
     }
     
-    return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.2f",totalPrice]];
+    return totalPrice;
+//    return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.2f",totalPrice]];
 
 }
 
@@ -108,7 +118,6 @@
         [timeFormatter setDateFormat:@"HH:mm"];
         
         // IS_INPUT
-        
         NSArray *isInputColumns = @[@"REZ_NO", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"ODEME_TURU", @"GARENTA_TL", @"BONUS", @"MILES_SMILES", @"GUN_SAYISI", @"TOPLAM_TUTAR", @"C_PRIORITY", @"C_CORP_PRIORITY", @"REZ_KANAL", @"FT_CIKIS_IL", @"FT_CIKIS_ILCE", @"FT_CIKIS_ADRES", @"FT_DONUS_IL", @"FT_DONUS_ILCE", @"FT_DONUS_ADRES", @"PARA_BIRIMI", @"FT_MALIYET_TIPI", @"USERNAME", @"PUAN_TIPI", @"UCUS_SAATI", @"UCUS_NO", @"ODEME_BICIMI", @"FATURA_ACIKLAMA", @"EMAIL_CONFIRM", @"TELNO_CONFIRM"];
         
         NSString *isPriority = @"";
@@ -126,7 +135,7 @@
             paymentType = @"2";
         }
         
-        NSString *totalPrice = [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:nil] stringValue];
+        NSString *totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"0"] floatValue]];
         
         // satış burosunu onurla konuşcam
         NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, @"", @"", @"", [_reservation.selectedCarGroup.sampleCar.pricing.dayCount stringValue], totalPrice, isPriority, @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"", @"", @"", @"", @"", @"", @""];

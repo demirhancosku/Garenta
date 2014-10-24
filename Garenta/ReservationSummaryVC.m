@@ -158,7 +158,13 @@
             case 2:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"totalPaymentCell" forIndexPath:indexPath];
                 totalPrice = (UILabel*)[aCell viewWithTag:1];
-                [totalPrice setText:[NSString stringWithFormat:@"%@",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0"]]];
+                
+                // rezervasyon değişiklikten gelen değer
+                if (_changeReservationPrice == nil)
+                    [totalPrice setText:[NSString stringWithFormat:@"%@",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0"]]];
+                else
+                    [totalPrice setText:[NSString stringWithFormat:@"%.02f",_changeReservationPrice.floatValue]];
+                
                 break;
             default:
                 break;
@@ -191,8 +197,18 @@
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"payNowLaterButtonsCell" forIndexPath:indexPath];
                 payNowButton = (UIButton*)[aCell viewWithTag:1];
                 payLaterButton = (UIButton*)[aCell viewWithTag:2];
-                [payNowButton setTitle:[NSString stringWithFormat:@"%@ TL",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0"]] forState:UIControlStateNormal];
-                [payLaterButton setTitle:[NSString stringWithFormat:@"%@ TL",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0"]] forState:UIControlStateNormal];
+                
+                if (_changeReservationPrice == nil)
+                {
+                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0"] floatValue]] forState:UIControlStateNormal];
+                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0"] floatValue]] forState:UIControlStateNormal];
+                }
+                else
+                {
+                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02f",_changeReservationPrice.floatValue] forState:UIControlStateNormal];
+                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f",_changeReservationPrice.floatValue] forState:UIControlStateNormal];
+                }
+
                 break;
             default:
                 break;

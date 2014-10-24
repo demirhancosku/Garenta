@@ -15,6 +15,7 @@
 }
 
 @property (strong,nonatomic) Reservation *reservation;
+@property (strong,nonatomic) NSDecimalNumber *changeReservationPrice;
 
 - (IBAction)payNowPressed:(id)sender;
 

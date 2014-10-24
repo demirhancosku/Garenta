@@ -46,7 +46,7 @@
 {
     [super viewDidLoad];
     
-    [_totalPriceLabel setText:[NSString stringWithFormat:@"%@ TL",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:_garentaTlTextField.text]]];
+    [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:_garentaTlTextField.text] floatValue]]];
     _requiredFields = [NSArray arrayWithObjects:_creditCardNumberTextField,_nameOnCardTextField,_expirationMonthTextField,_expirationYearTextField,_cvvTextField, nil];
     
     _nameOnCardTextField.text = [NSString stringWithFormat:@"%@ %@",[[ApplicationProperties getUser] name],[[ApplicationProperties getUser] surname]];
@@ -217,7 +217,7 @@
     
     if (textField.tag == 5)
     {
-        [_totalPriceLabel setText:[NSString stringWithFormat:@"%@ TL",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:string]]];
+        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:string] floatValue]]];
     }
     
     return YES;

@@ -46,6 +46,8 @@
         [self getNewReservationPrice];
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+            if(super.reservation.changeReservationDifference.floatValue == 0)
+                [self performSegueWithIdentifier:@"toOldReservationEquipmentSegue" sender:self];
         });
     });
 }
@@ -84,8 +86,11 @@
                 super.reservation.changeReservationDifference = [NSDecimalNumber decimalNumberWithString:[export valueForKey:@"EXPP_PRICE"]];
                 
                 NSString *currency = [export valueForKey:@"EXPP_CURR"];
-                //                NSString *paymentType = [export valueForKey:@"EXPP_TYPE"]; //iade için T, tahsilat için F geliyo
+                NSString *paymentType = [export valueForKey:@"EXPP_TYPE"]; //iade için T, tahsilat için F geliyo
                 
+                if ([paymentType isEqualToString:@"T"]) {
+                    super.reservation.changeReservationDifference = [super.reservation.changeReservationDifference decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"-1"]];
+                }
                 
                 NSDecimalNumber *equipmentPriceDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
                 for (AdditionalEquipment *temp in super.reservation.additionalEquipments)
@@ -99,8 +104,8 @@
                     }
                 }
                 
-                if (super.reservation.changeReservationDifference.floatValue > 0)
-                    alertString = [NSString stringWithFormat:@"Araç Kira Bedeli: %.02f %@\nEk Ürün Bedeli:%.02f %@",super.reservation.changeReservationDifference.floatValue,currency,equipmentPriceDifference.floatValue,currency];
+                if (super.reservation.changeReservationDifference.floatValue != 0)
+                    alertString = [NSString stringWithFormat:@"Seçtiğiniz tarih aralığındaki yeni fiyatlandırma ağaşıdaki gibidir.\n\nAraç Kira Bedeli: %.02f %@\nEk Hizmet Bedeli: %.02f %@",super.reservation.changeReservationDifference.floatValue,currency,equipmentPriceDifference.floatValue,currency];
                 
             }
             else
@@ -118,7 +123,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (isOk)
                 {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Tahsil edilecek tutar" message:alertString delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Tamam",nil];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Rezervasyon fark tutarı" message:alertString delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Tamam",nil];
                     alert.tag = 1;
                     [alert show];
                 }

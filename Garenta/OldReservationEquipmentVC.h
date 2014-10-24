@@ -10,4 +10,5 @@
 
 @interface OldReservationEquipmentVC : EquipmentVC
 
+@property (strong,nonatomic) NSDecimalNumber *changeReservationPrice;
 @end

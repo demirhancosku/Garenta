@@ -8,6 +8,7 @@
 
 #import "OldReservationEquipmentVC.h"
 #import "AdditionalEquipment.h"
+#import "ReservationSummaryVC.h"
 
 @interface OldReservationEquipmentVC ()
 
@@ -54,19 +55,24 @@
 - (void)recalculate{
     [_additionalEquipmentsTableView reloadData];
     float total = 0;
+    _changeReservationPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
+    
     for (AdditionalEquipment *temp in super.additionalEquipments)
     {
         if (temp.type == additionalDriver) {
-            [temp setQuantity:self.reservation.additionalDrivers.count];
+            [temp setQuantity:self.reservation.additionalDrivers.count + temp.quantity];
         }
         if (_isPayNow)
             total = total + temp.difference.floatValue;
         else
             total = total + ([temp.price floatValue] * temp.quantity);
     }
+    if (_isPayNow)
+        total = total + super.reservation.changeReservationDifference.floatValue;
+    else
+        total = total + super.reservation.changeReservationDifference.floatValue + super.reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice.floatValue;
     
-    total = total + super.reservation.changeReservationDifference.floatValue;
-    
+    _changeReservationPrice = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.02f",total]];
     dispatch_async(dispatch_get_main_queue(), ^(void){
         [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f",total]];
     });
@@ -125,7 +131,7 @@
 - (IBAction)minusButtonPressed:(id)sender {
     
     AdditionalEquipment*additionalEquipment = [super.additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
-    if (additionalEquipment.type ==additionalDriver)
+    if (additionalEquipment.type ==additionalDriver && self.reservation.additionalDrivers.count > 0)
     {
         [super deleteAdditionalDriver];
         [self.reservation.additionalDrivers removeLastObject];
@@ -202,6 +208,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    [super prepareForSegue:segue sender:sender];
+    if ([segue.identifier isEqualToString:@"toReservationSummaryVCSegue"])
+    {
+        [(ReservationSummaryVC *)[segue destinationViewController] setReservation:super.reservation];
+        [(ReservationSummaryVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];
+    }
 }
 
 @end
