@@ -11,7 +11,7 @@
 #import "SDReservObject.h"
 
 @implementation Reservation
-@synthesize  checkOutTime,checkInTime,checkInOffice,checkOutOffice, selectedCarGroup,number,reservationStatu;
+@synthesize  checkOutTime,checkInTime,checkInOffice,checkOutOffice, selectedCarGroup,number,reservationStatu,paymentType;
 
 -(id)init{
     self = [super init];

@@ -35,6 +35,7 @@
 		0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */; };
 		0C6CF63E19F064AC006B3174 /* OldReservationDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6CF63D19F064AC006B3174 /* OldReservationDetailVC.m */; };
 		0C893D87187884E5006AFF0A /* SliderHandle.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C893D86187884E5006AFF0A /* SliderHandle.png */; };
+		0C8E1EDE19F7A53F0092DDBD /* OldReservationEquipmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8E1EDD19F7A53F0092DDBD /* OldReservationEquipmentVC.m */; };
 		0C9299DF18689E95007DE6B8 /* EquipmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9299DE18689E95007DE6B8 /* EquipmentVC.m */; };
 		0C99695C19E830E3008E7199 /* TimeSelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C99695B19E830E3008E7199 /* TimeSelectionCell.m */; };
 		0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA631351864697900CC529F /* MenuSelectionVC.m */; };
@@ -207,6 +208,8 @@
 		0C6CF63C19F064AC006B3174 /* OldReservationDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationDetailVC.h; sourceTree = "<group>"; };
 		0C6CF63D19F064AC006B3174 /* OldReservationDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationDetailVC.m; sourceTree = "<group>"; };
 		0C893D86187884E5006AFF0A /* SliderHandle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SliderHandle.png; sourceTree = "<group>"; };
+		0C8E1EDC19F7A53F0092DDBD /* OldReservationEquipmentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationEquipmentVC.h; sourceTree = "<group>"; };
+		0C8E1EDD19F7A53F0092DDBD /* OldReservationEquipmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationEquipmentVC.m; sourceTree = "<group>"; };
 		0C9299DD18689E95007DE6B8 /* EquipmentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipmentVC.h; sourceTree = "<group>"; };
 		0C9299DE18689E95007DE6B8 /* EquipmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EquipmentVC.m; sourceTree = "<group>"; };
 		0C99695A19E830E3008E7199 /* TimeSelectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeSelectionCell.h; sourceTree = "<group>"; };
@@ -435,6 +438,8 @@
 			children = (
 				0CB7000419F5B351001BA83F /* OldReservationSearchVC.h */,
 				0CB7000519F5B351001BA83F /* OldReservationSearchVC.m */,
+				0C8E1EDC19F7A53F0092DDBD /* OldReservationEquipmentVC.h */,
+				0C8E1EDD19F7A53F0092DDBD /* OldReservationEquipmentVC.m */,
 			);
 			name = oldReservationUpdate;
 			sourceTree = "<group>";
@@ -1023,6 +1028,7 @@
 				B5688B01186B2E25009D830E /* GTMBase64.m in Sources */,
 				0C0DA9B01865E234003EDDA0 /* Destination.m in Sources */,
 				0CB7000619F5B351001BA83F /* OldReservationSearchVC.m in Sources */,
+				0C8E1EDE19F7A53F0092DDBD /* OldReservationEquipmentVC.m in Sources */,
 				B5F45A5C193DFD1700E4656D /* AdditionalEquipment.m in Sources */,
 				B5688AF2186AECCA009D830E /* MenuTableCellView.m in Sources */,
 				B545A2CF1973AB68005AD025 /* AdditionalDriverVC.m in Sources */,

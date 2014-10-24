@@ -41,5 +41,6 @@
 @property (nonatomic, retain) UIPopoverController *popOver;
 
 - (IBAction)showCarGroup:(id)sender;
+- (void)addNotifications;
 - (OfficeSelectionCell *)officeSelectTableViewCell:(UITableView *)tableView;
 @end

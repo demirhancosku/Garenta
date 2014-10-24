@@ -35,7 +35,8 @@
     //ysinde navigationBarFrame.size.height vardi viewwillapear super cagirilmamaisti onu cagirinca buna gerek kalmadi
     viewFrame =CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.width - navigationBarFrame.size.height );
 
-    reservation = [[Reservation alloc] init];
+    if (reservation == nil)
+        reservation = [[Reservation alloc] init];
     
     [self addNotifications];
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
@@ -44,7 +45,6 @@
     [locationManager setDistanceFilter:25];
     [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
     [locationManager startUpdatingLocation];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -66,6 +66,9 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [self setOfficeForChangeDocument];
+                [destinationTableView reloadData];
+                [arrivalTableView reloadData];
                 // en yakın ofisi bulup ekrana yazıyo
                 if ([ApplicationProperties getMainSelection] == location_search)
                 {
@@ -75,8 +78,9 @@
             });
         });
     }
-    [self correctCheckIndate];
     
+    [self setOfficeForChangeDocument];
+    [self correctCheckIndate];
 }
 
 // REZERVASYON DEĞİŞTİR İLE GELDİĞİMİZDE ALIŞ VE DÖNÜŞ OFİSLERİNİN BÜTÜN BİLGİLERİNİ REZERVASYON OBJESİNE ATIYORUZ
@@ -238,7 +242,6 @@
     {
         if (indexPath.row == 0 && [ApplicationProperties getMainSelection] != location_search)
         {
-            
             OfficeListVC *office = [[OfficeListVC alloc] initWithReservation:reservation andTag:tableView.tag andOfficeList:offices ];
             [[self navigationController] pushViewController:office animated:YES];
             
@@ -503,7 +506,7 @@
         [dateFormatter setDateFormat:@"yyyyMMdd"];
         
         NSDateFormatter *timeFormatter  = [NSDateFormatter new];
-        [timeFormatter setDateFormat:@"HH:mm"];
+        [timeFormatter setDateFormat:@"HH:mm:ss"];
         
         if ([ApplicationProperties getMainSelection] != location_search) {
             if (reservation.checkOutOffice.isPseudoOffice) {

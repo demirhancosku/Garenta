@@ -16,7 +16,7 @@
 
 @interface Reservation : NSObject
 
-@property (nonatomic, retain) CarGroup *selectedCarGroup;
+@property (nonatomic,retain) CarGroup *selectedCarGroup;
 @property (nonatomic,retain) Office *checkOutOffice;
 @property (nonatomic,retain) NSDate *checkOutTime;
 @property (nonatomic,retain) Office *checkInOffice;

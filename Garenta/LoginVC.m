@@ -89,7 +89,6 @@
     }
     else
     {
-        
         dispatch_async(dispatch_get_main_queue(), ^
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kullanıcı adı ve şifre giriniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
