@@ -144,9 +144,20 @@
         else {
             
             isUserInfoColumns = @[@"MUSTERINO", @"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN", @"VERGINO", @"ADRESS", @"EMAIL", @"TELNO", @"UYRUK", @"ULKE", @"SALES_ORGANIZATION", @"DISTRIBUTION_CHANNEL", @"DIVISION", @"KANALTURU", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"ILKODU", @"ILCEKOD", @"MIDDLENAME", @"PASAPORTNO", @"TK_KARTNO", @"TELNO_ULKE"];
-            isUserInfoValues = @[@""];
             
-            return @"";// Şimdilik
+            NSString *driverLicenseNo = @"";
+            NSString *driverLicenseLocation = @"";
+            NSString *driverLicenseType = @"";
+            NSString *driverLicenseDate = @"";
+            
+            if (![_reservation.temporaryUser.driverLicenseNo isEqualToString:@""]) {
+                driverLicenseNo = _reservation.temporaryUser.driverLicenseNo;
+                driverLicenseLocation = _reservation.temporaryUser.driverLicenseLocation;
+                driverLicenseType = _reservation.temporaryUser.driverLicenseType;
+                driverLicenseDate = [dateFormatter stringFromDate:_reservation.temporaryUser.driversLicenseDate];
+            }
+            
+            isUserInfoValues = @[@"", _reservation.temporaryUser.gender, _reservation.temporaryUser.name, _reservation.temporaryUser.surname, [dateFormatter stringFromDate:_reservation.temporaryUser.birthday], _reservation.temporaryUser.tckno, @"", _reservation.temporaryUser.address, _reservation.temporaryUser.email, _reservation.temporaryUser.mobile, _reservation.temporaryUser.nationality, _reservation.temporaryUser.country, @"3063", @"33", @"65", @"Z07", driverLicenseLocation, driverLicenseType, driverLicenseNo, driverLicenseDate, _reservation.temporaryUser.city, _reservation.temporaryUser.county, _reservation.temporaryUser.middleName, @"", @"", _reservation.temporaryUser.mobileCountry];
         }
         
         [handler addImportStructure:@"IS_USERINFO" andColumns:isUserInfoColumns andValues:isUserInfoValues];

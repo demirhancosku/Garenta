@@ -7,6 +7,7 @@
 //
 
 #import "LoginVC.h"
+#import "ReservationSummaryVC.h"
 
 @interface LoginVC ()
 
@@ -31,8 +32,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UITapGestureRecognizer *singleFingerTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(releaseAllTextFields)];
+    UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(releaseAllTextFields)];
     [self.view addGestureRecognizer:singleFingerTap];
 }
 
@@ -40,8 +40,8 @@
 {
     [super   viewWillAppear:animated];
     
-    [_usernameTextField setText:@"suleyman.nalci@abh.com.tr"];
-    [_passwordTextField setText:@"numq0"];
+//    [_usernameTextField setText:@"suleyman.nalci@abh.com.tr"];
+//    [_passwordTextField setText:@"numq0"];
     
     [[self view] setBackgroundColor:[ApplicationProperties getWhite]];
 }
@@ -75,7 +75,14 @@
                 if ([user isLoggedIn]) {
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hoşgeldiniz" message:[NSString stringWithFormat:@"Sayın %@ %@", [user name], [user surname]] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
                     [alert show];
-                    [[self navigationController] popToRootViewControllerAnimated:YES];
+                    
+                    if (_reservation == nil) {
+                        [[self navigationController] popToRootViewControllerAnimated:YES];
+                    }
+                    else {
+                        // demek ki kullanıcı bilgileri ekranından gelmiş
+                        [self performSegueWithIdentifier:@"ToReservationSummarySegue" sender:self];
+                    }
                 }
             });
         });
@@ -90,6 +97,12 @@
             [alert show];
             return;
         });
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"ToReservationSummarySegue"]) {
+        [(ReservationSummaryVC *)[segue destinationViewController] setReservation:_reservation];
     }
 }
 

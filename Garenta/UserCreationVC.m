@@ -286,89 +286,87 @@
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        [self checkFields];
+    });
+}
+
+- (void)checkFields {
+    // ATA burda kontroller yapılıcak
+    NSString *alertString = @"";
+    IDController *control = [[IDController alloc] init];
+    
+    NSDateFormatter *bdayFormatter = [[NSDateFormatter alloc] init];
+    [bdayFormatter setDateFormat:@"yyyyMMdd"];
+    NSString *birthdayDate = [bdayFormatter stringFromDate:[self.birthdayDatePicker date]];
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *weekdayComponents =[gregorian components:NSYearCalendarUnit fromDate:[self.birthdayDatePicker date]];
+    NSString *birtdayYearString = [NSString stringWithFormat:@"%li", (long)weekdayComponents.year];
+    
+    if ([self.genderSegmentedControl selectedSegmentIndex] == -1 )
+        alertString = @"Bay/Bayan alanının seçilmesi gerekmektedir";
+    else if ([self.nameTextField.text isEqualToString:@""])
+        alertString =  @"Ad alanının doldurulması gerekmektedir";
+    else if ([self.surnameTextField.text isEqualToString:@""])
+        alertString =  @"Soyad alanının doldurulması gerekmektedir";
+    else if ([birthdayDate isEqualToString:@""] || birthdayDate == nil)
+        alertString =  @"Doğum Tarihi alanının doldurulması gerekmektedir";
+    else if ([self.nationalitySegmentedControl selectedSegmentIndex] == -1 )
+        alertString = @"Uyruk alanının seçilmesi gerekmektedir";
+    else if ([self.tcknoTextField.text isEqualToString:@""])
+        alertString =  @"T.C. Kimlik No alanının doldurulması gerekmektedir";
+    else if ([self.nationalitySegmentedControl selectedSegmentIndex] == 0 &&  [self.tcknoTextField.text length] != 11)
+        alertString =  @"T.C: Kimlik No alanının 11 Karakter olması gerekmektedir";
+    else if (self.selectedCountry == nil)
+        alertString =  @"Ülkenin seçilmesi gerekmektedir";
+    else if (self.selectedCity == nil)
+        alertString = @"Şehrin seçilmesi gerekmektedir";
+    else if ([[self.selectedCountry objectAtIndex:0] isEqualToString:@"TR"] && self.selectedCounty == nil)
+        alertString = @"İlçenin seçilmesi gerekmektedir";
+    else if ([self.adressTextField.text isEqualToString:@""])
+        alertString =  @"Adres alanının doldurulması gerekmektedir";
+    else if ([self.emailTextField.text isEqualToString:@""])
+        alertString =  @"E-mail alanının doldurulması gerekmektedir";
+    else if ([[self.mobilePhoneTextField.text substringFromIndex:3] isEqualToString:@""])
+        alertString =  @"Cep Telefonu alanının doldurulması gerekmektedir";
+    else if ([self.passwordTextField.text isEqualToString:@""])
+        alertString =  @"Şifre alanının doldurulması gerekmektedir";
+    else if ([self.passwordTextField.text length] < 5 && [self.passwordTextField.text length] > 10)
+        alertString =  @"Şifre alanının 6 ile 10 karakter arasında olması gerekmektedir";
+    else if ([self.password2TextField.text isEqualToString:@""])
+        alertString =  @"Şifre(Tekrar) alanının doldurulması gerekmektedir";
+    else if (![self.passwordTextField.text isEqualToString:[self.password2TextField text]])
+        alertString =  @"Şifre alanlarının aynı olması gerekmektedir";
+    else if ([self.secretQuestionPickerView selectedRowInComponent:0] == 0)
+        alertString =  @"Gizli Sorunun seçilmesi gerekmektedir";
+    else if ([self.securityAnswerTextField.text isEqualToString:@""])
+        alertString =  @"Gizli soru cevabı alanının doldurulması gerekmektedir";
+    else if (self.nationalitySegmentedControl.selectedSegmentIndex == 0) {
+        NSString *nameString = @"";
         
-        // ATA burda kontroller yapılıcak
-        NSString *alertString = @"";
-        IDController *control = [[IDController alloc] init];
-        
-        NSDateFormatter *bdayFormatter = [[NSDateFormatter alloc] init];
-        [bdayFormatter setDateFormat:@"yyyyMMdd"];
-        NSString *birthdayDate = [bdayFormatter stringFromDate:[self.birthdayDatePicker date]];
-        
-        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-        NSDateComponents *weekdayComponents =[gregorian components:NSYearCalendarUnit fromDate:[self.birthdayDatePicker date]];
-        NSString *birtdayYearString = [NSString stringWithFormat:@"%li", (long)weekdayComponents.year];
-        
-        if ([self.genderSegmentedControl selectedSegmentIndex] == -1 )
-            alertString = @"Bay/Bayan alanının seçilmesi gerekmektedir";
-        else if ([self.nameTextField.text isEqualToString:@""])
-            alertString =  @"Ad alanının doldurulması gerekmektedir";
-        else if ([self.surnameTextField.text isEqualToString:@""])
-            alertString =  @"Soyad alanının doldurulması gerekmektedir";
-        else if ([birthdayDate isEqualToString:@""] || birthdayDate == nil)
-            alertString =  @"Doğum Tarihi alanının doldurulması gerekmektedir";
-        else if ([self.nationalitySegmentedControl selectedSegmentIndex] == -1 )
-            alertString = @"Uyruk alanının seçilmesi gerekmektedir";
-        else if ([self.tcknoTextField.text isEqualToString:@""])
-            alertString =  @"T.C. Kimlik No alanının doldurulması gerekmektedir";
-        else if ([self.nationalitySegmentedControl selectedSegmentIndex] == 0 &&  [self.tcknoTextField.text length] != 11)
-            alertString =  @"T.C: Kimlik No alanının 11 Karakter olması gerekmektedir";
-        else if (self.selectedCountry == nil)
-            alertString =  @"Ülkenin seçilmesi gerekmektedir";
-        else if (self.selectedCity == nil)
-            alertString = @"Şehrin seçilmesi gerekmektedir";
-        else if ([[self.selectedCountry objectAtIndex:0] isEqualToString:@"TR"] && self.selectedCounty == nil)
-            alertString = @"İlçenin seçilmesi gerekmektedir";
-        else if ([self.adressTextField.text isEqualToString:@""])
-            alertString =  @"Adres alanının doldurulması gerekmektedir";
-        else if ([self.emailTextField.text isEqualToString:@""])
-            alertString =  @"E-mail alanının doldurulması gerekmektedir";
-        else if ([[self.mobilePhoneTextField.text substringFromIndex:3] isEqualToString:@""])
-            alertString =  @"Cep Telefonu alanının doldurulması gerekmektedir";
-        else if ([self.passwordTextField.text isEqualToString:@""])
-            alertString =  @"Şifre alanının doldurulması gerekmektedir";
-        else if ([self.passwordTextField.text length] < 5 && [self.passwordTextField.text length] > 10)
-            alertString =  @"Şifre alanının 6 ile 10 karakter arasında olması gerekmektedir";
-        else if ([self.password2TextField.text isEqualToString:@""])
-            alertString =  @"Şifre(Tekrar) alanının doldurulması gerekmektedir";
-        else if (![self.passwordTextField.text isEqualToString:[self.password2TextField text]])
-            alertString =  @"Şifre alanlarının aynı olması gerekmektedir";
-        else if ([self.secretQuestionPickerView selectedRowInComponent:0] == 0)
-            alertString =  @"Gizli Sorunun seçilmesi gerekmektedir";
-        else if ([self.securityAnswerTextField.text isEqualToString:@""])
-            alertString =  @"Gizli soru cevabı alanının doldurulması gerekmektedir";
-        else if (self.nationalitySegmentedControl.selectedSegmentIndex == 0) {
-            NSString *nameString = @"";
-            
-            if ([self.middleNameTextField.text isEqualToString:@""]) {
-                nameString = self.nameTextField.text;
-            }
-            else {
-                nameString = [NSString stringWithFormat:@"%@ %@", self.nameTextField.text, self.middleNameTextField.text];
-            }
-            
-            BOOL checker = [control idChecker:self.tcknoTextField.text andName:nameString andSurname:self.surnameTextField.text andBirthYear:birtdayYearString];
-            
-            if (!checker) {
-                alertString = @"Girdiğiniz isim ile T.C. Kimlik numarası birbiri ile uyuşmamaktadır. Lütfen kontrol edip tekrar deneyiniz";
-            }
-        }
-        
-        if (![alertString isEqualToString:@""]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
-                [alert show];
-            });
+        if ([self.middleNameTextField.text isEqualToString:@""]) {
+            nameString = self.nameTextField.text;
         }
         else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self showMembershipRulesAlertView];
-            });
+            nameString = [NSString stringWithFormat:@"%@ %@", self.nameTextField.text, self.middleNameTextField.text];
         }
-    });
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    });
+        
+        BOOL checker = [control idChecker:self.tcknoTextField.text andName:nameString andSurname:self.surnameTextField.text andBirthYear:birtdayYearString];
+        
+        if (!checker) {
+            alertString = @"Girdiğiniz isim ile T.C. Kimlik numarası birbiri ile uyuşmamaktadır. Lütfen kontrol edip tekrar deneyiniz";
+        }
+    }
+    
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    
+    if (![alertString isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+        [alert show];
+    }
+    else {
+        [self showMembershipRulesAlertView];
+    }
 }
 
 - (void)showMembershipRulesAlertView {
@@ -438,14 +436,6 @@
                 dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
                     
                     [self createUserAtSAP];
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [MBProgressHUD hideHUDForView:self.view animated:YES];
-                        
-                        if (self.isUserCreated) {
-                            [[self navigationController] popToRootViewControllerAnimated:YES];
-                        }
-                    });
                 });
             }
         }
@@ -471,18 +461,17 @@
         
         NSString *tcknNo = @"";
         NSString *passportNo = @"";
-        NSString *nationality = @"";
+        NSString *nationality = self.selectedCountry[0];
         
         if (self.nationalitySegmentedControl.selectedSegmentIndex == 0) {
             tcknNo = self.tcknoTextField.text;
-            nationality = @"TR";
         }
         else {
             passportNo = self.tcknoTextField.text;
         }
         
         NSString *trimmedMobilePhone = [self.mobilePhoneTextField.text substringFromIndex:3];
-       
+        
         if (self.selectedCounty == nil) {
             self.selectedCounty = @[@"", @"", @"", @""];
         }
@@ -516,7 +505,12 @@
         NSData *passwordData = [self.passwordTextField.text dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
         NSString *base64Encoded = [passwordData base64EncodedStringWithOptions:0];
         
-        NSArray *value = @[self.nameTextField.text, self.middleNameTextField.text, self.surnameTextField.text, [formatter stringFromDate:self.birthdayDatePicker.date], tcknNo, @"X", self.emailTextField.text, trimmedMobilePhone, @"", base64Encoded, self.selectedCity[1], self.selectedCounty[2], self.adressTextField.text, @"Z07", nationality, self.selectedCountry[0], self.driverLicenseNoTextField.text, driverLicenseDate, passportNo, @"X", @"3063", @"33", @"65", gender, secretQuestion, @"", self.securityAnswerTextField.text, self.driverLicenseLocationTextField.text, driverLicenseType, @"", self.selectedCounty[0], @"", @""];
+        NSString *county = @"";
+        if (self.selectedCounty != nil) {
+            county = self.selectedCounty[2];
+        }
+        
+        NSArray *value = @[self.nameTextField.text, self.middleNameTextField.text, self.surnameTextField.text, [formatter stringFromDate:self.birthdayDatePicker.date], tcknNo, @"X", self.emailTextField.text, trimmedMobilePhone, @"", base64Encoded, self.selectedCity[1], county, self.adressTextField.text, @"Z07", nationality, self.selectedCountry[0], self.driverLicenseNoTextField.text, driverLicenseDate, passportNo, @"X", @"3063", @"33", @"65", gender, secretQuestion, @"", self.securityAnswerTextField.text, self.driverLicenseLocationTextField.text, driverLicenseType, @"", self.selectedCounty[0], @"", @""];
         
         [handler addImportStructure:@"IS_INPUT" andColumns:columns andValues:value];
         [handler addTableForReturn:@"ET_BAPIRET"];
@@ -555,10 +549,15 @@
         
     }
     @finally {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
-            [alert show];
-        });
+    }
+
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+    [alert show];
+    
+    if (self.isUserCreated) {
+        [[self navigationController] popViewControllerAnimated:YES];
     }
 }
 

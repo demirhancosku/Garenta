@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "Reservation.h"
-@interface UserInfoTableViewController : UITableViewController
+@interface UserInfoTableViewController : UITableViewController <UITextFieldDelegate, UIAlertViewDelegate>
+{
+    NSMutableArray *countryArray;
+    NSMutableArray *cityArray;
+    NSMutableArray *countyArray;
+    NSMutableArray *secretQuestionsArray;
+}
+
+- (IBAction)continueButtonPressed:(id)sender;
+- (IBAction)nationalitySegmentChanged:(id)sender;
+- (IBAction)loginButtonPressed:(id)sender;
+- (void)getCountryInformationFromSAP;
+
 @property(strong,nonatomic)Reservation *reservation;
+
 @end

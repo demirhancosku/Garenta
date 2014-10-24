@@ -139,6 +139,8 @@
 		E1D2AB6A19D45EB600806868 /* ConnectionProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D2AB6919D45EB600806868 /* ConnectionProperties.m */; };
 		E1ED735C19E5486C00D3E324 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E1ED735B19E5486C00D3E324 /* MBProgressHUD.m */; };
 		E1ED735F19E564FC00D3E324 /* CountrySelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E1ED735E19E564FC00D3E324 /* CountrySelectionVC.m */; };
+		E1FE07E319FA39F500E0BB0B /* userLoginBarButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E1FE07E219FA39F500E0BB0B /* userLoginBarButton.png */; };
+		E1FE07E519FA3CE500E0BB0B /* ContinueIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E1FE07E419FA3CE500E0BB0B /* ContinueIcon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -349,6 +351,8 @@
 		E1ED735B19E5486C00D3E324 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		E1ED735D19E564FC00D3E324 /* CountrySelectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountrySelectionVC.h; sourceTree = "<group>"; };
 		E1ED735E19E564FC00D3E324 /* CountrySelectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountrySelectionVC.m; sourceTree = "<group>"; };
+		E1FE07E219FA39F500E0BB0B /* userLoginBarButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = userLoginBarButton.png; sourceTree = "<group>"; };
+		E1FE07E419FA3CE500E0BB0B /* ContinueIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ContinueIcon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -587,6 +591,8 @@
 		0C4C9A9B1846331D00CD3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E1FE07E419FA3CE500E0BB0B /* ContinueIcon.png */,
+				E1FE07E219FA39F500E0BB0B /* userLoginBarButton.png */,
 				0C0012E819E54A95009AF050 /* visa_mastercard.png */,
 				0C48234A19DD95BB00C73301 /* info.png */,
 				B5BBE954195040F6000AD4E2 /* door_icon.png */,
@@ -832,6 +838,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1FE07E519FA3CE500E0BB0B /* ContinueIcon.png in Resources */,
 				B5BBE953195040CB000AD4E2 /* passanger_icon.png in Resources */,
 				B5F5F95A193C6907009B8D31 /* minus_icon.png in Resources */,
 				B5688AFE186B1A78009D830E /* location_icon.png in Resources */,
@@ -866,6 +873,7 @@
 				B5BBE95919505D21000AD4E2 /* white_right_arrow.png in Resources */,
 				0C4C9A7C18462EAB00CD3728 /* Images.xcassets in Resources */,
 				B5E0649F194F12F90046E789 /* sample_car.png in Resources */,
+				E1FE07E319FA39F500E0BB0B /* userLoginBarButton.png in Resources */,
 				0C48234B19DD95BB00C73301 /* info.png in Resources */,
 				B5688B1B186B3A2E009D830E /* load_9.png in Resources */,
 				0C0012E919E54A95009AF050 /* visa_mastercard.png in Resources */,

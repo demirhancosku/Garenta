@@ -12,6 +12,7 @@
 #import "CarGroup.h"
 #import "Car.h"
 #import "CreditCard.h"
+#import "User.h"
 
 @interface Reservation : NSObject
 
@@ -28,6 +29,7 @@
 @property (strong,nonatomic) Car *selectedCar;
 @property (copy,nonatomic) NSString *reservationNumber;
 @property (strong, nonatomic) CreditCard *paymentNowCard;
+@property (strong, nonatomic) User *temporaryUser;
 
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl;
 

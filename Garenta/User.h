@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString *mobileCountry;
 @property (nonatomic,strong) NSString *mobile;
 @property (nonatomic,strong) NSString *email;
+@property (nonatomic, strong) NSString *nationality;
 @property (nonatomic,strong) NSString *tckno;
 @property (nonatomic,strong) NSString *company;
 @property (nonatomic,strong) NSString *companyName;
@@ -29,9 +30,14 @@
 @property (nonatomic,strong) NSString *gender;
 @property (nonatomic,strong) NSDate *birthday;
 @property (nonatomic,strong) NSDate *driversLicenseDate;
+@property (nonatomic,strong) NSString *driverLicenseNo;
+@property (nonatomic,strong) NSString *driverLicenseLocation;
+@property (nonatomic,strong) NSString *driverLicenseType;
 @property (nonatomic,assign) BOOL isLoggedIn;
 @property (nonatomic, assign) BOOL isPriority;
 @property (nonatomic, strong) NSString *country;
+@property (nonatomic, strong) NSString *city;
+@property (nonatomic, strong) NSString *county;
 @property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSString *partnerType;
 
