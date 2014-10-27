@@ -93,8 +93,14 @@ static int kGarentaLogoId = 1;
             
             if ([[ApplicationProperties getUser] isLoggedIn])
             {
-                [User loginToSap:[[NSUserDefaults standardUserDefaults] valueForKey:@"USERNAME"] andPassword:[[NSUserDefaults standardUserDefaults] valueForKey:@"PASSWORD"]];
+                NSArray *arr = [User loginToSap:[[NSUserDefaults standardUserDefaults] valueForKey:@"USERNAME"] andPassword:[[NSUserDefaults standardUserDefaults] valueForKey:@"PASSWORD"]];
                 
+                for (User *tempUser in arr) {
+                    if ([tempUser.kunnr isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:@"KUNNR"]]) {
+                        tempUser.isLoggedIn = YES;
+                        [ApplicationProperties setUser:tempUser];
+                    }
+                }
             }
         }
         else {

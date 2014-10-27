@@ -49,7 +49,21 @@
     [_totalPriceLabel setText:[NSString stringWithFormat:@"%@ TL",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:_garentaTlTextField.text]]];
     _requiredFields = [NSArray arrayWithObjects:_creditCardNumberTextField,_nameOnCardTextField,_expirationMonthTextField,_expirationYearTextField,_cvvTextField, nil];
     
-    _nameOnCardTextField.text = [NSString stringWithFormat:@"%@ %@",[[ApplicationProperties getUser] name],[[ApplicationProperties getUser] surname]];
+    if ([[ApplicationProperties getUser] isLoggedIn]) {
+        _nameOnCardTextField.text = [NSString stringWithFormat:@"%@ %@",[[ApplicationProperties getUser] name],[[ApplicationProperties getUser] surname]];
+    }
+    else {
+        
+        NSString *name = @"";
+        if (![[[_reservation temporaryUser] middleName] isEqualToString:@""] && [[_reservation temporaryUser] middleName] != nil) {
+            name = [NSString stringWithFormat:@"%@ %@", [[_reservation temporaryUser] name], [[_reservation temporaryUser] middleName]];
+        }
+        else {
+            name = [[_reservation temporaryUser] name];
+        }
+        
+        _nameOnCardTextField.text = [NSString stringWithFormat:@"%@ %@", name, _reservation.temporaryUser.surname];
+    }
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"oldCardSelected" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note){
         [[self myPopoverController] dismissPopoverAnimated:YES];

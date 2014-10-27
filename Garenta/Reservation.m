@@ -11,12 +11,11 @@
 #import "SDReservObject.h"
 
 @implementation Reservation
-@synthesize  checkOutTime,checkInTime,checkInOffice,checkOutOffice, selectedCarGroup,number,reservationStatu,paymentType;
 
 -(id)init{
     self = [super init];
-    checkOutTime= [Reservation defaultCheckOutDate];
-    checkInTime = [Reservation defaultCheckInDate];
+    self.checkOutTime= [Reservation defaultCheckOutDate];
+    self.checkInTime = [Reservation defaultCheckInDate];
     _selectedCar = nil;
     return self;
 }
@@ -66,9 +65,9 @@
     if ([currency isEqualToString:@"TRY"])
     {
         if (isPayNow) {
-            totalPrice = totalPrice + [selectedCarGroup.sampleCar.pricing.payNowPrice floatValue] - garentaTl.floatValue;
+            totalPrice = totalPrice + [self.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue] - garentaTl.floatValue;
         }else{
-            totalPrice = totalPrice + [selectedCarGroup.sampleCar.pricing.payLaterPrice floatValue];
+            totalPrice = totalPrice + [self.selectedCarGroup.sampleCar.pricing.payLaterPrice floatValue];
         }
         if (_selectedCar) {
             totalPrice = totalPrice + [_selectedCar.pricing.carSelectPrice floatValue];

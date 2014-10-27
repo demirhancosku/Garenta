@@ -30,6 +30,8 @@
 @property (copy,nonatomic) NSString *reservationNumber;
 @property (strong, nonatomic) CreditCard *paymentNowCard;
 @property (strong, nonatomic) User *temporaryUser;
+@property (strong, nonatomic) NSString *paymentType;
+@property (strong, nonatomic) NSDecimalNumber *changeReservationDifference;
 
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl;
 
