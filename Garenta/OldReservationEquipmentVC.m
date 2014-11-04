@@ -9,11 +9,16 @@
 #import "OldReservationEquipmentVC.h"
 #import "AdditionalEquipment.h"
 #import "ReservationSummaryVC.h"
+#import "OldReservationSummaryVC.h"
+#import "AdditionalDriverVC.h"
+#import "CarSelectionVC.h"
 
-@interface OldReservationEquipmentVC ()
+@interface OldReservationEquipmentVC () <WYPopoverControllerDelegate>
 
+@property (strong,nonatomic)WYPopoverController *myPopoverController;
 @property (weak, nonatomic) IBOutlet UITableView *additionalEquipmentsTableView;
 @property (weak, nonatomic) IBOutlet UILabel *totalPriceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *totalTextLabel;
 @property BOOL isPayNow;
 @end
 
@@ -21,12 +26,33 @@
 
 - (void)viewDidLoad {
     
+    _carSelectionArray = [NSMutableArray new];
+    
+    // ŞİMDİ ÖDE-SONRA ÖDE REZERVASYON?
     if ([super.reservation.paymentType isEqualToString:@"1"])
         _isPayNow = YES;
     else
         _isPayNow = NO;
     
+    // REZERVASYON YARATILDIĞI ESNADA ARAÇ SEÇİLMİŞSE -YES
+    if (super.reservation.selectedCar)
+        _isCarSelected = YES;
+    else
+        _isCarSelected = NO;
+    
     [self findOldReservationEquipments];
+    [self getCarSelectionPrice];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"carSelected" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
+        _isCarSelected = YES;
+        
+        NSPredicate *equipmentPredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0031"];
+        NSArray *equipmentPredicateArray = [super.reservation.additionalEquipments filteredArrayUsingPredicate:equipmentPredicate];
+        
+        if ([equipmentPredicateArray count] > 0)
+            [[equipmentPredicateArray objectAtIndex:0] setQuantity:1];
+        [self recalculate];
+    }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"additionalDriverAdded" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
         [self recalculate];
@@ -46,14 +72,42 @@
         NSArray *equipmentPredicateArray = [super.reservation.additionalEquipments filteredArrayUsingPredicate:equipmentPredicate];
         
         if ([equipmentPredicateArray count] > 0)
+        {
             temp.quantity = [[equipmentPredicateArray objectAtIndex:0] quantity];
+            temp.updateStatus = @"U";
+        }
     }
     
     [self recalculate];
 }
 
-- (void)recalculate{
+- (void)getCarSelectionPrice
+{
+    for (Car *tempCar in super.reservation.selectedCarGroup.cars)
+    {
+        if ([_carSelectionArray count] == 0) {
+            [_carSelectionArray addObject:tempCar];
+        }
+        else {
+            BOOL isNewModelId = YES;
+            
+            for (int i = 0; i < [_carSelectionArray count]; i++) {
+                if ([[[_carSelectionArray objectAtIndex:i] modelId] isEqualToString:tempCar.modelId]) {
+                    isNewModelId = NO;
+                    break;
+                }
+            }
+            
+            if (isNewModelId) {
+                [_carSelectionArray addObject:tempCar];
+            }
+        }
+    }
+    
     [_additionalEquipmentsTableView reloadData];
+}
+
+- (void)recalculate{
     float total = 0;
     _changeReservationPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
     
@@ -67,15 +121,31 @@
         else
             total = total + ([temp.price floatValue] * temp.quantity);
     }
+    
     if (_isPayNow)
         total = total + super.reservation.changeReservationDifference.floatValue;
     else
         total = total + super.reservation.changeReservationDifference.floatValue + super.reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice.floatValue;
     
+    // ARAÇ SEÇİLMİŞ VE GRUBA REZERVASYONSA
+    if (_isCarSelected && [super.reservation.reservationType isEqualToString:@"20"])
+        total = total + super.reservation.selectedCar.pricing.carSelectPrice.floatValue;
+    // ARAÇ SEÇİLMEMİŞ VE ARACA REZERVASYONDA
+    else if (!_isCarSelected && [super.reservation.reservationType isEqualToString:@"10"])
+        total = total - super.reservation.selectedCar.pricing.carSelectPrice.floatValue;
+    
     _changeReservationPrice = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.02f",total]];
     dispatch_async(dispatch_get_main_queue(), ^(void){
         [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f",total]];
+        
+        if (total < 0) {
+            [_totalTextLabel setText:@"İade Tutarı    :"];
+        }else{
+            [_totalTextLabel setText:@"Ödenecek Toplam:"];
+        }
     });
+    
+    [_additionalEquipmentsTableView reloadData];
 }
 
 #pragma mark - IBActions
@@ -95,7 +165,8 @@
                 }
             }
         }
-        else {
+        else
+        {
             BOOL isMaximumSafetyAdded = NO;
             
             for (AdditionalEquipment *temp in super.additionalEquipments) {
@@ -131,23 +202,19 @@
 - (IBAction)minusButtonPressed:(id)sender {
     
     AdditionalEquipment*additionalEquipment = [super.additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
-    if (additionalEquipment.type ==additionalDriver && self.reservation.additionalDrivers.count > 0)
+    if (additionalEquipment.type == additionalDriver && self.reservation.additionalDrivers.count > 0)
     {
         [super deleteAdditionalDriver];
         [self.reservation.additionalDrivers removeLastObject];
     }
     else
     {
-        if (_isPayNow) {
-            NSDecimalNumber *itemPrice = [additionalEquipment.paid decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]];
-            
-            additionalEquipment.difference = [itemPrice decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"-1"]];
-        }
-        
         int newValue = [additionalEquipment quantity]-1;
         [additionalEquipment setQuantity:newValue];
         
-
+        if (_isPayNow) {
+            additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
+        }
     }
     
     [self recalculate];
@@ -156,7 +223,7 @@
 #pragma mark - tableviews
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return super.additionalEquipments.count;
+    return super.additionalEquipments.count + 1;
 }
 
 - (SelectCarTableViewCell*)selectCarTableView:(UITableView*)tableView {
@@ -166,22 +233,55 @@
         cell = [SelectCarTableViewCell new];
     }
     
-    [cell.selectButton setImage:[UIImage imageNamed:@"ticked_button.png"] forState:UIControlStateNormal];
-    [cell.selectButton setHidden:NO];
+    if (_isCarSelected)
+    {
+        [cell.selectButton setImage:[UIImage imageNamed:@"ticked_button.png"] forState:UIControlStateNormal];
+        [cell.selectButton setHidden:NO];
+        [[cell carLabel] setText:[NSString stringWithFormat:@"%@",super.reservation.selectedCarGroup.sampleCar.materialName]];
+    }
+    else
+    {
+        [cell.selectButton setImage:[UIImage imageNamed:@"unticked_button.png"] forState:UIControlStateNormal];
+        [cell.selectButton setHidden:YES];
+        
+        if ([_carSelectionArray count] == 0)
+            [[cell carLabel] setText:@""];
+        else
+        {
+            Car *car = [_carSelectionArray objectAtIndex:0];
+            [[cell carLabel] setText:[NSString stringWithFormat:@"Sadece %.02f TL ödeyerek aracınızı seçebilirsiniz.",[car.pricing.carSelectPrice floatValue]]];
+        }
+    }
     
+    //ÖDEME YAPILMIŞSA
     if (_isPayNow)
     {
-        [cell.priceLabel setText:[NSString stringWithFormat:@"%.02f",[super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue]]];
-        [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",super.reservation.changeReservationDifference.floatValue]];
+        //GRUBA REZERVASYON VE ARAÇ SEÇİLİ İSE
+        if ([super.reservation.reservationType isEqualToString:@"20"] && _isCarSelected)
+        {
+            [cell.priceLabel setText:[NSString stringWithFormat:@"%.02f",[super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue]]];
+            [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",(super.reservation.changeReservationDifference.floatValue + super.reservation.selectedCar.pricing.carSelectPrice.floatValue)]];
+        }
+        else
+        {
+            [cell.priceLabel setText:[NSString stringWithFormat:@"%.02f",[super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue]]];
+            [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",super.reservation.changeReservationDifference.floatValue]];
+        }
     }
     else
     {
         [cell.priceLabel setText:@"0.00"];
-        [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",[[super.reservation.changeReservationDifference decimalNumberByAdding:super.reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice] floatValue]]];
+        //GRUBA REZERVASYON VE ARAÇ SEÇİLİ İSE
+        if ([super.reservation.reservationType isEqualToString:@"20"] && _isCarSelected)
+        {
+            [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",(super.reservation.changeReservationDifference.floatValue + super.reservation.selectedCar.pricing.carSelectPrice.floatValue + super.reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice.floatValue)]];
+        }
+        else
+        {
+            [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",[[super.reservation.changeReservationDifference decimalNumberByAdding:super.reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice] floatValue]]];
+        }
     }
-
-    [[cell carLabel] setText:[NSString stringWithFormat:@"%@ ve benzeri",super.reservation.selectedCarGroup.sampleCar.materialName]];
-
+    
     return cell;
 }
 
@@ -189,34 +289,202 @@
 {
     AdditionalEquipmentTableViewCell *cell = [super additionalEquipmentTableViewCellForIndex:index fromTable:tableView];
     
-    AdditionalEquipment *temp = [super.additionalEquipments objectAtIndex:index];
+    AdditionalEquipment *temp = [ super.additionalEquipments objectAtIndex:index];
     
     //ŞİMDİ ÖDE REZ İSE "Ödenmiş" ve "Ödenecek" tutarları ayrı ayrı yazıyoruz, değilse ödenmiş tutar 0 oluyor
     if (_isPayNow)
     {
-        cell.itemTotalPriceLabel.text = [NSString stringWithFormat:@"%.02f",temp.paid.floatValue];
-        cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f",temp.difference.floatValue];
+        if ([temp.materialNumber isEqualToString:@"HZM0031"] && !_isCarSelected)
+        {
+            cell.itemTotalPriceLabel.text = [NSString stringWithFormat:@"%.02f",super.reservation.selectedCar.pricing.carSelectPrice.floatValue];
+            cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f",(super.reservation.selectedCar.pricing.carSelectPrice.floatValue * -1)];
+        }
+        else
+        {
+            cell.itemTotalPriceLabel.text = [NSString stringWithFormat:@"%.02f",temp.paid.floatValue];
+            cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f",temp.difference.floatValue];
+        }
     }
     else
     {
         cell.itemTotalPriceLabel.text = @"0.00";
-        cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f",(temp.quantity*temp.price.floatValue)];
+        if ([temp.materialNumber isEqualToString:@"HZM0031"])
+        {
+            if (!_isCarSelected)
+                cell.equipmentPriceLabel.text = @"0.00";
+            else
+                cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f",super.reservation.selectedCar.pricing.carSelectPrice.floatValue];
+        }
+        else
+            cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f",(temp.price.floatValue * temp.quantity)];
     }
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
+    if (indexPath.row == 0)
+    {
+        if (!_isCarSelected) {
+            [self performSegueWithIdentifier:@"toCarSelectionVCSegue" sender:self];
+        }else{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Onay" message:
+                                  [NSString stringWithFormat:@"%@ %@ modeli rezervasyonunuzdan çıkarmak istediğinize emin misiniz?",super.reservation.selectedCar.brandName,super.reservation.selectedCar.modelName]	 delegate:self cancelButtonTitle:@"Hayır" otherButtonTitles: @"Evet",nil];
+            [alert show];
+        }
+    }
+}
+
+#pragma mark - uialertview methods
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    switch (buttonIndex) {
+        case 0:
+            //NO
+            break;
+        case 1:
+        {
+            //YES
+            NSPredicate *equipmentPredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0031"];
+            NSArray *equipmentPredicateArray = [super.additionalEquipments filteredArrayUsingPredicate:equipmentPredicate];
+            
+            if ([equipmentPredicateArray count] > 0)
+                [[equipmentPredicateArray objectAtIndex:0] setQuantity:0];
+            
+            _isCarSelected = NO;
+            [self recalculate];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    [super prepareForSegue:segue sender:sender];
-    if ([segue.identifier isEqualToString:@"toReservationSummaryVCSegue"])
+    if (!_isCarSelected)
+        super.reservation.selectedCar = nil;
+    
+    if ([[segue identifier] isEqualToString:@"toCarSelectionVCSegue"]) {
+        [(CarSelectionVC*)  [segue destinationViewController] setReservation:super.reservation];
+        [(CarSelectionVC*)  [segue destinationViewController] setCarSelectionArray:_carSelectionArray];
+    }
+    
+    if ([[segue identifier] isEqualToString:@"toAdditionalDriverVCSegue"])
+        
     {
-        [(ReservationSummaryVC *)[segue destinationViewController] setReservation:super.reservation];
-        [(ReservationSummaryVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];
+        [(AdditionalDriverVC*)segue.destinationViewController setReservation:self.reservation];
+        for (AdditionalEquipment *tempEquipment in self.additionalEquipments) {
+            if (tempEquipment.type == additionalDriver) {
+                [(AdditionalDriverVC*)segue.destinationViewController setMyDriver:tempEquipment];
+                [(AdditionalDriverVC*)segue.destinationViewController setReservation:self.reservation];
+                break;
+            }
+        }
+    }
+    
+    else if ([[segue identifier] isEqualToString:@"toEquipmentInfoSegue"])
+    {
+        WYStoryboardPopoverSegue* popoverSegue = (WYStoryboardPopoverSegue*)segue;
+        
+        UIViewController* destinationViewController = (UIViewController *)segue.destinationViewController;
+        destinationViewController.preferredContentSize = CGSizeMake(280, 75);       // Deprecated in iOS7. Use 'preferredContentSize' instead.
+        
+        AdditionalEquipment *tempEquipment = [self.additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
+        [(AdditionalEquipmentInfoVC *)segue.destinationViewController setInfoText:tempEquipment.materialInfo];
+        
+        self.myPopoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionAny animated:YES];
+        self.myPopoverController.delegate = self;
+        
+    }
+    else if ([segue.identifier isEqualToString:@"toOldReservationSummarySegue"])
+    {
+        [self prepareEquipmentForUpdate];
+        [(OldReservationSummaryVC *)[segue destinationViewController] setReservation:super.reservation];
+        [(OldReservationSummaryVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];
+    }
+}
+
+- (void)prepareEquipmentForUpdate
+{
+    for (AdditionalEquipment *temp in super.additionalEquipments)
+    {
+        NSPredicate *equipmentPredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",temp.materialNumber];
+        NSArray *equipmentPredicateArray = [super.reservation.additionalEquipments filteredArrayUsingPredicate:equipmentPredicate];
+        
+        if ([equipmentPredicateArray count] > 0)
+        {
+            if ([temp quantity] == 0)
+            {
+                [[equipmentPredicateArray objectAtIndex:0] setUpdateStatus:@"D"];
+                for (int count = 1; count < [[equipmentPredicateArray objectAtIndex:0] quantity]; count++)
+                {
+                    temp.updateStatus = @"D";
+                    [super.reservation.additionalEquipments addObject:temp];
+                }
+            }
+            else
+            {
+                if (temp.quantity > [[equipmentPredicateArray objectAtIndex:0] quantity])
+                {
+                    [[equipmentPredicateArray objectAtIndex:0] setUpdateStatus:@"U"];
+                    [[equipmentPredicateArray objectAtIndex:0] setPrice:temp.price];
+                    
+                    for (int count = 1; count < [temp quantity]; count++)
+                    {
+                        AdditionalEquipment *tempObj = [AdditionalEquipment new];
+                        tempObj = [temp copy];
+                        
+                        if (count < [[equipmentPredicateArray objectAtIndex:0] quantity])
+                            [tempObj setUpdateStatus:@"U"];
+                        else
+                            [tempObj setUpdateStatus:@"I"];
+                        
+                        [super.reservation.additionalEquipments addObject:tempObj];
+                    }
+                }
+                else if (temp.quantity < [[equipmentPredicateArray objectAtIndex:0] quantity])
+                {
+                    [[equipmentPredicateArray objectAtIndex:0] setUpdateStatus:@"U"];
+                    [[equipmentPredicateArray objectAtIndex:0] setPrice:temp.price];
+                    
+                    for (int count = 1; count < [[equipmentPredicateArray objectAtIndex:0] quantity]; count++)
+                    {
+                        AdditionalEquipment *tempObj = [AdditionalEquipment new];
+                        tempObj = [temp copy];
+                        
+                        if (count < [temp quantity])
+                            [tempObj setUpdateStatus:@"U"];
+                        else
+                            [tempObj setUpdateStatus:@"D"];
+                        
+                        [super.reservation.additionalEquipments addObject:tempObj];
+                    }
+                }
+                else
+                {
+                    [[equipmentPredicateArray objectAtIndex:0] setUpdateStatus:@"U"];
+                    [[equipmentPredicateArray objectAtIndex:0] setPrice:temp.price];
+                    
+                    for (int count = 1; count < temp.quantity; count++)
+                    {
+                        temp.updateStatus = @"U";
+                        [super.reservation.additionalEquipments addObject:temp];
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (temp.quantity > 0)
+            {
+                for (int count = 0; count < temp.quantity; count++) {
+                    temp.updateStatus = @"I";
+                    [super.reservation.additionalEquipments addObject:temp];
+                }
+            }
+        }
     }
 }
 

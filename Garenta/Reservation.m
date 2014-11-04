@@ -11,7 +11,7 @@
 #import "SDReservObject.h"
 
 @implementation Reservation
-@synthesize  checkOutTime,checkInTime,checkInOffice,checkOutOffice, selectedCarGroup,number,reservationStatu,paymentType;
+@synthesize  checkOutTime,checkInTime,checkInOffice,checkOutOffice, selectedCarGroup,number,reservationStatu,paymentType,reservationType;
 
 -(id)init{
     self = [super init];
@@ -23,10 +23,10 @@
 
 
 #pragma mark - util methods
-    //sıkıcı nsdate kodları
+//sıkıcı nsdate kodları
 + (NSDate*)defaultCheckInDate{
     NSDate *checkInDate = [NSDate date];
-
+    
     //once 2 saat 15 dk ekliyoruz
     NSTimeInterval aTimeInterval = 135 * 60; //2 saat 15 dk
     checkInDate = [checkInDate dateByAddingTimeInterval:aTimeInterval];
@@ -36,7 +36,7 @@
     //sonra dakikaları 0lıyoruz.
     NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *components = [gregorianCalendar components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit
-                                                         fromDate:checkInDate];
+                                                        fromDate:checkInDate];
     NSInteger difference = components.minute % 15;
     checkInDate = [checkInDate dateByAddingTimeInterval:-(NSTimeInterval)difference*60];
     return checkInDate;
@@ -48,7 +48,7 @@
     //once 15 dk ekliyoruz
     NSTimeInterval aTimeInterval = 135 * 60; //15 dk
     checkOutDate = [checkOutDate dateByAddingTimeInterval:aTimeInterval];
-
+    
     //sonra dakikaları bir ger dilime
     NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
@@ -88,12 +88,10 @@
         }
         
         totalPrice = [totalPrice decimalNumberByAdding:totalEquiPrice];
-        
     }
     
     return totalPrice;
-//    return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.2f",totalPrice]];
-
+    //    return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.2f",totalPrice]];
 }
 
 -(NSDecimalNumber*)priceOfAdditionalEquipments{
@@ -175,7 +173,7 @@
         NSArray *itAraclarColumns = @[@"MATNR"];
         NSMutableArray *itAraclarValues = [NSMutableArray new];
         
-        for (Car *tempCar in _reservation.selectedCarGroup.cars) {
+        for (Car *tempCar                                                                              in _reservation.selectedCarGroup.cars) {
             NSArray *arr = @[[tempCar materialCode]];
             [itAraclarValues addObject:arr];
         }
@@ -344,6 +342,231 @@
     }
     
     return @"";
+}
+
++ (BOOL)changeReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andTotalPrice:(NSDecimalNumber *)aTotalPrice
+{
+    NSString *alertString = @"";
+    @try {
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZNET_UPDATE_REZERVASYON"];
+        
+        NSDateFormatter *dateFormatter = [NSDateFormatter new];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSDateFormatter *timeFormatter = [NSDateFormatter new];
+        [timeFormatter setDateFormat:@"HH:mm:ss"];
+        
+        // IS_INPUT
+        NSArray *isInputColumns = @[@"REZ_NO", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"ODEME_TURU", @"GARENTA_TL", @"BONUS", @"MILES_SMILES", @"GUN_SAYISI", @"TOPLAM_TUTAR", @"C_PRIORITY", @"C_CORP_PRIORITY", @"REZ_KANAL", @"FT_CIKIS_IL", @"FT_CIKIS_ILCE", @"FT_CIKIS_ADRES", @"FT_DONUS_IL", @"FT_DONUS_ILCE", @"FT_DONUS_ADRES", @"PARA_BIRIMI", @"FT_MALIYET_TIPI", @"USERNAME", @"PUAN_TIPI", @"UCUS_SAATI", @"UCUS_NO", @"ODEME_BICIMI", @"FATURA_ACIKLAMA", @"EMAIL_CONFIRM", @"TELNO_CONFIRM"];
+        
+        NSString *isPriority = @"";
+        
+        if ([[ApplicationProperties getUser] isPriority]) {
+            isPriority = @"X";
+        }
+        
+        NSString *paymentType = @"";
+        
+        if (isPayNow) {
+            paymentType = @"1";
+        }
+        else {
+            paymentType = @"2";
+        }
+        
+        NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDateComponents *components = [gregorianCalendar components:NSDayCalendarUnit
+                                                            fromDate:[_reservation checkOutTime]
+                                                              toDate:[_reservation checkInTime]
+                                                             options:0];
+        
+        NSString *day = [NSString stringWithFormat:@"%i",[components day]];
+        
+        NSString *totalPrice = [NSString stringWithFormat:@"%.02f",aTotalPrice.floatValue];
+        
+        // satış burosunu onurla konuşcam
+        NSArray *isInputValues = @[_reservation.reservationNumber, [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, @"", @"", @"", day, @"", isPriority, @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"", @"", @"", @"", @"", @"", @""];
+        
+        [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
+        
+        // IS_USERINFO
+        NSArray *isUserInfoColumns;
+        NSArray *isUserInfoValues;
+        
+        if ([[ApplicationProperties getUser] isLoggedIn]) {
+            isUserInfoColumns = @[@"MUSTERINO"];
+            isUserInfoValues = @[[[ApplicationProperties getUser] kunnr]];
+        }
+        
+        [handler addImportStructure:@"IS_USERINFO" andColumns:isUserInfoColumns andValues:isUserInfoValues];
+        
+        if ([_reservation.reservationType isEqualToString:@"10"] && _reservation.selectedCar == nil && ![_reservation.updateStatus isEqualToString:@"KAY"])
+            _reservation.updateStatus = @"ARG";
+        else if ([_reservation.reservationType isEqualToString:@"20"] && _reservation.selectedCar != nil && ![_reservation.updateStatus isEqualToString:@"KAY"])
+            _reservation.updateStatus = @"GAR";
+        
+        [handler addImportParameter:@"IV_UPDATE_STATU" andValue:_reservation.updateStatus];
+        
+        // IT_ARACLAR
+        NSArray *itAraclarColumns = @[@"MATNR"];
+        NSMutableArray *itAraclarValues = [NSMutableArray new];
+        
+        for (Car *tempCar in _reservation.selectedCarGroup.cars) {
+            NSArray *arr = @[[tempCar materialCode]];
+            [itAraclarValues addObject:arr];
+        }
+        
+        [handler addTableForImport:@"IT_ARACLAR" andColumns:itAraclarColumns andValues:itAraclarValues];
+        
+        // IT_ITEMS
+        NSArray *itItemsColumns = @[@"REZ_KALEM_NO", @"MALZEME_NO", @"MIKTAR", @"ARAC_GRUBU", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"KAMPANYA_ID", @"FIYAT", @"C_KISLASTIK", @"ARAC_RENK", @"SASI_NO", @"PLAKA_NO", @"JATO_MARKA", @"JATO_MODEL", @"FILO_SEGMENT", @"FIYAT_KODU", @"UPDATE_STATU", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"KALEM_TIPI", @"PARA_BIRIMI", @"IS_AYLIK", @"KURUM_BIREYSEL"];
+        
+        NSMutableArray *itItemsValues = [NSMutableArray new];
+        
+        NSString *matnr = @"";
+        NSString *jatoBrandID = @"";
+        NSString *jatoModelID = @"";
+        NSString *carPrice = @"";
+        
+        if (_reservation.selectedCar) {
+            matnr = _reservation.selectedCar.materialCode;
+            jatoBrandID = _reservation.selectedCar.brandId;
+            jatoModelID = _reservation.selectedCar.modelId;
+            carPrice = [[_reservation.changeReservationDifference decimalNumberByAdding:_reservation.selectedCar.pricing.payNowPrice] stringValue];
+        }
+        else
+        {
+            carPrice = [[_reservation.changeReservationDifference decimalNumberByAdding:_reservation.selectedCarGroup.sampleCar.pricing.payNowPrice] stringValue];
+        }
+        
+        // ARAÇ
+        NSArray *vehicleLine = @[@"", matnr, @"1", _reservation.selectedCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", carPrice, @"", @"", @"", @"", jatoBrandID, jatoModelID, _reservation.selectedCarGroup.segment, @"", @"U", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
+        
+        [itItemsValues addObject:vehicleLine];
+        
+        // Ekipmanlar, Hizmetler
+        for (AdditionalEquipment *tempEquipment in _reservation.additionalEquipments)
+        {
+            if ([tempEquipment updateStatus] != nil) {
+            NSArray *equipmentLine = @[@"", tempEquipment.materialNumber, @"1", @"", _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", [tempEquipment.price stringValue], @"", @"", @"", @"", @"", @"", @"", @"", tempEquipment.updateStatus, [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
+            
+            [itItemsValues addObject:equipmentLine];
+            }
+        }
+        
+        // Aracını seçtiyse ve gruba rezervasyonsa (araca rezervasyonsa ekipmanların içinde HZM0031 geliyo zaten)
+        if (_reservation.selectedCar && [_reservation.reservationType isEqualToString:@"20"]) {
+            NSArray *carSelectionLine = @[@"", @"HZM0031", @"1", @"", _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", [_reservation.selectedCar.pricing.carSelectPrice stringValue], @"", @"", @"", @"", @"", @"", @"", @"", @"I", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
+            [itItemsValues addObject:carSelectionLine];
+        }
+        
+        [handler addTableForImport:@"IT_ITEMS" andColumns:itItemsColumns andValues:itItemsValues];
+        
+        // IT_EKSURUCU
+        NSArray *itEkSurucuColumns = @[@"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN", @"TELNO", @"UYRUK", @"ULKE", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"EKSURUCU_NO", @"UPDATE_STATU", @"KALEM_NO"];
+        
+        NSMutableArray *itEkSurucuValues = [NSMutableArray new];
+        
+        for (AdditionalEquipment *temp in _reservation.additionalDrivers) {
+            NSArray *additionalDriverLine = @[temp.additionalDriverGender, temp.additionalDriverFirstname, temp.additionalDriverSurname, [dateFormatter stringFromDate:temp.additionalDriverBirthday], @"", @"", @"", @"", temp.additionalDriverLicensePlace, temp.additionalDriverLicenseClass, temp.additionalDriverLicenseNumber, [dateFormatter stringFromDate:temp.additionalDriverLicenseDate], @"", @"", @""];
+            [itEkSurucuValues addObject:additionalDriverLine];
+        }
+        
+        if ([itEkSurucuValues count] > 0) {
+            [handler addTableForImport:@"IT_EKSURUCU" andColumns:itEkSurucuColumns andValues:itEkSurucuValues];
+        }
+        
+        if (isPayNow || aTotalPrice.floatValue < 0) {
+            // IT_TAHSILAT
+            NSArray *itTahsilatColumns = @[@"KUNNR", @"TAHSTIP", @"KART_SAHIBI", @"KART_NUMARASI", @"MER_KEY", @"GUVENLIKKODU", @"AY", @"YIL", @"ORDER_ID", @"CUSTOMER_IP", @"CUSTOMER_EMAIL" ,@"CUSTOMER_FULLNAME", @"COMPANYNAME", @"AMOUNT", @"POINT", @"POINT_TUTAR", @"IS_POINT", @"GARENTA_TL", @"VKBUR", @"MUSTERIONAY"];
+            
+            NSMutableArray *itTahsilatValues = [NSMutableArray new];
+            
+            NSString *kunnr = @"";
+            NSString *email = @"";
+            
+            if ([[ApplicationProperties getUser] isLoggedIn]) {
+                kunnr = [[ApplicationProperties getUser] kunnr];
+                email = [[ApplicationProperties getUser] email];
+            }
+            
+            NSString *cardOwner = @"";
+            NSString *cardNumber = @"";
+            NSString *cardCV2 = @"";
+            NSString *cardMonth = @"";
+            NSString *cardYear = @"";
+            NSString *merchantSafe = @"";
+            
+            NSString *ipAdress= [Reservation getCustomerIP];
+            
+            if ([_reservation.paymentNowCard.uniqueId isEqualToString:@""] || _reservation.paymentNowCard.uniqueId == nil) {
+                cardOwner = _reservation.paymentNowCard.nameOnTheCard;
+                cardNumber = _reservation.paymentNowCard.cardNumber;
+                cardCV2 = _reservation.paymentNowCard.cvvNumber;
+                cardMonth = _reservation.paymentNowCard.expirationMonth;
+                cardYear = _reservation.paymentNowCard.expirationYear;
+            }
+            else {
+                merchantSafe = _reservation.paymentNowCard.uniqueId;
+            }
+            
+            NSArray *itTahsilatValue = @[kunnr, @"K", cardOwner, cardNumber, merchantSafe, cardCV2, cardMonth, cardYear, @"", ipAdress, email, cardOwner, @"", totalPrice, @"", @"", @"", @"", _reservation.checkOutOffice.subOfficeCode, @""];
+            [itTahsilatValues addObject:itTahsilatValue];
+            
+            [handler addTableForImport:@"IT_TAHSILAT" andColumns:itTahsilatColumns andValues:itTahsilatValues];
+        }
+        
+        [handler addTableForReturn:@"ET_RETURN"];
+        [handler addTableForReturn:@"ET_KK_RETURN"];
+        
+        NSDictionary *response = [handler prepCall];
+        
+        if (response != nil) {
+            
+            NSDictionary *export = [response objectForKey:@"EXPORT"];
+            
+            NSString *subrc = [export valueForKey:@"EV_SUBRC"];
+            
+            if ([subrc isEqualToString:@"0"]) {
+                NSDictionary *esOutput = [export objectForKey:@"ES_OUTPUT"];
+                
+                NSString *reservationNo = [esOutput valueForKey:@"REZ_NO"];
+                return YES;
+            }
+            else {
+                
+                NSDictionary *tables = [response objectForKey:@"TABLES"];
+                
+                if (isPayNow) {
+                    NSDictionary *etKKReturn = [tables objectForKey:@"BAPIRET2"];
+                    
+                    for (NSDictionary *temp in etKKReturn) {
+                        alertString = [temp valueForKey:@"MESSAGE"];
+                    }
+                    
+                    if ([alertString isEqualToString:@""]) {
+                        alertString = @"Rezervasyon yaratımı sırasında hata oluştu. Lütfen tekrar deneyiniz";
+                    }
+                }
+                else {
+                    alertString = @"Rezervasyon yaratımı sırasında hata oluştu. Lütfen tekrar deneyiniz";
+                }
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (![alertString isEqualToString:@""]) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                    [alert show];
+                }
+            });
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+    }
+    
+    return NO;
 }
 
 + (NSString *)getCustomerIP

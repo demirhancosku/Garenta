@@ -20,6 +20,8 @@
 		0C48234B19DD95BB00C73301 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C48234A19DD95BB00C73301 /* info.png */; };
 		0C48234E19DDBAF800C73301 /* AdditionalEquipmentInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C48234D19DDBAF800C73301 /* AdditionalEquipmentInfoVC.m */; };
 		0C4A55A619E82B2000251545 /* OfficeSelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4A55A519E82B2000251545 /* OfficeSelectionCell.m */; };
+		0C4B9FDB19FE2A92003FB4F5 /* OldReservationSummaryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B9FDA19FE2A92003FB4F5 /* OldReservationSummaryVC.m */; };
+		0C4B9FDE19FE33AD003FB4F5 /* OldReservationPaymentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B9FDD19FE33AD003FB4F5 /* OldReservationPaymentVC.m */; };
 		0C4C9A6A18462EAB00CD3728 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6918462EAB00CD3728 /* Foundation.framework */; };
 		0C4C9A6C18462EAB00CD3728 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6B18462EAB00CD3728 /* CoreGraphics.framework */; };
 		0C4C9A6E18462EAB00CD3728 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4C9A6D18462EAB00CD3728 /* UIKit.framework */; };
@@ -38,6 +40,7 @@
 		0C8E1EDE19F7A53F0092DDBD /* OldReservationEquipmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8E1EDD19F7A53F0092DDBD /* OldReservationEquipmentVC.m */; };
 		0C9299DF18689E95007DE6B8 /* EquipmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9299DE18689E95007DE6B8 /* EquipmentVC.m */; };
 		0C99695C19E830E3008E7199 /* TimeSelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C99695B19E830E3008E7199 /* TimeSelectionCell.m */; };
+		0CA259A219FFBD3F0017B973 /* OldReservationApprovalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA259A119FFBD3F0017B973 /* OldReservationApprovalVC.m */; };
 		0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA631351864697900CC529F /* MenuSelectionVC.m */; };
 		0CB7000619F5B351001BA83F /* OldReservationSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB7000519F5B351001BA83F /* OldReservationSearchVC.m */; };
 		0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */; };
@@ -178,6 +181,10 @@
 		0C48234D19DDBAF800C73301 /* AdditionalEquipmentInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdditionalEquipmentInfoVC.m; sourceTree = "<group>"; };
 		0C4A55A419E82B2000251545 /* OfficeSelectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfficeSelectionCell.h; sourceTree = "<group>"; };
 		0C4A55A519E82B2000251545 /* OfficeSelectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfficeSelectionCell.m; sourceTree = "<group>"; };
+		0C4B9FD919FE2A92003FB4F5 /* OldReservationSummaryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationSummaryVC.h; sourceTree = "<group>"; };
+		0C4B9FDA19FE2A92003FB4F5 /* OldReservationSummaryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationSummaryVC.m; sourceTree = "<group>"; };
+		0C4B9FDC19FE33AD003FB4F5 /* OldReservationPaymentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationPaymentVC.h; sourceTree = "<group>"; };
+		0C4B9FDD19FE33AD003FB4F5 /* OldReservationPaymentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationPaymentVC.m; sourceTree = "<group>"; };
 		0C4C9A6618462EAB00CD3728 /* Garenta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Garenta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C4C9A6918462EAB00CD3728 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0C4C9A6B18462EAB00CD3728 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -214,6 +221,8 @@
 		0C9299DE18689E95007DE6B8 /* EquipmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EquipmentVC.m; sourceTree = "<group>"; };
 		0C99695A19E830E3008E7199 /* TimeSelectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeSelectionCell.h; sourceTree = "<group>"; };
 		0C99695B19E830E3008E7199 /* TimeSelectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeSelectionCell.m; sourceTree = "<group>"; };
+		0CA259A019FFBD3F0017B973 /* OldReservationApprovalVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationApprovalVC.h; sourceTree = "<group>"; };
+		0CA259A119FFBD3F0017B973 /* OldReservationApprovalVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationApprovalVC.m; sourceTree = "<group>"; };
 		0CA631341864697900CC529F /* MenuSelectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuSelectionVC.h; sourceTree = "<group>"; };
 		0CA631351864697900CC529F /* MenuSelectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuSelectionVC.m; sourceTree = "<group>"; };
 		0CB7000419F5B351001BA83F /* OldReservationSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationSearchVC.h; sourceTree = "<group>"; };
@@ -440,6 +449,12 @@
 				0CB7000519F5B351001BA83F /* OldReservationSearchVC.m */,
 				0C8E1EDC19F7A53F0092DDBD /* OldReservationEquipmentVC.h */,
 				0C8E1EDD19F7A53F0092DDBD /* OldReservationEquipmentVC.m */,
+				0C4B9FD919FE2A92003FB4F5 /* OldReservationSummaryVC.h */,
+				0C4B9FDA19FE2A92003FB4F5 /* OldReservationSummaryVC.m */,
+				0C4B9FDC19FE33AD003FB4F5 /* OldReservationPaymentVC.h */,
+				0C4B9FDD19FE33AD003FB4F5 /* OldReservationPaymentVC.m */,
+				0CA259A019FFBD3F0017B973 /* OldReservationApprovalVC.h */,
+				0CA259A119FFBD3F0017B973 /* OldReservationApprovalVC.m */,
 			);
 			name = oldReservationUpdate;
 			sourceTree = "<group>";
@@ -1004,6 +1019,7 @@
 				B56F5F6D19598764005B5B92 /* ReservationApprovalVC.m in Sources */,
 				E1ED735C19E5486C00D3E324 /* MBProgressHUD.m in Sources */,
 				B52462231924D8A100FC482B /* CarGroupTableVC.m in Sources */,
+				0C4B9FDB19FE2A92003FB4F5 /* OldReservationSummaryVC.m in Sources */,
 				0C4FF37919EFFE3C00E06A71 /* OldReservationListVC.m in Sources */,
 				0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */,
 				9E53F68E18BF8F150076CFFF /* UserCreationVC.m in Sources */,
@@ -1037,9 +1053,11 @@
 				B5E03441186DD02500226DAB /* Car.m in Sources */,
 				E1ED735F19E564FC00D3E324 /* CountrySelectionVC.m in Sources */,
 				0CBA75CA186435260008CE29 /* BaseTableVC.m in Sources */,
+				0C4B9FDE19FE33AD003FB4F5 /* OldReservationPaymentVC.m in Sources */,
 				B5E0344A186ED57C00226DAB /* CarGroup.m in Sources */,
 				B52B64E31945A6240017A5D5 /* ReservationSummaryVC.m in Sources */,
 				B5F5F95E193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m in Sources */,
+				0CA259A219FFBD3F0017B973 /* OldReservationApprovalVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1089,8 +1107,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Arif Ata  Cengiz (J4696487BQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Arif Ata  Cengiz (J4696487BQ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kerem Balaban (3ZR758CJVV)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kerem Balaban (3ZR758CJVV)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1108,7 +1126,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "72228444-b1cc-45f4-8a68-67693cc48827";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s";
@@ -1131,8 +1149,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Arif Ata  Cengiz (J4696487BQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Arif Ata  Cengiz (J4696487BQ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kerem Balaban (3ZR758CJVV)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kerem Balaban (3ZR758CJVV)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1144,7 +1162,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "72228444-b1cc-45f4-8a68-67693cc48827";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1157,8 +1175,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Arif Ata  Cengiz (J4696487BQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Arif Ata  Cengiz (J4696487BQ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Garenta/Garenta-Prefix.pch";
 				INFOPLIST_FILE = "Garenta/Garenta-Info.plist";
@@ -1174,7 +1192,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "72228444-b1cc-45f4-8a68-67693cc48827";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -1186,8 +1204,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Arif Ata  Cengiz (J4696487BQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Arif Ata  Cengiz (J4696487BQ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Garenta/Garenta-Prefix.pch";
 				INFOPLIST_FILE = "Garenta/Garenta-Info.plist";
@@ -1203,7 +1221,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "72228444-b1cc-45f4-8a68-67693cc48827";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;

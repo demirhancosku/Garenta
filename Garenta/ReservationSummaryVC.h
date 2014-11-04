@@ -15,10 +15,9 @@
 }
 
 @property (strong,nonatomic) Reservation *reservation;
-@property (strong,nonatomic) NSDecimalNumber *changeReservationPrice;
+@property (assign,nonatomic) BOOL isTotalPressed;
 
 - (IBAction)payNowPressed:(id)sender;
-
 - (IBAction)payLaterPressed:(id)sender;
 
 @end

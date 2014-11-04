@@ -16,17 +16,9 @@
 #import "AgreementsVC.h"
 
 @interface PaymentTableViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *creditCardNumberTextField;
-@property (weak, nonatomic) IBOutlet UITextField *nameOnCardTextField;
-@property (weak, nonatomic) IBOutlet UITextField *expirationMonthTextField;
-@property (weak, nonatomic) IBOutlet UITextField *expirationYearTextField;
-@property (weak, nonatomic) IBOutlet UITextField *cvvTextField;
-@property (weak, nonatomic) IBOutlet UITextField *garentaTlTextField;
-@property (weak, nonatomic) IBOutlet UILabel *totalPriceLabel;
 
 @property (strong,nonatomic) WYPopoverController *myPopoverController;
 @property(strong,nonatomic) NSArray *requiredFields;
-@property (strong,nonatomic) CreditCard *creditCard;
 
 - (IBAction)reservationCompleteButtonPressed:(id)sender;
 @end
