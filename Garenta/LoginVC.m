@@ -41,9 +41,6 @@
 {
     [super   viewWillAppear:animated];
     
-//    [_usernameTextField setText:@"suleyman.nalci@abh.com.tr"];
-//    [_passwordTextField setText:@"123456"];
-    
     [[self view] setBackgroundColor:[ApplicationProperties getWhite]];
 }
 
@@ -82,7 +79,7 @@
                     [self goToView];
                     
                 }
-                else {
+                else if (self.userList != nil && self.userList.count > 1){
                     [self showUserList];
                 }
             });

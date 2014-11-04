@@ -8,6 +8,7 @@
 
 #import "SAPJSONHandler.h"
 #import "MBProgressHUD.h"
+#import "Reachability.h"
 
 @interface SAPJSONHandler ()
 
@@ -268,18 +269,17 @@
 
 - (BOOL)checkReachability
 {
-    return YES;
-    //    Reachability *reachability = [Reachability reachabilityWithHostName:@"google.com"];
-    //    NetworkStatus remoteHostStatus = [reachability currentReachabilityStatus];
-    //
-    //    BOOL isInternetAvailable;
-    //
-    //    if(remoteHostStatus == NotReachable)
-    //        isInternetAvailable = NO;
-    //    else
-    //        isInternetAvailable = YES;
-    //
-    //    return isInternetAvailable;
+    Reachability *reachability = [Reachability reachabilityWithHostName:@"google.com"];
+    NetworkStatus remoteHostStatus = [reachability currentReachabilityStatus];
+    
+    BOOL isInternetAvailable;
+    
+    if(remoteHostStatus == NotReachable)
+        isInternetAvailable = NO;
+    else
+        isInternetAvailable = YES;
+    
+    return isInternetAvailable;
 }
 
 @end

@@ -11,6 +11,7 @@
 #import "MBProgressHUD.h"
 #import "AgreementsVC.h"
 #import "SMSSoapHandler.h"
+#import "MailSoapHandler.h"
 
 @interface UserCreationVC ()
 
@@ -44,11 +45,13 @@
 @property (nonatomic) NSInteger selectedTextField;
 
 @property (strong, nonatomic) UIAlertView *timerAlertView;
-@property (nonatomic) NSUInteger smsAlertTimer;
+@property (nonatomic) NSUInteger alertTimer;
 @property (strong, nonatomic) NSTimer *timer;
-@property (strong, nonatomic) NSString *smsValidationCode;
+@property (strong, nonatomic) NSString *validationCode;
 
 @property (nonatomic) BOOL isUserCreated;
+@property (nonatomic) BOOL isSMSChecked;
+@property (nonatomic) BOOL isEmailChecked;
 
 @end
 
@@ -354,7 +357,7 @@
         BOOL checker = [control idChecker:self.tcknoTextField.text andName:nameString andSurname:self.surnameTextField.text andBirthYear:birtdayYearString];
         
         if (!checker) {
-            alertString = @"Girdiğiniz isim ile T.C. Kimlik numarası birbiri ile uyuşmamaktadır. Lütfen kontrol edip tekrar deneyiniz";
+            alertString = @"Girdiğiniz isim, doğum tarihi ile T.C. Kimlik numarası birbiri ile uyuşmamaktadır. Lütfen kontrol edip tekrar deneyiniz";
         }
     }
     
@@ -385,10 +388,10 @@
         return;
     }
     else {
-        self.smsValidationCode = generatedCode;
+        self.validationCode = generatedCode;
         NSString *trimmedMobilePhone = [self.mobilePhoneTextField.text substringFromIndex:3];
         
-        BOOL success = [SMSSoapHandler sendSMSMessage:self.smsValidationCode toNumber:trimmedMobilePhone];
+        BOOL success = [SMSSoapHandler sendSMSMessage:self.validationCode toNumber:trimmedMobilePhone];
         
         if (!success) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"SMS gönderilemedi, lütfen tekrar deneyiniz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
@@ -398,7 +401,7 @@
     }
     
     self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
-                                                     message:@"Lütfen Telefonunuza gelen onay kodunu 60 saniye içinde giriniz"
+                                                     message:@"Lütfen Telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz"
                                                     delegate:self
                                            cancelButtonTitle:@"Geri"
                                            otherButtonTitles:@"Tamam", nil];
@@ -406,20 +409,70 @@
     [self.timerAlertView setTag:1];
     [self.timerAlertView show];
     
-    self.smsAlertTimer = 60;
+    self.alertTimer = 60;
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1
                                                   target:self
-                                                selector:@selector(updateAlert:)
+                                                selector:@selector(updateSMSAlert:)
                                                 userInfo:nil
                                                  repeats:YES];
 }
 
-- (void)updateAlert:(id)sender {
-    self.smsAlertTimer--;
-    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen Telefonunuza gelen onay kodunu %d saniye içinde giriniz", self.smsAlertTimer];
+- (void)updateSMSAlert:(id)sender {
+    self.alertTimer--;
+    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen Telefonunuza gelen konfirmasyon kodunu %d saniye içinde giriniz", self.alertTimer];
     
-    if (self.smsAlertTimer == 0) {
+    if (self.alertTimer == 0) {
+        [self.timer invalidate];
+        [self.timerAlertView dismissWithClickedButtonIndex:0 animated:YES];
+    }
+}
+
+- (void)checkEmailVerificationCode {
+    
+    NSString *generatedCode = [SMSSoapHandler generateCode];
+    
+    if (generatedCode == nil || [generatedCode isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Mail gönderilemedi, lütfen tekrar deneyiniz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    else {
+        self.validationCode = generatedCode;
+        NSString *email = self.emailTextField.text; // müşterinin email adresi
+        
+        BOOL success = [MailSoapHandler sendMessage:generatedCode toMail:email withFirstname:self.nameTextField.text andLastname:self.surnameTextField.text];
+        
+        if (!success) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Mail gönderilemedi, lütfen tekrar deneyiniz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+    }
+    
+    self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
+                                                     message:@"Lütfen mail adresinize gelen konfirmasyon kodunu 60 saniye içinde giriniz"
+                                                    delegate:self
+                                           cancelButtonTitle:@"Geri"
+                                           otherButtonTitles:@"Tamam", nil];
+    [self.timerAlertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    [self.timerAlertView setTag:5];
+    [self.timerAlertView show];
+    
+    self.alertTimer = 60;
+    
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1
+                                                  target:self
+                                                selector:@selector(updateEmailAlert:)
+                                                userInfo:nil
+                                                 repeats:YES];
+}
+
+- (void)updateEmailAlert:(id)sender {
+    self.alertTimer--;
+    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen mail'inize gelen konfirmasyon kodunu %d saniye içinde giriniz", self.alertTimer];
+    
+    if (self.alertTimer == 0) {
         [self.timer invalidate];
         [self.timerAlertView dismissWithClickedButtonIndex:0 animated:YES];
     }
@@ -431,12 +484,16 @@
         if (buttonIndex == 1) {
             NSString *alertText = [alertView textFieldAtIndex:0].text;
             
-            if ([alertText isEqualToString:self.smsValidationCode]) {
+            if ([alertText isEqualToString:self.validationCode]) {
                 [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
                     
                     [self createUserAtSAP];
                 });
+            }
+            else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Girdiğiniz kod ile gönderilen kod uyuşmamaktadır" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                [alert show];
             }
         }
     }
@@ -448,12 +505,38 @@
             [self checkPhoneNumberValidation];
         }
     }
+    // SMS konfirmasyonu
+    if (alertView.tag == 3) {
+        self.isSMSChecked = YES;
+        [self createUserAtSAP];
+    }
+    // Email konfirmasyonu
+    if (alertView.tag == 4) {
+        [self checkEmailVerificationCode];
+    }
+    // Email konfirmasyon kodu girilmesi
+    if (alertView.tag == 5) {
+        if (buttonIndex == 1) {
+            NSString *alertText = [alertView textFieldAtIndex:0].text;
+            
+            if ([alertText isEqualToString:self.validationCode]) {
+                self.isEmailChecked = YES;
+                
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                    
+                    [self createUserAtSAP];
+                });
+            }
+        }
+    }
 }
 
 - (void)createUserAtSAP {
     
     NSString *alertString = @"";
-    
+    UIAlertView *alert = [[UIAlertView alloc] init];
+
     @try {
         SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZMOB_KDK_CREATE_POT_CUSTOMER"];
         
@@ -461,10 +544,11 @@
         
         NSString *tcknNo = @"";
         NSString *passportNo = @"";
-        NSString *nationality = self.selectedCountry[0];
+        NSString *nationality = @"";
         
         if (self.nationalitySegmentedControl.selectedSegmentIndex == 0) {
             tcknNo = self.tcknoTextField.text;
+            nationality = @"TR";
         }
         else {
             passportNo = self.tcknoTextField.text;
@@ -510,9 +594,20 @@
             county = self.selectedCounty[2];
         }
         
-        NSArray *value = @[self.nameTextField.text, self.middleNameTextField.text, self.surnameTextField.text, [formatter stringFromDate:self.birthdayDatePicker.date], tcknNo, @"X", self.emailTextField.text, trimmedMobilePhone, @"", base64Encoded, self.selectedCity[1], county, self.adressTextField.text, @"Z07", nationality, self.selectedCountry[0], self.driverLicenseNoTextField.text, driverLicenseDate, passportNo, @"X", @"3063", @"33", @"65", gender, secretQuestion, @"", self.securityAnswerTextField.text, self.driverLicenseLocationTextField.text, driverLicenseType, @"", self.selectedCounty[0], @"", @""];
+        NSString *smsChecked = @"";
+        if (self.isSMSChecked) {
+            smsChecked = @"X";
+        }
+        
+        NSString *emailChecked = @"";
+        if (self.isEmailChecked) {
+            emailChecked = @"X";
+        }
+        
+        NSArray *value = @[self.nameTextField.text, self.middleNameTextField.text, self.surnameTextField.text, [formatter stringFromDate:self.birthdayDatePicker.date], tcknNo, @"X", self.emailTextField.text, trimmedMobilePhone, @"", base64Encoded, self.selectedCity[1], county, self.adressTextField.text, @"Z07", nationality, self.selectedCountry[0], self.driverLicenseNoTextField.text, driverLicenseDate, passportNo, @"X", @"3063", @"33", @"65", gender, secretQuestion, @"", self.securityAnswerTextField.text, self.driverLicenseLocationTextField.text, driverLicenseType, @"", self.selectedCounty[0], emailChecked, smsChecked];
         
         [handler addImportStructure:@"IS_INPUT" andColumns:columns andValues:value];
+        [handler addTableForReturn:@"E_OUTPUT"];
         [handler addTableForReturn:@"ET_BAPIRET"];
         
         NSDictionary *response = [handler prepCall];
@@ -529,18 +624,33 @@
             else {
                 
                 NSDictionary *tables = [response objectForKey:@"TABLES"];
-                NSDictionary *bapiret2 = [tables objectForKey:@"BAPIRET2"];
+                NSDictionary *eOutput = [export valueForKey:@"E_OUTPUT"];
                 
-                for (NSDictionary *dict in bapiret2) {
-                    NSString *message = [dict valueForKey:@"MESSAGE"];
+                NSString *smsCheck = [eOutput valueForKey:@"CEPTEL_CHECK"];
+                NSString *emailCheck = [eOutput valueForKey:@"MAIL_CHECK"];
+                
+                if ([smsCheck isEqualToString:@"X"]) {
+                    alertString = @"Girmiş olduğunuz cep telefon numarası başka bir üyemize aittir. SMS konfirmasyonu yaptığınız için işleminize devam edilicektir.";
+                    [alert setTag:3];
+                }
+                else if ([emailCheck isEqualToString:@"X"]) {
+                    alertString = @"Girmiş olduğunuz email adresi başka bir üyemize aittir. Devam etmek için lütfen email'inize yolladığımız konfirmasyon kodunu giriniz.";
+                    [alert setTag:4];
+                }
+                else {
+                    NSDictionary *bapiret2 = [tables objectForKey:@"BAPIRET2"];
+                    
+                    for (NSDictionary *dict in bapiret2) {
+                        NSString *message = [dict valueForKey:@"MESSAGE"];
+                        
+                        if ([alertString isEqualToString:@""]) {
+                            alertString = message;
+                        }
+                    }
                     
                     if ([alertString isEqualToString:@""]) {
-                        alertString = message;
+                        alertString = @"Kullanıcı yaratımı sırasında hata alındı. Lütfen tekrar deneyiniz";
                     }
-                }
-                
-                if ([alertString isEqualToString:@""]) {
-                    alertString = @"Kullanıcı yaratımı sırasında hata alındı. Lütfen tekrar deneyiniz";
                 }
             }
         }
@@ -552,8 +662,10 @@
     }
 
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+    
+    [alert setTitle:@"Uyarı"];
+    [alert setMessage:alertString];
+    [alert addButtonWithTitle:@"Tamam"];
     [alert show];
     
     if (self.isUserCreated) {

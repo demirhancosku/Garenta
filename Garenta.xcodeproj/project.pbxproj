@@ -103,8 +103,6 @@
 		B592119F195DA38D00A54E0E /* ReservationScopePopoverVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B592119E195DA38D00A54E0E /* ReservationScopePopoverVC.m */; };
 		B59211A2195E981400A54E0E /* CreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = B59211A1195E981300A54E0E /* CreditCard.m */; };
 		B59211A4195ECE2F00A54E0E /* calendar_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B59211A3195ECE2F00A54E0E /* calendar_icon.png */; };
-		B59492101910F82F009BBAC8 /* MainStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B594920F1910F82F009BBAC8 /* MainStoryBoard.storyboard */; };
-		B5A3354519176DCA00B29C2B /* GarentaTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5A3354419176DCA00B29C2B /* GarentaTests-Info.plist */; };
 		B5B017BC19755A0000F1BD18 /* AdditionalDriverListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B017BB19755A0000F1BD18 /* AdditionalDriverListVC.m */; };
 		B5BBE94E195021CF000AD4E2 /* UIViewController+Garenta.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BBE94D195021CF000AD4E2 /* UIViewController+Garenta.m */; };
 		B5BBE95119503907000AD4E2 /* UIColor+GarentaColors.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BBE95019503907000AD4E2 /* UIColor+GarentaColors.m */; };
@@ -137,11 +135,15 @@
 		E15DFF8819F7A6660078E06F /* AgreementsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E15DFF8719F7A6660078E06F /* AgreementsVC.m */; };
 		E15DFF8A19F7C6770078E06F /* MembershipRules.html in Resources */ = {isa = PBXBuildFile; fileRef = E15DFF8919F7C6770078E06F /* MembershipRules.html */; };
 		E15DFF8D19F7CA450078E06F /* SMSSoapHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E15DFF8C19F7CA450078E06F /* SMSSoapHandler.m */; };
+		E191C1751A090E710062A0D1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E191C1741A090E710062A0D1 /* Reachability.m */; };
+		E1B3B6DB19FFBA8700BAEE98 /* ProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B3B6DA19FFBA8700BAEE98 /* ProfileTableViewController.m */; };
 		E1D2AB6A19D45EB600806868 /* ConnectionProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D2AB6919D45EB600806868 /* ConnectionProperties.m */; };
+		E1E5749F1A03D5EA00BE8FEA /* MailSoapHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E5749E1A03D5EA00BE8FEA /* MailSoapHandler.m */; };
 		E1ED735C19E5486C00D3E324 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E1ED735B19E5486C00D3E324 /* MBProgressHUD.m */; };
 		E1ED735F19E564FC00D3E324 /* CountrySelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E1ED735E19E564FC00D3E324 /* CountrySelectionVC.m */; };
 		E1FE07E319FA39F500E0BB0B /* userLoginBarButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E1FE07E219FA39F500E0BB0B /* userLoginBarButton.png */; };
 		E1FE07E519FA3CE500E0BB0B /* ContinueIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E1FE07E419FA3CE500E0BB0B /* ContinueIcon.png */; };
+		E1FE90E81A077817002D6461 /* MainStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1FE90E71A077817002D6461 /* MainStoryBoard.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -298,8 +300,6 @@
 		B59211A0195E981300A54E0E /* CreditCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreditCard.h; sourceTree = "<group>"; };
 		B59211A1195E981300A54E0E /* CreditCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreditCard.m; sourceTree = "<group>"; };
 		B59211A3195ECE2F00A54E0E /* calendar_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendar_icon.png; sourceTree = "<group>"; };
-		B594920F1910F82F009BBAC8 /* MainStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryBoard.storyboard; sourceTree = "<group>"; };
-		B5A3354419176DCA00B29C2B /* GarentaTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GarentaTests-Info.plist"; path = "GarentaTests/GarentaTests-Info.plist"; sourceTree = SOURCE_ROOT; };
 		B5B017BA19755A0000F1BD18 /* AdditionalDriverListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdditionalDriverListVC.h; sourceTree = "<group>"; };
 		B5B017BB19755A0000F1BD18 /* AdditionalDriverListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdditionalDriverListVC.m; sourceTree = "<group>"; };
 		B5BBE94C195021CF000AD4E2 /* UIViewController+Garenta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Garenta.h"; sourceTree = "<group>"; };
@@ -347,15 +347,22 @@
 		E15DFF8919F7C6770078E06F /* MembershipRules.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = MembershipRules.html; sourceTree = "<group>"; };
 		E15DFF8B19F7CA450078E06F /* SMSSoapHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSSoapHandler.h; sourceTree = "<group>"; };
 		E15DFF8C19F7CA450078E06F /* SMSSoapHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMSSoapHandler.m; sourceTree = "<group>"; };
+		E191C1731A090E710062A0D1 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		E191C1741A090E710062A0D1 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		E1B3B6D919FFBA8700BAEE98 /* ProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewController.h; sourceTree = "<group>"; };
+		E1B3B6DA19FFBA8700BAEE98 /* ProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewController.m; sourceTree = "<group>"; };
 		E1D2AB6519D45EAA00806868 /* SAPJSONHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SAPJSONHandler.h; sourceTree = "<group>"; };
 		E1D2AB6819D45EB600806868 /* ConnectionProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionProperties.h; sourceTree = "<group>"; };
 		E1D2AB6919D45EB600806868 /* ConnectionProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionProperties.m; sourceTree = "<group>"; };
+		E1E5749D1A03D5EA00BE8FEA /* MailSoapHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailSoapHandler.h; sourceTree = "<group>"; };
+		E1E5749E1A03D5EA00BE8FEA /* MailSoapHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailSoapHandler.m; sourceTree = "<group>"; };
 		E1ED735A19E5486C00D3E324 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		E1ED735B19E5486C00D3E324 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		E1ED735D19E564FC00D3E324 /* CountrySelectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountrySelectionVC.h; sourceTree = "<group>"; };
 		E1ED735E19E564FC00D3E324 /* CountrySelectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountrySelectionVC.m; sourceTree = "<group>"; };
 		E1FE07E219FA39F500E0BB0B /* userLoginBarButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = userLoginBarButton.png; sourceTree = "<group>"; };
 		E1FE07E419FA3CE500E0BB0B /* ContinueIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ContinueIcon.png; sourceTree = "<group>"; };
+		E1FE90E71A077817002D6461 /* MainStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryBoard.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -502,7 +509,6 @@
 		0C4C9A7018462EAB00CD3728 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B5A3354419176DCA00B29C2B /* GarentaTests-Info.plist */,
 				0C4C9A7118462EAB00CD3728 /* Garenta-Info.plist */,
 				0C4C9A7218462EAB00CD3728 /* InfoPlist.strings */,
 				0C4C9A7518462EAB00CD3728 /* main.m */,
@@ -514,7 +520,7 @@
 		0C4C9A981846318F00CD3728 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				B594920F1910F82F009BBAC8 /* MainStoryBoard.storyboard */,
+				E1FE90E71A077817002D6461 /* MainStoryBoard.storyboard */,
 				0C4C9A9C1846333100CD3728 /* BaseVCs */,
 				0C0DA99D1865AE94003EDDA0 /* Login */,
 				0C4C9AA11846348100CD3728 /* MainMenu */,
@@ -525,6 +531,7 @@
 				B56304B21941CE04001D4603 /* UserInfoVC */,
 				B52B64E01945A4A00017A5D5 /* ReservationVCs */,
 				B5A2CAE41872B51700271DE9 /* oldReservationVCs */,
+				E16780CF19FE765C00606214 /* Profile */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -552,6 +559,10 @@
 				E1D2AB6919D45EB600806868 /* ConnectionProperties.m */,
 				E15DFF8B19F7CA450078E06F /* SMSSoapHandler.h */,
 				E15DFF8C19F7CA450078E06F /* SMSSoapHandler.m */,
+				E1E5749D1A03D5EA00BE8FEA /* MailSoapHandler.h */,
+				E1E5749E1A03D5EA00BE8FEA /* MailSoapHandler.m */,
+				E191C1731A090E710062A0D1 /* Reachability.h */,
+				E191C1741A090E710062A0D1 /* Reachability.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -760,6 +771,15 @@
 			name = oldReservationVCs;
 			sourceTree = "<group>";
 		};
+		E16780CF19FE765C00606214 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				E1B3B6D919FFBA8700BAEE98 /* ProfileTableViewController.h */,
+				E1B3B6DA19FFBA8700BAEE98 /* ProfileTableViewController.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -854,7 +874,6 @@
 				0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */,
 				B5688B19186B3A2E009D830E /* load_7.png in Resources */,
 				B5688B15186B3A2E009D830E /* load_3.png in Resources */,
-				B59492101910F82F009BBAC8 /* MainStoryBoard.storyboard in Resources */,
 				B5C490361940806E00B737E8 /* unticked_button.png in Resources */,
 				B533CE2118FD21CC002FE236 /* clock_icon.png in Resources */,
 				B5688AF6186B167E009D830E /* AccessoryButton.png in Resources */,
@@ -872,7 +891,6 @@
 				B5688B18186B3A2E009D830E /* load_6.png in Resources */,
 				B5688B14186B3A2E009D830E /* load_2.png in Resources */,
 				0C5B5FEA18649A870060BECD /* UserLoginPic.png in Resources */,
-				B5A3354519176DCA00B29C2B /* GarentaTests-Info.plist in Resources */,
 				B5688B17186B3A2E009D830E /* load_5.png in Resources */,
 				0C893D87187884E5006AFF0A /* SliderHandle.png in Resources */,
 				B5BBE95919505D21000AD4E2 /* white_right_arrow.png in Resources */,
@@ -883,6 +901,7 @@
 				B5688B1B186B3A2E009D830E /* load_9.png in Resources */,
 				0C0012E919E54A95009AF050 /* visa_mastercard.png in Resources */,
 				B5688B11186B3A2E009D830E /* load_1.png in Resources */,
+				E1FE90E81A077817002D6461 /* MainStoryBoard.storyboard in Resources */,
 				B5921195195D934900A54E0E /* triangle_green.png in Resources */,
 				B5EE729118701DC400F634D3 /* vites.png in Resources */,
 				B50B09FB187580C200649165 /* onay_icon.png in Resources */,
@@ -999,6 +1018,7 @@
 				B5E064A2194F1DEB0046E789 /* SelectCarTableViewCell.m in Sources */,
 				B5BBE9601952DCC3000AD4E2 /* PaymentTableViewController.m in Sources */,
 				0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */,
+				E1B3B6DB19FFBA8700BAEE98 /* ProfileTableViewController.m in Sources */,
 				0C9299DF18689E95007DE6B8 /* EquipmentVC.m in Sources */,
 				0C0DA9AD1865D2FD003EDDA0 /* Reservation.m in Sources */,
 				B56F5F6D19598764005B5B92 /* ReservationApprovalVC.m in Sources */,
@@ -1016,6 +1036,7 @@
 				E15DFF8D19F7CA450078E06F /* SMSSoapHandler.m in Sources */,
 				0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */,
 				B592119B195D9D9900A54E0E /* WYPopoverController.m in Sources */,
+				E1E5749F1A03D5EA00BE8FEA /* MailSoapHandler.m in Sources */,
 				E1227B2719ED3ECD005D88A5 /* SDReservObject.m in Sources */,
 				E1D2AB6A19D45EB600806868 /* ConnectionProperties.m in Sources */,
 				B50715CA18B7AC1E00419189 /* Price.m in Sources */,
@@ -1039,6 +1060,7 @@
 				0CBA75CA186435260008CE29 /* BaseTableVC.m in Sources */,
 				B5E0344A186ED57C00226DAB /* CarGroup.m in Sources */,
 				B52B64E31945A6240017A5D5 /* ReservationSummaryVC.m in Sources */,
+				E191C1751A090E710062A0D1 /* Reachability.m in Sources */,
 				B5F5F95E193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
