@@ -15,8 +15,8 @@
 
 -(id)init{
     self = [super init];
-    checkOutTime= [Reservation defaultCheckOutDate];
-    checkInTime = [Reservation defaultCheckInDate];
+    self.checkOutTime= [Reservation defaultCheckOutDate];
+    self.checkInTime = [Reservation defaultCheckInDate];
     _selectedCar = nil;
     return self;
 }

@@ -346,6 +346,14 @@
         [handler addImportParameter:@"IMPP_ENDUZ" andValue:[timeFormatter stringFromDate:self.reservation.checkInTime]];
         [handler addImportParameter:@"IMPP_KANAL" andValue:@"40"];
         
+        NSString *fikod = @"";
+        
+        if ([[ApplicationProperties getUser] isLoggedIn]) {
+            fikod = [[ApplicationProperties getUser] priceCode];
+        }
+        
+        [handler addImportParameter:@"IMPP_FIKOD" andValue:fikod];
+        
         [handler addTableForReturn:@"EXPT_EKPLIST"];
         [handler addTableForReturn:@"EXPT_SIGORTA"];
         [handler addTableForReturn:@"EXPT_EKSURUCU"];

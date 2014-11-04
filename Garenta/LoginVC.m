@@ -13,6 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (strong, nonatomic) NSArray *userList;
 
 - (IBAction)login:(id)sender;
 
@@ -40,9 +41,6 @@
 {
     [super   viewWillAppear:animated];
     
-//    [_usernameTextField setText:@"suleyman.nalci@abh.com.tr"];
-//    [_passwordTextField setText:@"numq0"];
-    
     [[self view] setBackgroundColor:[ApplicationProperties getWhite]];
 }
 
@@ -60,43 +58,77 @@
 {
     if (![_usernameTextField.text isEqualToString:@""] && ![_passwordTextField.text isEqualToString:@""])
     {
-        NSData *passwordData = [_passwordTextField.text dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
-        NSString *base64Encoded = [passwordData base64EncodedStringWithOptions:0];
-        
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            NSData *passwordData = [_passwordTextField.text dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
+            NSString *base64Encoded = [passwordData base64EncodedStringWithOptions:0];
             
-            [User loginToSap:_usernameTextField.text andPassword:base64Encoded];
+            self.userList = [User loginToSap:_usernameTextField.text andPassword:base64Encoded];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
-                User *user = [ApplicationProperties getUser];
                 
-                if ([user isLoggedIn]) {
+                if (self.userList != nil && self.userList.count == 1) {
+                    User *user = [self.userList objectAtIndex:0];
+                    user.isLoggedIn = YES;
+                    [ApplicationProperties setUser:user];
+                    
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hoşgeldiniz" message:[NSString stringWithFormat:@"Sayın %@ %@", [user name], [user surname]] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
                     [alert show];
                     
-                    if (_reservation == nil) {
-                        [[self navigationController] popToRootViewControllerAnimated:YES];
-                    }
-                    else {
-                        // demek ki kullanıcı bilgileri ekranından gelmiş
-                        [self performSegueWithIdentifier:@"ToReservationSummarySegue" sender:self];
-                    }
+                    [self goToView];
+                    
+                }
+                else if (self.userList != nil && self.userList.count > 1){
+                    [self showUserList];
                 }
             });
         });
     }
     else
     {
-        dispatch_async(dispatch_get_main_queue(), ^
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kullanıcı adı ve şifre giriniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kullanıcı adı ve şifre giriniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
             
-            [alert show];
-            return;
-        });
+        [alert show];
     }
+}
+
+- (void)showUserList {
+    UIAlertView *alert = [[UIAlertView alloc] init];
+    [alert setTitle:@"Seçiniz .."];
+    
+    for (User *tempUser in self.userList) {
+        
+        NSString *buttonTitle = @"";
+        
+        if ([tempUser.middleName isEqualToString:@""]) {
+            buttonTitle = [NSString stringWithFormat:@"%@ %@", tempUser.name, tempUser.surname];
+        }
+        else {
+            buttonTitle = [NSString stringWithFormat:@"%@ %@ %@", tempUser.name, tempUser.middleName, tempUser.surname];
+
+        }
+        
+        if ([[tempUser partnerType] isEqualToString:@"B"]) {
+            buttonTitle = [NSString stringWithFormat:@"%@(BIREYSEL)", buttonTitle];
+        }
+        if ([[tempUser partnerType] isEqualToString:@"K"]) {
+            buttonTitle = [NSString stringWithFormat:@"%@(KURUMSAL)", buttonTitle];
+        }
+        
+        [alert addButtonWithTitle:buttonTitle];
+    }
+    
+    [alert setDelegate:self];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    User *tempUser = [self.userList objectAtIndex:buttonIndex];
+    tempUser.isLoggedIn = YES;
+    
+    [ApplicationProperties setUser:tempUser];
+    [self goToView];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -115,6 +147,18 @@
 {
     [_usernameTextField resignFirstResponder];
     [_passwordTextField resignFirstResponder];
+}
+
+- (void)goToView {
+    
+    if (_reservation == nil) {
+        // Giriş ekranından gelmiş
+        [[self navigationController] popToRootViewControllerAnimated:YES];
+    }
+    else {
+        // demek ki kullanıcı bilgileri ekranından gelmiş
+        [self performSegueWithIdentifier:@"ToReservationSummarySegue" sender:self];
+    }
 }
 
 @end

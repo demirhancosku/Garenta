@@ -10,7 +10,7 @@
 #import "Coordinate.h"
 
 @implementation User
-@synthesize name, password, surname, userLocation, username,mobile,email,company,companyName,companyName2,tckno,middleName,garentaTl,accountType,isLoggedIn,gender,birthday, kunnr, country, address,reservationList;
+@synthesize name, password, surname, userLocation, username,mobile,email,company,companyName,companyName2,tckno,middleName,garentaTl,accountType,isLoggedIn,gender,birthday, kunnr, country, address, reservationList;
 
 - (id)init{
     self = [super init];
@@ -20,7 +20,7 @@
     return self;
 }
 
-+ (void)loginToSap:(NSString *)username andPassword:(NSString *)password
++ (NSArray *)loginToSap:(NSString *)username andPassword:(NSString *)password
 {
     NSString *alertString = @"";
     
@@ -50,6 +50,8 @@
                 
                 if (allPartners.count > 0)
                 {
+                    NSMutableArray *tempUserList = [NSMutableArray new];
+                    
                     for (NSDictionary *tempDict in allPartners) {
                         User *user = [User new];
                         
@@ -80,14 +82,10 @@
                             [user setIsPriority:YES];
                         }
                         
-                        if ([[user partnerType] isEqualToString:@"B"]) {
-                            [user setIsLoggedIn:YES];
-                            [ApplicationProperties setUser:user];
-                        }
-                        else {
-                            // Şu an sadece bireysel kullanıcıları alıyoruz
-                        }
+                        [tempUserList addObject:user];
                     }
+                    
+                    return tempUserList;
                 }
                 else {
                     alertString = @"Kullanıcı adı ve şifrenizi kontrol ederek lütfen tekrar deneyiniz.";
@@ -109,7 +107,12 @@
             });
         }
     }
+    
+    return nil;
 }
 
++ (void)showUserListToSelect {
+    
+}
 
 @end
