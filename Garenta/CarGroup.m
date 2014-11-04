@@ -119,8 +119,8 @@
         
         if ([[tempDict valueForKey:@"VITRINRES"] isEqualToString:@"X"]) {
             [tempCarGroup setSampleCar:tempCar];
-            [tempCarGroup setPayLaterPrice:[NSString stringWithFormat:@"%@",tempCar.pricing.payLaterPrice]];
-            [tempCarGroup setPayNowPrice:[NSString stringWithFormat:@"%@",tempCar.pricing.payNowPrice]];
+            [tempCarGroup setPayLaterPrice:[NSString stringWithFormat:@"%.02f",tempCar.pricing.payLaterPrice.floatValue]];
+            [tempCarGroup setPayNowPrice:[NSString stringWithFormat:@"%.02f",tempCar.pricing.payNowPrice.floatValue]];
         }
         
         [tempCarGroup.cars addObject:tempCar];

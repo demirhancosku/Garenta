@@ -28,6 +28,7 @@ typedef enum{
 @property(strong,nonatomic) NSDecimalNumber *paid;
 @property(strong,nonatomic) NSDecimalNumber *difference;
 @property(strong,nonatomic) NSDecimalNumber *maxQuantity;
+@property(strong,nonatomic) NSString *updateStatus;
 @property BOOL isRequired;
 
 @property(strong,nonatomic) NSString *additionalDriverGender;

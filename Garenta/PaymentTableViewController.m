@@ -16,17 +16,9 @@
 #import "AgreementsVC.h"
 
 @interface PaymentTableViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *creditCardNumberTextField;
-@property (weak, nonatomic) IBOutlet UITextField *nameOnCardTextField;
-@property (weak, nonatomic) IBOutlet UITextField *expirationMonthTextField;
-@property (weak, nonatomic) IBOutlet UITextField *expirationYearTextField;
-@property (weak, nonatomic) IBOutlet UITextField *cvvTextField;
-@property (weak, nonatomic) IBOutlet UITextField *garentaTlTextField;
-@property (weak, nonatomic) IBOutlet UILabel *totalPriceLabel;
 
 @property (strong,nonatomic) WYPopoverController *myPopoverController;
 @property(strong,nonatomic) NSArray *requiredFields;
-@property (strong,nonatomic) CreditCard *creditCard;
 
 - (IBAction)reservationCompleteButtonPressed:(id)sender;
 @end
@@ -46,7 +38,7 @@
 {
     [super viewDidLoad];
     
-    [_totalPriceLabel setText:[NSString stringWithFormat:@"%@ TL",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:_garentaTlTextField.text]]];
+    [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:_garentaTlTextField.text] floatValue]]];
     _requiredFields = [NSArray arrayWithObjects:_creditCardNumberTextField,_nameOnCardTextField,_expirationMonthTextField,_expirationYearTextField,_cvvTextField, nil];
     
     if ([[ApplicationProperties getUser] isLoggedIn]) {
@@ -231,7 +223,7 @@
     
     if (textField.tag == 5)
     {
-        [_totalPriceLabel setText:[NSString stringWithFormat:@"%@ TL",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:string]]];
+        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:string] floatValue]]];
     }
     
     return YES;

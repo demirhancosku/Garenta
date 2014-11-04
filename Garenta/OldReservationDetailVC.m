@@ -81,6 +81,7 @@
     UILabel *checkOutTime;
     UILabel *checkInTime;
     UILabel *totalPrice;
+    UILabel *totalPriceLabel;
     
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
     [dateFormatter setDateFormat:@"dd.MM.yyy / HH:mm"];
@@ -106,6 +107,13 @@
             break;
         case 2:
             aCell = [tableView dequeueReusableCellWithIdentifier:@"totalPaymentCell" forIndexPath:indexPath];
+            totalPriceLabel = (UILabel*)[aCell viewWithTag:2];
+            
+            if ([_reservation.paymentType isEqualToString:@"1"])
+                [totalPriceLabel setText:@"Ödenmiş Toplam:"];
+            else
+                [totalPriceLabel setText:@"Ödenecek Toplam:"];
+
             totalPrice = (UILabel*)[aCell viewWithTag:1];
             [totalPrice setText:[NSString stringWithFormat:@"%.02f",_totalPrice.floatValue]];
             break;

@@ -10,4 +10,7 @@
 
 @interface OldReservationEquipmentVC : EquipmentVC
 
+@property (strong,nonatomic) NSDecimalNumber *changeReservationPrice;
+@property (strong,nonatomic) NSMutableArray *carSelectionArray;
+@property BOOL isCarSelected;
 @end

@@ -23,8 +23,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *passangerNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *doorCountLabel;
 
-@property (assign,nonatomic) BOOL isTotalPressed;
-
 @end
 
 @implementation ReservationSummaryVC
@@ -159,6 +157,7 @@
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"totalPaymentCell" forIndexPath:indexPath];
                 totalPrice = (UILabel*)[aCell viewWithTag:1];
                 [totalPrice setText:[NSString stringWithFormat:@"%@",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0"]]];
+                
                 break;
             default:
                 break;
@@ -191,8 +190,10 @@
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"payNowLaterButtonsCell" forIndexPath:indexPath];
                 payNowButton = (UIButton*)[aCell viewWithTag:1];
                 payLaterButton = (UIButton*)[aCell viewWithTag:2];
-                [payNowButton setTitle:[NSString stringWithFormat:@"%@ TL",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0"]] forState:UIControlStateNormal];
-                [payLaterButton setTitle:[NSString stringWithFormat:@"%@ TL",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0"]] forState:UIControlStateNormal];
+          
+                [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0"] floatValue]] forState:UIControlStateNormal];
+                [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0"] floatValue]] forState:UIControlStateNormal];
+                
                 break;
             default:
                 break;
@@ -292,7 +293,6 @@
 - (IBAction)payNowPressed:(id)sender {
     [self performSegueWithIdentifier:@"toPaymentVCSegue" sender:self];
 }
-
 
 - (IBAction)payLaterPressed:(id)sender {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kiralama anlaşmasını kabul edip, rezervasyonuzun yaratılmasını istediğinize emin misiniz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Kiralama Anlaşması", @"Kabul Ediyorum", nil];

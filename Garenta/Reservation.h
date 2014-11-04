@@ -30,12 +30,15 @@
 @property (copy,nonatomic) NSString *reservationNumber;
 @property (strong, nonatomic) CreditCard *paymentNowCard;
 @property (strong, nonatomic) User *temporaryUser;
-@property (strong, nonatomic) NSString *paymentType;
-@property (strong, nonatomic) NSDecimalNumber *changeReservationDifference;
+@property (strong, nonatomic) NSString *paymentType;  // 1-şimdi öde, 2 sonra öde
+@property (strong,nonatomic) NSDecimalNumber *changeReservationDifference;
+@property (strong,nonatomic) NSString *reservationType; // 10-araca, 20-gruba
+@property (strong,nonatomic) NSString *updateStatus; // Update fonksiyonunda IV_UPDATE_STATUS için kullanılır
 
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl;
 
 + (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow;
++ (BOOL)changeReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andTotalPrice:(NSDecimalNumber *)totalPrice;
 + (NSString *)getCustomerIP;
 
 @end

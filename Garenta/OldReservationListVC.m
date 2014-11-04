@@ -74,7 +74,7 @@
                     Reservation *temp = [Reservation new];
                     temp.checkInOffice = [Office new];
                     temp.checkOutOffice = [Office new];
-                    temp.selectedCarGroup = [CarGroup new];
+                    temp.paymentNowCard = [CreditCard new];
                     
                     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
                     [formatter setDateFormat:@"yyyy-MM-dd"];
@@ -94,7 +94,8 @@
                     temp.checkOutTime = [self setDates:checkOutDate andTime:checkOutTime];
                     temp.checkInTime = [self setDates:checkInDate andTime:checkInTime];
                     temp.reservationStatu = [tempDict valueForKey:@"REZ_DURUM_TXT"];
-                    temp.selectedCarGroup.groupCode = [tempDict valueForKey:@"ZZARACGRUBU"];
+                    temp.reservationType = [tempDict valueForKey:@"ARACREZTIPI"];
+                    temp.paymentNowCard.uniqueId = [tempDict valueForKey:@"KK_UNIQUE_ID"];
                     
                     [reservationList addObject:temp];
                 }
@@ -235,13 +236,14 @@
                     
                     equiObj.materialNumber = [tempEqui valueForKey:@"MALZEME"];
                     equiObj.materialDescription = [tempEqui valueForKey:@"TANIM"];
-                    equiObj.price = [NSDecimalNumber decimalNumberWithString:[tempEqui valueForKey:@"TOPLAM_TUTAR"]];
                     equiObj.quantity = [[tempEqui valueForKey:@"MIKTAR"] intValue];
+                    equiObj.price = [NSDecimalNumber decimalNumberWithString:[tempEqui valueForKey:@"TOPLAM_TUTAR"]];
+                    equiObj.price = [equiObj.price decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",equiObj.quantity]]];
                     
                     [_reservation.additionalEquipments addObject:equiObj];
                 }
                 
-                // araç seçimi yapılmışmı diye bakılıyor
+                //araç seçimi yapılmışmı diye bakılıyor
                 NSPredicate *carSelectPredicate = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0031"];
                 NSArray *filterResult = [_reservation.additionalEquipments filteredArrayUsingPredicate:carSelectPredicate];
 
@@ -251,11 +253,13 @@
                     tempCar.pricing = [Price new];
                     
                     // ARABANIN FIYATI ELIMIZDE
-                    if ([_reservation.paymentType isEqualToString:@"1"])
-                        [[tempCar pricing] setPayNowPrice:[NSDecimalNumber decimalNumberWithString:[[export valueForKey:@"ES_DETAIL"] valueForKey:@"ARAC_TUTARI"]]];
-                    else
-                        [[tempCar pricing] setPayLaterPrice:[NSDecimalNumber decimalNumberWithString:[[export valueForKey:@"ES_DETAIL"] valueForKey:@"ARAC_TUTARI"]]];
-                          
+                    [[tempCar pricing] setPayLaterPrice:[NSDecimalNumber decimalNumberWithString:[[export valueForKey:@"ES_DETAIL"] valueForKey:@"ARAC_TUTARI"]]];
+                    [[tempCar pricing] setPayNowPrice:[NSDecimalNumber decimalNumberWithString:[[export valueForKey:@"ES_DETAIL"] valueForKey:@"ARAC_TUTARI"]]];
+//                    if ([_reservation.paymentType isEqualToString:@"1"])
+//                        [[tempCar pricing] setPayNowPrice:[NSDecimalNumber decimalNumberWithString:[[export valueForKey:@"ES_DETAIL"] valueForKey:@"ARAC_TUTARI"]]];
+//                    else
+//                        [[tempCar pricing] setPayLaterPrice:[NSDecimalNumber decimalNumberWithString:[[export valueForKey:@"ES_DETAIL"] valueForKey:@"ARAC_TUTARI"]]];
+                    
                     if (filterResult.count > 0)
                     {
                         [tempCar.pricing setCarSelectPrice:[[filterResult objectAtIndex:0] price]];
@@ -285,9 +289,9 @@
                     CarGroup *tempCarGroup = [CarGroup new];
                     
                     tempCarGroup = [CarGroup new];
-                    tempCarGroup.cars = [NSMutableArray new];
+//                    tempCarGroup.cars = [NSMutableArray new];
                     
-                    [tempCarGroup setGroupCode:_reservation.selectedCarGroup.groupCode];
+                    [tempCarGroup setGroupCode:[tempDict valueForKey:@"GRPKOD"]];
                     [tempCarGroup setGroupName:[tempDict valueForKey:@"GRPKODTX"]];
                     [tempCarGroup setTransmissonId:[tempDict valueForKey:@"SANZIMAN_TIPI_ID"]];
                     [tempCarGroup setTransmissonName:[tempDict valueForKey:@"SANZIMAN_TIPI"]];
@@ -304,7 +308,13 @@
                     [tempCarGroup setMinYoungDriverLicense:[[tempDict valueForKey:@"GENC_SRC_EHL"] integerValue]];
                     
                     [tempCarGroup setSampleCar:tempCar];
-                    [tempCarGroup.cars addObject:tempCar];
+//                    [tempCarGroup.cars addObject:tempCar];
+                    
+                    if ([_reservation.reservationType isEqualToString:@"10"])
+                    {
+                        _reservation.selectedCar = [Car new];
+                        _reservation.selectedCar = tempCar;
+                    }
                     
                     [_reservation setSelectedCarGroup:tempCarGroup];
                 }
