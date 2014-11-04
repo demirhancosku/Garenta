@@ -5633,14 +5633,14 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Hj2-5d-FZ6"/>
         <segue reference="ig4-Gi-w0q"/>
-        <segue reference="cx4-X2-B8e"/>
-        <segue reference="eoS-ML-DjQ"/>
         <segue reference="7yK-l0-YFl"/>
-        <segue reference="EuT-BJ-MJt"/>
+        <segue reference="eoS-ML-DjQ"/>
+        <segue reference="cx4-X2-B8e"/>
         <segue reference="AXm-57-Aaz"/>
+        <segue reference="wou-2e-dhb"/>
         <segue reference="Ez9-1z-i3h"/>
+        <segue reference="Hj2-5d-FZ6"/>
         <segue reference="Jja-3F-2kb"/>
         <segue reference="tMq-8T-4Dd"/>
         <segue reference="y6s-gR-Pji"/>
