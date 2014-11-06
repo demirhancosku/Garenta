@@ -55,6 +55,7 @@
         [tempPrice setCarSelectPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"ARAC_SECIM_FARK_TRY"]]];
         [tempPrice setDayCount:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"GUN_SAYISI"]]];
         [tempPrice setSalesOffice:[tempDict valueForKey:@"CIKIS_SUBE"]];
+        [tempPrice setPriceWithKDV:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KDVLI_TOPLAM_TUTAR_TRY"]]];
         
         [prices addObject:tempPrice];
     }
@@ -121,10 +122,10 @@
             [tempCarGroup setSampleCar:tempCar];
             [tempCarGroup setPayLaterPrice:[NSString stringWithFormat:@"%.02f",tempCar.pricing.payLaterPrice.floatValue]];
             [tempCarGroup setPayNowPrice:[NSString stringWithFormat:@"%.02f",tempCar.pricing.payNowPrice.floatValue]];
+            [tempCarGroup setPriceWithKDV:[NSString stringWithFormat:@"%.02f", tempCar.pricing.priceWithKDV.floatValue]];
         }
         
         [tempCarGroup.cars addObject:tempCar];
-        
     }
 
     return [self sortCarGroupsPriceAscending:availableCarGroups];

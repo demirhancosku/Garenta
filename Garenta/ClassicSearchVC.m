@@ -624,7 +624,7 @@
                 NSMutableArray *etExpiryArray = [NSMutableArray new];
                 
                 NSDateFormatter *dateFormatter = [NSDateFormatter new];
-                [dateFormatter setDateFormat:@"dd-MM-yyyy"];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
                 
                 for (NSDictionary *tempDict in etExpiry) {
                     ETExpiryObject *tempObject = [ETExpiryObject new];

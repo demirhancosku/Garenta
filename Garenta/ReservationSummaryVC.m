@@ -151,6 +151,12 @@
                 break;
             case 1:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"serviceScopeCell" forIndexPath:indexPath];
+                
+                if (_reservation.etExpiry.count > 0) {
+                    
+                    UILabel *serviceScopeLabel = (UILabel *)[aCell viewWithTag:1];
+                    serviceScopeLabel.text = [NSString stringWithFormat:@"%@ & Ödeme Planı", serviceScopeLabel.text];
+                }
                 break;
             case 2:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"totalPaymentCell" forIndexPath:indexPath];
@@ -181,6 +187,12 @@
                 break;
             case 1:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"serviceScopeCell" forIndexPath:indexPath];
+                
+                if (_reservation.etExpiry.count > 0) {
+                    
+                    UILabel *serviceScopeLabel = (UILabel *)[aCell viewWithTag:1];
+                    serviceScopeLabel.text = [NSString stringWithFormat:@"%@ & Ödeme Planı", serviceScopeLabel.text];
+                }
                 break;
             case 2:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"detailPayNowLaterCell" forIndexPath:indexPath];

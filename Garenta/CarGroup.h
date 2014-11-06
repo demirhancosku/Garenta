@@ -31,6 +31,8 @@
 @property (nonatomic) NSInteger minYoungDriverAge;
 @property (nonatomic) NSInteger minYoungDriverLicense;
 
+@property (nonatomic, strong) NSString *priceWithKDV;
+
 #pragma mark - filter methods
 + (CarGroup*)getGroupFromList:(NSMutableArray*)carList WithCode:(NSString*)aGroupCode;
 - (NSMutableArray*)getBestCarsWithFilter:(NSString*)aFilter;

@@ -254,15 +254,10 @@
                                                 <constraint firstAttribute="width" secondItem="h9O-jN-EN0" secondAttribute="height" multiplier="1:1" id="xAb-m4-wBt"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="İzmir Adnan " lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" preferredMaxLayoutWidth="96" translatesAutoresizingMaskIntoConstraints="NO" id="uYU-lh-HWZ">
-                                            <rect key="frame" x="78" y="11" width="96" height="42.5"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="İzmir Adnan " lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" preferredMaxLayoutWidth="96" translatesAutoresizingMaskIntoConstraints="NO" id="uYU-lh-HWZ">
+                                            <rect key="frame" x="78" y="11" width="96" height="43"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Toplam" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="feP-KR-ceu">
-                                            <rect key="frame" x="257" y="2" width="56" height="21"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="11"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="129.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="5" translatesAutoresizingMaskIntoConstraints="NO" id="UKO-bv-vve">
@@ -277,18 +272,28 @@
                                                 <constraint firstAttribute="width" constant="13" id="Hrg-ws-1WO"/>
                                             </constraints>
                                         </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Toplam" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="feP-KR-ceu">
+                                            <rect key="frame" x="239" y="2" width="56" height="21"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="11"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="MK9-9K-ICO" firstAttribute="top" secondItem="87P-Nu-ab9" secondAttribute="top" constant="-4" id="0b7-84-VZJ"/>
+                                        <constraint firstItem="feP-KR-ceu" firstAttribute="top" secondItem="87P-Nu-ab9" secondAttribute="topMargin" constant="-6" id="3n1-mx-a9E"/>
                                         <constraint firstAttribute="centerY" secondItem="h9O-jN-EN0" secondAttribute="centerY" constant="1.5" id="9Dw-DH-cHb"/>
                                         <constraint firstItem="uYU-lh-HWZ" firstAttribute="leading" secondItem="h9O-jN-EN0" secondAttribute="trailing" constant="8" symbolic="YES" id="B0s-bl-dr0"/>
                                         <constraint firstItem="UKO-bv-vve" firstAttribute="centerY" secondItem="MK9-9K-ICO" secondAttribute="centerY" id="EVe-6S-b2h"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="feP-KR-ceu" secondAttribute="trailing" constant="17" id="FR1-Tb-kl4"/>
+                                        <constraint firstItem="feP-KR-ceu" firstAttribute="leading" secondItem="MK9-9K-ICO" secondAttribute="trailing" constant="32" id="FiM-v8-4gy"/>
                                         <constraint firstItem="h9O-jN-EN0" firstAttribute="leading" secondItem="87P-Nu-ab9" secondAttribute="leading" constant="20" id="Me4-Dj-EcR"/>
                                         <constraint firstAttribute="trailing" secondItem="h9O-jN-EN0" secondAttribute="trailing" constant="250" id="Oke-ob-dfi"/>
                                         <constraint firstItem="UKO-bv-vve" firstAttribute="leading" secondItem="MK9-9K-ICO" secondAttribute="trailing" constant="8" id="Pbd-Do-OYm"/>
+                                        <constraint firstItem="feP-KR-ceu" firstAttribute="centerX" secondItem="UKO-bv-vve" secondAttribute="centerX" id="V1g-Yk-51I"/>
                                         <constraint firstItem="MK9-9K-ICO" firstAttribute="leading" secondItem="uYU-lh-HWZ" secondAttribute="trailing" constant="20" id="V5Y-Kc-CsO"/>
                                         <constraint firstItem="uYU-lh-HWZ" firstAttribute="top" secondItem="h9O-jN-EN0" secondAttribute="top" id="XfL-kp-1hE"/>
                                         <constraint firstItem="MK9-9K-ICO" firstAttribute="centerY" secondItem="h9O-jN-EN0" secondAttribute="centerY" constant="-3" id="bZs-7t-whm"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="feP-KR-ceu" secondAttribute="bottom" constant="42.5" id="mp9-R1-8aE"/>
                                         <constraint firstAttribute="trailing" secondItem="MK9-9K-ICO" secondAttribute="trailing" constant="113" id="tW1-3d-023"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="uYU-lh-HWZ" secondAttribute="bottom" constant="12.5" id="vUq-UE-K70"/>
                                     </constraints>
@@ -400,13 +405,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Navigasyon Cihazı" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kc6-cy-PNi">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="Navigasyon Cihazı" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kc6-cy-PNi">
                                                     <rect key="frame" x="20" y="9" width="137" height="21"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="14"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="150.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxt-jH-eVA">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="150.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxt-jH-eVA">
                                                     <rect key="frame" x="20" y="30" width="93" height="21"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
                                                     <nil key="highlightedColor"/>
@@ -894,24 +899,24 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hizmet Kapsami" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B6Y-bc-WkA">
-                                                    <rect key="frame" x="20" y="6" width="109" height="21"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="up_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="GO9-oj-cIS">
+                                                <imageView userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="up_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="GO9-oj-cIS">
                                                     <rect key="frame" x="275" y="9" width="25" height="15"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="25" id="QU0-iR-yVh"/>
                                                         <constraint firstAttribute="height" constant="15" id="dIF-74-b0J"/>
                                                     </constraints>
                                                 </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hizmet Kapsami" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B6Y-bc-WkA">
+                                                    <rect key="frame" x="20" y="6" width="233" height="21"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="GO9-oj-cIS" secondAttribute="trailing" constant="20" id="EIe-hA-uQC"/>
-                                                <constraint firstAttribute="trailing" secondItem="B6Y-bc-WkA" secondAttribute="trailing" constant="191" id="HJb-CO-kzV"/>
+                                                <constraint firstAttribute="trailing" secondItem="B6Y-bc-WkA" secondAttribute="trailing" constant="67" id="HJb-CO-kzV"/>
                                                 <constraint firstItem="GO9-oj-cIS" firstAttribute="top" secondItem="6BM-qf-jCf" secondAttribute="top" constant="9" id="Tvj-3h-nfc"/>
-                                                <constraint firstAttribute="bottom" secondItem="B6Y-bc-WkA" secondAttribute="bottom" constant="7" id="VPv-WH-SFd"/>
+                                                <constraint firstAttribute="bottom" secondItem="B6Y-bc-WkA" secondAttribute="bottom" constant="8" id="VPv-WH-SFd"/>
                                                 <constraint firstItem="B6Y-bc-WkA" firstAttribute="top" secondItem="6BM-qf-jCf" secondAttribute="top" constant="6" id="f7I-xK-bd0"/>
                                                 <constraint firstItem="B6Y-bc-WkA" firstAttribute="leading" secondItem="6BM-qf-jCf" secondAttribute="leading" constant="20" id="yWo-dK-6Gj"/>
                                             </constraints>
@@ -5577,20 +5582,19 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="cbc-BX-eje"/>
-        <segue reference="Hj2-5d-FZ6"/>
         <segue reference="VNV-MA-HSn"/>
-        <segue reference="DUv-oP-k7Q"/>
         <segue reference="ig4-Gi-w0q"/>
-        <segue reference="AXm-57-Aaz"/>
-        <segue reference="wou-2e-dhb"/>
         <segue reference="Ez9-1z-i3h"/>
+        <segue reference="wou-2e-dhb"/>
         <segue reference="Hj2-5d-FZ6"/>
+        <segue reference="cbc-BX-eje"/>
         <segue reference="Jja-3F-2kb"/>
         <segue reference="hLA-ZH-RHN"/>
         <segue reference="a20-Ar-vAP"/>
-        <segue reference="tMq-8T-4Dd"/>
-        <segue reference="y6s-gR-Pji"/>
+        <segue reference="TxX-UN-QgX"/>
+        <segue reference="aLh-ec-Lci"/>
+        <segue reference="V74-O1-TBy"/>
+        <segue reference="DUv-oP-k7Q"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
