@@ -54,7 +54,7 @@
     NSDictionary *subAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
                               boldFont, NSFontAttributeName, nil];
     NSString *brandModelString;
-    int boldLenght = 0;
+    NSUInteger boldLenght = 0;
     if (_reservation.selectedCar) {
         brandModelString = [NSString stringWithFormat:@"%@ %@",_reservation.selectedCar.brandName,_reservation.selectedCar.modelName];
         boldLenght = brandModelString.length;
@@ -71,8 +71,7 @@
     [attributedText setAttributes:subAttrs range:range];
     [_brandModelLabel setAttributedText:attributedText];
     
-    [_carImageView setImage:_reservation.selectedCarGroup.sampleCar
-     .image];
+    [_carImageView setImage:_reservation.selectedCarGroup.sampleCar.image];
     [_fuelLabel setText:_reservation.selectedCarGroup.fuelName];
     [_transmissionLabel setText:_reservation.selectedCarGroup.transmissonName];
     [_acLabel setText:@"Klima"];
@@ -156,7 +155,7 @@
             case 2:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"totalPaymentCell" forIndexPath:indexPath];
                 totalPrice = (UILabel*)[aCell viewWithTag:1];
-                [totalPrice setText:[NSString stringWithFormat:@"%@",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0"]]];
+                [totalPrice setText:[NSString stringWithFormat:@"%@",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:NO]]];
                 
                 break;
             default:
@@ -190,10 +189,26 @@
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"payNowLaterButtonsCell" forIndexPath:indexPath];
                 payNowButton = (UIButton*)[aCell viewWithTag:1];
                 payLaterButton = (UIButton*)[aCell viewWithTag:2];
-          
-                [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0"] floatValue]] forState:UIControlStateNormal];
-                [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0"] floatValue]] forState:UIControlStateNormal];
                 
+                // Aylık
+                if (_reservation.etExpiry.count > 0) {
+                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02fTL(1. Taksit)",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:YES] floatValue]] forState:UIControlStateNormal];
+                    [[payNowButton titleLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
+                }
+                // Günlük
+                else {
+                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:NO] floatValue]] forState:UIControlStateNormal];
+                }
+                
+                if (_reservation.etExpiry.count > 0) {
+                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02fTL(1. Taksit)",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:YES] floatValue]] forState:UIControlStateNormal];
+                    [[payLaterButton titleLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
+                }
+                // Günlük
+                else {
+                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:NO] floatValue]] forState:UIControlStateNormal];
+                }
+
                 break;
             default:
                 break;

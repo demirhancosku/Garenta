@@ -236,6 +236,11 @@
     if([segue.identifier isEqualToString:@"CarGroupTableVCEmbedSeugue"]){
         _tableViewVC = (CarGroupTableVC*)[segue destinationViewController];
         [_tableViewVC setDelegate:self];
+        
+        // AATAC aylık için
+        if (_reservation.etExpiry.count > 0) {
+            [_tableViewVC setIsMontlyRent:YES];
+        }
     }
     
     if ([segue.identifier isEqualToString:@"toAdditionalEquipmentSegue"]) {

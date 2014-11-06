@@ -9,6 +9,7 @@
 #import "Reservation.h"
 #import "AdditionalEquipment.h"
 #import "SDReservObject.h"
+#import "ETExpiryObject.h"
 
 @implementation Reservation
 @synthesize  checkOutTime,checkInTime,checkInOffice,checkOutOffice, selectedCarGroup,number,reservationStatu,paymentType,reservationType;
@@ -60,7 +61,7 @@
     return checkOutDate;
 }
 #pragma mark - reservation pricing methods
--(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl
+-(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl andIsMontlyRent:(BOOL)isMontlyRent
 {
     NSDecimalNumber *totalPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
     NSDecimalNumber *totalEquiPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
@@ -71,12 +72,22 @@
     
     if ([currency isEqualToString:@"TRY"])
     {
-        if (isPayNow) {
+        if (isMontlyRent) {
+            for (ETExpiryObject *tempObject in self.etExpiry) {
+                if ([tempObject.carGroup isEqualToString:selectedCarGroup.groupCode]) {
+                    // Burda sadece ilk taksiti alıyoruz
+                    totalPrice = [totalPrice decimalNumberByAdding:tempObject.totalPrice];
+                    break;
+                }
+            }
+        }
+        else if (isPayNow) {
             totalPrice = [[totalPrice decimalNumberByAdding:selectedCarGroup.sampleCar.pricing.payNowPrice] decimalNumberBySubtracting:[NSDecimalNumber decimalNumberWithString:garentaTl]];
-            
-        }else{
+        }
+        else {
             totalPrice = [totalPrice decimalNumberByAdding:selectedCarGroup.sampleCar.pricing.payLaterPrice];
         }
+        
         if (_selectedCar) {
             totalPrice = [totalPrice decimalNumberByAdding:_selectedCar.pricing.carSelectPrice];
         }
@@ -91,7 +102,6 @@
     }
     
     return totalPrice;
-    //    return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.2f",totalPrice]];
 }
 
 -(NSDecimalNumber*)priceOfAdditionalEquipments{
@@ -127,15 +137,28 @@
         NSString *paymentType = @"";
         
         if (isPayNow) {
-            paymentType = @"1";
+            // Aylık şimdi öde
+            if (_reservation.etExpiry.count > 0) {
+                paymentType = @"8";
+            }
+            else {
+                // Normal şimdi öde
+                paymentType = @"1";
+            }
         }
         else {
-            paymentType = @"2";
+            // Aylık sonra öde
+            if (_reservation.etExpiry.count > 0) {
+                paymentType = @"6";
+            }
+            else {
+            // Normal sonra öde
+                paymentType = @"2";
+            }
         }
         
-        NSString *totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"0"] floatValue]];
+        NSString *totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"0" andIsMontlyRent:NO] floatValue]];
         
-        // satış burosunu onurla konuşcam
         NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, @"", @"", @"", [_reservation.selectedCarGroup.sampleCar.pricing.dayCount stringValue], totalPrice, isPriority, @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"", @"", @"", @"", @"", @"", @""];
         [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
         
@@ -173,7 +196,7 @@
         NSArray *itAraclarColumns = @[@"MATNR"];
         NSMutableArray *itAraclarValues = [NSMutableArray new];
         
-        for (Car *tempCar                                                                              in _reservation.selectedCarGroup.cars) {
+        for (Car *tempCar in _reservation.selectedCarGroup.cars) {
             NSArray *arr = @[[tempCar materialCode]];
             [itAraclarValues addObject:arr];
         }
@@ -248,6 +271,25 @@
         }
         
         [handler addTableForImport:@"IT_SDREZERV" andColumns:itSDReservColumns andValues:itSDReservValues];
+        
+        // IT_EXPIRY
+        
+        if (_reservation.etExpiry.count > 0) {
+            NSArray *itExpiryColumns = @[@"ARAC_GRUBU", @"MARKA_ID", @"MODEL_ID", @"DONEM_BASI", @"DONEM_SONU", @"TUTAR", @"PARA_BIRIMI", @"KAMPANYA_ID", @"ODENDI"];
+            
+            NSMutableArray *itExpiryValues = [NSMutableArray new];
+            
+            for (ETExpiryObject *tempObject in _reservation.etExpiry) {
+                if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode]) {
+                    NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid];
+                    [itExpiryValues addObject:arr];
+                }
+            }
+            
+            if (itExpiryValues.count > 0) {
+                [handler addTableForImport:@"IT_EXPIRY" andColumns:itExpiryColumns andValues:itExpiryValues];
+            }
+        }
         
         if (isPayNow) {
             // IT_TAHSILAT

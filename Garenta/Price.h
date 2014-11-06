@@ -17,4 +17,6 @@
 @property (nonatomic,retain)NSDecimalNumber *carSelectPrice;
 @property (nonatomic,strong)NSDecimalNumber *dayCount;
 @property (nonatomic,strong)NSString *salesOffice; // et_fiyat cikis_sube
+@property (nonatomic, retain) NSString *montlyPriceCode;
+
 @end
