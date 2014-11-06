@@ -37,6 +37,7 @@
 
 - (IBAction)payLaterPressed:(id)sender {
     
+    // REZERVASYON ŞİMDİ ÖDE İLE YAPILDIYSA, UPDATE YAPILIRKEN SONRA ÖDE YAPILAMAZ!
     if ([super.reservation.paymentType isEqualToString:@"1"])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Rezervasyonunuz 'Şimdi Öde' rezervasyondur, sonra ödeme yapılamaz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
@@ -44,7 +45,16 @@
         [alert show];
         return;
     }
+    // REZERVASYONDA KAYAR İŞLEMİ VARSA ŞİMDİ ÖDE YAPILMASI ZORUNLUDUR!
+    else if ([super.reservation.updateStatus isEqualToString:@"KAY"])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Rezervasyonunuza kaydırma işlemi yapmak istediğiniz için 'Şimdi Öde' seçeneği seçilmelidir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+        
+        [alert show];
+        return;
+    }
     
+    //HERŞEY OKEYSE KULLANICIYA SOR
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Rezervasyonunuz güncellenecektir, onaylıyor musunuz?" delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Onayla", nil];
     [alert setTag:1];
     [alert show];

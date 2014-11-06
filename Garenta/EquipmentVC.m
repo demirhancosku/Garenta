@@ -283,7 +283,7 @@
         [[cell minusButton] setHidden:NO];
     }
     
-    if ([additionalEquipment.maxQuantity intValue] != 0 && additionalEquipment.quantity == [additionalEquipment.maxQuantity intValue]) {
+    if (([additionalEquipment.maxQuantity intValue] != 0 && additionalEquipment.quantity == [additionalEquipment.maxQuantity intValue]) || [additionalEquipment.materialNumber isEqualToString:@"HZM0031"]) {
         [[cell plusButton] setHidden:YES];
     }else{
         [[cell plusButton] setHidden:NO];

@@ -44,19 +44,37 @@
     [self getCarSelectionPrice];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"carSelected" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
-        _isCarSelected = YES;
-        
-        NSPredicate *equipmentPredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0031"];
-        NSArray *equipmentPredicateArray = [super.reservation.additionalEquipments filteredArrayUsingPredicate:equipmentPredicate];
-        
-        if ([equipmentPredicateArray count] > 0)
-            [[equipmentPredicateArray objectAtIndex:0] setQuantity:1];
-        [self recalculate];
+        [self calculateCarSelectedPrice];
     }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"additionalDriverAdded" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
         [self recalculate];
     }];
+}
+
+- (void)calculateCarSelectedPrice
+{
+    _isCarSelected = YES;
+    
+    NSPredicate *equipmentPredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0031"];
+    NSArray *equipmentPredicateArray = [super.additionalEquipments filteredArrayUsingPredicate:equipmentPredicate];
+    
+    if ([equipmentPredicateArray count] > 0)
+    {
+        AdditionalEquipment *temp = [AdditionalEquipment new];
+        temp = [equipmentPredicateArray objectAtIndex:0];
+        
+        [temp setQuantity:1];
+        if (_isPayNow)
+        {
+            if (temp.paid == nil) {
+                temp.paid = [NSDecimalNumber decimalNumberWithString:@"0"];
+            }
+            temp.difference = [[temp.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",temp.quantity]]] decimalNumberBySubtracting:temp.paid];
+        }
+    }
+    
+    [self recalculate];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -131,8 +149,8 @@
     if (_isCarSelected && [super.reservation.reservationType isEqualToString:@"20"])
         total = total + super.reservation.selectedCar.pricing.carSelectPrice.floatValue;
     // ARAÇ SEÇİLMEMİŞ VE ARACA REZERVASYONDA
-    else if (!_isCarSelected && [super.reservation.reservationType isEqualToString:@"10"])
-        total = total - super.reservation.selectedCar.pricing.carSelectPrice.floatValue;
+//    else if (!_isCarSelected && [super.reservation.reservationType isEqualToString:@"10"])
+//        total = total - super.reservation.selectedCar.pricing.carSelectPrice.floatValue;
     
     _changeReservationPrice = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.02f",total]];
     dispatch_async(dispatch_get_main_queue(), ^(void){
@@ -294,16 +312,8 @@
     //ŞİMDİ ÖDE REZ İSE "Ödenmiş" ve "Ödenecek" tutarları ayrı ayrı yazıyoruz, değilse ödenmiş tutar 0 oluyor
     if (_isPayNow)
     {
-        if ([temp.materialNumber isEqualToString:@"HZM0031"] && !_isCarSelected)
-        {
-            cell.itemTotalPriceLabel.text = [NSString stringWithFormat:@"%.02f",super.reservation.selectedCar.pricing.carSelectPrice.floatValue];
-            cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f",(super.reservation.selectedCar.pricing.carSelectPrice.floatValue * -1)];
-        }
-        else
-        {
-            cell.itemTotalPriceLabel.text = [NSString stringWithFormat:@"%.02f",temp.paid.floatValue];
-            cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f",temp.difference.floatValue];
-        }
+        cell.itemTotalPriceLabel.text = [NSString stringWithFormat:@"%.02f",temp.paid.floatValue];
+        cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f",temp.difference.floatValue];
     }
     else
     {
@@ -350,7 +360,14 @@
             NSArray *equipmentPredicateArray = [super.additionalEquipments filteredArrayUsingPredicate:equipmentPredicate];
             
             if ([equipmentPredicateArray count] > 0)
-                [[equipmentPredicateArray objectAtIndex:0] setQuantity:0];
+            {
+                AdditionalEquipment *temp = [AdditionalEquipment new];
+                temp = [equipmentPredicateArray objectAtIndex:0];
+                [temp setQuantity:0];
+                if (_isPayNow) {
+                    temp.difference = [[temp.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",temp.quantity]]] decimalNumberBySubtracting:temp.paid];
+                }
+            }
             
             _isCarSelected = NO;
             [self recalculate];
