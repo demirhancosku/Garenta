@@ -148,6 +148,12 @@
                     [tempCar setPassangerNumber:[tempDict valueForKey:@"YOLCU_SAYISI"]];
                     [tempCar setOfficeCode:[tempDict valueForKey:@"ASUBE"]];
                     
+                    // araç seçim farkının tutarını güncelliyoruz
+                    NSPredicate *carSelectPredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0031"];
+                    NSArray *carSelectPredicateArray = [_additionalEquipments filteredArrayUsingPredicate:carSelectPredicate];
+                    if (carSelectPredicateArray.count > 0) {
+                        [[carSelectPredicateArray objectAtIndex:0] setPrice:[NSDecimalNumber decimalNumberWithString:[export valueForKey:@"EXPP_ASECIM_TTR"]]];
+                    }
                     [tempCar.pricing setCarSelectPrice:[export valueForKey:@"EXPP_ASECIM_TTR"]];
                     
                     [super.reservation.selectedCarGroup.cars addObject:tempCar];
@@ -324,7 +330,7 @@
                     {
                         [tempEquip setQuantity:1];
                         [tempEquip setIsRequired:YES];
-                        [tempEquip setPrice:[[carSelectPredicateArray objectAtIndex:0] price]];
+//                        [tempEquip setPrice:[[carSelectPredicateArray objectAtIndex:0] price]];
                         [_additionalEquipments insertObject:tempEquip atIndex:0];
                     }
                 }

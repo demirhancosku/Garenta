@@ -2019,7 +2019,7 @@
                                     <segue destination="jFf-OU-hzp" kind="push" identifier="toOldReservationSummarySegue" id="yGK-eD-VlD"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" misplaced="YES" text="150.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="3" translatesAutoresizingMaskIntoConstraints="NO" id="8yW-G6-ugc">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" misplaced="YES" text="1500.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="3" translatesAutoresizingMaskIntoConstraints="NO" id="8yW-G6-ugc">
                                 <rect key="frame" x="254" y="324" width="37" height="17"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
                                 <color key="textColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -5424,7 +5424,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ödenmiş Toplam:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A1s-v5-ikE">
-                                                    <rect key="frame" x="95" y="13" width="114" height="21"/>
+                                                    <rect key="frame" x="85" y="13" width="124" height="21"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -5633,15 +5633,15 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="CB7-4R-l6r"/>
         <segue reference="ig4-Gi-w0q"/>
-        <segue reference="7yK-l0-YFl"/>
-        <segue reference="eoS-ML-DjQ"/>
-        <segue reference="cx4-X2-B8e"/>
-        <segue reference="AXm-57-Aaz"/>
         <segue reference="wou-2e-dhb"/>
         <segue reference="Ez9-1z-i3h"/>
         <segue reference="Hj2-5d-FZ6"/>
+        <segue reference="hLA-ZH-RHN"/>
         <segue reference="Jja-3F-2kb"/>
+        <segue reference="a20-Ar-vAP"/>
+        <segue reference="cbc-BX-eje"/>
         <segue reference="tMq-8T-4Dd"/>
         <segue reference="y6s-gR-Pji"/>
         <segue reference="NO9-BI-wzJ"/>
