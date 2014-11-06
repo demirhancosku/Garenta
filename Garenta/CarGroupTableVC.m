@@ -64,8 +64,16 @@
     if (cell == nil) {
         cell = [CarGroupTableViewCell new];
     }
+    
     [[cell officeNameLabel] setText:[(Office*)[_activeCarGroup.carGroupOffices objectAtIndex:indexPath.row] subOfficeName]];
-    [[cell payLaterPriceLabel] setText:[NSString stringWithFormat:@"%.02f",_activeCarGroup.payLaterPrice.floatValue]];
+    
+    if (self.isMontlyRent) {
+        [[cell payLaterPriceLabel] setText:[NSString stringWithFormat:@"%.02fTL + KDV",_activeCarGroup.payLaterPrice.floatValue]];
+        [[cell payLaterPriceLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:11]];
+    }
+    else {
+        [[cell payLaterPriceLabel] setText:[NSString stringWithFormat:@"%.02f TL",_activeCarGroup.payLaterPrice.floatValue]];
+    }
     
     return cell;
 }

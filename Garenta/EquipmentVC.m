@@ -248,7 +248,7 @@
     }else{
         [cell.selectButton setImage:[UIImage imageNamed:@"ticked_button.png"] forState:UIControlStateNormal];
         [cell.selectButton setHidden:NO];
-        [cell.priceLabel setText:[NSString stringWithFormat:@"%.02f",[_reservation.selectedCar.pricing.carSelectPrice floatValue]]];
+        [cell.priceLabel setText:[NSString stringWithFormat:@"%.02f TL",[_reservation.selectedCar.pricing.carSelectPrice floatValue]]];
         [[cell carLabel] setText:[NSString stringWithFormat:@"%@ %@",_reservation.selectedCar.brandName, _reservation.selectedCar.modelName]];
     }
     return cell;
@@ -265,9 +265,9 @@
     [[cell plusButton] setTag:index];
     [[cell infoButton] setTag:index];
     [[cell itemNameLabel] setText:additionalEquipment.materialDescription];
-    [[cell itemPriceLabel] setText:[NSString stringWithFormat:@"%.02f",additionalEquipment.price.floatValue]];
+    [[cell itemPriceLabel] setText:[NSString stringWithFormat:@"%.02f TL",additionalEquipment.price.floatValue]];
     [[cell itemQuantityLabel] setText:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]];
-    [[cell itemTotalPriceLabel] setText:[NSString stringWithFormat:@"%.02f",(additionalEquipment.quantity*[additionalEquipment.price floatValue])]];
+    [[cell itemTotalPriceLabel] setText:[NSString stringWithFormat:@"%.02f TL",(additionalEquipment.quantity*[additionalEquipment.price floatValue])]];
     
     [[cell textLabel] setNumberOfLines:0];
     

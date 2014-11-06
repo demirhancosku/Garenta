@@ -10,6 +10,9 @@
 #import "CarGroup.h"
 #import "CarSelectedProtocol.h"
 @interface CarGroupTableVC : UITableViewController
+
 @property(weak,nonatomic)CarGroup *activeCarGroup;
 @property(strong,nonatomic)id<CarSelectedProtocol> delegate;
+@property (nonatomic) BOOL isMontlyRent;
+
 @end

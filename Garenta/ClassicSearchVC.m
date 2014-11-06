@@ -14,6 +14,7 @@
 #import "WYStoryboardPopoverSegue.h"
 #import "SDReservObject.h"
 #import "EquipmentVC.h"
+#import "ETExpiryObject.h"
 
 #define kCheckOutTag 0
 #define kCheckInTag 1
@@ -617,6 +618,30 @@
                 }
                 
                 reservation.etReserv = sdReservArray;
+                
+                NSDictionary *etExpiry = [tables objectForKey:@"ZSD_KDK_AYLIK_TAKSIT_ST"];
+                
+                NSMutableArray *etExpiryArray = [NSMutableArray new];
+                
+                NSDateFormatter *dateFormatter = [NSDateFormatter new];
+                [dateFormatter setDateFormat:@"dd-MM-yyyy"];
+                
+                for (NSDictionary *tempDict in etExpiry) {
+                    ETExpiryObject *tempObject = [ETExpiryObject new];
+                    
+                    [tempObject setCarGroup:[tempDict valueForKey:@"ARAC_GRUBU"]];
+                    [tempObject setBeginDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_BASI"]]];
+                    [tempObject setEndDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_SONU"]]];
+                    [tempObject setCampaignID:[tempDict valueForKey:@"KAMPANYA_ID"]];
+                    [tempObject setBrandID:[tempDict valueForKey:@"MARKA_ID"]];
+                    [tempObject setModelID:[tempDict valueForKey:@"MODEL_ID"]];
+                    [tempObject setIsPaid:[tempDict valueForKey:@"ODENDI"]];
+                    [tempObject setCurrency:[tempDict valueForKey:@"PARA_BIRIMI"]];
+                    [tempObject setTotalPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                    [etExpiryArray addObject:tempObject];
+                }
+                
+                reservation.etExpiry = etExpiryArray;
             }
         }
     }
