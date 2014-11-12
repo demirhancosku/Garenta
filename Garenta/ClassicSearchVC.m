@@ -52,31 +52,26 @@
 {
     [super viewWillAppear:animated];
     
-    // ekranki component'ların ayarlaması yapılıyor
     [self prepareScreen];
     
-    //only once singleton koydum devam etsin burdan
     offices = [ApplicationProperties getOffices];
     
-    if (offices.count == 0 || [ApplicationProperties getMainSelection] == location_search)
-    {
+    if (offices.count == 0) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            offices = [Office getOfficesFromSAP];
             
-            [self getOfficesFromSAP];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                [self setOfficeForChangeDocument];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self setOfficeForChangeDocument];
+            [destinationTableView reloadData];
+            [arrivalTableView reloadData];
+            // en yakın ofisi bulup ekrana yazıyo
+            if ([ApplicationProperties getMainSelection] == location_search)
+            {
+                reservation.checkOutOffice = [self prepareOfficeImport];
                 [destinationTableView reloadData];
-                [arrivalTableView reloadData];
-                // en yakın ofisi bulup ekrana yazıyo
-                if ([ApplicationProperties getMainSelection] == location_search)
-                {
-                    reservation.checkOutOffice = [self prepareOfficeImport];
-                    [destinationTableView reloadData];
-                }
-            });
+            }
         });
     }
     
@@ -294,95 +289,6 @@
 }
 
 #pragma mark - gateway connection delegates
-
-- (void)getOfficesFromSAP {
-    
-    @try {
-        
-        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZMOB_KDK_GET_SUBE_CALISMA_SAAT"];
-        
-        NSDictionary *resultDict = [handler prepCall];
-        
-        if (resultDict != nil) {
-            NSDictionary *resultTables = [resultDict objectForKey:@"EXPORT"];
-            
-            NSDictionary *officeInformation = [resultTables objectForKey:@"EXPT_SUBE_BILGILERI"];
-            NSDictionary *officeInformationArray = [officeInformation objectForKey:@"ZMOB_TT_SUBE_MASTER"];
-            
-            NSDictionary *officeWorkingHours = [resultTables objectForKey:@"EXPT_CALISMA_ZAMANI"];
-            NSDictionary *officeWorkingHoursArray = [officeWorkingHours objectForKey:@"ZMOB_TT_SUBE_CALSAAT"];
-            
-            NSDictionary *officeHolidays = [resultTables objectForKey:@"EXPT_TATIL_ZAMANI"];
-            NSDictionary *officeHolidayArray = [officeHolidays objectForKey:@"ZMOB_TT_SUBE_TATIL"];
-            
-            for (NSDictionary *tempDict in officeInformationArray) {
-                // Aktif olmayan şubeleri almıyoruz
-                if (![[tempDict valueForKey:@"AKTIFSUBE"] isEqualToString:@"X"]) {
-                    continue;
-                }
-                
-                Office *tempOffice = [[Office alloc] init];
-                [tempOffice setMainOfficeCode:[tempDict valueForKey:@"MERKEZ_SUBE"]];
-                [tempOffice setMainOfficeName:[tempDict valueForKey:@"MERKEZ_SUBETX"]];
-                [tempOffice setSubOfficeCode:[tempDict valueForKey:@"ALT_SUBE"]];
-                [tempOffice setSubOfficeName:[tempDict valueForKey:@"ALT_SUBETX"]];
-                [tempOffice setSubOfficeType:[tempDict valueForKey:@"ALT_SUBETIPTX"]];
-                [tempOffice setSubOfficeTypeCode:[tempDict valueForKey:@"ALT_SUBETIP"]];
-                [tempOffice setCityCode:[tempDict valueForKey:@"SEHIR"]];
-                [tempOffice setCityName:[tempDict valueForKey:@"SEHIRTX"]];
-                [tempOffice setAddress:[tempDict valueForKey:@"ADRES"]];
-                [tempOffice setTel:[tempDict valueForKey:@"TEL"]];
-                [tempOffice setFax:[tempDict valueForKey:@"FAX"]];
-                [tempOffice setLongitude:[tempDict valueForKey:@"XKORD"]];
-                [tempOffice setLatitude:[tempDict valueForKey:@"YKORD"]];
-                
-                
-                NSMutableArray *workingHoursArray = [NSMutableArray new];
-                
-                for (NSDictionary *tempWorkHourDict in officeWorkingHoursArray) {
-                    if ([[tempWorkHourDict valueForKey:@"MERKEZ_SUBE"] isEqualToString:[tempOffice mainOfficeCode]]) {
-                        OfficeWorkingTime *tempTime = [[OfficeWorkingTime alloc] init];
-                        tempTime.startTime = [tempWorkHourDict valueForKey:@"BEGTI"];
-                        tempTime.endingHour = [tempWorkHourDict valueForKey:@"ENDTI"];
-                        tempTime.weekDayCode = [tempWorkHourDict valueForKey:@"CADAY"];
-                        tempTime.weekDayName = [tempWorkHourDict valueForKey:@"CADAYTX"];
-                        tempTime.subOffice = [tempWorkHourDict valueForKey:@"ALT_SUBE"];
-                        tempTime.mainOffice = [tempWorkHourDict valueForKey:@"MERKEZ_SUBE"];
-                        
-                        [workingHoursArray addObject:tempTime];
-                    }
-                }
-                
-                [tempOffice setWorkingDates:[workingHoursArray copy]];
-                
-                NSMutableArray *holidayArray = [NSMutableArray new];
-                
-                for (NSDictionary *tempHolidayDict in officeHolidayArray) {
-                    if ([[tempHolidayDict valueForKey:@"MERKEZ_SUBE"] isEqualToString:[tempOffice mainOfficeCode]]) {
-                        OfficeHolidayTime *tempTime = [[OfficeHolidayTime alloc] init];
-                        tempTime.startTime = [tempHolidayDict valueForKey:@"BEGTI"];
-                        tempTime.endingHour = [tempHolidayDict valueForKey:@"ENDTI"];
-                        tempTime.holidayDate = [tempHolidayDict valueForKey:@"BEGDA"];
-                        tempTime.subOffice = [tempHolidayDict valueForKey:@"ALT_SUBE"];
-                        tempTime.mainOffice = [tempHolidayDict valueForKey:@"MERKEZ_SUBE"];
-                        
-                        [holidayArray addObject:tempTime];
-                    }
-                }
-                
-                [tempOffice setHolidayDates:[holidayArray copy]];
-                
-                [offices addObject:tempOffice];
-            }
-        }
-    }
-    @catch (NSException *exception) {
-        
-    }
-    @finally {
-    }
-    
-}
 
 - (IBAction)showCarGroup:(id)sender
 {

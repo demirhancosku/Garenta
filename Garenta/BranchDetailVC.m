@@ -17,14 +17,11 @@
 @synthesize tableView;
 @synthesize officeHours;
 @synthesize holidayDatesArray;
-- (void)viewDidLoad {
-    [super viewDidLoad];
-   
-    [ self.mapView.delegate self];
 
+- (void)viewDidLoad {
     
-    
-    
+    [super viewDidLoad];
+    [self.mapView.delegate self];
     
     officeHours = [[NSArray alloc]init];
     holidayDatesArray = [[NSArray alloc]init];
@@ -33,6 +30,7 @@
         holidayDatesArray = selectedOffice.holidayDates;
     }
     numberOfWorkingDay = officeHours.count;
+    
     if (numberOfWorkingDay>7) {
         numberOfWorkingDay = 7;
     }
@@ -49,8 +47,6 @@
         default:
             break;
     }
-    
-    
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

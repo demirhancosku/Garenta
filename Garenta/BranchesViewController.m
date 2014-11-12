@@ -7,6 +7,8 @@
 //
 
 #import "BranchesViewController.h"
+#import "MBProgressHUD.h"
+
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 @interface BranchesViewController ()
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
@@ -33,16 +35,26 @@
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager = [[CLLocationManager alloc] init];
+    
     if(IS_OS_8_OR_LATER) {
         [self.locationManager requestWhenInUseAuthorization];
         [self.locationManager requestAlwaysAuthorization];
     }
 
    officeArray = [ApplicationProperties getOffices];
-    [self showPins];
-
+    
+    if (officeArray.count == 0) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            
+            officeArray = [Office getOfficesFromSAP];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [[self tableView] reloadData];
+            [self showPins];
+        });
+    }
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -87,15 +99,12 @@
         office = [officeArray objectAtIndex:indexPath.row];
     }
     
-    
-   
-    
-    
     cell.branchNameLabel.text = [NSString stringWithFormat:@"%@",office.subOfficeName];
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     return cell;
 }
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.searchDisplayController.searchResultsTableView) {
@@ -109,9 +118,6 @@
     
 }
 
-//-(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
-
-
 -(void)showPins
 {
     for (int i = 0; i < self.officeArray.count; i++) {
@@ -120,19 +126,15 @@
         double latitude = [office.latitude doubleValue];
         double longitude = [office.longitude doubleValue];
 
-        
         CLLocationCoordinate2D location;
        
         MKPointAnnotation *annotionPoint = [[MKPointAnnotation alloc]init];
 
         location.latitude  = latitude;
         location.longitude = longitude;
-        
-        
-        
+
         annotionPoint.coordinate = location;
         annotionPoint.title = office.subOfficeName;
-        
         
         [mapView addAnnotation:annotionPoint];
     }
@@ -223,19 +225,6 @@
 }
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-    
-//    if(![view.annotation isKindOfClass:[MKUserLocation class]]) {
-//        CGSize  calloutSize = CGSizeMake(400, 50.0);
-//        UIView *calloutView = [[UIView alloc] initWithFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y-calloutSize.height, calloutSize.width, calloutSize.height)];
-//         UILabel *branchNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, calloutView.frame.size.width - 20, calloutView.frame.size.height)];
-//        branchNameLabel.numberOfLines = 0;
-//        branchNameLabel.text = @"qwertyuıopğüasdfghjklşi<zxcvbnmö";
-//       
-//        [calloutView addSubview:branchNameLabel];
-//        calloutView.backgroundColor = [UIColor whiteColor];
-//        calloutView.alpha = 0.8;
-//        [view.superview addSubview:calloutView];
-//    }
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"subOfficeName==%@",view.annotation.title];
     NSArray *filterArray = [officeArray filteredArrayUsingPredicate:predicate];
     

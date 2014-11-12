@@ -219,7 +219,7 @@
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
 {
     
-    [self->searchData removeAllObjects]; // First clear the filtered array.
+    [self->searchData removeAllObjects];
     
     if (![searchText isEqualToString:@""]) {
         
@@ -228,15 +228,13 @@
             
             NSString *officeName = [[officeList objectAtIndex:i] subOfficeName];
             
-            NSComparisonResult result = [officeName compare:searchText options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch) range:NSMakeRange(0, [searchText length])];
+            NSRange range = [officeName rangeOfString:searchText options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)];
             
-            if (result == NSOrderedSame)
-            {
+            if (range.location != NSNotFound) {
                 [self->searchData addObject:[officeList objectAtIndex:i]];
             }
         }
     }
-    
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString

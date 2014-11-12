@@ -40,6 +40,7 @@ typedef enum{
 + (void)setUser:(User*)aUser;
 + (NSString *)getAppVersion;
 + (NSString *)getAppName;
++ (void)setOffices:(NSMutableArray *)officeArray;
 
 //aktiflik
 + (BOOL)isActiveVersion;

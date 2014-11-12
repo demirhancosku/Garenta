@@ -9,7 +9,7 @@
 #import "ApplicationProperties.h"
 #import "AdditionalEquipment.h"
 #import "SDReservObject.h"
-
+#import "MBProgressHUD.h"
 
 @implementation ApplicationProperties
 MainSelection mainSelection;
@@ -95,11 +95,17 @@ NSMutableArray *offices;
     return myUser;
 }
 
-+ (NSMutableArray*)getOffices{
++ (NSMutableArray*)getOffices {
+    
     if (offices == nil) {
-        offices = [[NSMutableArray alloc] init];
+        offices = [NSMutableArray new];
     }
+
     return offices;
+}
+
++ (void)setOffices:(NSMutableArray *)officeArray {
+    offices = officeArray;
 }
 
 + (void)setUser:(User*)aUser

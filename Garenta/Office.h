@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OfficeWorkingTime.h"
+#import "OfficeHolidayTime.h"
 
 @interface Office : NSObject
 
@@ -31,5 +32,6 @@
 
 + (Office*)getOfficeFrom:(NSMutableArray*)offices withCode:(NSString*)officeCode;
 + (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation;
++ (NSMutableArray *)getOfficesFromSAP;
 
 @end
