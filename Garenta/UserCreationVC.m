@@ -441,7 +441,7 @@
         self.validationCode = generatedCode;
         NSString *email = self.emailTextField.text; // müşterinin email adresi
         
-        BOOL success = [MailSoapHandler sendMessage:generatedCode toMail:email withFirstname:self.nameTextField.text andLastname:self.surnameTextField.text];
+        BOOL success = [MailSoapHandler sendVerificationMessage:generatedCode toMail:email withFirstname:self.nameTextField.text andLastname:self.surnameTextField.text];
         
         if (!success) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Mail gönderilemedi, lütfen tekrar deneyiniz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];

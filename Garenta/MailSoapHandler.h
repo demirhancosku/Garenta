@@ -10,6 +10,7 @@
 
 @interface MailSoapHandler : NSObject
 
-+ (BOOL)sendMessage:(NSString *)message toMail:(NSString *)mail withFirstname:(NSString *)firstname andLastname:(NSString *)lastname;
++ (BOOL)sendVerificationMessage:(NSString *)message toMail:(NSString *)mail withFirstname:(NSString *)firstname andLastname:(NSString *)lastname;
++ (BOOL)sendLostPasswordMessage:(NSString *)message toMail:(NSString *)mail;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "LoginVC.h"
 #import "ReservationSummaryVC.h"
+#import "MailSoapHandler.h"
 
 @interface LoginVC ()
 
@@ -16,6 +17,7 @@
 @property (strong, nonatomic) NSArray *userList;
 
 - (IBAction)login:(id)sender;
+- (IBAction)forgetMyPassword:(id)sender;
 
 @end
 
@@ -120,15 +122,105 @@
     }
     
     [alert setDelegate:self];
+    [alert setTag:1];
     [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    User *tempUser = [self.userList objectAtIndex:buttonIndex];
-    tempUser.isLoggedIn = YES;
+    if (alertView.tag == 1) {
+        User *tempUser = [self.userList objectAtIndex:buttonIndex];
+        tempUser.isLoggedIn = YES;
+        
+        [ApplicationProperties setUser:tempUser];
+        [self goToView];
+    }
+    if (alertView.tag == 2) {
+        NSString *mailAdress = [alertView textFieldAtIndex:0].text;
+        
+        if (mailAdress == nil && [mailAdress isEqualToString:@""]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Girdiğiniz e-mail adresi boş olamaz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+            [alert show];
+        }
+        else {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self updateUserPasswordAtSAP:mailAdress];
+                
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            });
+        }
+    }
+}
+
+- (void)updateUserPasswordAtSAP:(NSString *)mailAdress {
     
-    [ApplicationProperties setUser:tempUser];
-    [self goToView];
+    NSString *alertString = @"";
+    
+    @try {
+        
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZNET_UPDATE_USER_PASSWORD"];
+        
+        // Random alpha numeric new password
+        NSString *alphabet  = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
+        NSMutableString *aNewPassword = [NSMutableString stringWithCapacity:8];
+        for (NSUInteger i = 0U; i < 8; i++) {
+            u_int32_t r = arc4random() % [alphabet length];
+            unichar c = [alphabet characterAtIndex:r];
+            [aNewPassword appendFormat:@"%C", c];
+        }
+        
+        NSData *newPasswordData = [aNewPassword dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
+        NSString *newPasswordEncoded = [newPasswordData base64EncodedStringWithOptions:0];
+        
+        [handler addImportParameter:@"IV_EMAILADRESS" andValue:mailAdress];
+        [handler addImportParameter:@"IV_NEWPASSWORD" andValue:newPasswordEncoded];
+        [handler addImportParameter:@"FORGET_FLAG" andValue:@"X"];
+        [handler addTableForReturn:@"ET_RETURN"];
+        
+        NSDictionary *response = [handler prepCall];
+        
+        if (response != nil) {
+            NSDictionary *export = [response objectForKey:@"EXPORT"];
+            
+            NSString *result = [export valueForKey:@"EV_SUBRC"];
+            
+            if (![result isEqualToString:@"0"]) {
+                
+                NSDictionary *tables = [response objectForKey:@"TABLES"];
+                NSDictionary *etReturn = [tables objectForKey:@"BAPIRET2"];
+                
+                for (NSDictionary *temp in etReturn) {
+                    if ([[temp valueForKey:@"TYPE"] isEqualToString:@"E"]) {
+                        alertString = [temp valueForKey:@"MESSAGE"];
+                    }
+                }
+                
+                if ([alertString isEqualToString:@""]) {
+                    alertString = @"Güncelleme sırasında hata alındı. Lütfen tekrar deneyiniz";
+                }
+            }
+            else {
+                BOOL result = [MailSoapHandler sendLostPasswordMessage:aNewPassword toMail:mailAdress];
+                
+                if (result) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Başarılı" message:@"Yeni şifreniz mail'inize gönderildi, lütfen tekrar giriş yapınız" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                    [alert show];
+                }
+                else {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Yeni şifreniz mail'inize gönderilirken hata alındı, lütfen tekrar deneyiniz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                    [alert show];
+                }
+            }
+        }
+        
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -159,6 +251,13 @@
         // demek ki kullanıcı bilgileri ekranından gelmiş
         [self performSegueWithIdentifier:@"ToReservationSummarySegue" sender:self];
     }
+}
+
+- (void)forgetMyPassword:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Lütfen yeni şifrenizin gönderilmesi için üye e-mail adresinizi giriniz" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Devam", nil];
+    [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    [alert setTag:2];
+    [alert show];
 }
 
 @end

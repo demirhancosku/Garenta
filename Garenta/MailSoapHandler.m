@@ -28,7 +28,42 @@
     NSString *soapMsg = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@", signature, openHeader, openBody, openFunction, mailAdress, firstName, lastName,generatedCode, closeFunction, closeBody, closeHeader];
     NSMutableURLRequest *soapReq = [NSMutableURLRequest requestWithURL:connectionURL];
     
-    NSString *msgLength = [NSString stringWithFormat:@"%d" , [soapMsg length]];
+    NSString *msgLength = [NSString stringWithFormat:@"%lu" , (unsigned long)[soapMsg length]];
+    [soapReq addValue:@"text/xml; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+    [soapReq addValue:msgLength forHTTPHeaderField:@"Content-Length"];
+    [soapReq setHTTPMethod:@"POST"];
+    [soapReq setHTTPBody:[soapMsg dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSError *error;
+    NSURLResponse *response;
+    
+    NSData *data = [NSURLConnection sendSynchronousRequest:soapReq returningResponse:&response error:&error];
+    
+    if (error == nil && data != nil && [data length] > 0) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
+}
+
++ (BOOL)sendLostPasswordMessage:(NSString *)message toMail:(NSString *)mail {
+    NSURL *connectionURL = [NSURL URLWithString:@"http://mobil.garenta.com.tr/hgs/Asmx/SendMail.asmx"];
+    
+    NSString *signature = @"<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">";
+    NSString *openHeader = @"<soapenv:Header/>";
+    NSString *openBody = @"<soapenv:Body>";
+    NSString *openFunction = @"<tem:SendNewPassword>";
+    NSString *mailAdress = [NSString stringWithFormat:@"<tem:email>%@</tem:email>", mail];
+    NSString *generatedCode = [NSString stringWithFormat:@"<tem:code>%@</tem:code>", message];
+    NSString *closeFunction = @"</tem:SendNewPassword>";
+    NSString *closeBody = @"</soapenv:Body>";
+    NSString *closeHeader = @"</soapenv:Envelope>";
+    
+    NSString *soapMsg = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@", signature, openHeader, openBody, openFunction, mailAdress,generatedCode, closeFunction, closeBody, closeHeader];
+    NSMutableURLRequest *soapReq = [NSMutableURLRequest requestWithURL:connectionURL];
+    
+    NSString *msgLength = [NSString stringWithFormat:@"%lu" , (unsigned long)[soapMsg length]];
     [soapReq addValue:@"text/xml; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     [soapReq addValue:msgLength forHTTPHeaderField:@"Content-Length"];
     [soapReq setHTTPMethod:@"POST"];
