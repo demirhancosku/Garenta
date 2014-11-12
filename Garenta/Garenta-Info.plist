@@ -26,6 +26,8 @@
 	<true/>
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryBoard</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Size yakın ofislerimizi görmek için konum kullanımına izin vermeniz gerekmektedir.</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
