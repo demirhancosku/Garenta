@@ -12,34 +12,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-        /*
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor whiteColor];
-    
-//    LocationSelectionScreenVC *main = [[LocationSelectionScreenVC alloc] initWithFrame:self.window.frame];
-    MenuSelectionVC *main = [[MenuSelectionVC alloc] initWithStyle:UITableViewStylePlain];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
-    
-    [[nav navigationBar] setBarTintColor:[ApplicationProperties getOrange]];
-    
-    float logoRatio = (float)57 / (float)357;
-    float logoWidth = nav.navigationBar.frame.size.width * 0.5;
-    float logoHeight = logoWidth * logoRatio;
-UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(nav.navigationBar.frame.size.width * 0.25, nav.navigationBar.frame.size.height * 0.15, logoWidth, logoHeight)];
-    [imageView setImage:[UIImage imageNamed:@"GarentaSmallLogo.png"]];
-    
-    [[nav navigationBar] addSubview:imageView];
-    [[nav navigationBar] setTintColor:[ApplicationProperties getWhite]];
-    [[nav navigationBar] setTranslucent:NO];
-    
-    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-                                                           [ApplicationProperties getWhite], NSForegroundColorAttributeName,
-                                                           [UIFont fontWithName:@"HelveticaNeue-Bold" size:24.0], NSFontAttributeName, nil]];
-    
-    [self.window setRootViewController:nav];
-    [self.window makeKeyAndVisible];
-     */
-
     return YES;
 }
 
