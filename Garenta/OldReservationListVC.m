@@ -11,6 +11,7 @@
 #import "OldReservationTableViewCell.h"
 #import "OldReservationDetailVC.h"
 #import "AdditionalEquipment.h"
+#import "LoginVC.h"
 
 @interface OldReservationListVC ()
 
@@ -20,42 +21,43 @@
 
 @implementation OldReservationListVC
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    reservationList = [NSMutableArray new];
+    _reservationList = [NSMutableArray new];
     _reservation = [Reservation new];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        
-        [self getOldReservation];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [_oldReservationTableView reloadData];
-        });
-    });
     
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(refreshTableView) forControlEvents:UIControlEventValueChanged];
-    [_oldReservationTableView addSubview:refreshControl];
-    [self setRefreshControl:refreshControl];
+    if ([[ApplicationProperties getUser] isLoggedIn])
+    {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            
+            [self getOldReservation];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [_oldReservationTableView reloadData];
+            });
+        });
+        
+        UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+        [refreshControl addTarget:self action:@selector(refreshTableView) forControlEvents:UIControlEventValueChanged];
+        [_oldReservationTableView addSubview:refreshControl];
+        [self setRefreshControl:refreshControl];
+    }
+    else
+    {
+        [self performSegueWithIdentifier:@"ToLoginVCSegue" sender:self];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Rezervasyonlarınızı görebilmeniz için giriş yapmanız gerekmektedir" delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Giriş Yap", nil];
+//        
+//        [alert show];
+    }
+
 }
 
 - (void)refreshTableView
 {
-    //    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    //    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-    //
-    //        [self getOldReservation];
-    //
-    //        dispatch_async(dispatch_get_main_queue(), ^{
-    //            [MBProgressHUD hideHUDForView:self.view animated:YES];
-    //            [[self refreshControl] endRefreshing];
-    //            [_oldReservationTableView reloadData];
-    //        });
-    //    });
-    
     [self getOldReservation];
     [[self refreshControl] endRefreshing];
     [_oldReservationTableView reloadData];
@@ -92,7 +94,7 @@
             if (responseList.count > 0)
             {
                 //                [reservationList removeAllObjects];
-                reservationList = [NSMutableArray new];
+                _reservationList = [NSMutableArray new];
                 
                 for (NSDictionary *tempDict in responseList)
                 {
@@ -123,7 +125,7 @@
                     temp.reservationType = [tempDict valueForKey:@"ARACREZTIPI"];
                     temp.paymentNowCard.uniqueId = [tempDict valueForKey:@"KK_UNIQUE_ID"];
                     
-                    [reservationList addObject:temp];
+                    [_reservationList addObject:temp];
                 }
                 
                 NSSortDescriptor *sortDescriptor;
@@ -131,11 +133,11 @@
                                                              ascending:NO];
                 NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
                 NSArray *sortedArray;
-                sortedArray = [reservationList sortedArrayUsingDescriptors:sortDescriptors];
+                sortedArray = [_reservationList sortedArrayUsingDescriptors:sortDescriptors];
                 
                 //                [reservationList removeAllObjects];
-                reservationList = [NSMutableArray new];
-                reservationList = [sortedArray copy];
+                _reservationList = [NSMutableArray new];
+                _reservationList = [sortedArray copy];
                 
                 [[ApplicationProperties getUser] setReservationList:sortedArray];
             }
@@ -175,7 +177,7 @@
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [reservationList count];
+    return [_reservationList count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -209,7 +211,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    _reservation = [reservationList objectAtIndex:indexPath.row];
+    _reservation = [_reservationList objectAtIndex:indexPath.row];
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -231,6 +233,10 @@
     if ([[segue identifier] isEqualToString:@"toReservationDetail"]) {
         [(OldReservationDetailVC*)[segue destinationViewController] setReservation:_reservation];
         [(OldReservationDetailVC*)[segue destinationViewController] setTotalPrice:_totalPrice];
+    }
+    
+    if ([segue.identifier isEqualToString:@"ToLoginVCSegue"]) {
+        [(LoginVC *)[segue destinationViewController] setReservation:_reservation];
     }
 }
 

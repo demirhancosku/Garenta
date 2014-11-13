@@ -9,9 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface OldReservationListVC : UIViewController <UITableViewDataSource, UITableViewDelegate>
-{
-    NSMutableArray *reservationList;
-}
-@property (nonatomic,retain) Reservation *reservation;
+
+@property (strong,retain) NSMutableArray *reservationList;
+@property (strong,retain) Reservation *reservation;
 @property (nonatomic,retain) UIRefreshControl *refreshControl NS_AVAILABLE_IOS(6_0);
 @end

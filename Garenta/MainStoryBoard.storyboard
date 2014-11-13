@@ -2032,6 +2032,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="PDK-jA-pGd">
+                                <rect key="frame" x="0.0" y="202" width="320" height="214"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="officeDateCell" rowHeight="92" id="hgO-qP-2Ic">
@@ -2194,7 +2195,9 @@
                                     <outlet property="delegate" destination="jFf-OU-hzp" id="RNF-W7-NZP"/>
                                 </connections>
                             </tableView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R03-sN-BeL"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R03-sN-BeL">
+                                <rect key="frame" x="63" y="20" width="206" height="126"/>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="yakit.png" translatesAutoresizingMaskIntoConstraints="NO" id="iwu-Ts-ddm">
                                 <rect key="frame" x="40" y="160" width="20" height="20"/>
                             </imageView>
@@ -4235,7 +4238,7 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AfB-pg-XdA">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="137"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="location_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="9vj-f5-08e">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="location_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="9vj-f5-08e">
                                         <rect key="frame" x="131" y="10" width="70" height="62"/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Size En Yakın Araçlar" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h4n-0v-mQf">
@@ -4262,7 +4265,7 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DPd-qh-uci">
                                 <rect key="frame" x="0.0" y="137" width="320" height="137"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="arac_bul.png" translatesAutoresizingMaskIntoConstraints="NO" id="msn-IM-QKa">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="arac_bul.png" translatesAutoresizingMaskIntoConstraints="NO" id="msn-IM-QKa">
                                         <rect key="frame" x="129" y="20" width="70" height="60"/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Araç Bul" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GWD-kM-tyA">
@@ -4289,7 +4292,7 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hVQ-NS-Re2">
                                 <rect key="frame" x="0.0" y="275" width="320" height="137"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="detail_search.png" translatesAutoresizingMaskIntoConstraints="NO" id="VXQ-it-cit">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="detail_search.png" translatesAutoresizingMaskIntoConstraints="NO" id="VXQ-it-cit">
                                         <rect key="frame" x="129" y="20" width="60" height="62"/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Detaylı Arama" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTc-Pq-uAF">
@@ -5267,6 +5270,7 @@
                     <connections>
                         <outlet property="oldReservationTableView" destination="3OD-Oz-IhR" id="XHd-Mq-yyd"/>
                         <segue destination="3Di-bA-E8Y" kind="push" identifier="toReservationDetail" id="xsc-o7-M1C"/>
+                        <segue destination="xGJ-xJ-rCM" kind="push" identifier="ToLoginVCSegue" id="iJn-Bu-Z2r"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cCD-Z3-MYg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5509,20 +5513,20 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="IQr-2t-DY8"/>
-        <segue reference="VNV-MA-HSn"/>
-        <segue reference="CB7-4R-l6r"/>
-        <segue reference="ig4-Gi-w0q"/>
+        <segue reference="iJn-Bu-Z2r"/>
         <segue reference="8V1-Ga-zPI"/>
         <segue reference="hLA-ZH-RHN"/>
         <segue reference="a20-Ar-vAP"/>
-        <segue reference="Jja-3F-2kb"/>
         <segue reference="cbc-BX-eje"/>
-        <segue reference="aLh-ec-Lci"/>
-        <segue reference="TxX-UN-QgX"/>
-        <segue reference="Ez9-1z-i3h"/>
+        <segue reference="VNV-MA-HSn"/>
         <segue reference="yNN-jh-21M"/>
         <segue reference="EuT-BJ-MJt"/>
+        <segue reference="AXm-57-Aaz"/>
+        <segue reference="Ez9-1z-i3h"/>
+        <segue reference="ig4-Gi-w0q"/>
+        <segue reference="Gtk-UI-NzB"/>
+        <segue reference="aLh-ec-Lci"/>
+        <segue reference="TxX-UN-QgX"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
