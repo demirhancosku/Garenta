@@ -38,6 +38,8 @@
 		0C6CF63E19F064AC006B3174 /* OldReservationDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6CF63D19F064AC006B3174 /* OldReservationDetailVC.m */; };
 		0C893D87187884E5006AFF0A /* SliderHandle.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C893D86187884E5006AFF0A /* SliderHandle.png */; };
 		0C8E1EDE19F7A53F0092DDBD /* OldReservationEquipmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8E1EDD19F7A53F0092DDBD /* OldReservationEquipmentVC.m */; };
+		0C9076F71A14EC72007042AA /* OldReservationUpsellDownsellVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9076F61A14EC72007042AA /* OldReservationUpsellDownsellVC.m */; };
+		0C9076FA1A14ED5A007042AA /* ReplacementVehicleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9076F91A14ED5A007042AA /* ReplacementVehicleObject.m */; };
 		0C9299DF18689E95007DE6B8 /* EquipmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9299DE18689E95007DE6B8 /* EquipmentVC.m */; };
 		0C99695C19E830E3008E7199 /* TimeSelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C99695B19E830E3008E7199 /* TimeSelectionCell.m */; };
 		0CA259A219FFBD3F0017B973 /* OldReservationApprovalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA259A119FFBD3F0017B973 /* OldReservationApprovalVC.m */; };
@@ -235,6 +237,10 @@
 		0C893D86187884E5006AFF0A /* SliderHandle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SliderHandle.png; sourceTree = "<group>"; };
 		0C8E1EDC19F7A53F0092DDBD /* OldReservationEquipmentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationEquipmentVC.h; sourceTree = "<group>"; };
 		0C8E1EDD19F7A53F0092DDBD /* OldReservationEquipmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationEquipmentVC.m; sourceTree = "<group>"; };
+		0C9076F51A14EC72007042AA /* OldReservationUpsellDownsellVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationUpsellDownsellVC.h; sourceTree = "<group>"; };
+		0C9076F61A14EC72007042AA /* OldReservationUpsellDownsellVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationUpsellDownsellVC.m; sourceTree = "<group>"; };
+		0C9076F81A14ED5A007042AA /* ReplacementVehicleObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplacementVehicleObject.h; sourceTree = "<group>"; };
+		0C9076F91A14ED5A007042AA /* ReplacementVehicleObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplacementVehicleObject.m; sourceTree = "<group>"; };
 		0C9299DD18689E95007DE6B8 /* EquipmentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipmentVC.h; sourceTree = "<group>"; };
 		0C9299DE18689E95007DE6B8 /* EquipmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EquipmentVC.m; sourceTree = "<group>"; };
 		0C99695A19E830E3008E7199 /* TimeSelectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeSelectionCell.h; sourceTree = "<group>"; };
@@ -666,6 +672,8 @@
 				E1227B2619ED3ECD005D88A5 /* SDReservObject.m */,
 				E14A35881A0A404C00161221 /* ETExpiryObject.h */,
 				E14A35891A0A404C00161221 /* ETExpiryObject.m */,
+				0C9076F81A14ED5A007042AA /* ReplacementVehicleObject.h */,
+				0C9076F91A14ED5A007042AA /* ReplacementVehicleObject.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -743,6 +751,15 @@
 				B5688AF1186AECCA009D830E /* MenuTableCellView.m */,
 			);
 			name = MainMenu;
+			sourceTree = "<group>";
+		};
+		0C9076F41A14EC60007042AA /* Upsell-Downsell */ = {
+			isa = PBXGroup;
+			children = (
+				0C9076F51A14EC72007042AA /* OldReservationUpsellDownsellVC.h */,
+				0C9076F61A14EC72007042AA /* OldReservationUpsellDownsellVC.m */,
+			);
+			name = "Upsell-Downsell";
 			sourceTree = "<group>";
 		};
 		0C9299DC18689E63007DE6B8 /* Equipments */ = {
@@ -883,6 +900,7 @@
 				0C6CF63D19F064AC006B3174 /* OldReservationDetailVC.m */,
 				0C4FF37A19F00BF300E06A71 /* OldReservationTableViewCell.h */,
 				0C4FF37B19F00BF300E06A71 /* OldReservationTableViewCell.m */,
+				0C9076F41A14EC60007042AA /* Upsell-Downsell */,
 				0C460DC219F78DCC00DA125E /* oldReservationUpdate */,
 			);
 			name = oldReservationVCs;
@@ -1145,6 +1163,7 @@
 				E14A358A1A0A404C00161221 /* ETExpiryObject.m in Sources */,
 				B5BBE9601952DCC3000AD4E2 /* PaymentTableViewController.m in Sources */,
 				0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */,
+				0C9076F71A14EC72007042AA /* OldReservationUpsellDownsellVC.m in Sources */,
 				E1B3B6DB19FFBA8700BAEE98 /* ProfileTableViewController.m in Sources */,
 				0C9299DF18689E95007DE6B8 /* EquipmentVC.m in Sources */,
 				0C0DA9AD1865D2FD003EDDA0 /* Reservation.m in Sources */,
@@ -1195,6 +1214,7 @@
 				B5E0344A186ED57C00226DAB /* CarGroup.m in Sources */,
 				B52B64E31945A6240017A5D5 /* ReservationSummaryVC.m in Sources */,
 				E191C1751A090E710062A0D1 /* Reachability.m in Sources */,
+				0C9076FA1A14ED5A007042AA /* ReplacementVehicleObject.m in Sources */,
 				77886DEF1A134DA60075D50A /* BranchInfoCell.m in Sources */,
 				B5F5F95E193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m in Sources */,
 				0CA259A219FFBD3F0017B973 /* OldReservationApprovalVC.m in Sources */,

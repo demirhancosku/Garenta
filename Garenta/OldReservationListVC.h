@@ -13,4 +13,5 @@
     NSMutableArray *reservationList;
 }
 @property (nonatomic,retain) Reservation *reservation;
+@property (nonatomic,retain) UIRefreshControl *refreshControl NS_AVAILABLE_IOS(6_0);
 @end

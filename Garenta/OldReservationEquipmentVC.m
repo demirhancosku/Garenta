@@ -149,12 +149,12 @@
     if (_isCarSelected && [super.reservation.reservationType isEqualToString:@"20"])
         total = total + super.reservation.selectedCar.pricing.carSelectPrice.floatValue;
     // ARAÇ SEÇİLMEMİŞ VE ARACA REZERVASYONDA
-//    else if (!_isCarSelected && [super.reservation.reservationType isEqualToString:@"10"])
-//        total = total - super.reservation.selectedCar.pricing.carSelectPrice.floatValue;
+    //    else if (!_isCarSelected && [super.reservation.reservationType isEqualToString:@"10"])
+    //        total = total - super.reservation.selectedCar.pricing.carSelectPrice.floatValue;
     
     _changeReservationPrice = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.02f",total]];
     dispatch_async(dispatch_get_main_queue(), ^(void){
-        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f",total]];
+        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f TL",total]];
         
         if (total < 0) {
             [_totalTextLabel setText:@"İade Tutarı    :"];
@@ -312,8 +312,8 @@
     //ŞİMDİ ÖDE REZ İSE "Ödenmiş" ve "Ödenecek" tutarları ayrı ayrı yazıyoruz, değilse ödenmiş tutar 0 oluyor
     if (_isPayNow)
     {
-        cell.itemTotalPriceLabel.text = [NSString stringWithFormat:@"%.02f",temp.paid.floatValue];
-        cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f",temp.difference.floatValue];
+        cell.itemTotalPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",temp.paid.floatValue];
+        cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",temp.difference.floatValue];
     }
     else
     {
@@ -323,10 +323,10 @@
             if (!_isCarSelected)
                 cell.equipmentPriceLabel.text = @"0.00";
             else
-                cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f",super.reservation.selectedCar.pricing.carSelectPrice.floatValue];
+                cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",super.reservation.selectedCar.pricing.carSelectPrice.floatValue];
         }
         else
-            cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f",(temp.price.floatValue * temp.quantity)];
+            cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",(temp.price.floatValue * temp.quantity)];
     }
     
     return cell;

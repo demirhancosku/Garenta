@@ -71,9 +71,9 @@
     int oldDayDiff = [components day];
     
     NSDateComponents *components2 = [gregorianCalendar components:NSDayCalendarUnit
-                                                        fromDate:super.reservation.checkOutTime
-                                                          toDate:super.reservation.checkInTime
-                                                         options:0];
+                                                         fromDate:super.reservation.checkOutTime
+                                                           toDate:super.reservation.checkInTime
+                                                          options:0];
     
     int dayDiff = [components2 day];
     
@@ -85,7 +85,7 @@
         super.reservation.updateStatus = @"KAY";
     else
         super.reservation.updateStatus = @"";
-
+    
     @try {
         SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZPM_KDK_RZRVSYN_DGSKLK"];
         
@@ -117,7 +117,7 @@
             NSDictionary *carList = [tables objectForKey:@"ZPM_S_ARACLISTE"];
             
             if ([isCarAvailable isEqualToString:@"T"])
-            {  
+            {
                 super.reservation.selectedCarGroup.cars = [NSMutableArray new];
                 
                 for (NSDictionary *tempDict in carList) {
@@ -158,7 +158,7 @@
                     
                     [super.reservation.selectedCarGroup.cars addObject:tempCar];
                 }
-
+                
                 super.reservation.changeReservationDifference = [NSDecimalNumber decimalNumberWithString:[export valueForKey:@"EXPP_PRICE"]];
                 
                 NSString *currency = [export valueForKey:@"EXPP_CURR"];
@@ -330,7 +330,7 @@
                     {
                         [tempEquip setQuantity:1];
                         [tempEquip setIsRequired:YES];
-//                        [tempEquip setPrice:[[carSelectPredicateArray objectAtIndex:0] price]];
+                        //                        [tempEquip setPrice:[[carSelectPredicateArray objectAtIndex:0] price]];
                         [_additionalEquipments insertObject:tempEquip atIndex:0];
                     }
                 }
@@ -366,7 +366,7 @@
                 }
             }
             
-
+            
         }
     }
     @catch (NSException *exception) {
@@ -435,7 +435,7 @@
             
             if (filterResult.count > 0)
             {
-//                temp.difference = [[temp.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",[[filterResult objectAtIndex:0] quantity]]]] decimalNumberBySubtracting:[[filterResult objectAtIndex:0] price]];
+                //                temp.difference = [[temp.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",[[filterResult objectAtIndex:0] quantity]]]] decimalNumberBySubtracting:[[filterResult objectAtIndex:0] price]];
                 
                 temp.difference = [[temp.price decimalNumberBySubtracting:[[filterResult objectAtIndex:0] price]] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",[[filterResult objectAtIndex:0] quantity]]]];
                 
