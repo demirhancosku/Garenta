@@ -302,6 +302,8 @@
                     [[tempCar pricing] setPayLaterPrice:[NSDecimalNumber decimalNumberWithString:[[export valueForKey:@"ES_DETAIL"] valueForKey:@"ARAC_TUTARI"]]];
                     [[tempCar pricing] setPayNowPrice:[NSDecimalNumber decimalNumberWithString:[[export valueForKey:@"ES_DETAIL"] valueForKey:@"ARAC_TUTARI"]]];
                     
+                    [[tempCar pricing] setPriceWithKDV:tempCar.pricing.payLaterPrice];
+                    
                     if (filterResult.count > 0)
                     {
                         [tempCar.pricing setCarSelectPrice:[[filterResult objectAtIndex:0] price]];

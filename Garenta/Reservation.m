@@ -511,11 +511,21 @@
                 matnr = _reservation.selectedCar.materialCode;
                 jatoBrandID = _reservation.selectedCar.brandId;
                 jatoModelID = _reservation.selectedCar.modelId;
-                carPrice = [[_reservation.changeReservationDifference decimalNumberByAdding:_reservation.selectedCar.pricing.payNowPrice] stringValue];
+                if (_reservation.etExpiry.count > 0){
+                    carPrice = [[[[_reservation.etExpiry objectAtIndex:0] totalPrice] decimalNumberByAdding:_reservation.selectedCar.pricing.payNowPrice] stringValue];
+                }
+                else{
+                    carPrice = [[_reservation.changeReservationDifference decimalNumberByAdding:_reservation.selectedCar.pricing.payNowPrice] stringValue];
+                }
             }
             else
             {
-                carPrice = [[_reservation.changeReservationDifference decimalNumberByAdding:_reservation.selectedCarGroup.sampleCar.pricing.payNowPrice] stringValue];
+                if (_reservation.etExpiry.count > 0){
+                    carPrice = [[[[_reservation.etExpiry objectAtIndex:0] totalPrice] decimalNumberByAdding:_reservation.selectedCarGroup.sampleCar.pricing.payNowPrice] stringValue];
+                }
+                else{
+                    carPrice = [[_reservation.changeReservationDifference decimalNumberByAdding:_reservation.selectedCarGroup.sampleCar.pricing.payNowPrice] stringValue];
+                }
             }
             
             // ARAÇ
@@ -556,6 +566,26 @@
         if ([itEkSurucuValues count] > 0) {
             [handler addTableForImport:@"IT_EKSURUCU" andColumns:itEkSurucuColumns andValues:itEkSurucuValues];
         }
+        
+        
+        // IT_EXPIRY
+        if (_reservation.etExpiry.count > 0) {
+            NSArray *itExpiryColumns = @[@"ARAC_GRUBU", @"MARKA_ID", @"MODEL_ID", @"DONEM_BASI", @"DONEM_SONU", @"TUTAR", @"PARA_BIRIMI", @"KAMPANYA_ID", @"ODENDI"];
+            
+            NSMutableArray *itExpiryValues = [NSMutableArray new];
+            
+            for (ETExpiryObject *tempObject in _reservation.etExpiry) {
+                if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode]) {
+                    NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid];
+                    [itExpiryValues addObject:arr];
+                }
+            }
+            
+            if (itExpiryValues.count > 0) {
+                [handler addTableForImport:@"IT_EXPIRY" andColumns:itExpiryColumns andValues:itExpiryValues];
+            }
+        }
+        
         
         if (isPayNow || aTotalPrice.floatValue < 0) {
             // IT_TAHSILAT

@@ -9,6 +9,7 @@
 #import "OldReservationSearchVC.h"
 #import "OldReservationEquipmentVC.h"
 #import "AdditionalEquipment.h"
+#import "ETExpiryObject.h"
 
 #define kCheckOutTag 0
 #define kCheckInTag 1
@@ -105,6 +106,7 @@
         [handler addImportParameter:@"IMPP_KDGRP" andValue:@"10"];
         
         [handler addTableForReturn:@"EXPT_ARACLISTE"];
+        [handler addTableForReturn:@"EXPT_EXPIRY"];
         
         NSDictionary *response = [handler prepCall];
         
@@ -159,6 +161,33 @@
                     [super.reservation.selectedCarGroup.cars addObject:tempCar];
                 }
                 
+                // AYLIK İÇİN TAKSİT TABLOSU
+                NSDictionary *etExpiry = [tables objectForKey:@"ZSD_KDK_AYLIK_TAKSIT_ST"];
+                
+                NSMutableArray *etExpiryArray = [NSMutableArray new];
+                
+                NSDateFormatter *dateFormatter = [NSDateFormatter new];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                
+                for (NSDictionary *tempDict in etExpiry) {
+                    ETExpiryObject *tempObject = [ETExpiryObject new];
+                    
+                    [tempObject setCarGroup:[tempDict valueForKey:@"ARAC_GRUBU"]];
+                    [tempObject setBeginDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_BASI"]]];
+                    [tempObject setEndDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_SONU"]]];
+                    [tempObject setCampaignID:[tempDict valueForKey:@"KAMPANYA_ID"]];
+                    [tempObject setBrandID:[tempDict valueForKey:@"MARKA_ID"]];
+                    [tempObject setModelID:[tempDict valueForKey:@"MODEL_ID"]];
+                    [tempObject setIsPaid:[tempDict valueForKey:@"ODENDI"]];
+                    [tempObject setCurrency:[tempDict valueForKey:@"PARA_BIRIMI"]];
+                    [tempObject setTotalPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                    [etExpiryArray addObject:tempObject];
+                }
+                
+                super.reservation.etExpiry = etExpiryArray;
+                
+                
+                // FIYATLAR
                 super.reservation.changeReservationDifference = [NSDecimalNumber decimalNumberWithString:[export valueForKey:@"EXPP_PRICE"]];
                 
                 NSString *currency = [export valueForKey:@"EXPP_CURR"];
@@ -381,9 +410,31 @@
     switch (alertView.tag) {
         case 1:
             if (buttonIndex == 1)
+            {
+                // aylık rezervasyon ise
+                if (super.reservation.etExpiry.count > 0)
+                {
+                    NSString *alertMessage = @"";
+                    int count = 1;
+                    for (ETExpiryObject *tempObject in super.reservation.etExpiry) {
+                        alertMessage = [NSString stringWithFormat:@"%@\n%i. Taksit - %@ %@", alertMessage, count, tempObject.totalPrice.stringValue, tempObject.currency];
+                        
+                        count ++;
+                    }
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Aylık rezervasyon ödeme planı" message:[NSString stringWithFormat:@"Aşağıdaki fiyatlar aracın aylık taksitleridir, satın alınan yada alınacak ekipmanlarınr toplam fiyatı aracın ilk taksidine eklenecektir.\n%@",alertMessage] delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Tamam", nil];
+                    
+                    alert.tag = 2;
+                    [alert show];
+                }
+                else
+                    [self performSegueWithIdentifier:@"toOldReservationEquipmentSegue" sender:self];
+            }
+            break;
+        case 2:
+            if (buttonIndex == 1)
                 [self performSegueWithIdentifier:@"toOldReservationEquipmentSegue" sender:self];
             break;
-            
         default:
             break;
     }
