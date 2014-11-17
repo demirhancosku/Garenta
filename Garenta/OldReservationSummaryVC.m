@@ -18,7 +18,54 @@
 @implementation OldReservationSummaryVC
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+    //UPSELL ile gelince buraya giriyor
+    if (_totalPrice != nil)
+    {
+        NSDecimalNumber *payNowDifference = [super.reservation.upsellSelectedCar.pricing.payNowPrice decimalNumberBySubtracting:super.reservation.upsellSelectedCar.pricing.documentCarPrice];
+        
+        NSDecimalNumber *payLaterDifference = [super.reservation.upsellSelectedCar.pricing.payLaterPrice decimalNumberBySubtracting:super.reservation.upsellSelectedCar.pricing.documentCarPrice];
+        
+        if ([super.reservation.paymentType isEqualToString:@"1"])
+            _changeReservationPrice = payNowDifference;
+        else
+            _changeReservationPrice = [[NSDecimalNumber decimalNumberWithString:_totalPrice] decimalNumberByAdding: payLaterDifference];
+        
+        super.isTotalPressed = NO;
+        
+        UIFont *boldFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
+        UIFont *regularFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
+        UIColor *foregroundColor = [UIColor lightGrayColor];
+        NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:
+                               regularFont, NSFontAttributeName,
+                               foregroundColor, NSForegroundColorAttributeName, nil];
+        NSDictionary *subAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  boldFont, NSFontAttributeName, nil];
+        NSString *brandModelString;
+        NSUInteger boldLenght = 0;
+        if (super.reservation.upsellSelectedCar) {
+            brandModelString = [NSString stringWithFormat:@"%@ %@",super.reservation.upsellSelectedCar.brandName,super.reservation.upsellSelectedCar.modelName];
+            boldLenght = brandModelString.length;
+        }
+        
+        const NSRange range = NSMakeRange(0,boldLenght);
+        NSMutableAttributedString *attributedText =
+        [[NSMutableAttributedString alloc] initWithString:brandModelString
+                                               attributes:attrs];
+        [attributedText setAttributes:subAttrs range:range];
+        [super.brandModelLabel setAttributedText:attributedText];
+        
+        
+        [super.carImageView setImage:super.reservation.upsellCarGroup.sampleCar.image];
+        [super.fuelLabel setText:super.reservation.upsellCarGroup.fuelName];
+        [super.transmissionLabel setText:super.reservation.upsellCarGroup.transmissonName];
+        [super.acLabel setText:@"Klima"];
+        [super.passangerNumberLabel setText:super.reservation.upsellCarGroup.sampleCar.passangerNumber];
+        [super.doorCountLabel setText:super.reservation.upsellCarGroup.sampleCar.doorNumber];
+    }
+    else
+    {
+        [super viewDidLoad];
+    }
     // Do any additional setup after loading the view.
 }
 
@@ -132,8 +179,27 @@
                 payNowButton = (UIButton*)[aCell viewWithTag:1];
                 payLaterButton = (UIButton*)[aCell viewWithTag:2];
                 
-                [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",_changeReservationPrice.floatValue] forState:UIControlStateNormal];
-                [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f TL",_changeReservationPrice.floatValue] forState:UIControlStateNormal];
+                if (_totalPrice != nil)
+                {
+                    NSDecimalNumber *payNowDifference = [super.reservation.upsellSelectedCar.pricing.payNowPrice decimalNumberBySubtracting:super.reservation.upsellSelectedCar.pricing.documentCarPrice];
+                    
+                    NSDecimalNumber *payLaterDifference = [super.reservation.upsellSelectedCar.pricing.payLaterPrice decimalNumberBySubtracting:super.reservation.upsellSelectedCar.pricing.documentCarPrice];
+                    
+                    if ([super.reservation.paymentType isEqualToString:@"1"])
+                    {
+                        [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",payNowDifference.floatValue] forState:UIControlStateNormal];
+                        [payLaterButton setTitle:[NSString stringWithFormat:@"-"] forState:UIControlStateNormal];
+                    }
+                    else
+                    {
+                        [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[NSDecimalNumber decimalNumberWithString:_totalPrice] decimalNumberByAdding: payNowDifference].floatValue] forState:UIControlStateNormal];
+                        [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[NSDecimalNumber decimalNumberWithString:_totalPrice] decimalNumberByAdding: payLaterDifference].floatValue] forState:UIControlStateNormal];
+                    }
+                }
+                else{
+                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",_changeReservationPrice.floatValue] forState:UIControlStateNormal];
+                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f TL",_changeReservationPrice.floatValue] forState:UIControlStateNormal];
+                }
                 
                 break;
             default:

@@ -15,6 +15,7 @@
 @property (nonatomic,retain)NSDecimalNumber *payNowPrice; //sadece tl alıyoruz simdilik
 @property (nonatomic,retain)NSDecimalNumber *payLaterPrice;
 @property (nonatomic,retain)NSDecimalNumber *carSelectPrice;
+@property (nonatomic,retain)NSDecimalNumber *documentCarPrice;
 @property (nonatomic,strong)NSDecimalNumber *dayCount;
 @property (nonatomic,strong)NSString *salesOffice; // et_fiyat cikis_sube
 @property (nonatomic, strong) NSDecimalNumber *priceWithKDV;

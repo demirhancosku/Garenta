@@ -9,6 +9,6 @@
 #import "Price.h"
 
 @implementation Price
-@synthesize modelId,brandId,carGroup,payNowPrice,payLaterPrice,carSelectPrice,salesOffice;
+@synthesize modelId,brandId,carGroup,payNowPrice,payLaterPrice,carSelectPrice,salesOffice,documentCarPrice;
 
 @end

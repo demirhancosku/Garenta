@@ -11,6 +11,7 @@
 #import "OldReservationTableViewCell.h"
 #import "OldReservationDetailVC.h"
 #import "AdditionalEquipment.h"
+#import "LoginVC.h"
 
 @interface OldReservationListVC ()
 
@@ -20,26 +21,51 @@
 
 @implementation OldReservationListVC
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _reservationList = [NSMutableArray new];
+    _reservation = [Reservation new];
+    
+    if ([[ApplicationProperties getUser] isLoggedIn])
+    {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            
+            [self getOldReservation];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [_oldReservationTableView reloadData];
+            });
+        });
+        
+        UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+        [refreshControl addTarget:self action:@selector(refreshTableView) forControlEvents:UIControlEventValueChanged];
+        [_oldReservationTableView addSubview:refreshControl];
+        [self setRefreshControl:refreshControl];
+    }
+    else
+    {
+        [self performSegueWithIdentifier:@"ToLoginVCSegue" sender:self];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Rezervasyonlarınızı görebilmeniz için giriş yapmanız gerekmektedir" delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Giriş Yap", nil];
+//        
+//        [alert show];
+    }
+
+}
+
+- (void)refreshTableView
+{
+    [self getOldReservation];
+    [[self refreshControl] endRefreshing];
+    [_oldReservationTableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    reservationList = [NSMutableArray new];
-    _reservation = [Reservation new];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        
-        [self getOldReservation];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [_oldReservationTableView reloadData];
-        });
-    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -67,7 +93,8 @@
             
             if (responseList.count > 0)
             {
-                [reservationList removeAllObjects];
+                //                [reservationList removeAllObjects];
+                _reservationList = [NSMutableArray new];
                 
                 for (NSDictionary *tempDict in responseList)
                 {
@@ -93,14 +120,26 @@
                     temp.checkInOffice.subOfficeName = [tempDict valueForKey:@"DONUS_SUBE_TXT"];
                     temp.checkOutTime = [self setDates:checkOutDate andTime:checkOutTime];
                     temp.checkInTime = [self setDates:checkInDate andTime:checkInTime];
+                    temp.reservationStatuId = [tempDict valueForKey:@"REZ_DURUM"];
                     temp.reservationStatu = [tempDict valueForKey:@"REZ_DURUM_TXT"];
                     temp.reservationType = [tempDict valueForKey:@"ARACREZTIPI"];
                     temp.paymentNowCard.uniqueId = [tempDict valueForKey:@"KK_UNIQUE_ID"];
                     
-                    [reservationList addObject:temp];
+                    [_reservationList addObject:temp];
                 }
                 
-                [[ApplicationProperties getUser] setReservationList:reservationList];
+                NSSortDescriptor *sortDescriptor;
+                sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"reservationNumber"
+                                                             ascending:NO];
+                NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+                NSArray *sortedArray;
+                sortedArray = [_reservationList sortedArrayUsingDescriptors:sortDescriptors];
+                
+                //                [reservationList removeAllObjects];
+                _reservationList = [NSMutableArray new];
+                _reservationList = [sortedArray copy];
+                
+                [[ApplicationProperties getUser] setReservationList:sortedArray];
             }
             else
             {
@@ -138,13 +177,13 @@
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [reservationList count];
+    return [_reservationList count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     return [self oldReservationCell:tableView andIndexPath:indexPath];
-
+    
 }
 
 - (OldReservationTableViewCell *)oldReservationCell:(UITableView *)tableView andIndexPath:(NSIndexPath *)indexPath
@@ -172,7 +211,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    _reservation = [reservationList objectAtIndex:indexPath.row];
+    _reservation = [_reservationList objectAtIndex:indexPath.row];
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -181,7 +220,8 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self performSegueWithIdentifier:@"toReservationDetail" sender:self];
+            if (_reservation.selectedCarGroup != nil)
+                [self performSegueWithIdentifier:@"toReservationDetail" sender:self];
         });
     });
 }
@@ -189,10 +229,14 @@
 
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{    
+{
     if ([[segue identifier] isEqualToString:@"toReservationDetail"]) {
         [(OldReservationDetailVC*)[segue destinationViewController] setReservation:_reservation];
         [(OldReservationDetailVC*)[segue destinationViewController] setTotalPrice:_totalPrice];
+    }
+    
+    if ([segue.identifier isEqualToString:@"ToLoginVCSegue"]) {
+        [(LoginVC *)[segue destinationViewController] setReservation:_reservation];
     }
 }
 
@@ -239,14 +283,16 @@
                     equiObj.quantity = [[tempEqui valueForKey:@"MIKTAR"] intValue];
                     equiObj.price = [NSDecimalNumber decimalNumberWithString:[tempEqui valueForKey:@"TOPLAM_TUTAR"]];
                     equiObj.price = [equiObj.price decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",equiObj.quantity]]];
+                    equiObj.updateStatus = @"U";
                     
-                    [_reservation.additionalEquipments addObject:equiObj];
+                    if ([[tempEqui valueForKey:@"ZZARACGRUBU"] isEqualToString:@""])
+                        [_reservation.additionalEquipments addObject:equiObj];
                 }
                 
                 //araç seçimi yapılmışmı diye bakılıyor
                 NSPredicate *carSelectPredicate = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0031"];
                 NSArray *filterResult = [_reservation.additionalEquipments filteredArrayUsingPredicate:carSelectPredicate];
-
+                
                 for (NSDictionary *tempDict in responseList)
                 {
                     Car *tempCar = [Car new];
@@ -255,16 +301,12 @@
                     // ARABANIN FIYATI ELIMIZDE
                     [[tempCar pricing] setPayLaterPrice:[NSDecimalNumber decimalNumberWithString:[[export valueForKey:@"ES_DETAIL"] valueForKey:@"ARAC_TUTARI"]]];
                     [[tempCar pricing] setPayNowPrice:[NSDecimalNumber decimalNumberWithString:[[export valueForKey:@"ES_DETAIL"] valueForKey:@"ARAC_TUTARI"]]];
-//                    if ([_reservation.paymentType isEqualToString:@"1"])
-//                        [[tempCar pricing] setPayNowPrice:[NSDecimalNumber decimalNumberWithString:[[export valueForKey:@"ES_DETAIL"] valueForKey:@"ARAC_TUTARI"]]];
-//                    else
-//                        [[tempCar pricing] setPayLaterPrice:[NSDecimalNumber decimalNumberWithString:[[export valueForKey:@"ES_DETAIL"] valueForKey:@"ARAC_TUTARI"]]];
                     
                     if (filterResult.count > 0)
                     {
                         [tempCar.pricing setCarSelectPrice:[[filterResult objectAtIndex:0] price]];
                     }
-            
+                    
                     [tempCar setMaterialCode:[tempDict valueForKey:@"MATNR"]];
                     [tempCar setMaterialName:[tempDict valueForKey:@"MAKTX"]];
                     [tempCar setBrandId:[tempDict valueForKey:@"MARKA_ID"]];
@@ -289,7 +331,7 @@
                     CarGroup *tempCarGroup = [CarGroup new];
                     
                     tempCarGroup = [CarGroup new];
-//                    tempCarGroup.cars = [NSMutableArray new];
+                    //                    tempCarGroup.cars = [NSMutableArray new];
                     
                     [tempCarGroup setGroupCode:[tempDict valueForKey:@"GRPKOD"]];
                     [tempCarGroup setGroupName:[tempDict valueForKey:@"GRPKODTX"]];
@@ -308,7 +350,7 @@
                     [tempCarGroup setMinYoungDriverLicense:[[tempDict valueForKey:@"GENC_SRC_EHL"] integerValue]];
                     
                     [tempCarGroup setSampleCar:tempCar];
-//                    [tempCarGroup.cars addObject:tempCar];
+                    //                    [tempCarGroup.cars addObject:tempCar];
                     
                     if ([_reservation.reservationType isEqualToString:@"10"])
                     {
@@ -321,12 +363,12 @@
             }
             else
             {
-                alertString = @"Rezervazyon bulunamamıştır.";
+                alertString = @"Rezervazyon detayı bulunamamıştır.";
             }
         }
         else
         {
-            alertString = @"Rezervazyon bulunamamıştır.";
+            alertString = @"Rezervazyon detayı bulunamamıştır.";
         }
     }
     @catch (NSException *exception) {
