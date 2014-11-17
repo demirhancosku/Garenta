@@ -41,9 +41,12 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super   viewWillAppear:animated];
-    
+    [super viewWillAppear:animated];
     [[self view] setBackgroundColor:[ApplicationProperties getWhite]];
+    
+    if (self.shouldNotPop) {
+        [[self navigationItem] setLeftBarButtonItem:self.leftButton];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
