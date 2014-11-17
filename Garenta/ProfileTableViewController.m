@@ -11,6 +11,7 @@
 #import "CountrySelectionVC.h"
 #import "SMSSoapHandler.h"
 #import "MailSoapHandler.h"
+#import "LoginVC.h"
 
 @interface ProfileTableViewController ()
 @property (weak, nonatomic) IBOutlet UISegmentedControl *genderSegmentedControl;
@@ -1178,6 +1179,11 @@
         
         selectionVC.selectionArray = countyAccordingToCity;
         selectionVC.searchType = 3;
+    }
+    if ([[segue identifier] isEqualToString:@"ToLoginVCSegue"]) {
+        LoginVC *loginVC = (LoginVC *)[segue destinationViewController];
+        loginVC.shouldNotPop = YES;
+        loginVC.leftButton = [[self navigationItem] leftBarButtonItem];
     }
 }
 
