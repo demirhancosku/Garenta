@@ -115,6 +115,7 @@
     UILabel *checkOutTime;
     UILabel *checkInTime;
     UILabel *totalPrice;
+    UILabel *totalPriceText;
     UIButton *payNowButton;
     UIButton *payLaterButton;
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
@@ -145,6 +146,11 @@
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"totalPaymentCell" forIndexPath:indexPath];
                 totalPrice = (UILabel*)[aCell viewWithTag:1];
                 [totalPrice setText:[NSString stringWithFormat:@"%.02f",_changeReservationPrice.floatValue]];
+                
+                if (_totalPrice != nil) {
+                    totalPriceText = (UILabel*)[aCell viewWithTag:2];
+                    [totalPriceText setText:@"Ödenecek Fark:"];
+                }
                 
                 break;
             default:

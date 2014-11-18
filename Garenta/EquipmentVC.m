@@ -425,7 +425,6 @@
                 // EĞER GENÇ SÜRÜCÜ VARSA MAKSİMUM GÜVENCE EN ÜSTE EKLENİYO VE ZORUNLU OLUYO
                 else if ([[tempEquip materialNumber]isEqualToString:@"HZM0012"])
                 {
-                    
                     // eski ezervasyonlardan Maks.güvence geliyomu kontrolü
                     NSPredicate *maxSecurePredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0012"];
                     NSArray *maxSecurePredicateArray = [_reservation.additionalEquipments filteredArrayUsingPredicate:maxSecurePredicate];

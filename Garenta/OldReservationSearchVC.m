@@ -10,6 +10,7 @@
 #import "OldReservationEquipmentVC.h"
 #import "AdditionalEquipment.h"
 #import "ETExpiryObject.h"
+#import "SDReservObject.h"
 
 #define kCheckOutTag 0
 #define kCheckInTag 1
@@ -107,6 +108,7 @@
         
         [handler addTableForReturn:@"EXPT_ARACLISTE"];
         [handler addTableForReturn:@"EXPT_EXPIRY"];
+        [handler addTableForReturn:@"EXPT_RESERV"];
         
         NSDictionary *response = [handler prepCall];
         
@@ -185,6 +187,39 @@
                 }
                 
                 super.reservation.etExpiry = etExpiryArray;
+                
+                //ET_REZERV
+                NSDictionary *sdReserv = [tables objectForKey:@"ZSD_KDK_REZERV"];
+                
+                NSMutableArray *sdReservArray = [NSMutableArray new];
+                
+                for (NSDictionary *tempDict in sdReserv) {
+                    SDReservObject *tempObject = [SDReservObject new];
+                    
+                    [tempObject setOffice:[tempDict valueForKey:@"SUBE"]];
+                    [tempObject setGroupCode:[tempDict valueForKey:@"GRUP_KODU"]];
+                    [tempObject setPriceCode:[tempDict valueForKey:@"FIYAT_KODU"]];
+                    [tempObject setDate:[tempDict valueForKey:@"TARIH"]];
+                    [tempObject setRVbeln:[tempDict valueForKey:@"R_VBELN"]];
+                    [tempObject setRPosnr:[tempDict valueForKey:@"R_POSNR"]];
+                    [tempObject setRGjahr:[tempDict valueForKey:@"R_GJAHR"]];
+                    [tempObject setRAuart:[tempDict valueForKey:@"R_AUART"]];
+                    [tempObject setMatnr:[tempDict valueForKey:@"MATNR"]];
+                    [tempObject setEqunr:[tempDict valueForKey:@"EQUNR"]];
+                    [tempObject setKunnr:[tempDict valueForKey:@"KUNNR"]];
+                    [tempObject setDestinationOffice:[tempDict valueForKey:@"HDFSUBE"]];
+                    [tempObject setAugru:[tempDict valueForKey:@"AUGRU"]];
+                    [tempObject setVkorg:[tempDict valueForKey:@"VKORG"]];
+                    [tempObject setVtweg:[tempDict valueForKey:@"VTWEG"]];
+                    [tempObject setSpart:[tempDict valueForKey:@"SPART"]];
+                    [tempObject setPrice:[tempDict valueForKey:@"TUTAR"]];
+                    [tempObject setIsGarentaTl:[tempDict valueForKey:@"GRNTTL_KAZANIR"]];
+                    [tempObject setIsMiles:[tempDict valueForKey:@"MIL_KAZANIR"]];
+                    [tempObject setIsBonus:[tempDict valueForKey:@"BONUS_KAZANIR"]];
+                    [sdReservArray addObject:tempObject];
+                }
+                
+                super.reservation.etReserv = sdReservArray;
                 
                 
                 // FIYATLAR

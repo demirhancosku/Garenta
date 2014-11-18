@@ -1648,7 +1648,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ntr-Zi-n28" id="dtg-GW-1Cp">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PUZ-G3-cfq">
+                                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sample_car.png" translatesAutoresizingMaskIntoConstraints="NO" id="PUZ-G3-cfq">
                                                     <rect key="frame" x="8" y="10" width="100" height="75"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="9" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Attractive +" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ENa-xR-4mG">
@@ -2072,8 +2072,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Toplam" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7kw-yE-THZ">
-                                                    <rect key="frame" x="154" y="13" width="47" height="21"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Toplam:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7kw-yE-THZ">
+                                                    <rect key="frame" x="85" y="13" width="119" height="21"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -5484,19 +5484,10 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="iJn-Bu-Z2r"/>
-        <segue reference="ig4-Gi-w0q"/>
-        <segue reference="yGK-eD-VlD"/>
-        <segue reference="eoS-ML-DjQ"/>
-        <segue reference="7yK-l0-YFl"/>
+        <segue reference="cx4-X2-B8e"/>
+        <segue reference="yNN-jh-21M"/>
         <segue reference="EuT-BJ-MJt"/>
         <segue reference="AXm-57-Aaz"/>
-        <segue reference="Ez9-1z-i3h"/>
-        <segue reference="Gtk-UI-NzB"/>
-        <segue reference="TxX-UN-QgX"/>
-        <segue reference="aLh-ec-Lci"/>
-        <segue reference="VNV-MA-HSn"/>
-        <segue reference="8V1-Ga-zPI"/>
         <segue reference="nTw-8o-Pk5"/>
         <segue reference="Hj2-5d-FZ6"/>
         <segue reference="hLA-ZH-RHN"/>
@@ -5504,12 +5495,9 @@
         <segue reference="ewL-RC-eiS"/>
         <segue reference="fjv-e4-iFe"/>
         <segue reference="ryI-Ae-gEa"/>
-        <segue reference="V74-O1-TBy"/>
+        <segue reference="yGa-mz-bZL"/>
         <segue reference="tMq-8T-4Dd"/>
         <segue reference="y6s-gR-Pji"/>
-        <segue reference="yGa-mz-bZL"/>
-        <segue reference="cx4-X2-B8e"/>
-        <segue reference="wou-2e-dhb"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
