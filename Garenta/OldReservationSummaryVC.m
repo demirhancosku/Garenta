@@ -291,8 +291,13 @@
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        BOOL isPayNow = NO;
         
-        BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:NO andTotalPrice:_changeReservationPrice];
+        if (_changeReservationPrice.floatValue < 0) {
+            isPayNow = YES;
+        }
+        
+        BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:isPayNow andTotalPrice:_changeReservationPrice];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];

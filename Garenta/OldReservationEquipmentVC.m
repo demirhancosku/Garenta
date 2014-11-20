@@ -307,7 +307,7 @@
         else
         {
             if (super.reservation.etExpiry.count > 0)
-                [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",[[[super.reservation.etExpiry objectAtIndex:0] totalPrice] floatValue]]];
+                [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",([[[super.reservation.etExpiry objectAtIndex:0] totalPrice] floatValue] - [super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue])]];
             else
                 [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",super.reservation.changeReservationDifference.floatValue]];
         }

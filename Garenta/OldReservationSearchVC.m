@@ -23,6 +23,7 @@
 @end
 
 @implementation OldReservationSearchVC
+@synthesize isOk;
 
 - (void)viewDidLoad
 {
@@ -35,6 +36,8 @@
     
     _oldCheckOutTime = [super.reservation.checkOutTime copy];
     _oldCheckInTime = [super.reservation.checkInTime copy];
+    
+    isOk = YES;
     
 }
 
@@ -52,8 +55,8 @@
         [self getNewReservationPrice];
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if(super.reservation.changeReservationDifference.floatValue == 0)
-                [self performSegueWithIdentifier:@"toOldReservationEquipmentSegue" sender:self];
+            if(super.reservation.changeReservationDifference.floatValue == 0 && isOk)
+                [self performSegueWithIdentifier:@"toOldReservationEquipmentSegue" sender:self]; 
         });
     });
 }
@@ -61,7 +64,6 @@
 - (void)getNewReservationPrice
 {
     NSString *alertString = @"";
-    BOOL isOk = YES;
     
     // KAYDIRMA OLUP OLMADIĞINI BELİRLİYORUZ
     NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];

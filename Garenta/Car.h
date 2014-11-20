@@ -38,6 +38,8 @@
 @property(nonatomic,retain)NSString *currency;
 @property(nonatomic,retain)NSString *bluetooth;
 @property(nonatomic,retain)NSString *salesOffice;
+@property(nonatomic,retain)NSString *plateNo;
+@property(nonatomic,retain)NSString *chassisNo;
 @property(nonatomic,retain)UIImage  *image;
 
 @end

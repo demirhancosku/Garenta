@@ -273,6 +273,9 @@
             
             if (responseList.count > 0)
             {
+                NSString *plateNo = @"";
+                NSString *chassisNo = @"";
+                
                 // REZERVASYONA EKLENEN KALEMLER
                 for (NSDictionary *tempEqui in equipmentResponseList)
                 {
@@ -287,6 +290,11 @@
                     
                     if ([[tempEqui valueForKey:@"ZZARACGRUBU"] isEqualToString:@""])
                         [_reservation.additionalEquipments addObject:equiObj];
+                    else
+                    {
+                        plateNo = [tempEqui valueForKey:@"PLAKA_NO"];
+                        chassisNo = [tempEqui valueForKey:@"SASE_NO"];
+                    }
                 }
                 
                 //araç seçimi yapılmışmı diye bakılıyor
@@ -311,6 +319,8 @@
                     
                     [tempCar setMaterialCode:[tempDict valueForKey:@"MATNR"]];
                     [tempCar setMaterialName:[tempDict valueForKey:@"MAKTX"]];
+                    [tempCar setPlateNo:plateNo];
+                    [tempCar setChassisNo:chassisNo];
                     [tempCar setBrandId:[tempDict valueForKey:@"MARKA_ID"]];
                     [tempCar setBrandName:[tempDict valueForKey:@"MARKA"]];
                     [tempCar setModelId:[tempDict valueForKey:@"MODEL_ID"]];
