@@ -22,6 +22,7 @@
 @property (strong,nonatomic)WYPopoverController *myPopoverController;
 @property (strong,nonatomic)NSMutableArray *carSelectionArray;
 @property (strong,nonatomic) AdditionalEquipment *tempEquipment;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeightConstraint;
 
 - (IBAction)plusButtonPressed:(id)sender;
 - (IBAction)minusButtonPressed:(id)sender;
@@ -74,6 +75,11 @@
         [self recalculate];
         [_additionalEquipmentsTableView reloadData];
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.tableViewHeightConstraint.constant = self.view.frame.size.height * 0.65f;
 }
 
 - (void)addYoungDriver

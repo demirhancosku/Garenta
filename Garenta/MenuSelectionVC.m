@@ -153,18 +153,34 @@ static int kGarentaLogoId = 1;
     [alert show];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.row) {
+        case 0:
+            [self locationBasedSearchSelected];
+            break;
+        case 1:
+            [self normalSearchSelected];
+            break;
+        case 2:
+            [self advancedSearchSelected];
+            break;
+        default:
+            break;
+    }
+}
+
 #pragma mark - action methods
-- (IBAction)locationBasedSearchSelected:(id)sender{
+- (void)locationBasedSearchSelected {
     [ApplicationProperties setMainSelection:location_search];
     [self performSegueWithIdentifier:@"toSearchVCSegue" sender:self];
 }
 
-- (IBAction)normalSearchSelected:(id)sender{
+- (void)normalSearchSelected {
     [ApplicationProperties setMainSelection:classic_search];
     [self performSegueWithIdentifier:@"toSearchVCSegue" sender:self];
 }
 
-- (IBAction)advancedSearchSelected:(id)sender{
+- (void)advancedSearchSelected {
     [ApplicationProperties setMainSelection:advanced_search];
     [self performSegueWithIdentifier:@"toSearchVCSegue" sender:self];
 }
@@ -208,6 +224,10 @@ static int kGarentaLogoId = 1;
             return;
         }
     }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return self.tableView.frame.size.height / 3;
 }
 
 

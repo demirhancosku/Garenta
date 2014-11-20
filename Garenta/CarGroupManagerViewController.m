@@ -13,6 +13,8 @@
 @interface CarGroupManagerViewController ()
 @property(strong,nonatomic)IBOutlet UIView *rootView;
 @property(strong,nonatomic)CarGroupTableVC *tableViewVC;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *pageViewContainerHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewContainerHeightConstraint;
 @property(strong,nonatomic)CarGroup *selectedCarGroup;
 @end
 
@@ -74,6 +76,9 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+}
 
 - (void)didReceiveMemoryWarning
 {
