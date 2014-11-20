@@ -518,6 +518,7 @@
             priceCode = [[_reservation.etReserv objectAtIndex:0] priceCode];
         }
         
+        
         if (_reservation.upsellCarGroup)
         {
             matnr = _reservation.upsellSelectedCar.materialCode;
