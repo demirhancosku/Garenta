@@ -13,4 +13,5 @@
 @property (strong,nonatomic) NSMutableArray *additionalEquipments;
 @property (strong,nonatomic) NSDate *oldCheckOutTime;
 @property (strong,nonatomic) NSDate *oldCheckInTime;
+@property BOOL isOk;
 @end

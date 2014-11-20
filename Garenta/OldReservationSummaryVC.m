@@ -115,6 +115,7 @@
     UILabel *checkOutTime;
     UILabel *checkInTime;
     UILabel *totalPrice;
+    UILabel *totalPriceText;
     UIButton *payNowButton;
     UIButton *payLaterButton;
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
@@ -145,6 +146,11 @@
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"totalPaymentCell" forIndexPath:indexPath];
                 totalPrice = (UILabel*)[aCell viewWithTag:1];
                 [totalPrice setText:[NSString stringWithFormat:@"%.02f",_changeReservationPrice.floatValue]];
+                
+                if (_totalPrice != nil) {
+                    totalPriceText = (UILabel*)[aCell viewWithTag:2];
+                    [totalPriceText setText:@"Ödenecek Fark:"];
+                }
                 
                 break;
             default:
@@ -285,8 +291,13 @@
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        BOOL isPayNow = NO;
         
-        BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:NO andTotalPrice:_changeReservationPrice];
+        if (_changeReservationPrice.floatValue < 0) {
+            isPayNow = YES;
+        }
+        
+        BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:isPayNow andTotalPrice:_changeReservationPrice];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];

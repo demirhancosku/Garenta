@@ -141,9 +141,23 @@
     }
     
     if (_isPayNow)
-        total = total + super.reservation.changeReservationDifference.floatValue;
+    {
+        if (super.reservation.etExpiry.count > 0) {
+            total = total + [[[super.reservation.etExpiry objectAtIndex:0] totalPrice] floatValue];
+        }
+        else{
+            total = total + super.reservation.changeReservationDifference.floatValue;
+        }
+    }
     else
-        total = total + super.reservation.changeReservationDifference.floatValue + super.reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice.floatValue;
+    {
+        if (super.reservation.etExpiry.count > 0) {
+            total = total + [[[super.reservation.etExpiry objectAtIndex:0] totalPrice] floatValue] + super.reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice.floatValue;
+        }
+        else{
+            total = total + super.reservation.changeReservationDifference.floatValue + super.reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice.floatValue;
+        }
+    }
     
     // ARAÇ SEÇİLMİŞ VE GRUBA REZERVASYONSA
     if (_isCarSelected && [super.reservation.reservationType isEqualToString:@"20"])
@@ -159,7 +173,12 @@
         if (total < 0) {
             [_totalTextLabel setText:@"İade Tutarı    :"];
         }else{
-            [_totalTextLabel setText:@"Ödenecek Toplam:"];
+            if (super.reservation.etExpiry.count > 0) {
+                [_totalTextLabel setText:@"1.Taksit Toplam:"];
+            }
+            else{
+                [_totalTextLabel setText:@"Ödenecek Toplam:"];
+            }
         }
     });
     
@@ -274,16 +293,23 @@
     //ÖDEME YAPILMIŞSA
     if (_isPayNow)
     {
+        [cell.priceLabel setText:[NSString stringWithFormat:@"%.02f",[super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue]]];
+        
         //GRUBA REZERVASYON VE ARAÇ SEÇİLİ İSE
         if ([super.reservation.reservationType isEqualToString:@"20"] && _isCarSelected)
         {
-            [cell.priceLabel setText:[NSString stringWithFormat:@"%.02f",[super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue]]];
-            [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",(super.reservation.changeReservationDifference.floatValue + super.reservation.selectedCar.pricing.carSelectPrice.floatValue)]];
+            //AYLIKTA İLK TASKİDİ GÖSTERİYORUZ
+            if (super.reservation.etExpiry.count > 0)
+                [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",(super.reservation.changeReservationDifference.floatValue + [[[super.reservation.etExpiry objectAtIndex:0] totalPrice] floatValue])]];
+            else
+                [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",(super.reservation.changeReservationDifference.floatValue + super.reservation.selectedCar.pricing.carSelectPrice.floatValue)]];
         }
         else
         {
-            [cell.priceLabel setText:[NSString stringWithFormat:@"%.02f",[super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue]]];
-            [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",super.reservation.changeReservationDifference.floatValue]];
+            if (super.reservation.etExpiry.count > 0)
+                [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",([[[super.reservation.etExpiry objectAtIndex:0] totalPrice] floatValue] - [super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue])]];
+            else
+                [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",super.reservation.changeReservationDifference.floatValue]];
         }
     }
     else

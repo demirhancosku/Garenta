@@ -9,6 +9,8 @@
 #import "OldReservationSearchVC.h"
 #import "OldReservationEquipmentVC.h"
 #import "AdditionalEquipment.h"
+#import "ETExpiryObject.h"
+#import "SDReservObject.h"
 
 #define kCheckOutTag 0
 #define kCheckInTag 1
@@ -21,6 +23,7 @@
 @end
 
 @implementation OldReservationSearchVC
+@synthesize isOk;
 
 - (void)viewDidLoad
 {
@@ -33,6 +36,8 @@
     
     _oldCheckOutTime = [super.reservation.checkOutTime copy];
     _oldCheckInTime = [super.reservation.checkInTime copy];
+    
+    isOk = YES;
     
 }
 
@@ -50,8 +55,8 @@
         [self getNewReservationPrice];
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if(super.reservation.changeReservationDifference.floatValue == 0)
-                [self performSegueWithIdentifier:@"toOldReservationEquipmentSegue" sender:self];
+            if(super.reservation.changeReservationDifference.floatValue == 0 && isOk)
+                [self performSegueWithIdentifier:@"toOldReservationEquipmentSegue" sender:self]; 
         });
     });
 }
@@ -59,7 +64,6 @@
 - (void)getNewReservationPrice
 {
     NSString *alertString = @"";
-    BOOL isOk = YES;
     
     // KAYDIRMA OLUP OLMADIĞINI BELİRLİYORUZ
     NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
@@ -105,6 +109,8 @@
         [handler addImportParameter:@"IMPP_KDGRP" andValue:@"10"];
         
         [handler addTableForReturn:@"EXPT_ARACLISTE"];
+        [handler addTableForReturn:@"EXPT_EXPIRY"];
+        [handler addTableForReturn:@"EXPT_RESERV"];
         
         NSDictionary *response = [handler prepCall];
         
@@ -159,6 +165,66 @@
                     [super.reservation.selectedCarGroup.cars addObject:tempCar];
                 }
                 
+                // AYLIK İÇİN TAKSİT TABLOSU
+                NSDictionary *etExpiry = [tables objectForKey:@"ZSD_KDK_AYLIK_TAKSIT_ST"];
+                
+                NSMutableArray *etExpiryArray = [NSMutableArray new];
+                
+                NSDateFormatter *dateFormatter = [NSDateFormatter new];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                
+                for (NSDictionary *tempDict in etExpiry) {
+                    ETExpiryObject *tempObject = [ETExpiryObject new];
+                    
+                    [tempObject setCarGroup:[tempDict valueForKey:@"ARAC_GRUBU"]];
+                    [tempObject setBeginDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_BASI"]]];
+                    [tempObject setEndDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_SONU"]]];
+                    [tempObject setCampaignID:[tempDict valueForKey:@"KAMPANYA_ID"]];
+                    [tempObject setBrandID:[tempDict valueForKey:@"MARKA_ID"]];
+                    [tempObject setModelID:[tempDict valueForKey:@"MODEL_ID"]];
+                    [tempObject setIsPaid:[tempDict valueForKey:@"ODENDI"]];
+                    [tempObject setCurrency:[tempDict valueForKey:@"PARA_BIRIMI"]];
+                    [tempObject setTotalPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                    [etExpiryArray addObject:tempObject];
+                }
+                
+                super.reservation.etExpiry = etExpiryArray;
+                
+                //ET_REZERV
+                NSDictionary *sdReserv = [tables objectForKey:@"ZSD_KDK_REZERV"];
+                
+                NSMutableArray *sdReservArray = [NSMutableArray new];
+                
+                for (NSDictionary *tempDict in sdReserv) {
+                    SDReservObject *tempObject = [SDReservObject new];
+                    
+                    [tempObject setOffice:[tempDict valueForKey:@"SUBE"]];
+                    [tempObject setGroupCode:[tempDict valueForKey:@"GRUP_KODU"]];
+                    [tempObject setPriceCode:[tempDict valueForKey:@"FIYAT_KODU"]];
+                    [tempObject setDate:[tempDict valueForKey:@"TARIH"]];
+                    [tempObject setRVbeln:[tempDict valueForKey:@"R_VBELN"]];
+                    [tempObject setRPosnr:[tempDict valueForKey:@"R_POSNR"]];
+                    [tempObject setRGjahr:[tempDict valueForKey:@"R_GJAHR"]];
+                    [tempObject setRAuart:[tempDict valueForKey:@"R_AUART"]];
+                    [tempObject setMatnr:[tempDict valueForKey:@"MATNR"]];
+                    [tempObject setEqunr:[tempDict valueForKey:@"EQUNR"]];
+                    [tempObject setKunnr:[tempDict valueForKey:@"KUNNR"]];
+                    [tempObject setDestinationOffice:[tempDict valueForKey:@"HDFSUBE"]];
+                    [tempObject setAugru:[tempDict valueForKey:@"AUGRU"]];
+                    [tempObject setVkorg:[tempDict valueForKey:@"VKORG"]];
+                    [tempObject setVtweg:[tempDict valueForKey:@"VTWEG"]];
+                    [tempObject setSpart:[tempDict valueForKey:@"SPART"]];
+                    [tempObject setPrice:[tempDict valueForKey:@"TUTAR"]];
+                    [tempObject setIsGarentaTl:[tempDict valueForKey:@"GRNTTL_KAZANIR"]];
+                    [tempObject setIsMiles:[tempDict valueForKey:@"MIL_KAZANIR"]];
+                    [tempObject setIsBonus:[tempDict valueForKey:@"BONUS_KAZANIR"]];
+                    [sdReservArray addObject:tempObject];
+                }
+                
+                super.reservation.etReserv = sdReservArray;
+                
+                
+                // FIYATLAR
                 super.reservation.changeReservationDifference = [NSDecimalNumber decimalNumberWithString:[export valueForKey:@"EXPP_PRICE"]];
                 
                 NSString *currency = [export valueForKey:@"EXPP_CURR"];
@@ -381,9 +447,31 @@
     switch (alertView.tag) {
         case 1:
             if (buttonIndex == 1)
+            {
+                // aylık rezervasyon ise
+                if (super.reservation.etExpiry.count > 0)
+                {
+                    NSString *alertMessage = @"";
+                    int count = 1;
+                    for (ETExpiryObject *tempObject in super.reservation.etExpiry) {
+                        alertMessage = [NSString stringWithFormat:@"%@\n%i. Taksit - %@ %@", alertMessage, count, tempObject.totalPrice.stringValue, tempObject.currency];
+                        
+                        count ++;
+                    }
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Aylık rezervasyon ödeme planı" message:[NSString stringWithFormat:@"Aşağıdaki fiyatlar aracın aylık taksitleridir, satın alınan yada alınacak ekipmanlarınr toplam fiyatı aracın ilk taksidine eklenecektir.\n%@",alertMessage] delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Tamam", nil];
+                    
+                    alert.tag = 2;
+                    [alert show];
+                }
+                else
+                    [self performSegueWithIdentifier:@"toOldReservationEquipmentSegue" sender:self];
+            }
+            break;
+        case 2:
+            if (buttonIndex == 1)
                 [self performSegueWithIdentifier:@"toOldReservationEquipmentSegue" sender:self];
             break;
-            
         default:
             break;
     }
