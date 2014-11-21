@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Car.h"
+
 @interface CarGroup : NSObject
 
 @property(nonatomic,retain)NSString *segment;
@@ -32,6 +33,7 @@
 @property (nonatomic) NSInteger minYoungDriverLicense;
 
 @property (nonatomic, strong) NSString *priceWithKDV;
+@property (nonatomic, strong) NSMutableArray *campaignsArray;
 
 #pragma mark - filter methods
 + (CarGroup*)getGroupFromList:(NSMutableArray*)carList WithCode:(NSString*)aGroupCode;

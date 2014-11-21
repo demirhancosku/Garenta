@@ -152,6 +152,7 @@
 		B5F5F95E193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */; };
 		E1227B2719ED3ECD005D88A5 /* SDReservObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E1227B2619ED3ECD005D88A5 /* SDReservObject.m */; };
 		E14A358A1A0A404C00161221 /* ETExpiryObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E14A35891A0A404C00161221 /* ETExpiryObject.m */; };
+		E15CE8321A1E207600430C96 /* CampaignObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E15CE8311A1E207600430C96 /* CampaignObject.m */; };
 		E15DFF8519F7A3040078E06F /* RentingAgreement.html in Resources */ = {isa = PBXBuildFile; fileRef = E15DFF8419F7A3040078E06F /* RentingAgreement.html */; };
 		E15DFF8819F7A6660078E06F /* AgreementsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E15DFF8719F7A6660078E06F /* AgreementsVC.m */; };
 		E15DFF8A19F7C6770078E06F /* MembershipRules.html in Resources */ = {isa = PBXBuildFile; fileRef = E15DFF8919F7C6770078E06F /* MembershipRules.html */; };
@@ -403,6 +404,8 @@
 		E1227B2619ED3ECD005D88A5 /* SDReservObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDReservObject.m; sourceTree = "<group>"; };
 		E14A35881A0A404C00161221 /* ETExpiryObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETExpiryObject.h; sourceTree = "<group>"; };
 		E14A35891A0A404C00161221 /* ETExpiryObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETExpiryObject.m; sourceTree = "<group>"; };
+		E15CE8301A1E207600430C96 /* CampaignObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CampaignObject.h; sourceTree = "<group>"; };
+		E15CE8311A1E207600430C96 /* CampaignObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CampaignObject.m; sourceTree = "<group>"; };
 		E15DFF8419F7A3040078E06F /* RentingAgreement.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RentingAgreement.html; sourceTree = "<group>"; };
 		E15DFF8619F7A6660078E06F /* AgreementsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgreementsVC.h; sourceTree = "<group>"; };
 		E15DFF8719F7A6660078E06F /* AgreementsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AgreementsVC.m; sourceTree = "<group>"; };
@@ -674,6 +677,8 @@
 				E14A35891A0A404C00161221 /* ETExpiryObject.m */,
 				0C9076F81A14ED5A007042AA /* ReplacementVehicleObject.h */,
 				0C9076F91A14ED5A007042AA /* ReplacementVehicleObject.m */,
+				E15CE8301A1E207600430C96 /* CampaignObject.h */,
+				E15CE8311A1E207600430C96 /* CampaignObject.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1204,6 +1209,7 @@
 				B5F45A5C193DFD1700E4656D /* AdditionalEquipment.m in Sources */,
 				B5688AF2186AECCA009D830E /* MenuTableCellView.m in Sources */,
 				77886DD91A134B240075D50A /* AMSlideMenuLeftTableViewController.m in Sources */,
+				E15CE8321A1E207600430C96 /* CampaignObject.m in Sources */,
 				B545A2CF1973AB68005AD025 /* AdditionalDriverVC.m in Sources */,
 				0CBA75C9186435260008CE29 /* BaseVC.m in Sources */,
 				B5E064A5194F1E0E0046E789 /* CarSelectionVC.m in Sources */,
