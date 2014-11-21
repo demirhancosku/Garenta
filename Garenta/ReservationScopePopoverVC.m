@@ -86,9 +86,26 @@
         
         int count = 1;
         
+        NSString *brandID = @"";
+        NSString *modelID = @"";
+        
+        if (reservation.selectedCar != nil) {
+            brandID = reservation.selectedCar.brandId;
+            modelID = reservation.selectedCar.modelId;
+        }
+        else {
+            brandID = reservation.selectedCarGroup.sampleCar.brandId;
+            modelID = reservation.selectedCarGroup.sampleCar.modelId;
+        }
+        
         for (ETExpiryObject *tempObject in reservation.etExpiry) {
-            if ([tempObject.carGroup isEqualToString:reservation.selectedCarGroup.groupCode]) {
-                [textView setText:[NSString stringWithFormat:@"%@\n%i. Taksit - %@ %@", textView.text, count, tempObject.totalPrice.stringValue, tempObject.currency]];
+            if ([tempObject.carGroup isEqualToString:reservation.selectedCarGroup.groupCode] && [tempObject.brandID isEqualToString:brandID] && [tempObject.modelID isEqualToString:modelID]) {
+                [textView setText:[NSString stringWithFormat:@"%@\n%i. Taksit - %@ %@ (Araç)", textView.text, count, tempObject.totalPrice.stringValue, tempObject.currency]];
+                
+                if (count == 1) {
+                    [textView setText:[NSString stringWithFormat:@"%@ + Alınmış Ek Ürünler",textView.text]];
+                }
+                
                 count++;
             }
         }

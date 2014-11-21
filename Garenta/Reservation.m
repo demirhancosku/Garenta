@@ -134,7 +134,7 @@
         NSDateFormatter *dateFormatter = [NSDateFormatter new];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         NSDateFormatter *timeFormatter = [NSDateFormatter new];
-        [timeFormatter setDateFormat:@"HH:mm"];
+        [timeFormatter setDateFormat:@"HH:mm:ss"];
         
         // IS_INPUT
         NSArray *isInputColumns = @[@"REZ_NO", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"ODEME_TURU", @"GARENTA_TL", @"BONUS", @"MILES_SMILES", @"GUN_SAYISI", @"TOPLAM_TUTAR", @"C_PRIORITY", @"C_CORP_PRIORITY", @"REZ_KANAL", @"FT_CIKIS_IL", @"FT_CIKIS_ILCE", @"FT_CIKIS_ADRES", @"FT_DONUS_IL", @"FT_DONUS_ILCE", @"FT_DONUS_ADRES", @"PARA_BIRIMI", @"FT_MALIYET_TIPI", @"USERNAME", @"PUAN_TIPI", @"UCUS_SAATI", @"UCUS_NO", @"ODEME_BICIMI", @"FATURA_ACIKLAMA", @"EMAIL_CONFIRM", @"TELNO_CONFIRM"];
@@ -176,9 +176,22 @@
         else {
             totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"0" andIsMontlyRent:NO] floatValue]];
         }
-
         
-        NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, @"", @"", @"", [_reservation.selectedCarGroup.sampleCar.pricing.dayCount stringValue], totalPrice, isPriority, @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"", @"", @"", @"", @"", @"", @""];
+        NSString *dayCount = @"";
+        
+        if (_reservation.etExpiry.count > 0) {
+            // Aylıkta gün sayısı yanlış geliyormuş
+            dayCount = [Reservation getDayCount:_reservation];
+        }
+        else {
+            dayCount = [_reservation.selectedCarGroup.sampleCar.pricing.dayCount stringValue];
+            
+            if ([dayCount isEqualToString:@""]) {
+                dayCount = @"30";
+            }
+        }
+        
+        NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, @"", @"", @"", dayCount, totalPrice, isPriority, @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"", @"", @"", @"", @"", @"", @""];
         [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
         
         // IS_USERINFO
@@ -303,8 +316,20 @@
             
             NSMutableArray *itExpiryValues = [NSMutableArray new];
             
+            NSString *brandID = @"";
+            NSString *modelID = @"";
+            
+            if (_reservation.selectedCar != nil) {
+                brandID = _reservation.selectedCar.brandId;
+                modelID = _reservation.selectedCar.modelId;
+            }
+            else {
+                brandID = _reservation.selectedCarGroup.sampleCar.brandId;
+                modelID = _reservation.selectedCarGroup.sampleCar.modelId;
+            }
+            
             for (ETExpiryObject *tempObject in _reservation.etExpiry) {
-                if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode]) {
+                if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode] && [tempObject.brandID isEqualToString:brandID] && [tempObject.modelID isEqualToString:modelID]) {
                     NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid];
                     [itExpiryValues addObject:arr];
                 }
@@ -747,6 +772,43 @@
     }
     
     return ipAdress;
+}
+
++ (NSString *)getDayCount:(Reservation *)reservation {
+    
+    @try {
+        
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZSD_KDK_KIRA_GUNU"];
+        
+        NSDateFormatter *dateFormatter  = [NSDateFormatter new];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        
+        NSDateFormatter *timeFormatter  = [NSDateFormatter new];
+        [timeFormatter setDateFormat:@"HH:mm:ss"];
+        
+        [handler addImportParameter:@"I_CIKIS" andValue:[dateFormatter stringFromDate:reservation.checkOutTime]];
+        [handler addImportParameter:@"I_DONUS" andValue:[dateFormatter stringFromDate:reservation.checkInTime]];
+        [handler addImportParameter:@"I_CIKIS_SAATI" andValue:[timeFormatter stringFromDate:reservation.checkOutTime]];
+        [handler addImportParameter:@"I_DONUS_SAATI" andValue:[timeFormatter stringFromDate:reservation.checkInTime]];
+        
+        NSDictionary *resultDict = [handler prepCall];
+        
+        if (resultDict != nil)
+        {
+            NSDictionary *export = [resultDict objectForKey:@"EXPORT"];
+            
+            NSString *dayCount = [NSString stringWithFormat:@"%li", (long)[[export valueForKey:@"E_KIRA_GUN"] integerValue]] ;
+            
+            return dayCount;
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+    }
+    
+    return @"";
 }
 
 @end
