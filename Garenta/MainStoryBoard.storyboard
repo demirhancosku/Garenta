@@ -1855,7 +1855,7 @@
                                     <action selector="changeSegmentValue:" destination="h36-ix-E2L" eventType="valueChanged" id="p71-WV-4vJ"/>
                                 </connections>
                             </segmentedControl>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="130" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xE6-Rk-fnw">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="130" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xE6-Rk-fnw">
                                 <rect key="frame" x="0.0" y="48" width="320" height="367"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -1962,6 +1962,9 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="xE6-Rk-fnw" firstAttribute="height" secondItem="I3t-qB-bh4" secondAttribute="height" id="n5f-6R-aM1"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Araç Değişikliği" id="XzL-Yn-O7p"/>
@@ -1987,9 +1990,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="247" verticalHuggingPriority="248" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="1" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="eSL-Te-UKI">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="247" verticalHuggingPriority="248" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="1" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="eSL-Te-UKI">
                                 <rect key="frame" x="0.0" y="29" width="320" height="294"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="278" id="gcW-81-Nox"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="selectCarCell" id="bT9-hc-B81" customClass="SelectCarTableViewCell">
                                         <rect key="frame" x="0.0" y="65" width="320" height="64"/>
@@ -2153,7 +2159,7 @@
                                     <outlet property="delegate" destination="Hvm-h9-69s" id="8qH-7P-VJ9"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ILq-5h-pFT">
+                            <view contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ILq-5h-pFT">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="29"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ek Hizmetler" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xp3-lT-NIc">
@@ -2164,15 +2170,19 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.86666666670000003" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ödenecek Toplam:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="VQw-kb-vwX">
-                                <rect key="frame" x="114" y="324" width="117" height="17"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Ödenecek Toplam:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="VQw-kb-vwX">
+                                <rect key="frame" x="114" y="331" width="117" height="17"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
                                 <color key="textColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="trr-Og-Kfo">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="trr-Og-Kfo">
                                 <rect key="frame" x="6" y="370" width="310" height="36"/>
                                 <color key="backgroundColor" red="0.47450980390000003" green="0.61960784310000006" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="310" id="ACh-nc-aPr"/>
+                                    <constraint firstAttribute="height" constant="36" id="CGn-In-oH1"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                 <state key="normal" title="Ek Hizmetleri al">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -2181,14 +2191,25 @@
                                     <segue destination="jFf-OU-hzp" kind="push" identifier="toOldReservationSummarySegue" id="yGK-eD-VlD"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" fixedFrame="YES" text="1500.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="3" translatesAutoresizingMaskIntoConstraints="NO" id="8yW-G6-ugc">
-                                <rect key="frame" x="236" y="324" width="72" height="17"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" misplaced="YES" text="1500.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="3" translatesAutoresizingMaskIntoConstraints="NO" id="8yW-G6-ugc">
+                                <rect key="frame" x="236" y="331" width="72" height="17"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
                                 <color key="textColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="trr-Og-Kfo" secondAttribute="trailing" constant="-12" id="CiI-ru-1Vy"/>
+                            <constraint firstItem="trr-Og-Kfo" firstAttribute="leading" secondItem="RiQ-dg-uOo" secondAttribute="leadingMargin" constant="-10" id="Emf-sd-4fW"/>
+                            <constraint firstItem="eSL-Te-UKI" firstAttribute="top" secondItem="ILq-5h-pFT" secondAttribute="bottom" id="ILo-Z5-4ER"/>
+                            <constraint firstItem="trr-Og-Kfo" firstAttribute="top" secondItem="VQw-kb-vwX" secondAttribute="bottom" constant="22" id="Jxk-Fh-V79"/>
+                            <constraint firstItem="trr-Og-Kfo" firstAttribute="top" secondItem="8yW-G6-ugc" secondAttribute="bottom" constant="22" id="QFa-BS-KKp"/>
+                            <constraint firstItem="VQw-kb-vwX" firstAttribute="leading" secondItem="RiQ-dg-uOo" secondAttribute="leadingMargin" constant="98" id="RCj-0p-Rex"/>
+                            <constraint firstItem="SZi-ZS-OyR" firstAttribute="top" secondItem="trr-Og-Kfo" secondAttribute="bottom" constant="10" id="U4D-fJ-Nih"/>
+                            <constraint firstItem="VQw-kb-vwX" firstAttribute="top" secondItem="eSL-Te-UKI" secondAttribute="bottom" constant="8" id="vGO-EX-W1r"/>
+                            <constraint firstItem="8yW-G6-ugc" firstAttribute="leading" secondItem="VQw-kb-vwX" secondAttribute="trailing" constant="5" id="x2A-BL-lZL"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Ek Hizmetler" id="dhK-ua-PwR"/>
@@ -5066,7 +5087,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4a3-cM-ljM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.95686274510000002" green="0.2274509804" blue="0.1058823529" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="xig-2j-d9o" kind="relationship" relationship="rootViewController" id="qlg-of-Dar"/>
@@ -5355,7 +5376,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="114" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3OD-Oz-IhR">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="114" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3OD-Oz-IhR">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -5441,6 +5462,9 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3OD-Oz-IhR" firstAttribute="height" secondItem="ptA-xF-q8i" secondAttribute="height" id="8U0-dg-QCE"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Rezervasyonlarım" id="ija-wE-Nbd"/>
@@ -5690,23 +5714,20 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="VNV-MA-HSn"/>
-        <segue reference="cbc-BX-eje"/>
-        <segue reference="Jja-3F-2kb"/>
-        <segue reference="a20-Ar-vAP"/>
-        <segue reference="Hj2-5d-FZ6"/>
-        <segue reference="iJn-Bu-Z2r"/>
-        <segue reference="ryI-Ae-gEa"/>
-        <segue reference="cx4-X2-B8e"/>
-        <segue reference="yNN-jh-21M"/>
-        <segue reference="wou-2e-dhb"/>
         <segue reference="nTw-8o-Pk5"/>
-        <segue reference="hLA-ZH-RHN"/>
-        <segue reference="fjv-e4-iFe"/>
+        <segue reference="Hj2-5d-FZ6"/>
+        <segue reference="Jja-3F-2kb"/>
         <segue reference="V74-O1-TBy"/>
-        <segue reference="yGa-mz-bZL"/>
         <segue reference="y6s-gR-Pji"/>
         <segue reference="tMq-8T-4Dd"/>
+        <segue reference="yGa-mz-bZL"/>
+        <segue reference="iJn-Bu-Z2r"/>
+        <segue reference="ryI-Ae-gEa"/>
+        <segue reference="7yK-l0-YFl"/>
+        <segue reference="eoS-ML-DjQ"/>
+        <segue reference="cx4-X2-B8e"/>
+        <segue reference="yGK-eD-VlD"/>
+        <segue reference="wou-2e-dhb"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

@@ -187,7 +187,6 @@
             totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"0" andIsMontlyRent:NO] floatValue]];
         }
 
-        
         NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, @"", @"", @"", [_reservation.selectedCarGroup.sampleCar.pricing.dayCount stringValue], totalPrice, isPriority, @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"", @"", @"", @"", @"", @"", @""];
         [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
         
