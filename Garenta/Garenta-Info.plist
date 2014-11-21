@@ -28,6 +28,8 @@
 	<string>Size yakın ofislerimizi görmek için konum kullanımına izin vermeniz gerekmektedir.</string>
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryBoard</string>
+	<key>UIMainStoryboardFile~ipad</key>
+	<string>MainStoryBoard_Ipad</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
