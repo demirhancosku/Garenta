@@ -66,6 +66,13 @@
     NSDecimalNumber *totalPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
     NSDecimalNumber *totalEquiPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
     
+    if (selectedCarGroup.sampleCar.pricing.priceWithKDV == nil)
+        selectedCarGroup.sampleCar.pricing.priceWithKDV = [NSDecimalNumber decimalNumberWithString:@"0"];
+    else if (selectedCarGroup.sampleCar.pricing.payNowPrice == nil)
+        selectedCarGroup.sampleCar.pricing.payNowPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
+    else if (selectedCarGroup.sampleCar.pricing.payLaterPrice == nil)
+        selectedCarGroup.sampleCar.pricing.payLaterPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
+    
     if ([garentaTl isEqualToString:@""]) {
         garentaTl = @"0";
     }
@@ -100,6 +107,9 @@
         }
         
         if (_selectedCar) {
+            if (_selectedCar.pricing.carSelectPrice == nil) {
+                _selectedCar.pricing.carSelectPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
+            }
             totalPrice = [totalPrice decimalNumberByAdding:_selectedCar.pricing.carSelectPrice];
         }
         
