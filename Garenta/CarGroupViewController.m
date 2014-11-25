@@ -8,6 +8,8 @@
 
 #import "CarGroupViewController.h"
 #import <CoreText/CoreText.h>
+#import <QuartzCore/QuartzCore.h>
+
 @interface CarGroupViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *officeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *minInfoLabel;
@@ -28,8 +30,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *acLabel;
 @property (weak, nonatomic) IBOutlet UILabel *passangerLabel;
 @property (weak, nonatomic) IBOutlet UILabel *doorsLabel;
+@property (weak, nonatomic) IBOutlet UIButton *campaignCarGroupButton;
 
-
+- (IBAction)campaignButtonIsPressed:(id)sender;
 
 @end
 
@@ -103,18 +106,32 @@
     [_acLabel setText:@"Klima"];
     [_passangerLabel setText:carGroup.sampleCar.passangerNumber];
     [_doorsLabel setText:carGroup.sampleCar.doorNumber];
-    [_minInfoLabel setText:[NSString stringWithFormat:@"Min.Yaş:%i - Min.Ehliyet:%i",carGroup.minAge,carGroup.minDriverLicense]];
-//    [_officeLabel setText:[(Office*)[Office getOfficeFrom:[ApplicationProperties getOffices] withCode:carGroup.sampleCar.officeCode] subOfficeName]];
+    [_minInfoLabel setText:[NSString stringWithFormat:@"Min.Yaş:%li - Min.Ehliyet:%li",(long)carGroup.minAge,(long)carGroup.minDriverLicense]];
     [_officeLabel setText:[(Office*)[carGroup.carGroupOffices objectAtIndex:0] subOfficeName]];
     [_carGroupLabel setText:carGroup.groupName];
     [_carModelLabel setText:[NSString stringWithFormat:@"%@ ve benzeri",carGroup.sampleCar.modelName]];
     [_carImageView setImage:carGroup.sampleCar.image];
+    
+    if (carGroup.campaignsArray != nil && carGroup.campaignsArray.count > 0) {
+        self.campaignCarGroupButton.hidden = NO;
+        
+        UIColor *color = self.campaignCarGroupButton.currentTitleColor;
+        self.campaignCarGroupButton.titleLabel.layer.shadowColor = [color CGColor];
+        self.campaignCarGroupButton.titleLabel.layer.shadowRadius = 4.0f;
+        self.campaignCarGroupButton.titleLabel.layer.shadowOpacity = .9;
+        self.campaignCarGroupButton.titleLabel.layer.shadowOffset = CGSizeZero;
+        self.campaignCarGroupButton.titleLabel.layer.masksToBounds = NO;
+    }
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)campaignButtonIsPressed:(id)sender {
+    NSLog(@"heyooo");
 }
 
 @end

@@ -319,6 +319,11 @@
     
     for (CampaignObject *tempCampaign in campaignArray) {
         if ([carGroup.groupCode isEqualToString:tempCampaign.campaignPrice.carGroup]) {
+            
+            if (carGroup.campaignsArray == nil) {
+                carGroup.campaignsArray = [NSMutableArray new];
+            }
+            
             [carGroup.campaignsArray addObject:tempCampaign];
         }
     }

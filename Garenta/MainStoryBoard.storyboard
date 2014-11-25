@@ -3516,11 +3516,17 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Araç Grubuna ait olan kampanyaları görmek için tıklayınız" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sqV-dy-V7b">
-                                <rect key="frame" x="19" y="253" width="438" height="21"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kp7-MM-6CW">
+                                <rect key="frame" x="0.0" y="254" width="320" height="21"/>
+                                <color key="backgroundColor" red="0.47450980390000003" green="0.61960784310000006" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
+                                <state key="normal" title="Kampanyaları Görmek için Tıklayınız">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="campaignButtonIsPressed:" destination="Kbz-6U-2IV" eventType="touchUpInside" id="ba1-4a-alh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -3528,6 +3534,7 @@
                     <connections>
                         <outlet property="acIconImageView" destination="EtS-aI-Ir2" id="cWl-iQ-NGn"/>
                         <outlet property="acLabel" destination="ccI-Ek-Jdc" id="yfx-sm-LqI"/>
+                        <outlet property="campaignCarGroupButton" destination="Kp7-MM-6CW" id="rCM-vS-KP7"/>
                         <outlet property="carGroupLabel" destination="ysX-9T-cD8" id="oFd-Eg-JKn"/>
                         <outlet property="carImageView" destination="DA9-6S-e4i" id="7ti-B0-3ju"/>
                         <outlet property="carModelLabel" destination="Y5I-bu-SiC" id="Ip1-fZ-t1g"/>
