@@ -270,6 +270,7 @@
     [[cell minusButton] setTag:index];
     [[cell plusButton] setTag:index];
     [[cell infoButton] setTag:index];
+    [[cell infoButtonCell] setTag:index];
     [[cell itemNameLabel] setText:additionalEquipment.materialDescription];
     [[cell itemPriceLabel] setText:[NSString stringWithFormat:@"%.02f TL",additionalEquipment.price.floatValue]];
     [[cell itemQuantityLabel] setText:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]];
@@ -278,9 +279,16 @@
     [[cell textLabel] setNumberOfLines:0];
     
     if ([additionalEquipment.materialInfo isEqualToString:@""] || additionalEquipment.materialInfo == nil)
+    {
         [cell.infoButton setHidden:YES];
+        [cell.infoButtonCell setHidden:YES];
+    }
     else
+    {
         [cell.infoButton setHidden:NO];
+        [cell.infoButtonCell setHidden:NO];
+    }
+    
     
     //hide buttons wrt max min values
     if (additionalEquipment.quantity <= 0 || additionalEquipment.isRequired) {

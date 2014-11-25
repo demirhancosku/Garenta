@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Me6-n1-SA8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Me6-n1-SA8">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -595,7 +595,16 @@
                                                         <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="infoButtonPressed:" destination="Kql-SQ-3XS" eventType="touchUpInside" id="nFE-hK-eQk"/>
+                                                        <action selector="infoButtonPressed:" destination="Kql-SQ-3XS" eventType="touchUpInside" id="Mrb-wb-7fY"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SX3-1a-0LV">
+                                                    <rect key="frame" x="8" y="0.0" width="149" height="60"/>
+                                                    <state key="normal">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="infoButtonPressed:" destination="Kql-SQ-3XS" eventType="touchUpInside" id="Cdz-bb-mSD"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -629,7 +638,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="infoButton" destination="IxS-aa-xuK" id="B4J-ue-iFM"/>
+                                            <outlet property="infoButton" destination="IxS-aa-xuK" id="pDN-r5-fU5"/>
+                                            <outlet property="infoButtonCell" destination="SX3-1a-0LV" id="aDz-Df-C7j"/>
                                             <outlet property="itemNameLabel" destination="IDU-ub-Yuk" id="RHs-xv-aYB"/>
                                             <outlet property="itemPriceLabel" destination="kvQ-mP-EC3" id="mpA-dW-bV3"/>
                                             <outlet property="itemQuantityLabel" destination="HKO-OR-Q8j" id="pL2-dv-AqA"/>
@@ -2140,11 +2150,21 @@
                                                     <color key="textColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fv9-VG-Dk2">
+                                                    <rect key="frame" x="8" y="0.0" width="149" height="60"/>
+                                                    <state key="normal">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="infoButtonPressed:" destination="Hvm-h9-69s" eventType="touchUpInside" id="agR-JD-SBs"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="equipmentPriceLabel" destination="BIn-dJ-gsy" id="ofZ-Dq-cNQ"/>
                                             <outlet property="infoButton" destination="ekY-tB-k0J" id="jMZ-pI-6fr"/>
+                                            <outlet property="infoButtonCell" destination="fv9-VG-Dk2" id="0QR-Ja-eDg"/>
                                             <outlet property="itemNameLabel" destination="zEf-J6-Asi" id="ESZ-gv-h2g"/>
                                             <outlet property="itemPriceLabel" destination="OpY-g3-9so" id="Rn8-43-5Do"/>
                                             <outlet property="itemQuantityLabel" destination="aHy-YT-nJw" id="Ol1-dh-2W0"/>
@@ -2177,11 +2197,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="trr-Og-Kfo">
-                                <rect key="frame" x="6" y="370" width="310" height="36"/>
+                                <rect key="frame" x="6" y="362" width="310" height="44"/>
                                 <color key="backgroundColor" red="0.47450980390000003" green="0.61960784310000006" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="310" id="ACh-nc-aPr"/>
-                                    <constraint firstAttribute="height" constant="36" id="CGn-In-oH1"/>
+                                    <constraint firstAttribute="height" constant="44" id="CGn-In-oH1"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                 <state key="normal" title="Ek Hizmetleri al">
@@ -2203,8 +2223,8 @@
                             <constraint firstAttribute="trailingMargin" secondItem="trr-Og-Kfo" secondAttribute="trailing" constant="-12" id="CiI-ru-1Vy"/>
                             <constraint firstItem="trr-Og-Kfo" firstAttribute="leading" secondItem="RiQ-dg-uOo" secondAttribute="leadingMargin" constant="-10" id="Emf-sd-4fW"/>
                             <constraint firstItem="eSL-Te-UKI" firstAttribute="top" secondItem="ILq-5h-pFT" secondAttribute="bottom" id="ILo-Z5-4ER"/>
-                            <constraint firstItem="trr-Og-Kfo" firstAttribute="top" secondItem="VQw-kb-vwX" secondAttribute="bottom" constant="22" id="Jxk-Fh-V79"/>
-                            <constraint firstItem="trr-Og-Kfo" firstAttribute="top" secondItem="8yW-G6-ugc" secondAttribute="bottom" constant="22" id="QFa-BS-KKp"/>
+                            <constraint firstItem="trr-Og-Kfo" firstAttribute="top" secondItem="VQw-kb-vwX" secondAttribute="bottom" constant="14" id="Jxk-Fh-V79"/>
+                            <constraint firstItem="trr-Og-Kfo" firstAttribute="top" secondItem="8yW-G6-ugc" secondAttribute="bottom" constant="14" id="QFa-BS-KKp"/>
                             <constraint firstItem="VQw-kb-vwX" firstAttribute="leading" secondItem="RiQ-dg-uOo" secondAttribute="leadingMargin" constant="98" id="RCj-0p-Rex"/>
                             <constraint firstItem="SZi-ZS-OyR" firstAttribute="top" secondItem="trr-Og-Kfo" secondAttribute="bottom" constant="10" id="U4D-fJ-Nih"/>
                             <constraint firstItem="VQw-kb-vwX" firstAttribute="top" secondItem="eSL-Te-UKI" secondAttribute="bottom" constant="8" id="vGO-EX-W1r"/>
@@ -5669,6 +5689,7 @@
                         <segue destination="fOQ-5T-IX3" kind="custom" identifier="toDetailPopoverVCSegue" customClass="WYStoryboardPopoverSegue" id="CB7-4R-l6r"/>
                         <segue destination="zaU-xy-rrU" kind="push" identifier="toOldReservationSearchSegue" id="eTR-ne-YR0"/>
                         <segue destination="h36-ix-E2L" kind="push" identifier="toUpsellDownsellSegue" id="ubf-H8-7td"/>
+                        <segue destination="lDx-ho-gEP" kind="push" identifier="toPaymentSeguePayNow" id="hGz-WM-gE8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XK3-h8-lff" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5714,15 +5735,16 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="nTw-8o-Pk5"/>
+        <segue reference="Ez9-1z-i3h"/>
+        <segue reference="hGz-WM-gE8"/>
         <segue reference="Hj2-5d-FZ6"/>
+        <segue reference="nTw-8o-Pk5"/>
         <segue reference="Jja-3F-2kb"/>
-        <segue reference="V74-O1-TBy"/>
-        <segue reference="y6s-gR-Pji"/>
         <segue reference="tMq-8T-4Dd"/>
-        <segue reference="yGa-mz-bZL"/>
+        <segue reference="y6s-gR-Pji"/>
         <segue reference="iJn-Bu-Z2r"/>
         <segue reference="ryI-Ae-gEa"/>
+        <segue reference="CB7-4R-l6r"/>
         <segue reference="7yK-l0-YFl"/>
         <segue reference="eoS-ML-DjQ"/>
         <segue reference="cx4-X2-B8e"/>
