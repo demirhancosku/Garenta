@@ -9,6 +9,7 @@
 #import "CarGroupViewController.h"
 #import <CoreText/CoreText.h>
 #import <QuartzCore/QuartzCore.h>
+#import "CampaignVC.h"
 
 @interface CarGroupViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *officeLabel;
@@ -132,6 +133,7 @@
 
 - (IBAction)campaignButtonIsPressed:(id)sender {
     NSLog(@"heyooo");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"campaignButtonPressed" object:carGroup];
 }
 
 @end

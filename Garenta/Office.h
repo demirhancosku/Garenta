@@ -29,6 +29,7 @@
 
 @property (nonatomic, strong) NSArray *workingDates;
 @property (nonatomic, strong) NSArray *holidayDates;
+@property (nonatomic, strong) NSMutableArray *campaignList;
 
 + (Office*)getOfficeFrom:(NSMutableArray*)offices withCode:(NSString*)officeCode;
 + (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation;

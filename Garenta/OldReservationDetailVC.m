@@ -13,6 +13,7 @@
 #import "OldReservationSearchVC.h"
 #import "ReplacementVehicleObject.h"
 #import "OldReservationUpsellDownsellVC.h"
+#import "OldReservationPaymentVC.h"
 
 @interface OldReservationDetailVC ()
 
@@ -188,6 +189,11 @@
         [(OldReservationUpsellDownsellVC *)[segue destinationViewController] setTotalPrice:_totalPrice];
     }
     
+    if ([segue.identifier isEqualToString:@"toPaymentSeguePayNow"]) {
+        [(OldReservationPaymentVC *)[segue destinationViewController] setReservation:_reservation];
+        [(OldReservationPaymentVC *)[segue destinationViewController] setChangeReservationPrice:[NSDecimalNumber decimalNumberWithString:_totalPrice]];
+    }
+    
     if ([segue.identifier isEqualToString:@"toDetailPopoverVCSegue"])
     {
         WYStoryboardPopoverSegue* popoverSegue = (WYStoryboardPopoverSegue*)segue;
@@ -273,7 +279,7 @@
 
 - (void)getPayment
 {
-    
+    [self performSegueWithIdentifier:@"toPaymentSeguePayNow" sender:self];
 }
 
 - (void)changeVehicle
