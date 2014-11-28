@@ -67,4 +67,15 @@
     NSLog(@"Failed to get token, error: %@", error);
 }
 
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
+{
+    NSLog(@"Received notification: %@", userInfo);
+    
+    NSString *reservationNumber = [userInfo valueForKey:@"ReservationId"];
+    
+    application.applicationIconBadgeNumber = 0;
+}
+
+
+
 @end
