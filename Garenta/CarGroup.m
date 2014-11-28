@@ -89,6 +89,7 @@
             }
         }
         
+        // kampanya fiyatlarını al
         [tempPrice setBrandId:[tempDict valueForKey:@"MARKA_ID"]];
         [tempPrice setModelId:[tempDict valueForKey:@"MODEL_ID"]];
         [tempPrice setCarGroup:[tempDict valueForKey:@"ARAC_GRUBU"]];
@@ -128,8 +129,14 @@
         [tempCar setSalesOffice:[tempDict valueForKey:@"MSUBE"]];
         
         NSString *imagePath = [tempDict valueForKey:@"ZRESIM_315"];
+        imagePath = [imagePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+        NSURL *imageUrl = [NSURL URLWithString:imagePath];
         
-        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imagePath]]]];
+        NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
+        UIImage *carImage = [UIImage imageWithData:imageData];
+        tempCar.image = carImage;
+//        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imagePath]]]];
 
         if (tempCar.image == nil) {
             [tempCar setImage:[UIImage imageNamed:@"sample_car.png"]];
@@ -169,6 +176,8 @@
         
         [CarGroup setPriceForCar:tempCar withPriceList:prices];
         
+        [tempCarGroup.cars addObject:tempCar];
+        
         if (campaigns.count > 0) {
             [CarGroup setCampaignForCarGroup:tempCarGroup andCampaignArray:campaigns];
         }
@@ -180,7 +189,7 @@
             [tempCarGroup setPriceWithKDV:[NSString stringWithFormat:@"%.02f", tempCar.pricing.priceWithKDV.floatValue]];
         }
         
-        [tempCarGroup.cars addObject:tempCar];
+        
     }
 
     return [self sortCarGroupsPriceAscending:availableCarGroups];
@@ -317,6 +326,7 @@
 
 + (void)setCampaignForCarGroup:(CarGroup *)carGroup andCampaignArray:(NSMutableArray *)campaignArray {
     
+    carGroup.campaignsArray = [NSMutableArray new];
     for (CampaignObject *tempCampaign in campaignArray) {
         if ([carGroup.groupCode isEqualToString:tempCampaign.campaignPrice.carGroup]) {
             

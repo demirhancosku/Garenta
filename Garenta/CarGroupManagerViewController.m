@@ -7,7 +7,7 @@
 //
 
 #import "CarGroupManagerViewController.h"
-
+#import "CampaignVC.h"
 #import "CarGroupTableVC.h"
 #import "EquipmentVC.h"
 @interface CarGroupManagerViewController ()
@@ -59,6 +59,13 @@
     [self addChildViewController:self.pageViewController];
     [_rootView addSubview:_pageViewController.view];
     [_tableViewVC setActiveCarGroup:[_carGroups objectAtIndex:0]];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"campaignButtonPressed" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
+        //        [[self myPopoverController] dismissPopoverAnimated:YES];
+        
+        _reservation.selectedCarGroup = note.object;
+        [self showCampaignVC];
+    }];
 }
 
 
@@ -161,12 +168,21 @@
         [additionalEquipmentsVC setIsYoungDriver:[CarGroup checkYoungDriverAddition:_tableViewVC.activeCarGroup andBirthday:tempUser.birthday andLicenseDate:tempUser.driversLicenseDate]];
         [additionalEquipmentsVC setReservation:_reservation];
     }
+    
+    if ([[segue identifier] isEqualToString:@"toCampaignVCSegue"]) {
+        [(CampaignVC*)[segue destinationViewController] setCarGroup:_reservation.selectedCarGroup];
+        [(CampaignVC*)[segue destinationViewController] setReservation:_reservation];
+    }
 }
 
 - (void)carGroupSelected:(CarGroup*)aCarGroup withOffice:(Office*)anOffice{
     _reservation.checkOutOffice = anOffice;
     _reservation.selectedCarGroup = aCarGroup;
     [self performSegueWithIdentifier:@"toAdditionalEquipmentSegue" sender:self];
+}
+
+- (void)showCampaignVC{
+    [self performSegueWithIdentifier:@"toCampaignVCSegue" sender:self];
 }
 
 @end

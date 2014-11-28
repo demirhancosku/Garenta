@@ -17,6 +17,8 @@
 		0C0DA9B01865E234003EDDA0 /* Destination.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9AF1865E234003EDDA0 /* Destination.m */; };
 		0C0DA9B31865E23F003EDDA0 /* Arrival.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9B21865E23F003EDDA0 /* Arrival.m */; };
 		0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9B81865EB7E003EDDA0 /* ClassicSearchVC.m */; };
+		0C4567021A260FE1001D8E34 /* CampaignVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4567011A260FE1001D8E34 /* CampaignVC.m */; };
+		0C4567051A261C7C001D8E34 /* CampaignCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4567041A261C7C001D8E34 /* CampaignCell.m */; };
 		0C48234B19DD95BB00C73301 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C48234A19DD95BB00C73301 /* info.png */; };
 		0C48234E19DDBAF800C73301 /* AdditionalEquipmentInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C48234D19DDBAF800C73301 /* AdditionalEquipmentInfoVC.m */; };
 		0C4A55A619E82B2000251545 /* OfficeSelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4A55A519E82B2000251545 /* OfficeSelectionCell.m */; };
@@ -197,6 +199,10 @@
 		0C0DA9B21865E23F003EDDA0 /* Arrival.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Arrival.m; sourceTree = "<group>"; };
 		0C0DA9B71865EB7E003EDDA0 /* ClassicSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassicSearchVC.h; sourceTree = "<group>"; };
 		0C0DA9B81865EB7E003EDDA0 /* ClassicSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassicSearchVC.m; sourceTree = "<group>"; };
+		0C4567001A260FE1001D8E34 /* CampaignVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CampaignVC.h; sourceTree = "<group>"; };
+		0C4567011A260FE1001D8E34 /* CampaignVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CampaignVC.m; sourceTree = "<group>"; };
+		0C4567031A261C7C001D8E34 /* CampaignCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CampaignCell.h; sourceTree = "<group>"; };
+		0C4567041A261C7C001D8E34 /* CampaignCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CampaignCell.m; sourceTree = "<group>"; };
 		0C48234A19DD95BB00C73301 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		0C48234C19DDBAF800C73301 /* AdditionalEquipmentInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdditionalEquipmentInfoVC.h; sourceTree = "<group>"; };
 		0C48234D19DDBAF800C73301 /* AdditionalEquipmentInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdditionalEquipmentInfoVC.m; sourceTree = "<group>"; };
@@ -774,6 +780,10 @@
 				B5E064A1194F1DEB0046E789 /* SelectCarTableViewCell.m */,
 				0C9299DD18689E95007DE6B8 /* EquipmentVC.h */,
 				0C9299DE18689E95007DE6B8 /* EquipmentVC.m */,
+				0C4567001A260FE1001D8E34 /* CampaignVC.h */,
+				0C4567011A260FE1001D8E34 /* CampaignVC.m */,
+				0C4567031A261C7C001D8E34 /* CampaignCell.h */,
+				0C4567041A261C7C001D8E34 /* CampaignCell.m */,
 				B5F5F95C193C9867009B8D31 /* AdditionalEquipmentTableViewCell.h */,
 				B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */,
 				B5E064A3194F1E0E0046E789 /* CarSelectionVC.h */,
@@ -1209,6 +1219,7 @@
 				B5F45A5C193DFD1700E4656D /* AdditionalEquipment.m in Sources */,
 				B5688AF2186AECCA009D830E /* MenuTableCellView.m in Sources */,
 				77886DD91A134B240075D50A /* AMSlideMenuLeftTableViewController.m in Sources */,
+				0C4567051A261C7C001D8E34 /* CampaignCell.m in Sources */,
 				E15CE8321A1E207600430C96 /* CampaignObject.m in Sources */,
 				B545A2CF1973AB68005AD025 /* AdditionalDriverVC.m in Sources */,
 				0CBA75C9186435260008CE29 /* BaseVC.m in Sources */,
@@ -1219,6 +1230,7 @@
 				0C4B9FDE19FE33AD003FB4F5 /* OldReservationPaymentVC.m in Sources */,
 				B5E0344A186ED57C00226DAB /* CarGroup.m in Sources */,
 				B52B64E31945A6240017A5D5 /* ReservationSummaryVC.m in Sources */,
+				0C4567021A260FE1001D8E34 /* CampaignVC.m in Sources */,
 				E191C1751A090E710062A0D1 /* Reachability.m in Sources */,
 				0C9076FA1A14ED5A007042AA /* ReplacementVehicleObject.m in Sources */,
 				77886DEF1A134DA60075D50A /* BranchInfoCell.m in Sources */,

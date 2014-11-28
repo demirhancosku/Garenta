@@ -48,7 +48,10 @@ static NSString *cellIdentifier;
     Car *car = [carSelectionArray objectAtIndex:indexPath.row];
     UILabel *brandModelName = (UILabel*)[cell viewWithTag:1];
     [brandModelName setText:[NSString stringWithFormat:@"%@ %@",car.brandName,car.modelName]];
-    [(UILabel*)[cell viewWithTag:2] setText:[NSString stringWithFormat:@"+ %.02f TL",car.pricing.carSelectPrice.floatValue]];
+    [(UILabel*)[cell viewWithTag:2] setText:[NSString stringWithFormat:@" %.02f TL",car.pricing.carSelectPrice.floatValue]];
+    
+    UIImageView *carImage = (UIImageView*)[cell viewWithTag:3];
+    carImage.image = car.image;
     return cell;
 }
 

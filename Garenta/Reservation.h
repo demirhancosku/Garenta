@@ -13,6 +13,7 @@
 #import "Car.h"
 #import "CreditCard.h"
 #import "User.h"
+#import "CampaignObject.h"
 
 @interface Reservation : NSObject
 
@@ -40,6 +41,7 @@
 @property (strong, nonatomic) NSArray *etExpiry;
 @property (strong,nonatomic) NSMutableArray *upsellList;
 @property (strong,nonatomic) NSMutableArray *downsellList;
+@property (nonatomic) CampaignScopeType campaignScopeType;
 
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl andIsMontlyRent:(BOOL)isMontlyRent;
 

@@ -354,11 +354,83 @@
                     <connections>
                         <outlet property="rootView" destination="vlE-Bt-c6f" id="n7f-0q-oK1"/>
                         <segue destination="Kql-SQ-3XS" kind="push" identifier="toAdditionalEquipmentSegue" id="hwC-3n-j6g"/>
+                        <segue destination="f5e-LZ-7Mg" kind="push" identifier="toCampaignVCSegue" id="cAw-CP-hxz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QIj-K0-6q4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3919" y="-1301"/>
+        </scene>
+        <!--Kampanyalar-->
+        <scene sceneID="tL0-r4-gHn">
+            <objects>
+                <tableViewController id="f5e-LZ-7Mg" customClass="CampaignVC" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="106" sectionHeaderHeight="22" sectionFooterHeight="22" id="hnY-GA-wqO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="campaignCell" rowHeight="106" id="mzp-v3-s8p" customClass="CampaignCell">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mzp-v3-s8p" id="eKS-fE-khg">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sample_car.png" translatesAutoresizingMaskIntoConstraints="NO" id="YMT-ew-WRR">
+                                            <rect key="frame" x="5" y="8" width="100" height="95"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="HYUNDAI I30 Kampanyası" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="als-TE-75R">
+                                            <rect key="frame" x="113" y="8" width="200" height="31"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                                            <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3gu-aS-jKy">
+                                            <rect key="frame" x="112" y="49" width="208" height="17"/>
+                                            <color key="backgroundColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
+                                            <state key="normal" title="61 TRY ön ödemeli - iptal edilemez"/>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sTD-kG-7Jj">
+                                            <rect key="frame" x="112" y="68" width="104" height="35"/>
+                                            <color key="backgroundColor" red="0.47450980390000003" green="0.61960784310000006" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
+                                            <state key="normal" title="Şimdi Öde : 170 TL">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wTL-jO-E2t">
+                                            <rect key="frame" x="216" y="68" width="104" height="35"/>
+                                            <color key="backgroundColor" red="0.85882352939999995" green="0.85882352939999995" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
+                                            <color key="tintColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <state key="normal" title="Sonra Öde: 90 TL">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                        </button>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="campaignTextLabel" destination="als-TE-75R" id="vmp-Vf-lxV"/>
+                                    <outlet property="carImage" destination="YMT-ew-WRR" id="UpO-8x-xoE"/>
+                                    <outlet property="noCancellationButton" destination="3gu-aS-jKy" id="liK-g8-ZFh"/>
+                                    <outlet property="payLaterButton" destination="wTL-jO-E2t" id="4cI-sn-dRQ"/>
+                                    <outlet property="payNowButton" destination="sTD-kG-7Jj" id="Lod-xj-QW8"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="f5e-LZ-7Mg" id="LYF-1R-Kdv"/>
+                            <outlet property="delegate" destination="f5e-LZ-7Mg" id="yOF-R4-BBc"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Kampanyalar" id="K3A-Ka-vFQ"/>
+                    <connections>
+                        <segue destination="Kql-SQ-3XS" kind="push" identifier="toAdditionalEquipmentSegue" id="Qnv-8X-7MN"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PpN-qS-OPi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3774" y="-1875"/>
         </scene>
         <!--Car Group TableVC-->
         <scene sceneID="E5z-xH-Je5">
@@ -2768,7 +2840,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sample_car.png" translatesAutoresizingMaskIntoConstraints="NO" id="idC-XJ-Vbi">
+                                                <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sample_car.png" translatesAutoresizingMaskIntoConstraints="NO" id="idC-XJ-Vbi">
                                                     <rect key="frame" x="10" y="0.0" width="67" height="61"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Volkswagen Jetta Tdi 1.6" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="119" translatesAutoresizingMaskIntoConstraints="NO" id="goc-bg-f4z">
@@ -3511,7 +3583,7 @@
                                 <rect key="frame" x="-20" y="115" width="80" height="80"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A Grubu" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y5I-bu-SiC">
-                                <rect key="frame" x="85" y="57" width="150" height="21"/>
+                                <rect key="frame" x="30" y="57" width="260" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -5742,21 +5814,22 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Ez9-1z-i3h"/>
+        <segue reference="wou-2e-dhb"/>
         <segue reference="hGz-WM-gE8"/>
-        <segue reference="Hj2-5d-FZ6"/>
         <segue reference="nTw-8o-Pk5"/>
+        <segue reference="Hj2-5d-FZ6"/>
+        <segue reference="Qnv-8X-7MN"/>
+        <segue reference="a20-Ar-vAP"/>
         <segue reference="Jja-3F-2kb"/>
+        <segue reference="cbc-BX-eje"/>
+        <segue reference="hLA-ZH-RHN"/>
+        <segue reference="yGa-mz-bZL"/>
         <segue reference="tMq-8T-4Dd"/>
         <segue reference="y6s-gR-Pji"/>
         <segue reference="iJn-Bu-Z2r"/>
         <segue reference="ryI-Ae-gEa"/>
         <segue reference="CB7-4R-l6r"/>
-        <segue reference="7yK-l0-YFl"/>
-        <segue reference="eoS-ML-DjQ"/>
-        <segue reference="cx4-X2-B8e"/>
         <segue reference="yGK-eD-VlD"/>
-        <segue reference="wou-2e-dhb"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

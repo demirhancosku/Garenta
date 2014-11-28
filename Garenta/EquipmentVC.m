@@ -149,7 +149,7 @@
     youngDriverPredicate = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0007"];
     filterResult = [_additionalEquipments filteredArrayUsingPredicate:youngDriverPredicate];
     
-    if (filterResult.count > 0 && self.reservation.additionalEquipments.count == 0)
+    if (filterResult.count > 0)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Genç sürücü seçtiğiniz için maksimum güvence hizmeti de eklenmiştir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
         
@@ -159,12 +159,12 @@
 
 - (void)clearAllEquipments {
     [_totalPriceLabel setText:@"0"];
-    _reservation.selectedCar = nil;
-    
-    if (_reservation.additionalDrivers == nil)
-        _reservation.additionalDrivers = nil;
-    if (_reservation.additionalEquipments == nil)
-        _reservation.additionalEquipments = nil;
+//    _reservation.selectedCar = nil;
+//    
+//    if (_reservation.additionalDrivers == nil)
+//        _reservation.additionalDrivers = nil;
+//    if (_reservation.additionalEquipments == nil)
+//        _reservation.additionalEquipments = nil;
 }
 
 - (IBAction)infoButtonPressed:(id)sender

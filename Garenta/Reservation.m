@@ -36,8 +36,8 @@
     checkInDate = [checkInDate dateByAddingTimeInterval:aTimeInterval];
     //sonra dakikaları 0lıyoruz.
     NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *components = [gregorianCalendar components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit
-                                                        fromDate:checkInDate];
+    NSDateComponents *components = [gregorianCalendar components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:checkInDate];
+    checkInDate = [gregorianCalendar dateFromComponents:components];
     NSInteger difference = components.minute % 15;
     checkInDate = [checkInDate dateByAddingTimeInterval:-(NSTimeInterval)difference*60];
     return checkInDate;
@@ -53,8 +53,9 @@
     //sonra dakikaları bir ger dilime
     NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
-    NSDateComponents *components = [gregorianCalendar components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit
-                                                        fromDate:checkOutDate];
+    NSDateComponents *components = [gregorianCalendar components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:checkOutDate];
+    
+    checkOutDate = [gregorianCalendar dateFromComponents:components];
     NSInteger difference = components.minute % 15;
     checkOutDate = [checkOutDate dateByAddingTimeInterval:-(NSTimeInterval)difference*60];
     
