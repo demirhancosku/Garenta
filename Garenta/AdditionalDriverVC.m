@@ -8,6 +8,7 @@
 
 #import "AdditionalDriverVC.h"
 #import "AdditionalEquipment.h"
+
 @interface AdditionalDriverVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UISegmentedControl *genderSegment;
 @property (weak, nonatomic) IBOutlet UITextField  *nameTextField;
@@ -86,7 +87,7 @@
     // min.genç sürücü yaşı ve min.ehliyet yılı kontrollerine göre ek sürücünün eklenip eklenemeyeceğine bakılır
     if ([CarGroup isCarGroupAvailableByAge:_reservation.selectedCarGroup andBirthday:_birthdayPicker.date])
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:[NSString stringWithFormat:@"Seçilen araç grubuna rezervasyon yapılamaz. (Min.Genç Sürücü yaşı: %i - Min.Genç Sürücü Ehliyet Yılı: %i)",_reservation.selectedCarGroup.minYoungDriverAge,_reservation.selectedCarGroup.minYoungDriverLicense] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:[NSString stringWithFormat:@"Seçilen araç grubuna rezervasyon yapılamaz. (Min.Genç Sürücü yaşı: %li - Min.Genç Sürücü Ehliyet Yılı: %li)",(long)_reservation.selectedCarGroup.minYoungDriverAge,(long)_reservation.selectedCarGroup.minYoungDriverLicense] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
         
         [alert show];
         return NO;

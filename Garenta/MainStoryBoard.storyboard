@@ -119,7 +119,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="location_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="90y-Vw-G4u">
                                                     <rect key="frame" x="3" y="7" width="50" height="50"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Şube Listesi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GZf-Q5-2Ub">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Şubelerimiz" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GZf-Q5-2Ub">
                                                     <rect key="frame" x="60" y="8" width="244" height="47"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -4627,6 +4627,7 @@
                     </navigationItem>
                     <connections>
                         <segue destination="FuZ-DE-V3d" kind="push" identifier="toSearchVCSegue" id="SOM-If-7L8"/>
+                        <segue destination="lDx-ho-gEP" kind="push" identifier="ToPayNowNotificationSegue" id="m6I-pG-B6V"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bfa-XS-4M7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5814,20 +5815,22 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="a20-Ar-vAP"/>
-        <segue reference="Hj2-5d-FZ6"/>
-        <segue reference="iJn-Bu-Z2r"/>
+        <segue reference="VNV-MA-HSn"/>
+        <segue reference="CB7-4R-l6r"/>
         <segue reference="cx4-X2-B8e"/>
-        <segue reference="yNN-jh-21M"/>
+        <segue reference="eoS-ML-DjQ"/>
+        <segue reference="7yK-l0-YFl"/>
+        <segue reference="yGK-eD-VlD"/>
+        <segue reference="m6I-pG-B6V"/>
+        <segue reference="Ez9-1z-i3h"/>
         <segue reference="wou-2e-dhb"/>
-        <segue reference="ryI-Ae-gEa"/>
         <segue reference="nTw-8o-Pk5"/>
-        <segue reference="hLA-ZH-RHN"/>
-        <segue reference="fjv-e4-iFe"/>
-        <segue reference="V74-O1-TBy"/>
+        <segue reference="Hj2-5d-FZ6"/>
+        <segue reference="hwC-3n-j6g"/>
+        <segue reference="ewL-RC-eiS"/>
+        <segue reference="Gtk-UI-NzB"/>
         <segue reference="y6s-gR-Pji"/>
         <segue reference="tMq-8T-4Dd"/>
-        <segue reference="yGa-mz-bZL"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

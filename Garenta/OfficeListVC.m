@@ -205,7 +205,12 @@
     
     switch (tag) {
         case 0:
+        {
             [reservation setCheckOutOffice:tempOffice];
+            if (!tempOffice.isPseudoOffice) {
+                [reservation setCheckInOffice:tempOffice];
+            }
+        }
             break;
         case 1:
             [reservation setCheckInOffice:tempOffice];

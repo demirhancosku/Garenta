@@ -314,7 +314,7 @@
 }
 
 - (IBAction)payLaterPressed:(id)sender {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kiralama anlaşmasını kabul edip, rezervasyonuzun yaratılmasını istediğinize emin misiniz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Kiralama Anlaşması", @"Kabul Ediyorum", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kira anlaşmasını kabul edip, rezervasyonuzun yaratılmasını istediğinize emin misiniz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Kira Anlaşmasını Oku", @"Kabul Ediyorum", nil];
     [alert setTag:1];
     [alert show];
 }
