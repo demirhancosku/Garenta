@@ -4560,13 +4560,14 @@
                         <barButtonItem key="rightBarButtonItem" title="Login" id="th8-8F-UVq">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             <connections>
-                                <segue destination="xGJ-xJ-rCM" kind="push" identifier="toLoginVCSegue" id="IQr-2t-DY8"/>
+                                <action selector="loginButtonPressed:" destination="P7V-C5-Qlf" id="220-Df-hia"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <segue destination="FuZ-DE-V3d" kind="push" identifier="toSearchVCSegue" id="SOM-If-7L8"/>
                         <segue destination="lDx-ho-gEP" kind="push" identifier="ToPayNowNotificationSegue" id="m6I-pG-B6V"/>
+                        <segue destination="xGJ-xJ-rCM" kind="push" identifier="toLoginVCSegue" id="IrD-Hh-UBR"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bfa-XS-4M7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5767,22 +5768,22 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="y6s-gR-Pji"/>
-        <segue reference="Gtk-UI-NzB"/>
-        <segue reference="DUv-oP-k7Q"/>
+        <segue reference="m6I-pG-B6V"/>
+        <segue reference="IrD-Hh-UBR"/>
         <segue reference="Hj2-5d-FZ6"/>
         <segue reference="nTw-8o-Pk5"/>
         <segue reference="Qnv-8X-7MN"/>
-        <segue reference="hLA-ZH-RHN"/>
-        <segue reference="a20-Ar-vAP"/>
         <segue reference="cbc-BX-eje"/>
-        <segue reference="hGz-WM-gE8"/>
+        <segue reference="a20-Ar-vAP"/>
+        <segue reference="hLA-ZH-RHN"/>
+        <segue reference="Gtk-UI-NzB"/>
+        <segue reference="tMq-8T-4Dd"/>
+        <segue reference="yGa-mz-bZL"/>
+        <segue reference="y6s-gR-Pji"/>
         <segue reference="CB7-4R-l6r"/>
         <segue reference="yGK-eD-VlD"/>
         <segue reference="EuT-BJ-MJt"/>
         <segue reference="VNV-MA-HSn"/>
-        <segue reference="tMq-8T-4Dd"/>
-        <segue reference="yGa-mz-bZL"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
