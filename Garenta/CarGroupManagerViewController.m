@@ -166,6 +166,8 @@
         
         EquipmentVC *additionalEquipmentsVC = (EquipmentVC*)segue.destinationViewController;
         [additionalEquipmentsVC setIsYoungDriver:[CarGroup checkYoungDriverAddition:_tableViewVC.activeCarGroup andBirthday:tempUser.birthday andLicenseDate:tempUser.driversLicenseDate]];
+        
+        _reservation.selectedCar = nil;
         [additionalEquipmentsVC setReservation:_reservation];
     }
     

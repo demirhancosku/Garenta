@@ -159,12 +159,11 @@
 
 - (void)clearAllEquipments {
     [_totalPriceLabel setText:@"0"];
-//    _reservation.selectedCar = nil;
-//    
-//    if (_reservation.additionalDrivers == nil)
-//        _reservation.additionalDrivers = nil;
-//    if (_reservation.additionalEquipments == nil)
-//        _reservation.additionalEquipments = nil;
+    
+    if (_reservation.additionalDrivers == nil)
+        _reservation.additionalDrivers = nil;
+    if (_reservation.additionalEquipments == nil)
+        _reservation.additionalEquipments = nil;
 }
 
 - (IBAction)infoButtonPressed:(id)sender

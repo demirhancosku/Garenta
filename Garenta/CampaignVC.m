@@ -130,13 +130,22 @@
     return sectionHeader;
 }
 
-- (NSIndexPath *)getFilteredArray:(UIButton*)button event:(UIEvent*)event
+- (NSIndexPath *)findIndexPath:(UIButton*)button event:(UIEvent*)event
 {
     NSIndexPath* indexPath = [self.tableView indexPathForRowAtPoint:
                               [[[event touchesForView:button] anyObject]
                                locationInView:self.tableView]];
     
     return indexPath;
+}
+
+- (NSArray *)getFilteredArray:(CampaignObject *)tempCampaign
+{
+    // Şimdi öde, sonra öde yada ön ödemeli iptal edilemez fiyatları varsa o fiyatlar yazılıyor
+    NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"campaignID==%@", tempCampaign.campaignID];
+    NSArray *filterArr = [_carGroup.campaignsArray filteredArrayUsingPredicate:resultPredicate];
+    
+    return filterArr;
 }
 
 - (Car *)findSelectedCar:(CampaignObject *)campaign
@@ -155,51 +164,75 @@
 
 - (void)payNowButtonPressed:(UIButton*)button event:(UIEvent*)event
 {
-    NSIndexPath *indexPath = [self getFilteredArray:button event:event];
-    
+    NSIndexPath *indexPath = [self findIndexPath:button event:event];
     CampaignObject *tempCampaign = [[[_officeList objectAtIndex:indexPath.section] campaignList] objectAtIndex:indexPath.row];
+    NSArray *filterArr = [self getFilteredArray:tempCampaign];
+    
+    // Seçilen çıkış ofisi atanır (Tüm şubelerde farklı şubeler seçilebildiği için)
+    _reservation.checkOutOffice = [_officeList objectAtIndex:indexPath.section];
+    _reservation.selectedCar = nil;
+    
     // Şimdi öde, sonra öde yada ön ödemeli iptal edilemez fiyatları varsa o fiyatlar yazılıyor
-//    if (tempCampaign.campaignReservationType == payNowReservation) {
-        _reservation.campaignScopeType = tempCampaign.campaignScopeType;
-        _reservation.selectedCar = [self findSelectedCar:tempCampaign];
-        _reservation.checkOutOffice = [_officeList objectAtIndex:indexPath.section];
-        _reservation.selectedCarGroup.sampleCar.pricing.payNowPrice = tempCampaign.campaignPrice.payNowPrice;
-//    }
+    for (CampaignObject *temp in filterArr) {
+        if (temp.campaignReservationType == payNowReservation) {
+            if (temp.campaignScopeType == vehicleModelCampaign) {
+                _reservation.selectedCar = [self findSelectedCar:tempCampaign];
+            }
+            _reservation.selectedCar.pricing.carSelectPrice = temp.campaignPrice.carSelectPrice;
+            _reservation.selectedCarGroup.sampleCar.pricing.payNowPrice = tempCampaign.campaignPrice.payNowPrice;
+        }
+    }
     
     [self performSegueWithIdentifier:@"toAdditionalEquipmentSegue" sender:self];
 }
 
 - (void)payLaterButtonPressed:(UIButton*)button event:(UIEvent*)event
 {
-    NSIndexPath *indexPath = [self getFilteredArray:button event:event];
-    
+    NSIndexPath *indexPath = [self findIndexPath:button event:event];
     CampaignObject *tempCampaign = [[[_officeList objectAtIndex:indexPath.section] campaignList] objectAtIndex:indexPath.row];
+    NSArray *filterArr = [self getFilteredArray:tempCampaign];
+    
+    // Seçilen çıkış ofisi atanır (Tüm şubelerde farklı şubeler seçilebildiği için)
+    _reservation.checkOutOffice = [_officeList objectAtIndex:indexPath.section];
+    _reservation.selectedCar = nil;
     
     // Şimdi öde, sonra öde yada ön ödemeli iptal edilemez fiyatları varsa o fiyatlar yazılıyor
-    if (tempCampaign.campaignReservationType == payLaterReservation) {
-        _reservation.campaignScopeType = tempCampaign.campaignScopeType;
-        _reservation.selectedCar = [self findSelectedCar:tempCampaign];
-        _reservation.checkOutOffice = [_officeList objectAtIndex:indexPath.section];
-        _reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice = tempCampaign.campaignPrice.payLaterPrice;
+    for (CampaignObject *temp in filterArr) {
+        if (temp.campaignReservationType == payLaterReservation) {
+            if (temp.campaignScopeType == vehicleModelCampaign) {
+                _reservation.selectedCar = [self findSelectedCar:tempCampaign];
+            }
+        
+            _reservation.selectedCar.pricing.carSelectPrice = temp.campaignPrice.carSelectPrice;
+            _reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice = tempCampaign.campaignPrice.payLaterPrice;
+        }
     }
-    
+
     [self performSegueWithIdentifier:@"toAdditionalEquipmentSegue" sender:self];
 }
 
 - (void)noCancellationButtonPressed:(UIButton*)button event:(UIEvent*)event
 {
-    NSIndexPath *indexPath = [self getFilteredArray:button event:event];
-    
+    NSIndexPath *indexPath = [self findIndexPath:button event:event];
     CampaignObject *tempCampaign = [[[_officeList objectAtIndex:indexPath.section] campaignList] objectAtIndex:indexPath.row];
+    NSArray *filterArr = [self getFilteredArray:tempCampaign];
+    
+    // Seçilen çıkış ofisi atanır (Tüm şubelerde farklı şubeler seçilebildiği için)
+    _reservation.checkOutOffice = [_officeList objectAtIndex:indexPath.section];
+    _reservation.selectedCar = nil;
     
     // Şimdi öde, sonra öde yada ön ödemeli iptal edilemez fiyatları varsa o fiyatlar yazılıyor
-    if (tempCampaign.campaignReservationType == payFrontWithNoCancellation) {
-        _reservation.campaignScopeType = tempCampaign.campaignScopeType;
-        _reservation.selectedCar = [self findSelectedCar:tempCampaign];
-        _reservation.checkOutOffice = [_officeList objectAtIndex:indexPath.section];
-        _reservation.selectedCarGroup.sampleCar.pricing.payNowPrice = tempCampaign.campaignPrice.payNowPrice;
+    for (CampaignObject *temp in filterArr) {
+        if (temp.campaignReservationType == payFrontWithNoCancellation) {
+            if (temp.campaignScopeType == vehicleModelCampaign) {
+                _reservation.selectedCar = [self findSelectedCar:tempCampaign];
+            }
+            
+            _reservation.selectedCar.pricing.carSelectPrice = temp.campaignPrice.carSelectPrice;
+            _reservation.selectedCarGroup.sampleCar.pricing.payNowPrice = tempCampaign.campaignPrice.payNowPrice;
+        }
     }
-    
+
     [self performSegueWithIdentifier:@"toAdditionalEquipmentSegue" sender:self];
 }
 

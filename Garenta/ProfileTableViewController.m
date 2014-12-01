@@ -219,7 +219,7 @@
             self.driverLicenseLocationTextField.text = [esProfile valueForKey:@"EHLIYET_ALISYERI"];
             
             NSString *driverLicenseDate = [esProfile valueForKey:@"EHLIYET_TARIHI"];
-            if ([driverLicenseDate isEqualToString:@""] && driverLicenseDate != nil) {
+            if (![driverLicenseDate isEqualToString:@""] || driverLicenseDate != nil) {
                 self.driverLicenseDatePicker.date = [formatter dateFromString:driverLicenseDate];
             }
             
