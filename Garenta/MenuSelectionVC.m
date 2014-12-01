@@ -8,6 +8,7 @@
 
 #import "MenuSelectionVC.h"
 #import "MenuTableCellView.h"
+#import "OldReservationPaymentVC.h"
 
 @interface MenuSelectionVC ()
 - (IBAction)locationBasedSearchSelected:(id)sender;
@@ -35,6 +36,10 @@ static int kGarentaLogoId = 1;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"PayNowPushNotification" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *userInfo) {
+        [self performSegueWithIdentifier:@"ToPayNowNotificationSegue" sender:userInfo];
+    }];
     
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
     
@@ -223,6 +228,13 @@ static int kGarentaLogoId = 1;
             [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
             return;
         }
+    }
+    if ([segue.identifier isEqualToString:@"ToPayNowNotificationSegue"]) {
+        NSDictionary *dict = [sender object];
+        NSString *reservationNumber = [dict valueForKey:@"ReservationId"];
+        
+        OldReservationPaymentVC *paymentVC = (OldReservationPaymentVC *)[segue destinationViewController];
+        paymentVC.reservationNumber = reservationNumber;
     }
 }
 

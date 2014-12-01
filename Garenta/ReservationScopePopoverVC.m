@@ -47,18 +47,18 @@
             [textView setText:[NSString stringWithFormat:@"- %@ ve benzeri - %.02f TL\n",reservation.upsellCarGroup.sampleCar.materialName,reservation.upsellCarGroup.sampleCar.pricing.payLaterPrice.floatValue]];
         }
     }
-    
-    // normal rezervasyon seçilmiş araç
-    else if (reservation.selectedCar) {
-        if ([reservation.paymentType isEqualToString:@"1"])
-        {
-            [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",reservation.selectedCar.materialName,reservation.selectedCar.pricing.payNowPrice.floatValue]];
-        }
-        else
-        {
-            [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",reservation.selectedCar.materialName,reservation.selectedCar.pricing.payLaterPrice.floatValue]];
-        }
-    }
+// AATAC 29.11.2014 28 Kasımdaki 5. madde kapsamında değişiklik lol :D
+//    // normal rezervasyon seçilmiş araç
+//    else if (reservation.selectedCar) {
+//        if ([reservation.paymentType isEqualToString:@"1"])
+//        {
+//            [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",reservation.selectedCar.materialName,reservation.selectedCar.pricing.payNowPrice.floatValue]];
+//        }
+//        else
+//        {
+//            [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",reservation.selectedCar.materialName,reservation.selectedCar.pricing.payLaterPrice.floatValue]];
+//        }
+//    }
     else
     {
         if ([reservation.paymentType isEqualToString:@"1"])
@@ -68,6 +68,10 @@
         else
         {
             [textView setText:[NSString stringWithFormat:@"- %@ ve benzeri - %.02f TL\n",reservation.selectedCarGroup.sampleCar.materialName,reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice.floatValue]];
+        }
+        
+        if (reservation.selectedCar) {
+            [textView setText:[NSString stringWithFormat:@"%@- %@ %@ Araç seçim ücreti - %.02f TL\n", textView.text, reservation.selectedCar.brandName, reservation.selectedCar.modelName, reservation.selectedCar.pricing.carSelectPrice.floatValue]];
         }
     }
     

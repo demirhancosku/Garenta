@@ -118,7 +118,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="location_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="90y-Vw-G4u">
                                                     <rect key="frame" x="3" y="7" width="50" height="50"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Şube Listesi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GZf-Q5-2Ub">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Şubelerimiz" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GZf-Q5-2Ub">
                                                     <rect key="frame" x="60" y="8" width="244" height="47"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -4566,6 +4566,7 @@
                     </navigationItem>
                     <connections>
                         <segue destination="FuZ-DE-V3d" kind="push" identifier="toSearchVCSegue" id="SOM-If-7L8"/>
+                        <segue destination="lDx-ho-gEP" kind="push" identifier="ToPayNowNotificationSegue" id="m6I-pG-B6V"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bfa-XS-4M7" userLabel="First Responder" sceneMemberID="firstResponder"/>

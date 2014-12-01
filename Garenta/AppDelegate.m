@@ -67,4 +67,16 @@
     NSLog(@"Failed to get token, error: %@", error);
 }
 
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
+{
+    NSLog(@"Received notification: %@", userInfo);
+    application.applicationIconBadgeNumber = 0;
+    
+    NSString *reservationNumber = [userInfo valueForKey:@"ReservationId"];
+    
+    if (reservationNumber != nil && ![reservationNumber isEqualToString:@""]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"PayNowPushNotification" object:userInfo];
+    }
+}
+
 @end

@@ -154,6 +154,7 @@
 		B5F5F95E193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */; };
 		E1227B2719ED3ECD005D88A5 /* SDReservObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E1227B2619ED3ECD005D88A5 /* SDReservObject.m */; };
 		E14A358A1A0A404C00161221 /* ETExpiryObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E14A35891A0A404C00161221 /* ETExpiryObject.m */; };
+		E150260D1A286C7B00E4E54F /* MainStoryBoard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E150260C1A286C7B00E4E54F /* MainStoryBoard_iPad.storyboard */; };
 		E15CE8321A1E207600430C96 /* CampaignObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E15CE8311A1E207600430C96 /* CampaignObject.m */; };
 		E15DFF8519F7A3040078E06F /* RentingAgreement.html in Resources */ = {isa = PBXBuildFile; fileRef = E15DFF8419F7A3040078E06F /* RentingAgreement.html */; };
 		E15DFF8819F7A6660078E06F /* AgreementsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E15DFF8719F7A6660078E06F /* AgreementsVC.m */; };
@@ -410,6 +411,7 @@
 		E1227B2619ED3ECD005D88A5 /* SDReservObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDReservObject.m; sourceTree = "<group>"; };
 		E14A35881A0A404C00161221 /* ETExpiryObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETExpiryObject.h; sourceTree = "<group>"; };
 		E14A35891A0A404C00161221 /* ETExpiryObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETExpiryObject.m; sourceTree = "<group>"; };
+		E150260C1A286C7B00E4E54F /* MainStoryBoard_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryBoard_iPad.storyboard; sourceTree = "<group>"; };
 		E15CE8301A1E207600430C96 /* CampaignObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CampaignObject.h; sourceTree = "<group>"; };
 		E15CE8311A1E207600430C96 /* CampaignObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CampaignObject.m; sourceTree = "<group>"; };
 		E15DFF8419F7A3040078E06F /* RentingAgreement.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RentingAgreement.html; sourceTree = "<group>"; };
@@ -598,6 +600,7 @@
 			isa = PBXGroup;
 			children = (
 				E1FE90E71A077817002D6461 /* MainStoryBoard.storyboard */,
+				E150260C1A286C7B00E4E54F /* MainStoryBoard_iPad.storyboard */,
 				77886DE21A134C680075D50A /* Branches */,
 				77886DDE1A134C370075D50A /* SlideMenu */,
 				0C4C9A9C1846333100CD3728 /* BaseVCs */,
@@ -1044,6 +1047,7 @@
 				0C5B5FEA18649A870060BECD /* UserLoginPic.png in Resources */,
 				77886DF41A1357E10075D50A /* icon-menu.png in Resources */,
 				B5688B17186B3A2E009D830E /* load_5.png in Resources */,
+				E150260D1A286C7B00E4E54F /* MainStoryBoard_iPad.storyboard in Resources */,
 				0C893D87187884E5006AFF0A /* SliderHandle.png in Resources */,
 				B5BBE95919505D21000AD4E2 /* white_right_arrow.png in Resources */,
 				0C4C9A7C18462EAB00CD3728 /* Images.xcassets in Resources */,
