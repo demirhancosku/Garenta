@@ -16,20 +16,33 @@
 @interface OldReservationListVC ()
 
 @property (weak, nonatomic) IBOutlet UITableView *oldReservationTableView;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (strong, nonatomic) NSString *totalPrice;
+
+- (IBAction)segmentValueChanged:(id)sender;
+
 @end
 
 @implementation OldReservationListVC
 
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _reservationList = [NSMutableArray new];
-    _reservation = [Reservation new];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
-    if ([[ApplicationProperties getUser] isLoggedIn])
+    if ([[ApplicationProperties getUser] isLoggedIn] && _reservationList == nil)
     {
+        _reservation = [Reservation new];
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
             
@@ -46,14 +59,17 @@
         [_oldReservationTableView addSubview:refreshControl];
         [self setRefreshControl:refreshControl];
     }
-    else
+    
+    if (![[ApplicationProperties getUser] isLoggedIn])
     {
         [self performSegueWithIdentifier:@"ToLoginVCSegue" sender:self];
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Rezervasyonlarınızı görebilmeniz için giriş yapmanız gerekmektedir" delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Giriş Yap", nil];
-//        
-//        [alert show];
     }
 
+}
+
+- (IBAction)segmentValueChanged:(id)sender
+{
+    [_oldReservationTableView reloadData];
 }
 
 - (void)refreshTableView
@@ -61,11 +77,6 @@
     [self getOldReservation];
     [[self refreshControl] endRefreshing];
     [_oldReservationTableView reloadData];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -93,8 +104,10 @@
             
             if (responseList.count > 0)
             {
-                //                [reservationList removeAllObjects];
                 _reservationList = [NSMutableArray new];
+                _cancelledReservationList = [NSMutableArray new];
+                _activeReservationList = [NSMutableArray new];
+                _completedReservationList = [NSMutableArray new];
                 
                 for (NSDictionary *tempDict in responseList)
                 {
@@ -125,6 +138,13 @@
                     temp.reservationType = [tempDict valueForKey:@"ARACREZTIPI"];
                     temp.paymentNowCard.uniqueId = [tempDict valueForKey:@"KK_UNIQUE_ID"];
                     
+                    if ([temp.reservationStatuId isEqualToString:@"E0009"])
+                        [_cancelledReservationList addObject:temp];
+                    else if ([temp.reservationStatuId isEqualToString:@"E0010"])
+                        [_completedReservationList addObject:temp];
+                    else
+                        [_activeReservationList addObject:temp];
+                        
                     [_reservationList addObject:temp];
                 }
                 
@@ -133,13 +153,22 @@
                                                              ascending:NO];
                 NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
                 NSArray *sortedArray;
-                sortedArray = [_reservationList sortedArrayUsingDescriptors:sortDescriptors];
+                sortedArray = [_cancelledReservationList sortedArrayUsingDescriptors:sortDescriptors];
+                _cancelledReservationList = [NSMutableArray new];
+                _cancelledReservationList = [sortedArray copy];
                 
-                //                [reservationList removeAllObjects];
-                _reservationList = [NSMutableArray new];
-                _reservationList = [sortedArray copy];
+                sortedArray = [_completedReservationList sortedArrayUsingDescriptors:sortDescriptors];
+                _completedReservationList = [NSMutableArray new];
+                _completedReservationList = [sortedArray copy];
                 
-                [[ApplicationProperties getUser] setReservationList:sortedArray];
+                sortedArray = [_activeReservationList sortedArrayUsingDescriptors:sortDescriptors];
+                _activeReservationList = [NSMutableArray new];
+                _activeReservationList = [sortedArray copy];
+                
+//                sortedArray = [_reservationList sortedArrayUsingDescriptors:sortDescriptors];
+//                _reservationList = [NSMutableArray new];
+//                
+//                [[ApplicationProperties getUser] setReservationList:sortedArray];
             }
             else
             {
@@ -177,6 +206,16 @@
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if ([_segmentedControl selectedSegmentIndex] == 0) {
+        _reservationList = [_activeReservationList copy];
+    }
+    else if ([_segmentedControl selectedSegmentIndex] == 1) {
+        _reservationList = [_completedReservationList copy];
+    }
+    else if ([_segmentedControl selectedSegmentIndex] == 2) {
+        _reservationList = [_cancelledReservationList copy];
+    }
+    
     return [_reservationList count];
 }
 
@@ -194,7 +233,8 @@
     }
     
     Reservation *temp = [Reservation new];
-    temp = [[[ApplicationProperties getUser] reservationList] objectAtIndex:indexPath.row];
+    temp = [_reservationList objectAtIndex:indexPath.row];
+//    temp = [[[ApplicationProperties getUser] reservationList] objectAtIndex:indexPath.row];
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"dd.MM.yyyy / HH:mm"];
@@ -235,8 +275,10 @@
         [(OldReservationDetailVC*)[segue destinationViewController] setTotalPrice:_totalPrice];
     }
     
-    if ([segue.identifier isEqualToString:@"ToLoginVCSegue"]) {
-        [(LoginVC *)[segue destinationViewController] setReservation:_reservation];
+    if ([[segue identifier] isEqualToString:@"ToLoginVCSegue"]) {
+        LoginVC *loginVC = (LoginVC *)[segue destinationViewController];
+        loginVC.shouldNotPop = YES;
+        loginVC.leftButton = [[self navigationItem] leftBarButtonItem];
     }
 }
 

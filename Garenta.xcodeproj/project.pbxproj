@@ -780,10 +780,6 @@
 				B5E064A1194F1DEB0046E789 /* SelectCarTableViewCell.m */,
 				0C9299DD18689E95007DE6B8 /* EquipmentVC.h */,
 				0C9299DE18689E95007DE6B8 /* EquipmentVC.m */,
-				0C4567001A260FE1001D8E34 /* CampaignVC.h */,
-				0C4567011A260FE1001D8E34 /* CampaignVC.m */,
-				0C4567031A261C7C001D8E34 /* CampaignCell.h */,
-				0C4567041A261C7C001D8E34 /* CampaignCell.m */,
 				B5F5F95C193C9867009B8D31 /* AdditionalEquipmentTableViewCell.h */,
 				B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */,
 				B5E064A3194F1E0E0046E789 /* CarSelectionVC.h */,
@@ -857,6 +853,10 @@
 				B52462221924D8A100FC482B /* CarGroupTableVC.m */,
 				B58D438B192C826D000AF1EB /* CarGroupTableViewCell.h */,
 				B58D438C192C826D000AF1EB /* CarGroupTableViewCell.m */,
+				0C4567001A260FE1001D8E34 /* CampaignVC.h */,
+				0C4567011A260FE1001D8E34 /* CampaignVC.m */,
+				0C4567031A261C7C001D8E34 /* CampaignCell.h */,
+				0C4567041A261C7C001D8E34 /* CampaignCell.m */,
 				B575C3C71958526700F148EC /* CarSelectedProtocol.h */,
 			);
 			name = CarGroups;
@@ -1304,7 +1304,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "007427b1-2b78-48ca-b07f-c216952c8749";
+				PROVISIONING_PROFILE = "df4907cc-ef9b-467b-b8c7-21c1517a3202";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -1340,7 +1340,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "007427b1-2b78-48ca-b07f-c216952c8749";
+				PROVISIONING_PROFILE = "df4907cc-ef9b-467b-b8c7-21c1517a3202";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1353,12 +1353,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kerem Balaban (3ZR758CJVV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kerem Balaban (3ZR758CJVV)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Garenta/Garenta-Prefix.pch";
 				INFOPLIST_FILE = "Garenta/Garenta-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Garenta",
@@ -1370,7 +1370,8 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "007427b1-2b78-48ca-b07f-c216952c8749";
+				PROVISIONING_PROFILE = "df4907cc-ef9b-467b-b8c7-21c1517a3202";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;
@@ -1382,12 +1383,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kerem Balaban (3ZR758CJVV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kerem Balaban (3ZR758CJVV)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Garenta/Garenta-Prefix.pch";
 				INFOPLIST_FILE = "Garenta/Garenta-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Garenta",
@@ -1399,7 +1400,8 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "007427b1-2b78-48ca-b07f-c216952c8749";
+				PROVISIONING_PROFILE = "df4907cc-ef9b-467b-b8c7-21c1517a3202";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;

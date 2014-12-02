@@ -14,6 +14,7 @@
 - (IBAction)locationBasedSearchSelected:(id)sender;
 - (IBAction)normalSearchSelected:(id)sender;
 - (IBAction)advancedSearchSelected:(id)sender;
+- (IBAction)loginButtonPressed:(id)sender;
 
 @end
 
@@ -190,21 +191,17 @@ static int kGarentaLogoId = 1;
     [self performSegueWithIdentifier:@"toSearchVCSegue" sender:self];
 }
 
-- (void)login:(id)sender
+- (IBAction)loginButtonPressed:(id)sender
 {
     if ([[ApplicationProperties getUser] isLoggedIn]) {
         //then logout
-        [[NSUserDefaults standardUserDefaults] setObject:@""forKey:@"KUNNR"];
-        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"PASSWORD"];
-        [[ApplicationProperties getUser] setPassword:@""];
-        [[ApplicationProperties getUser] setUsername:@""];
-        [[ApplicationProperties getUser] setIsLoggedIn:NO];
-        [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
-        return;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Çıkış yapmak istediğinize emin misiniz?" delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Çıkış", nil];
+        
+        alert.tag = 1;
+        [alert show];
     }
-    
-    LoginVC *login = [[LoginVC alloc] init];
-    [[self navigationController] pushViewController:login animated:YES];
+    else
+        [self performSegueWithIdentifier:@"toLoginVCSegue" sender:self];
 }
 
 #pragma mark - Navigation methods
@@ -214,27 +211,29 @@ static int kGarentaLogoId = 1;
     if ([segue.identifier isEqualToString:@"toSearchVCSegue"]) {
         
     }
-    if ([segue.identifier isEqualToString:@"toLoginVCSegue"]) {
-        if ([[ApplicationProperties getUser] isLoggedIn]) {
-            //then logout
-            [[NSUserDefaults standardUserDefaults] setObject:@""forKey:@"KUNNR"];
-            [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"PASSWORD"];
-            [ApplicationProperties setUser:nil];
-            [[ApplicationProperties getUser] setPassword:@""];
-            [[ApplicationProperties getUser] setUsername:@""];
-            [[ApplicationProperties getUser] setIsLoggedIn:NO];
-
-            
-            [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
-            return;
-        }
-    }
     if ([segue.identifier isEqualToString:@"ToPayNowNotificationSegue"]) {
         NSDictionary *dict = [sender object];
         NSString *reservationNumber = [dict valueForKey:@"ReservationId"];
         
         OldReservationPaymentVC *paymentVC = (OldReservationPaymentVC *)[segue destinationViewController];
         paymentVC.reservationNumber = reservationNumber;
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 1 && buttonIndex == 1) {
+        [[NSUserDefaults standardUserDefaults] setObject:@""forKey:@"KUNNR"];
+        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"PASSWORD"];
+        [ApplicationProperties setUser:nil];
+        [[ApplicationProperties getUser] setPassword:@""];
+        [[ApplicationProperties getUser] setUsername:@""];
+        [[ApplicationProperties getUser] setIsLoggedIn:NO];
+        
+        
+        [self performSegueWithIdentifier:@"toLoginVCSegue" sender:self];
+        [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
+        return;
     }
 }
 

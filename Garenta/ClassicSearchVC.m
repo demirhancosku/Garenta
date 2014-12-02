@@ -443,7 +443,7 @@
         [handler addImportParameter:@"IMPP_LANGU" andValue:@"T"];
         [handler addImportParameter:@"IMPP_LAND" andValue:@"TR"];
         [handler addImportParameter:@"IMPP_WAERS" andValue:@"TRY"];
-        [handler addImportParameter:@"IMPP_KDGRP" andValue:@"10"];
+        [handler addImportParameter:@"IMPP_KDGRP" andValue:@"40"];
         
         // Fiyat Kodu
         NSString *priceCode = @"";

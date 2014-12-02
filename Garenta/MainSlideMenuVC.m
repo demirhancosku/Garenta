@@ -51,7 +51,7 @@
     frame.size = (CGSize){40,40};
     
     button.frame = frame;
-    [button setImage:[UIImage imageNamed:@"icon-menu"] forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"icon-menu@2x"] forState:UIControlStateNormal];
     
 }
 - (void)didReceiveMemoryWarning {

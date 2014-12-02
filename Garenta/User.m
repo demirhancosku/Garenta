@@ -14,6 +14,7 @@
 
 - (id)init{
     self = [super init];
+    reservationList = [NSArray new];
     kunnr =@"";
     username = @"";
     password = @"";

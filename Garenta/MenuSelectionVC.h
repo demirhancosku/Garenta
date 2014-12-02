@@ -14,7 +14,7 @@
 #import "ApplicationProperties.h"
 #import "MBProgressHUD.h"
 
-@interface MenuSelectionVC : UITableViewController
+@interface MenuSelectionVC : UITableViewController <UIAlertViewDelegate>
 
 
 @end

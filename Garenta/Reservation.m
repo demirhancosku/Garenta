@@ -69,9 +69,9 @@
     
     if (selectedCarGroup.sampleCar.pricing.priceWithKDV == nil)
         selectedCarGroup.sampleCar.pricing.priceWithKDV = [NSDecimalNumber decimalNumberWithString:@"0"];
-    else if (selectedCarGroup.sampleCar.pricing.payNowPrice == nil)
+    if (selectedCarGroup.sampleCar.pricing.payNowPrice == nil)
         selectedCarGroup.sampleCar.pricing.payNowPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
-    else if (selectedCarGroup.sampleCar.pricing.payLaterPrice == nil)
+    if (selectedCarGroup.sampleCar.pricing.payLaterPrice == nil)
         selectedCarGroup.sampleCar.pricing.payLaterPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
     
     if ([garentaTl isEqualToString:@""]) {
