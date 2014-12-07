@@ -8,6 +8,8 @@
 
 #import "OldReservationUpsellDownsellVC.h"
 #import "OldReservationSummaryVC.h"
+#import "UpsellDownsellCarSelectionVC.h"
+#import "AdditionalEquipment.h"
 
 @interface OldReservationUpsellDownsellVC ()
 
@@ -23,9 +25,32 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _downsellList = [NSMutableArray new];
+    _upsellList = [NSMutableArray new];
+    
+    for (CarGroup *tempGroup in _reservation.upsellList) {
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"groupCode==%@",tempGroup.groupCode];
+        NSArray *arr = [_upsellList filteredArrayUsingPredicate:predicate];
+        
+        if (arr.count == 0 && tempGroup.sampleCar.isForShown) {
+            [_upsellList addObject:tempGroup];
+        }
+    }
+    
+    for (CarGroup *tempGroup in _reservation.downsellList)
+    {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"groupCode==%@",tempGroup.groupCode];
+        NSArray *arr = [_downsellList filteredArrayUsingPredicate:predicate];
+        
+        if (arr.count == 0 && tempGroup.sampleCar.isForShown) {
+            [_downsellList addObject:tempGroup];
+        }
+    }
+    
     if (_reservation.downsellList.count == 0)
         [_upsellDownsellSegment setEnabled:NO forSegmentAtIndex:1];
-    else if (_reservation.upsellList.count == 0)
+    else if (_downsellList.count == 0)
     {
         [_upsellDownsellSegment setEnabled:NO forSegmentAtIndex:0];
         [_upsellDownsellSegment setSelectedSegmentIndex:1];
@@ -41,9 +66,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if ([_upsellDownsellSegment selectedSegmentIndex] == 0)
-        return _reservation.upsellList.count;
+        return _upsellList.count;
     else
-        return _reservation.downsellList.count;
+        return _downsellList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -61,9 +86,9 @@
     NSMutableArray *copyArray = [NSMutableArray new];
     
     if ([_upsellDownsellSegment selectedSegmentIndex] == 0)
-        copyArray = [_reservation.upsellList copy];
+        copyArray = [_upsellList copy];
     else
-        copyArray = [_reservation.downsellList copy];
+        copyArray = [_downsellList copy];
     
     CarGroup *temp = [copyArray objectAtIndex:indexPath.row];
     
@@ -116,28 +141,56 @@
     NSString *alertString;
     if ([_upsellDownsellSegment selectedSegmentIndex] == 0)
     {
-        tempCarGroup = [_reservation.upsellList objectAtIndex:indexPath.row];
-        alertString = [NSString stringWithFormat:@"%@ aracınızın grubu yükseltilerek, %@ aracına değişim yapılacaktır, onaylıyor musunuz?",_reservation.selectedCarGroup.sampleCar.materialName,tempCarGroup.sampleCar.materialName];
+        tempCarGroup = [_upsellList objectAtIndex:indexPath.row];
+        alertString = [NSString stringWithFormat:@"Rezervasyonunuza ait araç grubu yükseltilerek, %@ ve benzeri (%@) grubuna değişim yapılacaktır, onaylıyor musunuz?",tempCarGroup.sampleCar.materialName,tempCarGroup.segmentName];
+        
+//        alertString = [NSString stringWithFormat:@"%@ () aracınızın grubu yükseltilerek, %@ (%@) aracına değişim yapılacaktır, onaylıyor musunuz?",_reservation.selectedCarGroup.sampleCar.materialName,tempCarGroup.sampleCar.materialName,tempCarGroup.segmentName];
     }
     else
     {
-        tempCarGroup = [_reservation.downsellList objectAtIndex:indexPath.row];
-        alertString = [NSString stringWithFormat:@"%@ aracınızın grubu düşürülerek, %@ aracına değişim yapılacaktır, onaylıyor musunuz?",_reservation.selectedCarGroup.sampleCar.materialName,tempCarGroup.sampleCar.materialName];
+        tempCarGroup = [_downsellList objectAtIndex:indexPath.row];
+        alertString = [NSString stringWithFormat:@"Rezervasyonunuza ait araç grubu düşürülerek, %@ ve benzeri (%@) grubuna değişim yapılacaktır, onaylıyor musunuz?",tempCarGroup.sampleCar.materialName,tempCarGroup.segmentName];
+        
+//        alertString = [NSString stringWithFormat:@"%@ aracınızın grubu düşürülerek, %@ aracına değişim yapılacaktır, onaylıyor musunuz?",_reservation.selectedCarGroup.sampleCar.materialName,tempCarGroup.sampleCar.materialName];
     }
     
     _reservation.upsellCarGroup = tempCarGroup;
-    _reservation.upsellSelectedCar = [Car new];
-    _reservation.upsellSelectedCar = tempCarGroup.sampleCar;
-
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:alertString delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Onaylıyorum", nil];
+//    if ([_reservation.reservationType isEqualToString:@"10"]) {
+//        _reservation.upsellSelectedCar = [Car new];
+//        _reservation.upsellSelectedCar = tempCarGroup.sampleCar;
+//    }
     
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Aracınızı seçmek ister misiniz?" delegate:self cancelButtonTitle:@"Gruba Rezervasyon" otherButtonTitles:@"Araca Rezervasyon", nil];
+    
+    alert.tag = 2;
     [alert show];
+    
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:alertString delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Onaylıyorum", nil];
+//    
+//    alert.tag = 1;
+//    [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 1)
-        [self performSegueWithIdentifier:@"toOldReservationSummarySegue" sender:self];
+    if (buttonIndex == 1 && alertView.tag == 1)
+    {
+
+    }
+    
+    if (alertView.tag == 2) {
+        //gruba upsell/downsell
+        if (buttonIndex == 0) {
+            [_reservation setUpsellSelectedCar:nil];
+            [self performSegueWithIdentifier:@"toOldReservationSummarySegue" sender:self];
+        }
+        //araca upsell/downsell
+        else if (buttonIndex == 1){
+            [_reservation setUpsellSelectedCar:nil];
+            [self performSegueWithIdentifier:@"toCarSelectionVCSegue" sender:self];
+        }
+    }
+    
 }
 
 #pragma mark - Navigation
@@ -150,8 +203,41 @@
         else
             [_reservation setUpdateStatus:@"DWS"];
         
+//        // araca rezervasyon yaratılmış ve upsell/downsell yapılarak gruba tercih edilirse
+//        if ([_reservation.reservationType isEqualToString:@"10"]) {
+//            [self deleteCarSelection];
+//        }
+        
         [(OldReservationSummaryVC *)[segue destinationViewController] setReservation:_reservation];
         [(OldReservationSummaryVC *)[segue destinationViewController] setTotalPrice:_totalPrice];
+    }
+    
+    if ([segue.identifier isEqualToString:@"toCarSelectionVCSegue"])
+    {
+        if([_upsellDownsellSegment selectedSegmentIndex] == 0){
+            [_reservation setUpdateStatus:@"UPS"];
+            [(UpsellDownsellCarSelectionVC *)[segue destinationViewController] setCars:_reservation.upsellList];
+        }
+        else{
+            [_reservation setUpdateStatus:@"DWS"];
+            [(UpsellDownsellCarSelectionVC *)[segue destinationViewController] setCars:_reservation.downsellList];
+        }
+        
+        [(UpsellDownsellCarSelectionVC *)[segue destinationViewController] setAdditionalEquipments:_reservation.additionalEquipments];
+        [(UpsellDownsellCarSelectionVC *)[segue destinationViewController] setReservation:_reservation];
+        [(UpsellDownsellCarSelectionVC *)[segue destinationViewController] setTotalPrice:_totalPrice];
+    }
+}
+
+// araca rezervasyon upsell yada downsell yapılarak gruba çevrilmişse araç seçim farkı silinir ve tutarı toplam tutardan çıkartılır.
+- (void)deleteCarSelection
+{
+    NSPredicate *equipmentPredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0031"];
+    NSArray *equipmentPredicateArray = [_reservation.additionalEquipments filteredArrayUsingPredicate:equipmentPredicate];
+    
+    if (equipmentPredicateArray.count > 0) {
+        AdditionalEquipment *temp = [equipmentPredicateArray objectAtIndex:0];
+        temp.updateStatus = @"D";
     }
 }
 

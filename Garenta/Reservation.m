@@ -174,7 +174,7 @@
                 paymentType = @"6";
             }
             else {
-            // Normal sonra öde
+                // Normal sonra öde
                 paymentType = @"2";
             }
         }
@@ -182,7 +182,7 @@
         NSString *totalPrice = @"";
         
         if (_reservation.etExpiry.count > 0) {
-                totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"0" andIsMontlyRent:YES] floatValue]];
+            totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"0" andIsMontlyRent:YES] floatValue]];
         }
         else {
             totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"0" andIsMontlyRent:NO] floatValue]];
@@ -255,6 +255,8 @@
         NSString *jatoBrandID = @"";
         NSString *jatoModelID = @"";
         NSString *priceCode = @"";
+        NSString *colorCode = @"";
+        NSString *carPrice = @"";
         
         if (_reservation.etReserv.count > 0) {
             priceCode = [[_reservation.etReserv objectAtIndex:0] priceCode];
@@ -264,11 +266,21 @@
             matnr = _reservation.selectedCar.materialCode;
             jatoBrandID = _reservation.selectedCar.brandId;
             jatoModelID = _reservation.selectedCar.modelId;
+            colorCode = _reservation.selectedCar.colorCode;
+        }
+        
+        if (_reservation.etExpiry.count > 0){
+            carPrice = _reservation.selectedCarGroup.priceWithKDV;
+        }
+        else if (isPayNow) {
+            carPrice = _reservation.selectedCarGroup.payNowPrice;
+        }
+        else{
+            carPrice = _reservation.selectedCarGroup.payLaterPrice;
         }
         
         // ARAÇ
-        
-        NSArray *vehicleLine = @[@"", matnr, @"1", _reservation.selectedCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", _reservation.selectedCarGroup.payLaterPrice, @"", @"", @"", @"", jatoBrandID, jatoModelID, _reservation.selectedCarGroup.segment, priceCode, @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
+        NSArray *vehicleLine = @[@"", matnr, @"1", _reservation.selectedCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", carPrice, @"", colorCode, @"", @"", jatoBrandID, jatoModelID, _reservation.selectedCarGroup.segment, priceCode, @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
         
         [itItemsValues addObject:vehicleLine];
         
@@ -292,12 +304,13 @@
         [handler addTableForImport:@"IT_ITEMS" andColumns:itItemsColumns andValues:itItemsValues];
         
         // IT_EKSURUCU
-        NSArray *itEkSurucuColumns = @[@"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN", @"TELNO", @"UYRUK", @"ULKE", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"EKSURUCU_NO", @"UPDATE_STATU", @"KALEM_NO"];
+        NSArray *itEkSurucuColumns = @[@"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN",@"PASAPORTNO", @"PASAPORTTARIHI", @"TELNO", @"UYRUK", @"ULKE", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"EKSURUCU_NO", @"UPDATE_STATU", @"KALEM_NO"];
         
         NSMutableArray *itEkSurucuValues = [NSMutableArray new];
         
         for (AdditionalEquipment *temp in _reservation.additionalDrivers) {
-            NSArray *additionalDriverLine = @[temp.additionalDriverGender, temp.additionalDriverFirstname, temp.additionalDriverSurname, [dateFormatter stringFromDate:temp.additionalDriverBirthday], @"", @"", @"", @"", temp.additionalDriverLicensePlace, temp.additionalDriverLicenseClass, temp.additionalDriverLicenseNumber, [dateFormatter stringFromDate:temp.additionalDriverLicenseDate], @"", @"", @""];
+            NSArray *additionalDriverLine = @[temp.additionalDriverGender, temp.additionalDriverFirstname, temp.additionalDriverSurname, [dateFormatter stringFromDate:temp.additionalDriverBirthday], temp.additionalDriverNationalityNumber, temp.additionalDriverPassportNumber, @"",@"",temp.additionalDriverNationality, @"", temp.additionalDriverLicensePlace, temp.additionalDriverLicenseClass, temp.additionalDriverLicenseNumber, [dateFormatter stringFromDate:temp.additionalDriverLicenseDate], @"", @"", @""];
+            
             [itEkSurucuValues addObject:additionalDriverLine];
         }
         
@@ -415,9 +428,16 @@
                 
                 if (isPayNow) {
                     NSDictionary *etKKReturn = [tables objectForKey:@"ZNET_INT_TAHSILATLOG"];
+                    NSDictionary *etBapiretResturn = [tables objectForKey:@"BAPIRET2"];
                     
-                    for (NSDictionary *temp in etKKReturn) {
-                        alertString = [temp valueForKey:@"O_ERR_MESSAGE"];
+                    for (NSDictionary *temp in etBapiretResturn) {
+                        alertString = [NSString stringWithFormat:@"%@ %@",alertString,[temp valueForKey:@"MESSAGE"]];
+                    }
+                    
+                    if ([alertString isEqualToString:@""]) {
+                        for (NSDictionary *temp in etKKReturn) {
+                            alertString = [temp valueForKey:@"O_ERR_MESSAGE"];
+                        }
                     }
                     
                     if ([alertString isEqualToString:@""]) {
@@ -425,7 +445,14 @@
                     }
                 }
                 else {
-                    alertString = @"Rezervasyon yaratımı sırasında hata oluştu. Lütfen tekrar deneyiniz";
+                    NSDictionary *etBapiretResturn = [tables objectForKey:@"BAPIRET2"];
+                    for (NSDictionary *temp in etBapiretResturn) {
+                        alertString = [NSString stringWithFormat:@"%@ %@",alertString,[temp valueForKey:@"MESSAGE"]];
+                    }
+                    
+                    if ([alertString isEqualToString:@""]) {
+                        alertString = @"Rezervasyon yaratımı sırasında hata oluştu. Lütfen tekrar deneyiniz";
+                    }
                 }
             }
             
@@ -467,7 +494,7 @@
         }
         
         NSString *paymentType = @"";
-
+        
         if (isPayNow) {
             // Aylık şimdi öde
             if (_reservation.etExpiry.count > 0) {
@@ -526,9 +553,27 @@
         NSArray *itAraclarColumns = @[@"MATNR"];
         NSMutableArray *itAraclarValues = [NSMutableArray new];
         
-        for (Car *tempCar in _reservation.selectedCarGroup.cars) {
-            NSArray *arr = @[[tempCar materialCode]];
-            [itAraclarValues addObject:arr];
+        if ([_reservation.updateStatus isEqualToString:@"UPS"]) {
+            for (CarGroup *tempCar in _reservation.upsellList) {
+                if ([tempCar.groupCode isEqualToString:_reservation.upsellCarGroup.groupCode]) {
+                    NSArray *arr = @[[tempCar.sampleCar materialCode]];
+                    [itAraclarValues addObject:arr];
+                }
+            }
+        }
+        else if ([_reservation.updateStatus isEqualToString:@"DWS"])
+            for (CarGroup *tempCar in _reservation.downsellList) {
+                if ([tempCar.groupCode isEqualToString:_reservation.upsellCarGroup.groupCode]) {
+                    NSArray *arr = @[[tempCar.sampleCar materialCode]];
+                    [itAraclarValues addObject:arr];
+                }
+            }
+        else
+        {
+            for (Car *tempCar in _reservation.selectedCarGroup.cars) {
+                NSArray *arr = @[[tempCar materialCode]];
+                [itAraclarValues addObject:arr];
+            }
         }
         
         [handler addTableForImport:@"IT_ARACLAR" andColumns:itAraclarColumns andValues:itAraclarValues];
@@ -545,6 +590,7 @@
         NSString *priceCode = @"";
         NSString *plateNo = @"";
         NSString *chassisNo = @"";
+        NSString *colorCode = @"";
         
         if (_reservation.changeReservationDifference == nil) {
             _reservation.changeReservationDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
@@ -557,11 +603,20 @@
         
         if (_reservation.upsellCarGroup)
         {
-            matnr = _reservation.upsellSelectedCar.materialCode;
-            jatoBrandID = _reservation.upsellSelectedCar.brandName;
-            jatoModelID = _reservation.upsellSelectedCar.modelName;
+            if (_reservation.upsellSelectedCar) {
+                matnr = _reservation.upsellSelectedCar.materialCode;
+                jatoBrandID = _reservation.upsellSelectedCar.brandName;
+                jatoModelID = _reservation.upsellSelectedCar.modelName;
+                carPrice = _reservation.upsellSelectedCar.pricing.payNowPrice.stringValue;
+            }
+            else
+            {
+                matnr = @"";
+                jatoBrandID = @"";
+                jatoModelID = @"";
+                carPrice = _reservation.upsellCarGroup.sampleCar.pricing.payNowPrice.stringValue;
+            }
             
-            carPrice = _reservation.upsellSelectedCar.pricing.payNowPrice.stringValue;
             
             //UPSELL YADA DOWNSELL İLE SEÇİLMİŞ ARAÇ
             NSArray *upsellDownsellLine = @[@"", matnr, @"1", _reservation.upsellCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", carPrice, @"", @"", chassisNo, plateNo, jatoBrandID, jatoModelID, _reservation.upsellCarGroup.segment, priceCode, @"I", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
@@ -577,26 +632,18 @@
                 jatoModelID = _reservation.selectedCar.modelName;
                 plateNo = _reservation.selectedCar.plateNo;
                 chassisNo = _reservation.selectedCar.chassisNo;
-                
-                if (_reservation.etExpiry.count > 0){
-                    carPrice = [[[_reservation.etExpiry objectAtIndex:0] totalPrice] stringValue];
-                }
-                else{
-                    carPrice = [[_reservation.changeReservationDifference decimalNumberByAdding:_reservation.selectedCar.pricing.payNowPrice] stringValue];
-                }
+                colorCode = _reservation.selectedCar.colorCode;
             }
-            else
-            {
-                if (_reservation.etExpiry.count > 0){
-                    carPrice = [[[_reservation.etExpiry objectAtIndex:0] totalPrice] stringValue];
-                }
-                else{
-                    carPrice = [[_reservation.changeReservationDifference decimalNumberByAdding:_reservation.selectedCarGroup.sampleCar.pricing.payNowPrice] stringValue];
-                }
+            
+            if (_reservation.etExpiry.count > 0){
+                carPrice = [[[_reservation.etExpiry objectAtIndex:0] totalPrice] stringValue];
+            }
+            else{
+                carPrice = [[_reservation.changeReservationDifference decimalNumberByAdding:_reservation.selectedCarGroup.sampleCar.pricing.payNowPrice] stringValue];
             }
             
             // ARAÇ
-            NSArray *vehicleLine = @[@"", matnr, @"1", _reservation.selectedCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", carPrice, @"", @"", chassisNo, plateNo, jatoBrandID, jatoModelID, _reservation.selectedCarGroup.segment, priceCode, @"U", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
+            NSArray *vehicleLine = @[@"", matnr, @"1", _reservation.selectedCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", carPrice, @"", colorCode, chassisNo, plateNo, jatoBrandID, jatoModelID, _reservation.selectedCarGroup.segment, priceCode, @"U", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
             
             [itItemsValues addObject:vehicleLine];
         }
@@ -618,15 +665,22 @@
             [itItemsValues addObject:carSelectionLine];
         }
         
+        // Upsellde Aracını seçtiyse ve gruba rezervasyonsa (araca rezervasyonsa ekipmanların içinde HZM0031 geliyo zaten)
+        if (_reservation.upsellSelectedCar && [_reservation.reservationType isEqualToString:@"20"]) {
+            NSArray *carSelectionLine = @[@"", @"HZM0031", @"1", @"", _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", [_reservation.upsellSelectedCar.pricing.carSelectPrice stringValue], @"", @"", @"", @"", @"", @"", @"", @"", @"I", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
+            [itItemsValues addObject:carSelectionLine];
+        }
+        
         [handler addTableForImport:@"IT_ITEMS" andColumns:itItemsColumns andValues:itItemsValues];
         
         // IT_EKSURUCU
-        NSArray *itEkSurucuColumns = @[@"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN", @"TELNO", @"UYRUK", @"ULKE", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"EKSURUCU_NO", @"UPDATE_STATU", @"KALEM_NO"];
+        NSArray *itEkSurucuColumns = @[@"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN",@"PASAPORTNO", @"PASAPORTTARIHI", @"TELNO", @"UYRUK", @"ULKE", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"EKSURUCU_NO", @"UPDATE_STATU", @"KALEM_NO"];
         
         NSMutableArray *itEkSurucuValues = [NSMutableArray new];
         
         for (AdditionalEquipment *temp in _reservation.additionalDrivers) {
-            NSArray *additionalDriverLine = @[temp.additionalDriverGender, temp.additionalDriverFirstname, temp.additionalDriverSurname, [dateFormatter stringFromDate:temp.additionalDriverBirthday], @"", @"", @"", @"", temp.additionalDriverLicensePlace, temp.additionalDriverLicenseClass, temp.additionalDriverLicenseNumber, [dateFormatter stringFromDate:temp.additionalDriverLicenseDate], @"", @"", @""];
+            NSArray *additionalDriverLine = @[temp.additionalDriverGender, temp.additionalDriverFirstname, temp.additionalDriverSurname, [dateFormatter stringFromDate:temp.additionalDriverBirthday], temp.additionalDriverNationalityNumber, temp.additionalDriverPassportNumber, @"",@"",temp.additionalDriverNationality, @"", temp.additionalDriverLicensePlace, temp.additionalDriverLicenseClass, temp.additionalDriverLicenseNumber, [dateFormatter stringFromDate:temp.additionalDriverLicenseDate], @"", @"", @""];
+            
             [itEkSurucuValues addObject:additionalDriverLine];
         }
         
@@ -640,8 +694,8 @@
         NSMutableArray *itSDReservValues = [NSMutableArray new];
         
         for (SDReservObject *tempObject in _reservation.etReserv) {
-                NSArray *arr = @[tempObject.office, tempObject.groupCode, tempObject.priceCode, tempObject.date, tempObject.rVbeln, tempObject.rPosnr, tempObject.RGjahr, tempObject.rAuart, tempObject.matnr, tempObject.kunnr, tempObject.destinationOffice, tempObject.augru, tempObject.vkorg, tempObject.vtweg, tempObject.spart, tempObject.price, tempObject.isGarentaTl, tempObject.isMiles, tempObject.isBonus];
-                [itSDReservValues addObject:arr];
+            NSArray *arr = @[tempObject.office, tempObject.groupCode, tempObject.priceCode, tempObject.date, tempObject.rVbeln, tempObject.rPosnr, tempObject.RGjahr, tempObject.rAuart, tempObject.matnr, tempObject.kunnr, tempObject.destinationOffice, tempObject.augru, tempObject.vkorg, tempObject.vtweg, tempObject.spart, tempObject.price, tempObject.isGarentaTl, tempObject.isMiles, tempObject.isBonus];
+            [itSDReservValues addObject:arr];
         }
         
         [handler addTableForImport:@"IT_SDREZERV" andColumns:itSDReservColumns andValues:itSDReservValues];

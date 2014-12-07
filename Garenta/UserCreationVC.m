@@ -401,7 +401,7 @@
     }
     
     self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
-                                                     message:@"Lütfen Telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz"
+                                                     message:@"Lütfen telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz"
                                                     delegate:self
                                            cancelButtonTitle:@"Geri"
                                            otherButtonTitles:@"Tamam", nil];
@@ -420,7 +420,7 @@
 
 - (void)updateSMSAlert:(id)sender {
     self.alertTimer--;
-    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen Telefonunuza gelen konfirmasyon kodunu %d saniye içinde giriniz", self.alertTimer];
+    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen telefonunuza gelen konfirmasyon kodunu %d saniye içinde giriniz", self.alertTimer];
     
     if (self.alertTimer == 0) {
         [self.timer invalidate];

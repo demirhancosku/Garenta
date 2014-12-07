@@ -54,7 +54,6 @@
     self.pageViewController.delegate = self;
     self.pageViewController.dataSource = self;
     [self.pageViewController setViewControllers:@[[groupVCs objectAtIndex:0]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished){
-        
     }];
     [self addChildViewController:self.pageViewController];
     [_rootView addSubview:_pageViewController.view];

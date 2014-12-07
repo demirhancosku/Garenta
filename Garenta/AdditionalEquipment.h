@@ -33,8 +33,12 @@ typedef enum{
 
 @property(strong,nonatomic) NSString *additionalDriverGender;
 @property(strong,nonatomic) NSString *additionalDriverFirstname;
+@property(strong,nonatomic) NSString *additionalDriverMiddlename;
 @property(strong,nonatomic) NSString *additionalDriverSurname;
 @property(strong,nonatomic) NSDate   *additionalDriverBirthday;
+@property(strong,nonatomic) NSString *additionalDriverNationality;
+@property(strong,nonatomic) NSString *additionalDriverPassportNumber;
+@property(strong,nonatomic) NSString *additionalDriverNationalityNumber;
 
 @property(strong,nonatomic) NSString *additionalDriverLicenseClass;
 @property(strong,nonatomic) NSString *additionalDriverLicenseNumber;

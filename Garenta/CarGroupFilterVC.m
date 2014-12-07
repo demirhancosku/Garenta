@@ -35,7 +35,7 @@
 {
     [self fillFiltersInArrays];
     
-    tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
+    tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
     
     [tableView setDelegate:self];
     [tableView setDataSource:self];
@@ -267,7 +267,6 @@
     [self buildTransmissionFilter];
     
     [self buildBrandFilter];
-    
 }
 
 - (void)buildFuelFilter{
@@ -386,14 +385,9 @@
                 [object setIsSelected:NO];
                 [brandFilter addObject:object];
         }
-        
     }
     
-
     [self calculateFilterResult:brandFilter];
-    
-    
-    
 }
 
 
