@@ -232,7 +232,7 @@
                 if (resultDict != nil) {
                     NSLog(@"%@", resultDict);
                     
-                    NSDictionary *expentionDict = [dict objectForKey:@"ABAP_EXCEPTION"];
+                    NSDictionary *expentionDict = [resultDict objectForKey:@"ABAP_EXCEPTION"];
                     
                     if (expentionDict == nil && [expentionDict count] < 1) {
                         return resultDict;

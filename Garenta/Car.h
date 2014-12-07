@@ -41,5 +41,6 @@
 @property(nonatomic,retain)NSString *plateNo;
 @property(nonatomic,retain)NSString *chassisNo;
 @property(nonatomic,retain)UIImage  *image;
+@property BOOL isForShown;
 
 @end

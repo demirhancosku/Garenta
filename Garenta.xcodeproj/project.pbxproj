@@ -38,6 +38,7 @@
 		0C5B5FEA18649A870060BECD /* UserLoginPic.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5B5FE918649A870060BECD /* UserLoginPic.png */; };
 		0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */; };
 		0C6CF63E19F064AC006B3174 /* OldReservationDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6CF63D19F064AC006B3174 /* OldReservationDetailVC.m */; };
+		0C70CAC81A31FC8900E9CDE5 /* UpsellDownsellCarSelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C70CAC71A31FC8900E9CDE5 /* UpsellDownsellCarSelectionVC.m */; };
 		0C893D87187884E5006AFF0A /* SliderHandle.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C893D86187884E5006AFF0A /* SliderHandle.png */; };
 		0C8E1EDE19F7A53F0092DDBD /* OldReservationEquipmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8E1EDD19F7A53F0092DDBD /* OldReservationEquipmentVC.m */; };
 		0C9076F71A14EC72007042AA /* OldReservationUpsellDownsellVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9076F61A14EC72007042AA /* OldReservationUpsellDownsellVC.m */; };
@@ -241,6 +242,8 @@
 		0C5E86F318631B4B004C642D /* GarentaSmallLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GarentaSmallLogo.png; sourceTree = SOURCE_ROOT; };
 		0C6CF63C19F064AC006B3174 /* OldReservationDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationDetailVC.h; sourceTree = "<group>"; };
 		0C6CF63D19F064AC006B3174 /* OldReservationDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationDetailVC.m; sourceTree = "<group>"; };
+		0C70CAC61A31FC8900E9CDE5 /* UpsellDownsellCarSelectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpsellDownsellCarSelectionVC.h; sourceTree = "<group>"; };
+		0C70CAC71A31FC8900E9CDE5 /* UpsellDownsellCarSelectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpsellDownsellCarSelectionVC.m; sourceTree = "<group>"; };
 		0C893D86187884E5006AFF0A /* SliderHandle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SliderHandle.png; sourceTree = "<group>"; };
 		0C8E1EDC19F7A53F0092DDBD /* OldReservationEquipmentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationEquipmentVC.h; sourceTree = "<group>"; };
 		0C8E1EDD19F7A53F0092DDBD /* OldReservationEquipmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationEquipmentVC.m; sourceTree = "<group>"; };
@@ -769,6 +772,8 @@
 			children = (
 				0C9076F51A14EC72007042AA /* OldReservationUpsellDownsellVC.h */,
 				0C9076F61A14EC72007042AA /* OldReservationUpsellDownsellVC.m */,
+				0C70CAC61A31FC8900E9CDE5 /* UpsellDownsellCarSelectionVC.h */,
+				0C70CAC71A31FC8900E9CDE5 /* UpsellDownsellCarSelectionVC.m */,
 			);
 			name = "Upsell-Downsell";
 			sourceTree = "<group>";
@@ -1210,6 +1215,7 @@
 				0CBA75C8186435260008CE29 /* OfficeWorkingTime.m in Sources */,
 				B533CE1F18FD173D002FE236 /* IDController.m in Sources */,
 				B592119C195D9D9900A54E0E /* WYStoryboardPopoverSegue.m in Sources */,
+				0C70CAC81A31FC8900E9CDE5 /* UpsellDownsellCarSelectionVC.m in Sources */,
 				B5BBE95119503907000AD4E2 /* UIColor+GarentaColors.m in Sources */,
 				B5688B01186B2E25009D830E /* GTMBase64.m in Sources */,
 				0C0DA9B01865E234003EDDA0 /* Destination.m in Sources */,

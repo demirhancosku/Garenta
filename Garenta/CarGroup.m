@@ -121,6 +121,9 @@
         
         [tempCar setMaterialCode:[tempDict valueForKey:@"MATNR"]];
         [tempCar setMaterialName:[tempDict valueForKey:@"MAKTX"]];
+        [tempCar setWinterTire:[tempDict valueForKey:@"KIS_LASTIK"]];
+        [tempCar setColorCode:[tempDict valueForKey:@"RENK"]];
+        [tempCar setColorName:[tempDict valueForKey:@"RENKTX"]];
         [tempCar setBrandId:[tempDict valueForKey:@"MARKA_ID"]];
         [tempCar setBrandName:[tempDict valueForKey:@"MARKA"]];
         [tempCar setModelId:[tempDict valueForKey:@"MODEL_ID"]];
@@ -188,8 +191,6 @@
             [tempCarGroup setPayNowPrice:[NSString stringWithFormat:@"%.02f",tempCar.pricing.payNowPrice.floatValue]];
             [tempCarGroup setPriceWithKDV:[NSString stringWithFormat:@"%.02f", tempCar.pricing.priceWithKDV.floatValue]];
         }
-        
-        
     }
 
     return [self sortCarGroupsPriceAscending:availableCarGroups];

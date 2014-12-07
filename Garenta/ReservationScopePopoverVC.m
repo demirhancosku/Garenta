@@ -61,13 +61,32 @@
 //    }
     else
     {
-        if ([reservation.paymentType isEqualToString:@"1"])
+        NSString *string;
+        if (reservation.selectedCar) {
+            string = reservation.selectedCar.materialName;
+        }
+        else{
+            string = [NSString stringWithFormat:@"%@ ve benzeri",reservation.selectedCarGroup.sampleCar.materialName];
+        }
+        
+        if (reservation.changeReservationDifference == nil)
+            reservation.changeReservationDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
+        
+        if ([reservation.paymentType isEqualToString:@"1"] || reservation.paymentType == nil)
         {
-            [textView setText:[NSString stringWithFormat:@"- %@ ve benzeri - %.02f TL\n",reservation.selectedCarGroup.sampleCar.materialName,reservation.selectedCarGroup.sampleCar.pricing.payNowPrice.floatValue]];
+            if (reservation.selectedCarGroup.sampleCar.pricing.priceWithKDV.floatValue > 0) {
+                [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",string,[reservation.selectedCarGroup.sampleCar.pricing.priceWithKDV decimalNumberByAdding:reservation.changeReservationDifference].floatValue]];
+            }
+            else
+                [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",string,[reservation.selectedCarGroup.sampleCar.pricing.payNowPrice decimalNumberByAdding:reservation.changeReservationDifference].floatValue]];
         }
         else
         {
-            [textView setText:[NSString stringWithFormat:@"- %@ ve benzeri - %.02f TL\n",reservation.selectedCarGroup.sampleCar.materialName,reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice.floatValue]];
+            if (reservation.selectedCarGroup.sampleCar.pricing.priceWithKDV.floatValue > 0) {
+                [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",string,[reservation.selectedCarGroup.sampleCar.pricing.priceWithKDV decimalNumberByAdding:reservation.changeReservationDifference].floatValue]];
+            }
+            else
+                [textView setText:[NSString stringWithFormat:@"- %@ ve benzeri - %.02f TL\n",string,[reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice decimalNumberByAdding:reservation.changeReservationDifference].floatValue]];
         }
         
         if (reservation.selectedCar) {

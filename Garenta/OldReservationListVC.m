@@ -269,7 +269,7 @@
 
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
+{    
     if ([[segue identifier] isEqualToString:@"toReservationDetail"]) {
         [(OldReservationDetailVC*)[segue destinationViewController] setReservation:_reservation];
         [(OldReservationDetailVC*)[segue destinationViewController] setTotalPrice:_totalPrice];
@@ -364,6 +364,9 @@
                     [tempCar setPlateNo:plateNo];
                     [tempCar setChassisNo:chassisNo];
                     [tempCar setBrandId:[tempDict valueForKey:@"MARKA_ID"]];
+                    [tempCar setWinterTire:[tempDict valueForKey:@"KIS_LASTIK"]];
+                    [tempCar setColorCode:[tempDict valueForKey:@"RENK"]];
+                    [tempCar setColorName:[tempDict valueForKey:@"RENKTX"]];
                     [tempCar setBrandName:[tempDict valueForKey:@"MARKA"]];
                     [tempCar setModelId:[tempDict valueForKey:@"MODEL_ID"]];
                     [tempCar setModelName:[tempDict valueForKey:@"MODEL"]];
@@ -371,8 +374,13 @@
                     [tempCar setSalesOffice:[tempDict valueForKey:@"MSUBE"]];
                     
                     NSString *imagePath = [tempDict valueForKey:@"ZRESIM_315"];
+                    imagePath = [imagePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                     
-                    [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imagePath]]]];
+                    NSURL *imageUrl = [NSURL URLWithString:imagePath];
+                    
+                    NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
+                    UIImage *carImage = [UIImage imageWithData:imageData];
+                    tempCar.image = carImage;
                     
                     if (tempCar.image == nil) {
                         [tempCar setImage:[UIImage imageNamed:@"sample_car.png"]];

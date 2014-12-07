@@ -106,7 +106,7 @@
         [handler addImportParameter:@"IMPP_ENDTIME" andValue:[timeFormatter stringFromDate:super.reservation.checkInTime]];
         [handler addImportParameter:@"IMPP_HDFSUBE" andValue:super.reservation.checkInOffice.subOfficeCode];
         [handler addImportParameter:@"IMPP_LANG" andValue:@"T"];
-        [handler addImportParameter:@"IMPP_KDGRP" andValue:@"10"];
+        [handler addImportParameter:@"IMPP_KDGRP" andValue:@"40"];
         
         [handler addTableForReturn:@"EXPT_ARACLISTE"];
         [handler addTableForReturn:@"EXPT_EXPIRY"];

@@ -13,4 +13,6 @@
 
 @property (strong,nonatomic) Reservation *reservation;
 @property (weak,nonatomic) NSString *totalPrice;
+@property (strong,nonatomic) NSMutableArray *upsellList;
+@property (strong,nonatomic) NSMutableArray *downsellList;
 @end

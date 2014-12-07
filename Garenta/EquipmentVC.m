@@ -65,6 +65,7 @@
     });
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"carSelected" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
+        [self checkWinterTyre];
         [self recalculate];
         [_additionalEquipmentsTableView reloadData];
     }];
@@ -74,6 +75,21 @@
         [self recalculate];
         [_additionalEquipmentsTableView reloadData];
     }];
+}
+
+- (void)checkWinterTyre
+{
+    if ([_reservation.selectedCar.winterTire isEqualToString:@"X"])
+    {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0014"];
+        NSArray *filterArray = [_additionalEquipments filteredArrayUsingPredicate:predicate];
+        
+        if (filterArray.count > 0) {
+            [[filterArray objectAtIndex:0] setQuantity:1];
+            [[filterArray objectAtIndex:0] setIsRequired:YES];
+        }
+
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -159,9 +175,9 @@
 - (void)clearAllEquipments {
     [_totalPriceLabel setText:@"0"];
     
-    if (_reservation.additionalDrivers == nil)
+//    if (_reservation.additionalDrivers == nil)
         _reservation.additionalDrivers = nil;
-    if (_reservation.additionalEquipments == nil)
+//    if (_reservation.additionalEquipments == nil)
         _reservation.additionalEquipments = nil;
 }
 
@@ -173,25 +189,30 @@
 
 - (void)getCarSelectionPrice
 {
+    [_carSelectionArray removeAllObjects];
     for (Car *tempCar in _reservation.selectedCarGroup.cars)
     {
-        if ([_carSelectionArray count] == 0) {
-            [_carSelectionArray addObject:tempCar];
-        }
-        else {
-            BOOL isNewModelId = YES;
-            
-            for (int i = 0; i < [_carSelectionArray count]; i++) {
-                if ([[[_carSelectionArray objectAtIndex:i] modelId] isEqualToString:tempCar.modelId]) {
-                    isNewModelId = NO;
-                    break;
-                }
-            }
-            
-            if (isNewModelId) {
-                [_carSelectionArray addObject:tempCar];
-            }
-        }
+        
+//AKEREMB - renkleriyle beraber araçları gösterelim diye kontrolü kaldırdım
+        [_carSelectionArray addObject:tempCar];
+
+//        if ([_carSelectionArray count] == 0) {
+//            [_carSelectionArray addObject:tempCar];
+//        }
+//        else {
+//            BOOL isNewModelId = YES;
+//            
+//            for (int i = 0; i < [_carSelectionArray count]; i++) {
+//                if ([[[_carSelectionArray objectAtIndex:i] modelId] isEqualToString:tempCar.modelId]) {
+//                    isNewModelId = NO;
+//                    break;
+//                }
+//            }
+//            
+//            if (isNewModelId) {
+//                [_carSelectionArray addObject:tempCar];
+//            }
+//        }
     }
     
     [_additionalEquipmentsTableView reloadData];
@@ -253,8 +274,9 @@
         [cell.selectButton setImage:[UIImage imageNamed:@"ticked_button.png"] forState:UIControlStateNormal];
         [cell.selectButton setHidden:NO];
         [cell.priceLabel setText:[NSString stringWithFormat:@"%.02f TL",[_reservation.selectedCar.pricing.carSelectPrice floatValue]]];
-        [[cell carLabel] setText:[NSString stringWithFormat:@"%@ %@",_reservation.selectedCar.brandName, _reservation.selectedCar.modelName]];
+        [[cell carLabel] setText:[NSString stringWithFormat:@"%@ %@ - %@",_reservation.selectedCar.brandName, _reservation.selectedCar.modelName,_reservation.selectedCar.colorName]];
     }
+    
     return cell;
 }
 
@@ -335,10 +357,20 @@
             break;
         case 1:
             //YES
+        {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0014"];
+            NSArray *filterArray = [_additionalEquipments filteredArrayUsingPredicate:predicate];
+            
+            if (filterArray.count > 0) {
+                [[filterArray objectAtIndex:0] setQuantity:0];
+                [[filterArray objectAtIndex:0] setIsRequired:NO];
+            }
+            
             [_reservation setSelectedCar:nil];
             [self recalculate];
             [_additionalEquipmentsTableView reloadData];
             break;
+        }
         default:
             break;
     }
@@ -573,8 +605,16 @@
                 }
                 else
                 {
-                    [_additionalEquipments addObject:tempEquip];
-                    [_additionalEquipmentsFullList addObject:tempEquip];
+                    NSPredicate *tempPredicate = [NSPredicate predicateWithFormat:@"winterTire=%@",@"X"];
+                    NSArray *tempPredicateArray = [_reservation.selectedCarGroup.cars filteredArrayUsingPredicate:tempPredicate];
+                    if ([[tempEquip materialNumber] isEqualToString:@"HZM0014"] && tempPredicateArray.count == 0) {
+                        [_additionalEquipmentsFullList addObject:tempEquip];
+                    }
+                    else
+                    {
+                        [_additionalEquipments addObject:tempEquip];
+                        [_additionalEquipmentsFullList addObject:tempEquip];
+                    }
                 }
             }
         }
@@ -622,13 +662,20 @@
 #pragma mark - IBActions
 - (IBAction)plusButtonPressed:(id)sender
 {
-    AdditionalEquipment*additionalEquipment = [_additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
+    AdditionalEquipment *additionalEquipment = [_additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
     if (additionalEquipment.type == additionalDriver) {
         [self performSegueWithIdentifier:@"toAdditionalDriverVCSegue" sender:sender];
     }
     else
     {
-        if ([[additionalEquipment materialNumber] isEqualToString:@"HZM0012"]) {
+        if ([[additionalEquipment materialNumber] isEqualToString:@"HZM0014"] && _reservation.selectedCar != nil && ![_reservation.selectedCar.winterTire isEqualToString:@"X"])
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Seçmiş olduğunuz aracın kış lastiği hizmeti bulunmamaktadır. Bu hizmetten yararlanabilmek için kış lastiği hizmeti olan bir araç seçmelisiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+        
+        else if ([[additionalEquipment materialNumber] isEqualToString:@"HZM0012"]) {
             
             for (AdditionalEquipment *temp in _additionalEquipments) {
                 if (([[temp materialNumber] isEqualToString:@"HZM0011"] || [[temp materialNumber] isEqualToString:@"HZM0024"] || [[temp materialNumber] isEqualToString:@"HZM0009"] || [[temp materialNumber] isEqualToString:@"HZM0006"]) && [temp quantity] == 1) {
@@ -714,17 +761,20 @@
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    [_reservation setAdditionalEquipments:_additionalEquipments];
     if ([[segue identifier] isEqualToString:@"toReservationSummaryVCSegue"]) {
+        [_reservation setAdditionalEquipments:_additionalEquipments];
         [(ReservationSummaryVC*)[segue destinationViewController] setReservation:_reservation];
     }
     if ([[segue identifier] isEqualToString:@"toUserInfoVCSegue"]) {
+        [_reservation setAdditionalEquipments:_additionalEquipments];
         [(UserInfoTableViewController*)  [segue destinationViewController] setReservation:_reservation];
         
     }
     if ([[segue identifier] isEqualToString:@"toCarSelectionVCSegue"]) {
+        [self getCarSelectionPrice];
         [(CarSelectionVC*)  [segue destinationViewController] setReservation:_reservation];
         [(CarSelectionVC*)  [segue destinationViewController] setCarSelectionArray:_carSelectionArray];
+        [(CarSelectionVC*)  [segue destinationViewController] setAdditionalEquipments:_additionalEquipments];
     }
     
     if ([[segue identifier] isEqualToString:@"toAdditionalDriverVCSegue"])

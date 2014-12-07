@@ -10,6 +10,7 @@
 #import "MBProgressHUD.h"
 #import "OldReservationPaymentVC.h"
 #import "OldReservationApprovalVC.h"
+#import "AdditionalEquipment.h"
 
 @interface OldReservationSummaryVC ()
 
@@ -21,9 +22,31 @@
     //UPSELL ile gelince buraya giriyor
     if (_totalPrice != nil)
     {
-        NSDecimalNumber *payNowDifference = [super.reservation.upsellSelectedCar.pricing.payNowPrice decimalNumberBySubtracting:super.reservation.upsellSelectedCar.pricing.documentCarPrice];
+        NSDecimalNumber *payNowPrice;
+        NSDecimalNumber *payLaterPrice;
+        NSDecimalNumber *documentPrice;
         
-        NSDecimalNumber *payLaterDifference = [super.reservation.upsellSelectedCar.pricing.payLaterPrice decimalNumberBySubtracting:super.reservation.upsellSelectedCar.pricing.documentCarPrice];
+        if (super.reservation.upsellSelectedCar) {
+            payNowPrice = [super.reservation.upsellSelectedCar.pricing.payNowPrice decimalNumberByAdding:super.reservation.upsellSelectedCar.pricing.carSelectPrice];
+            payLaterPrice = [super.reservation.upsellSelectedCar.pricing.payLaterPrice decimalNumberByAdding:super.reservation.upsellSelectedCar.pricing.carSelectPrice];
+            documentPrice = super.reservation.upsellSelectedCar.pricing.documentCarPrice;
+        }
+        else
+        {
+            payNowPrice = super.reservation.upsellCarGroup.sampleCar.pricing.payNowPrice;
+            payLaterPrice = super.reservation.upsellCarGroup.sampleCar.pricing.payLaterPrice;
+            documentPrice = super.reservation.upsellCarGroup.sampleCar.pricing.documentCarPrice;
+        }
+        
+        NSDecimalNumber *payNowDifference = [payNowPrice decimalNumberBySubtracting:documentPrice];
+        
+        NSDecimalNumber *payLaterDifference = [payLaterPrice decimalNumberBySubtracting:documentPrice];
+        
+        // araca rezervasyon yaratılmış ve upsell/downsell yapılarak gruba tercih edilirse
+        if ([super.reservation.reservationType isEqualToString:@"10"] && super.reservation.upsellSelectedCar == nil) {
+            payNowDifference = [payNowDifference decimalNumberBySubtracting:[self deleteCarSelection]];
+            payLaterDifference = [payLaterDifference decimalNumberBySubtracting:[self deleteCarSelection]];
+        }
         
         if ([super.reservation.paymentType isEqualToString:@"1"])
             _changeReservationPrice = payNowDifference;
@@ -46,6 +69,11 @@
             brandModelString = [NSString stringWithFormat:@"%@ %@",super.reservation.upsellSelectedCar.brandName,super.reservation.upsellSelectedCar.modelName];
             boldLenght = brandModelString.length;
         }
+        else
+        {
+            brandModelString = [NSString stringWithFormat:@"%@ %@ ve benzeri",super.reservation.upsellCarGroup.sampleCar.brandName,super.reservation.upsellCarGroup.sampleCar.modelName];
+            boldLenght = brandModelString.length;
+        }
         
         const NSRange range = NSMakeRange(0,boldLenght);
         NSMutableAttributedString *attributedText =
@@ -54,8 +82,11 @@
         [attributedText setAttributes:subAttrs range:range];
         [super.brandModelLabel setAttributedText:attributedText];
         
+        if (super.reservation.upsellSelectedCar)
+            [super.carImageView setImage:super.reservation.upsellSelectedCar.image];
+        else
+            [super.carImageView setImage:super.reservation.upsellCarGroup.sampleCar.image];
         
-        [super.carImageView setImage:super.reservation.upsellCarGroup.sampleCar.image];
         [super.fuelLabel setText:super.reservation.upsellCarGroup.fuelName];
         [super.transmissionLabel setText:super.reservation.upsellCarGroup.transmissonName];
         [super.acLabel setText:@"Klima"];
@@ -67,6 +98,21 @@
         [super viewDidLoad];
     }
     // Do any additional setup after loading the view.
+}
+
+- (NSDecimalNumber *)deleteCarSelection
+{
+    NSPredicate *equipmentPredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0031"];
+    NSArray *equipmentPredicateArray = [super.reservation.additionalEquipments filteredArrayUsingPredicate:equipmentPredicate];
+    
+    AdditionalEquipment *temp = [AdditionalEquipment new];
+    
+    if (equipmentPredicateArray.count > 0) {
+        temp = [equipmentPredicateArray objectAtIndex:0];
+        temp.updateStatus = @"D";
+    }
+    
+    return temp.price;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -187,9 +233,31 @@
                 
                 if (_totalPrice != nil)
                 {
-                    NSDecimalNumber *payNowDifference = [super.reservation.upsellSelectedCar.pricing.payNowPrice decimalNumberBySubtracting:super.reservation.upsellSelectedCar.pricing.documentCarPrice];
+                    NSDecimalNumber *payNowPrice;
+                    NSDecimalNumber *payLaterPrice;
+                    NSDecimalNumber *documentPrice;
                     
-                    NSDecimalNumber *payLaterDifference = [super.reservation.upsellSelectedCar.pricing.payLaterPrice decimalNumberBySubtracting:super.reservation.upsellSelectedCar.pricing.documentCarPrice];
+                    if (super.reservation.upsellSelectedCar) {
+                        payNowPrice = [super.reservation.upsellSelectedCar.pricing.payNowPrice decimalNumberByAdding:super.reservation.upsellSelectedCar.pricing.carSelectPrice];
+                        payLaterPrice = [super.reservation.upsellSelectedCar.pricing.payLaterPrice decimalNumberByAdding:super.reservation.upsellSelectedCar.pricing.carSelectPrice];
+                        documentPrice = super.reservation.upsellSelectedCar.pricing.documentCarPrice;
+                    }
+                    else
+                    {
+                        payNowPrice = super.reservation.upsellCarGroup.sampleCar.pricing.payNowPrice;
+                        payLaterPrice = super.reservation.upsellCarGroup.sampleCar.pricing.payLaterPrice;
+                        documentPrice = super.reservation.upsellCarGroup.sampleCar.pricing.documentCarPrice;
+                    }
+                    
+                    NSDecimalNumber *payNowDifference = [payNowPrice decimalNumberBySubtracting:documentPrice];
+                    
+                    NSDecimalNumber *payLaterDifference = [payLaterPrice decimalNumberBySubtracting:documentPrice];
+                    
+                    // araca rezervasyon yaratılmış ve upsell/downsell yapılarak gruba tercih edilirse
+                    if ([super.reservation.reservationType isEqualToString:@"10"] && super.reservation.upsellSelectedCar == nil) {
+                        payNowDifference = [payNowDifference decimalNumberBySubtracting:[self deleteCarSelection]];
+                        payLaterDifference = [payLaterDifference decimalNumberBySubtracting:[self deleteCarSelection]];
+                    }
                     
                     if ([super.reservation.paymentType isEqualToString:@"1"])
                     {

@@ -19,9 +19,13 @@
         [copy setPrice:[self.price copyWithZone:zone]];
         [copy setMaxQuantity:[self.maxQuantity copyWithZone:zone]];
         [copy setAdditionalDriverFirstname:@""];
+        [copy setAdditionalDriverMiddlename:@""];
         [copy setAdditionalDriverSurname:@""];
         [copy setAdditionalDriverBirthday:[NSDate date]];
         [copy setAdditionalDriverGender:@""];
+        [copy setAdditionalDriverNationality:@""];
+        [copy setAdditionalDriverNationalityNumber:@""];
+        [copy setAdditionalDriverPassportNumber:@""];
         [copy setAdditionalDriverLicenseClass:@""];
         [copy setAdditionalDriverLicenseNumber:@""];
         [copy setAdditionalDriverLicensePlace:@""];

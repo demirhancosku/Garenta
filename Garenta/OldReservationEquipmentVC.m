@@ -131,9 +131,9 @@
     
     for (AdditionalEquipment *temp in super.additionalEquipments)
     {
-        if (temp.type == additionalDriver) {
-            [temp setQuantity:self.reservation.additionalDrivers.count + temp.quantity];
-        }
+//        if (temp.type == additionalDriver) {
+//            [temp setQuantity:self.reservation.additionalDrivers.count + temp.quantity];
+//        }
         if (_isPayNow)
             total = total + temp.difference.floatValue;
         else
@@ -190,6 +190,17 @@
 {
     AdditionalEquipment*additionalEquipment = [super.additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
     if (additionalEquipment.type == additionalDriver) {
+        
+        int newValue = [additionalEquipment quantity] + 1;
+        [additionalEquipment setQuantity:newValue];
+        
+        if (_isPayNow)
+        {
+            if (additionalEquipment.paid == nil) {
+                additionalEquipment.paid = [NSDecimalNumber decimalNumberWithString:@"0"];
+            }
+            additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
+        }
         [self performSegueWithIdentifier:@"toAdditionalDriverVCSegue" sender:sender];
     }
     else
@@ -244,15 +255,22 @@
         [super deleteAdditionalDriver];
         [self.reservation.additionalDrivers removeLastObject];
     }
-    else
-    {
-        int newValue = [additionalEquipment quantity]-1;
-        [additionalEquipment setQuantity:newValue];
-        
-        if (_isPayNow) {
-            additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
-        }
+    
+    int newValue = [additionalEquipment quantity]-1;
+    [additionalEquipment setQuantity:newValue];
+    
+    if (_isPayNow) {
+        additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
     }
+//    else
+//    {
+//        int newValue = [additionalEquipment quantity]-1;
+//        [additionalEquipment setQuantity:newValue];
+//        
+//        if (_isPayNow) {
+//            additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
+//        }
+//    }
     
     [self recalculate];
 }
