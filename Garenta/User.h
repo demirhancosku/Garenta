@@ -49,6 +49,9 @@
 
 @property (nonatomic,retain) Coordinate *userLocation;
 
+// Ata Cengiz 03.12.2014 Corporate Renting
+@property (nonatomic, assign) BOOL isCorporateVehiclePayment;
+
 + (NSArray *)loginToSap:(NSString *)username andPassword:(NSString *)password;
 
 @end

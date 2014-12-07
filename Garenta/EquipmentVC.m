@@ -70,7 +70,6 @@
     }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"additionalDriverAdded" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
-        //        [[self myPopoverController] dismissPopoverAnimated:YES];
         [self addYoungDriver];
         [self recalculate];
         [_additionalEquipmentsTableView reloadData];
@@ -271,6 +270,13 @@
     [[cell infoButton] setTag:index];
     [[cell infoButtonCell] setTag:index];
     [[cell itemNameLabel] setText:additionalEquipment.materialDescription];
+    
+    if ([[ApplicationProperties getUser] isLoggedIn]) {
+        if ([[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
+            [[cell itemNameLabel] setText:[NSString stringWithFormat:@"%@ (%@)", cell.itemNameLabel.text, additionalEquipment.paymentType]];
+        }
+    }
+    
     [[cell itemPriceLabel] setText:[NSString stringWithFormat:@"%.02f TL",additionalEquipment.price.floatValue]];
     [[cell itemQuantityLabel] setText:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]];
     [[cell itemTotalPriceLabel] setText:[NSString stringWithFormat:@"%.02f TL",(additionalEquipment.quantity*[additionalEquipment.price floatValue])]];
@@ -360,11 +366,14 @@
         [handler addImportParameter:@"IMPP_KANAL" andValue:@"40"];
         
         NSString *fikod = @"";
+        NSString *kunnr = @"";
         
         if ([[ApplicationProperties getUser] isLoggedIn]) {
             fikod = [[ApplicationProperties getUser] priceCode];
+            kunnr = [[ApplicationProperties getUser] kunnr];
         }
         
+        [handler addImportParameter:@"IMPP_MUSNO" andValue:kunnr];
         [handler addImportParameter:@"IMPP_FIKOD" andValue:fikod];
         
         [handler addTableForReturn:@"EXPT_EKPLIST"];
@@ -389,7 +398,30 @@
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MUS_TANIMI"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"NETWR"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_MIKTAR"]]];
-                [tempEquip setQuantity:0];
+                
+                if ([[ApplicationProperties getUser] isLoggedIn]) {
+                    if ([[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
+                        NSString *fatTip = [tempDict valueForKey:@"FAT_TIP"];
+                        
+                        if (fatTip == nil || [fatTip isEqualToString:@""]) {
+                            fatTip = @"P";
+                        }
+                        
+                        [tempEquip setPaymentType:fatTip];
+                    }
+                }
+                
+                // Ata Cengiz 07.12.2014 corparate
+                NSString *mandotaryEquipment = [tempDict valueForKey:@"ZORUNLU"];
+                
+                if ([mandotaryEquipment isEqualToString:@"X"]) {
+                    [tempEquip setQuantity:1];
+                    [tempEquip setIsRequired:YES];
+                }
+                else {
+                    [tempEquip setQuantity:0];
+                }
+                
                 [tempEquip setType:standartEquipment];
                 [_additionalEquipments addObject:tempEquip];
                 [_additionalEquipmentsFullList addObject:tempEquip];
@@ -406,9 +438,28 @@
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
                 [tempEquip setType:additionalInsurance];
-                [tempEquip setQuantity:0];
+
+                // Ata Cengiz 07.12.2014 corparate
+                NSString *mandotaryEquipment = [tempDict valueForKey:@"ZORUNLU"];
                 
+                if ([mandotaryEquipment isEqualToString:@"X"]) {
+                    [tempEquip setQuantity:1];
+                    [tempEquip setIsRequired:YES];
+                }
+                else {
+                    [tempEquip setQuantity:0];
+                }
                 
+                if ([[ApplicationProperties getUser] isLoggedIn]) {
+                    if ([[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
+                        NSString *fatTip = [tempDict valueForKey:@"FAT_TIP"];
+                        
+                        if (fatTip == nil || [fatTip isEqualToString:@""]) {
+                            fatTip = @"P";
+                        }
+                        [tempEquip setPaymentType:fatTip];
+                    }
+                }
                 
                 if ([[tempEquip materialNumber] isEqualToString:@"HZM0020"] && tempEquip.price.floatValue > 0) //tek yön ücreti varsa hep 1 olacak
                 {
@@ -471,7 +522,30 @@
                 [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_ADET"]]];
-                [tempEquip setQuantity:0];
+
+                // Ata Cengiz 07.12.2014 corparate
+                NSString *mandotaryEquipment = [tempDict valueForKey:@"ZORUNLU"];
+                
+                if ([mandotaryEquipment isEqualToString:@"X"]) {
+                    [tempEquip setQuantity:1];
+                    [tempEquip setIsRequired:YES];
+                }
+                else {
+                    [tempEquip setQuantity:0];
+                }
+                
+                if ([[ApplicationProperties getUser] isLoggedIn]) {
+                    if ([[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
+                        NSString *fatTip = [tempDict valueForKey:@"FAT_TIP"];
+                        
+                        if (fatTip == nil || [fatTip isEqualToString:@""]) {
+                            fatTip = @"P";
+                        }
+                        
+                        [tempEquip setPaymentType:fatTip];
+                    }
+                }
+                
                 if ([[tempEquip materialNumber] isEqualToString:@"HZM0004"])
                     [tempEquip setType:additionalDriver];
                 else

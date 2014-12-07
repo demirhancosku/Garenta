@@ -39,11 +39,15 @@
     [super viewDidLoad];
     
     if (_reservation.etExpiry.count > 0) {
-        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02fTL(1. Taksit)", [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:_garentaTlTextField.text andIsMontlyRent:YES] floatValue]]];
+        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02fTL(1. Taksit)", [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:_garentaTlTextField.text andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]]];
+        [_totalPriceLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
+    }
+    else if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
+        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02fTL(Personel)", [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES] floatValue]]];
         [_totalPriceLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
     }
     else {
-        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:_garentaTlTextField.text andIsMontlyRent:NO] floatValue]]];
+        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:_garentaTlTextField.text andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]]];
     }
 
     _requiredFields = [NSArray arrayWithObjects:_creditCardNumberTextField,_nameOnCardTextField,_expirationMonthTextField,_expirationYearTextField,_cvvTextField, nil];
@@ -239,7 +243,7 @@
     
     if (textField.tag == 5)
     {
-        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:string andIsMontlyRent:NO] floatValue]]];
+        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:string andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]]];
     }
     
     return YES;

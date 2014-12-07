@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Me6-n1-SA8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Me6-n1-SA8">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -502,7 +502,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ft8-S1-1Bc">
+                            <view contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ft8-S1-1Bc">
                                 <rect key="frame" x="0.0" y="0.0" width="321" height="29"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ek Hizmetler" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FOu-UL-ojI">
@@ -1139,18 +1139,18 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hizmet Kapsami" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B6Y-bc-WkA">
-                                                    <rect key="frame" x="20" y="6" width="233" height="21"/>
+                                                    <rect key="frame" x="8" y="7" width="259" height="21"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="B6Y-bc-WkA" firstAttribute="centerY" secondItem="GO9-oj-cIS" secondAttribute="centerY" id="E14-ur-CRp"/>
+                                                <constraint firstItem="B6Y-bc-WkA" firstAttribute="centerY" secondItem="GO9-oj-cIS" secondAttribute="centerY" constant="1" id="E14-ur-CRp"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="GO9-oj-cIS" secondAttribute="trailing" constant="12" id="EfQ-ai-KT7"/>
                                                 <constraint firstItem="GO9-oj-cIS" firstAttribute="top" secondItem="6BM-qf-jCf" secondAttribute="topMargin" constant="1" id="TdF-SO-Zbk"/>
-                                                <constraint firstItem="GO9-oj-cIS" firstAttribute="leading" secondItem="B6Y-bc-WkA" secondAttribute="trailing" constant="22" id="Tl3-EM-axU"/>
-                                                <constraint firstItem="B6Y-bc-WkA" firstAttribute="leading" secondItem="6BM-qf-jCf" secondAttribute="leadingMargin" constant="12" id="u9H-1E-oD3"/>
-                                                <constraint firstItem="B6Y-bc-WkA" firstAttribute="top" secondItem="6BM-qf-jCf" secondAttribute="topMargin" constant="-2" id="v9F-U7-Ssy"/>
+                                                <constraint firstItem="GO9-oj-cIS" firstAttribute="leading" secondItem="B6Y-bc-WkA" secondAttribute="trailing" constant="8" id="Tl3-EM-axU"/>
+                                                <constraint firstItem="B6Y-bc-WkA" firstAttribute="leading" secondItem="6BM-qf-jCf" secondAttribute="leadingMargin" id="u9H-1E-oD3"/>
+                                                <constraint firstItem="B6Y-bc-WkA" firstAttribute="top" secondItem="6BM-qf-jCf" secondAttribute="topMargin" constant="-1" id="v9F-U7-Ssy"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
@@ -2321,14 +2321,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hizmet Kapsami" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BPN-hf-Tm2">
-                                                    <rect key="frame" x="20" y="6" width="109" height="21"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="up_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="jQk-MU-QQ1">
                                                     <rect key="frame" x="275" y="9" width="25" height="15"/>
                                                 </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hizmet Kapsami" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BPN-hf-Tm2">
+                                                    <rect key="frame" x="8" y="6" width="259" height="21"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -5594,14 +5594,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hizmet Kapsami" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDX-xw-Mj2">
-                                                    <rect key="frame" x="20" y="6" width="109" height="21"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="up_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="PHO-WV-elx">
                                                     <rect key="frame" x="275" y="9" width="25" height="15"/>
                                                 </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hizmet Kapsami" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDX-xw-Mj2">
+                                                    <rect key="frame" x="8" y="6" width="259" height="21"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -5768,22 +5768,22 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="m6I-pG-B6V"/>
+        <segue reference="VNV-MA-HSn"/>
         <segue reference="IrD-Hh-UBR"/>
-        <segue reference="Hj2-5d-FZ6"/>
         <segue reference="nTw-8o-Pk5"/>
+        <segue reference="Hj2-5d-FZ6"/>
         <segue reference="Qnv-8X-7MN"/>
         <segue reference="cbc-BX-eje"/>
-        <segue reference="a20-Ar-vAP"/>
+        <segue reference="Jja-3F-2kb"/>
         <segue reference="hLA-ZH-RHN"/>
-        <segue reference="Gtk-UI-NzB"/>
-        <segue reference="tMq-8T-4Dd"/>
+        <segue reference="a20-Ar-vAP"/>
+        <segue reference="TxX-UN-QgX"/>
+        <segue reference="aLh-ec-Lci"/>
         <segue reference="yGa-mz-bZL"/>
-        <segue reference="y6s-gR-Pji"/>
+        <segue reference="hGz-WM-gE8"/>
         <segue reference="CB7-4R-l6r"/>
         <segue reference="yGK-eD-VlD"/>
         <segue reference="EuT-BJ-MJt"/>
-        <segue reference="VNV-MA-HSn"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

@@ -121,7 +121,6 @@ static int kGarentaLogoId = 1;
             });
         }
     }
-    
 }
 
 //puts logo on navigation bar

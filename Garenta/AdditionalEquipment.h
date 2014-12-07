@@ -7,11 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-/*
- Normalde vaktim olmadığı için böyle yoksa ortak alanlar super detaylar subclass tek arrayde toparlanır rez. objesinde tutulur
- ayırırken xxx class methodu çağırılarak ilgili tabloya eklenir.
- Hadi öptüm gözlerinizden
- */
+
 @interface AdditionalEquipment : NSObject<NSCopying>
 
 typedef enum{
@@ -42,4 +38,8 @@ typedef enum{
 @property(strong,nonatomic) NSDate   *additionalDriverLicenseDate;
 @property BOOL isAdditionalYoungDriver;
 @property(assign) EquipmentType type;
+
+// Ata Cengiz 04.12.2014 Corparate
+@property (strong, nonatomic) NSString *paymentType; // F for firma, P for personel
+
 @end

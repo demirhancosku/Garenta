@@ -83,6 +83,10 @@
                             [user setIsPriority:YES];
                         }
                         
+                        if ([[tempDict valueForKey:@"CARI_ISLEM"] isEqualToString:@"X"]) {
+                            [user setIsCorporateVehiclePayment:YES];
+                        }
+                        
                         [tempUserList addObject:user];
                     }
                     
