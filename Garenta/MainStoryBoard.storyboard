@@ -502,20 +502,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-<<<<<<< HEAD
-                            <view contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ft8-S1-1Bc">
-                                <rect key="frame" x="0.0" y="0.0" width="321" height="29"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ek Hizmetler" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FOu-UL-ojI">
-                                        <rect key="frame" x="115" y="4" width="92" height="21"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" red="0.8666666666666667" green="0.8666666666666667" blue="0.8666666666666667" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-=======
->>>>>>> FETCH_HEAD
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="247" verticalHuggingPriority="248" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="1" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="yWM-h0-c59">
                                 <rect key="frame" x="0.0" y="29" width="320" height="278"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -5948,32 +5934,22 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="VNV-MA-HSn"/>
-        <segue reference="IrD-Hh-UBR"/>
-        <segue reference="iJn-Bu-Z2r"/>
-        <segue reference="eoS-ML-DjQ"/>
-        <segue reference="cx4-X2-B8e"/>
-        <segue reference="7yK-l0-YFl"/>
-        <segue reference="vaE-ba-gQe"/>
         <segue reference="m6I-pG-B6V"/>
-        <segue reference="nTw-8o-Pk5"/>
+        <segue reference="IrD-Hh-UBR"/>
         <segue reference="Hj2-5d-FZ6"/>
+        <segue reference="nTw-8o-Pk5"/>
         <segue reference="Qnv-8X-7MN"/>
-        <segue reference="cbc-BX-eje"/>
-        <segue reference="Jja-3F-2kb"/>
         <segue reference="hLA-ZH-RHN"/>
         <segue reference="a20-Ar-vAP"/>
-        <segue reference="TxX-UN-QgX"/>
-        <segue reference="aLh-ec-Lci"/>
-        <segue reference="hGz-WM-gE8"/>
-        <segue reference="CB7-4R-l6r"/>
-        <segue reference="yGK-eD-VlD"/>
-        <segue reference="EuT-BJ-MJt"/>
-        <segue reference="gHw-da-jXv"/>
-        <segue reference="fjv-e4-iFe"/>
-        <segue reference="yGa-mz-bZL"/>
+        <segue reference="Jja-3F-2kb"/>
+        <segue reference="cbc-BX-eje"/>
         <segue reference="tMq-8T-4Dd"/>
+        <segue reference="yGa-mz-bZL"/>
         <segue reference="y6s-gR-Pji"/>
+        <segue reference="VNV-MA-HSn"/>
+        <segue reference="CB7-4R-l6r"/>
+        <segue reference="vaE-ba-gQe"/>
+        <segue reference="EuT-BJ-MJt"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
