@@ -70,8 +70,12 @@
 		77886DEF1A134DA60075D50A /* BranchInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77886DE81A134DA60075D50A /* BranchInfoCell.m */; };
 		77886DF01A134DA60075D50A /* BranchMapCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77886DEA1A134DA60075D50A /* BranchMapCell.m */; };
 		77886DF11A134DA60075D50A /* BranchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77886DEC1A134DA60075D50A /* BranchTableViewCell.m */; };
-		77886DF41A1357E10075D50A /* icon-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 77886DF21A1357E10075D50A /* icon-menu.png */; };
-		77886DF51A1357E10075D50A /* icon-menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77886DF31A1357E10075D50A /* icon-menu@2x.png */; };
+		77886DF81A1396E00075D50A /* icon-menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77886DF61A1396E00075D50A /* icon-menu@2x.png */; };
+		77886DF91A1396E00075D50A /* icon-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 77886DF71A1396E00075D50A /* icon-menu.png */; };
+		77886DFF1A139C860075D50A /* garenta-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 77886DFE1A139C860075D50A /* garenta-logo.png */; };
+		77886E031A13AEE10075D50A /* phone-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 77886E021A13AEE10075D50A /* phone-logo.png */; };
+		77886E091A13E5B60075D50A /* ContactVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 77886E081A13E5B60075D50A /* ContactVC.m */; };
+		77886E0B1A1635D30075D50A /* garenta-mail.png in Resources */ = {isa = PBXBuildFile; fileRef = 77886E0A1A1635D30075D50A /* garenta-mail.png */; };
 		9E38C3BD1869EA8100EBD29E /* CarGroupFilterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E38C3BC1869EA8100EBD29E /* CarGroupFilterVC.m */; };
 		9E38C3C01869EF4200EBD29E /* FilterObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E38C3BF1869EF4200EBD29E /* FilterObject.m */; };
 		9E38C3C7186A033200EBD29E /* OrangeArrowDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E38C3C5186A033200EBD29E /* OrangeArrowDown.png */; };
@@ -291,8 +295,13 @@
 		77886DEA1A134DA60075D50A /* BranchMapCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BranchMapCell.m; sourceTree = "<group>"; };
 		77886DEB1A134DA60075D50A /* BranchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BranchTableViewCell.h; sourceTree = "<group>"; };
 		77886DEC1A134DA60075D50A /* BranchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BranchTableViewCell.m; sourceTree = "<group>"; };
-		77886DF21A1357E10075D50A /* icon-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-menu.png"; sourceTree = "<group>"; };
-		77886DF31A1357E10075D50A /* icon-menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-menu@2x.png"; sourceTree = "<group>"; };
+		77886DF61A1396E00075D50A /* icon-menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-menu@2x.png"; sourceTree = "<group>"; };
+		77886DF71A1396E00075D50A /* icon-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-menu.png"; sourceTree = "<group>"; };
+		77886DFE1A139C860075D50A /* garenta-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "garenta-logo.png"; sourceTree = "<group>"; };
+		77886E021A13AEE10075D50A /* phone-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phone-logo.png"; sourceTree = "<group>"; };
+		77886E071A13E5B60075D50A /* ContactVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactVC.h; sourceTree = "<group>"; };
+		77886E081A13E5B60075D50A /* ContactVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactVC.m; sourceTree = "<group>"; };
+		77886E0A1A1635D30075D50A /* garenta-mail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "garenta-mail.png"; sourceTree = "<group>"; };
 		9E212F76186343C3004B9B80 /* Office.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Office.h; sourceTree = "<group>"; };
 		9E212F77186343C3004B9B80 /* Office.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Office.m; sourceTree = "<group>"; };
 		9E212F7918634A96004B9B80 /* OfficeWorkingTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfficeWorkingTime.h; sourceTree = "<group>"; };
@@ -601,6 +610,7 @@
 			isa = PBXGroup;
 			children = (
 				E1FE90E71A077817002D6461 /* MainStoryBoard.storyboard */,
+				77886E061A13E5790075D50A /* Contact */,
 				77886DE21A134C680075D50A /* Branches */,
 				77886DDE1A134C370075D50A /* SlideMenu */,
 				0C4C9A9C1846333100CD3728 /* BaseVCs */,
@@ -695,8 +705,6 @@
 		0C4C9A9B1846331D00CD3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				77886DF21A1357E10075D50A /* icon-menu.png */,
-				77886DF31A1357E10075D50A /* icon-menu@2x.png */,
 				77886DC71A134B240075D50A /* AMSlideMenu */,
 				E1FE07E419FA3CE500E0BB0B /* ContinueIcon.png */,
 				E1FE07E219FA39F500E0BB0B /* userLoginBarButton.png */,
@@ -705,15 +713,20 @@
 				B5BBE954195040F6000AD4E2 /* door_icon.png */,
 				B59211A3195ECE2F00A54E0E /* calendar_icon.png */,
 				B5921193195D934900A54E0E /* triangle_green.png */,
+				77886DF61A1396E00075D50A /* icon-menu@2x.png */,
+				77886DF71A1396E00075D50A /* icon-menu.png */,
 				B5921194195D934900A54E0E /* triangle_white.png */,
 				B5BBE95819505D21000AD4E2 /* white_right_arrow.png */,
 				B5BBE956195055CC000AD4E2 /* up_arrow.png */,
+				77886E0A1A1635D30075D50A /* garenta-mail.png */,
 				B5BBE952195040CB000AD4E2 /* passanger_icon.png */,
 				B5E0649E194F12F90046E789 /* sample_car.png */,
+				77886DFE1A139C860075D50A /* garenta-logo.png */,
 				B5C490351940806E00B737E8 /* unticked_button.png */,
 				B5C490321940804F00B737E8 /* ticked_button.png */,
 				B5F5F958193C6907009B8D31 /* minus_icon.png */,
 				B5F5F959193C6907009B8D31 /* plus_icon.png */,
+				77886E021A13AEE10075D50A /* phone-logo.png */,
 				B533CE2018FD21CC002FE236 /* clock_icon.png */,
 				0C893D86187884E5006AFF0A /* SliderHandle.png */,
 				B50B09FC187592CB00649165 /* BackAccessoryButton.png */,
@@ -845,6 +858,15 @@
 				77886DEC1A134DA60075D50A /* BranchTableViewCell.m */,
 			);
 			name = Branches;
+			sourceTree = "<group>";
+		};
+		77886E061A13E5790075D50A /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				77886E071A13E5B60075D50A /* ContactVC.h */,
+				77886E081A13E5B60075D50A /* ContactVC.m */,
+			);
+			name = Contact;
 			sourceTree = "<group>";
 		};
 		9E38C3BA1869EA2B00EBD29E /* CarGroups */ = {
@@ -1033,21 +1055,21 @@
 				B533CE2118FD21CC002FE236 /* clock_icon.png in Resources */,
 				B5688AF6186B167E009D830E /* AccessoryButton.png in Resources */,
 				B5EE729018701DC400F634D3 /* klima.png in Resources */,
+				77886DF91A1396E00075D50A /* icon-menu.png in Resources */,
 				B5688B12186B3A2E009D830E /* load_10.png in Resources */,
-				77886DF51A1357E10075D50A /* icon-menu@2x.png in Resources */,
 				B5688AFB186B17EA009D830E /* arac_bul.png in Resources */,
 				B5688B16186B3A2E009D830E /* load_4.png in Resources */,
 				B5688B13186B3A2E009D830E /* load_11.png in Resources */,
 				B5BBE957195055CC000AD4E2 /* up_arrow.png in Resources */,
 				B5921196195D934900A54E0E /* triangle_white.png in Resources */,
 				B5EE728F18701DC400F634D3 /* kislastik.png in Resources */,
+				77886E0B1A1635D30075D50A /* garenta-mail.png in Resources */,
 				E15DFF8A19F7C6770078E06F /* MembershipRules.html in Resources */,
 				0C4C9A7418462EAB00CD3728 /* InfoPlist.strings in Resources */,
 				E15DFF8519F7A3040078E06F /* RentingAgreement.html in Resources */,
 				B5688B18186B3A2E009D830E /* load_6.png in Resources */,
 				B5688B14186B3A2E009D830E /* load_2.png in Resources */,
 				0C5B5FEA18649A870060BECD /* UserLoginPic.png in Resources */,
-				77886DF41A1357E10075D50A /* icon-menu.png in Resources */,
 				B5688B17186B3A2E009D830E /* load_5.png in Resources */,
 				0C893D87187884E5006AFF0A /* SliderHandle.png in Resources */,
 				B5BBE95919505D21000AD4E2 /* white_right_arrow.png in Resources */,
@@ -1059,6 +1081,8 @@
 				0C0012E919E54A95009AF050 /* visa_mastercard.png in Resources */,
 				B5688B11186B3A2E009D830E /* load_1.png in Resources */,
 				E1FE90E81A077817002D6461 /* MainStoryBoard.storyboard in Resources */,
+				77886DF81A1396E00075D50A /* icon-menu@2x.png in Resources */,
+				77886E031A13AEE10075D50A /* phone-logo.png in Resources */,
 				B5921195195D934900A54E0E /* triangle_green.png in Resources */,
 				B5EE729118701DC400F634D3 /* vites.png in Resources */,
 				B50B09FB187580C200649165 /* onay_icon.png in Resources */,
@@ -1069,6 +1093,7 @@
 				B50B09DE1874A95200649165 /* boarder_icon.png in Resources */,
 				B5E0343E186D95BF00226DAB /* login_icon.png in Resources */,
 				B5F5F95B193C6907009B8D31 /* plus_icon.png in Resources */,
+				77886DFF1A139C860075D50A /* garenta-logo.png in Resources */,
 				9E38C3C8186A033200EBD29E /* OrangeArrowUp.png in Resources */,
 				B5BBE955195040F6000AD4E2 /* door_icon.png in Resources */,
 				B5EE729218701DC400F634D3 /* yakit.png in Resources */,
@@ -1192,6 +1217,7 @@
 				B52462231924D8A100FC482B /* CarGroupTableVC.m in Sources */,
 				0C4B9FDB19FE2A92003FB4F5 /* OldReservationSummaryVC.m in Sources */,
 				77886DDD1A134B240075D50A /* UIViewController+AMSlideMenu.m in Sources */,
+				77886E091A13E5B60075D50A /* ContactVC.m in Sources */,
 				0C4FF37919EFFE3C00E06A71 /* OldReservationListVC.m in Sources */,
 				0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */,
 				77886DDA1A134B240075D50A /* AMSlideMenuMainViewController.m in Sources */,
