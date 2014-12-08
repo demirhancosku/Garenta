@@ -138,38 +138,41 @@
                 totalPrice = [self totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:garentaTl andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO];
             }
         }
-        else if (isPayNow) {
-            // Aylık olduğu için kdvli değeri almamız lazım
-            if (self.etExpiry.count > 0) {
-                totalPrice = [[totalPrice decimalNumberByAdding:selectedCarGroup.sampleCar.pricing.priceWithKDV] decimalNumberBySubtracting:[NSDecimalNumber decimalNumberWithString:garentaTl]];
-            }
-            else {
-                totalPrice = [[totalPrice decimalNumberByAdding:selectedCarGroup.sampleCar.pricing.payNowPrice] decimalNumberBySubtracting:[NSDecimalNumber decimalNumberWithString:garentaTl]];
-            }
-        }
         else {
-            if (self.etExpiry.count > 0) {
-                totalPrice = [totalPrice decimalNumberByAdding:selectedCarGroup.sampleCar.pricing.priceWithKDV];
+            // Bireysel günlük rezervasyon
+            if (isPayNow) {
+                // Aylık olduğu için kdvli değeri almamız lazım
+                if (self.etExpiry.count > 0) {
+                    totalPrice = [[totalPrice decimalNumberByAdding:selectedCarGroup.sampleCar.pricing.priceWithKDV] decimalNumberBySubtracting:[NSDecimalNumber decimalNumberWithString:garentaTl]];
+                }
+                else {
+                    totalPrice = [[totalPrice decimalNumberByAdding:selectedCarGroup.sampleCar.pricing.payNowPrice] decimalNumberBySubtracting:[NSDecimalNumber decimalNumberWithString:garentaTl]];
+                }
             }
             else {
-                totalPrice = [totalPrice decimalNumberByAdding:selectedCarGroup.sampleCar.pricing.payLaterPrice];
+                if (self.etExpiry.count > 0) {
+                    totalPrice = [totalPrice decimalNumberByAdding:selectedCarGroup.sampleCar.pricing.priceWithKDV];
+                }
+                else {
+                    totalPrice = [totalPrice decimalNumberByAdding:selectedCarGroup.sampleCar.pricing.payLaterPrice];
+                }
             }
-        }
-        
-        if (_selectedCar) {
-            if (_selectedCar.pricing.carSelectPrice == nil) {
-                _selectedCar.pricing.carSelectPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
+            
+            if (_selectedCar) {
+                if (_selectedCar.pricing.carSelectPrice == nil) {
+                    _selectedCar.pricing.carSelectPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
+                }
+                totalPrice = [totalPrice decimalNumberByAdding:_selectedCar.pricing.carSelectPrice];
             }
-            totalPrice = [totalPrice decimalNumberByAdding:_selectedCar.pricing.carSelectPrice];
-        }
-        
-        for (AdditionalEquipment *tempEquipment in _additionalEquipments) {
-            if (tempEquipment.quantity >0) {
-                totalEquiPrice = [totalEquiPrice decimalNumberByAdding:([tempEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",tempEquipment.quantity]]])];
+            
+            for (AdditionalEquipment *tempEquipment in _additionalEquipments) {
+                if (tempEquipment.quantity >0) {
+                    totalEquiPrice = [totalEquiPrice decimalNumberByAdding:([tempEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",tempEquipment.quantity]]])];
+                }
             }
+            
+            totalPrice = [totalPrice decimalNumberByAdding:totalEquiPrice];
         }
-        
-        totalPrice = [totalPrice decimalNumberByAdding:totalEquiPrice];
     }
     
     return totalPrice;
@@ -343,7 +346,7 @@
                 corparatePayment = @"X";
             }
         }
-
+        
         // ARAÇ
         
         NSArray *vehicleLine = @[@"", matnr, @"1", _reservation.selectedCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", carPrice, @"", @"", @"", @"", jatoBrandID, jatoModelID, _reservation.selectedCarGroup.segment, priceCode, @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", isMontly, corparatePayment];

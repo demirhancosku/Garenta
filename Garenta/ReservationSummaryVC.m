@@ -87,7 +87,7 @@
 
 #pragma mark - rezervasyon
 
-- (void)createReservation {
+- (void)createReservation:(BOOL)isPayNow {
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -321,6 +321,23 @@
 }
 
 - (IBAction)payNowPressed:(id)sender {
+    // Ata Cengiz for corparate payment we need to check if the sum of personal
+    // payment is 0 or not. If it is 0 then we need to create reservation without payment page
+    
+    if ([[ApplicationProperties getUser] isLoggedIn]) {
+        if ([[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"] && [[ApplicationProperties getUser] isCorporateVehiclePayment]) {
+            NSDecimalNumber *totalPersonalPayment = [_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES];
+            
+            if (totalPersonalPayment.integerValue == 0) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kira anlaşmasını kabul edip, rezervasyonuzun yaratılmasını istediğinize emin misiniz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Kira Anlaşmasını Oku", @"Kabul Ediyorum", nil];
+                [alert setTag:2];
+                [alert show];
+                
+                return;
+            }
+        }
+    }
+    
     [self performSegueWithIdentifier:@"toPaymentVCSegue" sender:self];
 }
 
@@ -342,12 +359,15 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 1) {
+    if (alertView.tag == 1 || alertView.tag == 2) {
         if (buttonIndex == 1) {
             [self performSegueWithIdentifier:@"toAgreementVCSegue" sender:self];
         }
-        if (buttonIndex == 2) {
-            [self createReservation];
+        if (buttonIndex == 2 && alertView.tag == 1) {
+            [self createReservation:NO];
+        }
+        if (buttonIndex == 2 && alertView.tag == 2) {
+            [self createReservation:YES];
         }
     }
 }

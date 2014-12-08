@@ -94,7 +94,7 @@
     else
         [self setTextFieldsEnable:NO];
     
-    _nameOnCardTextField.text = _creditCard.nameOnTheCard;
+//    _nameOnCardTextField.text = _creditCard.nameOnTheCard;
     _creditCardNumberTextField.text = _creditCard.cardNumber;
     _expirationMonthTextField.text = _creditCard.expirationMonth;
     _expirationYearTextField.text = _creditCard.expirationYear;

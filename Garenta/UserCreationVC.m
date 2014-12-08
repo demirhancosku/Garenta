@@ -380,6 +380,8 @@
 
 - (void)checkPhoneNumberValidation {
     
+    [self.timer invalidate];
+    
     NSString *generatedCode = [SMSSoapHandler generateCode];
     
     if (generatedCode == nil || [generatedCode isEqualToString:@""]) {
@@ -420,7 +422,7 @@
 
 - (void)updateSMSAlert:(id)sender {
     self.alertTimer--;
-    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen telefonunuza gelen konfirmasyon kodunu %d saniye içinde giriniz", self.alertTimer];
+    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen telefonunuza gelen konfirmasyon kodunu %lu saniye içinde giriniz", (unsigned long)self.alertTimer];
     
     if (self.alertTimer == 0) {
         [self.timer invalidate];
@@ -429,6 +431,8 @@
 }
 
 - (void)checkEmailVerificationCode {
+    
+    [self.timer invalidate];
     
     NSString *generatedCode = [SMSSoapHandler generateCode];
     
@@ -470,7 +474,7 @@
 
 - (void)updateEmailAlert:(id)sender {
     self.alertTimer--;
-    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen mail'inize gelen konfirmasyon kodunu %d saniye içinde giriniz", self.alertTimer];
+    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen mail'inize gelen konfirmasyon kodunu %lu saniye içinde giriniz", (unsigned long)self.alertTimer];
     
     if (self.alertTimer == 0) {
         [self.timer invalidate];

@@ -1369,7 +1369,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hk8-4N-1HA">
-                                <rect key="frame" x="60" y="4" width="200" height="21"/>
+                                <rect key="frame" x="16" y="4" width="288" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -2255,7 +2255,7 @@
                                     <outlet property="delegate" destination="Hvm-h9-69s" id="8qH-7P-VJ9"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ILq-5h-pFT">
+                            <view contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ILq-5h-pFT">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="29"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ek Hizmetler" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xp3-lT-NIc">
@@ -2636,7 +2636,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L3H-eo-4uE">
-                                <rect key="frame" x="60" y="8" width="200" height="21"/>
+                                <rect key="frame" x="16" y="8" width="288" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -3663,13 +3663,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A Grubu" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ysX-9T-cD8">
-                                <rect key="frame" x="90" y="37" width="140" height="21"/>
+                                <rect key="frame" x="19" y="37" width="282" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Min.Yaş:28 - Min.Ehliyet:2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lMg-WJ-4ej">
-                                <rect key="frame" x="57" y="79" width="206" height="21"/>
+                                <rect key="frame" x="16" y="79" width="288" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -3681,7 +3681,7 @@
                                 <rect key="frame" x="-20" y="115" width="80" height="80"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A Grubu" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y5I-bu-SiC">
-                                <rect key="frame" x="30" y="57" width="260" height="21"/>
+                                <rect key="frame" x="19" y="57" width="282" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -5934,21 +5934,21 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="m6I-pG-B6V"/>
-        <segue reference="IrD-Hh-UBR"/>
-        <segue reference="Hj2-5d-FZ6"/>
-        <segue reference="nTw-8o-Pk5"/>
-        <segue reference="Qnv-8X-7MN"/>
-        <segue reference="hLA-ZH-RHN"/>
-        <segue reference="a20-Ar-vAP"/>
-        <segue reference="Jja-3F-2kb"/>
-        <segue reference="cbc-BX-eje"/>
-        <segue reference="tMq-8T-4Dd"/>
-        <segue reference="yGa-mz-bZL"/>
-        <segue reference="y6s-gR-Pji"/>
         <segue reference="VNV-MA-HSn"/>
-        <segue reference="CB7-4R-l6r"/>
+        <segue reference="IrD-Hh-UBR"/>
+        <segue reference="nTw-8o-Pk5"/>
+        <segue reference="Hj2-5d-FZ6"/>
+        <segue reference="Qnv-8X-7MN"/>
+        <segue reference="a20-Ar-vAP"/>
+        <segue reference="cbc-BX-eje"/>
+        <segue reference="Jja-3F-2kb"/>
+        <segue reference="hLA-ZH-RHN"/>
+        <segue reference="TxX-UN-QgX"/>
+        <segue reference="aLh-ec-Lci"/>
+        <segue reference="yGa-mz-bZL"/>
         <segue reference="vaE-ba-gQe"/>
+        <segue reference="AXm-57-Aaz"/>
+        <segue reference="RuI-4F-7uI"/>
         <segue reference="EuT-BJ-MJt"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
