@@ -51,7 +51,7 @@
             officeArray = [Office getOfficesFromSAP];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [[self tableView] reloadData];
-            [self showPins];
+           
         });
     }
 }
@@ -166,6 +166,8 @@
     }
     else if (self.segmentedControl.selectedSegmentIndex == 1)
     {
+         [self showPins];
+        
         CLLocationManager *locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
