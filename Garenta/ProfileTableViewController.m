@@ -11,6 +11,7 @@
 #import "CountrySelectionVC.h"
 #import "SMSSoapHandler.h"
 #import "MailSoapHandler.h"
+#import "LoginVC.h"
 
 @interface ProfileTableViewController ()
 @property (weak, nonatomic) IBOutlet UISegmentedControl *genderSegmentedControl;
@@ -218,7 +219,7 @@
             self.driverLicenseLocationTextField.text = [esProfile valueForKey:@"EHLIYET_ALISYERI"];
             
             NSString *driverLicenseDate = [esProfile valueForKey:@"EHLIYET_TARIHI"];
-            if ([driverLicenseDate isEqualToString:@""] && driverLicenseDate != nil) {
+            if (![driverLicenseDate isEqualToString:@""] || driverLicenseDate != nil) {
                 self.driverLicenseDatePicker.date = [formatter dateFromString:driverLicenseDate];
             }
             
@@ -929,7 +930,7 @@
     }
     
     self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
-                                                     message:@"Lütfen Telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz"
+                                                     message:@"Lütfen telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz"
                                                     delegate:self
                                            cancelButtonTitle:@"Geri"
                                            otherButtonTitles:@"Tamam", nil];
@@ -948,7 +949,7 @@
 
 - (void)updateSMSAlert:(id)sender {
     self.alertTimer--;
-    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen Telefonunuza gelen konfirmasyon kodunu %d saniye içinde giriniz", self.alertTimer];
+    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen telefonunuza gelen konfirmasyon kodunu %d saniye içinde giriniz", self.alertTimer];
     
     if (self.alertTimer == 0) {
         [self.timer invalidate];
@@ -1178,6 +1179,11 @@
         
         selectionVC.selectionArray = countyAccordingToCity;
         selectionVC.searchType = 3;
+    }
+    if ([[segue identifier] isEqualToString:@"ToLoginVCSegue"]) {
+        LoginVC *loginVC = (LoginVC *)[segue destinationViewController];
+        loginVC.shouldNotPop = YES;
+        loginVC.leftButton = [[self navigationItem] leftBarButtonItem];
     }
 }
 

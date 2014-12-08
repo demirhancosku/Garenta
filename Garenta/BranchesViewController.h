@@ -19,7 +19,7 @@
 }
 - (IBAction)segmentedControlAction:(id)sender;
 - (void)showPins;
-@property (strong, nonatomic)Office *testOffice;
+
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic)Office *selectedOffice;
 @property (strong, nonatomic) CLLocationManager *locationManager;

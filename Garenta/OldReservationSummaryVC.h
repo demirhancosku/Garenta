@@ -12,4 +12,5 @@
 
 @property (strong,nonatomic) NSDecimalNumber *changeReservationPrice;
 @property (strong,nonatomic) CreditCard *creditCard;
+@property (strong,nonatomic) NSString *totalPrice;
 @end

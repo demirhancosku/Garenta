@@ -134,12 +134,7 @@
     viewRegion.span = span;
     viewRegion.center = location;
 
-    
     annotionPoint.coordinate = location;
-//    annotionPoint.title = selectedOffice.subOfficeName;
-//    annotionPoint.title = @"Buraya navigasyon kurmak için tıklayın";
-//    viewRegion = MKCoordinateRegionMakeWithDistance(location, 1000, 1000);
-
     
     [self.mapView addAnnotation:annotionPoint];
     [self.mapView setRegion:viewRegion animated:YES];
@@ -191,14 +186,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return 143.0f;
+    }
+    else if (indexPath.section == 1) {
+        return 391.0f;
+    }
+    return 1.0f;
 }
-*/
-
 @end

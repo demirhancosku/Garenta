@@ -1,20 +1,22 @@
 //
-//  CarSelectionVC.m
+//  UpsellDownsellCarSelectionVC.m
 //  Garenta
 //
-//  Created by Alp Keser on 6/16/14.
+//  Created by Kerem Balaban on 5.12.2014.
 //  Copyright (c) 2014 Kerem Balaban. All rights reserved.
 //
 
-#import "CarSelectionVC.h"
+#import "UpsellDownsellCarSelectionVC.h"
 #import "AdditionalEquipment.h"
+#import "OldReservationSummaryVC.h"
 
-@interface CarSelectionVC ()
+@interface UpsellDownsellCarSelectionVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property(assign, nonatomic)int selectedIndex;
 @end
 
-@implementation CarSelectionVC
+@implementation UpsellDownsellCarSelectionVC
+
 static NSString *cellIdentifier;
 @synthesize carSelectionArray;
 
@@ -31,7 +33,14 @@ static NSString *cellIdentifier;
 {
     [super viewDidLoad];
     _selectedIndex = 0;
-
+    
+    carSelectionArray = [NSMutableArray new];
+    for (CarGroup *tempCar in _cars) {
+        if ([tempCar.groupCode isEqualToString:_reservation.upsellCarGroup.groupCode]) {
+            [carSelectionArray addObject:tempCar];
+        }
+    }
+    
     //kış lastiği array'de varmı bakıyoruz
     NSPredicate *winterTire = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0014"];
     NSArray *filterResult = [_additionalEquipments filteredArrayUsingPredicate:winterTire];
@@ -63,28 +72,28 @@ static NSString *cellIdentifier;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CarSelectionCell" forIndexPath:indexPath];
-    Car *car = [carSelectionArray objectAtIndex:indexPath.row];
+    CarGroup *car = [carSelectionArray objectAtIndex:indexPath.row];
     UILabel *brandModelName = (UILabel*)[cell viewWithTag:1];
-    [brandModelName setText:[NSString stringWithFormat:@"%@ %@ - %@",car.brandName,car.modelName,car.colorName]];
-    [(UILabel*)[cell viewWithTag:2] setText:[NSString stringWithFormat:@" %.02f TL",car.pricing.carSelectPrice.floatValue]];
+    [brandModelName setText:[NSString stringWithFormat:@"%@ %@ - %@",car.sampleCar.brandName,car.sampleCar.modelName,car.sampleCar.colorName]];
+    [(UILabel*)[cell viewWithTag:2] setText:[NSString stringWithFormat:@" %.02f TL",car.sampleCar.pricing.carSelectPrice.floatValue]];
     
     UILabel *detailText = (UILabel*)[cell viewWithTag:4];
     
-    if ([car.winterTire isEqualToString:@"X"])
+    if ([car.sampleCar.winterTire isEqualToString:@"X"])
         [detailText setText:@"Kış lastiği mevcut"];
     else
         [detailText setText:@""];
-
+    
     UIImageView *carImage = (UIImageView*)[cell viewWithTag:3];
-    carImage.image = car.image;
+    carImage.image = car.sampleCar.image;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     _selectedIndex = indexPath.row;
-    Car *car = [carSelectionArray objectAtIndex:_selectedIndex];
+    Car *car = [[carSelectionArray objectAtIndex:_selectedIndex] sampleCar];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Onay" message:
-                          [NSString stringWithFormat:@"%@ %@ modeli rezervasyonunuza eklemek istedidiğinizden emin misiniz?",car.brandName,car.modelName]	 delegate:self cancelButtonTitle:@"Hayır" otherButtonTitles: @"Evet",nil];
+                          [NSString stringWithFormat:@"%@ %@ - (%@) modeli rezervasyonunuza eklemek istedidiğinizden emin misiniz?",car.brandName,car.modelName,car.colorName] delegate:self cancelButtonTitle:@"Hayır" otherButtonTitles: @"Evet",nil];
     [alert show];
 }
 
@@ -94,13 +103,22 @@ static NSString *cellIdentifier;
         case 0:
             //NO
             break;
-            case 1:
-            [_reservation setSelectedCar:[carSelectionArray objectAtIndex:_selectedIndex]];
-            [[self navigationController] popViewControllerAnimated:YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"carSelected" object:nil];
+        case 1:
+            [_reservation setUpsellSelectedCar:[[carSelectionArray objectAtIndex:_selectedIndex] sampleCar]];
+            [self performSegueWithIdentifier:@"toOldReservationSummarySegue" sender:self];
             break;
         default:
             break;
+    }
+}
+
+#pragma mark - Navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"toOldReservationSummarySegue"])
+    {
+        [(OldReservationSummaryVC *)[segue destinationViewController] setReservation:_reservation];
+        [(OldReservationSummaryVC *)[segue destinationViewController] setTotalPrice:_totalPrice];
     }
 }
 

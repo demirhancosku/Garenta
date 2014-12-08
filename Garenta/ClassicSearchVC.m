@@ -608,7 +608,8 @@
 
 //checks wheather the checkin date before checkout and correct accordingly
 - (void)correctCheckIndate {
-    if ([reservation.checkOutTime compare:reservation.checkInTime] == NSOrderedDescending) {
+    NSComparisonResult result = [reservation.checkOutTime compare:reservation.checkInTime];
+    if (result == NSOrderedDescending || result == NSOrderedSame) {
         //        reservation.checkInTime = [reservation.checkOutTime copy];
         
         NSDate *checkInDate = [reservation.checkOutTime copy];
@@ -654,6 +655,7 @@
         [self correctCheckIndate];
         [arrivalTableView reloadData];
         [destinationTableView reloadData];
+        [self removeNotifcations];
     }];
 }
 
@@ -904,14 +906,14 @@
         NSComparisonResult checkOutresult2 = [checkOutEndTime compare:reservationCheckOutTime];
         if (checkOutresult2 == NSOrderedAscending)
         {
-            completion(NO,[NSString stringWithFormat:@"%@ şubesinin açılış saatleri %@ - %@ arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkOutOffice.subOfficeName,checkOutWorkingTime.startTime,checkOutWorkingTime.endingHour]);
+            completion(NO,[NSString stringWithFormat:@"%@ şubesinin çalışma saatleri %@ - %@ arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkOutOffice.subOfficeName,checkOutWorkingTime.startTime,checkOutWorkingTime.endingHour]);
             
             return;
         }
     }
     else if (checkOutresult == NSOrderedDescending)
     {
-        completion(NO,[NSString stringWithFormat:@"%@ şubesinin açılış saatleri %@ - %@ arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkOutOffice.subOfficeName,checkOutWorkingTime.startTime,checkOutWorkingTime.endingHour]);
+        completion(NO,[NSString stringWithFormat:@"%@ şubesinin çalışma saatleri %@ - %@ arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkOutOffice.subOfficeName,checkOutWorkingTime.startTime,checkOutWorkingTime.endingHour]);
         
         return;
     }
@@ -923,14 +925,14 @@
         NSComparisonResult checkInResult2 = [checkInEndTime compare:reservationCheckInTime];
         if (checkInResult2 == NSOrderedAscending)
         {
-            completion(NO,[NSString stringWithFormat:@"%@ şubesinin açılış saatleri %@ - %@ arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkInOffice.subOfficeName,checkInWorkingTime.startTime,checkInWorkingTime.endingHour]);
+            completion(NO,[NSString stringWithFormat:@"%@ şubesinin çalışma saatleri %@ - %@ arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkInOffice.subOfficeName,checkInWorkingTime.startTime,checkInWorkingTime.endingHour]);
             
             return;
         }
     }
     else if (checkInResult == NSOrderedDescending)
     {
-        completion(NO,[NSString stringWithFormat:@"%@ şubesinin açılış saatleri %@ - %@ arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkInOffice.subOfficeName,checkInWorkingTime.startTime,checkInWorkingTime.endingHour]);
+        completion(NO,[NSString stringWithFormat:@"%@ şubesinin çalışma saatleri %@ - %@ arasındadır. Lütfen tekrar kontrol ediniz.",reservation.checkInOffice.subOfficeName,checkInWorkingTime.startTime,checkInWorkingTime.endingHour]);
         
         return;
     }

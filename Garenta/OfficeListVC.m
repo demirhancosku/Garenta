@@ -29,9 +29,9 @@
     officeList = anOfficeList;
     tag = aTag;
     
-    if (tag ==0 ) {
+//    if (tag ==0 ) {
         [self addCitiesAsOffice];
-    }
+//    }
     
     reservation = aReservation;
     return self;
@@ -66,6 +66,7 @@
     }
     return NO;;
 }
+
 - (id)initWithOfficeList:(NSMutableArray *)office andDest:(Destination *)dest
 {
     self = [super init];
@@ -168,8 +169,15 @@
     
     [[cell textLabel] setText:[tempOffice subOfficeName]];
     [[cell textLabel] setNumberOfLines:0];
-    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
+    if (tag == 1 && tempOffice.isPseudoOffice) {
+        [cell setAccessoryType:UITableViewCellAccessoryNone];
+    }
+    else
+        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    
+    
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
 }
 
@@ -205,15 +213,24 @@
     
     switch (tag) {
         case 0:
+        {
             [reservation setCheckOutOffice:tempOffice];
+            if (!tempOffice.isPseudoOffice) {
+                [reservation setCheckInOffice:tempOffice];
+            }
+            [[self navigationController] popViewControllerAnimated:YES];
+        }
             break;
         case 1:
-            [reservation setCheckInOffice:tempOffice];
+            if (!tempOffice.isPseudoOffice)
+            {
+                [reservation setCheckInOffice:tempOffice];
+                [[self navigationController] popViewControllerAnimated:YES];
+            }
+            
         default:
             break;
     }
-    [[self navigationController] popViewControllerAnimated:YES];
-
 }
 
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope

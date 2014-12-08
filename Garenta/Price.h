@@ -9,14 +9,16 @@
 #import <Foundation/Foundation.h>
 
 @interface Price : NSObject
-@property (nonatomic,retain)NSString *modelId;
-@property (nonatomic,retain)NSString *brandId;
-@property (nonatomic,retain)NSString *carGroup;
-@property (nonatomic,retain)NSDecimalNumber *payNowPrice; //sadece tl alıyoruz simdilik
-@property (nonatomic,retain)NSDecimalNumber *payLaterPrice;
-@property (nonatomic,retain)NSDecimalNumber *carSelectPrice;
-@property (nonatomic,strong)NSDecimalNumber *dayCount;
-@property (nonatomic,strong)NSString *salesOffice; // et_fiyat cikis_sube
+@property (nonatomic,retain) NSString *modelId;
+@property (nonatomic,retain) NSString *brandId;
+@property (nonatomic,retain) NSString *carGroup;
+@property (nonatomic,retain) NSDecimalNumber *payNowPrice; //sadece tl alıyoruz simdilik
+@property (nonatomic,retain) NSDecimalNumber *payLaterPrice;
+@property (nonatomic,retain) NSDecimalNumber *carSelectPrice;
+@property (nonatomic,retain) NSDecimalNumber *documentCarPrice;
+@property (nonatomic,strong) NSDecimalNumber *dayCount;
+@property (nonatomic,strong) NSString *salesOffice; // et_fiyat cikis_sube
 @property (nonatomic, strong) NSDecimalNumber *priceWithKDV;
+@property (nonatomic, strong) NSDecimalNumber *campaignDiscountPrice;
 
 @end

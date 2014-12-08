@@ -14,6 +14,7 @@
 
 - (id)init{
     self = [super init];
+    reservationList = [NSArray new];
     kunnr =@"";
     username = @"";
     password = @"";
@@ -80,6 +81,10 @@
                         
                         if ([[tempDict valueForKey:@"C_PRIORITY"] isEqualToString:@"X"]) {
                             [user setIsPriority:YES];
+                        }
+                        
+                        if ([[tempDict valueForKey:@"CARI_ISLEM"] isEqualToString:@"X"]) {
+                            [user setIsCorporateVehiclePayment:YES];
                         }
                         
                         [tempUserList addObject:user];

@@ -12,4 +12,6 @@
 
 @property(strong,nonatomic)Reservation*reservation;
 @property(strong,nonatomic)NSMutableArray *carSelectionArray;
+@property(strong,nonatomic)NSMutableArray *cars;
+@property(strong,nonatomic)NSMutableArray *additionalEquipments;
 @end

@@ -401,7 +401,7 @@
     }
     
     self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
-                                                     message:@"Lütfen Telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz"
+                                                     message:@"Lütfen telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz"
                                                     delegate:self
                                            cancelButtonTitle:@"Geri"
                                            otherButtonTitles:@"Tamam", nil];
@@ -420,7 +420,7 @@
 
 - (void)updateSMSAlert:(id)sender {
     self.alertTimer--;
-    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen Telefonunuza gelen konfirmasyon kodunu %d saniye içinde giriniz", self.alertTimer];
+    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen telefonunuza gelen konfirmasyon kodunu %d saniye içinde giriniz", self.alertTimer];
     
     if (self.alertTimer == 0) {
         [self.timer invalidate];
@@ -696,14 +696,29 @@
     [self releaseAllTextFields];
     return YES;
 }
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    UITableViewCell *cell = (UITableViewCell *) textField.superview.superview;
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
+    [self.tableView scrollToRowAtIndexPath:indexPath
+                          atScrollPosition:UITableViewScrollPositionTop
+                                  animated:YES];
+}
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if ([textField tag] == 15)
+    if ([textField tag] == 5)
     {
-        if ([[textField text] length] == 3 && [string isEqualToString:@""]) {
+        if (range.location == 11) {
             return NO;
         }
+    }
+    
+    if ([textField tag] == 15)
+    {
+        if (range.location == 13)
+            return NO;
     }
     
     return YES;

@@ -12,7 +12,6 @@
 
 @synthesize address, fax, latitude, longitude, cityCode, cityName, subOfficeCode, subOfficeType, tel, mainOfficeCode, mainOfficeName, subOfficeName, subOfficeTypeCode;
 
-
 + (Office*)getOfficeFrom:(NSMutableArray*)offices withCode:(NSString*)officeCode{
     for (Office *tempOffice in offices) {
         if ([tempOffice.subOfficeCode isEqualToString:officeCode]) {

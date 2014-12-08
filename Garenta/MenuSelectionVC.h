@@ -14,12 +14,7 @@
 #import "ApplicationProperties.h"
 #import "MBProgressHUD.h"
 
-@interface MenuSelectionVC : UIViewController<UITableViewDataSource,UITableViewDelegate>
-{
-    UILabel *welcomeLabel;
-    NSString*newAppLink;
-}
+@interface MenuSelectionVC : UITableViewController <UIAlertViewDelegate>
 
-- (id)initWithFrame:(CGRect)frame;
 
 @end

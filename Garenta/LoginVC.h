@@ -23,5 +23,7 @@
 }
 
 @property (nonatomic, strong) Reservation *reservation;
+@property (nonatomic) BOOL shouldNotPop;
+@property (nonatomic, strong) UIBarButtonItem *leftButton;
 
 @end

@@ -131,9 +131,9 @@
     
     for (AdditionalEquipment *temp in super.additionalEquipments)
     {
-        if (temp.type == additionalDriver) {
-            [temp setQuantity:self.reservation.additionalDrivers.count + temp.quantity];
-        }
+//        if (temp.type == additionalDriver) {
+//            [temp setQuantity:self.reservation.additionalDrivers.count + temp.quantity];
+//        }
         if (_isPayNow)
             total = total + temp.difference.floatValue;
         else
@@ -141,25 +141,44 @@
     }
     
     if (_isPayNow)
-        total = total + super.reservation.changeReservationDifference.floatValue;
+    {
+        if (super.reservation.etExpiry.count > 0) {
+            total = total + [[[super.reservation.etExpiry objectAtIndex:0] totalPrice] floatValue];
+        }
+        else{
+            total = total + super.reservation.changeReservationDifference.floatValue;
+        }
+    }
     else
-        total = total + super.reservation.changeReservationDifference.floatValue + super.reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice.floatValue;
+    {
+        if (super.reservation.etExpiry.count > 0) {
+            total = total + [[[super.reservation.etExpiry objectAtIndex:0] totalPrice] floatValue] + super.reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice.floatValue;
+        }
+        else{
+            total = total + super.reservation.changeReservationDifference.floatValue + super.reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice.floatValue;
+        }
+    }
     
     // ARAÇ SEÇİLMİŞ VE GRUBA REZERVASYONSA
     if (_isCarSelected && [super.reservation.reservationType isEqualToString:@"20"])
         total = total + super.reservation.selectedCar.pricing.carSelectPrice.floatValue;
     // ARAÇ SEÇİLMEMİŞ VE ARACA REZERVASYONDA
-//    else if (!_isCarSelected && [super.reservation.reservationType isEqualToString:@"10"])
-//        total = total - super.reservation.selectedCar.pricing.carSelectPrice.floatValue;
+    //    else if (!_isCarSelected && [super.reservation.reservationType isEqualToString:@"10"])
+    //        total = total - super.reservation.selectedCar.pricing.carSelectPrice.floatValue;
     
     _changeReservationPrice = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.02f",total]];
     dispatch_async(dispatch_get_main_queue(), ^(void){
-        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f",total]];
+        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f TL",total]];
         
         if (total < 0) {
             [_totalTextLabel setText:@"İade Tutarı    :"];
         }else{
-            [_totalTextLabel setText:@"Ödenecek Toplam:"];
+            if (super.reservation.etExpiry.count > 0) {
+                [_totalTextLabel setText:@"1.Taksit Toplam:"];
+            }
+            else{
+                [_totalTextLabel setText:@"Ödenecek Toplam:"];
+            }
         }
     });
     
@@ -171,6 +190,17 @@
 {
     AdditionalEquipment*additionalEquipment = [super.additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
     if (additionalEquipment.type == additionalDriver) {
+        
+        int newValue = [additionalEquipment quantity] + 1;
+        [additionalEquipment setQuantity:newValue];
+        
+        if (_isPayNow)
+        {
+            if (additionalEquipment.paid == nil) {
+                additionalEquipment.paid = [NSDecimalNumber decimalNumberWithString:@"0"];
+            }
+            additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
+        }
         [self performSegueWithIdentifier:@"toAdditionalDriverVCSegue" sender:sender];
     }
     else
@@ -225,15 +255,22 @@
         [super deleteAdditionalDriver];
         [self.reservation.additionalDrivers removeLastObject];
     }
-    else
-    {
-        int newValue = [additionalEquipment quantity]-1;
-        [additionalEquipment setQuantity:newValue];
-        
-        if (_isPayNow) {
-            additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
-        }
+    
+    int newValue = [additionalEquipment quantity]-1;
+    [additionalEquipment setQuantity:newValue];
+    
+    if (_isPayNow) {
+        additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
     }
+//    else
+//    {
+//        int newValue = [additionalEquipment quantity]-1;
+//        [additionalEquipment setQuantity:newValue];
+//        
+//        if (_isPayNow) {
+//            additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
+//        }
+//    }
     
     [self recalculate];
 }
@@ -274,16 +311,23 @@
     //ÖDEME YAPILMIŞSA
     if (_isPayNow)
     {
+        [cell.priceLabel setText:[NSString stringWithFormat:@"%.02f",[super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue]]];
+        
         //GRUBA REZERVASYON VE ARAÇ SEÇİLİ İSE
         if ([super.reservation.reservationType isEqualToString:@"20"] && _isCarSelected)
         {
-            [cell.priceLabel setText:[NSString stringWithFormat:@"%.02f",[super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue]]];
-            [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",(super.reservation.changeReservationDifference.floatValue + super.reservation.selectedCar.pricing.carSelectPrice.floatValue)]];
+            //AYLIKTA İLK TASKİDİ GÖSTERİYORUZ
+            if (super.reservation.etExpiry.count > 0)
+                [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",(super.reservation.changeReservationDifference.floatValue + [[[super.reservation.etExpiry objectAtIndex:0] totalPrice] floatValue])]];
+            else
+                [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",(super.reservation.changeReservationDifference.floatValue + super.reservation.selectedCar.pricing.carSelectPrice.floatValue)]];
         }
         else
         {
-            [cell.priceLabel setText:[NSString stringWithFormat:@"%.02f",[super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue]]];
-            [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",super.reservation.changeReservationDifference.floatValue]];
+            if (super.reservation.etExpiry.count > 0)
+                [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",([[[super.reservation.etExpiry objectAtIndex:0] totalPrice] floatValue] - [super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue])]];
+            else
+                [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",super.reservation.changeReservationDifference.floatValue]];
         }
     }
     else
@@ -312,8 +356,8 @@
     //ŞİMDİ ÖDE REZ İSE "Ödenmiş" ve "Ödenecek" tutarları ayrı ayrı yazıyoruz, değilse ödenmiş tutar 0 oluyor
     if (_isPayNow)
     {
-        cell.itemTotalPriceLabel.text = [NSString stringWithFormat:@"%.02f",temp.paid.floatValue];
-        cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f",temp.difference.floatValue];
+        cell.itemTotalPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",temp.paid.floatValue];
+        cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",temp.difference.floatValue];
     }
     else
     {
@@ -323,10 +367,10 @@
             if (!_isCarSelected)
                 cell.equipmentPriceLabel.text = @"0.00";
             else
-                cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f",super.reservation.selectedCar.pricing.carSelectPrice.floatValue];
+                cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",super.reservation.selectedCar.pricing.carSelectPrice.floatValue];
         }
         else
-            cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f",(temp.price.floatValue * temp.quantity)];
+            cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",(temp.price.floatValue * temp.quantity)];
     }
     
     return cell;

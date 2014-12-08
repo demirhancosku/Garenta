@@ -12,34 +12,21 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-        /*
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor whiteColor];
+    //-- Set Notification
+    if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
+    {
+        // iOS 8 Notifications
+        [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+        
+        [application registerForRemoteNotifications];
+    }
+    else
+    {
+        // iOS < 8 Notifications
+        [application registerForRemoteNotificationTypes:
+         (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
+    }
     
-//    LocationSelectionScreenVC *main = [[LocationSelectionScreenVC alloc] initWithFrame:self.window.frame];
-    MenuSelectionVC *main = [[MenuSelectionVC alloc] initWithStyle:UITableViewStylePlain];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:main];
-    
-    [[nav navigationBar] setBarTintColor:[ApplicationProperties getOrange]];
-    
-    float logoRatio = (float)57 / (float)357;
-    float logoWidth = nav.navigationBar.frame.size.width * 0.5;
-    float logoHeight = logoWidth * logoRatio;
-UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(nav.navigationBar.frame.size.width * 0.25, nav.navigationBar.frame.size.height * 0.15, logoWidth, logoHeight)];
-    [imageView setImage:[UIImage imageNamed:@"GarentaSmallLogo.png"]];
-    
-    [[nav navigationBar] addSubview:imageView];
-    [[nav navigationBar] setTintColor:[ApplicationProperties getWhite]];
-    [[nav navigationBar] setTranslucent:NO];
-    
-    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-                                                           [ApplicationProperties getWhite], NSForegroundColorAttributeName,
-                                                           [UIFont fontWithName:@"HelveticaNeue-Bold" size:24.0], NSFontAttributeName, nil]];
-    
-    [self.window setRootViewController:nav];
-    [self.window makeKeyAndVisible];
-     */
-
     return YES;
 }
 
@@ -68,6 +55,28 @@ UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(nav.navig
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    NSLog(@"My token is: %@", deviceToken);
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+    NSLog(@"Failed to get token, error: %@", error);
+}
+
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
+{
+    NSLog(@"Received notification: %@", userInfo);
+    application.applicationIconBadgeNumber = 0;
+    
+    NSString *reservationNumber = [userInfo valueForKey:@"ReservationId"];
+    
+    if (reservationNumber != nil && ![reservationNumber isEqualToString:@""]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"PayNowPushNotification" object:userInfo];
+    }
 }
 
 @end

@@ -14,14 +14,7 @@
 
 @interface ReservationSummaryVC ()
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UILabel *brandModelLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *carImageView;
-@property (weak, nonatomic) IBOutlet UILabel *fuelLabel;
-@property (weak, nonatomic) IBOutlet UILabel *transmissionLabel;
-@property (weak, nonatomic) IBOutlet UILabel *acLabel;
-@property (weak, nonatomic) IBOutlet UILabel *passangerNumberLabel;
-@property (weak, nonatomic) IBOutlet UILabel *doorCountLabel;
+
 
 @end
 
@@ -39,7 +32,6 @@
 
 
 - (void)viewDidLoad
-
 {
     [super viewDidLoad];
     
@@ -152,8 +144,8 @@
             case 1:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"serviceScopeCell" forIndexPath:indexPath];
                 
-                if (_reservation.etExpiry.count > 0) {
-                    
+                if (_reservation.etExpiry.count > 0 || ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"])) {
+                    // Ata Cengiz 06.12.2014 Corparate Reservation
                     UILabel *serviceScopeLabel = (UILabel *)[aCell viewWithTag:1];
                     serviceScopeLabel.text = [NSString stringWithFormat:@"%@ & Ödeme Planı", serviceScopeLabel.text];
                 }
@@ -161,7 +153,7 @@
             case 2:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"totalPaymentCell" forIndexPath:indexPath];
                 totalPrice = (UILabel*)[aCell viewWithTag:1];
-                [totalPrice setText:[NSString stringWithFormat:@"%@",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:NO]]];
+                [totalPrice setText:[NSString stringWithFormat:@"%@",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO]]];
                 
                 break;
             default:
@@ -188,8 +180,8 @@
             case 1:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"serviceScopeCell" forIndexPath:indexPath];
                 
-                if (_reservation.etExpiry.count > 0) {
-                    
+                if (_reservation.etExpiry.count > 0 || ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"])) {
+                    // Ata Cengiz 06.12.2014 Corparate Reservation
                     UILabel *serviceScopeLabel = (UILabel *)[aCell viewWithTag:1];
                     serviceScopeLabel.text = [NSString stringWithFormat:@"%@ & Ödeme Planı", serviceScopeLabel.text];
                 }
@@ -204,21 +196,32 @@
                 
                 // Aylık
                 if (_reservation.etExpiry.count > 0) {
-                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02fTL(1. Taksit)",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:YES] floatValue]] forState:UIControlStateNormal];
+                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02fTL(1. Taksit)",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]] forState:UIControlStateNormal];
+                    [[payNowButton titleLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
+                }
+                // Kurumsal
+                else if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
+                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02fTL(Personel)", [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES] floatValue]] forState:UIControlStateNormal];
                     [[payNowButton titleLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
                 }
                 // Günlük
                 else {
-                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:NO] floatValue]] forState:UIControlStateNormal];
+                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]] forState:UIControlStateNormal];
                 }
                 
+                // Aylık
                 if (_reservation.etExpiry.count > 0) {
-                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02fTL(1. Taksit)",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:YES] floatValue]] forState:UIControlStateNormal];
+                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02fTL(1. Taksit)",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]] forState:UIControlStateNormal];
+                    [[payLaterButton titleLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
+                }
+                // Kurumsal
+                else if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
+                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02fTL(Personel)", [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES] floatValue]] forState:UIControlStateNormal];
                     [[payLaterButton titleLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
                 }
                 // Günlük
                 else {
-                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:NO] floatValue]] forState:UIControlStateNormal];
+                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]] forState:UIControlStateNormal];
                 }
 
                 break;
@@ -322,7 +325,7 @@
 }
 
 - (IBAction)payLaterPressed:(id)sender {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kiralama anlaşmasını kabul edip, rezervasyonuzun yaratılmasını istediğinize emin misiniz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Kiralama Anlaşması", @"Kabul Ediyorum", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kira anlaşmasını kabul edip, rezervasyonuzun yaratılmasını istediğinize emin misiniz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Kira Anlaşmasını Oku", @"Kabul Ediyorum", nil];
     [alert setTag:1];
     [alert show];
 }

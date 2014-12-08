@@ -9,6 +9,7 @@
 #import "CarGroup.h"
 #import "GTMBase64.h"
 #import "Price.h"
+#import "CampaignObject.h"
 
 @implementation CarGroup
 
@@ -38,15 +39,57 @@
     
     NSMutableArray *availableCarGroups = [NSMutableArray new];
     
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
     
     // ET_FIYAT
     NSDictionary *etFiyatArray = [serviceResponse objectForKey:@"ZSD_KDK_FIYATLANDIRMA_FUNC_EXP"];
     
     NSMutableArray *prices= [[NSMutableArray alloc] init];
+    NSMutableArray *campaigns = [[NSMutableArray alloc] init];
     
     for (NSDictionary *tempDict in etFiyatArray) {
         Price *tempPrice = [Price new];
         
+        // 20.11.2014 Campaign
+        CampaignObject *tempCampaign = [CampaignObject new];
+        [tempCampaign setCampaignID:[tempDict valueForKey:@"KAMPANYA_ID"]];
+        
+        if (tempCampaign.campaignID != nil && ![tempCampaign.campaignID isEqualToString:@""]) {
+            [tempCampaign setCampaignDescription:[tempDict valueForKey:@"KAMPANYA_TANIM"]];
+            
+            NSString *campaignScope = [tempDict valueForKey:@"KAMPANYA_KAPSAM"];
+            
+            if ([campaignScope isEqualToString:@"1"]) {
+                tempCampaign.campaignScopeType = vehicleGroupCampaign;
+            }
+            else if ([campaignScope isEqualToString:@"2"]) {
+                tempCampaign.campaignScopeType = vehicleBrandCampaign;
+            }
+            else if ([campaignScope isEqualToString:@"3"]) {
+                tempCampaign.campaignScopeType = vehicleModelCampaign;
+            }
+            else {
+                tempCampaign.campaignScopeType = noneDefinedCampaign;
+            }
+            
+            NSString *campaignReservationType = [tempDict valueForKey:@"REZ_TURU"];
+            
+            if ([campaignReservationType isEqualToString:@"ZR1"]) {
+                tempCampaign.campaignReservationType = payNowReservation;
+            }
+            else if ([campaignReservationType isEqualToString:@"ZR2"]) {
+                tempCampaign.campaignReservationType = payLaterReservation;
+            }
+            else if ([campaignReservationType isEqualToString:@"ZR3"]) {
+                tempCampaign.campaignReservationType = payFrontWithNoCancellation;
+            }
+            else {
+                tempCampaign.campaignReservationType = noneDefinedReservationType;
+            }
+        }
+        
+        // kampanya fiyatlarını al
         [tempPrice setBrandId:[tempDict valueForKey:@"MARKA_ID"]];
         [tempPrice setModelId:[tempDict valueForKey:@"MODEL_ID"]];
         [tempPrice setCarGroup:[tempDict valueForKey:@"ARAC_GRUBU"]];
@@ -56,8 +99,17 @@
         [tempPrice setDayCount:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"GUN_SAYISI"]]];
         [tempPrice setSalesOffice:[tempDict valueForKey:@"CIKIS_SUBE"]];
         [tempPrice setPriceWithKDV:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KDVLI_TOPLAM_TUTAR_TRY"]]];
+        [tempPrice setCampaignDiscountPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KAMPANYA_TUTAR_TRY"]]];
         
-        [prices addObject:tempPrice];
+        if (tempCampaign.campaignScopeType == noneDefinedCampaign) {
+            // Regular Price
+            [prices addObject:tempPrice];
+        }
+        else {
+            // Campaign Price
+            tempCampaign.campaignPrice = tempPrice;
+            [campaigns addObject:tempCampaign];
+        }
     }
     
     // ET_ARACLISTE
@@ -69,6 +121,9 @@
         
         [tempCar setMaterialCode:[tempDict valueForKey:@"MATNR"]];
         [tempCar setMaterialName:[tempDict valueForKey:@"MAKTX"]];
+        [tempCar setWinterTire:[tempDict valueForKey:@"KIS_LASTIK"]];
+        [tempCar setColorCode:[tempDict valueForKey:@"RENK"]];
+        [tempCar setColorName:[tempDict valueForKey:@"RENKTX"]];
         [tempCar setBrandId:[tempDict valueForKey:@"MARKA_ID"]];
         [tempCar setBrandName:[tempDict valueForKey:@"MARKA"]];
         [tempCar setModelId:[tempDict valueForKey:@"MODEL_ID"]];
@@ -77,8 +132,14 @@
         [tempCar setSalesOffice:[tempDict valueForKey:@"MSUBE"]];
         
         NSString *imagePath = [tempDict valueForKey:@"ZRESIM_315"];
+        imagePath = [imagePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+        NSURL *imageUrl = [NSURL URLWithString:imagePath];
         
-        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imagePath]]]];
+        NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
+        UIImage *carImage = [UIImage imageWithData:imageData];
+        tempCar.image = carImage;
+//        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imagePath]]]];
 
         if (tempCar.image == nil) {
             [tempCar setImage:[UIImage imageNamed:@"sample_car.png"]];
@@ -118,14 +179,18 @@
         
         [CarGroup setPriceForCar:tempCar withPriceList:prices];
         
+        [tempCarGroup.cars addObject:tempCar];
+        
+        if (campaigns.count > 0) {
+            [CarGroup setCampaignForCarGroup:tempCarGroup andCampaignArray:campaigns];
+        }
+        
         if ([[tempDict valueForKey:@"VITRINRES"] isEqualToString:@"X"]) {
             [tempCarGroup setSampleCar:tempCar];
             [tempCarGroup setPayLaterPrice:[NSString stringWithFormat:@"%.02f",tempCar.pricing.payLaterPrice.floatValue]];
             [tempCarGroup setPayNowPrice:[NSString stringWithFormat:@"%.02f",tempCar.pricing.payNowPrice.floatValue]];
             [tempCarGroup setPriceWithKDV:[NSString stringWithFormat:@"%.02f", tempCar.pricing.priceWithKDV.floatValue]];
         }
-        
-        [tempCarGroup.cars addObject:tempCar];
     }
 
     return [self sortCarGroupsPriceAscending:availableCarGroups];
@@ -260,5 +325,19 @@
     return NO;
 }
 
++ (void)setCampaignForCarGroup:(CarGroup *)carGroup andCampaignArray:(NSMutableArray *)campaignArray {
+    
+    carGroup.campaignsArray = [NSMutableArray new];
+    for (CampaignObject *tempCampaign in campaignArray) {
+        if ([carGroup.groupCode isEqualToString:tempCampaign.campaignPrice.carGroup]) {
+            
+            if (carGroup.campaignsArray == nil) {
+                carGroup.campaignsArray = [NSMutableArray new];
+            }
+            
+            [carGroup.campaignsArray addObject:tempCampaign];
+        }
+    }
+}
 
 @end

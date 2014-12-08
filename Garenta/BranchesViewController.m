@@ -49,6 +49,9 @@
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             
             officeArray = [Office getOfficesFromSAP];
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"subOfficeName" ascending:YES];
+            NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
+            [officeArray sortUsingDescriptors:sortDescriptors];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [[self tableView] reloadData];
            

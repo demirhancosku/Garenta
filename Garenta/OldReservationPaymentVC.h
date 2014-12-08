@@ -11,4 +11,5 @@
 @interface OldReservationPaymentVC : PaymentTableViewController
 
 @property (strong,nonatomic) NSDecimalNumber *changeReservationPrice;
+@property (strong,nonatomic) NSString *reservationNumber;
 @end
