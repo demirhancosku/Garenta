@@ -107,7 +107,7 @@
     [_acLabel setText:@"Klima"];
     [_passangerLabel setText:carGroup.sampleCar.passangerNumber];
     [_doorsLabel setText:carGroup.sampleCar.doorNumber];
-    [_minInfoLabel setText:[NSString stringWithFormat:@"Min.Yaş:%li - Min.Ehliyet:%li",(long)carGroup.minAge,(long)carGroup.minDriverLicense]];
+    [_minInfoLabel setText:[NSString stringWithFormat:@"Min.Genç sürücü yaşı:%li - Min.Ehliyet:%li",(long)carGroup.minAge,(long)carGroup.minDriverLicense]];
     [_officeLabel setText:[(Office*)[carGroup.carGroupOffices objectAtIndex:0] subOfficeName]];
     [_carGroupLabel setText:carGroup.groupName];
     [_carModelLabel setText:[NSString stringWithFormat:@"%@ ve benzeri",carGroup.sampleCar.modelName]];

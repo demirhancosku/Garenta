@@ -353,14 +353,57 @@
     
     if (indexPath.section == 3) {
         self.selectedRow = indexPath.row;
-        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"Seçiniz.." delegate:self cancelButtonTitle:@"Geri" destructiveButtonTitle:nil otherButtonTitles:@"Değiştir", @"Sil",  nil];
+        
+        UIActionSheet *action = [[UIActionSheet alloc] init];
+        [action setDelegate:self];
+        [action setTitle:@"Seçiniz.."];
+        [action addButtonWithTitle:@"Geri"];
+        [action setCancelButtonIndex:0];
+        
+        if (indexPath.row == 0) {
+            if ([self.mobilePhoneTextField.text isEqualToString:@""]) {
+                [action addButtonWithTitle:@"Ekle"];
+            }
+            else {
+                [action addButtonWithTitle:@"Değiştir"];
+                [action addButtonWithTitle:@"Sil"];
+            }
+        }
+        if (indexPath.row == 1) {
+            if ([self.mobilePhone2TextField.text isEqualToString:@""]) {
+                [action addButtonWithTitle:@"Ekle"];
+            }
+            else {
+                [action addButtonWithTitle:@"Değiştir"];
+                [action addButtonWithTitle:@"Sil"];
+            }
+        }
+        if (indexPath.row == 2) {
+            if ([self.emailTextField.text isEqualToString:@""]) {
+                [action addButtonWithTitle:@"Ekle"];
+            }
+            else {
+                [action addButtonWithTitle:@"Değiştir"];
+                [action addButtonWithTitle:@"Sil"];
+            }
+        }
+        if (indexPath.row == 3) {
+            if ([self.email2TextField.text isEqualToString:@""]) {
+                [action addButtonWithTitle:@"Ekle"];
+            }
+            else {
+                [action addButtonWithTitle:@"Değiştir"];
+                [action addButtonWithTitle:@"Sil"];
+            }
+        }
+        
         [action showInView:self.view];
     }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     // Değiştir
-    if (buttonIndex == 0) {
+    if (buttonIndex == 1) {
         if (self.selectedRow == 0) {
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Telefon numaranızı giriniz.." message:@"" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Tamam", nil];
@@ -434,7 +477,7 @@
         }
     }
     // Sil
-    else if (buttonIndex == 1) {
+    else if (buttonIndex == 2) {
         
         // Asıl cep no
         if (self.selectedRow == 0) {
@@ -771,7 +814,9 @@
     [self.driverLicenseNoTextField resignFirstResponder];
     [self.driverLicenseLocationTextField resignFirstResponder];
     [self.emailTextField resignFirstResponder];
+    [self.email2TextField resignFirstResponder];
     [self.mobilePhoneTextField resignFirstResponder];
+    [self.mobilePhone2TextField resignFirstResponder];
     [self.adressTextField resignFirstResponder];
 }
 
@@ -806,6 +851,8 @@
                     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
                     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        
+                        [self releaseAllTextFields];
                         
                         NSString *alertString = [self updateUserAtSAP];
                         

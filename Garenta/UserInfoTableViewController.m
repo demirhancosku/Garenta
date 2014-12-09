@@ -12,6 +12,7 @@
 #import "MBProgressHUD.h"
 #import "CountrySelectionVC.h"
 #import "LoginVC.h"
+#import "SMSSoapHandler.h"
 
 @interface UserInfoTableViewController ()
 
@@ -38,6 +39,12 @@
 @property (strong, nonatomic) NSArray *selectedCity;
 @property (strong, nonatomic) NSArray *selectedCounty;
 
+@property (strong, nonatomic) UIAlertView *timerAlertView;
+@property (nonatomic) NSUInteger alertTimer;
+@property (strong, nonatomic) NSTimer *timer;
+@property (strong, nonatomic) NSString *validationCode;
+
+@property (weak, nonatomic) IBOutlet UILabel *mobilePhoneCountryLabel;
 @end
 
 @implementation UserInfoTableViewController
@@ -67,6 +74,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(countrySelected:) name:@"countrySelected" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(citySelected:) name:@"citySelected" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(countySelected:) name:@"countySelected" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneCountrySelected:) name:@"phoneCountrySelected" object:nil];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -75,6 +84,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:@"countrySelected"];
     [[NSNotificationCenter defaultCenter] removeObserver:@"citySelected"];
     [[NSNotificationCenter defaultCenter] removeObserver:@"countySelected"];
+    [[NSNotificationCenter defaultCenter] removeObserver:@"phoneCountrySelected"];
 }
 
 - (void)prepareScreen
@@ -188,6 +198,7 @@
         selectionVC.selectionArray = countryArray;
         selectionVC.searchType = 1;
     }
+    
     if ([[segue identifier] isEqualToString:@"CitySelectionSegue"]) {
         CountrySelectionVC *selectionVC = (CountrySelectionVC *)[segue destinationViewController];
         
@@ -204,6 +215,7 @@
         selectionVC.selectionArray = cityAccordingToCountry;
         selectionVC.searchType = 2;
     }
+    
     if ([[segue identifier] isEqualToString:@"CountySelectionSegue"]) {
         CountrySelectionVC *selectionVC = (CountrySelectionVC *)[segue destinationViewController];
         
@@ -225,6 +237,11 @@
     }
     if ([segue.identifier isEqualToString:@"LoginVCSegue"]) {
         [(LoginVC *)[segue destinationViewController] setReservation:_reservation];
+    }
+    if ([[segue identifier] isEqualToString:@"MobilePhoneCountrySelectionSegue"]) {
+        CountrySelectionVC *selectionVC = (CountrySelectionVC *)[segue destinationViewController];
+        selectionVC.selectionArray = countryArray;
+        selectionVC.searchType = 4;
     }
 }
 
@@ -269,6 +286,13 @@
     
     self.countyLabel.text = [county objectAtIndex:3];
     self.selectedCounty = county;
+}
+
+- (void)phoneCountrySelected:(NSNotification *)notification {
+    NSDictionary *userInfo = [notification userInfo];
+    NSArray *country = [userInfo objectForKey:@"PhoneCountry"];
+    
+    self.mobilePhoneCountryLabel.text = country[0];
 }
 
 - (IBAction)continueButtonPressed:(id)sender
@@ -348,52 +372,57 @@
         [alert show];
     }
     else {
-        
-        User *temp = [[User alloc] init];
-        
-        temp.gender = @"";
-        if (self.genderSegmentedControl.selectedSegmentIndex == 0) {
-            temp.gender = @"1";
-        }
-        else {
-            temp.gender = @"2";
-        }
-        
-        temp.name = self.nameTextField.text;
-        temp.middleName = self.middleNameTextField.text;
-        temp.surname = self.surnameTextField.text;
-        temp.birthday = self.birthdayDatePicker.date;
-        temp.nationality = self.selectedCountry[0];
-        temp.tckno = self.tcknoTextField.text;
-        temp.country = self.selectedCountry[0];
-        temp.city = self.selectedCity[1];
-        
-        temp.county = @"";
-        
-        if (self.selectedCounty != nil) {
-            temp.county = self.selectedCounty[2];
-        }
-        
-        temp.address = self.adressTextField.text;
-        temp.email = self.emailTextField.text;
-        temp.mobile = [self.mobilePhoneTextField.text substringFromIndex:3];
-        temp.mobileCountry = self.selectedCounty[0];
-        
-        temp.driversLicenseDate = self.driverLicenseDatePicker.date;
-        temp.driverLicenseNo = self.driverLicenseNoTextField.text;
-        temp.driverLicenseLocation = self.driverLicenseLocationTextField.text;
-        
-        NSString *driverLicenseType = @"";
-        
-        if (self.driverLicenseTypeSegmentedControl.selectedSegmentIndex != -1) {
-            driverLicenseType = [self.driverLicenseTypeSegmentedControl titleForSegmentAtIndex:self.driverLicenseTypeSegmentedControl.selectedSegmentIndex];
-        }
-        temp.driverLicenseType = driverLicenseType;
-        
-        _reservation.temporaryUser = temp;
-        
-        [self performSegueWithIdentifier:@"toReservationSummaryVCSegue" sender:self];
+        [self verifyPhoneNumber];
     }
+}
+
+- (void)goToReservationSummary {
+    // if all user verifications are right
+    
+    User *temp = [[User alloc] init];
+    
+    temp.gender = @"";
+    if (self.genderSegmentedControl.selectedSegmentIndex == 0) {
+        temp.gender = @"1";
+    }
+    else {
+        temp.gender = @"2";
+    }
+    
+    temp.name = self.nameTextField.text;
+    temp.middleName = self.middleNameTextField.text;
+    temp.surname = self.surnameTextField.text;
+    temp.birthday = self.birthdayDatePicker.date;
+    temp.nationality = self.selectedCountry[0];
+    temp.tckno = self.tcknoTextField.text;
+    temp.country = self.selectedCountry[0];
+    temp.city = self.selectedCity[1];
+    
+    temp.county = @"";
+    
+    if (self.selectedCounty != nil) {
+        temp.county = self.selectedCounty[2];
+    }
+    
+    temp.address = self.adressTextField.text;
+    temp.email = self.emailTextField.text;
+    temp.mobile = self.mobilePhoneTextField.text;
+    temp.mobileCountry = self.mobilePhoneCountryLabel.text;
+    
+    temp.driversLicenseDate = self.driverLicenseDatePicker.date;
+    temp.driverLicenseNo = self.driverLicenseNoTextField.text;
+    temp.driverLicenseLocation = self.driverLicenseLocationTextField.text;
+    
+    NSString *driverLicenseType = @"";
+    
+    if (self.driverLicenseTypeSegmentedControl.selectedSegmentIndex != -1) {
+        driverLicenseType = [self.driverLicenseTypeSegmentedControl titleForSegmentAtIndex:self.driverLicenseTypeSegmentedControl.selectedSegmentIndex];
+    }
+    temp.driverLicenseType = driverLicenseType;
+    
+    _reservation.temporaryUser = temp;
+    
+    [self performSegueWithIdentifier:@"toReservationSummaryVCSegue" sender:self];
 }
 
 - (void)releaseAllTextFields
@@ -409,6 +438,96 @@
     [self.adressTextField resignFirstResponder];
 }
 
+- (void)verifyPhoneNumber {
+    
+    [self.timer invalidate];
+    [self releaseAllTextFields];
+    
+    NSString *generatedCode = [SMSSoapHandler generateCode];
+    
+    if (generatedCode == nil || [generatedCode isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"SMS gönderilemedi, lütfen tekrar deneyiniz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    else {
+        self.validationCode = generatedCode;
+        
+        NSString *phoneNumber = self.mobilePhoneTextField.text;
+        
+        BOOL success = [SMSSoapHandler sendSMSMessage:self.validationCode toNumber:phoneNumber];
+        
+        if (!success) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"SMS gönderilemedi, lütfen tekrar deneyiniz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+    }
+    
+    self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
+                                                     message:@"Lütfen telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz"
+                                                    delegate:self
+                                           cancelButtonTitle:@"Geri"
+                                           otherButtonTitles:@"Tamam", nil];
+    [self.timerAlertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    [self.timerAlertView setTag:1];
+    [self.timerAlertView show];
+    
+    self.alertTimer = 60;
+    
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1
+                                                  target:self
+                                                selector:@selector(updateSMSAlert:)
+                                                userInfo:nil
+                                                 repeats:YES];
+}
+
+- (void)updateSMSAlert:(id)sender {
+    self.alertTimer--;
+    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen telefonunuza gelen konfirmasyon kodunu %lu saniye içinde giriniz", (unsigned long)self.alertTimer];
+    
+    if (self.alertTimer == 0) {
+        [self.timer invalidate];
+        [self.timerAlertView dismissWithClickedButtonIndex:0 animated:YES];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Konfirmasyon kodunu giremediniz. Tekrar deneyebilir veya girmiş olduğunuz telefon numarasını kontrol edebilirsiniz" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Tekrar Dene", nil];
+        [alert setTag:2];
+        [alert show];
+    }
+}
+
+#pragma mark - alertview delegates
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (alertView.tag == 1) {
+        [self.timer invalidate];
+        
+        NSString *alertViewText = [[alertView textFieldAtIndex:0] text];
+        
+        if (alertViewText != nil && ![alertViewText isEqualToString:@""]) {
+            if ([alertViewText isEqualToString:self.validationCode]) {
+                [self goToReservationSummary];
+            }
+            else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Girmiş olduğunuz kod ile konfirmasyon kodu uyuşmamaktadır" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Tekrar Dene", nil];
+                [alert setTag:2];
+                [alert show];
+            }
+        }
+        else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Girmiş olduğunuz kod ile konfirmasyon kodu uyuşmamaktadır" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Tekrar Dene", nil];
+            [alert setTag:2];
+            [alert show];
+        }
+    }
+    else if (alertView.tag == 2) {
+        if (buttonIndex == 1) {
+            [self verifyPhoneNumber];
+        }
+    }
+}
+
 #pragma mark - textfield delegates
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -419,7 +538,7 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if ([textField tag] == 5)
+    if ([textField tag] == 5 && self.nationalitySegmentedControl.selectedSegmentIndex == 0)
     {
         if (range.location == 11) {
             return NO;
@@ -428,7 +547,7 @@
     
     if ([textField tag] == 15)
     {
-        if (range.location == 13)
+        if (range.location == 10)
             return NO;
     }
     

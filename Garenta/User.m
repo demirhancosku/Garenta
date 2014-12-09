@@ -76,6 +76,12 @@
                         [user setGarentaTl:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"GARENTATL"]]];
                         [user setPriceCode:[tempDict valueForKey:@"FIYAT_KODU"]];
                         [user setPriceType:[tempDict valueForKey:@"FIYAT_TIPI"]];
+                        
+                        if ([[user priceType] isEqualToString:@"I"]) {
+                            // demek ki ikame
+                            continue;
+                        }
+                        
                         [user setBirthday:[formatter dateFromString:[tempDict valueForKey:@"BIRTHDAY"]]];
                         [user setDriversLicenseDate:[formatter dateFromString:[tempDict valueForKey:@"EHLIYET_TARIHI"]]];
                         
