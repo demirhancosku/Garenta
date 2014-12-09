@@ -66,7 +66,7 @@
         tempObject = [self.filterResultArray objectAtIndex:[indexPath row]];
     }
     
-    if (self.searchType == 1) {
+    if (self.searchType == 1 || self.searchType == 4) {
         [[cell textLabel] setText:[tempObject objectAtIndex:1]];
     }
     if (self.searchType == 2) {
@@ -102,6 +102,10 @@
     if (self.searchType == 3) {
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:selectedObject forKey:@"County"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"countySelected" object:nil userInfo:userInfo];
+    }
+    if (self.searchType == 4) {
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:selectedObject forKey:@"PhoneCountry"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"phoneCountrySelected" object:nil userInfo:userInfo];
     }
     
     [[self navigationController] popViewControllerAnimated:YES];

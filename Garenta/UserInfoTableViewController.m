@@ -43,6 +43,8 @@
 @property (nonatomic) NSUInteger alertTimer;
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSString *validationCode;
+
+@property (weak, nonatomic) IBOutlet UILabel *mobilePhoneCountryLabel;
 @end
 
 @implementation UserInfoTableViewController
@@ -72,6 +74,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(countrySelected:) name:@"countrySelected" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(citySelected:) name:@"citySelected" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(countySelected:) name:@"countySelected" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneCountrySelected:) name:@"phoneCountrySelected" object:nil];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -80,6 +84,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:@"countrySelected"];
     [[NSNotificationCenter defaultCenter] removeObserver:@"citySelected"];
     [[NSNotificationCenter defaultCenter] removeObserver:@"countySelected"];
+    [[NSNotificationCenter defaultCenter] removeObserver:@"phoneCountrySelected"];
 }
 
 - (void)prepareScreen
@@ -193,6 +198,7 @@
         selectionVC.selectionArray = countryArray;
         selectionVC.searchType = 1;
     }
+    
     if ([[segue identifier] isEqualToString:@"CitySelectionSegue"]) {
         CountrySelectionVC *selectionVC = (CountrySelectionVC *)[segue destinationViewController];
         
@@ -209,6 +215,7 @@
         selectionVC.selectionArray = cityAccordingToCountry;
         selectionVC.searchType = 2;
     }
+    
     if ([[segue identifier] isEqualToString:@"CountySelectionSegue"]) {
         CountrySelectionVC *selectionVC = (CountrySelectionVC *)[segue destinationViewController];
         
@@ -230,6 +237,11 @@
     }
     if ([segue.identifier isEqualToString:@"LoginVCSegue"]) {
         [(LoginVC *)[segue destinationViewController] setReservation:_reservation];
+    }
+    if ([[segue identifier] isEqualToString:@"MobilePhoneCountrySelectionSegue"]) {
+        CountrySelectionVC *selectionVC = (CountrySelectionVC *)[segue destinationViewController];
+        selectionVC.selectionArray = countryArray;
+        selectionVC.searchType = 4;
     }
 }
 
@@ -274,6 +286,13 @@
     
     self.countyLabel.text = [county objectAtIndex:3];
     self.selectedCounty = county;
+}
+
+- (void)phoneCountrySelected:(NSNotification *)notification {
+    NSDictionary *userInfo = [notification userInfo];
+    NSArray *country = [userInfo objectForKey:@"PhoneCountry"];
+    
+    self.mobilePhoneCountryLabel.text = country[0];
 }
 
 - (IBAction)continueButtonPressed:(id)sender
@@ -387,8 +406,8 @@
     
     temp.address = self.adressTextField.text;
     temp.email = self.emailTextField.text;
-    temp.mobile = [self.mobilePhoneTextField.text substringFromIndex:3];
-    temp.mobileCountry = self.selectedCounty[0];
+    temp.mobile = self.mobilePhoneTextField.text;
+    temp.mobileCountry = self.mobilePhoneCountryLabel.text;
     
     temp.driversLicenseDate = self.driverLicenseDatePicker.date;
     temp.driverLicenseNo = self.driverLicenseNoTextField.text;
@@ -422,6 +441,7 @@
 - (void)verifyPhoneNumber {
     
     [self.timer invalidate];
+    [self releaseAllTextFields];
     
     NSString *generatedCode = [SMSSoapHandler generateCode];
     
@@ -481,6 +501,8 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     if (alertView.tag == 1) {
+        [self.timer invalidate];
+        
         NSString *alertViewText = [[alertView textFieldAtIndex:0] text];
         
         if (alertViewText != nil && ![alertViewText isEqualToString:@""]) {
@@ -516,7 +538,7 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if ([textField tag] == 5)
+    if ([textField tag] == 5 && self.nationalitySegmentedControl.selectedSegmentIndex == 0)
     {
         if (range.location == 11) {
             return NO;
@@ -525,7 +547,7 @@
     
     if ([textField tag] == 15)
     {
-        if (range.location == 13)
+        if (range.location == 10)
             return NO;
     }
     

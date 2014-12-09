@@ -53,6 +53,8 @@
 @property (nonatomic) BOOL isSMSChecked;
 @property (nonatomic) BOOL isEmailChecked;
 
+@property (weak, nonatomic) IBOutlet UILabel *mobilePhoneCountryLabel;
+
 @end
 
 @implementation UserCreationVC
@@ -83,6 +85,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(countrySelected:) name:@"countrySelected" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(citySelected:) name:@"citySelected" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(countySelected:) name:@"countySelected" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneCountrySelected:) name:@"phoneCountrySelected" object:nil];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -97,6 +101,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:@"countrySelected"];
     [[NSNotificationCenter defaultCenter] removeObserver:@"citySelected"];
     [[NSNotificationCenter defaultCenter] removeObserver:@"countySelected"];
+    [[NSNotificationCenter defaultCenter] removeObserver:@"phoneCountrySelected"];
 }
 
 - (void)prepareScreen
@@ -240,6 +245,11 @@
         [(AgreementsVC*)[segue destinationViewController] setHtmlName:@"MembershipRules"];
         [(AgreementsVC*)[segue destinationViewController] setAgreementName:@"Üyelik Kuralları"];
     }
+    if ([[segue identifier] isEqualToString:@"MobilePhoneCountrySelectionSegue"]) {
+        CountrySelectionVC *selectionVC = (CountrySelectionVC *)[segue destinationViewController];
+        selectionVC.selectionArray = countryArray;
+        selectionVC.searchType = 4;
+    }
 }
 
 - (void)nationalitySegmentChanged:(id)sender {
@@ -285,12 +295,16 @@
     self.selectedCounty = county;
 }
 
+- (void)phoneCountrySelected:(NSNotification *)notification {
+    NSDictionary *userInfo = [notification userInfo];
+    NSArray *country = [userInfo objectForKey:@"PhoneCountry"];
+    
+    self.mobilePhoneCountryLabel.text = country[0];
+}
+
 - (IBAction)continueButtonPressed:(id)sender
 {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        [self checkFields];
-    });
+    [self checkFields];
 }
 
 - (void)checkFields {
@@ -361,8 +375,6 @@
         }
     }
     
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    
     if (![alertString isEqualToString:@""]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
         [alert show];
@@ -380,6 +392,7 @@
 
 - (void)checkPhoneNumberValidation {
     
+    [self releaseAllTextFields];
     [self.timer invalidate];
     
     NSString *generatedCode = [SMSSoapHandler generateCode];
@@ -391,7 +404,7 @@
     }
     else {
         self.validationCode = generatedCode;
-        NSString *trimmedMobilePhone = [self.mobilePhoneTextField.text substringFromIndex:3];
+        NSString *trimmedMobilePhone = self.mobilePhoneTextField.text;
         
         BOOL success = [SMSSoapHandler sendSMSMessage:self.validationCode toNumber:trimmedMobilePhone];
         
@@ -432,6 +445,7 @@
 
 - (void)checkEmailVerificationCode {
     
+    [self releaseAllTextFields];
     [self.timer invalidate];
     
     NSString *generatedCode = [SMSSoapHandler generateCode];
@@ -486,6 +500,8 @@
     
     if (alertView.tag == 1) {
         if (buttonIndex == 1) {
+            [self.timer invalidate];
+            
             NSString *alertText = [alertView textFieldAtIndex:0].text;
             
             if ([alertText isEqualToString:self.validationCode]) {
@@ -501,6 +517,7 @@
             }
         }
     }
+    
     if (alertView.tag == 2) {
         if (buttonIndex == 1) {
             [self performSegueWithIdentifier:@"toAgreementVCSegue" sender:self];
@@ -509,18 +526,23 @@
             [self checkPhoneNumberValidation];
         }
     }
+    
     // SMS konfirmasyonu
     if (alertView.tag == 3) {
         self.isSMSChecked = YES;
         [self createUserAtSAP];
     }
+    
     // Email konfirmasyonu
     if (alertView.tag == 4) {
         [self checkEmailVerificationCode];
     }
+    
     // Email konfirmasyon kodu girilmesi
     if (alertView.tag == 5) {
         if (buttonIndex == 1) {
+            [self.timer invalidate];
+            
             NSString *alertText = [alertView textFieldAtIndex:0].text;
             
             if ([alertText isEqualToString:self.validationCode]) {
@@ -558,7 +580,7 @@
             passportNo = self.tcknoTextField.text;
         }
         
-        NSString *trimmedMobilePhone = [self.mobilePhoneTextField.text substringFromIndex:3];
+        NSString *trimmedMobilePhone = self.mobilePhoneTextField.text;
         
         if (self.selectedCounty == nil) {
             self.selectedCounty = @[@"", @"", @"", @""];
@@ -588,7 +610,7 @@
             driverLicenseType = [self.driverLicenseTypeSegmentedControl titleForSegmentAtIndex:self.driverLicenseTypeSegmentedControl.selectedSegmentIndex];
         }
         
-        NSString *secretQuestion = [NSString stringWithFormat:@"00%i", [self.secretQuestionPickerView selectedRowInComponent:0]];
+        NSString *secretQuestion = [NSString stringWithFormat:@"00%li", (long)[self.secretQuestionPickerView selectedRowInComponent:0]];
         
         NSData *passwordData = [self.passwordTextField.text dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
         NSString *base64Encoded = [passwordData base64EncodedStringWithOptions:0];
@@ -608,7 +630,7 @@
             emailChecked = @"X";
         }
         
-        NSArray *value = @[self.nameTextField.text, self.middleNameTextField.text, self.surnameTextField.text, [formatter stringFromDate:self.birthdayDatePicker.date], tcknNo, @"X", self.emailTextField.text, trimmedMobilePhone, @"", base64Encoded, self.selectedCity[1], county, self.adressTextField.text, @"Z07", nationality, self.selectedCountry[0], self.driverLicenseNoTextField.text, driverLicenseDate, passportNo, @"X", @"3063", @"33", @"65", gender, secretQuestion, @"", self.securityAnswerTextField.text, self.driverLicenseLocationTextField.text, driverLicenseType, @"", self.selectedCounty[0], emailChecked, smsChecked];
+        NSArray *value = @[self.nameTextField.text, self.middleNameTextField.text, self.surnameTextField.text, [formatter stringFromDate:self.birthdayDatePicker.date], tcknNo, @"X", self.emailTextField.text, trimmedMobilePhone, @"", base64Encoded, self.selectedCity[1], county, self.adressTextField.text, @"Z07", nationality, self.selectedCountry[0], self.driverLicenseNoTextField.text, driverLicenseDate, passportNo, @"X", @"3063", @"33", @"65", gender, secretQuestion, @"", self.securityAnswerTextField.text, self.driverLicenseLocationTextField.text, driverLicenseType, @"", self.mobilePhoneCountryLabel.text, emailChecked, smsChecked];
         
         [handler addImportStructure:@"IS_INPUT" andColumns:columns andValues:value];
         [handler addTableForReturn:@"E_OUTPUT"];
@@ -677,8 +699,7 @@
     }
 }
 
-- (void)releaseAllTextFields
-{
+- (void)releaseAllTextFields {
     [self.nameTextField resignFirstResponder];
     [self.middleNameTextField resignFirstResponder];
     [self.surnameTextField resignFirstResponder];
@@ -700,6 +721,7 @@
     [self releaseAllTextFields];
     return YES;
 }
+
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     UITableViewCell *cell = (UITableViewCell *) textField.superview.superview;
@@ -714,15 +736,16 @@
 {
     if ([textField tag] == 5)
     {
-        if (range.location == 11) {
+        if (range.location == 11 && self.nationalitySegmentedControl.selectedSegmentIndex == 0) {
             return NO;
         }
     }
     
     if ([textField tag] == 15)
     {
-        if (range.location == 13)
+        if (range.location == 10) {
             return NO;
+        }
     }
     
     return YES;
