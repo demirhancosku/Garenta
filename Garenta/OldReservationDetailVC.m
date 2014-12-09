@@ -38,7 +38,7 @@
     [super viewDidLoad];
     
     //İPTAL VE REZ.TAMAMLANDI STATÜSÜNDEKİLERE İŞLEM YAPTIRMIYORUZ.
-    if ([_reservation.reservationStatuId isEqualToString:@"E0009"] || [_reservation.reservationStatuId isEqualToString:@"E0010"]) {
+    if ([_reservation.reservationStatuId isEqualToString:@"E0008"] || [_reservation.reservationStatuId isEqualToString:@"E0009"] || [_reservation.reservationStatuId isEqualToString:@"E0010"]) {
         
         self.navigationItem.rightBarButtonItem = nil;
     }

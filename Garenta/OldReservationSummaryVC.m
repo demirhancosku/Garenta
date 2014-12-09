@@ -30,8 +30,8 @@
             
             [self changeCarSelectionPrice];
             
-            payNowPrice = [[super.reservation.upsellSelectedCar.pricing.payNowPrice decimalNumberByAdding:super.reservation.upsellSelectedCar.pricing.carSelectPrice] decimalNumberBySubtracting:_carSelectionPriceDifference];
-            payLaterPrice = [[super.reservation.upsellSelectedCar.pricing.payLaterPrice decimalNumberByAdding:super.reservation.upsellSelectedCar.pricing.carSelectPrice] decimalNumberBySubtracting:_carSelectionPriceDifference];
+            payNowPrice = [super.reservation.upsellSelectedCar.pricing.payNowPrice decimalNumberByAdding:_carSelectionPriceDifference];
+            payLaterPrice = [super.reservation.upsellSelectedCar.pricing.payLaterPrice decimalNumberByAdding:_carSelectionPriceDifference];
             documentPrice = super.reservation.upsellSelectedCar.pricing.documentCarPrice;
         }
         else
@@ -113,9 +113,19 @@
     if (predicateArray.count > 0) {
         AdditionalEquipment *temp = [predicateArray objectAtIndex:0];
         
-        _carSelectionPriceDifference = temp.price;
+//        if (temp.price.floatValue > super.reservation.upsellSelectedCar.pricing.carSelectPrice.floatValue) {
+//            _carSelectionPriceDifference = [temp.price decimalNumberBySubtracting:super.reservation.upsellSelectedCar.pricing.carSelectPrice];
+//
+//        }
+//        else{
+            _carSelectionPriceDifference = [super.reservation.upsellSelectedCar.pricing.carSelectPrice decimalNumberBySubtracting:temp.price];
+//        }
         
         temp.price = super.reservation.upsellSelectedCar.pricing.carSelectPrice;
+    }
+    else
+    {
+        _carSelectionPriceDifference = super.reservation.upsellSelectedCar.pricing.carSelectPrice;
     }
 }
 
@@ -262,8 +272,8 @@
                     NSDecimalNumber *documentPrice;
                     
                     if (super.reservation.upsellSelectedCar) {
-                        payNowPrice = [[super.reservation.upsellSelectedCar.pricing.payNowPrice decimalNumberByAdding:super.reservation.upsellSelectedCar.pricing.carSelectPrice] decimalNumberBySubtracting:_carSelectionPriceDifference];
-                        payLaterPrice = [[super.reservation.upsellSelectedCar.pricing.payLaterPrice decimalNumberByAdding:super.reservation.upsellSelectedCar.pricing.carSelectPrice] decimalNumberBySubtracting:_carSelectionPriceDifference];
+                        payNowPrice = [super.reservation.upsellSelectedCar.pricing.payNowPrice decimalNumberByAdding:_carSelectionPriceDifference];
+                        payLaterPrice = [super.reservation.upsellSelectedCar.pricing.payLaterPrice decimalNumberByAdding:_carSelectionPriceDifference];
                         documentPrice = super.reservation.upsellSelectedCar.pricing.documentCarPrice;
                     }
                     else

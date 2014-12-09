@@ -192,8 +192,8 @@
         [self setTextFieldsEnable:YES];
     else
         [self setTextFieldsEnable:NO];
-    
-    super.nameOnCardTextField.text = super.creditCard.nameOnTheCard;
+        
+//    super.nameOnCardTextField.text = super.creditCard.nameOnTheCard;
     super.creditCardNumberTextField.text = super.creditCard.cardNumber;
     super.expirationMonthTextField.text = super.creditCard.expirationMonth;
     super.expirationYearTextField.text = super.creditCard.expirationYear;
