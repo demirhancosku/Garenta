@@ -257,7 +257,7 @@
         
         super.reservation.paymentNowCard = tempCard;
         
-        BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:YES andTotalPrice:_changeReservationPrice];
+        BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:YES andTotalPrice:_changeReservationPrice andGarentaTl:self.garentaTlTextField.text];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];

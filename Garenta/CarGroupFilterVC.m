@@ -517,19 +517,20 @@
     for (CarGroup *temp in filteredCarGroups) {
         newCarGroup = [[CarGroup alloc] init];
         newCarGroup.cars = [[NSMutableArray alloc] init];
-        [newCarGroup setGroupCode:temp.groupCode];
-        [newCarGroup setGroupName:temp.groupName];
-        [newCarGroup setTransmissonId:temp.transmissonId];
-        [newCarGroup setTransmissonName:temp.transmissonName];
-        [newCarGroup setFuelId:temp.fuelId];
-        [newCarGroup setFuelName:temp.fuelName];
-        [newCarGroup setBodyId:temp.bodyId];
-        [newCarGroup setBodyName:temp.bodyName];
-        [newCarGroup setSegment:temp.segment];
-        [newCarGroup setSegmentName:temp.segmentName];
-        [newCarGroup setSampleCar:temp.sampleCar];
-        [newCarGroup setPayNowPrice:temp.payNowPrice];
-        [newCarGroup setPayLaterPrice:temp.payLaterPrice];
+        newCarGroup = [temp copy];
+//        [newCarGroup setGroupCode:temp.groupCode];
+//        [newCarGroup setGroupName:temp.groupName];
+//        [newCarGroup setTransmissonId:temp.transmissonId];
+//        [newCarGroup setTransmissonName:temp.transmissonName];
+//        [newCarGroup setFuelId:temp.fuelId];
+//        [newCarGroup setFuelName:temp.fuelName];
+//        [newCarGroup setBodyId:temp.bodyId];
+//        [newCarGroup setBodyName:temp.bodyName];
+//        [newCarGroup setSegment:temp.segment];
+//        [newCarGroup setSegmentName:temp.segmentName];
+//        [newCarGroup setSampleCar:temp.sampleCar];
+//        [newCarGroup setPayNowPrice:temp.payNowPrice];
+//        [newCarGroup setPayLaterPrice:temp.payLaterPrice];
         [newTempGroupArray addObject:newCarGroup];
 
     }

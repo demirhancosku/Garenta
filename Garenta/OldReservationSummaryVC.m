@@ -401,7 +401,7 @@
             isPayNow = YES;
         }
         
-        BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:isPayNow andTotalPrice:_changeReservationPrice];
+        BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:isPayNow andTotalPrice:_changeReservationPrice andGarentaTl:@""];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];

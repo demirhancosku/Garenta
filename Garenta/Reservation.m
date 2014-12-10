@@ -188,7 +188,7 @@
     return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f.02",totalValue]];
 }
 
-+ (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow {
++ (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl{
     NSString *alertString = @"";
     
     @try {
@@ -232,15 +232,22 @@
         }
         
         NSString *totalPrice = @"";
+        NSString *cardPayment = @"";
         
         if (_reservation.etExpiry.count > 0) {
-            totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"0" andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
+            totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
+            
+            cardPayment = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:garentaTl andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
         }
         else if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
-            totalPrice = [NSString stringWithFormat:@"%.02f", [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES] floatValue]];
+            totalPrice = [NSString stringWithFormat:@"%.02f", [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES] floatValue]];
+            
+            cardPayment = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:garentaTl andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES] floatValue]];
         }
         else {
-            totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
+            totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
+            
+            cardPayment = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:garentaTl andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
         }
         
         NSString *dayCount = @"";
@@ -257,7 +264,8 @@
             }
         }
         
-        NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, @"", @"", @"", dayCount, totalPrice, @"", @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"", @"", @"", @"", @"", @"", @""];
+        // G-Garenta TL kazandırmak için...İleride Mil yada Garentamı diye sorucaz... G-Garenta TL, M-Mil
+        NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, garentaTl, @"", @"", dayCount, totalPrice, @"", @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"G", @"", @"", @"", @"", @"", @""];
         [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
         
         // IS_USERINFO
@@ -487,7 +495,7 @@
                 merchantSafe = _reservation.paymentNowCard.uniqueId;
             }
             
-            NSArray *itTahsilatValue = @[kunnr, @"K", cardOwner, cardNumber, merchantSafe, cardCV2, cardMonth, cardYear, @"", ipAdress, email, cardOwner, @"", totalPrice, @"", @"", @"", @"", _reservation.checkOutOffice.subOfficeCode, @""];
+            NSArray *itTahsilatValue = @[kunnr, @"K", cardOwner, cardNumber, merchantSafe, cardCV2, cardMonth, cardYear, @"", ipAdress, email, cardOwner, @"", cardPayment, @"", @"", @"", @"", _reservation.checkOutOffice.subOfficeCode, @""];
             [itTahsilatValues addObject:itTahsilatValue];
             
             [handler addTableForImport:@"IT_TAHSILAT" andColumns:itTahsilatColumns andValues:itTahsilatValues];
@@ -561,7 +569,7 @@
     return @"";
 }
 
-+ (BOOL)changeReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andTotalPrice:(NSDecimalNumber *)aTotalPrice
++ (BOOL)changeReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andTotalPrice:(NSDecimalNumber *)aTotalPrice andGarentaTl:(NSString *)garentaTl
 {
     NSString *alertString = @"";
     @try {
@@ -611,11 +619,10 @@
                                                              options:0];
         
         NSString *day = [NSString stringWithFormat:@"%li",(long)[components day]];
-        
         NSString *totalPrice = [NSString stringWithFormat:@"%.02f",aTotalPrice.floatValue];
         
         // satış burosunu onurla konuşcam
-        NSArray *isInputValues = @[_reservation.reservationNumber, [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, @"", @"", @"", day, @"", @"", @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"", @"", @"", @"", @"", @"", @""];
+        NSArray *isInputValues = @[_reservation.reservationNumber, [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, garentaTl, @"", @"", day, totalPrice, @"", @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"G", @"", @"", @"", @"", @"", @""];
         
         [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
         
@@ -807,6 +814,11 @@
         }
         
         
+        if ([garentaTl isEqualToString:@""]) {
+            garentaTl = @"0";
+        }
+        NSString *cardPayment = [NSString stringWithFormat:@"%.02f",(aTotalPrice.floatValue - garentaTl.floatValue)];
+        
         if (isPayNow || aTotalPrice.floatValue < 0) {
             // IT_TAHSILAT
             NSArray *itTahsilatColumns = @[@"KUNNR", @"TAHSTIP", @"KART_SAHIBI", @"KART_NUMARASI", @"MER_KEY", @"GUVENLIKKODU", @"AY", @"YIL", @"ORDER_ID", @"CUSTOMER_IP", @"CUSTOMER_EMAIL" ,@"CUSTOMER_FULLNAME", @"COMPANYNAME", @"AMOUNT", @"POINT", @"POINT_TUTAR", @"IS_POINT", @"GARENTA_TL", @"VKBUR", @"MUSTERIONAY"];
@@ -841,7 +853,7 @@
                 merchantSafe = _reservation.paymentNowCard.uniqueId;
             }
             
-            NSArray *itTahsilatValue = @[kunnr, @"K", cardOwner, cardNumber, merchantSafe, cardCV2, cardMonth, cardYear, @"", ipAdress, email, cardOwner, @"", totalPrice, @"", @"", @"", @"", _reservation.checkOutOffice.subOfficeCode, @""];
+            NSArray *itTahsilatValue = @[kunnr, @"K", cardOwner, cardNumber, merchantSafe, cardCV2, cardMonth, cardYear, @"", ipAdress, email, cardOwner, @"", cardPayment, @"", @"", @"", @"", _reservation.checkOutOffice.subOfficeCode, @""];
             [itTahsilatValues addObject:itTahsilatValue];
             
             [handler addTableForImport:@"IT_TAHSILAT" andColumns:itTahsilatColumns andValues:itTahsilatValues];
