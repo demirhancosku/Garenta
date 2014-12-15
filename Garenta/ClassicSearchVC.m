@@ -151,6 +151,7 @@
             else
             {
                 [[cell officeLabel] setText:@"Size En Yakın Araçlar"];
+                [[cell officeLabel] setTextColor:[UIColor lightGrayColor]];
                 [cell setAccessoryType:UITableViewCellAccessoryNone];
             }
         }

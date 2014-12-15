@@ -192,8 +192,8 @@
         [self setTextFieldsEnable:YES];
     else
         [self setTextFieldsEnable:NO];
-    
-    super.nameOnCardTextField.text = super.creditCard.nameOnTheCard;
+        
+//    super.nameOnCardTextField.text = super.creditCard.nameOnTheCard;
     super.creditCardNumberTextField.text = super.creditCard.cardNumber;
     super.expirationMonthTextField.text = super.creditCard.expirationMonth;
     super.expirationYearTextField.text = super.creditCard.expirationYear;
@@ -207,6 +207,95 @@
     super.expirationMonthTextField.enabled = boolean;
     super.expirationYearTextField.enabled = boolean;
     super.cvvTextField.enabled = boolean;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    UITableViewCell *cell = (UITableViewCell *) textField.superview.superview;
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
+    [self.tableView scrollToRowAtIndexPath:indexPath
+                          atScrollPosition:UITableViewScrollPositionTop
+                                  animated:YES];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField.tag == 1) //kart no
+    {
+        NSCharacterSet *myCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+        for (int i = 0; i < [string length]; i++) {
+            unichar c = [string characterAtIndex:i];
+            if (![myCharSet characterIsMember:c]) {
+                return NO;
+            }
+        }
+        
+        if (range.location == 19) {
+            return NO;
+        }
+        
+        if ([string length] == 0)
+        {
+            return YES;
+        }
+        
+        if ((range.location == 4) || (range.location == 9) || (range.location == 14)) {
+            NSString *str = [NSString stringWithFormat:@"%@ ",super.creditCardNumberTextField.text];
+            super.creditCardNumberTextField.text = str;
+        }
+        
+        return YES;
+    }
+    
+    if (textField.tag == 2 || textField.tag == 3 || textField.tag == 4) // tarih ay-yıl alanı
+    {
+        NSCharacterSet *myCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+        for (int i = 0; i < [string length]; i++) {
+            unichar c = [string characterAtIndex:i];
+            if (![myCharSet characterIsMember:c]) {
+                return NO;
+            }
+        }
+        
+        switch (textField.tag)
+        {
+            case 2:
+                if (range.location == 2)
+                    return NO;
+                break;
+            case 3:
+                if (range.location == 4)
+                    return NO;
+                break;
+            case 4:
+                if (range.location == 3)
+                    return NO;
+                break;
+            default:
+                break;
+        }
+    }
+    
+    if (textField.tag == 5)
+    {
+        NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        NSLog(@"New string is: %@", newString);
+        
+        if ([newString isEqualToString:@""]) {
+            newString = @"0";
+        }
+        
+        if ([[_changeReservationPrice decimalNumberBySubtracting:[NSDecimalNumber decimalNumberWithString:newString]] floatValue] < 0) {
+            return NO;
+        }
+        
+        NSDecimalNumber *temp = [_changeReservationPrice decimalNumberBySubtracting:[NSDecimalNumber decimalNumberWithString:newString]];
+        
+        [super.totalPriceLabel setText:[NSString stringWithFormat:@"%.02f TL",temp.floatValue]];
+    }
+    
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -257,7 +346,7 @@
         
         super.reservation.paymentNowCard = tempCard;
         
-        BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:YES andTotalPrice:_changeReservationPrice];
+        BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:YES andTotalPrice:_changeReservationPrice andGarentaTl:self.garentaTlTextField.text];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];

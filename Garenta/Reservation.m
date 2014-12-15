@@ -10,6 +10,7 @@
 #import "AdditionalEquipment.h"
 #import "SDReservObject.h"
 #import "ETExpiryObject.h"
+#import "MailSoapHandler.h"
 
 @implementation Reservation
 @synthesize  checkOutTime,checkInTime,checkInOffice,checkOutOffice, selectedCarGroup,number,reservationStatu,paymentType,reservationType;
@@ -188,7 +189,7 @@
     return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f.02",totalValue]];
 }
 
-+ (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow {
++ (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl{
     NSString *alertString = @"";
     
     @try {
@@ -231,16 +232,27 @@
             }
         }
         
+        if (_reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation) {
+            paymentType = @"3";
+        }
+        
         NSString *totalPrice = @"";
+        NSString *cardPayment = @"";
         
         if (_reservation.etExpiry.count > 0) {
-            totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"0" andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
+            totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
+            
+            cardPayment = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:garentaTl andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
         }
         else if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
-            totalPrice = [NSString stringWithFormat:@"%.02f", [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES] floatValue]];
+            totalPrice = [NSString stringWithFormat:@"%.02f", [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES] floatValue]];
+            
+            cardPayment = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:garentaTl andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES] floatValue]];
         }
         else {
-            totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
+            totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
+            
+            cardPayment = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:garentaTl andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
         }
         
         NSString *dayCount = @"";
@@ -257,7 +269,8 @@
             }
         }
         
-        NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, @"", @"", @"", dayCount, totalPrice, @"", @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"", @"", @"", @"", @"", @"", @""];
+        // G-Garenta TL kazandırmak için...İleride Mil yada Garentamı diye sorucaz... G-Garenta TL, M-Mil
+        NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, garentaTl, @"", @"", dayCount, totalPrice, @"", @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"G", @"", @"", @"", @"", @"", @""];
         [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
         
         // IS_USERINFO
@@ -266,11 +279,11 @@
         NSArray *isUserInfoValues;
         
         if ([[ApplicationProperties getUser] isLoggedIn]) {
-            isUserInfoColumns = @[@"MUSTERINO"];
-            isUserInfoValues = @[[[ApplicationProperties getUser] kunnr]];
+            isUserInfoColumns = @[@"MUSTERINO", @"SALES_ORGANIZATION", @"DISTRIBUTION_CHANNEL", @"DIVISION", @"KANALTURU"];
+            isUserInfoValues = @[[[ApplicationProperties getUser] kunnr], @"3063", @"33", @"65", @"Z07"];
         }
         else {
-            
+        
             isUserInfoColumns = @[@"MUSTERINO", @"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN", @"VERGINO", @"ADRESS", @"EMAIL", @"TELNO", @"UYRUK", @"ULKE", @"SALES_ORGANIZATION", @"DISTRIBUTION_CHANNEL", @"DIVISION", @"KANALTURU", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"ILKODU", @"ILCEKOD", @"MIDDLENAME", @"PASAPORTNO", @"TK_KARTNO", @"TELNO_ULKE"];
             
             NSString *driverLicenseNo = @"";
@@ -295,8 +308,20 @@
         NSMutableArray *itAraclarValues = [NSMutableArray new];
         
         for (Car *tempCar in _reservation.selectedCarGroup.cars) {
-            NSArray *arr = @[[tempCar materialCode]];
-            [itAraclarValues addObject:arr];
+            if (_reservation.campaignObject.campaignScopeType == vehicleGroupCampaign || _reservation.campaignObject == nil) {
+                NSArray *arr = @[[tempCar materialCode]];
+                [itAraclarValues addObject:arr];
+            }
+            else if (_reservation.campaignObject.campaignScopeType == vehicleBrandCampaign && [_reservation.campaignObject.campaignPrice.brandId isEqualToString:tempCar.brandId])
+            {
+                NSArray *arr = @[[tempCar materialCode]];
+                [itAraclarValues addObject:arr];
+            }
+            else if (_reservation.campaignObject.campaignScopeType == vehicleModelCampaign && [_reservation.campaignObject.campaignPrice.brandId isEqualToString:tempCar.brandId] && [_reservation.campaignObject.campaignPrice.modelId isEqualToString:tempCar.modelId])
+            {
+                NSArray *arr = @[[tempCar materialCode]];
+                [itAraclarValues addObject:arr];
+            }
         }
         
         [handler addTableForImport:@"IT_ARACLAR" andColumns:itAraclarColumns andValues:itAraclarValues];
@@ -329,11 +354,18 @@
             isMontly = @"X";
             carPrice = _reservation.selectedCarGroup.priceWithKDV;
         }
+        
         else if (isPayNow) {
-            carPrice = _reservation.selectedCarGroup.payNowPrice;
+            if (_reservation.campaignObject)
+                carPrice = _reservation.campaignObject.campaignPrice.payNowPrice.stringValue;
+            else
+                carPrice = _reservation.selectedCarGroup.payNowPrice;
         }
         else{
-            carPrice = _reservation.selectedCarGroup.payLaterPrice;
+            if (_reservation.campaignObject)
+                carPrice = _reservation.campaignObject.campaignPrice.payLaterPrice.stringValue;
+            else
+                carPrice = _reservation.selectedCarGroup.payLaterPrice;
         }
         
         // Ata Cengiz 07.12.2014 Kurumsal rez hk
@@ -349,7 +381,7 @@
         
         // ARAÇ
         
-        NSArray *vehicleLine = @[@"", matnr, @"1", _reservation.selectedCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", carPrice, @"", @"", @"", @"", jatoBrandID, jatoModelID, _reservation.selectedCarGroup.segment, priceCode, @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", isMontly, corparatePayment];
+        NSArray *vehicleLine = @[@"", matnr, @"1", _reservation.selectedCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, _reservation.campaignObject.campaignID, carPrice, @"", @"", @"", @"", jatoBrandID, jatoModelID, _reservation.selectedCarGroup.segment, priceCode, @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", isMontly, corparatePayment];
         
         [itItemsValues addObject:vehicleLine];
         
@@ -487,7 +519,7 @@
                 merchantSafe = _reservation.paymentNowCard.uniqueId;
             }
             
-            NSArray *itTahsilatValue = @[kunnr, @"K", cardOwner, cardNumber, merchantSafe, cardCV2, cardMonth, cardYear, @"", ipAdress, email, cardOwner, @"", totalPrice, @"", @"", @"", @"", _reservation.checkOutOffice.subOfficeCode, @""];
+            NSArray *itTahsilatValue = @[kunnr, @"K", cardOwner, cardNumber, merchantSafe, cardCV2, cardMonth, cardYear, @"", ipAdress, email, cardOwner, @"", cardPayment, @"", @"", @"", @"", _reservation.checkOutOffice.subOfficeCode, @""];
             [itTahsilatValues addObject:itTahsilatValue];
             
             [handler addTableForImport:@"IT_TAHSILAT" andColumns:itTahsilatColumns andValues:itTahsilatValues];
@@ -505,9 +537,26 @@
             NSString *subrc = [export valueForKey:@"EV_SUBRC"];
             
             if ([subrc isEqualToString:@"0"]) {
-                NSDictionary *esOutput = [export objectForKey:@"ES_OUTPUT"];
+                User *tempUser = [ApplicationProperties getUser];
                 
+                NSString *mail = @"";
+                NSString *fullName = @"";
+                
+                if (tempUser.isLoggedIn) {
+                    mail = tempUser.email;
+                    fullName = [NSString stringWithFormat:@"%@ %@ %@",tempUser.name,tempUser.middleName,tempUser.surname];
+                }
+                else
+                {
+                    mail = _reservation.temporaryUser.email;
+                    fullName = [NSString stringWithFormat:@"%@ %@ %@",_reservation.temporaryUser.name,_reservation.temporaryUser.middleName,_reservation.temporaryUser.surname];
+                }
+                
+                NSDictionary *esOutput = [export objectForKey:@"ES_OUTPUT"];
                 NSString *reservationNo = [esOutput valueForKey:@"REZ_NO"];
+                
+                BOOL isSuccess = [MailSoapHandler sendReservationInfoMessage:_reservation toMail:@"kerem.balaban@abh.com.tr" withFullName:fullName withTotalPrice:totalPrice withReservationNumber:reservationNo withPaymentType:paymentType];
+                
                 return reservationNo;
             }
             else {
@@ -561,7 +610,7 @@
     return @"";
 }
 
-+ (BOOL)changeReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andTotalPrice:(NSDecimalNumber *)aTotalPrice
++ (BOOL)changeReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andTotalPrice:(NSDecimalNumber *)aTotalPrice andGarentaTl:(NSString *)garentaTl
 {
     NSString *alertString = @"";
     @try {
@@ -611,11 +660,10 @@
                                                              options:0];
         
         NSString *day = [NSString stringWithFormat:@"%li",(long)[components day]];
-        
         NSString *totalPrice = [NSString stringWithFormat:@"%.02f",aTotalPrice.floatValue];
         
         // satış burosunu onurla konuşcam
-        NSArray *isInputValues = @[_reservation.reservationNumber, [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, @"", @"", @"", day, @"", @"", @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"", @"", @"", @"", @"", @"", @""];
+        NSArray *isInputValues = @[_reservation.reservationNumber, [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, garentaTl, @"", @"", day, totalPrice, @"", @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"G", @"", @"", @"", @"", @"", @""];
         
         [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
         
@@ -624,8 +672,8 @@
         NSArray *isUserInfoValues;
         
         if ([[ApplicationProperties getUser] isLoggedIn]) {
-            isUserInfoColumns = @[@"MUSTERINO"];
-            isUserInfoValues = @[[[ApplicationProperties getUser] kunnr]];
+            isUserInfoColumns = @[@"MUSTERINO", @"SALES_ORGANIZATION", @"DISTRIBUTION_CHANNEL", @"DIVISION", @"KANALTURU"];
+            isUserInfoValues = @[[[ApplicationProperties getUser] kunnr], @"3063", @"33", @"65", @"Z07"];
         }
         
         [handler addImportStructure:@"IS_USERINFO" andColumns:isUserInfoColumns andValues:isUserInfoValues];
@@ -695,14 +743,23 @@
                 matnr = _reservation.upsellSelectedCar.materialCode;
                 jatoBrandID = _reservation.upsellSelectedCar.brandName;
                 jatoModelID = _reservation.upsellSelectedCar.modelName;
-                carPrice = _reservation.upsellSelectedCar.pricing.payNowPrice.stringValue;
+                
+                if (isPayNow) {
+                    carPrice = _reservation.upsellSelectedCar.pricing.payNowPrice.stringValue;
+                }
+                else{
+                    carPrice = _reservation.upsellSelectedCar.pricing.payLaterPrice.stringValue;
+                }
             }
             else
             {
                 matnr = @"";
                 jatoBrandID = @"";
                 jatoModelID = @"";
-                carPrice = _reservation.upsellCarGroup.sampleCar.pricing.payNowPrice.stringValue;
+                if (isPayNow)
+                    carPrice = _reservation.upsellCarGroup.sampleCar.pricing.payNowPrice.stringValue;
+                else
+                    carPrice = _reservation.upsellCarGroup.sampleCar.pricing.payLaterPrice.stringValue;
             }
             
             
@@ -807,6 +864,11 @@
         }
         
         
+        if ([garentaTl isEqualToString:@""]) {
+            garentaTl = @"0";
+        }
+        NSString *cardPayment = [NSString stringWithFormat:@"%.02f",(aTotalPrice.floatValue - garentaTl.floatValue)];
+        
         if (isPayNow || aTotalPrice.floatValue < 0) {
             // IT_TAHSILAT
             NSArray *itTahsilatColumns = @[@"KUNNR", @"TAHSTIP", @"KART_SAHIBI", @"KART_NUMARASI", @"MER_KEY", @"GUVENLIKKODU", @"AY", @"YIL", @"ORDER_ID", @"CUSTOMER_IP", @"CUSTOMER_EMAIL" ,@"CUSTOMER_FULLNAME", @"COMPANYNAME", @"AMOUNT", @"POINT", @"POINT_TUTAR", @"IS_POINT", @"GARENTA_TL", @"VKBUR", @"MUSTERIONAY"];
@@ -841,7 +903,7 @@
                 merchantSafe = _reservation.paymentNowCard.uniqueId;
             }
             
-            NSArray *itTahsilatValue = @[kunnr, @"K", cardOwner, cardNumber, merchantSafe, cardCV2, cardMonth, cardYear, @"", ipAdress, email, cardOwner, @"", totalPrice, @"", @"", @"", @"", _reservation.checkOutOffice.subOfficeCode, @""];
+            NSArray *itTahsilatValue = @[kunnr, @"K", cardOwner, cardNumber, merchantSafe, cardCV2, cardMonth, cardYear, @"", ipAdress, email, cardOwner, @"", cardPayment, @"", @"", @"", @"", _reservation.checkOutOffice.subOfficeCode, @""];
             [itTahsilatValues addObject:itTahsilatValue];
             
             [handler addTableForImport:@"IT_TAHSILAT" andColumns:itTahsilatColumns andValues:itTahsilatValues];
@@ -859,9 +921,27 @@
             NSString *subrc = [export valueForKey:@"EV_SUBRC"];
             
             if ([subrc isEqualToString:@"0"]) {
+                User *tempUser = [ApplicationProperties getUser];
+                
+                NSString *mail = @"";
+                NSString *fullName = @"";
+                
+                if (tempUser.isLoggedIn) {
+                    mail = tempUser.email;
+                    fullName = [NSString stringWithFormat:@"%@ %@ %@",tempUser.name,tempUser.middleName,tempUser.surname];
+                }
+                else
+                {
+                    mail = _reservation.temporaryUser.email;
+                    fullName = [NSString stringWithFormat:@"%@ %@ %@",_reservation.temporaryUser.name,_reservation.temporaryUser.middleName,_reservation.temporaryUser.surname];
+                }
+                
                 NSDictionary *esOutput = [export objectForKey:@"ES_OUTPUT"];
                 
                 NSString *reservationNo = [esOutput valueForKey:@"REZ_NO"];
+                
+                BOOL isSuccess = [MailSoapHandler sendReservationInfoMessage:_reservation toMail:mail withFullName:fullName withTotalPrice:totalPrice withReservationNumber:reservationNo withPaymentType:paymentType];
+                
                 return YES;
             }
             else {
@@ -880,7 +960,15 @@
                     }
                 }
                 else {
-                    alertString = @"Rezervasyon güncelleme sırasında hata oluştu. Lütfen tekrar deneyiniz";
+                    NSDictionary *etKKReturn = [tables objectForKey:@"BAPIRET2"];
+                    
+                    for (NSDictionary *temp in etKKReturn) {
+                        alertString = [temp valueForKey:@"MESSAGE"];
+                    }
+                    
+                    if ([alertString isEqualToString:@""]) {
+                        alertString = @"Rezervasyon güncelleme sırasında hata oluştu. Lütfen tekrar deneyiniz";
+                    }
                 }
             }
             

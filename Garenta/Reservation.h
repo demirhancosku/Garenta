@@ -41,12 +41,12 @@
 @property (strong, nonatomic) NSArray *etExpiry;
 @property (strong,nonatomic) NSMutableArray *upsellList;
 @property (strong,nonatomic) NSMutableArray *downsellList;
-@property (nonatomic) CampaignScopeType campaignScopeType;
+@property (strong,nonatomic) CampaignObject *campaignObject;
 
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl andIsMontlyRent:(BOOL)isMontlyRent andIsCorparatePayment:(BOOL)isCorparate andIsPersonalPayment:(BOOL)isPersonalPayment;
 
-+ (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow;
-+ (BOOL)changeReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andTotalPrice:(NSDecimalNumber *)totalPrice;
++ (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl;
++ (BOOL)changeReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andTotalPrice:(NSDecimalNumber *)totalPrice andGarentaTl:(NSString *)garentaTl;
 + (NSString *)getCustomerIP;
 
 @end

@@ -38,7 +38,7 @@
     [super viewDidLoad];
     
     //İPTAL VE REZ.TAMAMLANDI STATÜSÜNDEKİLERE İŞLEM YAPTIRMIYORUZ.
-    if ([_reservation.reservationStatuId isEqualToString:@"E0009"] || [_reservation.reservationStatuId isEqualToString:@"E0010"]) {
+    if ([_reservation.reservationStatuId isEqualToString:@"E0008"] || [_reservation.reservationStatuId isEqualToString:@"E0009"] || [_reservation.reservationStatuId isEqualToString:@"E0010"]) {
         
         self.navigationItem.rightBarButtonItem = nil;
     }
@@ -129,10 +129,17 @@
             aCell = [tableView dequeueReusableCellWithIdentifier:@"totalPaymentCell" forIndexPath:indexPath];
             totalPriceLabel = (UILabel*)[aCell viewWithTag:2];
             
-            if ([_reservation.paymentType isEqualToString:@"1"])
-                [totalPriceLabel setText:@"Ödenmiş Toplam:"];
+            if ([_reservation.reservationStatuId isEqualToString:@"E0009"]) {
+                [totalPriceLabel setText:@"İade Edilmiş Tutar:"];
+            }
             else
-                [totalPriceLabel setText:@"Ödenecek Toplam:"];
+            {
+                
+                if ([_reservation.paymentType isEqualToString:@"1"])
+                    [totalPriceLabel setText:@"Tahsil Edilmiş Tutar:"];
+                else
+                    [totalPriceLabel setText:@"Tahsil Edilecek Tutar:"];
+            }
             
             totalPrice = (UILabel*)[aCell viewWithTag:1];
             [totalPrice setText:[NSString stringWithFormat:@"%.02f",_totalPrice.floatValue]];
@@ -183,6 +190,8 @@
     
     if ([segue.identifier isEqualToString:@"toOldReservationSearchSegue"])
     {
+        [(OldReservationSearchVC *)[segue destinationViewController] setOldCheckInTime:_oldCheckInTime];
+        [(OldReservationSearchVC *)[segue destinationViewController] setOldCheckOutTime:_oldCheckOutTime];
         [(OldReservationSearchVC *)[segue destinationViewController] setReservation:_reservation];
     }
     
@@ -362,7 +371,7 @@
                     [tempCar setModelName:[tempDict valueForKey:@"MODEL"]];
                     [tempCar setModelYear:[tempDict valueForKey:@"MODEL_YILI"]];
                     [tempCar setSalesOffice:[tempDict valueForKey:@"MSUBE"]];
-        
+                    
                     NSString *imagePath = [tempDict valueForKey:@"ZRESIM_315"];
                     imagePath = [imagePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                     

@@ -92,9 +92,12 @@ static NSString *cellIdentifier;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     _selectedIndex = indexPath.row;
     Car *car = [[carSelectionArray objectAtIndex:_selectedIndex] sampleCar];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Onay" message:
-                          [NSString stringWithFormat:@"%@ %@ - (%@) modeli rezervasyonunuza eklemek istedidiğinizden emin misiniz?",car.brandName,car.modelName,car.colorName] delegate:self cancelButtonTitle:@"Hayır" otherButtonTitles: @"Evet",nil];
-    [alert show];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Onay" message:
+                              [NSString stringWithFormat:@"%@ %@ - (%@) modeli rezervasyonunuza eklemek istedidiğinizden emin misiniz?",car.brandName,car.modelName,car.colorName] delegate:self cancelButtonTitle:@"Hayır" otherButtonTitles: @"Evet",nil];
+        [alert show];
+    });
 }
 
 #pragma mark - uialertview methods

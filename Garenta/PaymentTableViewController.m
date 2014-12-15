@@ -243,7 +243,14 @@
     
     if (textField.tag == 5)
     {
-        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:string andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]]];
+        NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        NSLog(@"New string is: %@", newString);
+        
+        if ([_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:newString andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO].floatValue < 0) {
+            return NO;
+        }
+        
+        [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:newString andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]]];
     }
     
     return YES;
@@ -390,7 +397,7 @@
         
         _reservation.paymentNowCard = tempCard;
         
-        _reservation.reservationNumber = [Reservation createReservationAtSAP:_reservation andIsPayNow:YES];
+        _reservation.reservationNumber = [Reservation createReservationAtSAP:_reservation andIsPayNow:YES andGarentaTl:_garentaTlTextField.text];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];

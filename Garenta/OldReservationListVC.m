@@ -271,6 +271,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {    
     if ([[segue identifier] isEqualToString:@"toReservationDetail"]) {
+        [(OldReservationDetailVC*)[segue destinationViewController] setOldCheckInTime:_reservation.checkInTime];
+        [(OldReservationDetailVC*)[segue destinationViewController] setOldCheckOutTime:_reservation.checkOutTime];
+        [(OldReservationDetailVC*)[segue destinationViewController] setReservation:_reservation];
         [(OldReservationDetailVC*)[segue destinationViewController] setReservation:_reservation];
         [(OldReservationDetailVC*)[segue destinationViewController] setTotalPrice:_totalPrice];
     }
@@ -393,7 +396,7 @@
                     CarGroup *tempCarGroup = [CarGroup new];
                     
                     tempCarGroup = [CarGroup new];
-                    //                    tempCarGroup.cars = [NSMutableArray new];
+                    tempCarGroup.cars = [NSMutableArray new];
                     
                     [tempCarGroup setGroupCode:[tempDict valueForKey:@"GRPKOD"]];
                     [tempCarGroup setGroupName:[tempDict valueForKey:@"GRPKODTX"]];
@@ -412,7 +415,7 @@
                     [tempCarGroup setMinYoungDriverLicense:[[tempDict valueForKey:@"GENC_SRC_EHL"] integerValue]];
                     
                     [tempCarGroup setSampleCar:tempCar];
-                    //                    [tempCarGroup.cars addObject:tempCar];
+                    [tempCarGroup.cars addObject:tempCar];
                     
                     if ([_reservation.reservationType isEqualToString:@"10"])
                     {

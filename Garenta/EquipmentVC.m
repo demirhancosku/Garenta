@@ -261,7 +261,7 @@
     if (_reservation.selectedCar == nil) {
         [cell.selectButton setImage:[UIImage imageNamed:@"unticked_button.png"] forState:UIControlStateNormal];
         [cell.selectButton setHidden:YES];
-        [cell.priceLabel setText:@"0.00"];
+        [cell.priceLabel setText:@"0.00 TL"];
         
         if ([_carSelectionArray count] == 0)
             [[cell carLabel] setText:@""];

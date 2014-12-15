@@ -75,10 +75,10 @@
             
             NSString *campaignReservationType = [tempDict valueForKey:@"REZ_TURU"];
             
-            if ([campaignReservationType isEqualToString:@"ZR1"]) {
+            if ([campaignReservationType isEqualToString:@"ZR2"]) {
                 tempCampaign.campaignReservationType = payNowReservation;
             }
-            else if ([campaignReservationType isEqualToString:@"ZR2"]) {
+            else if ([campaignReservationType isEqualToString:@"ZR1"]) {
                 tempCampaign.campaignReservationType = payLaterReservation;
             }
             else if ([campaignReservationType isEqualToString:@"ZR3"]) {
@@ -99,7 +99,7 @@
         [tempPrice setDayCount:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"GUN_SAYISI"]]];
         [tempPrice setSalesOffice:[tempDict valueForKey:@"CIKIS_SUBE"]];
         [tempPrice setPriceWithKDV:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KDVLI_TOPLAM_TUTAR_TRY"]]];
-        [tempPrice setCampaignDiscountPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KAMPANYA_TUTAR_TRY"]]];
+        [tempPrice setCampaignDiscountPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KAMPANYA_TUTAR_TRY6"]]];
         
         if (tempCampaign.campaignScopeType == noneDefinedCampaign) {
             // Regular Price

@@ -92,7 +92,7 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
-        _reservation.reservationNumber = [Reservation createReservationAtSAP:_reservation andIsPayNow:NO];
+        _reservation.reservationNumber = [Reservation createReservationAtSAP:_reservation andIsPayNow:NO andGarentaTl:@"0"];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
