@@ -33,8 +33,14 @@
             NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"campaignID==%@", temp.campaignID];
             NSArray *filterCampaignArr = [tempOffice.campaignList filteredArrayUsingPredicate:resultPredicate];
             
-            if (filterCampaignArr.count == 0 || [temp.campaignPrice.salesOffice isEqualToString:[[[filterCampaignArr objectAtIndex:0] campaignPrice] salesOffice]]) {
-                [tempOffice.campaignList addObject:temp];
+            if (filterCampaignArr.count == 0 || [temp.campaignPrice.salesOffice isEqualToString:[[[filterCampaignArr objectAtIndex:0] campaignPrice] salesOffice]])
+            {
+                NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"campaignScopeType==%i", temp.campaignScopeType];
+                NSArray *filterCampaignScopeArr = [tempOffice.campaignList filteredArrayUsingPredicate:resultPredicate];
+                
+                if (filterCampaignScopeArr.count == 0) {
+                    [tempOffice.campaignList addObject:temp];
+                }
             }
         }
     }
@@ -174,11 +180,15 @@
     
     // Şimdi öde, sonra öde yada ön ödemeli iptal edilemez fiyatları varsa o fiyatlar yazılıyor
     for (CampaignObject *temp in filterArr) {
-        if (temp.campaignReservationType == payNowReservation) {
+        if (temp.campaignReservationType == payNowReservation)
+        {
             if (temp.campaignScopeType == vehicleModelCampaign) {
+                _reservation.selectedCar = [Car new];
                 _reservation.selectedCar = [self findSelectedCar:tempCampaign];
+                _reservation.selectedCar.pricing.carSelectPrice = temp.campaignPrice.carSelectPrice;
             }
-            _reservation.selectedCar.pricing.carSelectPrice = temp.campaignPrice.carSelectPrice;
+            
+            _reservation.campaignObject = temp;
             _reservation.selectedCarGroup.sampleCar.pricing.payNowPrice = tempCampaign.campaignPrice.payNowPrice;
         }
     }
@@ -198,12 +208,15 @@
     
     // Şimdi öde, sonra öde yada ön ödemeli iptal edilemez fiyatları varsa o fiyatlar yazılıyor
     for (CampaignObject *temp in filterArr) {
-        if (temp.campaignReservationType == payLaterReservation) {
+        if (temp.campaignReservationType == payLaterReservation)
+        {
             if (temp.campaignScopeType == vehicleModelCampaign) {
+                _reservation.selectedCar = [Car new];
                 _reservation.selectedCar = [self findSelectedCar:tempCampaign];
+                _reservation.selectedCar.pricing.carSelectPrice = temp.campaignPrice.carSelectPrice;
             }
-        
-            _reservation.selectedCar.pricing.carSelectPrice = temp.campaignPrice.carSelectPrice;
+            
+            _reservation.campaignObject = temp;
             _reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice = tempCampaign.campaignPrice.payLaterPrice;
         }
     }
@@ -223,12 +236,15 @@
     
     // Şimdi öde, sonra öde yada ön ödemeli iptal edilemez fiyatları varsa o fiyatlar yazılıyor
     for (CampaignObject *temp in filterArr) {
-        if (temp.campaignReservationType == payFrontWithNoCancellation) {
+        if (temp.campaignReservationType == payFrontWithNoCancellation)
+        {
             if (temp.campaignScopeType == vehicleModelCampaign) {
+                _reservation.selectedCar = [Car new];
                 _reservation.selectedCar = [self findSelectedCar:tempCampaign];
+                _reservation.selectedCar.pricing.carSelectPrice = temp.campaignPrice.carSelectPrice;
             }
-            
-            _reservation.selectedCar.pricing.carSelectPrice = temp.campaignPrice.carSelectPrice;
+
+            _reservation.campaignObject = temp;
             _reservation.selectedCarGroup.sampleCar.pricing.payNowPrice = tempCampaign.campaignPrice.payNowPrice;
         }
     }

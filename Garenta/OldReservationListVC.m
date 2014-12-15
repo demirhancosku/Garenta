@@ -271,6 +271,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {    
     if ([[segue identifier] isEqualToString:@"toReservationDetail"]) {
+        [(OldReservationDetailVC*)[segue destinationViewController] setOldCheckInTime:_reservation.checkInTime];
+        [(OldReservationDetailVC*)[segue destinationViewController] setOldCheckOutTime:_reservation.checkOutTime];
+        [(OldReservationDetailVC*)[segue destinationViewController] setReservation:_reservation];
         [(OldReservationDetailVC*)[segue destinationViewController] setReservation:_reservation];
         [(OldReservationDetailVC*)[segue destinationViewController] setTotalPrice:_totalPrice];
     }

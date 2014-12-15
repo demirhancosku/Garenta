@@ -10,6 +10,7 @@
 #import "AdditionalEquipment.h"
 #import "SDReservObject.h"
 #import "ETExpiryObject.h"
+#import "MailSoapHandler.h"
 
 @implementation Reservation
 @synthesize  checkOutTime,checkInTime,checkInOffice,checkOutOffice, selectedCarGroup,number,reservationStatu,paymentType,reservationType;
@@ -231,6 +232,10 @@
             }
         }
         
+        if (_reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation) {
+            paymentType = @"3";
+        }
+        
         NSString *totalPrice = @"";
         NSString *cardPayment = @"";
         
@@ -303,8 +308,20 @@
         NSMutableArray *itAraclarValues = [NSMutableArray new];
         
         for (Car *tempCar in _reservation.selectedCarGroup.cars) {
-            NSArray *arr = @[[tempCar materialCode]];
-            [itAraclarValues addObject:arr];
+            if (_reservation.campaignObject.campaignScopeType == vehicleGroupCampaign || _reservation.campaignObject == nil) {
+                NSArray *arr = @[[tempCar materialCode]];
+                [itAraclarValues addObject:arr];
+            }
+            else if (_reservation.campaignObject.campaignScopeType == vehicleBrandCampaign && [_reservation.campaignObject.campaignPrice.brandId isEqualToString:tempCar.brandId])
+            {
+                NSArray *arr = @[[tempCar materialCode]];
+                [itAraclarValues addObject:arr];
+            }
+            else if (_reservation.campaignObject.campaignScopeType == vehicleModelCampaign && [_reservation.campaignObject.campaignPrice.brandId isEqualToString:tempCar.brandId] && [_reservation.campaignObject.campaignPrice.modelId isEqualToString:tempCar.modelId])
+            {
+                NSArray *arr = @[[tempCar materialCode]];
+                [itAraclarValues addObject:arr];
+            }
         }
         
         [handler addTableForImport:@"IT_ARACLAR" andColumns:itAraclarColumns andValues:itAraclarValues];
@@ -337,11 +354,18 @@
             isMontly = @"X";
             carPrice = _reservation.selectedCarGroup.priceWithKDV;
         }
+        
         else if (isPayNow) {
-            carPrice = _reservation.selectedCarGroup.payNowPrice;
+            if (_reservation.campaignObject)
+                carPrice = _reservation.campaignObject.campaignPrice.payNowPrice.stringValue;
+            else
+                carPrice = _reservation.selectedCarGroup.payNowPrice;
         }
         else{
-            carPrice = _reservation.selectedCarGroup.payLaterPrice;
+            if (_reservation.campaignObject)
+                carPrice = _reservation.campaignObject.campaignPrice.payLaterPrice.stringValue;
+            else
+                carPrice = _reservation.selectedCarGroup.payLaterPrice;
         }
         
         // Ata Cengiz 07.12.2014 Kurumsal rez hk
@@ -357,7 +381,7 @@
         
         // ARAÇ
         
-        NSArray *vehicleLine = @[@"", matnr, @"1", _reservation.selectedCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", carPrice, @"", @"", @"", @"", jatoBrandID, jatoModelID, _reservation.selectedCarGroup.segment, priceCode, @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", isMontly, corparatePayment];
+        NSArray *vehicleLine = @[@"", matnr, @"1", _reservation.selectedCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, _reservation.campaignObject.campaignID, carPrice, @"", @"", @"", @"", jatoBrandID, jatoModelID, _reservation.selectedCarGroup.segment, priceCode, @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", isMontly, corparatePayment];
         
         [itItemsValues addObject:vehicleLine];
         
@@ -513,9 +537,26 @@
             NSString *subrc = [export valueForKey:@"EV_SUBRC"];
             
             if ([subrc isEqualToString:@"0"]) {
-                NSDictionary *esOutput = [export objectForKey:@"ES_OUTPUT"];
+                User *tempUser = [ApplicationProperties getUser];
                 
+                NSString *mail = @"";
+                NSString *fullName = @"";
+                
+                if (tempUser.isLoggedIn) {
+                    mail = tempUser.email;
+                    fullName = [NSString stringWithFormat:@"%@ %@ %@",tempUser.name,tempUser.middleName,tempUser.surname];
+                }
+                else
+                {
+                    mail = _reservation.temporaryUser.email;
+                    fullName = [NSString stringWithFormat:@"%@ %@ %@",_reservation.temporaryUser.name,_reservation.temporaryUser.middleName,_reservation.temporaryUser.surname];
+                }
+                
+                NSDictionary *esOutput = [export objectForKey:@"ES_OUTPUT"];
                 NSString *reservationNo = [esOutput valueForKey:@"REZ_NO"];
+                
+                BOOL isSuccess = [MailSoapHandler sendReservationInfoMessage:_reservation toMail:@"kerem.balaban@abh.com.tr" withFullName:fullName withTotalPrice:totalPrice withReservationNumber:reservationNo withPaymentType:paymentType];
+                
                 return reservationNo;
             }
             else {
@@ -702,14 +743,23 @@
                 matnr = _reservation.upsellSelectedCar.materialCode;
                 jatoBrandID = _reservation.upsellSelectedCar.brandName;
                 jatoModelID = _reservation.upsellSelectedCar.modelName;
-                carPrice = _reservation.upsellSelectedCar.pricing.payNowPrice.stringValue;
+                
+                if (isPayNow) {
+                    carPrice = _reservation.upsellSelectedCar.pricing.payNowPrice.stringValue;
+                }
+                else{
+                    carPrice = _reservation.upsellSelectedCar.pricing.payLaterPrice.stringValue;
+                }
             }
             else
             {
                 matnr = @"";
                 jatoBrandID = @"";
                 jatoModelID = @"";
-                carPrice = _reservation.upsellCarGroup.sampleCar.pricing.payNowPrice.stringValue;
+                if (isPayNow)
+                    carPrice = _reservation.upsellCarGroup.sampleCar.pricing.payNowPrice.stringValue;
+                else
+                    carPrice = _reservation.upsellCarGroup.sampleCar.pricing.payLaterPrice.stringValue;
             }
             
             
@@ -871,9 +921,27 @@
             NSString *subrc = [export valueForKey:@"EV_SUBRC"];
             
             if ([subrc isEqualToString:@"0"]) {
+                User *tempUser = [ApplicationProperties getUser];
+                
+                NSString *mail = @"";
+                NSString *fullName = @"";
+                
+                if (tempUser.isLoggedIn) {
+                    mail = tempUser.email;
+                    fullName = [NSString stringWithFormat:@"%@ %@ %@",tempUser.name,tempUser.middleName,tempUser.surname];
+                }
+                else
+                {
+                    mail = _reservation.temporaryUser.email;
+                    fullName = [NSString stringWithFormat:@"%@ %@ %@",_reservation.temporaryUser.name,_reservation.temporaryUser.middleName,_reservation.temporaryUser.surname];
+                }
+                
                 NSDictionary *esOutput = [export objectForKey:@"ES_OUTPUT"];
                 
                 NSString *reservationNo = [esOutput valueForKey:@"REZ_NO"];
+                
+                BOOL isSuccess = [MailSoapHandler sendReservationInfoMessage:_reservation toMail:mail withFullName:fullName withTotalPrice:totalPrice withReservationNumber:reservationNo withPaymentType:paymentType];
+                
                 return YES;
             }
             else {
@@ -892,7 +960,15 @@
                     }
                 }
                 else {
-                    alertString = @"Rezervasyon güncelleme sırasında hata oluştu. Lütfen tekrar deneyiniz";
+                    NSDictionary *etKKReturn = [tables objectForKey:@"BAPIRET2"];
+                    
+                    for (NSDictionary *temp in etKKReturn) {
+                        alertString = [temp valueForKey:@"MESSAGE"];
+                    }
+                    
+                    if ([alertString isEqualToString:@""]) {
+                        alertString = @"Rezervasyon güncelleme sırasında hata oluştu. Lütfen tekrar deneyiniz";
+                    }
                 }
             }
             

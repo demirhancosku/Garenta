@@ -18,7 +18,7 @@ typedef enum {
     vehicleModelCampaign,
 } CampaignScopeType;
 
-typedef enum { // ZR1 Şimdi Öde, ZR2 Sonra Öde, ZR3 Ön Ödemeli iptal edilemez
+typedef enum { //ZR1 Sonra Öde, ZR2 Şimdi Öde, ZR3 Ön Ödemeli iptal edilemez
     noneDefinedReservationType = 0,
     payNowReservation ,
     payLaterReservation,

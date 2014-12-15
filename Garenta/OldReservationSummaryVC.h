@@ -14,5 +14,7 @@
 @property (strong,nonatomic) NSDecimalNumber *carSelectionPriceDifference;
 @property (strong,nonatomic) CreditCard *creditCard;
 @property (strong,nonatomic) NSString *totalPrice;
+@property (strong,nonatomic) NSDecimalNumber *payNowDifference;
+@property (strong,nonatomic) NSDecimalNumber *payLaterDifference;
 
 @end

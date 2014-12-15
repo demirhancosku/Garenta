@@ -16,4 +16,6 @@
 @property (weak,nonatomic) Reservation *reservation;
 @property (weak,nonatomic) NSString *totalPrice;
 @property (weak,nonatomic) CarGroup *carGroup;
+@property (strong,nonatomic) NSDate *oldCheckOutTime;
+@property (strong,nonatomic) NSDate *oldCheckInTime;
 @end

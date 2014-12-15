@@ -34,8 +34,11 @@
     [super addNotifications];
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
     
-    _oldCheckOutTime = [super.reservation.checkOutTime copy];
-    _oldCheckInTime = [super.reservation.checkInTime copy];
+//    _oldCheckOutTime = [super.reservation.checkOutTime copy];
+//    _oldCheckInTime = [super.reservation.checkInTime copy];
+    
+    super.reservation.checkOutTime = [_oldCheckOutTime copy];
+    super.reservation.checkInTime = [_oldCheckInTime copy];
     
     isOk = YES;
     

@@ -27,6 +27,10 @@
     
     _downsellList = [NSMutableArray new];
     _upsellList = [NSMutableArray new];
+    _tempEquipmentList = [NSMutableArray new];
+    
+    // adam işlemden vazgeçip geri döndüğü takdirde burdaki listeyi tekrar eşitliycez.
+    //    _tempEquipmentList = [[NSMutableArray alloc] initWithArray:_reservation.additionalEquipments copyItems:YES];
     
     for (CarGroup *tempGroup in _reservation.upsellList) {
         
@@ -123,7 +127,7 @@
     
     transmissionLabel = (UILabel*)[cell viewWithTag:6];
     [transmissionLabel setText:temp.transmissonName];
-  
+    
     passangerLabel = (UILabel*)[cell viewWithTag:7];
     [passangerLabel setText:temp.sampleCar.passangerNumber];
     
@@ -143,51 +147,52 @@
     {
         tempCarGroup = [_upsellList objectAtIndex:indexPath.row];
         alertString = [NSString stringWithFormat:@"Rezervasyonunuza ait araç grubu yükseltilerek, %@ ve benzeri (%@) grubuna değişim yapılacaktır, onaylıyor musunuz?",tempCarGroup.sampleCar.materialName,tempCarGroup.segmentName];
-        
-//        alertString = [NSString stringWithFormat:@"%@ () aracınızın grubu yükseltilerek, %@ (%@) aracına değişim yapılacaktır, onaylıyor musunuz?",_reservation.selectedCarGroup.sampleCar.materialName,tempCarGroup.sampleCar.materialName,tempCarGroup.segmentName];
     }
     else
     {
         tempCarGroup = [_downsellList objectAtIndex:indexPath.row];
         alertString = [NSString stringWithFormat:@"Rezervasyonunuza ait araç grubu düşürülerek, %@ ve benzeri (%@) grubuna değişim yapılacaktır, onaylıyor musunuz?",tempCarGroup.sampleCar.materialName,tempCarGroup.segmentName];
-        
-//        alertString = [NSString stringWithFormat:@"%@ aracınızın grubu düşürülerek, %@ aracına değişim yapılacaktır, onaylıyor musunuz?",_reservation.selectedCarGroup.sampleCar.materialName,tempCarGroup.sampleCar.materialName];
     }
     
     _reservation.upsellCarGroup = tempCarGroup;
-//    if ([_reservation.reservationType isEqualToString:@"10"]) {
-//        _reservation.upsellSelectedCar = [Car new];
-//        _reservation.upsellSelectedCar = tempCarGroup.sampleCar;
-//    }
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Aracınızı seçmek ister misiniz?" delegate:self cancelButtonTitle:@"Gruba Rezervasyon" otherButtonTitles:@"Araca Rezervasyon", nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:[NSString stringWithFormat:@"Sadece %.02f TL ödeyerek aracınızı seçmek ister misiniz?",[[[[_reservation.upsellCarGroup.cars objectAtIndex:0] pricing ] carSelectPrice] floatValue]] delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Aracımı Seç",@"Gruba Rezervasyon", nil];
+        
+        alert.tag = 2;
+        [alert show];
+    });
     
-    alert.tag = 2;
-    [alert show];
-    
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:alertString delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Onaylıyorum", nil];
-//    
-//    alert.tag = 1;
-//    [alert show];
+    //    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:alertString delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Onaylıyorum", nil];
+    //
+    //    alert.tag = 1;
+    //    [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    
+    
+    
     if (buttonIndex == 1 && alertView.tag == 1)
     {
-
+        
     }
     
     if (alertView.tag == 2) {
-        //gruba upsell/downsell
-        if (buttonIndex == 0) {
-            [_reservation setUpsellSelectedCar:nil];
-            [self performSegueWithIdentifier:@"toOldReservationSummarySegue" sender:self];
-        }
-        //araca upsell/downsell
-        else if (buttonIndex == 1){
-            [_reservation setUpsellSelectedCar:nil];
-            [self performSegueWithIdentifier:@"toCarSelectionVCSegue" sender:self];
+        switch (buttonIndex) {
+            case 0:
+                //NO
+                break;
+            case 1:
+                [_reservation setUpsellSelectedCar:nil];
+                [self performSegueWithIdentifier:@"toCarSelectionVCSegue" sender:self];
+                break;
+            case 2:
+                [_reservation setUpsellSelectedCar:nil];
+                [self performSegueWithIdentifier:@"toOldReservationSummarySegue" sender:self];
+            default:
+                break;
         }
     }
     
@@ -202,11 +207,6 @@
             [_reservation setUpdateStatus:@"UPS"];
         else
             [_reservation setUpdateStatus:@"DWS"];
-        
-//        // araca rezervasyon yaratılmış ve upsell/downsell yapılarak gruba tercih edilirse
-//        if ([_reservation.reservationType isEqualToString:@"10"]) {
-//            [self deleteCarSelection];
-//        }
         
         [(OldReservationSummaryVC *)[segue destinationViewController] setReservation:_reservation];
         [(OldReservationSummaryVC *)[segue destinationViewController] setTotalPrice:_totalPrice];

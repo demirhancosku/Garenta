@@ -1948,7 +1948,7 @@
                                 <rect key="frame" x="0.0" y="48" width="320" height="367"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="upsellDownsellCell" rowHeight="130" id="ntr-Zi-n28">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="upsellDownsellCell" rowHeight="130" id="ntr-Zi-n28">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ntr-Zi-n28" id="dtg-GW-1Cp">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -2423,7 +2423,7 @@
                                 <rect key="frame" x="0.0" y="93" width="320" height="387"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CarSelectionCell" rowHeight="70" id="s6N-cG-J4E">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="CarSelectionCell" rowHeight="70" id="s6N-cG-J4E">
                                         <rect key="frame" x="0.0" y="22" width="320" height="70"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="s6N-cG-J4E" id="pCp-jY-kaG">
@@ -4796,6 +4796,7 @@
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Kullanıcı Adı" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Kd-t8-6ah">
                                 <rect key="frame" x="57" y="128" width="206" height="30"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                 <connections>
@@ -4804,6 +4805,7 @@
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Şifre" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="by2-ug-U5D">
                                 <rect key="frame" x="57" y="166" width="206" height="30"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <connections>
@@ -6186,22 +6188,22 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="7yK-l0-YFl"/>
+        <segue reference="RuI-4F-7uI"/>
+        <segue reference="vaE-ba-gQe"/>
         <segue reference="Hj2-5d-FZ6"/>
         <segue reference="nTw-8o-Pk5"/>
         <segue reference="Qnv-8X-7MN"/>
-        <segue reference="fjv-e4-iFe"/>
-        <segue reference="ewL-RC-eiS"/>
+        <segue reference="Jja-3F-2kb"/>
+        <segue reference="cbc-BX-eje"/>
+        <segue reference="hLA-ZH-RHN"/>
+        <segue reference="a20-Ar-vAP"/>
         <segue reference="TxX-UN-QgX"/>
         <segue reference="V74-O1-TBy"/>
         <segue reference="yGa-mz-bZL"/>
-        <segue reference="5OJ-od-EAI"/>
+        <segue reference="ewL-RC-eiS"/>
         <segue reference="gCN-lj-B0n"/>
-        <segue reference="yNN-jh-21M"/>
-        <segue reference="RuI-4F-7uI"/>
+        <segue reference="5OJ-od-EAI"/>
         <segue reference="EuT-BJ-MJt"/>
-        <segue reference="cx4-X2-B8e"/>
-        <segue reference="eoS-ML-DjQ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

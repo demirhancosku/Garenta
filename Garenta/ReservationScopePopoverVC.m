@@ -31,7 +31,7 @@
         }
         else
         {
-            [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",reservation.selectedCar.materialName,reservation.upsellSelectedCar.pricing.payLaterPrice.floatValue]];
+            [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",reservation.upsellSelectedCar.materialName,reservation.upsellSelectedCar.pricing.payLaterPrice.floatValue]];
         }
     }
     
