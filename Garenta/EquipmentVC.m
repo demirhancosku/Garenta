@@ -20,7 +20,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *totalPriceLabel;
 @property (weak, nonatomic) IBOutlet UIButton *buyButton;
 @property (strong,nonatomic)WYPopoverController *myPopoverController;
-@property (strong,nonatomic)NSMutableArray *carSelectionArray;
 @property (strong,nonatomic) AdditionalEquipment *tempEquipment;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeightConstraint;
 
@@ -48,21 +47,21 @@
     // Do any additional setup after loading the view.
     
     [self clearAllEquipments];
-    _carSelectionArray = [NSMutableArray new];
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+//        
+//        [self getAdditionalEquipmentsFromSAP];
+//        [self getCarSelectionPrice];
+//        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [MBProgressHUD hideHUDForView:self.view animated:YES];
+//            [self showAlertForYoungDriver];
+//            [_additionalEquipmentsTableView reloadInputViews];
+//            [_additionalEquipmentsTableView reloadData];
+//        });
+//    });
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        
-        [self getAdditionalEquipmentsFromSAP];
-        [self getCarSelectionPrice];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self showAlertForYoungDriver];
-            [_additionalEquipmentsTableView reloadInputViews];
-            [_additionalEquipmentsTableView reloadData];
-        });
-    });
+    [self recalculate];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"carSelected" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
         [self checkWinterTyre];
@@ -88,7 +87,6 @@
             [[filterArray objectAtIndex:0] setQuantity:1];
             [[filterArray objectAtIndex:0] setIsRequired:YES];
         }
-
     }
 }
 
@@ -175,10 +173,10 @@
 - (void)clearAllEquipments {
     [_totalPriceLabel setText:@"0"];
     
-//    if (_reservation.additionalDrivers == nil)
-        _reservation.additionalDrivers = nil;
-//    if (_reservation.additionalEquipments == nil)
-        _reservation.additionalEquipments = nil;
+    //    if (_reservation.additionalDrivers == nil)
+    _reservation.additionalDrivers = nil;
+    //    if (_reservation.additionalEquipments == nil)
+    _reservation.additionalEquipments = nil;
 }
 
 - (IBAction)infoButtonPressed:(id)sender
@@ -186,33 +184,32 @@
     [self performSegueWithIdentifier:@"toEquipmentInfoSegue" sender:sender];
 }
 
-
 - (void)getCarSelectionPrice
 {
     [_carSelectionArray removeAllObjects];
     for (Car *tempCar in _reservation.selectedCarGroup.cars)
     {
         
-//AKEREMB - renkleriyle beraber araçları gösterelim diye kontrolü kaldırdım
+        //AKEREMB - renkleriyle beraber araçları gösterelim diye kontrolü kaldırdım
         [_carSelectionArray addObject:tempCar];
-
-//        if ([_carSelectionArray count] == 0) {
-//            [_carSelectionArray addObject:tempCar];
-//        }
-//        else {
-//            BOOL isNewModelId = YES;
-//            
-//            for (int i = 0; i < [_carSelectionArray count]; i++) {
-//                if ([[[_carSelectionArray objectAtIndex:i] modelId] isEqualToString:tempCar.modelId]) {
-//                    isNewModelId = NO;
-//                    break;
-//                }
-//            }
-//            
-//            if (isNewModelId) {
-//                [_carSelectionArray addObject:tempCar];
-//            }
-//        }
+        
+        //        if ([_carSelectionArray count] == 0) {
+        //            [_carSelectionArray addObject:tempCar];
+        //        }
+        //        else {
+        //            BOOL isNewModelId = YES;
+        //
+        //            for (int i = 0; i < [_carSelectionArray count]; i++) {
+        //                if ([[[_carSelectionArray objectAtIndex:i] modelId] isEqualToString:tempCar.modelId]) {
+        //                    isNewModelId = NO;
+        //                    break;
+        //                }
+        //            }
+        //
+        //            if (isNewModelId) {
+        //                [_carSelectionArray addObject:tempCar];
+        //            }
+        //        }
     }
     
     [_additionalEquipmentsTableView reloadData];
@@ -335,16 +332,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
-    // aracımı seçmek istiyorum en yukarı alındı
-    //    if (indexPath.row == ([self dataSourceCount] - 1))
     if (indexPath.row == 0)
     {
         if (_reservation.selectedCar == nil) {
             [self performSegueWithIdentifier:@"toCarSelectionVCSegue" sender:self];
         }else{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Onay" message:
-                                  [NSString stringWithFormat:@"%@ %@ modeli rezervasyonunuzdan çıkarmak istediğinize emin misiniz?",_reservation.selectedCar.brandName,_reservation.selectedCar.modelName]	 delegate:self cancelButtonTitle:@"Hayır" otherButtonTitles: @"Evet",nil];
-            [alert show];
+            if (_reservation.campaignObject.campaignScopeType != vehicleModelCampaign )
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Onay" message:
+                                      [NSString stringWithFormat:@"%@ %@ modeli rezervasyonunuzdan çıkarmak istediğinize emin misiniz?",_reservation.selectedCar.brandName,_reservation.selectedCar.modelName]	 delegate:self cancelButtonTitle:@"Hayır" otherButtonTitles: @"Evet",nil];
+                [alert show];
+            }
         }
     }
 }
@@ -470,7 +468,7 @@
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
                 [tempEquip setType:additionalInsurance];
-
+                
                 // Ata Cengiz 07.12.2014 corparate
                 NSString *mandotaryEquipment = [tempDict valueForKey:@"ZORUNLU"];
                 
@@ -554,7 +552,7 @@
                 [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_ADET"]]];
-
+                
                 // Ata Cengiz 07.12.2014 corparate
                 NSString *mandotaryEquipment = [tempDict valueForKey:@"ZORUNLU"];
                 

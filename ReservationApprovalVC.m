@@ -31,6 +31,7 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     [_reservationNumberLabel setText:_reservation.reservationNumber];
+    self.navigationItem.hidesBackButton = YES;
 }
 
 - (void)didReceiveMemoryWarning{

@@ -341,8 +341,9 @@
     
     if ([segue.identifier isEqualToString:@"toOldReservationPaymentSegue"])
     {
-        _changeReservationPrice = [[NSDecimalNumber decimalNumberWithString:_totalPrice] decimalNumberByAdding: _payNowDifference];
-        
+        if ([super.reservation.paymentType isEqualToString:@"2"]) {
+            _changeReservationPrice = [[NSDecimalNumber decimalNumberWithString:_totalPrice] decimalNumberByAdding: _payNowDifference];
+        }
         [(OldReservationPaymentVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];
         [(OldReservationPaymentVC *)[segue destinationViewController] setReservation:super.reservation];
         if (![super.reservation.paymentNowCard.uniqueId isEqualToString:@""]) {

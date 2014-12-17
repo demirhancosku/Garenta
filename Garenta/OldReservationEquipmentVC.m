@@ -26,7 +26,7 @@
 
 - (void)viewDidLoad {
     
-    _carSelectionArray = [NSMutableArray new];
+    super.carSelectionArray = [NSMutableArray new];
     
     // ŞİMDİ ÖDE-SONRA ÖDE REZERVASYON?
     if ([super.reservation.paymentType isEqualToString:@"1"])
@@ -44,12 +44,103 @@
     [self getCarSelectionPrice];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"carSelected" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
+        [self checkWinterTyre];
         [self calculateCarSelectedPrice];
     }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"additionalDriverAdded" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
+        [self addYoungDriver];
         [self recalculate];
     }];
+}
+
+- (void)addYoungDriver
+{
+    NSPredicate *youngDriverPredicate = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0007"];
+    NSPredicate *maxSecure = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0012"];
+    
+    AdditionalEquipment *temp = self.reservation.additionalDrivers.lastObject;
+    
+    // eklenen ek sürücü için genç sürücü gereklimi
+    if (temp.isAdditionalYoungDriver)
+    {
+        NSArray *filterResult;
+        filterResult = [super.additionalEquipments filteredArrayUsingPredicate:youngDriverPredicate];
+        
+        // eğer daha önce bir "genç sürücü" eklendiyse, ek sürücüden kaynaklı "genç sürücü" için 1 arttırılır
+        if (filterResult.count > 0)
+        {
+            AdditionalEquipment *tempEqui = [filterResult objectAtIndex:0];
+            [tempEqui setQuantity:tempEqui.quantity + 1];
+            [tempEqui setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",tempEqui.quantity]]];
+        }
+        // eğer daha önce "genç sürücü" eklenmediyse, ek sürücüden dolayı "genç sürücü" hizmeti eklenir.
+        else
+        {
+            NSArray *youngDriverFilter;
+            NSArray *maxSecureFilter;
+            youngDriverFilter = [super.additionalEquipmentsFullList filteredArrayUsingPredicate:youngDriverPredicate];
+            maxSecureFilter = [super.additionalEquipments filteredArrayUsingPredicate:maxSecure];
+            
+            if (youngDriverFilter.count > 0)
+            {
+                AdditionalEquipment *tempYoungDriverEqui = [youngDriverFilter objectAtIndex:0];
+                AdditionalEquipment *tempSecureEqui = [maxSecureFilter objectAtIndex:0];
+                
+                // eğer daha önce max.güvence himeti eklenmediyse 1 eklenir
+                if (tempSecureEqui.quantity == 0)
+                {
+                    [super.additionalEquipments removeObject:tempSecureEqui];
+                    
+                    tempSecureEqui.quantity = 1;
+                    tempSecureEqui.isRequired = YES;
+                    [super.additionalEquipments insertObject:tempSecureEqui atIndex:0];
+                }
+                else if (tempSecureEqui.quantity > 0 && !tempSecureEqui.isRequired)
+                {
+                    [super.additionalEquipments removeObject:tempSecureEqui];
+                    tempSecureEqui.isRequired = YES;
+                    [super.additionalEquipments insertObject:tempSecureEqui atIndex:0];
+                }
+                
+                [tempYoungDriverEqui setIsRequired:YES];
+                [tempYoungDriverEqui setQuantity:1];
+                [tempYoungDriverEqui setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
+                [super.additionalEquipments insertObject:tempYoungDriverEqui atIndex:0];
+                
+                [self showAlertForYoungDriver];
+            }
+        }
+    }
+}
+
+- (void)showAlertForYoungDriver
+{
+    NSArray *filterResult;
+    NSPredicate *youngDriverPredicate;
+    youngDriverPredicate = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0007"];
+    filterResult = [super.additionalEquipments filteredArrayUsingPredicate:youngDriverPredicate];
+    
+    if (filterResult.count > 0)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Genç sürücü seçtiğiniz için maksimum güvence hizmeti de eklenmiştir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+    }
+}
+
+- (void)checkWinterTyre
+{
+    if ([super.reservation.selectedCar.winterTire isEqualToString:@"X"])
+    {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0014"];
+        NSArray *filterArray = [super.additionalEquipments filteredArrayUsingPredicate:predicate];
+        
+        if (filterArray.count > 0) {
+            [[filterArray objectAtIndex:0] setQuantity:1];
+            [[filterArray objectAtIndex:0] setIsRequired:YES];
+        }
+    }
 }
 
 - (void)calculateCarSelectedPrice
@@ -103,21 +194,21 @@
 {
     for (Car *tempCar in super.reservation.selectedCarGroup.cars)
     {
-        if ([_carSelectionArray count] == 0) {
-            [_carSelectionArray addObject:tempCar];
+        if ([super.carSelectionArray count] == 0) {
+            [super.carSelectionArray addObject:tempCar];
         }
         else {
             BOOL isNewModelId = YES;
             
-            for (int i = 0; i < [_carSelectionArray count]; i++) {
-                if ([[[_carSelectionArray objectAtIndex:i] modelId] isEqualToString:tempCar.modelId]) {
+            for (int i = 0; i < [super.carSelectionArray count]; i++) {
+                if ([[[super.carSelectionArray objectAtIndex:i] modelId] isEqualToString:tempCar.modelId]) {
                     isNewModelId = NO;
                     break;
                 }
             }
             
             if (isNewModelId) {
-                [_carSelectionArray addObject:tempCar];
+                [super.carSelectionArray addObject:tempCar];
             }
         }
     }
@@ -292,18 +383,19 @@
     {
         [cell.selectButton setImage:[UIImage imageNamed:@"ticked_button.png"] forState:UIControlStateNormal];
         [cell.selectButton setHidden:NO];
-        [[cell carLabel] setText:[NSString stringWithFormat:@"%@",super.reservation.selectedCarGroup.sampleCar.materialName]];
+        [[cell carLabel] setText:[NSString stringWithFormat:@"%@ %@ - %@",super.reservation.selectedCar.brandName, super.reservation.selectedCar.modelName,super.reservation.selectedCar.colorName]];
+//        [[cell carLabel] setText:[NSString stringWithFormat:@"%@",super.reservation.selectedCarGroup.sampleCar.materialName]];
     }
     else
     {
         [cell.selectButton setImage:[UIImage imageNamed:@"unticked_button.png"] forState:UIControlStateNormal];
         [cell.selectButton setHidden:YES];
         
-        if ([_carSelectionArray count] == 0)
+        if ([super.carSelectionArray count] == 0)
             [[cell carLabel] setText:@""];
         else
         {
-            Car *car = [_carSelectionArray objectAtIndex:0];
+            Car *car = [super.carSelectionArray objectAtIndex:0];
             [[cell carLabel] setText:[NSString stringWithFormat:@"Sadece %.02f TL ödeyerek aracınızı seçebilirsiniz.",[car.pricing.carSelectPrice floatValue]]];
         }
     }
@@ -367,7 +459,8 @@
             if (!_isCarSelected)
                 cell.equipmentPriceLabel.text = @"0.00";
             else
-                cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",super.reservation.selectedCar.pricing.carSelectPrice.floatValue];
+//                cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",super.reservation.selectedCar.pricing.carSelectPrice.floatValue];
+                cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",(temp.price.floatValue * temp.quantity)];
         }
         else
             cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",(temp.price.floatValue * temp.quantity)];
@@ -384,9 +477,11 @@
         if (!_isCarSelected) {
             [self performSegueWithIdentifier:@"toCarSelectionVCSegue" sender:self];
         }else{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Onay" message:
-                                  [NSString stringWithFormat:@"%@ %@ modeli rezervasyonunuzdan çıkarmak istediğinize emin misiniz?",super.reservation.selectedCar.brandName,super.reservation.selectedCar.modelName]	 delegate:self cancelButtonTitle:@"Hayır" otherButtonTitles: @"Evet",nil];
-            [alert show];
+            if (super.reservation.campaignObject.campaignScopeType != vehicleModelCampaign ) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Onay" message:
+                                      [NSString stringWithFormat:@"%@ %@ modeli rezervasyonunuzdan çıkarmak istediğinize emin misiniz?",super.reservation.selectedCar.brandName,super.reservation.selectedCar.modelName]	 delegate:self cancelButtonTitle:@"Hayır" otherButtonTitles: @"Evet",nil];
+                [alert show];
+            }
         }
     }
 }
@@ -429,7 +524,7 @@
     
     if ([[segue identifier] isEqualToString:@"toCarSelectionVCSegue"]) {
         [(CarSelectionVC*)  [segue destinationViewController] setReservation:super.reservation];
-        [(CarSelectionVC*)  [segue destinationViewController] setCarSelectionArray:_carSelectionArray];
+        [(CarSelectionVC*)  [segue destinationViewController] setCarSelectionArray:super.carSelectionArray];
     }
     
     if ([[segue identifier] isEqualToString:@"toAdditionalDriverVCSegue"])

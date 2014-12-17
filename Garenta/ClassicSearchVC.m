@@ -162,8 +162,8 @@
                 [[cell officeLabel] setTextColor:[UIColor lightGrayColor]];
                 [cell setAccessoryType:UITableViewCellAccessoryNone];
             }
-            
-            [[cell officeLabel] setText:reservation.checkOutOffice.subOfficeName];
+            else
+                [[cell officeLabel] setText:reservation.checkOutOffice.subOfficeName];
         }
     }
     else
@@ -331,12 +331,12 @@
     
     UIAlertView *errorAlertView;
     if ([ApplicationProperties getMainSelection] != location_search && reservation.checkOutOffice == nil) {
-        errorAlertView = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Lütfen çıkış ofisi seçiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        errorAlertView = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Lütfen alış şubesini seçiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
         [errorAlertView show];
         return;
     }
     if (reservation.checkInOffice == nil) {
-        errorAlertView = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Lütfen dönüş ofisi seçiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        errorAlertView = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Lütfen dönüş şubesini seçiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
         [errorAlertView show];
         return;
     }

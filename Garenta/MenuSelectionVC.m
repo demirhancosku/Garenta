@@ -9,8 +9,14 @@
 #import "MenuSelectionVC.h"
 #import "MenuTableCellView.h"
 #import "OldReservationPaymentVC.h"
+#import "ChangeUserProfileVC.h"
+#import "WYStoryboardPopoverSegue.h"
 
 @interface MenuSelectionVC ()
+
+@property (strong,nonatomic) NSArray *userList;
+@property (strong,nonatomic) WYPopoverController *popOver;
+
 - (IBAction)locationBasedSearchSelected:(id)sender;
 - (IBAction)normalSearchSelected:(id)sender;
 - (IBAction)advancedSearchSelected:(id)sender;
@@ -42,6 +48,16 @@ static int kGarentaLogoId = 1;
         [self performSegueWithIdentifier:@"ToPayNowNotificationSegue" sender:userInfo];
     }];
     
+    // profilini değiştirdikten sonra popover kapatsın diye
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"profileChanged" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *userInfo) {
+        [self.popOver dismissPopoverAnimated:YES];
+    }];
+    
+    // profilini değiştirdikten sonra popover kapatsın diye
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"fillUserList" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *userInfo) {
+        self.userList = userInfo.object;
+    }];
+    
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
     
     static dispatch_once_t once;
@@ -63,11 +79,13 @@ static int kGarentaLogoId = 1;
     [super viewWillAppear:animated];
     [self putLogo];
     
-    if ([[ApplicationProperties getUser] isLoggedIn]) {
-        [[[self navigationItem] rightBarButtonItem] setTitle:@"Çıkış"];
-    }else{
-        [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
-    }
+//    if ([[ApplicationProperties getUser] isLoggedIn]) {
+//        [[[self navigationItem] rightBarButtonItem] setTitle:@"Çıkış"];
+//    }else{
+//        [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
+//    }
+    
+    [[[self navigationItem] rightBarButtonItem] setImage:[UIImage imageNamed:@"userLoginBarButton"]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -102,9 +120,10 @@ static int kGarentaLogoId = 1;
             
             if ([[ApplicationProperties getUser] isLoggedIn])
             {
-                NSArray *arr = [User loginToSap:[[NSUserDefaults standardUserDefaults] valueForKey:@"USERNAME"] andPassword:[[NSUserDefaults standardUserDefaults] valueForKey:@"PASSWORD"]];
+                _userList = [NSMutableArray new];
+                _userList = [User loginToSap:[[NSUserDefaults standardUserDefaults] valueForKey:@"USERNAME"] andPassword:[[NSUserDefaults standardUserDefaults] valueForKey:@"PASSWORD"]];
                 
-                for (User *tempUser in arr) {
+                for (User *tempUser in _userList) {
                     if ([tempUser.kunnr isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:@"KUNNR"]]) {
                         tempUser.isLoggedIn = YES;
                         [ApplicationProperties setUser:tempUser];
@@ -194,10 +213,12 @@ static int kGarentaLogoId = 1;
 {
     if ([[ApplicationProperties getUser] isLoggedIn]) {
         //then logout
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Çıkış yapmak istediğinize emin misiniz?" delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Çıkış", nil];
         
-        alert.tag = 1;
-        [alert show];
+        [self performSegueWithIdentifier:@"toChangeUserProfile" sender:self.navigationItem.rightBarButtonItem];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Çıkış yapmak istediğinize emin misiniz?" delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Çıkış", nil];
+//        
+//        alert.tag = 1;
+//        [alert show];
     }
     else
         [self performSegueWithIdentifier:@"toLoginVCSegue" sender:self];
@@ -210,6 +231,19 @@ static int kGarentaLogoId = 1;
     if ([segue.identifier isEqualToString:@"toSearchVCSegue"]) {
         
     }
+    
+    if ([segue.identifier isEqualToString:@"toChangeUserProfile"]) {
+        WYStoryboardPopoverSegue* popoverSegue = (WYStoryboardPopoverSegue*)segue;
+        
+        UIViewController* destinationViewController = (UIViewController *)segue.destinationViewController;
+        destinationViewController.preferredContentSize = CGSizeMake(260,140);       // Deprecated in iOS7. Use 'preferredContentSize' instead.
+        
+        [(ChangeUserProfileVC *)[segue destinationViewController] setUserList:self.userList];
+        
+        _popOver = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionAny animated:YES];
+        _popOver.delegate = self;
+    }
+    
     if ([segue.identifier isEqualToString:@"ToPayNowNotificationSegue"]) {
         NSDictionary *dict = [sender object];
         NSString *reservationNumber = [dict valueForKey:@"ReservationId"];
@@ -231,7 +265,8 @@ static int kGarentaLogoId = 1;
         
         
         [self performSegueWithIdentifier:@"toLoginVCSegue" sender:self];
-        [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
+//        [[[self navigationItem] rightBarButtonItem] setTitle:@"Giriş"];
+        [[[self navigationItem] rightBarButtonItem] setImage:[UIImage imageNamed:@"userLoginBarButton"]];
         return;
     }
 }

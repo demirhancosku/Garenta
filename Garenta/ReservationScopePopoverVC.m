@@ -97,7 +97,7 @@
     // REZERVASYONDAKİ EK ÜRÜNLER
     for (AdditionalEquipment *temp in reservation.additionalEquipments)
     {
-        if (temp.quantity > 0 && ![temp.updateStatus isEqualToString:@"D"])
+        if (temp.quantity > 0 && ![temp.updateStatus isEqualToString:@"D"] && ![temp.materialNumber isEqualToString:@"HZM0031"])
         {
             [textView setText:[NSString stringWithFormat:@"%@- %@ (%i adet) - %.02f TL\n",textView.text, temp.materialDescription,temp.quantity,(temp.price.floatValue * temp.quantity)]];
         }
@@ -134,7 +134,7 @@
         }
         
         if (count > 1) {
-            [textView setText:[NSString stringWithFormat:@"%@\nToplam Tutar - %.02f TL", textView.text, [[reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]]];
+            [textView setText:[NSString stringWithFormat:@"%@\nToplam Tutar - %.02f TL", textView.text, [[reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO andReservation:reservation] floatValue]]];
         }
     }
     if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
@@ -146,8 +146,8 @@
             isPayNow = YES;
         }
         
-        NSDecimalNumber *corparatePayment = [reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:YES andIsPersonalPayment:NO];
-        NSDecimalNumber *personalPayment = [reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES];
+        NSDecimalNumber *corparatePayment = [reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:YES andIsPersonalPayment:NO andReservation:reservation];
+        NSDecimalNumber *personalPayment = [reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES andReservation:reservation];
         
         [textView setText:[NSString stringWithFormat:@"%@ \n Firma Tarafından Ödenicek Tutar - %.02f TL", textView.text, corparatePayment.floatValue]];
         [textView setText:[NSString stringWithFormat:@"%@ \n Personel Tarafından Ödenicek Tutar - %.02f TL", textView.text, personalPayment.floatValue]];
