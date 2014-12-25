@@ -40,31 +40,40 @@
 {
     [super viewWillAppear:animated];
     
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"reservationUpdated" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
+        [self getUserReservationList];
+    }];
+    
     if ([[ApplicationProperties getUser] isLoggedIn] && _reservationList == nil)
     {
-        _reservation = [Reservation new];
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-            
-            [self getOldReservation];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                [_oldReservationTableView reloadData];
-            });
-        });
-        
-        UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-        [refreshControl addTarget:self action:@selector(refreshTableView) forControlEvents:UIControlEventValueChanged];
-        [_oldReservationTableView addSubview:refreshControl];
-        [self setRefreshControl:refreshControl];
+        [self getUserReservationList];
+
     }
     
     if (![[ApplicationProperties getUser] isLoggedIn])
     {
         [self performSegueWithIdentifier:@"ToLoginVCSegue" sender:self];
     }
+}
 
+- (void)getUserReservationList
+{
+    _reservation = [Reservation new];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        
+        [self getOldReservation];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [_oldReservationTableView reloadData];
+        });
+    });
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refreshTableView) forControlEvents:UIControlEventValueChanged];
+    [_oldReservationTableView addSubview:refreshControl];
+    [self setRefreshControl:refreshControl];
 }
 
 - (IBAction)segmentValueChanged:(id)sender

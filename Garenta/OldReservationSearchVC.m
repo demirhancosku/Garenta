@@ -365,7 +365,15 @@
                 }
                 else
                 {
-                    [_additionalEquipments addObject:tempEquip];
+                    NSPredicate *tempPredicate = [NSPredicate predicateWithFormat:@"winterTire=%@",@"X"];
+                    NSArray *tempPredicateArray = [super.reservation.selectedCarGroup.cars filteredArrayUsingPredicate:tempPredicate];
+                    if ([[tempEquip materialNumber] isEqualToString:@"HZM0014"] && tempPredicateArray.count == 0) {
+                        
+                    }
+                    else
+                    {
+                        [_additionalEquipments addObject:tempEquip];
+                    }
                 }
             }
             

@@ -57,6 +57,7 @@
 		0CBA75CE1864356A0008CE29 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9A7918462EAB00CD3728 /* AppDelegate.m */; };
 		0CBA77BD186447AB0008CE29 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA77BC186447AB0008CE29 /* LoginVC.m */; };
 		0CC9ED3719F69C5C00E7CF1C /* SAPJSONHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC9ED3619F69C5C00E7CF1C /* SAPJSONHandler.m */; };
+		0CD91A891A4097B0003D22D6 /* ChangeUserProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD91A881A4097B0003D22D6 /* ChangeUserProfileVC.m */; };
 		77886DD71A134B240075D50A /* AMSlideMenuContentSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 77886DC91A134B240075D50A /* AMSlideMenuContentSegue.m */; };
 		77886DD81A134B240075D50A /* AMSlideMenuLeftMenuSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 77886DCB1A134B240075D50A /* AMSlideMenuLeftMenuSegue.m */; };
 		77886DD91A134B240075D50A /* AMSlideMenuLeftTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77886DCD1A134B240075D50A /* AMSlideMenuLeftTableViewController.m */; };
@@ -268,6 +269,8 @@
 		0CBA77BB186447AB0008CE29 /* LoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginVC.h; sourceTree = "<group>"; };
 		0CBA77BC186447AB0008CE29 /* LoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginVC.m; sourceTree = "<group>"; };
 		0CC9ED3619F69C5C00E7CF1C /* SAPJSONHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SAPJSONHandler.m; sourceTree = "<group>"; };
+		0CD91A871A4097B0003D22D6 /* ChangeUserProfileVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeUserProfileVC.h; sourceTree = "<group>"; };
+		0CD91A881A4097B0003D22D6 /* ChangeUserProfileVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeUserProfileVC.m; sourceTree = "<group>"; };
 		77886DC81A134B240075D50A /* AMSlideMenuContentSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSlideMenuContentSegue.h; sourceTree = "<group>"; };
 		77886DC91A134B240075D50A /* AMSlideMenuContentSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMSlideMenuContentSegue.m; sourceTree = "<group>"; };
 		77886DCA1A134B240075D50A /* AMSlideMenuLeftMenuSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSlideMenuLeftMenuSegue.h; sourceTree = "<group>"; };
@@ -776,6 +779,8 @@
 				0CA631351864697900CC529F /* MenuSelectionVC.m */,
 				B5688AF0186AECCA009D830E /* MenuTableCellView.h */,
 				B5688AF1186AECCA009D830E /* MenuTableCellView.m */,
+				0CD91A871A4097B0003D22D6 /* ChangeUserProfileVC.h */,
+				0CD91A881A4097B0003D22D6 /* ChangeUserProfileVC.m */,
 			);
 			name = MainMenu;
 			sourceTree = "<group>";
@@ -1260,6 +1265,7 @@
 				E1ED735F19E564FC00D3E324 /* CountrySelectionVC.m in Sources */,
 				0CBA75CA186435260008CE29 /* BaseTableVC.m in Sources */,
 				0C4B9FDE19FE33AD003FB4F5 /* OldReservationPaymentVC.m in Sources */,
+				0CD91A891A4097B0003D22D6 /* ChangeUserProfileVC.m in Sources */,
 				B5E0344A186ED57C00226DAB /* CarGroup.m in Sources */,
 				B52B64E31945A6240017A5D5 /* ReservationSummaryVC.m in Sources */,
 				0C4567021A260FE1001D8E34 /* CampaignVC.m in Sources */,
@@ -1385,7 +1391,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Kerem Balaban (3ZR758CJVV)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kerem Balaban (3ZR758CJVV)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Garenta/Garenta-Prefix.pch";
@@ -1415,7 +1421,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Kerem Balaban (3ZR758CJVV)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kerem Balaban (3ZR758CJVV)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Garenta/Garenta-Prefix.pch";

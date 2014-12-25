@@ -16,12 +16,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.hidesBackButton = YES;
     // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)returnToMenu:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reservationUpdated" object:nil];
+    [[self navigationController] popToRootViewControllerAnimated:YES];
 }
 
 /*

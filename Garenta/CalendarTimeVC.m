@@ -176,6 +176,7 @@
     switch (tag) {
         case 0://checkout
             [reservation setCheckOutTime:selectedTime];
+            [reservation setCheckInTime:selectedTime];
             break;
         case 1: //checkin
             [reservation setCheckInTime:selectedTime];

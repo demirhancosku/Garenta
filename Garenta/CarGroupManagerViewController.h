@@ -16,6 +16,11 @@
     NSMutableArray *groupVCs;
     CarGroup *activeCarGroup;
 }
+
+@property (strong,nonatomic) NSMutableArray *additionalEquipments;
+@property (strong,nonatomic) NSMutableArray *additionalEquipmentsFullList;
+@property BOOL isYoungDriver;
+
 @property(nonatomic,strong)NSMutableArray *carGroups;
 @property(nonatomic,strong)Reservation *reservation;
 @property (strong, nonatomic) UIPageViewController *pageViewController;

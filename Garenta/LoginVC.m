@@ -248,6 +248,7 @@
     
     if (_reservation == nil) {
         // Giriş ekranından gelmiş
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"fillUserList" object:self.userList];
         [[self navigationController] popToRootViewControllerAnimated:YES];
     }
     else {

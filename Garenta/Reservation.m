@@ -63,7 +63,7 @@
     return checkOutDate;
 }
 #pragma mark - reservation pricing methods
--(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl andIsMontlyRent:(BOOL)isMontlyRent andIsCorparatePayment:(BOOL)isCorparate andIsPersonalPayment:(BOOL)isPersonalPayment
+-(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl andIsMontlyRent:(BOOL)isMontlyRent andIsCorparatePayment:(BOOL)isCorparate andIsPersonalPayment:(BOOL)isPersonalPayment andReservation:(Reservation *)reservation
 {
     NSDecimalNumber *totalPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
     NSDecimalNumber *totalEquiPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
@@ -81,7 +81,30 @@
     
     if ([currency isEqualToString:@"TRY"])
     {
-        if (isMontlyRent) {
+        // kampanya üzerinden geldiyse buraya girer
+        if (reservation.campaignObject != nil) {
+            if (reservation.campaignObject.campaignReservationType == payNowReservation || reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation)
+                totalPrice = reservation.campaignObject.campaignPrice.payNowPrice;
+            else
+                totalPrice = reservation.campaignObject.campaignPrice.payLaterPrice;
+            
+            if (_selectedCar) {
+                if (_selectedCar.pricing.carSelectPrice == nil) {
+                    _selectedCar.pricing.carSelectPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
+                }
+                totalPrice = [totalPrice decimalNumberByAdding:_selectedCar.pricing.carSelectPrice];
+            }
+            
+            for (AdditionalEquipment *tempEquipment in _additionalEquipments) {
+                if (tempEquipment.quantity >0) {
+                    totalEquiPrice = [totalEquiPrice decimalNumberByAdding:([tempEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",tempEquipment.quantity]]])];
+                }
+            }
+            
+            totalPrice = [totalPrice decimalNumberByAdding:totalEquiPrice];
+        }
+        
+        else if (isMontlyRent) {
             for (ETExpiryObject *tempObject in self.etExpiry) {
                 if ([tempObject.carGroup isEqualToString:selectedCarGroup.groupCode]) {
                     // Burda sadece ilk taksiti alıyoruz
@@ -136,7 +159,7 @@
             }
             else {
                 // if corparate payment is not true then all expenses will be covered by Personel
-                totalPrice = [self totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:garentaTl andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO];
+                totalPrice = [self totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:garentaTl andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO andReservation:reservation];
             }
         }
         else {
@@ -240,19 +263,19 @@
         NSString *cardPayment = @"";
         
         if (_reservation.etExpiry.count > 0) {
-            totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
+            totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO andReservation:_reservation] floatValue]];
             
-            cardPayment = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:garentaTl andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
+            cardPayment = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:garentaTl andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO andReservation:_reservation] floatValue]];
         }
         else if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
-            totalPrice = [NSString stringWithFormat:@"%.02f", [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES] floatValue]];
+            totalPrice = [NSString stringWithFormat:@"%.02f", [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES andReservation:_reservation] floatValue]];
             
-            cardPayment = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:garentaTl andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES] floatValue]];
+            cardPayment = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:garentaTl andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES andReservation:_reservation] floatValue]];
         }
         else {
-            totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
+            totalPrice = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO andReservation:_reservation] floatValue]];
             
-            cardPayment = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:garentaTl andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]];
+            cardPayment = [NSString stringWithFormat:@"%.02f",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:garentaTl andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO andReservation:_reservation] floatValue]];
         }
         
         NSString *dayCount = @"";
@@ -380,8 +403,12 @@
         }
         
         // ARAÇ
+        NSString *campaignId = @"";
+        if (_reservation.campaignObject) {
+            campaignId = _reservation.campaignObject.campaignID;
+        }
         
-        NSArray *vehicleLine = @[@"", matnr, @"1", _reservation.selectedCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, _reservation.campaignObject.campaignID, carPrice, @"", @"", @"", @"", jatoBrandID, jatoModelID, _reservation.selectedCarGroup.segment, priceCode, @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", isMontly, corparatePayment];
+        NSArray *vehicleLine = @[@"", matnr, @"1", _reservation.selectedCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, campaignId, carPrice, @"", @"", @"", @"", jatoBrandID, jatoModelID, _reservation.selectedCarGroup.segment, priceCode, @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", isMontly, corparatePayment];
         
         [itItemsValues addObject:vehicleLine];
         
@@ -555,7 +582,7 @@
                 NSDictionary *esOutput = [export objectForKey:@"ES_OUTPUT"];
                 NSString *reservationNo = [esOutput valueForKey:@"REZ_NO"];
                 
-                BOOL isSuccess = [MailSoapHandler sendReservationInfoMessage:_reservation toMail:@"kerem.balaban@abh.com.tr" withFullName:fullName withTotalPrice:totalPrice withReservationNumber:reservationNo withPaymentType:paymentType];
+                BOOL isSuccess = [MailSoapHandler sendReservationInfoMessage:_reservation toMail:mail withFullName:fullName withTotalPrice:totalPrice withReservationNumber:reservationNo withPaymentType:paymentType];
                 
                 return reservationNo;
             }
@@ -651,6 +678,10 @@
                 // Normal sonra öde
                 paymentType = @"2";
             }
+        }
+        
+        if (_reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation) {
+            paymentType = @"3";
         }
         
         NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
@@ -788,7 +819,12 @@
             }
             
             // ARAÇ
-            NSArray *vehicleLine = @[@"", matnr, @"1", _reservation.selectedCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", carPrice, @"", colorCode, chassisNo, plateNo, jatoBrandID, jatoModelID, _reservation.selectedCarGroup.segment, priceCode, @"U", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
+            
+            NSString *campaignId = @"";
+            if (_reservation.campaignObject) {
+                campaignId = _reservation.campaignObject.campaignID;
+            }
+            NSArray *vehicleLine = @[@"", matnr, @"1", _reservation.selectedCarGroup.groupCode, _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, campaignId, carPrice, @"", colorCode, chassisNo, plateNo, jatoBrandID, jatoModelID, _reservation.selectedCarGroup.segment, priceCode, @"U", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
             
             [itItemsValues addObject:vehicleLine];
         }

@@ -13,8 +13,9 @@
 #import "CarGroupFilterVC.h"
 #import "ApplicationProperties.h"
 #import "MBProgressHUD.h"
+#import "WYPopoverController.h"
 
-@interface MenuSelectionVC : UITableViewController <UIAlertViewDelegate>
+@interface MenuSelectionVC : UITableViewController <UIAlertViewDelegate, WYPopoverControllerDelegate>
 
 
 @end

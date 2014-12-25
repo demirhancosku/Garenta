@@ -153,7 +153,7 @@
             case 2:
                 aCell = [tableView dequeueReusableCellWithIdentifier:@"totalPaymentCell" forIndexPath:indexPath];
                 totalPrice = (UILabel*)[aCell viewWithTag:1];
-                [totalPrice setText:[NSString stringWithFormat:@"%@",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO]]];
+                [totalPrice setText:[NSString stringWithFormat:@"%@",[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO andReservation:_reservation]]];
                 
                 break;
             default:
@@ -196,32 +196,32 @@
                 
                 // Aylık
                 if (_reservation.etExpiry.count > 0) {
-                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02fTL(1. Taksit)",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]] forState:UIControlStateNormal];
+                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02fTL(1. Taksit)",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO andReservation:_reservation] floatValue]] forState:UIControlStateNormal];
                     [[payNowButton titleLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
                 }
                 // Kurumsal
                 else if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
-                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02fTL(Personel)", [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES] floatValue]] forState:UIControlStateNormal];
+                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02fTL(Personel)", [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES andReservation:_reservation] floatValue]] forState:UIControlStateNormal];
                     [[payNowButton titleLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
                 }
                 // Günlük
                 else {
-                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]] forState:UIControlStateNormal];
+                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO andReservation:_reservation] floatValue]] forState:UIControlStateNormal];
                 }
                 
                 // Aylık
                 if (_reservation.etExpiry.count > 0) {
-                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02fTL(1. Taksit)",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]] forState:UIControlStateNormal];
+                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02fTL(1. Taksit)",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:YES andIsCorparatePayment:NO andIsPersonalPayment:NO andReservation:_reservation] floatValue]] forState:UIControlStateNormal];
                     [[payLaterButton titleLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
                 }
                 // Kurumsal
                 else if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
-                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02fTL(Personel)", [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES] floatValue]] forState:UIControlStateNormal];
+                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02fTL(Personel)", [[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES andReservation:_reservation] floatValue]] forState:UIControlStateNormal];
                     [[payLaterButton titleLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
                 }
                 // Günlük
                 else {
-                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO] floatValue]] forState:UIControlStateNormal];
+                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO andReservation:_reservation] floatValue]] forState:UIControlStateNormal];
                 }
 
                 break;
@@ -277,7 +277,15 @@
             [self performSegueWithIdentifier:@"toPopoverVCSegue" sender:(UITableViewCell*)[_tableView cellForRowAtIndexPath:indexPath]];
             break;
         case 2:
-            [self totalButtonPressed];
+            if (_reservation.campaignObject != nil)
+            {
+                if (_reservation.campaignObject.campaignReservationType == payNowReservation || _reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation)
+                    [self payNowPressed:nil];
+                else
+                    [self payLaterPressed:nil];;
+            }
+            else
+                [self totalButtonPressed];
             break;
         default:
             break;
@@ -326,7 +334,7 @@
     
     if ([[ApplicationProperties getUser] isLoggedIn]) {
         if ([[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"] && [[ApplicationProperties getUser] isCorporateVehiclePayment]) {
-            NSDecimalNumber *totalPersonalPayment = [_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES];
+            NSDecimalNumber *totalPersonalPayment = [_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES andReservation:_reservation];
             
             if (totalPersonalPayment.integerValue == 0) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kira anlaşmasını kabul edip, rezervasyonuzun yaratılmasını istediğinize emin misiniz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Kira Anlaşmasını Oku", @"Kabul Ediyorum", nil];

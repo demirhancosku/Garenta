@@ -16,6 +16,7 @@
 
 @property (strong,nonatomic) NSMutableArray *additionalEquipments;
 @property (strong,nonatomic) NSMutableArray *additionalEquipmentsFullList;
+@property (strong,nonatomic) NSMutableArray *carSelectionArray;
 @property (strong,nonatomic) Reservation *reservation;
 @property BOOL isYoungDriver;
 
