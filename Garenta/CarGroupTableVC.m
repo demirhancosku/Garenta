@@ -81,17 +81,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     User *tempUser = [ApplicationProperties getUser];
-    if ([self checkIsCarGroupAvailable:tempUser.birthday])
+    if ([self checkIsCarGroupAvailable:tempUser.birthday andLicenseDate:tempUser.driversLicenseDate])
     {
         [_delegate carGroupSelected:_activeCarGroup withOffice:[[_activeCarGroup carGroupOffices] objectAtIndex:indexPath.row] ];
     }
 }
 
-- (BOOL)checkIsCarGroupAvailable:(NSDate *)birthday
+- (BOOL)checkIsCarGroupAvailable:(NSDate *)birthday andLicenseDate:(NSDate *)licenseDate;
 {
-    if ([CarGroup isCarGroupAvailableByAge:_activeCarGroup andBirthday:birthday])
+    if (![CarGroup isCarGroupAvailableByAge:_activeCarGroup andBirthday:birthday andLicenseDate:licenseDate])
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:[NSString stringWithFormat:@"Seçilen araç grubuna rezervasyon yapılamaz. (Min.Genç Sürücü yaşı: %i - Min.Genç Sürücü Ehliyet Yılı: %i)",_activeCarGroup.minYoungDriverAge,_activeCarGroup.minYoungDriverLicense] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:[NSString stringWithFormat:@"Seçilen araç grubuna rezervasyon yapılamaz. (Min.Genç Sürücü yaşı: %li - Min.Genç Sürücü Ehliyet Yılı: %li)",(long)_activeCarGroup.minYoungDriverAge,(long)_activeCarGroup.minYoungDriverLicense] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
         
         [alert show];
         

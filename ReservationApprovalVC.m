@@ -31,6 +31,10 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     [_reservationNumberLabel setText:_reservation.reservationNumber];
+    
+    // rezervasyon yaratıldığında timer sıfırlanıyor! (Teklifleri göstere tıkladığında aktifleşiyor,  hesaplamaları App delegate içinde)
+    [[ApplicationProperties getTimer] invalidate];
+    [ApplicationProperties setTimerObject:0];
     self.navigationItem.hidesBackButton = YES;
 }
 

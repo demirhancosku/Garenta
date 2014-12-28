@@ -44,6 +44,8 @@ static int kGarentaLogoId = 1;
 {
     [super viewDidLoad];
     
+    _userList = [[ApplicationProperties getUser] userList];
+    
     [[NSNotificationCenter defaultCenter] addObserverForName:@"PayNowPushNotification" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *userInfo) {
         [self performSegueWithIdentifier:@"ToPayNowNotificationSegue" sender:userInfo];
     }];
@@ -124,6 +126,7 @@ static int kGarentaLogoId = 1;
                 _userList = [User loginToSap:[[NSUserDefaults standardUserDefaults] valueForKey:@"USERNAME"] andPassword:[[NSUserDefaults standardUserDefaults] valueForKey:@"PASSWORD"]];
                 
                 for (User *tempUser in _userList) {
+                    [tempUser setUserList:_userList];
                     if ([tempUser.kunnr isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:@"KUNNR"]]) {
                         tempUser.isLoggedIn = YES;
                         [ApplicationProperties setUser:tempUser];

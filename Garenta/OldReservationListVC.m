@@ -66,6 +66,25 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+            if (_activeReservationList.count == 0) {
+                [_segmentedControl setEnabled:NO forSegmentAtIndex:0];
+            }
+            if (_completedReservationList.count == 0) {
+                [_segmentedControl setEnabled:NO forSegmentAtIndex:1];
+            }
+            if (_cancelledReservationList.count == 0) {
+                [_segmentedControl setEnabled:NO forSegmentAtIndex:2];
+            }
+            
+            if (_activeReservationList.count == 0 && _completedReservationList.count > 0 ) {
+                [_segmentedControl setSelectedSegmentIndex:1];
+            }
+            
+            if (_activeReservationList.count == 0 && _completedReservationList.count == 0) {
+                [_segmentedControl setSelectedSegmentIndex:2];
+            }
+            
+            
             [_oldReservationTableView reloadData];
         });
     });

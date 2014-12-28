@@ -14,6 +14,7 @@
 #import "CarSelectionVC.h"
 #import "AdditionalDriverVC.h"
 #import "MBProgressHUD.h"
+#import "ETExpiryObject.h"
 
 @interface EquipmentVC ()<WYPopoverControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *additionalEquipmentsTableView;
@@ -47,20 +48,23 @@
     // Do any additional setup after loading the view.
     
     [self clearAllEquipments];
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-//        
-//        [self getAdditionalEquipmentsFromSAP];
-//        [self getCarSelectionPrice];
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [MBProgressHUD hideHUDForView:self.view animated:YES];
-//            [self showAlertForYoungDriver];
-//            [_additionalEquipmentsTableView reloadInputViews];
-//            [_additionalEquipmentsTableView reloadData];
-//        });
-//    });
     
+    if (_reservation.campaignObject) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            
+            [self getAdditionalEquipmentsFromSAP];
+            [self getCarSelectionPrice];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [self showAlertForYoungDriver];
+                [_additionalEquipmentsTableView reloadInputViews];
+                [_additionalEquipmentsTableView reloadData];
+            });
+        });
+    }
+
     [self recalculate];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"carSelected" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
@@ -409,6 +413,7 @@
         [handler addTableForReturn:@"EXPT_EKPLIST"];
         [handler addTableForReturn:@"EXPT_SIGORTA"];
         [handler addTableForReturn:@"EXPT_EKSURUCU"];
+        [handler addTableForReturn:@"EXPT_EXPIRY"];
         
         NSDictionary *resultDict = [handler prepCall];
         
@@ -419,6 +424,27 @@
             _additionalEquipments = [NSMutableArray new];
             _additionalEquipmentsFullList = [NSMutableArray new];
             
+            NSDictionary *etExpiry = [tables objectForKey:@"ZSD_KDK_AYLIK_TAKSIT_ST"];
+            
+            NSDateFormatter *dateFormatter = [NSDateFormatter new];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            
+            for (NSDictionary *tempDict in etExpiry) {
+                ETExpiryObject *tempObject = [ETExpiryObject new];
+                
+                [tempObject setCarGroup:[tempDict valueForKey:@"ARAC_GRUBU"]];
+                [tempObject setBeginDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_BASI"]]];
+                [tempObject setEndDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_SONU"]]];
+                [tempObject setCampaignID:[tempDict valueForKey:@"KAMPANYA_ID"]];
+                [tempObject setBrandID:[tempDict valueForKey:@"MARKA_ID"]];
+                [tempObject setModelID:[tempDict valueForKey:@"MODEL_ID"]];
+                [tempObject setIsPaid:[tempDict valueForKey:@"ODENDI"]];
+                [tempObject setCurrency:[tempDict valueForKey:@"PARA_BIRIMI"]];
+                [tempObject setMaterialNo:[tempDict valueForKey:@"MALZEME"]];
+                [tempObject setTotalPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                [_reservation.etExpiry addObject:tempObject];
+            }
+            
             NSDictionary *equipmentList = [tables objectForKey:@"ZPM_S_EKIPMAN_LISTE"];
             
             for (NSDictionary *tempDict in equipmentList)
@@ -427,6 +453,7 @@
                 [tempEquip setMaterialNumber:[tempDict valueForKey:@"MATNR"]];
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MUS_TANIMI"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"NETWR"]]];
+                [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_MIKTAR"]]];
                 
                 if ([[ApplicationProperties getUser] isLoggedIn]) {
@@ -466,6 +493,7 @@
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
                 [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
                 [tempEquip setType:additionalInsurance];
                 
@@ -551,6 +579,7 @@
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
                 [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_ADET"]]];
                 
                 // Ata Cengiz 07.12.2014 corparate
@@ -782,6 +811,7 @@
             if (tempEquipment.type == additionalDriver) {
                 [(AdditionalDriverVC*)segue.destinationViewController setMyDriver:tempEquipment];
                 [(AdditionalDriverVC*)segue.destinationViewController setReservation:_reservation];
+                [(AdditionalDriverVC*)segue.destinationViewController setAdditionalEquipments:_additionalEquipments];
                 break;
             }
         }

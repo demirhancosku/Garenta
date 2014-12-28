@@ -21,6 +21,7 @@ typedef enum{
 @property(strong,nonatomic) NSString *materialInfo;
 @property(assign,nonatomic) int quantity;
 @property(strong,nonatomic) NSDecimalNumber *price;
+@property(strong,nonatomic) NSDecimalNumber *monthlyPrice;
 @property(strong,nonatomic) NSDecimalNumber *paid;
 @property(strong,nonatomic) NSDecimalNumber *difference;
 @property(strong,nonatomic) NSDecimalNumber *maxQuantity;

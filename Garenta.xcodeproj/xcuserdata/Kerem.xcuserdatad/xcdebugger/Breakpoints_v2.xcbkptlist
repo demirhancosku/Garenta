@@ -9,29 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Garenta/AdditionalDriverVC.m"
-            timestampString = "440469428.647242"
+            filePath = "Garenta/UserCreationVC.m"
+            timestampString = "441279385.637795"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "-checkFields"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Garenta/CarGroup.m"
-            timestampString = "440469434.582801"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "278"
-            endingLineNumber = "278"
-            landmarkName = "+checkYoungDriverAddition:andBirthday:andLicenseDate:"
+            startingLineNumber = "649"
+            endingLineNumber = "649"
+            landmarkName = "-createUserAtSAP"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

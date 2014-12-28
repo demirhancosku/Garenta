@@ -130,7 +130,7 @@
     // min.genç sürücü yaşı ve min.ehliyet yılı kontrollerine göre ek sürücünün eklenip eklenemeyeceğine bakılır
     
     if ([alertString isEqualToString:@""]) {
-        if ([CarGroup isCarGroupAvailableByAge:_reservation.selectedCarGroup andBirthday:_birthdayPicker.date])
+        if (![CarGroup isCarGroupAvailableByAge:_reservation.selectedCarGroup andBirthday:_birthdayPicker.date andLicenseDate:_licenseDatePicker.date])
         {
             alertString = [NSString stringWithFormat:@"Seçilen araç grubuna rezervasyon yapılamaz. (Min.Genç Sürücü yaşı: %li - Min.Genç Sürücü Ehliyet Yılı: %li)",(long)_reservation.selectedCarGroup.minYoungDriverAge,(long)_reservation.selectedCarGroup.minYoungDriverLicense];
         }
@@ -148,7 +148,18 @@
     //min.Yaş ve min.Ehliyet yılı kontrollerine bakarak hizmet bedeli alınıp alınmayacağına bakar.
     if ([CarGroup checkYoungDriverAddition:_reservation.selectedCarGroup andBirthday:_birthdayPicker.date andLicenseDate:_licenseDatePicker.date])
     {
-        [[self myDriver] setIsAdditionalYoungDriver:YES];
+        
+        NSPredicate *youngDriverPredicate = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0007"];
+        NSPredicate *maxSecure = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0012"];
+        NSArray *youngDriverFilter;
+        NSArray *maxSecureFilter;
+        youngDriverFilter = [_additionalEquipments filteredArrayUsingPredicate:youngDriverPredicate];
+        maxSecureFilter = [_additionalEquipments filteredArrayUsingPredicate:maxSecure];
+        
+        if (youngDriverFilter.count == 0 && maxSecureFilter.count == 0) {
+            [[self myDriver] setIsAdditionalYoungDriver:YES];
+        }
+        
         return YES;
     }
 

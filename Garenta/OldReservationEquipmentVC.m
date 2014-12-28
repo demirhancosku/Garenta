@@ -12,6 +12,7 @@
 #import "OldReservationSummaryVC.h"
 #import "AdditionalDriverVC.h"
 #import "CarSelectionVC.h"
+#import "ETExpiryObject.h"
 
 @interface OldReservationEquipmentVC () <WYPopoverControllerDelegate>
 
@@ -29,10 +30,10 @@
     super.carSelectionArray = [NSMutableArray new];
     
     // ŞİMDİ ÖDE-SONRA ÖDE REZERVASYON?
-    if ([super.reservation.paymentType isEqualToString:@"1"])
-        _isPayNow = YES;
-    else
+    if ([super.reservation.paymentType isEqualToString:@"2"] || [super.reservation.paymentType isEqualToString:@"6"])
         _isPayNow = NO;
+    else
+        _isPayNow = YES;
     
     // REZERVASYON YARATILDIĞI ESNADA ARAÇ SEÇİLMİŞSE -YES
     if (super.reservation.selectedCar)
@@ -161,7 +162,13 @@
             if (temp.paid == nil) {
                 temp.paid = [NSDecimalNumber decimalNumberWithString:@"0"];
             }
-            temp.difference = [[temp.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",temp.quantity]]] decimalNumberBySubtracting:temp.paid];
+            
+            if (super.reservation.etExpiry.count > 0) {
+                temp.difference = [[temp.monthlyPrice decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",temp.quantity]]] decimalNumberBySubtracting:temp.paid];
+            }
+            else{
+                temp.difference = [[temp.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",temp.quantity]]] decimalNumberBySubtracting:temp.paid];
+            }
         }
     }
     
@@ -222,28 +229,30 @@
     
     for (AdditionalEquipment *temp in super.additionalEquipments)
     {
-//        if (temp.type == additionalDriver) {
-//            [temp setQuantity:self.reservation.additionalDrivers.count + temp.quantity];
-//        }
         if (_isPayNow)
             total = total + temp.difference.floatValue;
         else
-            total = total + ([temp.price floatValue] * temp.quantity);
+            if (super.reservation.etExpiry.count > 0) {
+                total = total + ([temp.monthlyPrice floatValue] * temp.quantity);
+            }else{
+                total = total + ([temp.price floatValue] * temp.quantity);
+            }
     }
     
     if (_isPayNow)
     {
-        if (super.reservation.etExpiry.count > 0) {
-            total = total + [[[super.reservation.etExpiry objectAtIndex:0] totalPrice] floatValue];
-        }
-        else{
-            total = total + super.reservation.changeReservationDifference.floatValue;
-        }
+        total = total + super.reservation.changeReservationDifference.floatValue;
     }
     else
     {
         if (super.reservation.etExpiry.count > 0) {
-            total = total + [[[super.reservation.etExpiry objectAtIndex:0] totalPrice] floatValue] + super.reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice.floatValue;
+            for (ETExpiryObject *tempObj in super.reservation.etExpiry) {
+                if (![tempObj.carGroup isEqualToString:@""]) {
+                    total = total + [[tempObj totalPrice] floatValue] + super.reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice.floatValue;
+                    
+                    break;
+                }
+            }
         }
         else{
             total = total + super.reservation.changeReservationDifference.floatValue + super.reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice.floatValue;
@@ -253,9 +262,6 @@
     // ARAÇ SEÇİLMİŞ VE GRUBA REZERVASYONSA
     if (_isCarSelected && [super.reservation.reservationType isEqualToString:@"20"])
         total = total + super.reservation.selectedCar.pricing.carSelectPrice.floatValue;
-    // ARAÇ SEÇİLMEMİŞ VE ARACA REZERVASYONDA
-    //    else if (!_isCarSelected && [super.reservation.reservationType isEqualToString:@"10"])
-    //        total = total - super.reservation.selectedCar.pricing.carSelectPrice.floatValue;
     
     _changeReservationPrice = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.02f",total]];
     dispatch_async(dispatch_get_main_queue(), ^(void){
@@ -290,7 +296,12 @@
             if (additionalEquipment.paid == nil) {
                 additionalEquipment.paid = [NSDecimalNumber decimalNumberWithString:@"0"];
             }
-            additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
+            
+            if (super.reservation.etExpiry.count > 0) {
+                additionalEquipment.difference = [[additionalEquipment.monthlyPrice decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
+            }else{
+                additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
+            }
         }
         [self performSegueWithIdentifier:@"toAdditionalDriverVCSegue" sender:sender];
     }
@@ -301,6 +312,15 @@
             for (AdditionalEquipment *temp in super.additionalEquipments) {
                 if (([[temp materialNumber] isEqualToString:@"HZM0011"] || [[temp materialNumber] isEqualToString:@"HZM0024"] || [[temp materialNumber] isEqualToString:@"HZM0009"] || [[temp materialNumber] isEqualToString:@"HZM0006"]) && [temp quantity] == 1) {
                     [temp setQuantity:0];
+                    if (_isPayNow) {
+                        
+                        if (super.reservation.etExpiry.count > 0) {
+                            temp.difference = [[temp.monthlyPrice decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",temp.quantity]]] decimalNumberBySubtracting:temp.paid];
+                        }
+                        else{
+                            temp.difference = [[temp.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",temp.quantity]]] decimalNumberBySubtracting:temp.paid];
+                        }
+                    }
                 }
             }
         }
@@ -331,7 +351,12 @@
             if (additionalEquipment.paid == nil) {
                 additionalEquipment.paid = [NSDecimalNumber decimalNumberWithString:@"0"];
             }
-            additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
+            
+            if (super.reservation.etExpiry.count > 0) {
+                additionalEquipment.difference = [[additionalEquipment.monthlyPrice decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
+            }else{
+                additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
+            }
         }
         
         [self recalculate];
@@ -351,7 +376,12 @@
     [additionalEquipment setQuantity:newValue];
     
     if (_isPayNow) {
-        additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
+        
+        if (super.reservation.etExpiry.count > 0) {
+            additionalEquipment.difference = [[additionalEquipment.monthlyPrice decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
+        }else{
+            additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
+        }
     }
 //    else
 //    {
@@ -410,14 +440,29 @@
         {
             //AYLIKTA İLK TASKİDİ GÖSTERİYORUZ
             if (super.reservation.etExpiry.count > 0)
-                [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",(super.reservation.changeReservationDifference.floatValue + [[[super.reservation.etExpiry objectAtIndex:0] totalPrice] floatValue])]];
+            {
+                for (ETExpiryObject *tempObj in super.reservation.etExpiry) {
+                    if (![tempObj.carGroup isEqualToString:@""]) {
+                        [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",(super.reservation.changeReservationDifference.floatValue + [[tempObj totalPrice] floatValue])]];
+                        
+                        break;
+                    }
+                }
+            }
             else
                 [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",(super.reservation.changeReservationDifference.floatValue + super.reservation.selectedCar.pricing.carSelectPrice.floatValue)]];
         }
         else
         {
-            if (super.reservation.etExpiry.count > 0)
-                [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",([[[super.reservation.etExpiry objectAtIndex:0] totalPrice] floatValue] - [super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue])]];
+            if (super.reservation.etExpiry.count > 0){
+                for (ETExpiryObject *tempObj in super.reservation.etExpiry) {
+                    if (![tempObj.carGroup isEqualToString:@""]) {
+                        [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",([[tempObj totalPrice] floatValue] - [super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue])]];
+    
+                        break;
+                    }
+                }
+            }
             else
                 [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",super.reservation.changeReservationDifference.floatValue]];
         }
@@ -459,11 +504,19 @@
             if (!_isCarSelected)
                 cell.equipmentPriceLabel.text = @"0.00";
             else
-//                cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",super.reservation.selectedCar.pricing.carSelectPrice.floatValue];
-                cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",(temp.price.floatValue * temp.quantity)];
+                if (super.reservation.etExpiry.count > 0) {
+                    cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",(temp.monthlyPrice.floatValue * temp.quantity)];
+                }else{
+                    cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",(temp.price.floatValue * temp.quantity)];
+                }
         }
         else
-            cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",(temp.price.floatValue * temp.quantity)];
+            if (super.reservation.etExpiry.count > 0) {
+                cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",(temp.monthlyPrice.floatValue * temp.quantity)];
+            }else{
+                cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",(temp.price.floatValue * temp.quantity)];
+            }
+
     }
     
     return cell;
@@ -504,7 +557,12 @@
                 temp = [equipmentPredicateArray objectAtIndex:0];
                 [temp setQuantity:0];
                 if (_isPayNow) {
-                    temp.difference = [[temp.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",temp.quantity]]] decimalNumberBySubtracting:temp.paid];
+                    if (super.reservation.etExpiry.count > 0) {
+                       temp.difference = [[temp.monthlyPrice decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",temp.quantity]]] decimalNumberBySubtracting:temp.paid];
+                    }else{
+                        temp.difference = [[temp.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",temp.quantity]]] decimalNumberBySubtracting:temp.paid];
+                    }
+                    
                 }
             }
             
@@ -535,6 +593,7 @@
             if (tempEquipment.type == additionalDriver) {
                 [(AdditionalDriverVC*)segue.destinationViewController setMyDriver:tempEquipment];
                 [(AdditionalDriverVC*)segue.destinationViewController setReservation:self.reservation];
+                [(AdditionalDriverVC*)segue.destinationViewController setAdditionalEquipments:super.additionalEquipments];
                 break;
             }
         }
@@ -585,6 +644,7 @@
                 if (temp.quantity > [[equipmentPredicateArray objectAtIndex:0] quantity])
                 {
                     [[equipmentPredicateArray objectAtIndex:0] setUpdateStatus:@"U"];
+                    [[equipmentPredicateArray objectAtIndex:0] setMonthlyPrice:temp.monthlyPrice];
                     [[equipmentPredicateArray objectAtIndex:0] setPrice:temp.price];
                     
                     for (int count = 1; count < [temp quantity]; count++)
@@ -603,6 +663,7 @@
                 else if (temp.quantity < [[equipmentPredicateArray objectAtIndex:0] quantity])
                 {
                     [[equipmentPredicateArray objectAtIndex:0] setUpdateStatus:@"U"];
+                    [[equipmentPredicateArray objectAtIndex:0] setMonthlyPrice:temp.monthlyPrice];
                     [[equipmentPredicateArray objectAtIndex:0] setPrice:temp.price];
                     
                     for (int count = 1; count < [[equipmentPredicateArray objectAtIndex:0] quantity]; count++)
@@ -622,6 +683,7 @@
                 {
                     [[equipmentPredicateArray objectAtIndex:0] setUpdateStatus:@"U"];
                     [[equipmentPredicateArray objectAtIndex:0] setPrice:temp.price];
+                    [[equipmentPredicateArray objectAtIndex:0] setMonthlyPrice:temp.monthlyPrice];
                     
                     for (int count = 1; count < temp.quantity; count++)
                     {

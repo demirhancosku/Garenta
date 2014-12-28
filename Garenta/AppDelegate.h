@@ -10,8 +10,11 @@
 #import "ClassicSearchVC.h"
 #import "MenuSelectionVC.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
+    int timestamp;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 
+- (void)updateTimerObject:(id)sender;
 @end

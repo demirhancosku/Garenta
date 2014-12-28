@@ -27,8 +27,10 @@ typedef enum{
 + (UIColor *) getMenuCellBackground;
 + (UIColor *) getMenuTextColor;
 + (UIColor *) getGrey;
-+ (UIColor *)getGreen;
++ (UIColor *) getGreen;
 
++ (NSUInteger)getTimerObject;
++ (NSTimer *)getTimer;
 
 + (UIFont *) getFont;
 
@@ -37,6 +39,8 @@ typedef enum{
 + (void) setMainSelection:(MainSelection)aMainSelection;
 + (User*)getUser;
 + (NSMutableArray*)getOffices;
++ (void)setTimerObject:(NSUInteger)timerObj;
++ (void)setTimer:(NSTimer *)aTimer;
 + (void)setUser:(User*)aUser;
 + (NSString *)getAppVersion;
 + (NSString *)getAppName;

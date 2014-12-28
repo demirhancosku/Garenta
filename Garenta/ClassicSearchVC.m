@@ -52,6 +52,9 @@
 {
     [super viewWillAppear:animated];
     
+    [[ApplicationProperties getTimer] invalidate];
+    [ApplicationProperties setTimerObject:0];
+    
     [self prepareScreen];
     
     offices = [ApplicationProperties getOffices];
@@ -389,7 +392,10 @@
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                     
                     if (availableCarGroups.count > 0)
+                    {
+                        [self startTimer];
                         [self navigateToNextVC];
+                    }
                     else {
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Seçmiş olduğunuz şube ve saatlerde uygun araç bulunamadı" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
                         [alert show];
@@ -402,6 +408,20 @@
             [alert show];
         }
     }];
+}
+
+- (void)startTimer
+{
+    [ApplicationProperties setTimerObject:0];
+    
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [ApplicationProperties setTimer:[NSTimer scheduledTimerWithTimeInterval:1
+                                              target:app
+                                            selector:@selector(updateTimerObject:)
+                                            userInfo:nil
+                                             repeats:YES]];
+    
+    NSLog(@"timer start");
 }
 
 - (void)getAvailableCarsFromSAP {
@@ -544,6 +564,7 @@
                     [tempObject setModelID:[tempDict valueForKey:@"MODEL_ID"]];
                     [tempObject setIsPaid:[tempDict valueForKey:@"ODENDI"]];
                     [tempObject setCurrency:[tempDict valueForKey:@"PARA_BIRIMI"]];
+                    [tempObject setMaterialNo:[tempDict valueForKey:@"MALZEME"]];
                     [tempObject setTotalPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
                     [etExpiryArray addObject:tempObject];
                 }
@@ -565,7 +586,7 @@
     
     if ([ApplicationProperties getMainSelection] == location_search) {
         
-        NSMutableArray *closestoffices = [Office closestFirst:1 fromOffices:[ApplicationProperties getOffices] toMyLocation:lastLocation];
+        NSMutableArray *closestoffices = [Office closestFirst:3 fromOffices:[ApplicationProperties getOffices] toMyLocation:lastLocation];
         for (Office *tempOffice in closestoffices) {
             return tempOffice;
         }

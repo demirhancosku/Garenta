@@ -12,4 +12,5 @@
 @interface AdditionalDriverVC : UITableViewController
 @property(strong,nonatomic)Reservation *reservation;
 @property(copy,nonatomic)AdditionalEquipment *myDriver;
+@property(copy,nonatomic)NSMutableArray *additionalEquipments;
 @end

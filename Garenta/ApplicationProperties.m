@@ -13,6 +13,8 @@
 
 @implementation ApplicationProperties
 MainSelection mainSelection;
+NSUInteger timerObject;
+NSTimer *timer;
 static User* myUser;
 
 NSMutableArray *offices;
@@ -76,6 +78,17 @@ NSMutableArray *offices;
     mainSelection = aSelection;
 }
 
++ (NSUInteger)getTimerObject
+{
+    return timerObject;
+}
+
++ (NSTimer *)getTimer
+{
+    NSLog(@"%lu",(unsigned long)timerObject);
+    return timer;
+}
+
 + (User*)getUser{
     if (myUser == nil)
     {
@@ -102,6 +115,17 @@ NSMutableArray *offices;
     }
 
     return offices;
+}
+
++ (void)setTimerObject:(NSUInteger)timerObj
+{
+    timerObject = timerObj;
+    NSLog(@"%lu",(unsigned long)timerObject);
+}
+
++ (void)setTimer:(NSTimer *)aTimer
+{
+    timer = aTimer;
 }
 
 + (void)setOffices:(NSMutableArray *)officeArray {

@@ -15,5 +15,6 @@
 @property(strong,nonatomic)NSMutableArray *carSelectionArray;
 @property(strong,nonatomic)NSMutableArray *additionalEquipments;
 @property (strong,nonatomic) NSString *totalPrice;
+@property BOOL isYoungDriver;
 
 @end

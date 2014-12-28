@@ -15,8 +15,8 @@
 
 @synthesize groupCode,groupName,imagePath,payNowPrice,payLaterPrice,bodyName,bodyId,fuelId,fuelName,cars,segment,segmentName,transmissonId,transmissonName, minAge, minDriverLicense, minYoungDriverAge, minYoungDriverLicense;
 
-+ (CarGroup*)getGroupFromList:(NSMutableArray*)carList WithCode:(NSString*)aGroupCode{
-    for (CarGroup*tempCarGroup in carList) {
++ (CarGroup*)getGroupFromList:(NSMutableArray *)carList WithCode:(NSString *)aGroupCode{
+    for (CarGroup *tempCarGroup in carList) {
         if ([tempCarGroup.groupCode isEqualToString:aGroupCode] ) {
             return tempCarGroup;
         }
@@ -99,7 +99,7 @@
         [tempPrice setDayCount:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"GUN_SAYISI"]]];
         [tempPrice setSalesOffice:[tempDict valueForKey:@"CIKIS_SUBE"]];
         [tempPrice setPriceWithKDV:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KDVLI_TOPLAM_TUTAR_TRY"]]];
-        [tempPrice setCampaignDiscountPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KAMPANYA_TUTAR_TRY6"]]];
+        [tempPrice setCampaignDiscountPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KAMPANYA_TUTAR_TRY"]]];
         
         if (tempCampaign.campaignScopeType == noneDefinedCampaign) {
             // Regular Price
@@ -291,7 +291,7 @@
     
     NSInteger age = currentYear - customerBirthdayYear.integerValue;
     NSInteger licenceYear = currentYear - customerLicenseYear.integerValue;
-    
+        
     if (selectedCarGroup.minAge > age)
         return YES;
     else if (selectedCarGroup.minDriverLicense > licenceYear)
@@ -300,29 +300,31 @@
     return NO;
 }
 
-+ (BOOL)isCarGroupAvailableByAge:(CarGroup *)activeCarGroup andBirthday:(NSDate *)birthday
++ (BOOL)isCarGroupAvailableByAge:(CarGroup *)activeCarGroup andBirthday:(NSDate *)birthday andLicenseDate:(NSDate *)licenseDate
 {
     if (birthday == nil) {
-        return NO;
+        return YES;
     }
     
     NSDateFormatter *formatter = [NSDateFormatter new];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     
     NSString *customerBirthdayYear = [[formatter stringFromDate:birthday] substringToIndex:4];
+    NSString *customerLicenseYear = [[formatter stringFromDate:licenseDate] substringToIndex:4];
     
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *components = [gregorian components:NSYearCalendarUnit fromDate:[NSDate date]];
     NSInteger currentYear = [components year];
     
     NSInteger age = currentYear - customerBirthdayYear.integerValue;
+    NSInteger licenceYear = currentYear - customerLicenseYear.integerValue;
     
     if (activeCarGroup.minYoungDriverAge > age)
-        return YES;
-    else if (activeCarGroup.minYoungDriverLicense > age)
-        return YES;
+        return NO;
+    else if (activeCarGroup.minYoungDriverLicense > licenceYear)
+        return NO;
     
-    return NO;
+    return YES;
 }
 
 + (void)setCampaignForCarGroup:(CarGroup *)carGroup andCampaignArray:(NSMutableArray *)campaignArray {

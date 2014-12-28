@@ -17,7 +17,7 @@
 
 @interface PaymentTableViewController ()
 
-@property (strong,nonatomic) WYPopoverController *myPopoverController;
+
 @property(strong,nonatomic) NSArray *requiredFields;
 
 - (IBAction)reservationCompleteButtonPressed:(id)sender;

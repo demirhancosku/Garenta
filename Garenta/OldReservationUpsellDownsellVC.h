@@ -16,4 +16,6 @@
 @property (strong,nonatomic) NSMutableArray *upsellList;
 @property (strong,nonatomic) NSMutableArray *downsellList;
 @property (strong,nonatomic) NSMutableArray *tempEquipmentList;
+@property (strong,nonatomic) NSMutableArray *additionalEquipments;
+@property BOOL isYoungDriver;
 @end

@@ -13,5 +13,6 @@
 @property (nonatomic, strong) NSString *carGroup, *brandID, *modelID, *isPaid, *currency, *campaignID;
 @property (nonatomic, strong) NSDate *beginDate, *endDate;
 @property (nonatomic, strong) NSDecimalNumber *totalPrice;
+@property (nonatomic, strong) NSString *materialNo;
 
 @end
