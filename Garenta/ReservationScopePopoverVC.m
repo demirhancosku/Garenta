@@ -25,26 +25,26 @@
     // upsell/downsell seçilmiş araç
     if (reservation.upsellSelectedCar)
     {
-        if ([reservation.paymentType isEqualToString:@"1"])
+        if ([reservation.paymentType isEqualToString:@"2"] || [reservation.paymentType isEqualToString:@"6"])
         {
-            [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",reservation.upsellSelectedCar.materialName,reservation.upsellSelectedCar.pricing.payNowPrice.floatValue]];
+            [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",reservation.upsellSelectedCar.materialName,reservation.upsellSelectedCar.pricing.payLaterPrice.floatValue]];
         }
         else
         {
-            [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",reservation.upsellSelectedCar.materialName,reservation.upsellSelectedCar.pricing.payLaterPrice.floatValue]];
+            [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",reservation.upsellSelectedCar.materialName,reservation.upsellSelectedCar.pricing.payNowPrice.floatValue]];
         }
     }
     
     //upsell/downsell araç grubu
     else if (reservation.upsellCarGroup)
     {
-        if ([reservation.paymentType isEqualToString:@"1"])
+        if ([reservation.paymentType isEqualToString:@"2"] || [reservation.paymentType isEqualToString:@"6"])
         {
-            [textView setText:[NSString stringWithFormat:@"- %@ ve benzeri - %.02f TL\n",reservation.upsellCarGroup.sampleCar.materialName,reservation.upsellCarGroup.sampleCar.pricing.payNowPrice.floatValue]];
+            [textView setText:[NSString stringWithFormat:@"- %@ ve benzeri - %.02f TL\n",reservation.upsellCarGroup.sampleCar.materialName,reservation.upsellCarGroup.sampleCar.pricing.payLaterPrice.floatValue]];
         }
         else
         {
-            [textView setText:[NSString stringWithFormat:@"- %@ ve benzeri - %.02f TL\n",reservation.upsellCarGroup.sampleCar.materialName,reservation.upsellCarGroup.sampleCar.pricing.payLaterPrice.floatValue]];
+            [textView setText:[NSString stringWithFormat:@"- %@ ve benzeri - %.02f TL\n",reservation.upsellCarGroup.sampleCar.materialName,reservation.upsellCarGroup.sampleCar.pricing.payNowPrice.floatValue]];
         }
     }
 // AATAC 29.11.2014 28 Kasımdaki 5. madde kapsamında değişiklik lol :D
@@ -72,7 +72,7 @@
         if (reservation.changeReservationDifference == nil)
             reservation.changeReservationDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
         
-        if ([reservation.paymentType isEqualToString:@"1"] || reservation.paymentType == nil)
+        if ([reservation.paymentType isEqualToString:@"1"] || [reservation.paymentType isEqualToString:@"3"] || [reservation.paymentType isEqualToString:@"8"] || [reservation.paymentType isEqualToString:@"9"] || reservation.paymentType == nil)
         {
             if (reservation.selectedCarGroup.sampleCar.pricing.priceWithKDV.floatValue > 0) {
                 [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",string,[reservation.selectedCarGroup.sampleCar.pricing.priceWithKDV decimalNumberByAdding:reservation.changeReservationDifference].floatValue]];
@@ -142,7 +142,7 @@
         
         BOOL isPayNow = NO;
         
-        if ([reservation.paymentType isEqualToString:@"1"]) {
+        if (![reservation.paymentType isEqualToString:@"2"] || ![reservation.paymentType isEqualToString:@"6"]) {
             isPayNow = YES;
         }
         

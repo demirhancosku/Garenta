@@ -22,13 +22,15 @@
     //UPSELL ile gelince buraya giriyor
     if (_totalPrice != nil)
     {
+        _youngDriverDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
+        [self addYoungDriver];
         
         [self findPayNowPayLaterDifference];
         
-        if ([super.reservation.paymentType isEqualToString:@"1"])
-            _changeReservationPrice = _payNowDifference;
-        else
+        if ([super.reservation.paymentType isEqualToString:@"2"] || [super.reservation.paymentType isEqualToString:@"6"])
             _changeReservationPrice = [[NSDecimalNumber decimalNumberWithString:_totalPrice] decimalNumberByAdding: _payLaterDifference];
+        else
+            _changeReservationPrice = _payNowDifference;
         
         super.isTotalPressed = NO;
         
@@ -85,14 +87,7 @@
 
     if (predicateArray.count > 0) {
         AdditionalEquipment *temp = [predicateArray objectAtIndex:0];
-        
-//        if (temp.price.floatValue > super.reservation.upsellSelectedCar.pricing.carSelectPrice.floatValue) {
-//            _carSelectionPriceDifference = [temp.price decimalNumberBySubtracting:super.reservation.upsellSelectedCar.pricing.carSelectPrice];
-//
-//        }
-//        else{
             _carSelectionPriceDifference = [super.reservation.upsellSelectedCar.pricing.carSelectPrice decimalNumberBySubtracting:temp.price];
-//        }
         
         temp.price = super.reservation.upsellSelectedCar.pricing.carSelectPrice;
     }
@@ -133,7 +128,7 @@
 - (IBAction)payLaterPressed:(id)sender {
     
     // REZERVASYON ŞİMDİ ÖDE İLE YAPILDIYSA, UPDATE YAPILIRKEN SONRA ÖDE YAPILAMAZ!
-    if ([super.reservation.paymentType isEqualToString:@"1"])
+    if (![super.reservation.paymentType isEqualToString:@"2"] && ![super.reservation.paymentType isEqualToString:@"6"])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Rezervasyonunuz 'Şimdi Öde' rezervasyondur, sonra ödeme yapılamaz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
         
@@ -242,15 +237,15 @@
                 {
                     [self findPayNowPayLaterDifference];
 
-                    if ([super.reservation.paymentType isEqualToString:@"1"])
-                    {
-                        [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",_payNowDifference.floatValue] forState:UIControlStateNormal];
-                        [payLaterButton setTitle:[NSString stringWithFormat:@"-"] forState:UIControlStateNormal];
-                    }
-                    else
+                    if ([super.reservation.paymentType isEqualToString:@"2"] || [super.reservation.paymentType isEqualToString:@"6"])
                     {
                         [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[NSDecimalNumber decimalNumberWithString:_totalPrice] decimalNumberByAdding: _payNowDifference].floatValue] forState:UIControlStateNormal];
                         [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[NSDecimalNumber decimalNumberWithString:_totalPrice] decimalNumberByAdding: _payLaterDifference].floatValue] forState:UIControlStateNormal];
+                    }
+                    else
+                    {
+                        [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",_payNowDifference.floatValue] forState:UIControlStateNormal];
+                        [payLaterButton setTitle:[NSString stringWithFormat:@"-"] forState:UIControlStateNormal];
                     }
                 }
                 else{
@@ -326,6 +321,9 @@
     _payNowDifference = [payNowPrice decimalNumberBySubtracting:documentPrice];
     _payLaterDifference = [payLaterPrice decimalNumberBySubtracting:documentPrice];
     
+    _payNowDifference = [_payNowDifference decimalNumberByAdding:_youngDriverDifference];
+    _payLaterDifference = [_payLaterDifference decimalNumberByAdding:_youngDriverDifference];
+    
     // araca rezervasyon yaratılmış ve upsell/downsell yapılarak gruba tercih edilirse
     if ([super.reservation.reservationType isEqualToString:@"10"] && super.reservation.upsellSelectedCar == nil)
     {
@@ -335,13 +333,98 @@
     }
 }
 
+- (void)addYoungDriver
+{
+    NSDecimalNumber *youngDriverPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
+    NSDecimalNumber *maxSafePrice = [NSDecimalNumber decimalNumberWithString:@"0"];
+    NSDecimalNumber *currentYoungDriverPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
+    NSDecimalNumber *currentMaxSafePrice = [NSDecimalNumber decimalNumberWithString:@"0"];
+    
+    // güncel Genç Sürücü ve güncel Maksimum Güvence fiyatlarını alıyoruz
+    NSPredicate *currentYoungDriver = [NSPredicate predicateWithFormat:@"materialNumber==%@",@"HZM0007"];
+    NSArray *currentYoungDriverArr = [_additionalEquipments filteredArrayUsingPredicate:currentYoungDriver];
+    
+    NSPredicate *currentMaxSafe = [NSPredicate predicateWithFormat:@"materialNumber==%@",@"HZM0012"];
+    NSArray *currentMaxSafeArr = [_additionalEquipments filteredArrayUsingPredicate:currentMaxSafe];
+    
+    
+    //Rezervasyonda daha önce Genç Sürücü ve güncel Maksimum Güvence eklenmişmi kontrolü yapıyoruz
+    NSPredicate *youngDriver = [NSPredicate predicateWithFormat:@"materialNumber==%@",@"HZM0007"];
+    NSArray *youngDriverArr = [super.reservation.additionalEquipments filteredArrayUsingPredicate:youngDriver];
+    
+    NSPredicate *maxSafe = [NSPredicate predicateWithFormat:@"materialNumber==%@",@"HZM0012"];
+    NSArray *maxSafeArr = [super.reservation.additionalEquipments filteredArrayUsingPredicate:maxSafe];
+    
+    if (currentYoungDriverArr.count > 0) {
+        currentYoungDriverPrice = [[currentYoungDriverArr objectAtIndex:0] price];
+    }
+    
+    if (currentMaxSafeArr.count > 0) {
+        currentMaxSafePrice = [[currentMaxSafeArr objectAtIndex:0] price];
+    }
+    
+    // belgede genç sürücü daha önce eklenmişse, ve yeni seçtiği araçta genç sürücü varsa fiyat güncelliyo
+    if (youngDriverArr.count > 0 && _isYoungDriver) {
+        AdditionalEquipment *temp = [youngDriverArr objectAtIndex:0];
+        youngDriverPrice = temp.price;
+        
+        temp.price = currentYoungDriverPrice;
+        temp.updateStatus = @"U";
+    }
+    
+    // belgede genç sürücü daha önce eklenmişse, ve yeni seçtiği araçta genç sürücü yoksa siliyo
+    else if (youngDriverArr.count > 0 && !_isYoungDriver) {
+        AdditionalEquipment *temp = [youngDriverArr objectAtIndex:0];
+        youngDriverPrice = temp.price;
+        temp.updateStatus = @"D";
+    }
+    // belgede daha önce eklenmiş genç sürücü yoksa ve yeni seçtiği araç genç sürücüyse ekliyo
+    else if (youngDriverArr.count == 0 && _isYoungDriver) {
+        AdditionalEquipment *temp = [currentYoungDriverArr objectAtIndex:0];
+        temp.updateStatus = @"I";
+        [super.reservation.additionalEquipments addObject:temp];
+    }
+
+    
+    // belgede maksimum güvence daha önce eklenmişse, ve yeni seçtiği araçta genç sürücü varsa fiyat güncelliyo
+    if (maxSafeArr.count > 0 && _isYoungDriver) {
+        AdditionalEquipment *temp = [maxSafeArr objectAtIndex:0];
+        maxSafePrice = temp.price;
+        
+        temp.price = currentMaxSafePrice;
+        temp.updateStatus = @"U";
+    }
+    // belgede maksimum güvence daha önce eklenmişse, ve yeni seçtiği araçta genç sürücüyse değilse siliyoruz
+    else if (maxSafeArr.count > 0 && !_isYoungDriver) {
+        AdditionalEquipment *temp = [maxSafeArr objectAtIndex:0];
+        maxSafePrice = temp.price;
+        temp.updateStatus = @"D";
+    }
+    // belgede daha önce eklenmiş maks.Güvence yoksa ve yeni seçtiği araç genç sürücüyse ekliyo
+    else if (youngDriverArr.count == 0 && _isYoungDriver)
+    {
+        AdditionalEquipment *temp = [currentMaxSafeArr objectAtIndex:0];
+        temp.updateStatus = @"I";
+        [super.reservation.additionalEquipments addObject:temp];
+    }
+    
+    if (_isYoungDriver) {
+        _youngDriverDifference = [[[[_youngDriverDifference decimalNumberByAdding:currentYoungDriverPrice] decimalNumberByAdding:currentMaxSafePrice] decimalNumberBySubtracting:youngDriverPrice] decimalNumberBySubtracting:maxSafePrice];
+    }
+    else
+    {
+        _youngDriverDifference = [[_youngDriverDifference decimalNumberBySubtracting:maxSafePrice] decimalNumberBySubtracting:youngDriverPrice];
+    }
+
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     [super prepareForSegue:segue sender:sender];
     
     if ([segue.identifier isEqualToString:@"toOldReservationPaymentSegue"])
     {
-        if ([super.reservation.paymentType isEqualToString:@"2"]) {
+        if (_totalPrice != nil && (![super.reservation.paymentType isEqualToString:@"2"] || ![super.reservation.paymentType isEqualToString:@"6"])) {
             _changeReservationPrice = [[NSDecimalNumber decimalNumberWithString:_totalPrice] decimalNumberByAdding: _payNowDifference];
         }
         [(OldReservationPaymentVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];

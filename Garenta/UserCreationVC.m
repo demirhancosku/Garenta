@@ -86,7 +86,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(citySelected:) name:@"citySelected" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(countySelected:) name:@"countySelected" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneCountrySelected:) name:@"phoneCountrySelected" object:nil];
-
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -376,8 +376,10 @@
     }
     
     if (![alertString isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
-        [alert show];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+            [alert show];
+        });
     }
     else {
         [self showMembershipRulesAlertView];
@@ -385,9 +387,11 @@
 }
 
 - (void)showMembershipRulesAlertView {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Üyelik kurallarını kabul ederek, kullanıcınızın yaratılmasını istiyor musunuz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Üyelik Kuralları", @"Kabul Ediyorum", nil];
-    [alert setTag:2];
-    [alert show];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Üyelik kurallarını kabul ederek, kullanıcınızın yaratılmasını istiyor musunuz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Üyelik Kuralları", @"Kabul Ediyorum", nil];
+        [alert setTag:2];
+        [alert show];
+    });
 }
 
 - (void)checkPhoneNumberValidation {
@@ -426,6 +430,7 @@
     
     self.alertTimer = 60;
     
+    [self.timer invalidate];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1
                                                   target:self
                                                 selector:@selector(updateSMSAlert:)
@@ -479,6 +484,7 @@
     
     self.alertTimer = 60;
     
+    [self.timer invalidate];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1
                                                   target:self
                                                 selector:@selector(updateEmailAlert:)
@@ -562,7 +568,7 @@
     
     NSString *alertString = @"";
     UIAlertView *alert = [[UIAlertView alloc] init];
-
+    
     @try {
         SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZMOB_KDK_CREATE_POT_CUSTOMER"];
         
@@ -589,10 +595,13 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"yyyy-MM-dd"];
         
+        NSDateFormatter *formatter2 = [[NSDateFormatter alloc] init];
+        [formatter2 setDateFormat:@"yyyyMMdd"];
+        
         NSString *driverLicenseDate = @"";
         
         if (![self.driverLicenseNoTextField.text isEqualToString:@""]) {
-            driverLicenseDate = [formatter stringFromDate:[self.driverLicenseDatePicker date]];
+            driverLicenseDate = [formatter2 stringFromDate:[self.driverLicenseDatePicker date]];
         }
         
         NSString *gender = @"";
@@ -633,7 +642,6 @@
         NSArray *value = @[self.nameTextField.text, self.middleNameTextField.text, self.surnameTextField.text, [formatter stringFromDate:self.birthdayDatePicker.date], tcknNo, @"X", self.emailTextField.text, trimmedMobilePhone, @"", base64Encoded, self.selectedCity[1], county, self.adressTextField.text, @"Z07", nationality, self.selectedCountry[0], self.driverLicenseNoTextField.text, driverLicenseDate, passportNo, @"X", @"3063", @"33", @"65", gender, secretQuestion, @"", self.securityAnswerTextField.text, self.driverLicenseLocationTextField.text, driverLicenseType, @"", self.mobilePhoneCountryLabel.text, emailChecked, smsChecked];
         
         [handler addImportStructure:@"IS_INPUT" andColumns:columns andValues:value];
-        [handler addTableForReturn:@"E_OUTPUT"];
         [handler addTableForReturn:@"ET_BAPIRET"];
         
         NSDictionary *response = [handler prepCall];
@@ -647,8 +655,7 @@
                 self.isUserCreated = YES;
                 alertString = @"Kullanıcınız başarı ile yaratılmıştır. Giriş yapabilirsiniz";
             }
-            else {
-                
+            else {  
                 NSDictionary *tables = [response objectForKey:@"TABLES"];
                 NSDictionary *eOutput = [export valueForKey:@"E_OUTPUT"];
                 
@@ -686,13 +693,14 @@
     }
     @finally {
     }
-
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
     
-    [alert setTitle:@"Uyarı"];
-    [alert setMessage:alertString];
-    [alert addButtonWithTitle:@"Tamam"];
-    [alert show];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert setTitle:@"Uyarı"];
+        [alert setMessage:alertString];
+        [alert addButtonWithTitle:@"Tamam"];
+        [alert show];
+    });
     
     if (self.isUserCreated) {
         [[self navigationController] popViewControllerAnimated:YES];

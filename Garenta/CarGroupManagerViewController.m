@@ -12,6 +12,8 @@
 #import "EquipmentVC.h"
 #import "MBProgressHUD.h"
 #import "AdditionalEquipment.h"
+#import "ETExpiryObject.h"
+
 @interface CarGroupManagerViewController ()
 @property(strong,nonatomic)IBOutlet UIView *rootView;
 @property(strong,nonatomic)CarGroupTableVC *tableViewVC;
@@ -184,6 +186,8 @@
     _reservation.checkOutOffice = anOffice;
     _reservation.selectedCarGroup = aCarGroup;
     _reservation.campaignObject = nil;
+    _reservation.additionalEquipments = nil;
+    _reservation.additionalDrivers = nil;
     
     _carSelectionArray = [NSMutableArray new];
     
@@ -246,6 +250,7 @@
         [handler addTableForReturn:@"EXPT_EKPLIST"];
         [handler addTableForReturn:@"EXPT_SIGORTA"];
         [handler addTableForReturn:@"EXPT_EKSURUCU"];
+        [handler addTableForReturn:@"EXPT_EXPIRY"];
         
         NSDictionary *resultDict = [handler prepCall];
         
@@ -256,6 +261,31 @@
             _additionalEquipments = [NSMutableArray new];
             _additionalEquipmentsFullList = [NSMutableArray new];
             
+            NSDictionary *etExpiry = [tables objectForKey:@"ZSD_KDK_AYLIK_TAKSIT_ST"];
+            NSMutableArray *etExpiryArray = [NSMutableArray new];
+            
+            NSDateFormatter *dateFormatter = [NSDateFormatter new];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            
+            for (NSDictionary *tempDict in etExpiry) {
+                ETExpiryObject *tempObject = [ETExpiryObject new];
+                
+                [tempObject setCarGroup:[tempDict valueForKey:@"ARAC_GRUBU"]];
+                [tempObject setBeginDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_BASI"]]];
+                [tempObject setEndDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_SONU"]]];
+                [tempObject setCampaignID:[tempDict valueForKey:@"KAMPANYA_ID"]];
+                [tempObject setBrandID:[tempDict valueForKey:@"MARKA_ID"]];
+                [tempObject setModelID:[tempDict valueForKey:@"MODEL_ID"]];
+                [tempObject setIsPaid:[tempDict valueForKey:@"ODENDI"]];
+                [tempObject setCurrency:[tempDict valueForKey:@"PARA_BIRIMI"]];
+                [tempObject setMaterialNo:[tempDict valueForKey:@"MALZEME"]];
+                [tempObject setTotalPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                
+                [_reservation.etExpiry addObject:tempObject];
+            }
+            
+//            _reservation.etExpiry = etExpiryArray;
+            
             NSDictionary *equipmentList = [tables objectForKey:@"ZPM_S_EKIPMAN_LISTE"];
             
             for (NSDictionary *tempDict in equipmentList)
@@ -264,6 +294,7 @@
                 [tempEquip setMaterialNumber:[tempDict valueForKey:@"MATNR"]];
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MUS_TANIMI"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"NETWR"]]];
+                [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_MIKTAR"]]];
                 
                 if ([[ApplicationProperties getUser] isLoggedIn]) {
@@ -303,6 +334,7 @@
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
                 [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
                 [tempEquip setType:additionalInsurance];
                 
@@ -388,6 +420,7 @@
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
                 [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_ADET"]]];
                 
                 // Ata Cengiz 07.12.2014 corparate

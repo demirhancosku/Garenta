@@ -17,6 +17,7 @@
         [copy setMaterialInfo:[self.materialInfo copyWithZone:zone]];
         [copy setQuantity:self.quantity];
         [copy setPrice:[self.price copyWithZone:zone]];
+        [copy setMonthlyPrice:[self.monthlyPrice copyWithZone:zone]];
         [copy setMaxQuantity:[self.maxQuantity copyWithZone:zone]];
         [copy setAdditionalDriverFirstname:@""];
         [copy setAdditionalDriverMiddlename:@""];
@@ -32,7 +33,7 @@
         [copy setUpdateStatus:@""];
         [copy setAdditionalDriverLicenseDate:[NSDate date]];
         [copy setIsRequired:NO];
-        
+
         [(AdditionalEquipment*)copy setType:self.type];
     }
     

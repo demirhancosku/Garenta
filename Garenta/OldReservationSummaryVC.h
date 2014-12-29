@@ -16,5 +16,8 @@
 @property (strong,nonatomic) NSString *totalPrice;
 @property (strong,nonatomic) NSDecimalNumber *payNowDifference;
 @property (strong,nonatomic) NSDecimalNumber *payLaterDifference;
+@property (strong,nonatomic) NSDecimalNumber *youngDriverDifference;
+@property (strong,nonatomic) NSMutableArray *additionalEquipments;
+@property BOOL isYoungDriver;
 
 @end

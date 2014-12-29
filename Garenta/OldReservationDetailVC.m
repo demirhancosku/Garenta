@@ -70,15 +70,15 @@
 {
     UIActionSheet *sheet;
     
-    if ([[_reservation paymentType] isEqualToString:@"1"])
-    {
-        sheet = [[UIActionSheet alloc] initWithTitle:@"Lütfen yapmak istediğiniz işlemi seçiniz." delegate:self cancelButtonTitle:@"Geri" destructiveButtonTitle:@"Araç Değişikliği" otherButtonTitles:@"Rezervasyon Güncelleme",@"Rezervasyon İptal", nil];
-        sheet.tag = 0;
-    }
-    else
+    if ([[_reservation paymentType] isEqualToString:@"2"] || [[_reservation paymentType] isEqualToString:@"6"])
     {
         sheet = [[UIActionSheet alloc] initWithTitle:@"Lütfen yapmak istediğiniz işlemi seçiniz." delegate:self cancelButtonTitle:@"Geri" destructiveButtonTitle:@"Ödeme Yap" otherButtonTitles:@"Araç Değişikliği",@"Rezervasyon Güncelleme",@"Rezervasyon İptal", nil];
         sheet.tag = 1;
+    }
+    else
+    {
+        sheet = [[UIActionSheet alloc] initWithTitle:@"Lütfen yapmak istediğiniz işlemi seçiniz." delegate:self cancelButtonTitle:@"Geri" destructiveButtonTitle:@"Araç Değişikliği" otherButtonTitles:@"Rezervasyon Güncelleme",@"Rezervasyon İptal", nil];
+        sheet.tag = 0;
     }
     
     [sheet showInView:self.view];
@@ -134,11 +134,12 @@
             }
             else
             {
-                
-                if ([_reservation.paymentType isEqualToString:@"1"])
-                    [totalPriceLabel setText:@"Tahsil Edilmiş Tutar:"];
-                else
+                //normal şonra öde yada aylık şonra öde
+                if ([_reservation.paymentType isEqualToString:@"2"] || [_reservation.paymentType isEqualToString:@"6"])
                     [totalPriceLabel setText:@"Tahsil Edilecek Tutar:"];
+                else
+                    [totalPriceLabel setText:@"Tahsil Edilmiş Tutar:"];
+                
             }
             
             totalPrice = (UILabel*)[aCell viewWithTag:1];
@@ -240,6 +241,7 @@
             break;
         case 1:
             if (buttonIndex == 0)
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"reservationUpdated" object:nil];
                 [[self navigationController] popViewControllerAnimated:YES];
             break;
         case 2:
@@ -261,8 +263,19 @@
                 [self changeReservation];
                 break;
             case 2: // rezervasyon iptal
-                [self getFineAndRefundPrice]; //belgeyi iptal ederken iade ve ceza tutarlarını çağırır.
+            {
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                    
+                    if ([self isDocumentCanBeCancelled]) {
+                        [self getFineAndRefundPrice]; //belgeyi iptal ederken iade ve ceza tutarlarını çağırır.
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    });
+                });
                 break;
+            }
             default:
                 break;
         }
@@ -281,11 +294,70 @@
                 [self changeReservation];
                 break;
             case 3: // rezervasyon iptal
-                [self getFineAndRefundPrice]; //belgeyi iptal ederken iade ve ceza tutarlarını çağırır.
+            {
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                    
+                    if ([self isDocumentCanBeCancelled]) {
+                        [self getFineAndRefundPrice]; //belgeyi iptal ederken iade ve ceza tutarlarını çağırır.
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    });
+                });
                 break;
+            }
             default:
                 break;
         }
+    }
+}
+
+- (BOOL)isDocumentCanBeCancelled
+{
+    NSString *alertString = @"";
+    @try
+    {
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZNET_REZERVASYON_LIST"];
+        
+        [handler addImportParameter:@"IV_REZ_NO" andValue:_reservation.reservationNumber];
+        [handler addTableForReturn:@"ET_REZ_LIST"];
+        
+        NSDictionary *response = [handler prepCall];
+        
+        if (response != nil)
+        {
+            NSDictionary *tables = [response objectForKey:@"TABLES"];
+            NSDictionary *rezList = [tables objectForKey:@"ZNET_INT_019"];
+            
+            if (rezList.count == 0) {
+                
+                alertString = @"Seçmiş olduğunuz rezervasyona ait sözleşme bulunmaktadır, iptal edilemez.";
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                    [alert show];
+                });
+                return NO;
+            }
+            else{
+                return YES;
+            }
+        }
+        else
+        {
+            alertString = @"İptal sırasında bir sorun oluşmuştur lütfen tekrar deneyiniz.";
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                [alert show];
+            });
+            return NO;
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally{
+        
     }
 }
 

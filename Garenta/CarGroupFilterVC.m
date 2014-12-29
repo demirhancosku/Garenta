@@ -510,30 +510,8 @@
 
 ///ahahahahahhaahhahahahahahahhahaha anlasana  ahahahahahhahahaah
 - (void)filterBrand{
-    NSMutableArray *newArray = [[NSMutableArray alloc]init];
     //TODO:sonra nscopy implement et aalpk
-    NSMutableArray *newTempGroupArray = [[NSMutableArray alloc] init];
-    CarGroup *newCarGroup;
-    for (CarGroup *temp in filteredCarGroups) {
-        newCarGroup = [[CarGroup alloc] init];
-        newCarGroup.cars = [[NSMutableArray alloc] init];
-        newCarGroup = [temp copy];
-//        [newCarGroup setGroupCode:temp.groupCode];
-//        [newCarGroup setGroupName:temp.groupName];
-//        [newCarGroup setTransmissonId:temp.transmissonId];
-//        [newCarGroup setTransmissonName:temp.transmissonName];
-//        [newCarGroup setFuelId:temp.fuelId];
-//        [newCarGroup setFuelName:temp.fuelName];
-//        [newCarGroup setBodyId:temp.bodyId];
-//        [newCarGroup setBodyName:temp.bodyName];
-//        [newCarGroup setSegment:temp.segment];
-//        [newCarGroup setSegmentName:temp.segmentName];
-//        [newCarGroup setSampleCar:temp.sampleCar];
-//        [newCarGroup setPayNowPrice:temp.payNowPrice];
-//        [newCarGroup setPayLaterPrice:temp.payLaterPrice];
-        [newTempGroupArray addObject:newCarGroup];
-
-    }
+    NSMutableArray *newTempGroupArray = [NSMutableArray new];
 
     for (FilterObject *tempObject in brandFilter) {
         if (tempObject.filterCode == nil) {
@@ -544,29 +522,34 @@
         }
         else
         {
-            if ([tempObject isSelected]) {
-                
-                for (CarGroup *tempGroup in filteredCarGroups) {
-                    CarGroup *newTempGroup = [CarGroup getGroupFromList:newTempGroupArray WithCode:tempGroup.groupCode];
-                    for (Car *tempCar in tempGroup.cars) {
+            if ([tempObject isSelected])
+            {
+                for (CarGroup *tempGroup in filteredCarGroups)
+                {
+                    NSMutableArray *cars = [NSMutableArray new];
+                    CarGroup *newTempGroup = [CarGroup getGroupFromList:filteredCarGroups WithCode:tempGroup.groupCode];
+                    for (Car *tempCar in newTempGroup.cars) {
                         if ([tempObject.filterCode isEqualToString:tempCar.brandId]) {
-                            [newTempGroup.cars addObject:tempCar];
+                            [cars addObject:tempCar];
                         }
                     }
-
+                    
+                    if (cars.count > 0) {
+                        newTempGroup.cars = [cars copy];
+                        [newTempGroupArray addObject:newTempGroup];
+                    }
                 }
             }
         }
     }
+    
     filteredCarGroups = nil;
     filteredCarGroups = [[NSMutableArray alloc] init];
-    for (CarGroup*tempGroup in newTempGroupArray) {
+    for (CarGroup *tempGroup in newTempGroupArray) {
         if (tempGroup.cars.count>0) {
             [filteredCarGroups addObject:tempGroup];
         }
     }
-
-
 }
 
 #pragma mark - navigation methods

@@ -136,6 +136,8 @@
                     [tempCar setMaterialCode:[tempDict valueForKey:@"MATNR"]];
                     [tempCar setMaterialName:[tempDict valueForKey:@"MAKTX"]];
                     [tempCar setBrandId:[tempDict valueForKey:@"MARKA_ID"]];
+                    [tempCar setPlateNo:@""];
+                    [tempCar setChassisNo:@""];
                     [tempCar setBrandName:[tempDict valueForKey:@"MARKA"]];
                     [tempCar setModelId:[tempDict valueForKey:@"MODEL_ID"]];
                     [tempCar setModelName:[tempDict valueForKey:@"MODEL"]];
@@ -171,7 +173,7 @@
                 // AYLIK İÇİN TAKSİT TABLOSU
                 NSDictionary *etExpiry = [tables objectForKey:@"ZSD_KDK_AYLIK_TAKSIT_ST"];
                 
-                NSMutableArray *etExpiryArray = [NSMutableArray new];
+//                NSMutableArray *etExpiryArray = [NSMutableArray new];
                 
                 NSDateFormatter *dateFormatter = [NSDateFormatter new];
                 [dateFormatter setDateFormat:@"yyyy-MM-dd"];
@@ -187,11 +189,13 @@
                     [tempObject setModelID:[tempDict valueForKey:@"MODEL_ID"]];
                     [tempObject setIsPaid:[tempDict valueForKey:@"ODENDI"]];
                     [tempObject setCurrency:[tempDict valueForKey:@"PARA_BIRIMI"]];
+                    [tempObject setMaterialNo:[tempDict valueForKey:@"MALZEME"]];
                     [tempObject setTotalPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
-                    [etExpiryArray addObject:tempObject];
+                    
+                    [super.reservation.etExpiry addObject:tempObject];
                 }
                 
-                super.reservation.etExpiry = etExpiryArray;
+//                super.reservation.etExpiry = etExpiryArray;
                 
                 //ET_REZERV
                 NSDictionary *sdReserv = [tables objectForKey:@"ZSD_KDK_REZERV"];
@@ -305,9 +309,21 @@
         [handler addImportParameter:@"IMPP_ENDUZ" andValue:[timeFormatter stringFromDate:self.reservation.checkInTime]];
         [handler addImportParameter:@"IMPP_KANAL" andValue:@"40"];
         
+        NSString *fikod = @"";
+        NSString *kunnr = @"";
+        
+        if ([[ApplicationProperties getUser] isLoggedIn]) {
+            fikod = [[ApplicationProperties getUser] priceCode];
+            kunnr = [[ApplicationProperties getUser] kunnr];
+        }
+        
+        [handler addImportParameter:@"IMPP_MUSNO" andValue:kunnr];
+        [handler addImportParameter:@"IMPP_FIKOD" andValue:fikod];
+        
         [handler addTableForReturn:@"EXPT_EKPLIST"];
         [handler addTableForReturn:@"EXPT_SIGORTA"];
         [handler addTableForReturn:@"EXPT_EKSURUCU"];
+        [handler addTableForReturn:@"EXPT_EXPIRY"];
         
         NSDictionary *resultDict = [handler prepCall];
         
@@ -317,6 +333,31 @@
             
             _additionalEquipments = [NSMutableArray new];
             
+            NSDictionary *etExpiry = [tables objectForKey:@"ZSD_KDK_AYLIK_TAKSIT_ST"];
+            NSMutableArray *etExpiryArray = [NSMutableArray new];
+            
+            NSDateFormatter *dateFormatter = [NSDateFormatter new];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            
+            for (NSDictionary *tempDict in etExpiry) {
+                ETExpiryObject *tempObject = [ETExpiryObject new];
+                
+                [tempObject setCarGroup:[tempDict valueForKey:@"ARAC_GRUBU"]];
+                [tempObject setBeginDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_BASI"]]];
+                [tempObject setEndDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_SONU"]]];
+                [tempObject setCampaignID:[tempDict valueForKey:@"KAMPANYA_ID"]];
+                [tempObject setBrandID:[tempDict valueForKey:@"MARKA_ID"]];
+                [tempObject setModelID:[tempDict valueForKey:@"MODEL_ID"]];
+                [tempObject setIsPaid:[tempDict valueForKey:@"ODENDI"]];
+                [tempObject setCurrency:[tempDict valueForKey:@"PARA_BIRIMI"]];
+                [tempObject setMaterialNo:[tempDict valueForKey:@"MALZEME"]];
+                [tempObject setTotalPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                
+                [etExpiryArray addObject:tempObject];
+            }
+            
+            super.reservation.etExpiry = etExpiryArray;
+            
             NSDictionary *equipmentList = [tables objectForKey:@"ZPM_S_EKIPMAN_LISTE"];
             
             for (NSDictionary *tempDict in equipmentList)
@@ -325,6 +366,7 @@
                 [tempEquip setMaterialNumber:[tempDict valueForKey:@"MATNR"]];
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MUS_TANIMI"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"NETWR"]]];
+                [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_MIKTAR"]]];
                 [tempEquip setQuantity:0];
                 [tempEquip setType:standartEquipment];
@@ -339,6 +381,7 @@
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
                 [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_ADET"]]];
                 [tempEquip setQuantity:0];
                 if ([[tempEquip materialNumber] isEqualToString:@"HZM0004"])
@@ -386,6 +429,7 @@
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
                 [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
                 [tempEquip setType:additionalInsurance];
                 [tempEquip setQuantity:0];
@@ -465,9 +509,11 @@
                     NSString *alertMessage = @"";
                     int count = 1;
                     for (ETExpiryObject *tempObject in super.reservation.etExpiry) {
-                        alertMessage = [NSString stringWithFormat:@"%@\n%i. Taksit - %@ %@", alertMessage, count, tempObject.totalPrice.stringValue, tempObject.currency];
-                        
-                        count ++;
+                        if (![tempObject.carGroup isEqualToString:@""]) {
+                            alertMessage = [NSString stringWithFormat:@"%@\n%i. Taksit - %@ %@", alertMessage, count, tempObject.totalPrice.stringValue, tempObject.currency];
+                            
+                            count ++;
+                        }
                     }
                     
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Aylık rezervasyon ödeme planı" message:[NSString stringWithFormat:@"Aşağıdaki fiyatlar aracın aylık taksitleridir, satın alınan yada alınacak ekipmanlarınr toplam fiyatı aracın ilk taksidine eklenecektir.\n%@",alertMessage] delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Tamam", nil];
@@ -536,7 +582,13 @@
             {
                 //                temp.difference = [[temp.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",[[filterResult objectAtIndex:0] quantity]]]] decimalNumberBySubtracting:[[filterResult objectAtIndex:0] price]];
                 
-                temp.difference = [[temp.price decimalNumberBySubtracting:[[filterResult objectAtIndex:0] price]] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",[[filterResult objectAtIndex:0] quantity]]]];
+                if (super.reservation.etExpiry.count > 0) {
+                    temp.difference = [[temp.monthlyPrice decimalNumberBySubtracting:[[filterResult objectAtIndex:0] price]] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",[[filterResult objectAtIndex:0] quantity]]]];
+                }
+                else
+                {
+                    temp.difference = [[temp.price decimalNumberBySubtracting:[[filterResult objectAtIndex:0] price]] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",[[filterResult objectAtIndex:0] quantity]]]];
+                }
                 
                 temp.paid = [[[filterResult objectAtIndex:0] price] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",[[filterResult objectAtIndex:0] quantity]]]];
             }

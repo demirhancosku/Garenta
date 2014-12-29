@@ -34,6 +34,9 @@
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    
+    timestamp = [[NSDate date] timeIntervalSince1970];
+    NSLog(@"Uygulamanın aşağı atılması:%lu",(unsigned long)[ApplicationProperties getTimerObject]);
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -50,6 +53,12 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    int interval;
+    interval = timestamp - [[NSDate date] timeIntervalSince1970];
+    
+    [ApplicationProperties setTimerObject:[ApplicationProperties getTimerObject] - interval];
+    NSLog(@"Uygulamanın tekrar açılışı:%lu",(unsigned long)[ApplicationProperties getTimerObject]);
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -76,6 +85,29 @@
     
     if (reservationNumber != nil && ![reservationNumber isEqualToString:@""]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"PayNowPushNotification" object:userInfo];
+    }
+}
+
+- (void)updateTimerObject:(id)sender
+{
+    // önce 30 saniye eklenir
+    [ApplicationProperties setTimerObject:[ApplicationProperties getTimerObject] + 1];
+    
+    //daha sonra timer objesini alıp 10 dakika geçmişmi kontrolü yaparız
+    
+    NSUInteger timerObj = [ApplicationProperties getTimerObject];
+    
+    if (timerObj >= 600) {
+        NSLog(@"kapanış saati: %lu",(unsigned long)timerObj);
+        [[ApplicationProperties getTimer] invalidate];
+        [ApplicationProperties setTimerObject:0];
+        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"MainStoryBoard" bundle:nil];
+        UINavigationController * myStoryBoardInitialViewController = [storyboard instantiateInitialViewController];
+        self.window.rootViewController = myStoryBoardInitialViewController;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"İşleminiz zaman aşımına uğramıştır, lütfen tekrar deneyin." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
     }
 }
 

@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *cvvTextField;
 @property (weak, nonatomic) IBOutlet UITextField *garentaTlTextField;
 @property (weak, nonatomic) IBOutlet UILabel *totalPriceLabel;
+@property (strong,nonatomic) WYPopoverController *myPopoverController;
 
 - (BOOL)checkRequiredFields;
 @end

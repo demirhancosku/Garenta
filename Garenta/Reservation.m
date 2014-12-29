@@ -112,6 +112,14 @@
                     break;
                 }
             }
+            
+            for (AdditionalEquipment *tempEquipment in _additionalEquipments) {
+                if (tempEquipment.quantity > 0) {
+                    totalEquiPrice = [totalEquiPrice decimalNumberByAdding:([tempEquipment.monthlyPrice decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",tempEquipment.quantity]]])];
+                }
+            }
+            
+            totalPrice = [totalPrice decimalNumberByAdding:totalEquiPrice];
         }
         else if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"] && (isCorparate || isPersonalPayment)) {
             // Ata Cengiz Corparate Payment
@@ -375,7 +383,15 @@
         
         if (_reservation.etExpiry.count > 0) {
             isMontly = @"X";
-            carPrice = _reservation.selectedCarGroup.priceWithKDV;
+            // burda ilk tutarı alıyoruz
+            for (ETExpiryObject *tempObject in _reservation.etExpiry) {
+                if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode]) {
+                    // Burda sadece ilk taksiti alıyoruz
+                    carPrice = tempObject.totalPrice.stringValue;
+                    break;
+                }
+            }
+//            carPrice = _reservation.selectedCarGroup.priceWithKDV;
         }
         
         else if (isPayNow) {
@@ -413,7 +429,6 @@
         [itItemsValues addObject:vehicleLine];
         
         // Ekipmanlar, Hizmetler
-        
         for (AdditionalEquipment *tempEquipment in _reservation.additionalEquipments) {
             for (int count = 0; count < tempEquipment.quantity; count++) {
                 
@@ -429,7 +444,15 @@
                     }
                 }
                 
-                NSArray *equipmentLine = @[@"", tempEquipment.materialNumber, @"1", @"", _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", [tempEquipment.price stringValue], @"", @"", @"", @"", @"", @"", @"", @"", @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", isMontly, corparatePayment];
+                NSString *price = @"";
+                if (_reservation.etExpiry.count > 0) {
+                    price = tempEquipment.monthlyPrice.stringValue;
+                }
+                else{
+                    price = tempEquipment.price.stringValue;
+                }
+                
+                NSArray *equipmentLine = @[@"", tempEquipment.materialNumber, @"1", @"", _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", price, @"", @"", @"", @"", @"", @"", @"", @"", @"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", isMontly, corparatePayment];
                 
                 [itItemsValues addObject:equipmentLine];
             }
@@ -483,7 +506,7 @@
         // IT_EXPIRY
         
         if (_reservation.etExpiry.count > 0) {
-            NSArray *itExpiryColumns = @[@"ARAC_GRUBU", @"MARKA_ID", @"MODEL_ID", @"DONEM_BASI", @"DONEM_SONU", @"TUTAR", @"PARA_BIRIMI", @"KAMPANYA_ID", @"ODENDI"];
+            NSArray *itExpiryColumns = @[@"ARAC_GRUBU", @"MARKA_ID", @"MODEL_ID", @"DONEM_BASI", @"DONEM_SONU", @"TUTAR", @"PARA_BIRIMI", @"KAMPANYA_ID", @"ODENDI", @"MALZEME"];
             
             NSMutableArray *itExpiryValues = [NSMutableArray new];
             
@@ -501,8 +524,20 @@
             
             for (ETExpiryObject *tempObject in _reservation.etExpiry) {
                 if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode] && [tempObject.brandID isEqualToString:brandID] && [tempObject.modelID isEqualToString:modelID]) {
-                    NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid];
+                    NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid,tempObject.materialNo];
                     [itExpiryValues addObject:arr];
+                }
+            
+                if (![tempObject.materialNo isEqualToString:@""]) {
+                    
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"materialNumber==%@",tempObject.materialNo];
+                    NSArray *predicateArr = [_reservation.additionalEquipments filteredArrayUsingPredicate:predicate];
+                    
+                    if (predicateArr.count > 0 && [[predicateArr objectAtIndex:0] quantity] > 0) {
+                        NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid,tempObject.materialNo];
+                        
+                        [itExpiryValues addObject:arr];
+                    }
                 }
             }
             
@@ -681,7 +716,13 @@
         }
         
         if (_reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation) {
-            paymentType = @"3";
+            if (_reservation.etExpiry.count > 0) {
+                paymentType = @"9";
+            }
+            else{
+                paymentType = @"3";
+            }
+            
         }
         
         NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
@@ -812,7 +853,12 @@
             }
             
             if (_reservation.etExpiry.count > 0){
-                carPrice = [[[_reservation.etExpiry objectAtIndex:0] totalPrice] stringValue];
+                for (ETExpiryObject *temp in _reservation.etExpiry){
+                    if (![temp.carGroup isEqualToString:@""]) {
+                        carPrice = [[temp totalPrice] stringValue];
+                        break;
+                    }
+                }
             }
             else{
                 carPrice = [[_reservation.changeReservationDifference decimalNumberByAdding:_reservation.selectedCarGroup.sampleCar.pricing.payNowPrice] stringValue];
@@ -832,9 +878,17 @@
         // Ekipmanlar, Hizmetler
         for (AdditionalEquipment *tempEquipment in _reservation.additionalEquipments)
         {
+            NSString *price = @"";
+            if (_reservation.etExpiry.count > 0) {
+                price = tempEquipment.monthlyPrice.stringValue;
+            }
+            else{
+                price = tempEquipment.price.stringValue;
+            }
+            
             if ([tempEquipment updateStatus] != nil)
             {
-                NSArray *equipmentLine = @[@"", tempEquipment.materialNumber, @"1", @"", _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", [tempEquipment.price stringValue], @"", @"", @"", @"", @"", @"", @"", @"", tempEquipment.updateStatus, [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
+                NSArray *equipmentLine = @[@"", tempEquipment.materialNumber, @"1", @"", _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", price, @"", @"", @"", @"", @"", @"", @"", @"", tempEquipment.updateStatus, [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
                 
                 [itItemsValues addObject:equipmentLine];
             }
@@ -842,7 +896,10 @@
         
         // Aracını seçtiyse ve gruba rezervasyonsa (araca rezervasyonsa ekipmanların içinde HZM0031 geliyo zaten)
         if (_reservation.selectedCar && [_reservation.reservationType isEqualToString:@"20"]) {
-            NSArray *carSelectionLine = @[@"", @"HZM0031", @"1", @"", _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", [_reservation.selectedCar.pricing.carSelectPrice stringValue], @"", @"", @"", @"", @"", @"", @"", @"", @"I", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
+            
+            NSString *carSelectionPrice = [NSString stringWithFormat:@"%.02f",_reservation.selectedCar.pricing.carSelectPrice.floatValue];//[_reservation.selectedCar.pricing.carSelectPrice stringValue];
+            
+            NSArray *carSelectionLine = @[@"", @"HZM0031", @"1", @"", _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode, @"", carSelectionPrice, @"", @"", @"", @"", @"", @"", @"", @"", @"I", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], @"", @"TRY", @"", @""];
             [itItemsValues addObject:carSelectionLine];
         }
         
@@ -883,14 +940,26 @@
         
         // IT_EXPIRY
         if (_reservation.etExpiry.count > 0) {
-            NSArray *itExpiryColumns = @[@"ARAC_GRUBU", @"MARKA_ID", @"MODEL_ID", @"DONEM_BASI", @"DONEM_SONU", @"TUTAR", @"PARA_BIRIMI", @"KAMPANYA_ID", @"ODENDI"];
+            NSArray *itExpiryColumns = @[@"ARAC_GRUBU", @"MARKA_ID", @"MODEL_ID", @"DONEM_BASI", @"DONEM_SONU", @"TUTAR", @"PARA_BIRIMI", @"KAMPANYA_ID", @"ODENDI",@"MALZEME"];
             
             NSMutableArray *itExpiryValues = [NSMutableArray new];
             
             for (ETExpiryObject *tempObject in _reservation.etExpiry) {
                 if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode]) {
-                    NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid];
+                    NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid,tempObject.materialNo];
                     [itExpiryValues addObject:arr];
+                }
+                
+                if (![tempObject.materialNo isEqualToString:@""]) {
+                    
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"materialNumber==%@",tempObject.materialNo];
+                    NSArray *predicateArr = [_reservation.additionalEquipments filteredArrayUsingPredicate:predicate];
+                    
+                    if (predicateArr.count > 0 && [[predicateArr objectAtIndex:0] quantity] > 0) {
+                        NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid,tempObject.materialNo];
+                        
+                        [itExpiryValues addObject:arr];
+                    }
                 }
             }
             

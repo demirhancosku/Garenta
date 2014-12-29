@@ -157,7 +157,7 @@
     }
 }
 
-- (void)getUserInformationFromSAP {
+- (void)getUserInformationFromSAP{
     NSString *alertString = @"";
     
     @try {
@@ -183,7 +183,7 @@
             if ([gender isEqualToString:@"1"]) {
                 [self.genderSegmentedControl setSelectedSegmentIndex:0];
             }
-            else if ([gender isEqualToString:@"1"]) {
+            else if ([gender isEqualToString:@"2"]) {
                 [self.genderSegmentedControl setSelectedSegmentIndex:1];
             }
             else {
@@ -227,6 +227,18 @@
             
             if ([driverLicenseType isEqualToString:@"B"]) {
                 self.driverLicenseTypeSegmentedControl.selectedSegmentIndex = 0;
+            }
+            if ([driverLicenseType isEqualToString:@"C"]) {
+                self.driverLicenseTypeSegmentedControl.selectedSegmentIndex = 1;
+            }
+            if ([driverLicenseType isEqualToString:@"D"]) {
+                self.driverLicenseTypeSegmentedControl.selectedSegmentIndex = 2;
+            }
+            if ([driverLicenseType isEqualToString:@"E"]) {
+                self.driverLicenseTypeSegmentedControl.selectedSegmentIndex = 3;
+            }
+            if ([driverLicenseType isEqualToString:@"USB"]) {
+                self.driverLicenseTypeSegmentedControl.selectedSegmentIndex = 4;
             }
             
             NSDictionary *tables = [response objectForKey:@"TABLES"];
@@ -977,7 +989,7 @@
     }
     
     self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
-                                                     message:@"Lütfen telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz"
+                                                     message:@"Lütfen telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz."
                                                     delegate:self
                                            cancelButtonTitle:@"Geri"
                                            otherButtonTitles:@"Tamam", nil];
@@ -987,6 +999,7 @@
     
     self.alertTimer = 60;
     
+    [self.timer invalidate];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1
                                                   target:self
                                                 selector:@selector(updateSMSAlert:)
@@ -996,7 +1009,7 @@
 
 - (void)updateSMSAlert:(id)sender {
     self.alertTimer--;
-    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen telefonunuza gelen konfirmasyon kodunu %d saniye içinde giriniz", self.alertTimer];
+    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen telefonunuza gelen konfirmasyon kodunu %d saniye içinde giriniz.", self.alertTimer];
     
     if (self.alertTimer == 0) {
         [self.timer invalidate];
@@ -1036,7 +1049,7 @@
     }
     
     self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
-                                                     message:@"Lütfen mail adresinize gelen konfirmasyon kodunu 60 saniye içinde giriniz"
+                                                     message:@"Lütfen mail adresinize gelen konfirmasyon kodunu 60 saniye içinde giriniz."
                                                     delegate:self
                                            cancelButtonTitle:@"Geri"
                                            otherButtonTitles:@"Tamam", nil];
@@ -1046,6 +1059,7 @@
     
     self.alertTimer = 60;
     
+    [self.timer invalidate];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1
                                                   target:self
                                                 selector:@selector(updateEmailAlert:)
@@ -1055,7 +1069,7 @@
 
 - (void)updateEmailAlert:(id)sender {
     self.alertTimer--;
-    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen mail'inize gelen konfirmasyon kodunu %d saniye içinde giriniz", self.alertTimer];
+    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen mail adresinize gelen konfirmasyon kodunu %d saniye içinde giriniz.", self.alertTimer];
     
     if (self.alertTimer == 0) {
         [self.timer invalidate];
@@ -1087,6 +1101,9 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"yyyy-MM-dd"];
         
+        NSDateFormatter *formatter2 = [[NSDateFormatter alloc] init];
+        [formatter2 setDateFormat:@"yyyyMMdd"];
+        
         NSString *gender = @"";
         
         if (self.genderSegmentedControl.selectedSegmentIndex == 0) {
@@ -1099,7 +1116,7 @@
         NSString *driverLicenseDate = @"";
         
         if (![self.driverLicenseNoTextField.text isEqualToString:@""]) {
-            driverLicenseDate = [formatter stringFromDate:[self.driverLicenseDatePicker date]];
+            driverLicenseDate = [formatter2 stringFromDate:[self.driverLicenseDatePicker date]];
         }
         
         NSString *driverLicenseType = @"";

@@ -18,8 +18,38 @@
 @implementation OldReservationPaymentVC
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+    if ([[ApplicationProperties getUser] isLoggedIn]) {
+        NSString *name = @"";
+        if (![[[ApplicationProperties getUser] middleName] isEqualToString:@""] && [[ApplicationProperties getUser] middleName] != nil) {
+            name = [NSString stringWithFormat:@"%@ %@", [[ApplicationProperties getUser] name], [[ApplicationProperties getUser] middleName]];
+        }
+        else {
+            name = [[ApplicationProperties getUser] name];
+        }
+        
+        super.nameOnCardTextField.text = [NSString stringWithFormat:@"%@ %@", name, [[ApplicationProperties getUser] surname]];
+        
+    }
+    else {
+        
+        NSString *name = @"";
+        if (![[[super.reservation temporaryUser] middleName] isEqualToString:@""] && [[super.reservation temporaryUser] middleName] != nil) {
+            name = [NSString stringWithFormat:@"%@ %@", [[super.reservation temporaryUser] name], [[super.reservation temporaryUser] middleName]];
+        }
+        else {
+            name = [[super.reservation temporaryUser] name];
+        }
+        
+        super.nameOnCardTextField.text = [NSString stringWithFormat:@"%@ %@", name, super.reservation.temporaryUser.surname];
+    }
     
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"oldCardSelected" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note){
+        [[super myPopoverController] dismissPopoverAnimated:YES];
+        [self prepareTextFields:note];
+        [self.tableView reloadData];
+    }];
+    
+
     if (self.reservationNumber != nil && ![self.reservationNumber isEqualToString:@""]) {
         [self getReservationDetailFromSAP];
     }
@@ -188,6 +218,23 @@
 
 - (void)prepareTextFields
 {
+    if (super.creditCard.cardNumber == nil)
+        [self setTextFieldsEnable:YES];
+    else
+        [self setTextFieldsEnable:NO];
+    
+    //    super.nameOnCardTextField.text = super.creditCard.nameOnTheCard;
+    super.creditCardNumberTextField.text = super.creditCard.cardNumber;
+    super.expirationMonthTextField.text = super.creditCard.expirationMonth;
+    super.expirationYearTextField.text = super.creditCard.expirationYear;
+    super.cvvTextField.text = super.creditCard.cvvNumber;
+}
+
+- (void)prepareTextFields:(NSNotification *)note
+{
+    super.creditCard = [CreditCard new];
+    super.creditCard = note.object;
+
     if (super.creditCard.cardNumber == nil)
         [self setTextFieldsEnable:YES];
     else

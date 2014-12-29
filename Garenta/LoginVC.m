@@ -79,11 +79,17 @@
                     user.isLoggedIn = YES;
                     [ApplicationProperties setUser:user];
                     
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hoşgeldiniz" message:[NSString stringWithFormat:@"Sayın %@ %@", [user name], [user surname]] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                    NSString *message = @"";
+                    if ([user.middleName isEqualToString:@""]) {
+                        message = [NSString stringWithFormat:@"Sayın %@ %@", [user name], [user surname]];
+                    }
+                    else{
+                        message = [NSString stringWithFormat:@"Sayın %@ %@ %@", [user name], [user middleName], [user surname]];
+                    }
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hoşgeldiniz" message:message delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
                     [alert show];
                     
                     [self goToView];
-                    
                 }
                 else if (self.userList != nil && self.userList.count > 1){
                     [self showUserList];
@@ -208,11 +214,11 @@
                 BOOL result = [MailSoapHandler sendLostPasswordMessage:aNewPassword toMail:mailAdress];
                 
                 if (result) {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Başarılı" message:@"Yeni şifreniz mail'inize gönderildi, lütfen tekrar giriş yapınız" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Başarılı" message:@"Yeni şifreniz mail adresinize gönderildi, lütfen tekrar giriş yapınız." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
                     [alert show];
                 }
                 else {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Yeni şifreniz mail'inize gönderilirken hata alındı, lütfen tekrar deneyiniz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Yeni şifreniz mail adresinize gönderilirken hata alındı, lütfen tekrar deneyiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
                     [alert show];
                 }
             }

@@ -27,11 +27,11 @@ static int kGarentaLogoId = 1;
     // Dispose of any resources that can be recreated.
 }
 -(IBAction)callHeadquarter:(id)sender {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Merkez" message:@"Merkez aransın mı?" delegate:self cancelButtonTitle:@"Ara" otherButtonTitles:@"Vazgeç", nil];
-        [alert show];
-        
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Merkez" message:@"Merkez aransın mı?" delegate:self cancelButtonTitle:@"Ara" otherButtonTitles:@"Vazgeç", nil];
+    [alert show];
+    
     [alert setTag:0];
-//
+    //
 }
 -(IBAction)callReservationCenter:(id)sender {
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Rezervasyon Merkezi" message:@"Rezervasyon merkezi aransın mı?" delegate:self cancelButtonTitle:@"Ara" otherButtonTitles:@"Vazgeç", nil];
@@ -39,14 +39,14 @@ static int kGarentaLogoId = 1;
     
     [alert setTag:1];
     
-//
+    //
 }
 -(IBAction)emergencyCall:(id)sender
 {
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Acil Yardım Hattı" message:@"Acil yardım hattı  aransın mı?" delegate:self cancelButtonTitle:@"Ara" otherButtonTitles:@"Vazgeç", nil];
     [alert show];
     
-//
+    //
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -55,8 +55,8 @@ static int kGarentaLogoId = 1;
         case 0:
         {
             if (buttonIndex == 0) {
-            
-             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://02626782929"]]];
+                
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://02626782929"]]];
             }
             break;
         }
@@ -64,7 +64,7 @@ static int kGarentaLogoId = 1;
         case 1:
         {
             if (buttonIndex == 0) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://4445478"]]];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://4445478"]]];
             }
         }
             break;
@@ -72,7 +72,7 @@ static int kGarentaLogoId = 1;
         case 2:
         {
             if (buttonIndex == 0) {
-            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://08502225478"]]];
+                [[UIApplication sharedApplication]openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://08502225478"]]];
             }
         }
             break;
@@ -84,24 +84,31 @@ static int kGarentaLogoId = 1;
 
 -(IBAction)sendReservationMail:(id)sender
 {
-  NSString *mailTitle = @"Rezervasyon";
-//  NSString *messageBody =@"<h1>";
-  NSArray *toRecipents = [NSArray arrayWithObject:@"4445478@garenta.com.tr"];
     
-    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
-    mc.mailComposeDelegate = self;
-    [mc setSubject:mailTitle];
-//    [mc setMessageBody:messageBody isHTML:YES];
-    [mc setToRecipients:toRecipents];
+    if ([MFMailComposeViewController canSendMail]) {
+        NSString *mailTitle = @"Rezervasyon";
+        //  NSString *messageBody =@"<h1>";
+        NSArray *toRecipents = [NSArray arrayWithObject:@"4445478@garenta.com.tr"];
+        
+        MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+        mc.mailComposeDelegate = self;
+        [mc setSubject:mailTitle];
+        //    [mc setMessageBody:messageBody isHTML:YES];
+        [mc setToRecipients:toRecipents];
+        
+        [self presentViewController:mc animated:YES completion:nil];
+    }
+    else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Cihazınızda kayıtlı mail hesabı bulunmamaktadır. Bu opsiyonu kullanabilmemiz için lütfen mail hesabınızı ekleyiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+    }
     
-    [self presentViewController:mc animated:YES completion:NULL];
 }
-
-
 
 -(IBAction)sendSupportMail:(id)sender
 {
-
+    if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
         [mailer setMailComposeDelegate:self];
         
@@ -110,10 +117,12 @@ static int kGarentaLogoId = 1;
         [mailer setToRecipients:toArray];
         
         [self presentViewController:mailer animated:YES completion:nil];
+    }
+    else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Cihazınızda kayıtlı mail hesabı bulunmamaktadır. Bu opsiyonu kullanabilmemiz için lütfen mail hesabınızı ekleyiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
         
-    
-   
-    
+        [alert show];
+    }
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
@@ -152,13 +161,13 @@ static int kGarentaLogoId = 1;
     [[[self navigationController] navigationBar] addSubview:imageView];
 }
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

@@ -38,7 +38,7 @@
 @property (strong,nonatomic) NSDecimalNumber *changeReservationDifference;
 @property (strong,nonatomic) NSString *reservationType; // 10-araca, 20-gruba
 @property (strong,nonatomic) NSString *updateStatus; // Update fonksiyonunda IV_UPDATE_STATUS için kullanılır
-@property (strong, nonatomic) NSArray *etExpiry;
+@property (strong, nonatomic) NSMutableArray *etExpiry;
 @property (strong,nonatomic) NSMutableArray *upsellList;
 @property (strong,nonatomic) NSMutableArray *downsellList;
 @property (strong,nonatomic) CampaignObject *campaignObject;

@@ -10,6 +10,8 @@
 #import "OldReservationSummaryVC.h"
 #import "UpsellDownsellCarSelectionVC.h"
 #import "AdditionalEquipment.h"
+#import "MBProgressHUD.h"
+#import "ETExpiryObject.h"
 
 @interface OldReservationUpsellDownsellVC ()
 
@@ -54,7 +56,7 @@
     
     if (_reservation.downsellList.count == 0)
         [_upsellDownsellSegment setEnabled:NO forSegmentAtIndex:1];
-    else if (_downsellList.count == 0)
+    else if (_upsellList.count == 0)
     {
         [_upsellDownsellSegment setEnabled:NO forSegmentAtIndex:0];
         [_upsellDownsellSegment setSelectedSegmentIndex:1];
@@ -86,6 +88,7 @@
     UILabel *transmissionLabel;
     UILabel *passangerLabel;
     UILabel *doorNumberLabel;
+    UILabel *minInfoLabel;
     
     NSMutableArray *copyArray = [NSMutableArray new];
     
@@ -106,12 +109,12 @@
     [carImage setImage:temp.sampleCar.image];
     
     modelNameLabel = (UILabel*)[cell viewWithTag:2];
-    [modelNameLabel setText:temp.sampleCar.materialName];
+    [modelNameLabel setText:[NSString stringWithFormat:@"%@ ve benzeri",temp.sampleCar.materialName]];
     
     payNowLabel = (UILabel*)[cell viewWithTag:3];
     [payNowLabel setText:[NSString stringWithFormat:@"%.02f",payNowDifference.floatValue]];
     
-    if ([_reservation.paymentType isEqualToString:@"2"])
+    if ([_reservation.paymentType isEqualToString:@"2"] || [_reservation.paymentType isEqualToString:@"6"])
     {
         payLaterLabel = (UILabel*)[cell viewWithTag:4];
         [payLaterLabel setText:[NSString stringWithFormat:@"%.02f",payLaterDifference.floatValue]];
@@ -136,50 +139,213 @@
     
     segmentLabel = (UILabel*)[cell viewWithTag:9];
     [segmentLabel setText:temp.segmentName];
+    
+    minInfoLabel = (UILabel*)[cell viewWithTag:10];
+    [minInfoLabel setText:[NSString stringWithFormat:@"Min.Genç sürücü yaşı:%li - Min.Ehliyet:%li",(long)temp.minAge,(long)temp.minDriverLicense]];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CarGroup *tempCarGroup = [CarGroup new];
-    NSString *alertString;
-    if ([_upsellDownsellSegment selectedSegmentIndex] == 0)
-    {
+    if ([_upsellDownsellSegment selectedSegmentIndex] == 0){
         tempCarGroup = [_upsellList objectAtIndex:indexPath.row];
-        alertString = [NSString stringWithFormat:@"Rezervasyonunuza ait araç grubu yükseltilerek, %@ ve benzeri (%@) grubuna değişim yapılacaktır, onaylıyor musunuz?",tempCarGroup.sampleCar.materialName,tempCarGroup.segmentName];
     }
-    else
-    {
+    else{
         tempCarGroup = [_downsellList objectAtIndex:indexPath.row];
-        alertString = [NSString stringWithFormat:@"Rezervasyonunuza ait araç grubu düşürülerek, %@ ve benzeri (%@) grubuna değişim yapılacaktır, onaylıyor musunuz?",tempCarGroup.sampleCar.materialName,tempCarGroup.segmentName];
     }
     
-    _reservation.upsellCarGroup = tempCarGroup;
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:[NSString stringWithFormat:@"Sadece %.02f TL ödeyerek aracınızı seçmek ister misiniz?",[[[[_reservation.upsellCarGroup.cars objectAtIndex:0] pricing ] carSelectPrice] floatValue]] delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Aracımı Seç",@"Gruba Rezervasyon", nil];
-        
-        alert.tag = 2;
-        [alert show];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        [self getAdditionalEquipmentsFromSAP:tempCarGroup];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            
+            User *tempUser = [ApplicationProperties getUser];
+            
+            if ([self checkIsCarGroupAvailable:tempUser.birthday andLicenseDate:tempUser.driversLicenseDate andCarGroup:tempCarGroup])
+            {
+                _isYoungDriver = [CarGroup checkYoungDriverAddition:tempCarGroup andBirthday:tempUser.birthday andLicenseDate:tempUser.driversLicenseDate];
+                
+                _reservation.upsellCarGroup = tempCarGroup;
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    // genç sürücü varsa önce mesajı verip sonra aracınızı seçmek istermisini diye soruyoruz
+                    if (_isYoungDriver) {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:[NSString stringWithFormat:@"Seçmiş olduğunuz araç grubuna değişiklik yapabilmeniz için 'Genç Sürücü' ve 'Maksimum Güvence' hizmeti satın alınacaktır. Devam etmek istiyor musunuz?"] delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Evet", nil];
+                        
+                        alert.tag = 1;
+                        [alert show];
+                    }
+                    else{
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:[NSString stringWithFormat:@"Sadece %.02f TL ödeyerek aracınızı seçmek ister misiniz?",[[[[_reservation.upsellCarGroup.cars objectAtIndex:0] pricing ] carSelectPrice] floatValue]] delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Aracımı Seç",@"Gruba Rezervasyon", nil];
+                        
+                        alert.tag = 2;
+                        [alert show];
+                    }
+                });
+            }
+        });
     });
+}
+
+- (BOOL)checkIsCarGroupAvailable:(NSDate *)birthday andLicenseDate:(NSDate *)licenseDate andCarGroup:(CarGroup *)activeCarGroup;
+{
+    if (![CarGroup isCarGroupAvailableByAge:activeCarGroup andBirthday:birthday andLicenseDate:licenseDate])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:[NSString stringWithFormat:@"Seçilen araç grubuna rezervasyon yapılamaz. (Min.Genç Sürücü yaşı: %li - Min.Genç Sürücü Ehliyet Yılı: %li)",(long)activeCarGroup.minYoungDriverAge,(long)activeCarGroup.minYoungDriverLicense] delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+            });
+        
+        return NO;
+    }
     
-    //    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:alertString delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Onaylıyorum", nil];
-    //
-    //    alert.tag = 1;
-    //    [alert show];
+    return YES;
+}
+
+-(void)getAdditionalEquipmentsFromSAP:(CarGroup *)upsellCarGroup {
+    @try {
+        
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZMOB_KDK_GET_EQUIPMENT_LIST"];
+        
+        NSDateFormatter *dateFormatter  = [NSDateFormatter new];
+        [dateFormatter setDateFormat:@"yyyyMMdd"];
+        
+        NSDateFormatter *timeFormatter  = [NSDateFormatter new];
+        [timeFormatter setDateFormat:@"HH:mm:ss"];
+        
+        [handler addImportParameter:@"IMPP_REZNO" andValue:self.reservation.reservationNumber];
+        [handler addImportParameter:@"IMPP_MSUBE" andValue:self.reservation.checkOutOffice.subOfficeCode];
+        [handler addImportParameter:@"IMPP_DSUBE" andValue:self.reservation.checkInOffice.subOfficeCode];
+        [handler addImportParameter:@"IMPP_LANGU" andValue:@"T"];
+        [handler addImportParameter:@"IMPP_GRPKOD" andValue:upsellCarGroup.groupCode];
+        [handler addImportParameter:@"IMPP_BEGDA" andValue:[dateFormatter stringFromDate:self.reservation.checkOutTime]];
+        [handler addImportParameter:@"IMPP_ENDDA" andValue:[dateFormatter stringFromDate:self.reservation.checkInTime]];
+        [handler addImportParameter:@"IMPP_BEGUZ" andValue:[timeFormatter stringFromDate:self.reservation.checkOutTime]];
+        [handler addImportParameter:@"IMPP_ENDUZ" andValue:[timeFormatter stringFromDate:self.reservation.checkInTime]];
+        [handler addImportParameter:@"IMPP_KANAL" andValue:@"40"];
+        
+        NSString *fikod = @"";
+        NSString *kunnr = @"";
+        
+        if ([[ApplicationProperties getUser] isLoggedIn]) {
+            fikod = [[ApplicationProperties getUser] priceCode];
+            kunnr = [[ApplicationProperties getUser] kunnr];
+        }
+        
+        [handler addImportParameter:@"IMPP_MUSNO" andValue:kunnr];
+        [handler addImportParameter:@"IMPP_FIKOD" andValue:fikod];
+        
+        [handler addTableForReturn:@"EXPT_EKPLIST"];
+        [handler addTableForReturn:@"EXPT_SIGORTA"];
+        [handler addTableForReturn:@"EXPT_EKSURUCU"];
+        [handler addTableForReturn:@"EXPT_EXPIRY"];
+        
+        NSDictionary *resultDict = [handler prepCall];
+        
+        if (resultDict != nil)
+        {
+            NSDictionary *tables = [resultDict objectForKey:@"TABLES"];
+            
+            _additionalEquipments = [NSMutableArray new];
+            
+            
+            NSDictionary *etExpiry = [tables objectForKey:@"ZSD_KDK_AYLIK_TAKSIT_ST"];
+            
+            NSDateFormatter *dateFormatter = [NSDateFormatter new];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            
+            for (NSDictionary *tempDict in etExpiry) {
+                ETExpiryObject *tempObject = [ETExpiryObject new];
+                
+                [tempObject setCarGroup:[tempDict valueForKey:@"ARAC_GRUBU"]];
+                [tempObject setBeginDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_BASI"]]];
+                [tempObject setEndDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_SONU"]]];
+                [tempObject setCampaignID:[tempDict valueForKey:@"KAMPANYA_ID"]];
+                [tempObject setBrandID:[tempDict valueForKey:@"MARKA_ID"]];
+                [tempObject setModelID:[tempDict valueForKey:@"MODEL_ID"]];
+                [tempObject setIsPaid:[tempDict valueForKey:@"ODENDI"]];
+                [tempObject setCurrency:[tempDict valueForKey:@"PARA_BIRIMI"]];
+                [tempObject setMaterialNo:[tempDict valueForKey:@"MALZEME"]];
+                [tempObject setTotalPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                
+                [_reservation.etExpiry addObject:tempObject];
+            }
+            
+            NSDictionary *equipmentList = [tables objectForKey:@"ZPM_S_EKIPMAN_LISTE"];
+            
+            for (NSDictionary *tempDict in equipmentList)
+            {
+                AdditionalEquipment *tempEquip = [AdditionalEquipment new];
+                [tempEquip setMaterialNumber:[tempDict valueForKey:@"MATNR"]];
+                [tempEquip setMaterialDescription:[tempDict valueForKey:@"MUS_TANIMI"]];
+                [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"NETWR"]]];
+                [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_MIKTAR"]]];
+                [tempEquip setQuantity:0];
+                [tempEquip setType:standartEquipment];
+                [_additionalEquipments addObject:tempEquip];
+            }
+            
+            NSDictionary *additionalEquipmentList = [tables objectForKey:@"ZMOB_KDK_S_EKSURUCU"];
+            
+            for (NSDictionary *tempDict in additionalEquipmentList) {
+                AdditionalEquipment *tempEquip = [AdditionalEquipment new];
+                [tempEquip setMaterialNumber:[tempDict valueForKey:@"MALZEME"]];
+                [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
+                [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
+                [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_ADET"]]];
+                [tempEquip setQuantity:0];
+                if ([[tempEquip materialNumber] isEqualToString:@"HZM0004"])
+                    [tempEquip setType:additionalDriver];
+                else
+                    [tempEquip setType:additionalInsurance];
+                
+                [_additionalEquipments addObject:tempEquip];
+            }
+            
+            NSDictionary *assuranceList = [tables objectForKey:@"ZMOB_KDK_S_SIGORTA"];
+            
+            for (NSDictionary *tempDict in assuranceList)
+            {
+                AdditionalEquipment *tempEquip = [AdditionalEquipment new];
+                [tempEquip setMaterialNumber:[tempDict valueForKey:@"MALZEME"]];
+                [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
+                [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
+                [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
+                [tempEquip setType:additionalInsurance];
+                [tempEquip setQuantity:0];
+                
+                [_additionalEquipments addObject:tempEquip];
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    
-    
-    
-    if (buttonIndex == 1 && alertView.tag == 1)
+    if (alertView.tag == 1 && buttonIndex == 1)
     {
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:[NSString stringWithFormat:@"Sadece %.02f TL ödeyerek aracınızı seçmek ister misiniz?",[[[[_reservation.upsellCarGroup.cars objectAtIndex:0] pricing ] carSelectPrice] floatValue]] delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Aracımı Seç",@"Gruba Rezervasyon", nil];
+            
+            alert.tag = 2;
+            [alert show];
+        });
     }
     
-    if (alertView.tag == 2) {
+    if (alertView.tag == 2)
+    {
         switch (buttonIndex) {
             case 0:
                 //NO
@@ -208,8 +374,11 @@
         else
             [_reservation setUpdateStatus:@"DWS"];
         
+        
+        [(OldReservationSummaryVC *)[segue destinationViewController] setAdditionalEquipments:_additionalEquipments];
         [(OldReservationSummaryVC *)[segue destinationViewController] setReservation:_reservation];
         [(OldReservationSummaryVC *)[segue destinationViewController] setTotalPrice:_totalPrice];
+        [(OldReservationSummaryVC *)[segue destinationViewController] setIsYoungDriver:_isYoungDriver];
     }
     
     if ([segue.identifier isEqualToString:@"toCarSelectionVCSegue"])
@@ -223,9 +392,10 @@
             [(UpsellDownsellCarSelectionVC *)[segue destinationViewController] setCars:_reservation.downsellList];
         }
         
-        [(UpsellDownsellCarSelectionVC *)[segue destinationViewController] setAdditionalEquipments:_reservation.additionalEquipments];
+        [(UpsellDownsellCarSelectionVC *)[segue destinationViewController] setAdditionalEquipments:_additionalEquipments];
         [(UpsellDownsellCarSelectionVC *)[segue destinationViewController] setReservation:_reservation];
         [(UpsellDownsellCarSelectionVC *)[segue destinationViewController] setTotalPrice:_totalPrice];
+        [(UpsellDownsellCarSelectionVC *)[segue destinationViewController] setIsYoungDriver:_isYoungDriver];
     }
 }
 

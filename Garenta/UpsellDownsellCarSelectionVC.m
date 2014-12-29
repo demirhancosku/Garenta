@@ -43,7 +43,7 @@ static NSString *cellIdentifier;
     
     //kış lastiği array'de varmı bakıyoruz
     NSPredicate *winterTire = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0014"];
-    NSArray *filterResult = [_additionalEquipments filteredArrayUsingPredicate:winterTire];
+    NSArray *filterResult = [_reservation.additionalEquipments filteredArrayUsingPredicate:winterTire];
     
     // kış lastiği varsa ve seçilmişse, araçlar içinden kış lastiği özelliği olmayanları çıkartıyoruz.
     if (filterResult.count > 0) {
@@ -120,8 +120,10 @@ static NSString *cellIdentifier;
 {
     if ([segue.identifier isEqualToString:@"toOldReservationSummarySegue"])
     {
+        [(OldReservationSummaryVC *)[segue destinationViewController] setAdditionalEquipments:_additionalEquipments];
         [(OldReservationSummaryVC *)[segue destinationViewController] setReservation:_reservation];
         [(OldReservationSummaryVC *)[segue destinationViewController] setTotalPrice:_totalPrice];
+        [(OldReservationSummaryVC *)[segue destinationViewController] setIsYoungDriver:_isYoungDriver];
     }
 }
 

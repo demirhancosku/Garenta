@@ -10,7 +10,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Gby-N1-Usb">
             <objects>
-                <navigationController id="Me6-n1-SA8" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="deneme" id="Me6-n1-SA8" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xqH-ew-dEF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2066,6 +2066,12 @@
                                                     <color key="textColor" red="0.47450980390000003" green="0.61960784310000006" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Min.Genç Sürücü Yaşı:28 - Min.Ehliyet:2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="duT-IK-I42">
+                                                    <rect key="frame" x="8" y="-3" width="232" height="17"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="qxi-ua-8sJ" firstAttribute="bottom" secondItem="4As-P5-cMQ" secondAttribute="bottom" id="0UB-wt-Kxa"/>
@@ -4026,7 +4032,6 @@
                                                     <date key="date" timeIntervalSinceReferenceDate="433445547.49628502">
                                                         <!--2014-09-26 17:32:27 +0000-->
                                                     </date>
-                                                    <locale key="locale" localeIdentifier="tr"/>
                                                 </datePicker>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -5018,7 +5023,7 @@
         <!--Menu SelectionVC-->
         <scene sceneID="VbJ-E0-B0z">
             <objects>
-                <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="P7V-C5-Qlf" customClass="MenuSelectionVC" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="carReservation" automaticallyAdjustsScrollViewInsets="NO" id="P7V-C5-Qlf" customClass="MenuSelectionVC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="1sv-3d-LV9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -5183,10 +5188,10 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9bm-zS-VNG">
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9bm-zS-VNG">
                                                     <rect key="frame" x="179" y="8" width="105" height="29"/>
                                                     <segments>
-                                                        <segment title="Bay" enabled="NO"/>
+                                                        <segment title="Bay"/>
                                                         <segment title="Bayan"/>
                                                     </segments>
                                                     <color key="tintColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -5401,6 +5406,7 @@
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" tag="8" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZOu-a0-RM9">
                                                     <rect key="frame" x="159" y="8" width="153" height="30"/>
+                                                    <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
@@ -5502,8 +5508,9 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="11" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OCe-ra-8oi">
+                                                <textField opaque="NO" clipsSubviews="YES" tag="11" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OCe-ra-8oi">
                                                     <rect key="frame" x="159" y="8" width="153" height="30"/>
+                                                    <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
@@ -5521,8 +5528,9 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="12" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xwz-aT-yn4">
+                                                <textField opaque="NO" clipsSubviews="YES" tag="12" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xwz-aT-yn4">
                                                     <rect key="frame" x="159" y="8" width="153" height="30"/>
+                                                    <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
