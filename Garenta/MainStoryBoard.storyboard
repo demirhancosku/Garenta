@@ -1084,7 +1084,7 @@
                         <viewControllerLayoutGuide type="bottom" id="qy4-cD-0Fk"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="KOb-ch-SUp">
-                        <rect key="frame" x="0.0" y="64" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D4G-8R-pt5">
@@ -1116,7 +1116,7 @@
                         <viewControllerLayoutGuide type="bottom" id="r9t-bA-Ets"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="XuO-q3-T3V">
-                        <rect key="frame" x="0.0" y="64" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="9Mn-zZ-RaS">
@@ -1482,7 +1482,7 @@
             <objects>
                 <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="udP-Tc-VTM" customClass="PaymentTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="PJq-EC-XUo">
-                        <rect key="frame" x="0.0" y="64" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -3651,7 +3651,7 @@
                         <viewControllerLayoutGuide type="bottom" id="kXH-1j-fsb"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="d1J-pI-p7R">
-                        <rect key="frame" x="0.0" y="64" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="onay_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="f1e-Mq-4B0">
@@ -4078,7 +4078,7 @@
             <objects>
                 <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="DBj-Xo-gU0" customClass="UserCreationVC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dik-f3-yrM">
-                        <rect key="frame" x="0.0" y="64" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -4639,7 +4639,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="CountrySelectionVC" title="Seçiniz.." automaticallyAdjustsScrollViewInsets="NO" id="ilm-N5-Ru3" customClass="CountrySelectionVC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="IWT-7I-P7w">
-                        <rect key="frame" x="0.0" y="64" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" id="JBy-Zb-9KC">
@@ -4918,7 +4918,7 @@
                         <viewControllerLayoutGuide type="bottom" id="flZ-C2-otv"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6EV-cz-FLz">
-                        <rect key="frame" x="0.0" y="64" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="D4W-6h-XJ6">
@@ -6320,22 +6320,22 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="nTw-8o-Pk5"/>
-        <segue reference="vaE-ba-gQe"/>
         <segue reference="m6I-pG-B6V"/>
-        <segue reference="wou-2e-dhb"/>
-        <segue reference="Ez9-1z-i3h"/>
-        <segue reference="BYp-FE-LV3"/>
+        <segue reference="vaE-ba-gQe"/>
+        <segue reference="IrD-Hh-UBR"/>
+        <segue reference="nTw-8o-Pk5"/>
+        <segue reference="Hj2-5d-FZ6"/>
+        <segue reference="Qnv-8X-7MN"/>
+        <segue reference="hLA-ZH-RHN"/>
+        <segue reference="a20-Ar-vAP"/>
+        <segue reference="cbc-BX-eje"/>
         <segue reference="Gtk-UI-NzB"/>
-        <segue reference="5OJ-od-EAI"/>
         <segue reference="V74-O1-TBy"/>
         <segue reference="tMq-8T-4Dd"/>
         <segue reference="y6s-gR-Pji"/>
-        <segue reference="Hj2-5d-FZ6"/>
-        <segue reference="Qnv-8X-7MN"/>
-        <segue reference="cbc-BX-eje"/>
-        <segue reference="hLA-ZH-RHN"/>
-        <segue reference="a20-Ar-vAP"/>
+        <segue reference="5OJ-od-EAI"/>
+        <segue reference="wou-2e-dhb"/>
+        <segue reference="Ez9-1z-i3h"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

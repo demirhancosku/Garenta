@@ -135,6 +135,10 @@
     return nil;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return tableView.frame.size.height / 3.33;
+}
+
 - (OfficeSelectionCell *)officeSelectTableViewCell:(UITableView *)tableView
 {
     OfficeSelectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"officeCell"];
