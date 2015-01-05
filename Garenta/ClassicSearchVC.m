@@ -35,16 +35,21 @@
     CGRect navigationBarFrame = [[[self navigationController] navigationBar] frame];
     //ysinde navigationBarFrame.size.height vardi viewwillapear super cagirilmamaisti onu cagirinca buna gerek kalmadi
     viewFrame =CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.width - navigationBarFrame.size.height );
-
+    
     if (reservation == nil)
         reservation = [[Reservation alloc] init];
     
     [self addNotifications];
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
+    
     locationManager = [[CLLocationManager alloc] init];
-    [locationManager setDelegate:self];
-    [locationManager setDistanceFilter:25];
-    [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+    locationManager.delegate = self;
+    locationManager.distanceFilter = kCLDistanceFilterNone;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+        [locationManager requestWhenInUseAuthorization];
+    
     [locationManager startUpdatingLocation];
 }
 
@@ -69,12 +74,6 @@
             [self setOfficeForChangeDocument];
             [destinationTableView reloadData];
             [arrivalTableView reloadData];
-            // en yakın ofisi bulup ekrana yazıyo
-            if ([ApplicationProperties getMainSelection] == location_search)
-            {
-                reservation.checkOutOffice = [self prepareOfficeImport];
-                [destinationTableView reloadData];
-            }
         });
     }
     
@@ -136,10 +135,6 @@
     }
     
     return nil;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return tableView.frame.size.height / 3.33;
 }
 
 - (OfficeSelectionCell *)officeSelectTableViewCell:(UITableView *)tableView
@@ -420,10 +415,10 @@
     
     AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [ApplicationProperties setTimer:[NSTimer scheduledTimerWithTimeInterval:1
-                                              target:app
-                                            selector:@selector(updateTimerObject:)
-                                            userInfo:nil
-                                             repeats:YES]];
+                                                                     target:app
+                                                                   selector:@selector(updateTimerObject:)
+                                                                   userInfo:nil
+                                                                    repeats:YES]];
     
     NSLog(@"timer start");
 }
@@ -603,8 +598,22 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    lastLocation = locations.lastObject;
+    if (reservation.checkOutOffice == nil) {
+        
+        lastLocation = locations.lastObject;
+        
+        // en yakın ofisi bulup ekrana yazıyo
+        if ([ApplicationProperties getMainSelection] == location_search)
+        {
+            reservation.checkOutOffice = [self prepareOfficeImport];
+            
+            [destinationTableView reloadData];
+            [locationManager stopUpdatingLocation];
+            locationManager = nil;
+        }
+    }
 }
+
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
     lastLocation = newLocation;
 }
@@ -741,6 +750,9 @@
 
 -(void)checkDates:(void(^)(BOOL isOk, NSString *errorMsg))completion
 {
+    // Ata 02.01.2015 En yakın şubede kontrolden kaçıyor
+    
+    
     // TESLİM ALACAĞI ŞUBENİN KONTROLLERİ
     // teslim alacağı günün haftanın kaçıncı günü olduğunu bulur
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];

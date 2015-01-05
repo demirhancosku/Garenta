@@ -376,10 +376,8 @@
     }
     
     if (![alertString isEqualToString:@""]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
-            [alert show];
-        });
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+        [alert show];
     }
     else {
         [self showMembershipRulesAlertView];
@@ -387,11 +385,9 @@
 }
 
 - (void)showMembershipRulesAlertView {
-    dispatch_async(dispatch_get_main_queue(), ^{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Üyelik kurallarını kabul ederek, kullanıcınızın yaratılmasını istiyor musunuz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Üyelik Kuralları", @"Kabul Ediyorum", nil];
         [alert setTag:2];
         [alert show];
-    });
 }
 
 - (void)checkPhoneNumberValidation {
@@ -694,8 +690,9 @@
     @finally {
     }
     
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
     dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+
         [alert setTitle:@"Uyarı"];
         [alert setMessage:alertString];
         [alert addButtonWithTitle:@"Tamam"];

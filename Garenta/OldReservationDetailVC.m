@@ -77,7 +77,7 @@
     }
     else
     {
-        sheet = [[UIActionSheet alloc] initWithTitle:@"Lütfen yapmak istediğiniz işlemi seçiniz." delegate:self cancelButtonTitle:@"Geri" destructiveButtonTitle:@"Araç Değişikliği" otherButtonTitles:@"Rezervasyon Güncelleme",@"Rezervasyon İptal", nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"Lütfen yapmak istediğiniz işlemi seçiniz." delegate:self cancelButtonTitle:@"Geri" destructiveButtonTitle:nil otherButtonTitles:@"Araç Değişikliği", @"Rezervasyon Güncelleme", @"Rezervasyon İptal", nil];
         sheet.tag = 0;
     }
     

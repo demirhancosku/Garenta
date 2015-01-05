@@ -23,7 +23,12 @@
 }
 
 
-+ (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation{
++ (NSMutableArray*)closestFirst:(int)count fromOffices:(NSMutableArray*)someOffices toMyLocation:(CLLocation*)userLocation {
+    
+    if (userLocation == nil) {
+        return nil;
+    }
+    
     __block NSMutableArray *closestOffices = [[NSMutableArray alloc] init];
     NSLog(@"%f",userLocation.coordinate.latitude);
     NSArray *sortedArray;

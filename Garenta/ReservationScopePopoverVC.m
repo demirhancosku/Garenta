@@ -22,21 +22,24 @@
 
 - (void)prepareScopeInformation
 {
-    // upsell/downsell seçilmiş araç
-    if (reservation.upsellSelectedCar)
-    {
-        if ([reservation.paymentType isEqualToString:@"2"] || [reservation.paymentType isEqualToString:@"6"])
-        {
-            [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",reservation.upsellSelectedCar.materialName,reservation.upsellSelectedCar.pricing.payLaterPrice.floatValue]];
-        }
-        else
-        {
-            [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",reservation.upsellSelectedCar.materialName,reservation.upsellSelectedCar.pricing.payNowPrice.floatValue]];
-        }
-    }
+//    // upsell/downsell seçilmiş araç
+//    if (reservation.upsellSelectedCar)
+//    {
+//        if ([reservation.paymentType isEqualToString:@"2"] || [reservation.paymentType isEqualToString:@"6"])
+//        {
+//            [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",reservation.upsellSelectedCar.materialName,reservation.upsellSelectedCar.pricing.payLaterPrice.floatValue]];
+//        }
+//        else
+//        {
+//            [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",reservation.upsellSelectedCar.materialName,reservation.upsellSelectedCar.pricing.payNowPrice.floatValue]];
+//        }
+//        
+//
+//    }
     
+    // Ata burda rez createle aynı mantıkda gösermek lazım, orda da önce grubuu sonra seçimi gösteriyoruz
     //upsell/downsell araç grubu
-    else if (reservation.upsellCarGroup)
+    if (reservation.upsellCarGroup)
     {
         if ([reservation.paymentType isEqualToString:@"2"] || [reservation.paymentType isEqualToString:@"6"])
         {
@@ -45,6 +48,11 @@
         else
         {
             [textView setText:[NSString stringWithFormat:@"- %@ ve benzeri - %.02f TL\n",reservation.upsellCarGroup.sampleCar.materialName,reservation.upsellCarGroup.sampleCar.pricing.payNowPrice.floatValue]];
+        }
+        
+        // Burda upsell ve downsell'de seçilen aracın fiyatı var ama araç seçim farkı yok
+        if (reservation.upsellSelectedCar) {
+            [textView setText:[NSString stringWithFormat:@"%@- %@ %@ Araç seçim ücreti - %.02f TL\n", textView.text, reservation.upsellSelectedCar.brandName, reservation.upsellSelectedCar.modelName, reservation.upsellSelectedCar.pricing.carSelectPrice.floatValue]];
         }
     }
 // AATAC 29.11.2014 28 Kasımdaki 5. madde kapsamında değişiklik lol :D

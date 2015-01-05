@@ -301,7 +301,7 @@
         }
         
         // G-Garenta TL kazandırmak için...İleride Mil yada Garentamı diye sorucaz... G-Garenta TL, M-Mil
-        NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, garentaTl, @"", @"", dayCount, totalPrice, @"", @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"G", @"", @"", @"", @"", @"", @""];
+        NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, garentaTl, @"", @"", dayCount, totalPrice, @"", @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"G", @"", @"", @"", @"", @"X", @"X"];
         [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
         
         // IS_USERINFO

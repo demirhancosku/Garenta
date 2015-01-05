@@ -1206,7 +1206,7 @@
                                                         <constraint firstAttribute="width" constant="25" id="BFo-yj-uQv"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hizmet Kapsami" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B6Y-bc-WkA">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hizmet Kapsamı" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B6Y-bc-WkA">
                                                     <rect key="frame" x="8" y="7" width="259" height="21"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <nil key="highlightedColor"/>
@@ -2649,7 +2649,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="up_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="jQk-MU-QQ1">
                                                     <rect key="frame" x="275" y="9" width="25" height="15"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hizmet Kapsami" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BPN-hf-Tm2">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hizmet Kapsamı" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BPN-hf-Tm2">
                                                     <rect key="frame" x="8" y="6" width="259" height="21"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <nil key="highlightedColor"/>
@@ -6154,7 +6154,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="up_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="PHO-WV-elx">
                                                     <rect key="frame" x="275" y="9" width="25" height="15"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hizmet Kapsami" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDX-xw-Mj2">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hizmet Kapsamı" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDX-xw-Mj2">
                                                     <rect key="frame" x="8" y="6" width="259" height="21"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <nil key="highlightedColor"/>
@@ -6328,22 +6328,22 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="m6I-pG-B6V"/>
-        <segue reference="vaE-ba-gQe"/>
         <segue reference="IrD-Hh-UBR"/>
-        <segue reference="nTw-8o-Pk5"/>
+        <segue reference="m6I-pG-B6V"/>
+        <segue reference="5OJ-od-EAI"/>
+        <segue reference="wou-2e-dhb"/>
+        <segue reference="Ez9-1z-i3h"/>
         <segue reference="Hj2-5d-FZ6"/>
+        <segue reference="nTw-8o-Pk5"/>
         <segue reference="Qnv-8X-7MN"/>
         <segue reference="hLA-ZH-RHN"/>
         <segue reference="a20-Ar-vAP"/>
         <segue reference="cbc-BX-eje"/>
-        <segue reference="Gtk-UI-NzB"/>
-        <segue reference="V74-O1-TBy"/>
-        <segue reference="tMq-8T-4Dd"/>
+        <segue reference="fjv-e4-iFe"/>
         <segue reference="y6s-gR-Pji"/>
-        <segue reference="5OJ-od-EAI"/>
-        <segue reference="wou-2e-dhb"/>
-        <segue reference="Ez9-1z-i3h"/>
+        <segue reference="tMq-8T-4Dd"/>
+        <segue reference="CB7-4R-l6r"/>
+        <segue reference="yNN-jh-21M"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

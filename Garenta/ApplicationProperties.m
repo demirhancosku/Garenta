@@ -85,7 +85,6 @@ NSMutableArray *offices;
 
 + (NSTimer *)getTimer
 {
-    NSLog(@"%lu",(unsigned long)timerObject);
     return timer;
 }
 
@@ -120,7 +119,6 @@ NSMutableArray *offices;
 + (void)setTimerObject:(NSUInteger)timerObj
 {
     timerObject = timerObj;
-    NSLog(@"%lu",(unsigned long)timerObject);
 }
 
 + (void)setTimer:(NSTimer *)aTimer
