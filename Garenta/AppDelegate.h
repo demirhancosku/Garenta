@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "ClassicSearchVC.h"
 #import "MenuSelectionVC.h"
+#import <MessageUI/MFMailComposeViewController.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate> {
     int timestamp;
 }
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) MFMailComposeViewController *globalMailComposer;
 
 - (void)updateTimerObject:(id)sender;
 @end

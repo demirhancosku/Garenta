@@ -27,6 +27,8 @@
          (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
     }
     
+    self.globalMailComposer = [[MFMailComposeViewController alloc] init];
+    
     return YES;
 }
 

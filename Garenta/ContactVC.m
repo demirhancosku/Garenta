@@ -7,6 +7,7 @@
 //
 
 #import "ContactVC.h"
+#import "AppDelegate.h"
 
 @interface ContactVC ()
 
@@ -87,16 +88,16 @@ static int kGarentaLogoId = 1;
     
     if ([MFMailComposeViewController canSendMail]) {
         NSString *mailTitle = @"Rezervasyon";
-        //  NSString *messageBody =@"<h1>";
+
         NSArray *toRecipents = [NSArray arrayWithObject:@"4445478@garenta.com.tr"];
         
-        MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
-        mc.mailComposeDelegate = self;
-        [mc setSubject:mailTitle];
-        //    [mc setMessageBody:messageBody isHTML:YES];
-        [mc setToRecipients:toRecipents];
+        MFMailComposeViewController *mailer = [(AppDelegate *)[[UIApplication sharedApplication] delegate] globalMailComposer];
+        mailer.mailComposeDelegate = self;
+        [mailer setSubject:mailTitle];
+        [mailer setToRecipients:toRecipents];
         
-        [self presentViewController:mc animated:YES completion:nil];
+        [self presentViewController:mailer animated:YES completion:nil];
+        
     }
     else{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"Cihazınızda kayıtlı mail hesabı bulunmamaktadır. Bu opsiyonu kullanabilmemiz için lütfen mail hesabınızı ekleyiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
@@ -109,9 +110,10 @@ static int kGarentaLogoId = 1;
 -(IBAction)sendSupportMail:(id)sender
 {
     if ([MFMailComposeViewController canSendMail]) {
-        MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
-        [mailer setMailComposeDelegate:self];
         
+        MFMailComposeViewController *mailer = [(AppDelegate *)[[UIApplication sharedApplication] delegate] globalMailComposer];
+
+        [mailer setMailComposeDelegate:self];
         [mailer setSubject:@"Destek"];
         NSMutableArray *toArray = [[NSMutableArray alloc] initWithObjects:@"crm@garenta.com.tr", nil];
         [mailer setToRecipients:toArray];
