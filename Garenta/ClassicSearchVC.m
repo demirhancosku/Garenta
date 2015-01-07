@@ -750,9 +750,6 @@
 
 -(void)checkDates:(void(^)(BOOL isOk, NSString *errorMsg))completion
 {
-    // Ata 02.01.2015 En yakın şubede kontrolden kaçıyor
-    
-    
     // TESLİM ALACAĞI ŞUBENİN KONTROLLERİ
     // teslim alacağı günün haftanın kaçıncı günü olduğunu bulur
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
