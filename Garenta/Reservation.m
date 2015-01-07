@@ -83,21 +83,45 @@
     {
         // kampanya üzerinden geldiyse buraya girer
         if (reservation.campaignObject != nil) {
-            if (reservation.campaignObject.campaignReservationType == payNowReservation || reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation)
-                totalPrice = reservation.campaignObject.campaignPrice.payNowPrice;
-            else
-                totalPrice = reservation.campaignObject.campaignPrice.payLaterPrice;
-            
-            if (_selectedCar) {
-                if (_selectedCar.pricing.carSelectPrice == nil) {
-                    _selectedCar.pricing.carSelectPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
+            if (isMontlyRent)
+            {
+                for (ETExpiryObject *tempObject in self.etExpiry) {
+                    if ([tempObject.carGroup isEqualToString:selectedCarGroup.groupCode] && [tempObject.campaignID isEqualToString:reservation.campaignObject.campaignID])
+                    {
+                        // Burda sadece ilk taksiti alıyoruz
+                        totalPrice = [totalPrice decimalNumberByAdding:tempObject.totalPrice];
+                        break;
+                    }
                 }
-                totalPrice = [totalPrice decimalNumberByAdding:_selectedCar.pricing.carSelectPrice];
+                
+                for (AdditionalEquipment *tempEquipment in _additionalEquipments) {
+                    if (tempEquipment.quantity > 0) {
+                        totalEquiPrice = [totalEquiPrice decimalNumberByAdding:([tempEquipment.monthlyPrice decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",tempEquipment.quantity]]])];
+                    }
+                }
             }
-            
-            for (AdditionalEquipment *tempEquipment in _additionalEquipments) {
-                if (tempEquipment.quantity >0) {
-                    totalEquiPrice = [totalEquiPrice decimalNumberByAdding:([tempEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",tempEquipment.quantity]]])];
+            else
+            {
+                if (reservation.campaignObject.campaignReservationType == payNowReservation || reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation)
+                    totalPrice = reservation.campaignObject.campaignPrice.payNowPrice;
+                else
+                    totalPrice = reservation.campaignObject.campaignPrice.payLaterPrice;
+                
+                if (self.etExpiry.count > 0) {
+                    totalPrice = reservation.campaignObject.campaignPrice.priceWithKDV;
+                }
+                
+                if (_selectedCar) {
+                    if (_selectedCar.pricing.carSelectPrice == nil) {
+                        _selectedCar.pricing.carSelectPrice = [NSDecimalNumber decimalNumberWithString:@"0"];
+                    }
+                    totalPrice = [totalPrice decimalNumberByAdding:_selectedCar.pricing.carSelectPrice];
+                }
+                
+                for (AdditionalEquipment *tempEquipment in _additionalEquipments) {
+                    if (tempEquipment.quantity >0) {
+                        totalEquiPrice = [totalEquiPrice decimalNumberByAdding:([tempEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",tempEquipment.quantity]]])];
+                    }
                 }
             }
             
@@ -314,7 +338,7 @@
             isUserInfoValues = @[[[ApplicationProperties getUser] kunnr], @"3063", @"33", @"65", @"Z07"];
         }
         else {
-        
+            
             isUserInfoColumns = @[@"MUSTERINO", @"CINSIYET", @"FIRSTNAME", @"LASTNAME", @"BIRTHDATE", @"TCKN", @"VERGINO", @"ADRESS", @"EMAIL", @"TELNO", @"UYRUK", @"ULKE", @"SALES_ORGANIZATION", @"DISTRIBUTION_CHANNEL", @"DIVISION", @"KANALTURU", @"EHLIYET_ALISYERI", @"EHLIYET_SINIFI", @"EHLIYET_NO", @"EHLIYET_TARIHI", @"ILKODU", @"ILCEKOD", @"MIDDLENAME", @"PASAPORTNO", @"TK_KARTNO", @"TELNO_ULKE"];
             
             NSString *driverLicenseNo = @"";
@@ -385,13 +409,24 @@
             isMontly = @"X";
             // burda ilk tutarı alıyoruz
             for (ETExpiryObject *tempObject in _reservation.etExpiry) {
-                if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode]) {
-                    // Burda sadece ilk taksiti alıyoruz
-                    carPrice = tempObject.totalPrice.stringValue;
-                    break;
+                
+                if (_reservation.campaignObject)
+                {
+                    if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode] && [tempObject.campaignID isEqualToString:_reservation.campaignObject.campaignID]) {
+                        // Burda sadece ilk taksiti alıyoruz
+                        carPrice = tempObject.totalPrice.stringValue;
+                        break;
+                    }
+                }
+                else{
+                    if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode]) {
+                        // Burda sadece ilk taksiti alıyoruz
+                        carPrice = tempObject.totalPrice.stringValue;
+                        break;
+                    }
                 }
             }
-//            carPrice = _reservation.selectedCarGroup.priceWithKDV;
+            //            carPrice = _reservation.selectedCarGroup.priceWithKDV;
         }
         
         else if (isPayNow) {
@@ -523,13 +558,27 @@
             }
             
             for (ETExpiryObject *tempObject in _reservation.etExpiry) {
-                if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode] && [tempObject.brandID isEqualToString:brandID] && [tempObject.modelID isEqualToString:modelID]) {
-                    NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid,tempObject.materialNo];
-                    [itExpiryValues addObject:arr];
+                
+                if (_reservation.campaignObject) {
+                    // kampanyalı aracın taksit tablosu
+                    if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode] && [tempObject.brandID isEqualToString:brandID] && [tempObject.modelID isEqualToString:modelID] && [tempObject.campaignID isEqualToString:_reservation.campaignObject.campaignID])
+                    {
+                        NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid,tempObject.materialNo];
+                        [itExpiryValues addObject:arr];
+                    }
                 }
-            
+                else{
+                    // aracın taksit tablosu
+                    if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode] && [tempObject.brandID isEqualToString:brandID] && [tempObject.modelID isEqualToString:modelID]) {
+                        NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid,tempObject.materialNo];
+                        [itExpiryValues addObject:arr];
+                    }
+                }
+                
+
+                
+                //ekipmanların taksit tablosu
                 if (![tempObject.materialNo isEqualToString:@""]) {
-                    
                     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"materialNumber==%@",tempObject.materialNo];
                     NSArray *predicateArr = [_reservation.additionalEquipments filteredArrayUsingPredicate:predicate];
                     

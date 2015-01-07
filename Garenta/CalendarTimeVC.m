@@ -101,12 +101,13 @@
         case 0: //checkout
             defaultDate = reservation.checkOutTime;
             break;
-            case 1:
+        case 1:
             defaultDate = reservation.checkInTime;
             break;
         default:
             break;
     }
+    
     NSCalendar *myCalnedar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *dateComps = [myCalnedar components:(NSHourCalendarUnit|NSMinuteCalendarUnit) fromDate:defaultDate];
     int defaultDateBySeconds = dateComps.hour * 60 * 60 + dateComps.minute*60;

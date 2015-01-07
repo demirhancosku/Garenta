@@ -78,10 +78,22 @@
     [cell.payLaterButton addTarget:self action:@selector(payLaterButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
     [cell.noCancellationButton addTarget:self action:@selector(noCancellationButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
     
-    //Önce normal fiyatlar yazılıyor
-    [cell.payNowButton setTitle:[NSString stringWithFormat:@"Şimdi Öde: %.02f TL",_carGroup.sampleCar.pricing.payNowPrice.floatValue] forState:UIControlStateNormal];
+    //Önce normal fiyatlar yazılıyor (aylık fiyatlar varsa + KDV)
+    NSString *payNowPrice;
+    NSString *payLaterPrice;
+    if (_reservation.etExpiry.count > 0) {
+        payNowPrice = [NSString stringWithFormat:@"Şimdi Öde: %.02fTL + KDV",_carGroup.sampleCar.pricing.payNowPrice.floatValue];
+        payLaterPrice = [NSString stringWithFormat:@"Sonra Öde: %.02fTL + KDV",_carGroup.sampleCar.pricing.payLaterPrice.floatValue];
+    }
+    else
+    {
+        payNowPrice = [NSString stringWithFormat:@"Şimdi Öde: %.02f TL",_carGroup.sampleCar.pricing.payNowPrice.floatValue];
+        payLaterPrice = [NSString stringWithFormat:@"Sonra Öde: %.02f TL",_carGroup.sampleCar.pricing.payLaterPrice.floatValue];
+    }
     
-    [cell.payLaterButton setTitle:[NSString stringWithFormat:@"Sonra Öde: %.02f TL",_carGroup.sampleCar.pricing.payLaterPrice.floatValue] forState:UIControlStateNormal];
+    
+    [cell.payNowButton setTitle:payNowPrice forState:UIControlStateNormal];
+    [cell.payLaterButton setTitle:payLaterPrice forState:UIControlStateNormal];
     
     CampaignObject *tempCampaign = [[[_officeList objectAtIndex:indexPath.section] campaignList] objectAtIndex:indexPath.row];
     
@@ -89,15 +101,32 @@
     NSArray *filterArr = [_carGroup.campaignsArray filteredArrayUsingPredicate:resultPredicate];
     
     // Şimdi öde, sonra öde yada ön ödemeli iptal edilemez fiyatları varsa o fiyatlar yazılıyor
+    NSString *campaingPayNow;
+    NSString *campaignPayLater;
+    NSString *campaignPayFront;
+    
     for (CampaignObject *tempObj in filterArr) {
+        if (_reservation.etExpiry.count > 0) {
+            campaingPayNow = [NSString stringWithFormat:@"Şimdi Öde: %.02fTL + KDV",tempObj.campaignPrice.payNowPrice.floatValue];
+            campaignPayLater = [NSString stringWithFormat:@"Sonra Öde: %.02fTL + KDV",tempObj.campaignPrice.payLaterPrice.floatValue];
+            campaignPayFront = [NSString stringWithFormat:@"%.02fTL + KDV ön ödemeli - iptal edilemez",tempObj.campaignPrice.payNowPrice.floatValue];
+        }
+        else
+        {
+            campaingPayNow = [NSString stringWithFormat:@"Şimdi Öde: %.02f TL",tempObj.campaignPrice.payNowPrice.floatValue];
+            campaignPayLater = [NSString stringWithFormat:@"Sonra Öde: %.02f TL",tempObj.campaignPrice.payLaterPrice.floatValue];
+            campaignPayFront = [NSString stringWithFormat:@"%.02f TL ön ödemeli - iptal edilemez",tempObj.campaignPrice.payNowPrice.floatValue];
+        }
+        
+        
         if (tempObj.campaignReservationType == payNowReservation) {
-            [cell.payNowButton setTitle:[NSString stringWithFormat:@"Şimdi Öde: %.02f TL",tempObj.campaignPrice.payNowPrice.floatValue] forState:UIControlStateNormal];
+            [cell.payNowButton setTitle:campaingPayNow forState:UIControlStateNormal];
         }
         if (tempObj.campaignReservationType == payLaterReservation) {
-            [cell.payLaterButton setTitle:[NSString stringWithFormat:@"Sonra Öde: %.02f TL",tempObj.campaignPrice.payLaterPrice.floatValue] forState:UIControlStateNormal];
+            [cell.payLaterButton setTitle:campaignPayLater forState:UIControlStateNormal];
         }
         if (tempObj.campaignReservationType == payFrontWithNoCancellation) {
-            [cell.noCancellationButton setTitle:[NSString stringWithFormat:@"%.02f TL ön ödemeli - iptal edilemez",tempObj.campaignPrice.payNowPrice.floatValue] forState:UIControlStateNormal];
+            [cell.noCancellationButton setTitle:campaignPayFront forState:UIControlStateNormal];
             cell.noCancellationButton.hidden = NO;
         }
     }

@@ -223,7 +223,7 @@
                 else {
                     [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO andReservation:_reservation] floatValue]] forState:UIControlStateNormal];
                 }
-
+                
                 break;
             default:
                 break;
@@ -277,15 +277,16 @@
             [self performSegueWithIdentifier:@"toPopoverVCSegue" sender:(UITableViewCell*)[_tableView cellForRowAtIndexPath:indexPath]];
             break;
         case 2:
-            if (_reservation.campaignObject != nil)
-            {
-                if (_reservation.campaignObject.campaignReservationType == payNowReservation || _reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation)
-                    [self payNowPressed:nil];
-                else
-                    [self payLaterPressed:nil];;
-            }
-            else
-                [self totalButtonPressed];
+            //            if (_reservation.campaignObject != nil)
+            //            {
+            //                if (_reservation.campaignObject.campaignReservationType == payNowReservation || _reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation)
+            //                    [self payNowPressed:nil];
+            //                else
+            //                    [self payLaterPressed:nil];;
+            //            }
+            //            else
+            //                [self totalButtonPressed];
+            [self totalButtonPressed];
             break;
         default:
             break;
@@ -332,27 +333,44 @@
     // Ata Cengiz for corparate payment we need to check if the sum of personal
     // payment is 0 or not. If it is 0 then we need to create reservation without payment page
     
-    if ([[ApplicationProperties getUser] isLoggedIn]) {
-        if ([[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"] && [[ApplicationProperties getUser] isCorporateVehiclePayment]) {
-            NSDecimalNumber *totalPersonalPayment = [_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES andReservation:_reservation];
-            
-            if (totalPersonalPayment.integerValue == 0) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kira anlaşmasını kabul edip, rezervasyonuzun yaratılmasını istediğinize emin misiniz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Kira Anlaşmasını Oku", @"Kabul Ediyorum", nil];
-                [alert setTag:2];
-                [alert show];
+    if (_reservation.campaignObject.campaignReservationType == payLaterReservation)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Seçmiş olduğunuz kampanyaya istinaden 'Sonra Öde' seçeneği kullanılmalıdır." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    else
+    {
+        if ([[ApplicationProperties getUser] isLoggedIn]) {
+            if ([[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"] && [[ApplicationProperties getUser] isCorporateVehiclePayment]) {
+                NSDecimalNumber *totalPersonalPayment = [_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES andReservation:_reservation];
                 
-                return;
+                if (totalPersonalPayment.integerValue == 0) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kira anlaşmasını kabul edip, rezervasyonuzun yaratılmasını istediğinize emin misiniz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Kira Anlaşmasını Oku", @"Kabul Ediyorum", nil];
+                    [alert setTag:2];
+                    [alert show];
+                    
+                    return;
+                }
             }
         }
+        
+        [self performSegueWithIdentifier:@"toPaymentVCSegue" sender:self];
     }
-    
-    [self performSegueWithIdentifier:@"toPaymentVCSegue" sender:self];
 }
 
 - (IBAction)payLaterPressed:(id)sender {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kira anlaşmasını kabul edip, rezervasyonuzun yaratılmasını istediğinize emin misiniz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Kira Anlaşmasını Oku", @"Kabul Ediyorum", nil];
-    [alert setTag:1];
-    [alert show];
+    
+    if (_reservation.campaignObject.campaignReservationType == payNowReservation || _reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Seçmiş olduğunuz kampanyaya istinaden 'Şimdi Öde' seçeneği kullanılmalıdır." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kira anlaşmasını kabul edip, rezervasyonuzun yaratılmasını istediğinize emin misiniz ?" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Kira Anlaşmasını Oku", @"Kabul Ediyorum", nil];
+        [alert setTag:1];
+        [alert show];
+    }
 }
 
 - (BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)controller
