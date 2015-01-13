@@ -65,8 +65,6 @@
     [_tableViewVC setActiveCarGroup:[_carGroups objectAtIndex:0]];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"campaignButtonPressed" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
-        //        [[self myPopoverController] dismissPopoverAnimated:YES];
-        
         _reservation.selectedCarGroup = note.object;
         [self showCampaignVC];
     }];

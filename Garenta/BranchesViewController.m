@@ -244,8 +244,8 @@
 
 -(void)mapButtonClicked:(id)sender{
     [self performSegueWithIdentifier:@"branchDetail" sender:self];
-
 }
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"branchDetail"]) {

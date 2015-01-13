@@ -184,7 +184,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="50y-rr-DQ5">
                                 <rect key="frame" x="16" y="322" width="288" height="40"/>
                                 <color key="backgroundColor" red="0.47450980390000003" green="0.61960784310000006" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Teklifleri Göster">
+                                <state key="normal" title="Araçları Göster">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -6336,17 +6336,19 @@
         <segue reference="m6I-pG-B6V"/>
         <segue reference="Ez9-1z-i3h"/>
         <segue reference="wou-2e-dhb"/>
+        <segue reference="yNN-jh-21M"/>
+        <segue reference="IrD-Hh-UBR"/>
+        <segue reference="5OJ-od-EAI"/>
         <segue reference="Hj2-5d-FZ6"/>
         <segue reference="nTw-8o-Pk5"/>
         <segue reference="Qnv-8X-7MN"/>
-        <segue reference="hLA-ZH-RHN"/>
         <segue reference="a20-Ar-vAP"/>
         <segue reference="cbc-BX-eje"/>
+        <segue reference="hLA-ZH-RHN"/>
         <segue reference="fjv-e4-iFe"/>
-        <segue reference="y6s-gR-Pji"/>
-        <segue reference="tMq-8T-4Dd"/>
-        <segue reference="CB7-4R-l6r"/>
-        <segue reference="yNN-jh-21M"/>
+        <segue reference="aLh-ec-Lci"/>
+        <segue reference="V74-O1-TBy"/>
+        <segue reference="TxX-UN-QgX"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
