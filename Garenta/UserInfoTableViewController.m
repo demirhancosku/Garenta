@@ -13,6 +13,7 @@
 #import "CountrySelectionVC.h"
 #import "LoginVC.h"
 #import "SMSSoapHandler.h"
+#import "MailSoapHandler.h"
 
 @interface UserInfoTableViewController ()
 
@@ -45,6 +46,7 @@
 @property (strong, nonatomic) NSString *validationCode;
 
 @property (weak, nonatomic) IBOutlet UILabel *mobilePhoneCountryLabel;
+@property (nonatomic) BOOL isMailChecked;
 @end
 
 @implementation UserInfoTableViewController
@@ -75,7 +77,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(citySelected:) name:@"citySelected" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(countySelected:) name:@"countySelected" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneCountrySelected:) name:@"phoneCountrySelected" object:nil];
-
+    
+    self.isMailChecked = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -420,6 +423,12 @@
     }
     temp.driverLicenseType = driverLicenseType;
     
+    temp.isUserMailChecked = @"";
+    
+    if (self.isMailChecked) {
+        temp.isUserMailChecked = @"X";
+    }
+    
     _reservation.temporaryUser = temp;
     
     [self performSegueWithIdentifier:@"toReservationSummaryVCSegue" sender:self];
@@ -482,6 +491,49 @@
                                                  repeats:YES];
 }
 
+- (void)verifyEmailAdress {
+    [self.timer invalidate];
+    [self releaseAllTextFields];
+    
+    NSString *generatedCode = [SMSSoapHandler generateCode];
+    
+    if (generatedCode == nil || [generatedCode isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Kod gönderilemedi, lütfen tekrar deneyiniz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    else {
+        self.validationCode = generatedCode;
+        
+        NSString *mailAdress = self.emailTextField.text;
+        
+        BOOL success = [MailSoapHandler sendVerificationMessage:self.validationCode toMail:mailAdress withFirstname:self.nameTextField.text andLastname:self.surnameTextField.text];
+        
+        if (!success) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Mail gönderilemedi, lütfen tekrar deneyiniz" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+    }
+    
+    self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
+                                                     message:@"Lütfen mail'inize gelen konfirmasyon kodunu 120 saniye içinde giriniz"
+                                                    delegate:self
+                                           cancelButtonTitle:@"Onaylamadan Devam Et"
+                                           otherButtonTitles:@"Tamam", nil];
+    [self.timerAlertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    [self.timerAlertView setTag:3];
+    [self.timerAlertView show];
+    
+    self.alertTimer = 120;
+    
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1
+                                                  target:self
+                                                selector:@selector(updateEmailAlert:)
+                                                userInfo:nil
+                                                 repeats:YES];
+}
+
 - (void)updateSMSAlert:(id)sender {
     self.alertTimer--;
     self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen telefonunuza gelen konfirmasyon kodunu %lu saniye içinde giriniz", (unsigned long)self.alertTimer];
@@ -492,6 +544,20 @@
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Konfirmasyon kodunu giremediniz. Tekrar deneyebilir veya girmiş olduğunuz telefon numarasını kontrol edebilirsiniz" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Tekrar Dene", nil];
         [alert setTag:2];
+        [alert show];
+    }
+}
+
+- (void)updateEmailAlert:(id)sender {
+    self.alertTimer--;
+    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen mail'inize gelen konfirmasyon kodunu %lu saniye içinde giriniz", (unsigned long)self.alertTimer];
+    
+    if (self.alertTimer == 0) {
+        [self.timer invalidate];
+        [self.timerAlertView dismissWithClickedButtonIndex:0 animated:YES];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Konfirmasyon kodunu giremediniz. Tekrar deneyebilir veya girmiş olduğunuz mail adresini kontrol edebilirsiniz" delegate:self cancelButtonTitle:@"Onaylamadan Devam Et" otherButtonTitles:@"Tekrar Dene", nil];
+        [alert setTag:4];
         [alert show];
     }
 }
@@ -507,7 +573,7 @@
         
         if (alertViewText != nil && ![alertViewText isEqualToString:@""]) {
             if ([alertViewText isEqualToString:self.validationCode]) {
-                [self goToReservationSummary];
+                [self verifyEmailAdress];
             }
             else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Girmiş olduğunuz kod ile konfirmasyon kodu uyuşmamaktadır" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Tekrar Dene", nil];
@@ -524,6 +590,37 @@
     else if (alertView.tag == 2) {
         if (buttonIndex == 1) {
             [self verifyPhoneNumber];
+        }
+    }
+    else if (alertView.tag == 3) {
+        [self.timer invalidate];
+
+        if (buttonIndex == 1) {
+            
+            NSString *alertViewText = [[alertView textFieldAtIndex:0] text];
+
+            if (alertViewText != nil && ![alertViewText isEqualToString:@""]) {
+                if ([alertViewText isEqualToString:self.validationCode]) {
+                    self.isMailChecked = YES;
+                    [self goToReservationSummary];
+                }
+            }
+            else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Girmiş olduğunuz kod ile konfirmasyon kodu uyuşmamaktadır" delegate:self cancelButtonTitle:@"Onaylamadan Devam Et" otherButtonTitles:@"Tekrar Dene", nil];
+                [alert setTag:4];
+                [alert show];
+            }
+        }
+        else {
+            [self goToReservationSummary];
+        }
+    }
+    else if (alertView.tag == 4) {
+        if (buttonIndex == 1) {
+            [self verifyEmailAdress];
+        }
+        else {
+            [self goToReservationSummary];
         }
     }
 }
