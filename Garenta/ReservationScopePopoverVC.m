@@ -17,6 +17,9 @@
 {
     [super viewDidLoad];
     
+    [textView setUserInteractionEnabled:YES];
+    [textView setScrollEnabled:YES];
+    
     [self prepareScopeInformation];
 }
 
@@ -80,14 +83,23 @@
         if (reservation.changeReservationDifference == nil)
             reservation.changeReservationDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
         
+        // şimdi öde, ön ödemeli iptal edilemez (aylık ve normal)
         if ([reservation.paymentType isEqualToString:@"1"] || [reservation.paymentType isEqualToString:@"3"] || [reservation.paymentType isEqualToString:@"8"] || [reservation.paymentType isEqualToString:@"9"] || reservation.paymentType == nil)
         {
-            if (reservation.selectedCarGroup.sampleCar.pricing.priceWithKDV.floatValue > 0) {
+            // normal aylık
+            if (reservation.selectedCarGroup.sampleCar.pricing.priceWithKDV.floatValue > 0 && !reservation.campaignObject)
+            {
                 [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",string,[reservation.selectedCarGroup.sampleCar.pricing.priceWithKDV decimalNumberByAdding:reservation.changeReservationDifference].floatValue]];
+            }
+            // aylık kampanyalı
+            else if (reservation.campaignObject.campaignPrice.priceWithKDV.floatValue > 0 && reservation.campaignObject)
+            {
+                [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",string,[reservation.campaignObject.campaignPrice.priceWithKDV decimalNumberByAdding:reservation.changeReservationDifference].floatValue]];
             }
             else
                 [textView setText:[NSString stringWithFormat:@"- %@ - %.02f TL\n",string,[reservation.selectedCarGroup.sampleCar.pricing.payNowPrice decimalNumberByAdding:reservation.changeReservationDifference].floatValue]];
         }
+        // sonra öde (aylık ve normal)
         else
         {
             if (reservation.selectedCarGroup.sampleCar.pricing.priceWithKDV.floatValue > 0) {
@@ -113,7 +125,7 @@
 
     // Aylıksa ödeme planını yazıcaz
     if (reservation.etExpiry.count > 0) {
-        [textView setText:[NSString stringWithFormat:@"%@ \n Ödeme Planı", textView.text]];
+        [textView setText:[NSString stringWithFormat:@"%@ \n Ödeme Planı (Araç)", textView.text]];
         
         int count = 1;
         
@@ -129,17 +141,57 @@
             modelID = reservation.selectedCarGroup.sampleCar.modelId;
         }
         
-        for (ETExpiryObject *tempObject in reservation.etExpiry) {
-            if ([tempObject.carGroup isEqualToString:reservation.selectedCarGroup.groupCode] && [tempObject.brandID isEqualToString:brandID] && [tempObject.modelID isEqualToString:modelID]) {
-                [textView setText:[NSString stringWithFormat:@"%@\n%i. Taksit - %@ %@ (Araç)", textView.text, count, tempObject.totalPrice.stringValue, tempObject.currency]];
-                
-                if (count == 1) {
-                    [textView setText:[NSString stringWithFormat:@"%@ + Alınmış Ek Ürünler",textView.text]];
+        for (ETExpiryObject *tempObject in reservation.etExpiry)
+        {
+            NSString *campaignScopeType = @"";
+            
+            if (reservation.campaignObject.campaignScopeType == payNowReservation) {
+                campaignScopeType = @"ZR2";
+            }
+            else if (reservation.campaignObject.campaignScopeType == payLaterReservation){
+                campaignScopeType = @"ZR1";
+            }
+            else if (reservation.campaignObject.campaignScopeType == payFrontWithNoCancellation){
+                campaignScopeType = @"ZR3";
+            }
+            
+            if (reservation.campaignObject)
+            {
+                if ([tempObject.carGroup isEqualToString:reservation.selectedCarGroup.groupCode] && [tempObject.brandID isEqualToString:brandID] && [tempObject.modelID isEqualToString:modelID] && [tempObject.campaignID isEqualToString:reservation.campaignObject.campaignID] && [tempObject.campaignScopeType isEqualToString:campaignScopeType])
+                {
+                    [textView setText:[NSString stringWithFormat:@"%@\n%i. Taksit - %@ %@ (Araç)", textView.text, count, tempObject.totalPrice.stringValue, tempObject.currency]];
+                    
+//                    if (count == 1) {
+//                        [textView setText:[NSString stringWithFormat:@"%@ + Alınmış Ek Ürünler",textView.text]];
+//                    }
+                    
+                    count++;
                 }
-                
-                count++;
+            }
+            else
+            {
+                if ([tempObject.carGroup isEqualToString:reservation.selectedCarGroup.groupCode] && [tempObject.brandID isEqualToString:brandID] && [tempObject.modelID isEqualToString:modelID] && [tempObject.campaignID isEqualToString:campaignScopeType])
+                {
+                    [textView setText:[NSString stringWithFormat:@"%@\n%i. Taksit - %@ %@ (Araç)", textView.text, count, tempObject.totalPrice.stringValue, tempObject.currency]];
+                    
+//                    if (count == 1) {
+//                        [textView setText:[NSString stringWithFormat:@"%@ + Alınmış Ek Ürünler",textView.text]];
+//                    }
+                    
+                    count++;
+                }
             }
         }
+        
+//        [textView setText:[NSString stringWithFormat:@"\n\n %@ \n Ödeme Planı (Ek Ürün)", textView.text]];
+//        // REZERVASYONDAKİ EK ÜRÜNLER
+//        for (AdditionalEquipment *temp in reservation.additionalEquipments)
+//        {
+//            if (temp.quantity > 0 && ![temp.updateStatus isEqualToString:@"D"] && ![temp.materialNumber isEqualToString:@"HZM0031"])
+//            {
+//                [textView setText:[NSString stringWithFormat:@"%@\n- %@ (%i adet) - %.02f TL",textView.text, temp.materialDescription,temp.quantity,(temp.monthlyPrice.floatValue * temp.quantity)]];
+//            }
+//        }
         
         if (count > 1) {
             [textView setText:[NSString stringWithFormat:@"%@\nToplam Tutar - %.02f TL", textView.text, [[reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO andReservation:reservation] floatValue]]];

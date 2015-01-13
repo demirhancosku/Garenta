@@ -64,6 +64,9 @@
 {
     if (![_usernameTextField.text isEqualToString:@""] && ![_passwordTextField.text isEqualToString:@""])
     {
+        //dispatch_once yeni eklendi, çünkü bazen alertview 3-4 kere üst üste geliyodu, sıkıntı çıkarsa başka şeyde kaldırılabilir
+        //        static dispatch_once_t once;
+        //        dispatch_once(&once, ^{
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
             NSData *passwordData = [_passwordTextField.text dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
@@ -96,11 +99,12 @@
                 }
             });
         });
+        //        });
     }
     else
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Kullanıcı adı ve şifre giriniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
-            
+        
         [alert show];
     }
 }
@@ -118,7 +122,7 @@
         }
         else {
             buttonTitle = [NSString stringWithFormat:@"%@ %@ %@", tempUser.name, tempUser.middleName, tempUser.surname];
-
+            
         }
         
         if ([[tempUser partnerType] isEqualToString:@"B"]) {

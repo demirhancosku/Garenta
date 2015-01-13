@@ -559,6 +559,7 @@
                     [tempObject setBeginDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_BASI"]]];
                     [tempObject setEndDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_SONU"]]];
                     [tempObject setCampaignID:[tempDict valueForKey:@"KAMPANYA_ID"]];
+                    [tempObject setCampaignScopeType:[tempDict valueForKey:@"KAMP_REZTURU"]];
                     [tempObject setBrandID:[tempDict valueForKey:@"MARKA_ID"]];
                     [tempObject setModelID:[tempDict valueForKey:@"MODEL_ID"]];
                     [tempObject setIsPaid:[tempDict valueForKey:@"ODENDI"]];
@@ -703,7 +704,7 @@
 {
     if ([availableCarGroups count] <= 0)
     {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uzgunuz" message:@"Aradiginiz kriterlerde arac bulunamamistir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uzgunuz" message:@"Aradığınız kriterlerde araç bulunamamıştır." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles: nil];
         [alertView show];
         return;
     }

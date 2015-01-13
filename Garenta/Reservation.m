@@ -287,6 +287,7 @@
             }
         }
         
+        //AYLIKTA ÖN ÖDEMELİ YOK EKLE!
         if (_reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation) {
             paymentType = @"3";
         }
@@ -361,6 +362,24 @@
         // IT_ARACLAR
         NSArray *itAraclarColumns = @[@"MATNR"];
         NSMutableArray *itAraclarValues = [NSMutableArray new];
+        
+        
+        //kış lastiği array'de varmı bakıyoruz
+        NSPredicate *winterTire = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0014"];
+        NSArray *filterResult = [_reservation.additionalEquipments filteredArrayUsingPredicate:winterTire];
+        
+        // kış lastiği varsa ve seçilmişse, araçlar içinden kış lastiği özelliği olmayanları çıkartıyoruz.
+        if (filterResult.count > 0) {
+            AdditionalEquipment *temp = [filterResult objectAtIndex:0];
+            NSMutableArray *tempArr = [_reservation.selectedCarGroup.cars copy];
+            if (temp.quantity > 0) {
+                for (Car *tempCar in tempArr) {
+                    if (![tempCar.winterTire isEqualToString:@"X"]) {
+                        [_reservation.selectedCarGroup.cars removeObject:tempCar];
+                    }
+                }
+            }
+        }
         
         for (Car *tempCar in _reservation.selectedCarGroup.cars) {
             if (_reservation.campaignObject.campaignScopeType == vehicleGroupCampaign || _reservation.campaignObject == nil) {
@@ -559,24 +578,36 @@
             
             for (ETExpiryObject *tempObject in _reservation.etExpiry) {
                 
-                if (_reservation.campaignObject) {
+                if (_reservation.campaignObject)
+                {
                     // kampanyalı aracın taksit tablosu
-                    if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode] && [tempObject.brandID isEqualToString:brandID] && [tempObject.modelID isEqualToString:modelID] && [tempObject.campaignID isEqualToString:_reservation.campaignObject.campaignID])
+                    NSString *campaignScopeType = @"";
+                    
+                    if (_reservation.campaignObject.campaignScopeType == payNowReservation) {
+                        campaignScopeType = @"ZR2";
+                    }
+                    else if (_reservation.campaignObject.campaignScopeType == payLaterReservation){
+                        campaignScopeType = @"ZR1";
+                    }
+                    else if (_reservation.campaignObject.campaignScopeType == payFrontWithNoCancellation){
+                        campaignScopeType = @"ZR3";
+                    }
+                    
+                    if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode] && [tempObject.brandID isEqualToString:brandID] && [tempObject.modelID isEqualToString:modelID] && [tempObject.campaignID isEqualToString:_reservation.campaignObject.campaignID] && [tempObject.campaignScopeType isEqualToString:campaignScopeType])
                     {
                         NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid,tempObject.materialNo];
                         [itExpiryValues addObject:arr];
                     }
                 }
-                else{
+                else
+                {
                     // aracın taksit tablosu
-                    if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode] && [tempObject.brandID isEqualToString:brandID] && [tempObject.modelID isEqualToString:modelID]) {
+                    if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode] && [tempObject.brandID isEqualToString:brandID] && [tempObject.modelID isEqualToString:modelID] && [tempObject.campaignID isEqualToString:@""])
+                    {
                         NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid,tempObject.materialNo];
                         [itExpiryValues addObject:arr];
                     }
                 }
-                
-
-                
                 //ekipmanların taksit tablosu
                 if (![tempObject.materialNo isEqualToString:@""]) {
                     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"materialNumber==%@",tempObject.materialNo];
