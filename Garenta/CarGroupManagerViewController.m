@@ -260,7 +260,6 @@
             _additionalEquipmentsFullList = [NSMutableArray new];
             
             NSDictionary *etExpiry = [tables objectForKey:@"ZSD_KDK_AYLIK_TAKSIT_ST"];
-            NSMutableArray *etExpiryArray = [NSMutableArray new];
             
             NSDateFormatter *dateFormatter = [NSDateFormatter new];
             [dateFormatter setDateFormat:@"yyyy-MM-dd"];
@@ -281,9 +280,7 @@
                 
                 [_reservation.etExpiry addObject:tempObject];
             }
-            
-//            _reservation.etExpiry = etExpiryArray;
-            
+                        
             NSDictionary *equipmentList = [tables objectForKey:@"ZPM_S_EKIPMAN_LISTE"];
             
             for (NSDictionary *tempDict in equipmentList)
