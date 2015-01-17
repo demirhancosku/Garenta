@@ -126,7 +126,7 @@
                 NSMutableArray *workingHoursArray = [NSMutableArray new];
                 
                 for (NSDictionary *tempWorkHourDict in officeWorkingHoursArray) {
-                    if ([[tempWorkHourDict valueForKey:@"MERKEZ_SUBE"] isEqualToString:[tempOffice mainOfficeCode]]) {
+                    if ([[tempWorkHourDict valueForKey:@"ALT_SUBE"] isEqualToString:[tempOffice subOfficeCode]]) {
                         OfficeWorkingTime *tempTime = [[OfficeWorkingTime alloc] init];
                         tempTime.startTime = [tempWorkHourDict valueForKey:@"BEGTI"];
                         tempTime.endingHour = [tempWorkHourDict valueForKey:@"ENDTI"];
@@ -144,7 +144,7 @@
                 NSMutableArray *holidayArray = [NSMutableArray new];
                 
                 for (NSDictionary *tempHolidayDict in officeHolidayArray) {
-                    if ([[tempHolidayDict valueForKey:@"MERKEZ_SUBE"] isEqualToString:[tempOffice mainOfficeCode]]) {
+                    if ([[tempHolidayDict valueForKey:@"ALT_SUBE"] isEqualToString:[tempOffice subOfficeCode]]) {
                         OfficeHolidayTime *tempTime = [[OfficeHolidayTime alloc] init];
                         tempTime.startTime = [tempHolidayDict valueForKey:@"BEGTI"];
                         tempTime.endingHour = [tempHolidayDict valueForKey:@"ENDTI"];

@@ -47,7 +47,7 @@
             if ([sysubrc isEqualToString:@"0"]) {
                 
                 NSDictionary *tables = [response objectForKey:@"TABLES"];
-                NSDictionary *allPartners = [tables objectForKey:@"ZMOB_LOGIN_ALL_PARTNERS"];
+                NSDictionary *allPartners = [tables objectForKey:@"ZNET_LOGIN_ALL_PARTNERS"];
                 
                 if (allPartners.count > 0)
                 {

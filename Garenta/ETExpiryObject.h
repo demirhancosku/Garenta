@@ -14,5 +14,6 @@
 @property (nonatomic, strong) NSDate *beginDate, *endDate;
 @property (nonatomic, strong) NSDecimalNumber *totalPrice;
 @property (nonatomic, strong) NSString *materialNo;
+@property (nonatomic, strong) NSString *campaignScopeType;
 
 @end

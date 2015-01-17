@@ -578,6 +578,16 @@
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",temp.materialNumber];
             NSArray *filterResult = [super.reservation.additionalEquipments filteredArrayUsingPredicate:predicate];
             
+            if (super.reservation.additionalEquipments.count == 0) {
+                if (super.reservation.etExpiry.count > 0) {
+                    temp.difference = [temp.monthlyPrice decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",[temp quantity]]]];
+                }
+                else
+                {
+                    temp.difference = [temp.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",[temp quantity]]]];
+                }
+            }
+            
             if (filterResult.count > 0)
             {
                 //                temp.difference = [[temp.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",[[filterResult objectAtIndex:0] quantity]]]] decimalNumberBySubtracting:[[filterResult objectAtIndex:0] price]];
@@ -593,7 +603,27 @@
                 temp.paid = [[[filterResult objectAtIndex:0] price] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",[[filterResult objectAtIndex:0] quantity]]]];
             }
         }
-        
+//        
+//        // belgede tek yön mevcut ve güncelleme yaparken tek yön eksikse çıkartıyoruz
+//        NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0020"];
+//        NSArray *filterResult2 = [super.reservation.additionalEquipments filteredArrayUsingPredicate:predicate2];
+//        
+//        NSPredicate *predicate3 = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0020"];
+//        NSArray *filterResult3 = [_additionalEquipments filteredArrayUsingPredicate:predicate3];
+//        
+//        if (filterResult2.count > 0 && filterResult3.count == 0) {
+//            AdditionalEquipment *tempEqui = [filterResult2 objectAtIndex:0];
+//            tempEqui.difference = [tempEqui.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"-1"]];
+//            if ([super.reservation.paymentType isEqualToString:@"1"]) {
+//                tempEqui.paid = tempEqui.price;
+//            }
+//            
+//            tempEqui.quantity = 0;
+//            tempEqui.updateStatus = @"D";
+//            
+//            [_additionalEquipments insertObject:tempEqui atIndex:0];
+//        }
+    
         [(OldReservationEquipmentVC *)[segue destinationViewController] setReservation:super.reservation];
         [(OldReservationEquipmentVC *)[segue destinationViewController] setAdditionalEquipments:_additionalEquipments];
     }

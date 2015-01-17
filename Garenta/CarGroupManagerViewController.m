@@ -271,6 +271,7 @@
                 [tempObject setBeginDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_BASI"]]];
                 [tempObject setEndDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_SONU"]]];
                 [tempObject setCampaignID:[tempDict valueForKey:@"KAMPANYA_ID"]];
+                [tempObject setCampaignScopeType:[tempDict valueForKey:@"KAMP_REZTURU"]];
                 [tempObject setBrandID:[tempDict valueForKey:@"MARKA_ID"]];
                 [tempObject setModelID:[tempDict valueForKey:@"MODEL_ID"]];
                 [tempObject setIsPaid:[tempDict valueForKey:@"ODENDI"]];
@@ -291,6 +292,7 @@
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"NETWR"]]];
                 [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_MIKTAR"]]];
+                [tempEquip setType:standartEquipment];
                 
                 if ([[ApplicationProperties getUser] isLoggedIn]) {
                     if ([[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
@@ -303,21 +305,34 @@
                         [tempEquip setPaymentType:fatTip];
                     }
                 }
-                
-                // Ata Cengiz 07.12.2014 corparate
-                NSString *mandotaryEquipment = [tempDict valueForKey:@"ZORUNLU"];
-                
-                if ([mandotaryEquipment isEqualToString:@"X"]) {
-                    [tempEquip setQuantity:1];
-                    [tempEquip setIsRequired:YES];
+                if ([tempEquip.materialNumber isEqualToString:@"HZM0014"]) {
+                    NSPredicate *tempPredicate = [NSPredicate predicateWithFormat:@"winterTire=%@",@"X"];
+                    NSArray *tempPredicateArray = [_reservation.selectedCarGroup.cars filteredArrayUsingPredicate:tempPredicate];
+                    if (tempPredicateArray.count == 0) {
+                        [_additionalEquipmentsFullList addObject:tempEquip];
+                    }
+                    else
+                    {
+                        [_additionalEquipments addObject:tempEquip];
+                        [_additionalEquipmentsFullList addObject:tempEquip];
+                    }
                 }
-                else {
-                    [tempEquip setQuantity:0];
-                }
+                else
+                {
+                    // Ata Cengiz 07.12.2014 corparate
+                    NSString *mandotaryEquipment = [tempDict valueForKey:@"ZORUNLU"];
+                    
+                    if ([mandotaryEquipment isEqualToString:@"X"]) {
+                        [tempEquip setQuantity:1];
+                        [tempEquip setIsRequired:YES];
+                    }
+                    else {
+                        [tempEquip setQuantity:0];
+                    }
                 
-                [tempEquip setType:standartEquipment];
-                [_additionalEquipments addObject:tempEquip];
-                [_additionalEquipmentsFullList addObject:tempEquip];
+                    [_additionalEquipments addObject:tempEquip];
+                    [_additionalEquipmentsFullList addObject:tempEquip];
+                }
             }
             
             NSDictionary *assuranceList = [tables objectForKey:@"ZMOB_KDK_S_SIGORTA"];
@@ -466,19 +481,23 @@
                     else
                         [_additionalEquipmentsFullList addObject:tempEquip];
                 }
-                else
-                {
-                    NSPredicate *tempPredicate = [NSPredicate predicateWithFormat:@"winterTire=%@",@"X"];
-                    NSArray *tempPredicateArray = [_reservation.selectedCarGroup.cars filteredArrayUsingPredicate:tempPredicate];
-                    if ([[tempEquip materialNumber] isEqualToString:@"HZM0014"] && tempPredicateArray.count == 0) {
-                        [_additionalEquipmentsFullList addObject:tempEquip];
-                    }
-                    else
-                    {
-                        [_additionalEquipments addObject:tempEquip];
-                        [_additionalEquipmentsFullList addObject:tempEquip];
-                    }
+                else{
+                    [_additionalEquipments addObject:tempEquip];
+                    [_additionalEquipmentsFullList addObject:tempEquip];
                 }
+//                else
+//                {
+//                    NSPredicate *tempPredicate = [NSPredicate predicateWithFormat:@"winterTire=%@",@"X"];
+//                    NSArray *tempPredicateArray = [_reservation.selectedCarGroup.cars filteredArrayUsingPredicate:tempPredicate];
+//                    if ([[tempEquip materialNumber] isEqualToString:@"HZM0014"] && tempPredicateArray.count == 0) {
+//                        [_additionalEquipmentsFullList addObject:tempEquip];
+//                    }
+//                    else
+//                    {
+//                        [_additionalEquipments addObject:tempEquip];
+//                        [_additionalEquipmentsFullList addObject:tempEquip];
+//                    }
+//                }
             }
         }
     }
