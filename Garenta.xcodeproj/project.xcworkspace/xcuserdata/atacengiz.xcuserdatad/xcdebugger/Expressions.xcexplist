@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[ClassicSearchVC showCarGroup:]:ClassicSearchVC.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "(Office *)self-&gt;reservation-&gt;checkInOffice">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__34-[ClassicSearchVC viewWillAppear:]_block_invoke:ClassicSearchVC.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ClassicSearchVC locationManager:didUpdateLocations:]:ClassicSearchVC.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "(Office *)self-&gt;reservation-&gt;checkOutOffice">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
