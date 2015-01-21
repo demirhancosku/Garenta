@@ -50,10 +50,12 @@
     if (_reservation.selectedCar) {
         brandModelString = [NSString stringWithFormat:@"%@ %@",_reservation.selectedCar.brandName,_reservation.selectedCar.modelName];
         boldLenght = brandModelString.length;
+        [_carImageView setImage:_reservation.selectedCar.image];
     }else{
         brandModelString = [NSString stringWithFormat:@"%@ %@",_reservation.selectedCarGroup.sampleCar.brandName, _reservation.selectedCarGroup.sampleCar.modelName];
         boldLenght = brandModelString.length;
         brandModelString = [NSString stringWithFormat:@"%@ yada benzeri",brandModelString];
+        [_carImageView setImage:_reservation.selectedCarGroup.sampleCar.image];
     }
     
     const NSRange range = NSMakeRange(0,boldLenght);
@@ -63,7 +65,6 @@
     [attributedText setAttributes:subAttrs range:range];
     [_brandModelLabel setAttributedText:attributedText];
     
-    [_carImageView setImage:_reservation.selectedCarGroup.sampleCar.image];
     [_fuelLabel setText:_reservation.selectedCarGroup.fuelName];
     [_transmissionLabel setText:_reservation.selectedCarGroup.transmissonName];
     [_acLabel setText:@"Klima"];

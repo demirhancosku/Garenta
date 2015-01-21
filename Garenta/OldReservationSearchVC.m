@@ -378,10 +378,18 @@
             
             for (NSDictionary *tempDict in equipmentList)
             {
+                // ek ürünlerin kampanyalı fiyatları
+                NSDecimalNumber *campaignPrice = [NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KAMPANYALI_TUTAR"]];
                 AdditionalEquipment *tempEquip = [AdditionalEquipment new];
                 [tempEquip setMaterialNumber:[tempDict valueForKey:@"MATNR"]];
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MUS_TANIMI"]];
-                [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"NETWR"]]];
+                if (campaignPrice.floatValue > 0) {
+                    [tempEquip setPrice:campaignPrice];
+                }
+                else{
+                    [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"NETWR"]]];
+                }
+//                [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"NETWR"]]];
                 [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_MIKTAR"]]];
                 [tempEquip setQuantity:0];
@@ -392,11 +400,19 @@
             NSDictionary *additionalEquipmentList = [tables objectForKey:@"ZMOB_KDK_S_EKSURUCU"];
             
             for (NSDictionary *tempDict in additionalEquipmentList) {
+                
+                NSDecimalNumber *campaignPrice = [NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KAMPANYALI_TUTAR"]];
+                
                 AdditionalEquipment *tempEquip = [AdditionalEquipment new];
                 [tempEquip setMaterialNumber:[tempDict valueForKey:@"MALZEME"]];
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
                 [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
-                [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                if (campaignPrice.floatValue > 0) {
+                    [tempEquip setPrice:campaignPrice];
+                }
+                else{
+                    [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                }
                 [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_ADET"]]];
                 [tempEquip setQuantity:0];
@@ -440,11 +456,19 @@
             
             for (NSDictionary *tempDict in assuranceList)
             {
+                // ek ürünlerin kampanyalı fiyatları
+                NSDecimalNumber *campaignPrice = [NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KAMPANYALI_TUTAR"]];
+                
                 AdditionalEquipment *tempEquip = [AdditionalEquipment new];
                 [tempEquip setMaterialNumber:[tempDict valueForKey:@"MALZEME"]];
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
                 [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
-                [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                if (campaignPrice.floatValue > 0) {
+                    [tempEquip setPrice:campaignPrice];
+                }
+                else{
+                    [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                }
                 [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
                 [tempEquip setType:additionalInsurance];
