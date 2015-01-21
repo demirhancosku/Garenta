@@ -47,6 +47,10 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *mobilePhoneCountryLabel;
 @property (nonatomic) BOOL isMailChecked;
+
+@property (nonatomic, strong) NSString *mailCheckString;
+@property (nonatomic, strong) NSString *telnoCheckString;
+
 @end
 
 @implementation UserInfoTableViewController
@@ -79,6 +83,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneCountrySelected:) name:@"phoneCountrySelected" object:nil];
     
     self.isMailChecked = NO;
+    self.mailCheckString = @"";
+    self.telnoCheckString = @"";
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -300,7 +306,6 @@
 
 - (IBAction)continueButtonPressed:(id)sender
 {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self checkFields];
 }
 
@@ -309,74 +314,90 @@
 }
 
 - (void)checkFields {
-    // ATA burda kontroller yapılıcak
     
-    NSString *alertString = @"";
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    IDController *control = [[IDController alloc] init];
-    
-    NSDateFormatter *bdayFormatter = [[NSDateFormatter alloc] init];
-    [bdayFormatter setDateFormat:@"yyyyMMdd"];
-    NSString *birthdayDate = [bdayFormatter stringFromDate:[self.birthdayDatePicker date]];
-    
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *weekdayComponents =[gregorian components:NSYearCalendarUnit fromDate:[self.birthdayDatePicker date]];
-    NSString *birtdayYearString = [NSString stringWithFormat:@"%li", (long)weekdayComponents.year];
-    
-    if ([self.genderSegmentedControl selectedSegmentIndex] == -1 )
-        alertString = @"Bay/Bayan alanının seçilmesi gerekmektedir";
-    else if ([self.nameTextField.text isEqualToString:@""])
-        alertString =  @"Ad alanının doldurulması gerekmektedir";
-    else if ([self.surnameTextField.text isEqualToString:@""])
-        alertString =  @"Soyad alanının doldurulması gerekmektedir";
-    else if ([birthdayDate isEqualToString:@""] || birthdayDate == nil)
-        alertString =  @"Doğum Tarihi alanının doldurulması gerekmektedir";
-    else if ([self.nationalitySegmentedControl selectedSegmentIndex] == -1 )
-        alertString = @"Uyruk alanının seçilmesi gerekmektedir";
-    else if ([self.tcknoTextField.text isEqualToString:@""])
-        alertString =  @"T.C. Kimlik No alanının doldurulması gerekmektedir";
-    else if ([self.nationalitySegmentedControl selectedSegmentIndex] == 0 &&  [self.tcknoTextField.text length] != 11)
-        alertString =  @"T.C: Kimlik No alanının 11 Karakter olması gerekmektedir";
-    else if (self.selectedCountry == nil)
-        alertString =  @"Ülkenin seçilmesi gerekmektedir";
-    else if (self.selectedCity == nil)
-        alertString = @"Şehrin seçilmesi gerekmektedir";
-    else if ([[self.selectedCountry objectAtIndex:0] isEqualToString:@"TR"] && self.selectedCounty == nil)
-        alertString = @"İlçenin seçilmesi gerekmektedir";
-    else if ([self.adressTextField.text isEqualToString:@""])
-        alertString =  @"Adres alanının doldurulması gerekmektedir";
-    else if ([self.emailTextField.text isEqualToString:@""])
-        alertString =  @"E-mail alanının doldurulması gerekmektedir";
-    else if ([[self.mobilePhoneTextField.text substringFromIndex:3] isEqualToString:@""])
-        alertString =  @"Cep Telefonu alanının doldurulması gerekmektedir";
-    else if (self.nationalitySegmentedControl.selectedSegmentIndex == 0) {
-        NSString *nameString = @"";
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
         
-        if ([self.middleNameTextField.text isEqualToString:@""]) {
-            nameString = self.nameTextField.text;
+        // ATA burda kontroller yapılıcak
+        
+        NSString *alertString = @"";
+        
+        IDController *control = [[IDController alloc] init];
+        
+        NSDateFormatter *bdayFormatter = [[NSDateFormatter alloc] init];
+        [bdayFormatter setDateFormat:@"yyyyMMdd"];
+        NSString *birthdayDate = [bdayFormatter stringFromDate:[self.birthdayDatePicker date]];
+        
+        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDateComponents *weekdayComponents =[gregorian components:NSYearCalendarUnit fromDate:[self.birthdayDatePicker date]];
+        NSString *birtdayYearString = [NSString stringWithFormat:@"%li", (long)weekdayComponents.year];
+        
+        if ([self.genderSegmentedControl selectedSegmentIndex] == -1 )
+            alertString = @"Bay/Bayan alanının seçilmesi gerekmektedir";
+        else if ([self.nameTextField.text isEqualToString:@""])
+            alertString =  @"Ad alanının doldurulması gerekmektedir";
+        else if ([self.surnameTextField.text isEqualToString:@""])
+            alertString =  @"Soyad alanının doldurulması gerekmektedir";
+        else if ([birthdayDate isEqualToString:@""] || birthdayDate == nil)
+            alertString =  @"Doğum Tarihi alanının doldurulması gerekmektedir";
+        else if ([self.nationalitySegmentedControl selectedSegmentIndex] == -1 )
+            alertString = @"Uyruk alanının seçilmesi gerekmektedir";
+        else if ([self.tcknoTextField.text isEqualToString:@""])
+            alertString =  @"T.C. Kimlik No alanının doldurulması gerekmektedir";
+        else if ([self.nationalitySegmentedControl selectedSegmentIndex] == 0 &&  [self.tcknoTextField.text length] != 11)
+            alertString =  @"T.C: Kimlik No alanının 11 Karakter olması gerekmektedir";
+        else if (self.selectedCountry == nil)
+            alertString =  @"Ülkenin seçilmesi gerekmektedir";
+        else if (self.selectedCity == nil)
+            alertString = @"Şehrin seçilmesi gerekmektedir";
+        else if ([[self.selectedCountry objectAtIndex:0] isEqualToString:@"TR"] && self.selectedCounty == nil)
+            alertString = @"İlçenin seçilmesi gerekmektedir";
+        else if ([self.adressTextField.text isEqualToString:@""])
+            alertString =  @"Adres alanının doldurulması gerekmektedir";
+        else if ([self.emailTextField.text isEqualToString:@""])
+            alertString =  @"E-mail alanının doldurulması gerekmektedir";
+        else if ([[self.mobilePhoneTextField.text substringFromIndex:3] isEqualToString:@""])
+            alertString =  @"Cep Telefonu alanının doldurulması gerekmektedir";
+        else if (self.nationalitySegmentedControl.selectedSegmentIndex == 0) {
+            NSString *nameString = @"";
+            
+            if ([self.middleNameTextField.text isEqualToString:@""]) {
+                nameString = self.nameTextField.text;
+            }
+            else {
+                nameString = [NSString stringWithFormat:@"%@ %@", self.nameTextField.text, self.middleNameTextField.text];
+            }
+            
+            BOOL checker = [control idChecker:self.tcknoTextField.text andName:nameString andSurname:self.surnameTextField.text andBirthYear:birtdayYearString];
+            
+            if (!checker) {
+                alertString = @"Girdiğiniz isim ile T.C. Kimlik numarası birbiri ile uyuşmamaktadır. Lütfen kontrol edip tekrar deneyiniz";
+            }
+        }
+        
+        if (![alertString isEqualToString:@""]) {
+            
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+            [alert show];
         }
         else {
-            nameString = [NSString stringWithFormat:@"%@ %@", self.nameTextField.text, self.middleNameTextField.text];
+            
+            BOOL isMailCheck = [self checkIfInformationIsDuplicate];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            
+            if (isMailCheck) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:self.mailCheckString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                [alert show];
+            }
+            else {
+                [self verifyPhoneNumber];
+            }
         }
-        
-        BOOL checker = YES;//[control idChecker:self.tcknoTextField.text andName:nameString andSurname:self.surnameTextField.text andBirthYear:birtdayYearString];
-        
-        if (!checker) {
-            alertString = @"Girdiğiniz isim ile T.C. Kimlik numarası birbiri ile uyuşmamaktadır. Lütfen kontrol edip tekrar deneyiniz";
-        }
-    }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
-    
-    if (![alertString isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
-        [alert show];
-    }
-    else {
-        [self verifyPhoneNumber];
-    }
 }
 
 - (void)goToReservationSummary {
@@ -473,8 +494,17 @@
         }
     }
     
+    NSString *timerAlert = @"";
+    
+    if (![self.telnoCheckString isEqualToString:@""]) {
+        timerAlert = [NSString stringWithFormat:@"%@ Lütfen telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz", self.telnoCheckString];
+    }
+    else {
+        timerAlert = @"Lütfen telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz";
+    }
+    
     self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
-                                                     message:@"Lütfen telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz"
+                                                     message:timerAlert
                                                     delegate:self
                                            cancelButtonTitle:@"Geri"
                                            otherButtonTitles:@"Tamam", nil];
@@ -536,7 +566,17 @@
 
 - (void)updateSMSAlert:(id)sender {
     self.alertTimer--;
-    self.timerAlertView.message = [NSString stringWithFormat:@"Lütfen telefonunuza gelen konfirmasyon kodunu %lu saniye içinde giriniz", (unsigned long)self.alertTimer];
+    
+    NSString *timerAlert = @"";
+    
+    if (![self.telnoCheckString isEqualToString:@""]) {
+        timerAlert = [NSString stringWithFormat:@"%@ Lütfen telefonunuza gelen konfirmasyon kodunu %lu saniye içinde giriniz", self.telnoCheckString, (unsigned long)_alertTimer];
+    }
+    else {
+        timerAlert = [NSString stringWithFormat:@"Lütfen telefonunuza gelen konfirmasyon kodunu %lu saniye içinde giriniz", (unsigned long)_alertTimer];
+    }
+    
+    self.timerAlertView.message = timerAlert;
     
     if (self.alertTimer == 0) {
         [self.timer invalidate];
@@ -594,11 +634,11 @@
     }
     else if (alertView.tag == 3) {
         [self.timer invalidate];
-
+        
         if (buttonIndex == 1) {
             
             NSString *alertViewText = [[alertView textFieldAtIndex:0] text];
-
+            
             if (alertViewText != nil && ![alertViewText isEqualToString:@""]) {
                 if ([alertViewText isEqualToString:self.validationCode]) {
                     self.isMailChecked = YES;
@@ -649,6 +689,56 @@
     }
     
     return YES;
+}
+
+- (BOOL)checkIfInformationIsDuplicate {
+    
+    @try {
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZNET_CHECK_BP_TELNO_EMAIL"];
+        
+        NSString *isInputName = @"IS_INPUT";
+        NSArray *isInputColumns = @[@"EMAIL", @"TELNO", @"KANALTURU"];
+        NSArray *isInputValue = @[self.emailTextField.text, self.mobilePhoneTextField.text, @"Z07"];
+        
+        [handler addImportStructure:isInputName andColumns:isInputColumns andValues:isInputValue];
+        [handler addImportParameter:@"IV_NEW" andValue:@"X"];
+        
+        [handler addTableForReturn:@"ET_RETURN"];
+        
+        NSDictionary *result = [handler prepCall];
+        
+        if (result != nil) {
+            NSDictionary *export = [result objectForKey:@"EXPORT"];
+            NSString *evSubrc = [export valueForKey:@"EV_SUBRC"];
+            
+            if ([evSubrc isEqualToString:@"4"]) {
+                NSDictionary *tables = [result objectForKey:@"TABLES"];
+                NSDictionary *etReturn = [tables objectForKey:@"BAPIRET2"];
+                
+                NSString *telnoCheck = [export valueForKey:@"EV_CEPTEL_CHECK"];
+                
+                if ([telnoCheck isEqualToString:@"X"]) {
+                    for (NSDictionary *dict in etReturn) {
+                        self.telnoCheckString = [dict valueForKey:@"MESSAGE"];
+                    }
+                }
+                else {
+                    for (NSDictionary *dict in etReturn) {
+                        self.mailCheckString = [dict valueForKey:@"MESSAGE"];
+                        return YES;
+                    }
+                }
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+    
+    return NO;
 }
 
 @end

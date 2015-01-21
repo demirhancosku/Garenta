@@ -22,6 +22,7 @@ static NSString *jsonConnectionURL = @"http://webservicesJSON.celikmotor.com/Sap
 
 //// R3 QA Bilgileri
 NSString *r3HostName = @"10.98.102.18";
+//NSString *r3HostName = @"10.98.102.50";
 NSString *r3Client = @"500";
 NSString *r3Destination = @"CDQ";
 NSString *r3SystemNumber = @"00";
@@ -49,6 +50,7 @@ NSString *r3Password = @"Ws123456";
 
 //// CRM QA Bilgileri
 NSString *crmHostName = @"10.98.102.33";
+//NSString *crmHostName = @"10.98.102.51";
 NSString *crmClient = @"300";
 NSString *crmDestination = @"KCQ";
 NSString *crmSystemNumber = @"00";

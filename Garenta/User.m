@@ -18,6 +18,7 @@
     kunnr =@"";
     username = @"";
     password = @"";
+    self.priceCode = @"";
     return self;
 }
 
