@@ -360,12 +360,6 @@
         
         NSString *alertString = @"";
         
-<<<<<<< HEAD
-        IDController *control = [[IDController alloc] init];
-=======
-        BOOL checker = [control idChecker:self.tcknoTextField.text andName:nameString andSurname:self.surnameTextField.text andBirthYear:birtdayYearString];
->>>>>>> FETCH_HEAD
-        
         NSDateFormatter *bdayFormatter = [[NSDateFormatter alloc] init];
         [bdayFormatter setDateFormat:@"yyyyMMdd"];
         NSString *birthdayDate = [bdayFormatter stringFromDate:[self.birthdayDatePicker date]];
@@ -410,6 +404,7 @@
                 nameString = [NSString stringWithFormat:@"%@ %@", self.nameTextField.text, self.middleNameTextField.text];
             }
             
+            IDController *control = [[IDController alloc] init];
             BOOL checker = [control idChecker:self.tcknoTextField.text andName:nameString andSurname:self.surnameTextField.text andBirthYear:birtdayYearString];
             
             if (!checker) {
@@ -434,27 +429,11 @@
                 [alert show];
             }
             else {
-                [self verifyPhoneNumber];
+                if ([self checkCarAvailableForYoungDriver]) //genç sürücü kontrolü yapar
+                    [self verifyPhoneNumber];
             }
         }
-<<<<<<< HEAD
     });
-=======
-    }
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    });
-    
-    if (![alertString isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
-        [alert show];
-    }
-    else {
-        if ([self checkCarAvailableForYoungDriver]) //genç sürücü kontrolü yapar
-            [self verifyPhoneNumber];
-    }
->>>>>>> FETCH_HEAD
 }
 
 - (BOOL)checkCarAvailableForYoungDriver
@@ -633,11 +612,7 @@
     }
     
     self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
-<<<<<<< HEAD
                                                      message:timerAlert
-=======
-                                                     message:@"Lütfen telefonunuza gelen konfirmasyon kodunu 120 saniye içinde giriniz"
->>>>>>> FETCH_HEAD
                                                     delegate:self
                                            cancelButtonTitle:@"Geri"
                                            otherButtonTitles:@"Tamam", nil];
