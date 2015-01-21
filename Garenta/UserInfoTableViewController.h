@@ -14,6 +14,7 @@
     NSMutableArray *cityArray;
     NSMutableArray *countyArray;
     NSMutableArray *secretQuestionsArray;
+    BOOL isYoungDriver;
 }
 
 - (IBAction)continueButtonPressed:(id)sender;

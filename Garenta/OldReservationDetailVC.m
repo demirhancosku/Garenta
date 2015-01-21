@@ -198,6 +198,7 @@
     
     if ([segue.identifier isEqualToString:@"toUpsellDownsellSegue"])
     {
+        [self sortUpsellDownsellList];
         [(OldReservationUpsellDownsellVC *)[segue destinationViewController] setReservation:_reservation];
         [(OldReservationUpsellDownsellVC *)[segue destinationViewController] setTotalPrice:_totalPrice];
     }
@@ -219,6 +220,17 @@
         popoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionAny animated:YES];
         popoverController.delegate = self;
     }
+}
+
+- (void)sortUpsellDownsellList
+{
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sampleCar.pricing.payNowPrice"
+                                                 ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    
+    [_reservation.upsellList sortUsingDescriptors:sortDescriptors];
+    [_reservation.downsellList sortUsingDescriptors:sortDescriptors];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -392,11 +404,13 @@
         SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZSD_KDK_FIY_RFC_UP_DOWN_SELL"];
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        NSDateFormatter *timeFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyyMMdd"];
+        [timeFormatter setDateFormat:@"HH:mm:ss"];
         
         NSArray *isInputColumns = @[@"UPSELL_DOWNSELL", @"REZERVASYON_NO", @"SOZLESME_NO", @"IMPP_LANGU", @"IMPP_LAND", @"IMPP_UNAME", @"IMPP_KDGRP", @"IMPP_BEGDA", @"IMPP_ENDDA", @"IMPP_BEGUZ", @"IMPP_ENDUZ"];
         
-        NSArray *isInputValues = @[upsell_downsell, _reservation.reservationNumber, @"", @"T", @"", @"", @"40", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime]];
+        NSArray *isInputValues = @[upsell_downsell, _reservation.reservationNumber, @"", @"T", @"", @"", @"40", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime]];
         
         [handler addImportStructure:@"INPUT" andColumns:isInputColumns andValues:isInputValues];
         [handler addTableForReturn:@"ET_ARACLISTE"];

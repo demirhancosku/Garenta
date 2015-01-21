@@ -28,7 +28,7 @@
         [self findPayNowPayLaterDifference];
         
         if ([super.reservation.paymentType isEqualToString:@"2"] || [super.reservation.paymentType isEqualToString:@"6"])
-            _changeReservationPrice = [[NSDecimalNumber decimalNumberWithString:_totalPrice] decimalNumberByAdding: _payLaterDifference];
+            _changeReservationPrice = [[NSDecimalNumber decimalNumberWithString:_totalPrice] decimalNumberByAdding:_payNowDifference];
         else
             _changeReservationPrice = _payNowDifference;
         
@@ -81,19 +81,21 @@
 
 - (void)changeCarSelectionPrice
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"materialNumber==%@",@"HZM0031"];
-    NSArray *predicateArray = [super.reservation.additionalEquipments filteredArrayUsingPredicate:predicate];
-    _carSelectionPriceDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
-
-    if (predicateArray.count > 0) {
-        AdditionalEquipment *temp = [predicateArray objectAtIndex:0];
-            _carSelectionPriceDifference = [super.reservation.upsellSelectedCar.pricing.carSelectPrice decimalNumberBySubtracting:temp.price];
+    if (_carSelectionPriceDifference == nil) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"materialNumber==%@",@"HZM0031"];
+        NSArray *predicateArray = [super.reservation.additionalEquipments filteredArrayUsingPredicate:predicate];
+        _carSelectionPriceDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
         
-        temp.price = super.reservation.upsellSelectedCar.pricing.carSelectPrice;
-    }
-    else
-    {
-        _carSelectionPriceDifference = super.reservation.upsellSelectedCar.pricing.carSelectPrice;
+        if (predicateArray.count > 0) {
+            AdditionalEquipment *temp = [predicateArray objectAtIndex:0];
+            _carSelectionPriceDifference = [super.reservation.upsellSelectedCar.pricing.carSelectPrice decimalNumberBySubtracting:temp.price];
+            
+            temp.price = super.reservation.upsellSelectedCar.pricing.carSelectPrice;
+        }
+        else
+        {
+            _carSelectionPriceDifference = super.reservation.upsellSelectedCar.pricing.carSelectPrice;
+        }
     }
 }
 
@@ -236,7 +238,7 @@
                 if (_totalPrice != nil)
                 {
                     [self findPayNowPayLaterDifference];
-
+                    
                     if ([super.reservation.paymentType isEqualToString:@"2"] || [super.reservation.paymentType isEqualToString:@"6"])
                     {
                         [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",[[NSDecimalNumber decimalNumberWithString:_totalPrice] decimalNumberByAdding: _payNowDifference].floatValue] forState:UIControlStateNormal];
@@ -304,7 +306,10 @@
     _payLaterDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
     
     if (super.reservation.upsellSelectedCar) {
-        
+        //        if ([super.reservation.paymentType isEqualToString:@"2"] || [super.reservation.paymentType isEqualToString:@"6"]) {
+        //            _carSelectionPriceDifference = super.reservation.upsellSelectedCar.pricing.carSelectPrice;
+        //        }
+        //        else
         [self changeCarSelectionPrice];
         
         payNowPrice = [super.reservation.upsellSelectedCar.pricing.payNowPrice decimalNumberByAdding:_carSelectionPriceDifference];
@@ -384,7 +389,7 @@
         temp.updateStatus = @"I";
         [super.reservation.additionalEquipments addObject:temp];
     }
-
+    
     
     // belgede maksimum güvence daha önce eklenmişse, ve yeni seçtiği araçta genç sürücü varsa fiyat güncelliyo
     if (maxSafeArr.count > 0 && _isYoungDriver) {
@@ -415,7 +420,7 @@
     {
         _youngDriverDifference = [[_youngDriverDifference decimalNumberBySubtracting:maxSafePrice] decimalNumberBySubtracting:youngDriverPrice];
     }
-
+    
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -424,7 +429,7 @@
     
     if ([segue.identifier isEqualToString:@"toOldReservationPaymentSegue"])
     {
-        if (_totalPrice != nil && (![super.reservation.paymentType isEqualToString:@"2"] || ![super.reservation.paymentType isEqualToString:@"6"])) {
+        if (_totalPrice != nil && ([super.reservation.paymentType isEqualToString:@"2"] || [super.reservation.paymentType isEqualToString:@"6"])) {
             _changeReservationPrice = [[NSDecimalNumber decimalNumberWithString:_totalPrice] decimalNumberByAdding: _payNowDifference];
         }
         [(OldReservationPaymentVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];

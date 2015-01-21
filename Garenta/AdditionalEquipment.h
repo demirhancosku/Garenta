@@ -47,4 +47,5 @@ typedef enum{
 // Ata Cengiz 04.12.2014 Corparate
 @property (strong, nonatomic) NSString *paymentType; // F for firma, P for personel
 
++ (NSDictionary *)getAdditionalEquipmentsFromSAP:(Reservation *)_reservation andIsYoungDriver:(BOOL)_isYoungDriver;
 @end

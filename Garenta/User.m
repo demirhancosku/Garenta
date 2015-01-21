@@ -83,7 +83,7 @@
                             continue;
                         }
                         
-                        [user setBirthday:[formatter dateFromString:[tempDict valueForKey:@"BIRTHDAY"]]];
+                        [user setBirthday:[formatter dateFromString:[tempDict valueForKey:@"DOGUM_TARIHI"]]];
                         [user setDriversLicenseDate:[formatter dateFromString:[tempDict valueForKey:@"EHLIYET_TARIHI"]]];
                         
                         if ([[tempDict valueForKey:@"C_PRIORITY"] isEqualToString:@"X"]) {
@@ -101,10 +101,22 @@
                 }
                 else {
                     alertString = @"Kullanıcı adı ve şifrenizi kontrol ederek lütfen tekrar deneyiniz.";
+                    [[NSUserDefaults standardUserDefaults] setObject:@""forKey:@"KUNNR"];
+                    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"PASSWORD"];
+                    [ApplicationProperties setUser:nil];
+                    [[ApplicationProperties getUser] setPassword:@""];
+                    [[ApplicationProperties getUser] setUsername:@""];
+                    [[ApplicationProperties getUser] setIsLoggedIn:NO];
                 }
             }
             else {
                 alertString = @"Kullanıcı adı ve şifrenizi kontrol ederek lütfen tekrar deneyiniz.";
+                [[NSUserDefaults standardUserDefaults] setObject:@""forKey:@"KUNNR"];
+                [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"PASSWORD"];
+                [ApplicationProperties setUser:nil];
+                [[ApplicationProperties getUser] setPassword:@""];
+                [[ApplicationProperties getUser] setUsername:@""];
+                [[ApplicationProperties getUser] setIsLoggedIn:NO];
             }
         }
     }

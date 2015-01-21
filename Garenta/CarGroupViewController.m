@@ -116,12 +116,12 @@
     if (carGroup.campaignsArray != nil && carGroup.campaignsArray.count > 0) {
         self.campaignCarGroupButton.hidden = NO;
         
-        UIColor *color = self.campaignCarGroupButton.currentTitleColor;
-        self.campaignCarGroupButton.titleLabel.layer.shadowColor = [color CGColor];
-        self.campaignCarGroupButton.titleLabel.layer.shadowRadius = 4.0f;
-        self.campaignCarGroupButton.titleLabel.layer.shadowOpacity = .9;
-        self.campaignCarGroupButton.titleLabel.layer.shadowOffset = CGSizeZero;
-        self.campaignCarGroupButton.titleLabel.layer.masksToBounds = NO;
+//        UIColor *color = self.campaignCarGroupButton.currentTitleColor;
+//        self.campaignCarGroupButton.titleLabel.layer.shadowColor = [color CGColor];
+//        self.campaignCarGroupButton.titleLabel.layer.shadowRadius = 4.0f;
+//        self.campaignCarGroupButton.titleLabel.layer.shadowOpacity = .9;
+//        self.campaignCarGroupButton.titleLabel.layer.shadowOffset = CGSizeZero;
+//        self.campaignCarGroupButton.titleLabel.layer.masksToBounds = NO;
     }
 }
 
