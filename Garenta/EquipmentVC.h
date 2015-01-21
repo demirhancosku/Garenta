@@ -18,6 +18,7 @@
 @property (strong,nonatomic) NSMutableArray *additionalEquipmentsFullList;
 @property (strong,nonatomic) NSMutableArray *carSelectionArray;
 @property (strong,nonatomic) Reservation *reservation;
+@property BOOL isCampaign;
 @property BOOL isYoungDriver;
 
 - (AdditionalEquipmentTableViewCell*)additionalEquipmentTableViewCellForIndex:(int)index fromTable:(UITableView*)tableView;

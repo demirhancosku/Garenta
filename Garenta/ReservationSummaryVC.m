@@ -277,16 +277,16 @@
             [self performSegueWithIdentifier:@"toPopoverVCSegue" sender:(UITableViewCell*)[_tableView cellForRowAtIndexPath:indexPath]];
             break;
         case 2:
-            //            if (_reservation.campaignObject != nil)
-            //            {
-            //                if (_reservation.campaignObject.campaignReservationType == payNowReservation || _reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation)
-            //                    [self payNowPressed:nil];
-            //                else
-            //                    [self payLaterPressed:nil];;
-            //            }
-            //            else
-            //                [self totalButtonPressed];
-            [self totalButtonPressed];
+            if (_reservation.campaignObject != nil)
+            {
+                if (_reservation.campaignObject.campaignReservationType == payNowReservation || _reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation)
+                    [self payNowPressed:nil];
+                else
+                    [self payLaterPressed:nil];;
+            }
+            else
+                [self totalButtonPressed];
+//            [self totalButtonPressed];
             break;
         default:
             break;

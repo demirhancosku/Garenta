@@ -348,6 +348,7 @@
             {
                 NSString *plateNo = @"";
                 NSString *chassisNo = @"";
+                NSString *fikod = @"";
                 
                 // REZERVASYONA EKLENEN KALEMLER
                 for (NSDictionary *tempEqui in equipmentResponseList)
@@ -367,6 +368,7 @@
                     {
                         plateNo = [tempEqui valueForKey:@"PLAKA_NO"];
                         chassisNo = [tempEqui valueForKey:@"SASE_NO"];
+                        fikod = [tempEqui valueForKey:@"FIYAT_KODU"];
                     }
                 }
                 
@@ -394,6 +396,7 @@
                     [tempCar setMaterialName:[tempDict valueForKey:@"MAKTX"]];
                     [tempCar setPlateNo:plateNo];
                     [tempCar setChassisNo:chassisNo];
+                    [tempCar setPriceCode:fikod];
                     [tempCar setBrandId:[tempDict valueForKey:@"MARKA_ID"]];
                     [tempCar setWinterTire:[tempDict valueForKey:@"KIS_LASTIK"]];
                     [tempCar setColorCode:[tempDict valueForKey:@"RENK"]];

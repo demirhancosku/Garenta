@@ -260,7 +260,6 @@
         CarGroup *carGroup1 = (CarGroup*)a;
         CarGroup *carGroup2 = (CarGroup*)b;
         
-        
         if ([carGroup1.payNowPrice floatValue]<[carGroup2.payNowPrice floatValue]) {
             return (NSComparisonResult)NSOrderedAscending;
         }else if([carGroup1.payNowPrice floatValue]>[carGroup2.payNowPrice floatValue]){

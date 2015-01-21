@@ -11,6 +11,7 @@
 @interface OldReservationSearchVC : ClassicSearchVC <UIAlertViewDelegate>
 
 @property (strong,nonatomic) NSMutableArray *additionalEquipments;
+@property (strong,nonatomic) NSMutableArray *additionalEquipmentsFullList;
 @property (strong,nonatomic) NSDate *oldCheckOutTime;
 @property (strong,nonatomic) NSDate *oldCheckInTime;
 @property BOOL isOk;

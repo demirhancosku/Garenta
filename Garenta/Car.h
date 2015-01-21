@@ -15,6 +15,7 @@
 }
 @property(nonatomic,retain)CarGroup *carGroup;
 @property(nonatomic,retain)Price *pricing;
+@property(nonatomic,retain)NSString *priceCode;
 @property(nonatomic,retain)NSString *officeCode;
 @property(nonatomic,retain)NSString *materialCode;
 @property(nonatomic,retain)NSString *materialName;

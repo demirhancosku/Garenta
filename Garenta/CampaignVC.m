@@ -234,6 +234,7 @@
     // Seçilen çıkış ofisi atanır (Tüm şubelerde farklı şubeler seçilebildiği için)
     _reservation.checkOutOffice = [_officeList objectAtIndex:indexPath.section];
     _reservation.selectedCar = nil;
+    _reservation.campaignButtonPressed = payLaterReservation;
     
     // Şimdi öde, sonra öde yada ön ödemeli iptal edilemez fiyatları varsa o fiyatlar yazılıyor
     for (CampaignObject *temp in filterArr) {
@@ -287,6 +288,7 @@
         
         EquipmentVC *additionalEquipmentsVC = (EquipmentVC*)segue.destinationViewController;
         [additionalEquipmentsVC setIsYoungDriver:[CarGroup checkYoungDriverAddition:_carGroup andBirthday:tempUser.birthday andLicenseDate:tempUser.driversLicenseDate]];
+        [additionalEquipmentsVC setIsCampaign:YES];
         [additionalEquipmentsVC setReservation:_reservation];
     }
 }

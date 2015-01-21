@@ -54,7 +54,8 @@
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        [self getAdditionalEquipmentsFromSAP];
+//        [self getAdditionalEquipmentsFromSAP];
+        [self getAdditionalEquipments];
         [self getNewReservationPrice];
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -136,6 +137,7 @@
                     [tempCar setMaterialCode:[tempDict valueForKey:@"MATNR"]];
                     [tempCar setMaterialName:[tempDict valueForKey:@"MAKTX"]];
                     [tempCar setBrandId:[tempDict valueForKey:@"MARKA_ID"]];
+                    [tempCar setWinterTire:[tempDict valueForKey:@"KIS_LASTIK"]];
                     [tempCar setPlateNo:@""];
                     [tempCar setChassisNo:@""];
                     [tempCar setBrandName:[tempDict valueForKey:@"MARKA"]];
@@ -287,7 +289,15 @@
 }
 
 
--(void)getAdditionalEquipmentsFromSAP {
+-(void)getAdditionalEquipments{
+    
+//    _additionalEquipments = [NSMutableArray new];
+//    _additionalEquipmentsFullList = [NSMutableArray new];
+//    
+//    NSDictionary *temp = [AdditionalEquipment getAdditionalEquipmentsFromSAP:self.reservation andIsYoungDriver:NO];
+//    _additionalEquipments = [temp valueForKey:@"currentList"];
+//    _additionalEquipmentsFullList = [temp valueForKey:@"fullList"];
+    
     @try {
         
         SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZMOB_KDK_GET_EQUIPMENT_LIST"];
@@ -301,6 +311,8 @@
         [handler addImportParameter:@"IMPP_REZNO" andValue:self.reservation.reservationNumber];
         [handler addImportParameter:@"IMPP_MSUBE" andValue:self.reservation.checkOutOffice.subOfficeCode];
         [handler addImportParameter:@"IMPP_DSUBE" andValue:self.reservation.checkInOffice.subOfficeCode];
+        [handler addImportParameter:@"IMPP_MARKAID" andValue:self.reservation.selectedCarGroup.sampleCar.brandId];
+        [handler addImportParameter:@"IMPP_MODELID" andValue:self.reservation.selectedCarGroup.sampleCar.modelId];
         [handler addImportParameter:@"IMPP_LANGU" andValue:@"T"];
         [handler addImportParameter:@"IMPP_GRPKOD" andValue:self.reservation.selectedCarGroup.groupCode];
         [handler addImportParameter:@"IMPP_BEGDA" andValue:[dateFormatter stringFromDate:self.reservation.checkOutTime]];
@@ -317,6 +329,10 @@
             kunnr = [[ApplicationProperties getUser] kunnr];
         }
         
+        if ([fikod isEqualToString:@""] || fikod == nil) {
+            fikod = self.reservation.selectedCarGroup.sampleCar.priceCode;
+        }
+
         [handler addImportParameter:@"IMPP_MUSNO" andValue:kunnr];
         [handler addImportParameter:@"IMPP_FIKOD" andValue:fikod];
         

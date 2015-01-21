@@ -27,6 +27,7 @@
 @property (nonatomic,retain) NSString *reservationStatuId;  // E0003,E0008,VS...
 @property (nonatomic,retain) NSString *reservationStatu;    // İptal,no show, ödeme yapılmış vs.vs. text
 @property (strong,nonatomic) NSMutableArray *additionalEquipments;
+@property (strong,nonatomic) NSMutableArray *additionalFullEquipments;
 @property (strong,nonatomic) NSMutableArray *additionalDrivers;
 @property (strong,nonatomic) NSMutableArray *etReserv;
 @property (strong,nonatomic) Car *selectedCar;
@@ -42,6 +43,7 @@
 @property (strong,nonatomic) NSMutableArray *upsellList;
 @property (strong,nonatomic) NSMutableArray *downsellList;
 @property (strong,nonatomic) CampaignObject *campaignObject;
+@property CampaignReservationType campaignButtonPressed;
 
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl andIsMontlyRent:(BOOL)isMontlyRent andIsCorparatePayment:(BOOL)isCorparate andIsPersonalPayment:(BOOL)isPersonalPayment andReservation:(Reservation *)reservation;
 

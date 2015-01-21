@@ -14,4 +14,7 @@
 //@property (strong,nonatomic) NSMutableArray *campaignIdArray;
 @property (strong,nonatomic) NSMutableArray *officeList;
 @property (strong,nonatomic) Reservation *reservation;
+
 @end
+
+

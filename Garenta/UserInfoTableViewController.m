@@ -14,6 +14,7 @@
 #import "LoginVC.h"
 #import "SMSSoapHandler.h"
 #import "MailSoapHandler.h"
+#import "AdditionalEquipment.h"
 
 @interface UserInfoTableViewController ()
 
@@ -81,6 +82,13 @@
     self.isMailChecked = NO;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self deleteYoungDriverAndMaxSecure];
+    //    _reservation.additionalEquipments = [tempEquipments copy];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
@@ -88,6 +96,34 @@
     [[NSNotificationCenter defaultCenter] removeObserver:@"citySelected"];
     [[NSNotificationCenter defaultCenter] removeObserver:@"countySelected"];
     [[NSNotificationCenter defaultCenter] removeObserver:@"phoneCountrySelected"];
+}
+
+- (void)deleteYoungDriverAndMaxSecure
+{
+    NSPredicate *youngDriver = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0007"];
+    NSPredicate *maxSecure = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0012"];
+    NSArray *youngDriverFilter;
+    NSArray *maxSecureFilter;
+    youngDriverFilter = [_reservation.additionalEquipments filteredArrayUsingPredicate:youngDriver];
+    maxSecureFilter = [_reservation.additionalEquipments filteredArrayUsingPredicate:maxSecure];
+    
+    // daha önce eklenmemişse genç sürücüyü ekliyoruz
+    if (youngDriverFilter.count > 0) {
+        AdditionalEquipment *temp = [AdditionalEquipment new];
+        temp = [youngDriverFilter objectAtIndex:0];
+        temp.quantity = 1;
+        temp.type = additionalInsurance;
+        temp.isRequired = YES;
+        
+        [_reservation.additionalEquipments removeObject:temp];
+        
+        //Genç Sürücüyü silince, maksimum güvenceyide 0 yapmamız lazım
+        temp = [AdditionalEquipment new];
+        temp = [maxSecureFilter objectAtIndex:0];
+        
+        temp.quantity = 0;
+        temp.isRequired = NO;
+    }
 }
 
 - (void)prepareScreen
@@ -359,13 +395,13 @@
             nameString = [NSString stringWithFormat:@"%@ %@", self.nameTextField.text, self.middleNameTextField.text];
         }
         
-        BOOL checker = YES;//[control idChecker:self.tcknoTextField.text andName:nameString andSurname:self.surnameTextField.text andBirthYear:birtdayYearString];
+        BOOL checker = [control idChecker:self.tcknoTextField.text andName:nameString andSurname:self.surnameTextField.text andBirthYear:birtdayYearString];
         
         if (!checker) {
             alertString = @"Girdiğiniz isim ile T.C. Kimlik numarası birbiri ile uyuşmamaktadır. Lütfen kontrol edip tekrar deneyiniz";
         }
     }
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
@@ -375,13 +411,40 @@
         [alert show];
     }
     else {
-        [self verifyPhoneNumber];
+        if ([self checkCarAvailableForYoungDriver]) //genç sürücü kontrolü yapar
+            [self verifyPhoneNumber];
     }
+}
+
+- (BOOL)checkCarAvailableForYoungDriver
+{
+    NSString *alertString;
+    
+    if (![CarGroup isCarGroupAvailableByAge:_reservation.selectedCarGroup andBirthday:self.birthdayDatePicker.date andLicenseDate:self.driverLicenseDatePicker.date])
+    {
+        alertString = [NSString stringWithFormat:@"Seçilen araç grubuna rezervasyon yapılamaz. (Min.Genç Sürücü yaşı: %li - Min.Genç Sürücü Ehliyet Yılı: %li)",(long)_reservation.selectedCarGroup.minYoungDriverAge,(long)_reservation.selectedCarGroup.minYoungDriverLicense];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+        return NO;
+    }
+    
+    //min.Yaş ve min.Ehliyet yılı kontrollerine bakarak hizmet bedeli alınıp alınmayacağına bakar.
+    if ([CarGroup checkYoungDriverAddition:_reservation.selectedCarGroup andBirthday:self.birthdayDatePicker.date andLicenseDate:self.driverLicenseDatePicker.date])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:[NSString stringWithFormat:@"Seçmiş olduğunuz araç grubu için 'Genç Sürücü' ve 'Maksimum Güvence' hizmeti satın alınacaktır (Eklemiş olduğunuz diğer sigorta hizmetleri silinecektir). Devam etmek istiyor musunuz?"] delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Evet", nil];
+        
+        alert.tag = 5;
+        [alert show];
+        return NO;
+    }
+    
+    return YES;
 }
 
 - (void)goToReservationSummary {
     // if all user verifications are right
-    
     User *temp = [[User alloc] init];
     
     temp.gender = @"";
@@ -434,6 +497,52 @@
     [self performSegueWithIdentifier:@"toReservationSummaryVCSegue" sender:self];
 }
 
+- (void)addYoungDriverAndMaxSecure
+{
+    NSPredicate *youngDriver = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0007"];
+    NSPredicate *maxSecure = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0012"];
+    NSArray *youngDriverFilter;
+    NSArray *youngDriverFilter2;
+    NSArray *maxSecureFilter;
+    youngDriverFilter = [_reservation.additionalFullEquipments filteredArrayUsingPredicate:youngDriver];
+    youngDriverFilter2 = [_reservation.additionalEquipments filteredArrayUsingPredicate:youngDriver];
+    maxSecureFilter = [_reservation.additionalEquipments filteredArrayUsingPredicate:maxSecure];
+    
+    // daha önce eklenmemişse genç sürücüyü ekliyoruz
+    if (youngDriverFilter.count > 0 && youngDriverFilter2.count == 0) {
+        AdditionalEquipment *temp = [AdditionalEquipment new];
+        temp = [youngDriverFilter objectAtIndex:0];
+        temp.quantity = 1;
+        temp.type = additionalInsurance;
+        temp.isRequired = YES;
+        
+        [_reservation.additionalEquipments addObject:temp];
+    }
+    
+    //genç sürücü eklendiği için maksimum güvenceyi ekliyoruz
+    if (maxSecureFilter.count > 0) {
+        AdditionalEquipment *tempEqui = [AdditionalEquipment new];
+        tempEqui = [maxSecureFilter objectAtIndex:0];
+        
+        //eğer maksimum güvence daha önce eklendiyse bidaha eklemeye gerek yok
+        if (tempEqui.quantity == 0)
+        {
+            tempEqui.quantity = 1;
+            tempEqui.type = additionalInsurance;
+            tempEqui.isRequired = YES;
+            
+            //maksimum güvence ekleneceği için diğer sigortalar varmı yokmu kontrol ediyoruz, eğer varsa quantity 0 olacak
+            for (AdditionalEquipment *temp in _reservation.additionalEquipments) {
+                if (([[temp materialNumber] isEqualToString:@"HZM0011"] || [[temp materialNumber] isEqualToString:@"HZM0024"] || [[temp materialNumber] isEqualToString:@"HZM0009"] || [[temp materialNumber] isEqualToString:@"HZM0006"]) && [temp quantity] == 1) {
+                    [temp setQuantity:0];
+                }
+            }
+        }
+    }
+    
+    [self verifyPhoneNumber];
+}
+
 - (void)releaseAllTextFields
 {
     [self.nameTextField resignFirstResponder];
@@ -474,7 +583,7 @@
     }
     
     self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
-                                                     message:@"Lütfen telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz"
+                                                     message:@"Lütfen telefonunuza gelen konfirmasyon kodunu 120 saniye içinde giriniz"
                                                     delegate:self
                                            cancelButtonTitle:@"Geri"
                                            otherButtonTitles:@"Tamam", nil];
@@ -482,7 +591,7 @@
     [self.timerAlertView setTag:1];
     [self.timerAlertView show];
     
-    self.alertTimer = 60;
+    self.alertTimer = 120;
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1
                                                   target:self
@@ -569,22 +678,24 @@
     if (alertView.tag == 1) {
         [self.timer invalidate];
         
-        NSString *alertViewText = [[alertView textFieldAtIndex:0] text];
-        
-        if (alertViewText != nil && ![alertViewText isEqualToString:@""]) {
-            if ([alertViewText isEqualToString:self.validationCode]) {
-                [self verifyEmailAdress];
+        if (buttonIndex == 1) {
+            NSString *alertViewText = [[alertView textFieldAtIndex:0] text];
+            
+            if (alertViewText != nil && ![alertViewText isEqualToString:@""]) {
+                if ([alertViewText isEqualToString:self.validationCode]) {
+                    [self verifyEmailAdress];
+                }
+                else {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Girmiş olduğunuz kod ile konfirmasyon kodu uyuşmamaktadır" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Tekrar Dene", nil];
+                    [alert setTag:2];
+                    [alert show];
+                }
             }
             else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Girmiş olduğunuz kod ile konfirmasyon kodu uyuşmamaktadır" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Tekrar Dene", nil];
                 [alert setTag:2];
                 [alert show];
             }
-        }
-        else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Girmiş olduğunuz kod ile konfirmasyon kodu uyuşmamaktadır" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Tekrar Dene", nil];
-            [alert setTag:2];
-            [alert show];
         }
     }
     else if (alertView.tag == 2) {
@@ -594,14 +705,15 @@
     }
     else if (alertView.tag == 3) {
         [self.timer invalidate];
-
+        
         if (buttonIndex == 1) {
             
             NSString *alertViewText = [[alertView textFieldAtIndex:0] text];
-
+            
             if (alertViewText != nil && ![alertViewText isEqualToString:@""]) {
                 if ([alertViewText isEqualToString:self.validationCode]) {
                     self.isMailChecked = YES;
+                    
                     [self goToReservationSummary];
                 }
             }
@@ -623,6 +735,10 @@
             [self goToReservationSummary];
         }
     }
+    else if (alertView.tag == 5)
+        if (buttonIndex == 1) {
+            [self addYoungDriverAndMaxSecure];
+        }
 }
 
 #pragma mark - textfield delegates

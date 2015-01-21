@@ -27,12 +27,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
 //    [self.tableView registerClass:[CarGroupTableViewCell class] forCellReuseIdentifier:@"CarGroupDetailCell"];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -83,6 +85,11 @@
     User *tempUser = [ApplicationProperties getUser];
     if ([self checkIsCarGroupAvailable:tempUser.birthday andLicenseDate:tempUser.driversLicenseDate])
     {
+        // kampanyayla gidince bozuluyo
+        _activeCarGroup.sampleCar.pricing.payNowPrice = [NSDecimalNumber decimalNumberWithString:_activeCarGroup.payNowPrice];
+        _activeCarGroup.sampleCar.pricing.payLaterPrice = [NSDecimalNumber decimalNumberWithString:_activeCarGroup.payLaterPrice];
+        
+
         [_delegate carGroupSelected:_activeCarGroup withOffice:[[_activeCarGroup carGroupOffices] objectAtIndex:indexPath.row] ];
     }
 }
