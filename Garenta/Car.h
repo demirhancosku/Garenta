@@ -43,5 +43,6 @@
 @property(nonatomic,retain)NSString *chassisNo;
 @property(nonatomic,retain)UIImage  *image;
 @property BOOL isForShown;
+@property (nonatomic, strong) NSString *doubleCreditCard;
 
 @end

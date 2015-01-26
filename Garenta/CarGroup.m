@@ -148,6 +148,7 @@
         [tempCar setDoorNumber:[tempDict valueForKey:@"KAPI_SAYISI"]];
         [tempCar setPassangerNumber:[tempDict valueForKey:@"YOLCU_SAYISI"]];
         [tempCar setOfficeCode:[tempDict valueForKey:@"ASUBE"]];
+        [tempCar setDoubleCreditCard:[tempDict valueForKey:@"CIFT_KKARTI"]];
         
         CarGroup *tempCarGroup = [CarGroup getGroupFromList:availableCarGroups WithCode:[tempDict valueForKey:@"GRPKOD"]];
         
@@ -172,6 +173,10 @@
             [tempCarGroup setMinYoungDriverAge:[[tempDict valueForKey:@"GENC_SRC_YAS"] integerValue]];
             [tempCarGroup setMinYoungDriverLicense:[[tempDict valueForKey:@"GENC_SRC_EHL"] integerValue]];
             
+            // 21.01.2015 deposit
+            [tempCarGroup setDailyDeposit:[tempDict valueForKey:@"GUNLUK_TUTAR"]];
+            [tempCarGroup setMontlyDeposit:[tempDict valueForKey:@"AYLIK_TUTAR"]];
+
             [availableCarGroups addObject:tempCarGroup];
         }
         
