@@ -14,6 +14,7 @@
 #import "ReplacementVehicleObject.h"
 #import "OldReservationUpsellDownsellVC.h"
 #import "OldReservationPaymentVC.h"
+#import "ETExpiryObject.h"
 
 @interface OldReservationDetailVC ()
 
@@ -143,7 +144,7 @@
             }
             
             totalPrice = (UILabel*)[aCell viewWithTag:1];
-            [totalPrice setText:[NSString stringWithFormat:@"%.02f",_totalPrice.floatValue]];
+            [totalPrice setText:[NSString stringWithFormat:@"%.02f",_reservation.documentTotalPrice.floatValue]];
             break;
         default:
             break;
@@ -200,12 +201,13 @@
     {
         [self sortUpsellDownsellList];
         [(OldReservationUpsellDownsellVC *)[segue destinationViewController] setReservation:_reservation];
-        [(OldReservationUpsellDownsellVC *)[segue destinationViewController] setTotalPrice:_totalPrice];
+        [(OldReservationUpsellDownsellVC *)[segue destinationViewController] setTotalPrice:[NSString stringWithFormat:@"%.02f",_reservation.documentTotalPrice.floatValue]];
     }
     
     if ([segue.identifier isEqualToString:@"toPaymentSeguePayNow"]) {
         [(OldReservationPaymentVC *)[segue destinationViewController] setReservation:_reservation];
-        [(OldReservationPaymentVC *)[segue destinationViewController] setChangeReservationPrice:[NSDecimalNumber decimalNumberWithString:_totalPrice]];
+        [(OldReservationPaymentVC *)[segue destinationViewController] setChangeReservationPrice:_reservation.documentTotalPrice];
+//        [(OldReservationPaymentVC *)[segue destinationViewController] setChangeReservationPrice:[NSDecimalNumber decimalNumberWithString:_totalPrice]];
     }
     
     if ([segue.identifier isEqualToString:@"toDetailPopoverVCSegue"])
@@ -416,6 +418,8 @@
         [handler addTableForReturn:@"ET_ARACLISTE"];
         [handler addTableForReturn:@"ET_FIYAT"];
         [handler addTableForReturn:@"ET_RETURN"];
+        [handler addTableForReturn:@"ET_EXPIRY"];
+        
         
         NSDictionary *response = [handler prepCall];
         
@@ -433,6 +437,32 @@
                 NSDictionary *tables = [response objectForKey:@"TABLES"];
                 NSDictionary *carList = [tables objectForKey:@"ZPM_S_ARACLISTE"];
                 NSDictionary *priceList = [tables objectForKey:@"ZSD_KDK_S_FIY_RFC_UDS_FIYAT"];
+                // AYLIK İÇİN TAKSİT TABLOSU
+                NSDictionary *etExpiry = [tables objectForKey:@"ZSD_KDK_AYLIK_TAKSIT_ST"];
+                
+                NSDateFormatter *dateFormatter = [NSDateFormatter new];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                
+//                if (!_reservation.etExpiry){
+                    _reservation.etExpiry = [NSMutableArray new];
+//                }
+                
+                for (NSDictionary *tempDict in etExpiry) {
+                    ETExpiryObject *tempObject = [ETExpiryObject new];
+                    
+                    [tempObject setCarGroup:[tempDict valueForKey:@"ARAC_GRUBU"]];
+                    [tempObject setBeginDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_BASI"]]];
+                    [tempObject setEndDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_SONU"]]];
+                    [tempObject setCampaignID:[tempDict valueForKey:@"KAMPANYA_ID"]];
+                    [tempObject setBrandID:[tempDict valueForKey:@"MARKA_ID"]];
+                    [tempObject setModelID:[tempDict valueForKey:@"MODEL_ID"]];
+                    [tempObject setIsPaid:[tempDict valueForKey:@"ODENDI"]];
+                    [tempObject setCurrency:[tempDict valueForKey:@"PARA_BIRIMI"]];
+                    [tempObject setMaterialNo:[tempDict valueForKey:@"MALZEME"]];
+                    [tempObject setTotalPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                    
+                    [_reservation.etExpiry addObject:tempObject];
+                }
                 
                 if ([upsell_downsell isEqualToString:@"U"])
                     _reservation.upsellList = [NSMutableArray new];

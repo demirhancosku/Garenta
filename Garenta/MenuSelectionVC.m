@@ -239,7 +239,7 @@ static int kGarentaLogoId = 1;
         WYStoryboardPopoverSegue* popoverSegue = (WYStoryboardPopoverSegue*)segue;
         
         UIViewController* destinationViewController = (UIViewController *)segue.destinationViewController;
-        destinationViewController.preferredContentSize = CGSizeMake(260,140);       // Deprecated in iOS7. Use 'preferredContentSize' instead.
+        destinationViewController.preferredContentSize = CGSizeMake(260,(self.userList.count + 1) * 44);       // Deprecated in iOS7. Use 'preferredContentSize' instead.
         
         [(ChangeUserProfileVC *)[segue destinationViewController] setUserList:self.userList];
         

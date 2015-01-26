@@ -91,6 +91,8 @@
     UILabel *minInfoLabel;
     
     NSMutableArray *copyArray = [NSMutableArray new];
+    NSDecimalNumber *payNowDifference;
+    NSDecimalNumber *payLaterDifference;
     
     if ([_upsellDownsellSegment selectedSegmentIndex] == 0)
         copyArray = [_upsellList copy];
@@ -98,10 +100,24 @@
         copyArray = [_downsellList copy];
     
     CarGroup *temp = [copyArray objectAtIndex:indexPath.row];
+    if (_reservation.etExpiry.count > 0) {
+        
+        for (ETExpiryObject *tempExpiry in _reservation.etExpiry) {
+            if ([tempExpiry.carGroup isEqualToString:temp.groupCode] && [tempExpiry.modelID isEqualToString:temp.sampleCar.modelId] && [tempExpiry.brandID isEqualToString:temp.sampleCar.brandId]) {
+                
+                payNowDifference = [tempExpiry.totalPrice decimalNumberBySubtracting:temp.sampleCar.pricing.documentCarPrice];
+                
+                payLaterDifference = [tempExpiry.totalPrice decimalNumberBySubtracting:temp.sampleCar.pricing.documentCarPrice];
+                
+                break;
+            }
+        }
+    }
+    else{
+        payNowDifference = [temp.sampleCar.pricing.payNowPrice decimalNumberBySubtracting:temp.sampleCar.pricing.documentCarPrice];
     
-    NSDecimalNumber *payNowDifference = [temp.sampleCar.pricing.payNowPrice decimalNumberBySubtracting:temp.sampleCar.pricing.documentCarPrice];
-    
-    NSDecimalNumber *payLaterDifference = [temp.sampleCar.pricing.payLaterPrice decimalNumberBySubtracting:temp.sampleCar.pricing.documentCarPrice];
+        payLaterDifference = [temp.sampleCar.pricing.payLaterPrice decimalNumberBySubtracting:temp.sampleCar.pricing.documentCarPrice];
+    }
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"upsellDownsellCell"];
     
@@ -236,6 +252,10 @@
             fikod = [[ApplicationProperties getUser] priceCode];
             kunnr = [[ApplicationProperties getUser] kunnr];
         }
+
+        if ([fikod isEqualToString:@""] || fikod == nil) {
+            fikod = self.reservation.selectedCarGroup.sampleCar.priceCode;
+        }
         
         [handler addImportParameter:@"IMPP_MUSNO" andValue:kunnr];
         [handler addImportParameter:@"IMPP_FIKOD" andValue:fikod];
@@ -252,8 +272,7 @@
             NSDictionary *tables = [resultDict objectForKey:@"TABLES"];
             
             _additionalEquipments = [NSMutableArray new];
-            
-            
+
             NSDictionary *etExpiry = [tables objectForKey:@"ZSD_KDK_AYLIK_TAKSIT_ST"];
             
             NSDateFormatter *dateFormatter = [NSDateFormatter new];
@@ -284,6 +303,7 @@
                 [tempEquip setMaterialNumber:[tempDict valueForKey:@"MATNR"]];
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MUS_TANIMI"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"NETWR"]]];
+                [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_MIKTAR"]]];
                 [tempEquip setQuantity:0];
                 [tempEquip setType:standartEquipment];
@@ -298,6 +318,7 @@
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
                 [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_ADET"]]];
                 [tempEquip setQuantity:0];
                 if ([[tempEquip materialNumber] isEqualToString:@"HZM0004"])
@@ -317,6 +338,7 @@
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
                 [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
                 [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
                 [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
                 [tempEquip setType:additionalInsurance];
                 [tempEquip setQuantity:0];

@@ -285,7 +285,7 @@
 #pragma mark - IBActions
 - (IBAction)plusButtonPressed:(id)sender
 {
-    AdditionalEquipment*additionalEquipment = [super.additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
+    AdditionalEquipment *additionalEquipment = [super.additionalEquipments objectAtIndex:[(UIButton*)sender tag]];
     if (additionalEquipment.type == additionalDriver) {
         
         int newValue = [additionalEquipment quantity] + 1;
@@ -297,7 +297,7 @@
                 additionalEquipment.paid = [NSDecimalNumber decimalNumberWithString:@"0"];
             }
             
-            if (super.reservation.etExpiry.count > 0) {
+            if (super.reservation.etExpiry.count > 0 || additionalEquipment.monthlyPrice.floatValue > 0) {
                 additionalEquipment.difference = [[additionalEquipment.monthlyPrice decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
             }else{
                 additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
@@ -314,7 +314,7 @@
                     [temp setQuantity:0];
                     if (_isPayNow) {
                         
-                        if (super.reservation.etExpiry.count > 0) {
+                        if (super.reservation.etExpiry.count > 0 || temp.monthlyPrice.floatValue > 0) {
                             temp.difference = [[temp.monthlyPrice decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",temp.quantity]]] decimalNumberBySubtracting:temp.paid];
                         }
                         else{
@@ -352,7 +352,7 @@
                 additionalEquipment.paid = [NSDecimalNumber decimalNumberWithString:@"0"];
             }
             
-            if (super.reservation.etExpiry.count > 0) {
+            if (super.reservation.etExpiry.count > 0 || additionalEquipment.monthlyPrice.floatValue > 0) {
                 additionalEquipment.difference = [[additionalEquipment.monthlyPrice decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
             }else{
                 additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
@@ -408,6 +408,9 @@
     if (!cell) {
         cell = [SelectCarTableViewCell new];
     }
+    
+    cell.priceLabel.text = @"0.00 TL";
+    cell.carPayLaterLabel.text = @"0.00 TL";
     
     if (_isCarSelected)
     {

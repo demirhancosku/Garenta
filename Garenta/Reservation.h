@@ -37,12 +37,14 @@
 @property (strong, nonatomic) User *temporaryUser;
 @property (strong, nonatomic) NSString *paymentType;  // 1-şimdi öde, 2 sonra öde
 @property (strong,nonatomic) NSDecimalNumber *changeReservationDifference;
+@property (strong,nonatomic) NSDecimalNumber *documentTotalPrice;
 @property (strong,nonatomic) NSString *reservationType; // 10-araca, 20-gruba
 @property (strong,nonatomic) NSString *updateStatus; // Update fonksiyonunda IV_UPDATE_STATUS için kullanılır
 @property (strong, nonatomic) NSMutableArray *etExpiry;
 @property (strong,nonatomic) NSMutableArray *upsellList;
 @property (strong,nonatomic) NSMutableArray *downsellList;
 @property (strong,nonatomic) CampaignObject *campaignObject;
+
 @property CampaignReservationType campaignButtonPressed;
 
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl andIsMontlyRent:(BOOL)isMontlyRent andIsCorparatePayment:(BOOL)isCorparate andIsPersonalPayment:(BOOL)isPersonalPayment andReservation:(Reservation *)reservation;

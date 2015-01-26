@@ -82,13 +82,13 @@
     NSString *payNowPrice;
     NSString *payLaterPrice;
     if (_reservation.etExpiry.count > 0) {
-        payNowPrice = [NSString stringWithFormat:@"Şimdi Öde: %.02fTL + KDV",_carGroup.sampleCar.pricing.payNowPrice.floatValue];
-        payLaterPrice = [NSString stringWithFormat:@"Sonra Öde: %.02fTL + KDV",_carGroup.sampleCar.pricing.payLaterPrice.floatValue];
+        payNowPrice = [NSString stringWithFormat:@"Şimdi Öde:\n%.02fTL + KDV",_carGroup.sampleCar.pricing.payNowPrice.floatValue];
+        payLaterPrice = [NSString stringWithFormat:@"Sonra Öde:\n %.02fTL + KDV",_carGroup.sampleCar.pricing.payLaterPrice.floatValue];
     }
     else
     {
-        payNowPrice = [NSString stringWithFormat:@"Şimdi Öde: %.02f TL",_carGroup.sampleCar.pricing.payNowPrice.floatValue];
-        payLaterPrice = [NSString stringWithFormat:@"Sonra Öde: %.02f TL",_carGroup.sampleCar.pricing.payLaterPrice.floatValue];
+        payNowPrice = [NSString stringWithFormat:@"Şimdi Öde:\n %.02f TL",_carGroup.sampleCar.pricing.payNowPrice.floatValue];
+        payLaterPrice = [NSString stringWithFormat:@"Sonra Öde:\n %.02f TL",_carGroup.sampleCar.pricing.payLaterPrice.floatValue];
     }
     
     
@@ -107,14 +107,14 @@
     
     for (CampaignObject *tempObj in filterArr) {
         if (_reservation.etExpiry.count > 0) {
-            campaingPayNow = [NSString stringWithFormat:@"Şimdi Öde: %.02fTL + KDV",tempObj.campaignPrice.payNowPrice.floatValue];
-            campaignPayLater = [NSString stringWithFormat:@"Sonra Öde: %.02fTL + KDV",tempObj.campaignPrice.payLaterPrice.floatValue];
+            campaingPayNow = [NSString stringWithFormat:@"Şimdi Öde:\n %.02fTL + KDV",tempObj.campaignPrice.payNowPrice.floatValue];
+            campaignPayLater = [NSString stringWithFormat:@"Sonra Öde:\n %.02fTL + KDV",tempObj.campaignPrice.payLaterPrice.floatValue];
             campaignPayFront = [NSString stringWithFormat:@"%.02fTL + KDV ön ödemeli - iptal edilemez",tempObj.campaignPrice.payNowPrice.floatValue];
         }
         else
         {
-            campaingPayNow = [NSString stringWithFormat:@"Şimdi Öde: %.02f TL",tempObj.campaignPrice.payNowPrice.floatValue];
-            campaignPayLater = [NSString stringWithFormat:@"Sonra Öde: %.02f TL",tempObj.campaignPrice.payLaterPrice.floatValue];
+            campaingPayNow = [NSString stringWithFormat:@"Şimdi Öde:\n %.02f TL",tempObj.campaignPrice.payNowPrice.floatValue];
+            campaignPayLater = [NSString stringWithFormat:@"Sonra Öde:\n %.02f TL",tempObj.campaignPrice.payLaterPrice.floatValue];
             campaignPayFront = [NSString stringWithFormat:@"%.02f TL ön ödemeli - iptal edilemez",tempObj.campaignPrice.payNowPrice.floatValue];
         }
         

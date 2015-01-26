@@ -706,6 +706,11 @@
                 NSDictionary *esOutput = [export objectForKey:@"ES_OUTPUT"];
                 NSString *reservationNo = [esOutput valueForKey:@"REZ_NO"];
                 
+                // eğer yeni bi kullanıcıysa partner no dönüyo bize, bu kunnr şifre üretip şifreyi CRM'e basmada lazım
+                if ([[esOutput valueForKey:@"NEW_CUSTOMER"] isEqualToString:@"X"]) {
+                    _reservation.temporaryUser.kunnr = [esOutput valueForKey:@"MUSTERINO"];
+                }
+                
                 BOOL isSuccess = [MailSoapHandler sendReservationInfoMessage:_reservation toMail:mail withFullName:fullName withTotalPrice:totalPrice withReservationNumber:reservationNo withPaymentType:paymentType];
                 
                 return reservationNo;
@@ -914,11 +919,23 @@
                 jatoBrandID = _reservation.upsellSelectedCar.brandName;
                 jatoModelID = _reservation.upsellSelectedCar.modelName;
                 
-                if (isPayNow) {
-                    carPrice = _reservation.upsellSelectedCar.pricing.payNowPrice.stringValue;
+                if (_reservation.etExpiry.count > 0){
+                    for (ETExpiryObject *temp in _reservation.etExpiry){
+                        if ([temp.carGroup isEqualToString:_reservation.upsellCarGroup.groupCode] && [temp.modelID isEqualToString:_reservation.upsellSelectedCar.modelId] && [temp.brandID isEqualToString:_reservation.upsellSelectedCar.brandId])
+                        {
+                            carPrice = [[temp totalPrice] stringValue];
+                            break;
+                        }
+                    }
                 }
-                else{
-                    carPrice = _reservation.upsellSelectedCar.pricing.payLaterPrice.stringValue;
+                else
+                {
+                    if (isPayNow) {
+                        carPrice = _reservation.upsellSelectedCar.pricing.payNowPrice.stringValue;
+                    }
+                    else{
+                        carPrice = _reservation.upsellSelectedCar.pricing.payLaterPrice.stringValue;
+                    }
                 }
             }
             else
@@ -926,10 +943,23 @@
                 matnr = @"";
                 jatoBrandID = @"";
                 jatoModelID = @"";
-                if (isPayNow)
-                    carPrice = _reservation.upsellCarGroup.sampleCar.pricing.payNowPrice.stringValue;
+                
+                if (_reservation.etExpiry.count > 0){
+                    for (ETExpiryObject *temp in _reservation.etExpiry){
+                        if ([temp.carGroup isEqualToString:_reservation.upsellCarGroup.groupCode] && [temp.modelID isEqualToString:_reservation.upsellCarGroup.sampleCar.modelId] && [temp.brandID isEqualToString:_reservation.upsellCarGroup.sampleCar.brandId])
+                        {
+                            carPrice = [[temp totalPrice] stringValue];
+                            break;
+                        }
+                    }
+                }
                 else
-                    carPrice = _reservation.upsellCarGroup.sampleCar.pricing.payLaterPrice.stringValue;
+                {
+                    if (isPayNow)
+                        carPrice = _reservation.upsellCarGroup.sampleCar.pricing.payNowPrice.stringValue;
+                    else
+                        carPrice = _reservation.upsellCarGroup.sampleCar.pricing.payLaterPrice.stringValue;
+                }
             }
             
             //UPSELL YADA DOWNSELL İLE SEÇİLMİŞ ARAÇ
@@ -976,7 +1006,7 @@
         for (AdditionalEquipment *tempEquipment in _reservation.additionalEquipments)
         {
             NSString *price = @"";
-            if (_reservation.etExpiry.count > 0) {
+            if (tempEquipment.monthlyPrice.floatValue > 0) {
                 price = tempEquipment.monthlyPrice.stringValue;
             }
             else{

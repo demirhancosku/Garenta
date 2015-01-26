@@ -8,6 +8,9 @@
 
 #import "ReservationApprovalVC.h"
 #import <EventKit/EventKit.h>
+#import "SMSSoapHandler.h"
+#import "MBProgressHUD.h"
+
 @interface ReservationApprovalVC ()
 @property (weak, nonatomic) IBOutlet UILabel *reservationNumberLabel;
 - (IBAction)returnToMenu:(id)sender;
@@ -26,8 +29,6 @@
     return self;
 }
 
-
-
 - (void)viewDidLoad{
     [super viewDidLoad];
     [_reservationNumberLabel setText:_reservation.reservationNumber];
@@ -36,6 +37,11 @@
     [[ApplicationProperties getTimer] invalidate];
     [ApplicationProperties setTimerObject:0];
     self.navigationItem.hidesBackButton = YES;
+    
+    // minimum bilgilerden geldiyse önce login şifresi üretip, daha sonra bunu CRM'e yazıyoruz
+    if (![[ApplicationProperties getUser] isLoggedIn]) {
+        [self createUserPassword];
+    }
 }
 
 - (void)didReceiveMemoryWarning{
@@ -43,6 +49,86 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)createUserPassword
+{
+    NSString *generatedCode = [SMSSoapHandler generateCode];
+    
+    if (generatedCode == nil || [generatedCode isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"SMS gönderilemedi, lütfen tekrar deneyiniz." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    else {
+        [self sendPasswordToCrm:generatedCode];
+    }
+}
+
+- (void)sendPasswordToCrm:(NSString *)newPassword
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        
+        NSString *alertString = @"";
+        
+        @try {
+            SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZNET_UPDATE_USER_PASSWORD"];
+            
+            NSData *newPasswordData = [newPassword dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
+            NSString *newPasswordEncoded = [newPasswordData base64EncodedStringWithOptions:0];
+            
+            [handler addImportParameter:@"IV_PARTNER" andValue:_reservation.temporaryUser.kunnr];
+            [handler addImportParameter:@"IV_NEWPASSWORD" andValue:newPasswordEncoded];
+            [handler addTableForReturn:@"ET_RETURN"];
+            
+            NSDictionary *response = [handler prepCall];
+            
+            if (response != nil) {
+                NSDictionary *export = [response objectForKey:@"EXPORT"];
+                
+                NSString *result = [export valueForKey:@"EV_SUBRC"];
+                
+                if (![result isEqualToString:@"0"]) {
+//                    NSDictionary *tables = [response objectForKey:@"TABLES"];
+//                    NSDictionary *etReturn = [tables objectForKey:@"BAPIRET2"];
+//                    
+//                    for (NSDictionary *temp in etReturn) {
+//                        if ([[temp valueForKey:@"TYPE"] isEqualToString:@"E"]) {
+//                            alertString = [temp valueForKey:@"MESSAGE"];
+//                        }
+//                    }
+//                    
+//                    if ([alertString isEqualToString:@""]) {
+//                        alertString = @"Güncelleme sırasında hata alındı. Lütfen tekrar deneyiniz";
+//                    }
+                }
+                else {
+                    [[NSUserDefaults standardUserDefaults] setObject:newPasswordEncoded forKey:@"PASSWORD"];
+                    NSString *phoneNumber = self.reservation.temporaryUser.mobile;
+                    
+                    BOOL success = [SMSSoapHandler sendSMSMessage:newPassword toNumber:phoneNumber];
+                    
+                    if (success) {
+                        alertString = @"Şifreniz SMS ile gönderilmiştir. Mail adresiniz ve şifrenizi kullanarak giriş yapabilirsiniz.";
+                    }
+                }
+            }
+        }
+        @catch (NSException *exception) {
+            
+        }
+        @finally {
+            
+        }
+        
+        if (![alertString isEqualToString:@""]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+            [alert show];
+        }
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
+}
 
 - (IBAction)returnToMenu:(id)sender {
     [[self navigationController] popToRootViewControllerAnimated:YES];

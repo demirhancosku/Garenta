@@ -14,8 +14,6 @@
 
 @interface ReservationSummaryVC ()
 
-
-
 @end
 
 @implementation ReservationSummaryVC
@@ -29,7 +27,6 @@
     }
     return self;
 }
-
 
 - (void)viewDidLoad
 {
@@ -148,7 +145,8 @@
                 if (_reservation.etExpiry.count > 0 || ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"])) {
                     // Ata Cengiz 06.12.2014 Corparate Reservation
                     UILabel *serviceScopeLabel = (UILabel *)[aCell viewWithTag:1];
-                    serviceScopeLabel.text = [NSString stringWithFormat:@"%@ & Ödeme Planı", serviceScopeLabel.text];
+                    serviceScopeLabel.text = @"Hizmet Kapsamı & Ödeme Planı";
+                    //                    serviceScopeLabel.text = [NSString stringWithFormat:@"%@ & Ödeme Planı", serviceScopeLabel.text];
                 }
                 break;
             case 2:
@@ -184,7 +182,8 @@
                 if (_reservation.etExpiry.count > 0 || ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"])) {
                     // Ata Cengiz 06.12.2014 Corparate Reservation
                     UILabel *serviceScopeLabel = (UILabel *)[aCell viewWithTag:1];
-                    serviceScopeLabel.text = [NSString stringWithFormat:@"%@ & Ödeme Planı", serviceScopeLabel.text];
+                    serviceScopeLabel.text = @"Hizmet Kapsamı & Ödeme Planı";
+                    //                    serviceScopeLabel.text = [NSString stringWithFormat:@"%@ & Ödeme Planı", serviceScopeLabel.text];
                 }
                 break;
             case 2:
@@ -287,7 +286,7 @@
             }
             else
                 [self totalButtonPressed];
-//            [self totalButtonPressed];
+            //            [self totalButtonPressed];
             break;
         default:
             break;

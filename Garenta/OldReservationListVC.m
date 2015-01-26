@@ -33,13 +33,13 @@
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     [[NSNotificationCenter defaultCenter] addObserverForName:@"reservationUpdated" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
         [self getUserReservationList];
     }];
@@ -83,7 +83,6 @@
             if (_activeReservationList.count == 0 && _completedReservationList.count == 0) {
                 [_segmentedControl setSelectedSegmentIndex:2];
             }
-            
             
             [_oldReservationTableView reloadData];
         });
@@ -177,21 +176,28 @@
                 }
                 
                 NSSortDescriptor *sortDescriptor;
-                sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"reservationNumber"
-                                                             ascending:NO];
+                sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"checkOutTime"
+                                                             ascending:YES];
                 NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-                NSArray *sortedArray;
-                sortedArray = [_cancelledReservationList sortedArrayUsingDescriptors:sortDescriptors];
-                _cancelledReservationList = [NSMutableArray new];
-                _cancelledReservationList = [sortedArray copy];
+//                NSArray *sortedArray;
+                [_cancelledReservationList sortUsingDescriptors:sortDescriptors];
+                [_completedReservationList sortUsingDescriptors:sortDescriptors];
+                [_activeReservationList sortUsingDescriptors:sortDescriptors];
+                [_reservationList sortUsingDescriptors:sortDescriptors];
                 
-                sortedArray = [_completedReservationList sortedArrayUsingDescriptors:sortDescriptors];
-                _completedReservationList = [NSMutableArray new];
-                _completedReservationList = [sortedArray copy];
+                [[ApplicationProperties getUser] setReservationList:_reservationList];
                 
-                sortedArray = [_activeReservationList sortedArrayUsingDescriptors:sortDescriptors];
-                _activeReservationList = [NSMutableArray new];
-                _activeReservationList = [sortedArray copy];
+//                sortedArray = [_cancelledReservationList sortedArrayUsingDescriptors:sortDescriptors];
+//                _cancelledReservationList = [NSMutableArray new];
+//                _cancelledReservationList = [sortedArray copy];
+//                
+//                sortedArray = [_completedReservationList sortedArrayUsingDescriptors:sortDescriptors];
+//                _completedReservationList = [NSMutableArray new];
+//                _completedReservationList = [sortedArray copy];
+//                
+//                sortedArray = [_activeReservationList sortedArrayUsingDescriptors:sortDescriptors];
+//                _activeReservationList = [NSMutableArray new];
+//                _activeReservationList = [sortedArray copy];
                 
 //                sortedArray = [_reservationList sortedArrayUsingDescriptors:sortDescriptors];
 //                _reservationList = [NSMutableArray new];
@@ -332,7 +338,7 @@
             _reservation.additionalEquipments = [NSMutableArray new];
             
             NSDictionary *export = [response objectForKey:@"EXPORT"];
-            _totalPrice = [[export valueForKey:@"ES_DETAIL"] valueForKey:@"TOPLAM_TUTAR"];
+            _reservation.documentTotalPrice = [NSDecimalNumber decimalNumberWithString:[[export valueForKey:@"ES_DETAIL"] valueForKey:@"TOPLAM_TUTAR"]];
             
             _reservation.paymentType = [[export valueForKey:@"ES_DETAIL"] valueForKey:@"ODEME_TURU"];
             

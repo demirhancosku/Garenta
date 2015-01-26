@@ -17,6 +17,7 @@
 		0C0DA9B01865E234003EDDA0 /* Destination.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9AF1865E234003EDDA0 /* Destination.m */; };
 		0C0DA9B31865E23F003EDDA0 /* Arrival.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9B21865E23F003EDDA0 /* Arrival.m */; };
 		0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9B81865EB7E003EDDA0 /* ClassicSearchVC.m */; };
+		0C22A6271A723E7900B65828 /* CustomerIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C22A6261A723E7800B65828 /* CustomerIcon.png */; };
 		0C4567021A260FE1001D8E34 /* CampaignVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4567011A260FE1001D8E34 /* CampaignVC.m */; };
 		0C4567051A261C7C001D8E34 /* CampaignCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4567041A261C7C001D8E34 /* CampaignCell.m */; };
 		0C48234B19DD95BB00C73301 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C48234A19DD95BB00C73301 /* info.png */; };
@@ -207,6 +208,7 @@
 		0C0DA9B21865E23F003EDDA0 /* Arrival.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Arrival.m; sourceTree = "<group>"; };
 		0C0DA9B71865EB7E003EDDA0 /* ClassicSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassicSearchVC.h; sourceTree = "<group>"; };
 		0C0DA9B81865EB7E003EDDA0 /* ClassicSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassicSearchVC.m; sourceTree = "<group>"; };
+		0C22A6261A723E7800B65828 /* CustomerIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CustomerIcon.png; sourceTree = "<group>"; };
 		0C4567001A260FE1001D8E34 /* CampaignVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CampaignVC.h; sourceTree = "<group>"; };
 		0C4567011A260FE1001D8E34 /* CampaignVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CampaignVC.m; sourceTree = "<group>"; };
 		0C4567031A261C7C001D8E34 /* CampaignCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CampaignCell.h; sourceTree = "<group>"; };
@@ -712,6 +714,7 @@
 		0C4C9A9B1846331D00CD3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0C22A6261A723E7800B65828 /* CustomerIcon.png */,
 				0CCF3E4F1A4DAE3800B02B1C /* AMSlideMenu */,
 				E1FE07E419FA3CE500E0BB0B /* ContinueIcon.png */,
 				0C6E41321A4479B400FB81E4 /* ayar_icon.png */,
@@ -1061,6 +1064,7 @@
 				B5688AFC186B17EA009D830E /* detail_search.png in Resources */,
 				0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */,
 				B5688B19186B3A2E009D830E /* load_7.png in Resources */,
+				0C22A6271A723E7900B65828 /* CustomerIcon.png in Resources */,
 				B5688B15186B3A2E009D830E /* load_3.png in Resources */,
 				B5C490361940806E00B737E8 /* unticked_button.png in Resources */,
 				B533CE2118FD21CC002FE236 /* clock_icon.png in Resources */,
