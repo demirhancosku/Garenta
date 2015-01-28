@@ -1033,6 +1033,24 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="50" id="JXI-73-d6d">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JXI-73-d6d" id="KFL-O1-gIf">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ywb-bZ-6aG">
+                                                    <rect key="frame" x="8" y="8" width="304" height="34"/>
+                                                    <color key="backgroundColor" red="0.47450980390000003" green="0.61960784310000006" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <state key="normal" title="Kaydet">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="addButtonPressed:" destination="ecI-ip-EMZ" eventType="touchUpInside" id="an4-AT-cBE"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -1042,21 +1060,7 @@
                         </connections>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Ek Sürücü" id="rCA-vP-zLU">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="R3L-Rb-c6G">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="FBz-r6-LFf">
-                                <rect key="frame" x="-23" y="-15" width="71" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                <state key="normal" title="Kaydet">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="addButtonPressed:" destination="ecI-ip-EMZ" eventType="touchUpInside" id="i7x-3X-I2Z"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Ek Sürücü" id="rCA-vP-zLU"/>
                     <connections>
                         <outlet property="birthdayPicker" destination="RLk-ji-XRX" id="1Ee-76-mrl"/>
                         <outlet property="classSegment" destination="9Jj-2n-Dk0" id="MFB-K8-Pkz"/>
@@ -3875,7 +3879,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kp7-MM-6CW">
-                                <rect key="frame" x="0.0" y="256" width="320" height="35"/>
+                                <rect key="frame" x="0.0" y="259" width="320" height="35"/>
                                 <color key="backgroundColor" red="0.47450980390000003" green="0.61960784310000006" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                 <state key="normal" title="Kampanyaları Görmek için Tıklayınız">
@@ -3883,6 +3887,18 @@
                                 </state>
                                 <connections>
                                     <action selector="campaignButtonIsPressed:" destination="Kbz-6U-2IV" eventType="touchUpInside" id="ba1-4a-alh"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="info.png" translatesAutoresizingMaskIntoConstraints="NO" id="mQD-PI-faM">
+                                <rect key="frame" x="271" y="52" width="33" height="26"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bYv-33-ol2">
+                                <rect key="frame" x="271" y="50" width="33" height="30"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="Z6Z-Rg-VGF" kind="custom" identifier="toCarGroupDetailSegue" customClass="WYStoryboardPopoverSegue" id="iEC-VE-68m"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -4086,7 +4102,7 @@
             <objects>
                 <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="DBj-Xo-gU0" customClass="UserCreationVC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dik-f3-yrM">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -4647,7 +4663,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="CountrySelectionVC" title="Seçiniz.." automaticallyAdjustsScrollViewInsets="NO" id="ilm-N5-Ru3" customClass="CountrySelectionVC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="IWT-7I-P7w">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" id="JBy-Zb-9KC">
@@ -4926,7 +4942,7 @@
                         <viewControllerLayoutGuide type="bottom" id="flZ-C2-otv"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6EV-cz-FLz">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="D4W-6h-XJ6">
@@ -6332,23 +6348,19 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="Hj2-5d-FZ6"/>
-        <segue reference="CB7-4R-l6r"/>
         <segue reference="yNN-jh-21M"/>
-        <segue reference="IrD-Hh-UBR"/>
         <segue reference="m6I-pG-B6V"/>
-        <segue reference="wou-2e-dhb"/>
-        <segue reference="Ez9-1z-i3h"/>
         <segue reference="BYp-FE-LV3"/>
         <segue reference="5OJ-od-EAI"/>
+        <segue reference="wou-2e-dhb"/>
+        <segue reference="Ez9-1z-i3h"/>
         <segue reference="nTw-8o-Pk5"/>
+        <segue reference="iEC-VE-68m"/>
         <segue reference="Qnv-8X-7MN"/>
-        <segue reference="a20-Ar-vAP"/>
         <segue reference="cbc-BX-eje"/>
         <segue reference="hLA-ZH-RHN"/>
         <segue reference="fjv-e4-iFe"/>
         <segue reference="V74-O1-TBy"/>
-        <segue reference="TxX-UN-QgX"/>
-        <segue reference="aLh-ec-Lci"/>
         <segue reference="tMq-8T-4Dd"/>
         <segue reference="y6s-gR-Pji"/>
     </inferredMetricsTieBreakers>
