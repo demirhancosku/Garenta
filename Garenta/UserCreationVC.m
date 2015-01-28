@@ -416,7 +416,7 @@
     }
     
     self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
-                                                     message:@"Lütfen telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz"
+                                                     message:@"Lütfen telefonunuza gelen konfirmasyon kodunu 120 saniye içinde giriniz"
                                                     delegate:self
                                            cancelButtonTitle:@"Geri"
                                            otherButtonTitles:@"Tamam", nil];
@@ -424,7 +424,7 @@
     [self.timerAlertView setTag:1];
     [self.timerAlertView show];
     
-    self.alertTimer = 60;
+    self.alertTimer = 120;
     
     [self.timer invalidate];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1
@@ -470,7 +470,7 @@
     }
     
     self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
-                                                     message:@"Lütfen mail adresinize gelen konfirmasyon kodunu 60 saniye içinde giriniz"
+                                                     message:@"Lütfen mail adresinize gelen konfirmasyon kodunu 120 saniye içinde giriniz"
                                                     delegate:self
                                            cancelButtonTitle:@"Geri"
                                            otherButtonTitles:@"Tamam", nil];
@@ -478,7 +478,7 @@
     [self.timerAlertView setTag:5];
     [self.timerAlertView show];
     
-    self.alertTimer = 60;
+    self.alertTimer = 120;
     
     [self.timer invalidate];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1
@@ -649,7 +649,7 @@
             
             if ([subrc isEqualToString:@"0"]) {
                 self.isUserCreated = YES;
-                alertString = @"Kullanıcınız başarı ile yaratılmıştır. Giriş yapabilirsiniz";
+                alertString = @"Kullanıcınız başarı ile yaratılmıştır. Giriş yapabilirsiniz.";
             }
             else {  
                 NSDictionary *tables = [response objectForKey:@"TABLES"];

@@ -11,6 +11,7 @@
 #import "OldReservationPaymentVC.h"
 #import "OldReservationApprovalVC.h"
 #import "AdditionalEquipment.h"
+#import "ETExpiryObject.h"
 
 @interface OldReservationSummaryVC ()
 
@@ -300,7 +301,7 @@
 {
     NSDecimalNumber *payNowPrice;
     NSDecimalNumber *payLaterPrice;
-    NSDecimalNumber *documentPrice;
+    NSDecimalNumber *documentCarPrice;
     
     _payNowDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
     _payLaterDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
@@ -312,19 +313,47 @@
         //        else
         [self changeCarSelectionPrice];
         
-        payNowPrice = [super.reservation.upsellSelectedCar.pricing.payNowPrice decimalNumberByAdding:_carSelectionPriceDifference];
-        payLaterPrice = [super.reservation.upsellSelectedCar.pricing.payLaterPrice decimalNumberByAdding:_carSelectionPriceDifference];
-        documentPrice = super.reservation.upsellSelectedCar.pricing.documentCarPrice;
+        if (super.reservation.etExpiry.count > 0) {
+            for (ETExpiryObject *temp in super.reservation.etExpiry) {
+                if ([temp.carGroup isEqualToString:super.reservation.upsellCarGroup.groupCode] && [temp.modelID isEqualToString:super.reservation.upsellSelectedCar.modelId] && [temp.brandID isEqualToString:super.reservation.upsellSelectedCar.brandId]) {
+                    
+                    payNowPrice = [temp.totalPrice decimalNumberByAdding:_carSelectionPriceDifference];
+                    payLaterPrice = [temp.totalPrice decimalNumberByAdding:_carSelectionPriceDifference];
+                    documentCarPrice = super.reservation.upsellSelectedCar.pricing.documentCarPrice;
+                    
+                    break;
+                }
+            }
+        }
+        else{
+            payNowPrice = [super.reservation.upsellSelectedCar.pricing.payNowPrice decimalNumberByAdding:_carSelectionPriceDifference];
+            payLaterPrice = [super.reservation.upsellSelectedCar.pricing.payLaterPrice decimalNumberByAdding:_carSelectionPriceDifference];
+            documentCarPrice = super.reservation.upsellSelectedCar.pricing.documentCarPrice;
+        }
     }
     else
     {
-        payNowPrice = super.reservation.upsellCarGroup.sampleCar.pricing.payNowPrice;
-        payLaterPrice = super.reservation.upsellCarGroup.sampleCar.pricing.payLaterPrice;
-        documentPrice = super.reservation.upsellCarGroup.sampleCar.pricing.documentCarPrice;
+        if (super.reservation.etExpiry.count > 0) {
+            for (ETExpiryObject *temp in super.reservation.etExpiry) {
+                if ([temp.carGroup isEqualToString:super.reservation.upsellCarGroup.groupCode] && [temp.modelID isEqualToString:super.reservation.upsellCarGroup.sampleCar.modelId] && [temp.brandID isEqualToString:super.reservation.upsellCarGroup.sampleCar.brandId]) {
+                    
+                    payNowPrice = temp.totalPrice;
+                    payLaterPrice = temp.totalPrice;
+                    documentCarPrice = super.reservation.upsellCarGroup.sampleCar.pricing.documentCarPrice;
+                    
+                    break;
+                }
+            }
+        }
+        else{
+            payNowPrice = super.reservation.upsellCarGroup.sampleCar.pricing.payNowPrice;
+            payLaterPrice = super.reservation.upsellCarGroup.sampleCar.pricing.payLaterPrice;
+            documentCarPrice = super.reservation.upsellCarGroup.sampleCar.pricing.documentCarPrice;
+        }
     }
     
-    _payNowDifference = [payNowPrice decimalNumberBySubtracting:documentPrice];
-    _payLaterDifference = [payLaterPrice decimalNumberBySubtracting:documentPrice];
+    _payNowDifference = [payNowPrice decimalNumberBySubtracting:documentCarPrice];
+    _payLaterDifference = [payLaterPrice decimalNumberBySubtracting:documentCarPrice];
     
     _payNowDifference = [_payNowDifference decimalNumberByAdding:_youngDriverDifference];
     _payLaterDifference = [_payLaterDifference decimalNumberByAdding:_youngDriverDifference];

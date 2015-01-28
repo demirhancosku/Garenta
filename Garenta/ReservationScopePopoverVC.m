@@ -156,7 +156,7 @@
                     // alınan ek ürünklerin aylık taksitleri toplanıyor
                     for (AdditionalEquipment *temp in reservation.additionalEquipments)
                     {
-                        if (temp.quantity > 0 && ![temp.updateStatus isEqualToString:@"D"])
+                        if (temp.quantity > 0 && temp.monthlyPrice.floatValue > 0 && ![temp.updateStatus isEqualToString:@"D"])
                         {
                             equipmentMonthlyPrice = [equipmentMonthlyPrice decimalNumberByAdding:temp.monthlyPrice];
                         }

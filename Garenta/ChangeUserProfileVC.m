@@ -16,12 +16,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (self.userList.count > 2) {
-        self.tableView.scrollEnabled = YES;
-    }
-    else{
-        self.tableView.scrollEnabled = NO;
-    }
+//    if (self.userList.count > 2) {
+//        self.tableView.scrollEnabled = YES;
+//    }
+//    else{
+//        self.tableView.scrollEnabled = NO;
+//    }
 }
 
 - (void)didReceiveMemoryWarning {

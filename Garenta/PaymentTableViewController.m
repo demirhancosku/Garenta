@@ -49,7 +49,7 @@
     else {
         [_totalPriceLabel setText:[NSString stringWithFormat:@"%.02f TL",[[_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:_garentaTlTextField.text andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO andReservation:_reservation] floatValue]]];
     }
-
+    
     _requiredFields = [NSArray arrayWithObjects:_creditCardNumberTextField,_nameOnCardTextField,_expirationMonthTextField,_expirationYearTextField,_cvvTextField, nil];
     
     if ([[ApplicationProperties getUser] isLoggedIn]) {
@@ -94,7 +94,7 @@
     else
         [self setTextFieldsEnable:NO];
     
-//    _nameOnCardTextField.text = _creditCard.nameOnTheCard;
+    //    _nameOnCardTextField.text = _creditCard.nameOnTheCard;
     _creditCardNumberTextField.text = _creditCard.cardNumber;
     _expirationMonthTextField.text = _creditCard.expirationMonth;
     _expirationYearTextField.text = _creditCard.expirationYear;
@@ -115,7 +115,13 @@
     
     if ([[ApplicationProperties getUser] isLoggedIn]) {
         if ([[ApplicationProperties getUser] isPriority]) {
-            [self getUserCreditCardsFromSAP];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                [self getUserCreditCardsFromSAP];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                });
+            });
         }
         
         self.garentaTlTextField.placeholder = [NSString stringWithFormat:@"Bakiyeniz : %@", [[ApplicationProperties getUser] garentaTl]];
@@ -179,8 +185,8 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
     [self.tableView scrollToRowAtIndexPath:indexPath
-                                              atScrollPosition:UITableViewScrollPositionTop
-                                                      animated:YES];
+                          atScrollPosition:UITableViewScrollPositionTop
+                                  animated:YES];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -301,7 +307,7 @@
         WYStoryboardPopoverSegue* popoverSegue = (WYStoryboardPopoverSegue*)segue;
         
         UIViewController* destinationViewController = (UIViewController *)segue.destinationViewController;
-        destinationViewController.preferredContentSize = CGSizeMake(320, 280);   
+        destinationViewController.preferredContentSize = CGSizeMake(320, 280);
         
         self.myPopoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionUp animated:YES];
         self.myPopoverController.delegate = self;
@@ -366,7 +372,7 @@
     else if (_cvvTextField.text.length < 3)
         errorMessage = @"CVV numarası 3 hane olmalıdır, lütfen kontrol edin.";
     
-
+    
     if (errorMessage != nil)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:errorMessage delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
@@ -374,7 +380,7 @@
         [alert show];
         return NO;
     }
-
+    
     return YES;
 }
 

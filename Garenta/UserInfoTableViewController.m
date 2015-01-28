@@ -605,10 +605,10 @@
     NSString *timerAlert = @"";
     
     if (![self.telnoCheckString isEqualToString:@""]) {
-        timerAlert = [NSString stringWithFormat:@"%@ Lütfen telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz", self.telnoCheckString];
+        timerAlert = [NSString stringWithFormat:@"%@ Lütfen telefonunuza gelen konfirmasyon kodunu 120 saniye içinde giriniz", self.telnoCheckString];
     }
     else {
-        timerAlert = @"Lütfen telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz";
+        timerAlert = @"Lütfen telefonunuza gelen konfirmasyon kodunu 120 saniye içinde giriniz";
     }
     
     self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"

@@ -139,6 +139,10 @@
     }
     
     
+    if (reservation.documentTotalPrice.floatValue > 0) {
+        totalPrice = [[reservation.documentTotalPrice decimalNumberByAdding:[NSDecimalNumber decimalNumberWithString:totalPrice]] stringValue];
+    }
+    
     NSURL *connectionURL = [NSURL URLWithString:@"http://mobil.garenta.com.tr/hgs/Asmx/SendMail.asmx"];
     NSString *signature = @"<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">";
     NSString *openHeader = @"<soapenv:Header/>";
