@@ -162,8 +162,19 @@
                         }
                     }
                     
+                    if (reservation.selectedCar) {
+                        
+                        NSPredicate *filter = [NSPredicate predicateWithFormat:@"materialNumber = %@",@"HZM0031"];
+                        NSArray *filterArr = [reservation.additionalFullEquipments filteredArrayUsingPredicate:filter];
+                        
+                        if (filterArr.count > 0) {
+                            equipmentMonthlyPrice = [equipmentMonthlyPrice decimalNumberByAdding:[[filterArr objectAtIndex:0] monthlyPrice]];
+                        }
+                    }
+                    
                     documentMonthlyTotalPrice = [tempObject.totalPrice decimalNumberByAdding:equipmentMonthlyPrice];
  
+                    
                     [textView setText:[NSString stringWithFormat:@"%@\n%i. Taksit - %@ %@", textView.text, count, documentMonthlyTotalPrice.stringValue, tempObject.currency]];
                     
                     count++;

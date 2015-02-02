@@ -12,5 +12,6 @@
 
 + (NSString *)generateCode;
 + (BOOL)sendSMSMessage:(NSString *)message toNumber:(NSString *)phoneNumber;
++ (BOOL)sendWebPassword:(NSString *)message toNumber:(NSString *)phoneNumber;
 
 @end

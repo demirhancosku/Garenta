@@ -11,10 +11,13 @@
 #import "Car.h"
 #import "CarSelectedProtocol.h"
 #import "CarGroupViewController.h"
-@interface CarGroupManagerViewController : UIViewController<UIPageViewControllerDataSource,UIPageViewControllerDelegate,CarSelectedProtocol>{
+#import "WYStoryboardPopoverSegue.h"
+
+@interface CarGroupManagerViewController : UIViewController<UIPageViewControllerDataSource,UIPageViewControllerDelegate,CarSelectedProtocol,WYPopoverControllerDelegate>{
 
     NSMutableArray *groupVCs;
     CarGroup *activeCarGroup;
+    WYPopoverController* popoverController;
 }
 
 @property (strong,nonatomic) NSMutableArray *additionalEquipments;

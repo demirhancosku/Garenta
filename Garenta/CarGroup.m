@@ -95,7 +95,7 @@
         [tempPrice setCarGroup:[tempDict valueForKey:@"ARAC_GRUBU"]];
         [tempPrice setPayNowPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"SIMDI_ODE_FIYAT_TRY"]]];
         [tempPrice setPayLaterPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"SONRA_ODE_FIYAT_TRY"]]];
-        [tempPrice setCarSelectPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"ARAC_SECIM_FARK_TRY"]]];
+//        [tempPrice setCarSelectPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"ARAC_SECIM_FARK_TRY"]]];
         [tempPrice setDayCount:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"GUN_SAYISI"]]];
         [tempPrice setSalesOffice:[tempDict valueForKey:@"CIKIS_SUBE"]];
         [tempPrice setPriceWithKDV:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KDVLI_TOPLAM_TUTAR_TRY"]]];

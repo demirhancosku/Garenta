@@ -34,11 +34,11 @@
     [super addNotifications];
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
     
-//    _oldCheckOutTime = [super.reservation.checkOutTime copy];
-//    _oldCheckInTime = [super.reservation.checkInTime copy];
-    
     super.reservation.checkOutTime = [_oldCheckOutTime copy];
     super.reservation.checkInTime = [_oldCheckInTime copy];
+    
+//    super.reservation.checkOutOffice = [self copyWithZone:nil];
+//    super.reservation.checkInOffice = [_oldCheckInOffice copy];
     
     isOk = YES;
     
@@ -167,7 +167,7 @@
                     if (carSelectPredicateArray.count > 0) {
                         [[carSelectPredicateArray objectAtIndex:0] setPrice:[NSDecimalNumber decimalNumberWithString:[export valueForKey:@"EXPP_ASECIM_TTR"]]];
                     }
-                    [tempCar.pricing setCarSelectPrice:[export valueForKey:@"EXPP_ASECIM_TTR"]];
+//                    [tempCar.pricing setCarSelectPrice:[export valueForKey:@"EXPP_ASECIM_TTR"]];
                     
                     [super.reservation.selectedCarGroup.cars addObject:tempCar];
                 }
@@ -243,9 +243,9 @@
                 NSString *currency = [export valueForKey:@"EXPP_CURR"];
                 NSString *paymentType = [export valueForKey:@"EXPP_TYPE"]; //T-toplam rezervasyon tutarı, F-fark tutarı
                 
-                if ([paymentType isEqualToString:@"T"]) {
-                    super.reservation.changeReservationDifference = [super.reservation.changeReservationDifference decimalNumberBySubtracting:super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice];
-                }
+//                if ([paymentType isEqualToString:@"T"]) {
+//                    super.reservation.changeReservationDifference = [super.reservation.changeReservationDifference decimalNumberBySubtracting:super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice];
+//                }
                 
                 NSDecimalNumber *equipmentPriceDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
                 for (AdditionalEquipment *temp in super.reservation.additionalEquipments)
@@ -302,243 +302,7 @@
     _additionalEquipments = [temp valueForKey:@"currentList"];
     _additionalEquipmentsFullList = [temp valueForKey:@"fullList"];
     
-//    @try {
-//        
-//        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZMOB_KDK_GET_EQUIPMENT_LIST"];
-//        
-//        NSDateFormatter *dateFormatter  = [NSDateFormatter new];
-//        [dateFormatter setDateFormat:@"yyyyMMdd"];
-//        
-//        NSDateFormatter *timeFormatter  = [NSDateFormatter new];
-//        [timeFormatter setDateFormat:@"HH:mm:ss"];
-//        
-//        [handler addImportParameter:@"IMPP_REZNO" andValue:self.reservation.reservationNumber];
-//        [handler addImportParameter:@"IMPP_MSUBE" andValue:self.reservation.checkOutOffice.subOfficeCode];
-//        [handler addImportParameter:@"IMPP_DSUBE" andValue:self.reservation.checkInOffice.subOfficeCode];
-//        [handler addImportParameter:@"IMPP_MARKAID" andValue:self.reservation.selectedCarGroup.sampleCar.brandId];
-//        [handler addImportParameter:@"IMPP_MODELID" andValue:self.reservation.selectedCarGroup.sampleCar.modelId];
-//        [handler addImportParameter:@"IMPP_LANGU" andValue:@"T"];
-//        [handler addImportParameter:@"IMPP_GRPKOD" andValue:self.reservation.selectedCarGroup.groupCode];
-//        [handler addImportParameter:@"IMPP_BEGDA" andValue:[dateFormatter stringFromDate:self.reservation.checkOutTime]];
-//        [handler addImportParameter:@"IMPP_ENDDA" andValue:[dateFormatter stringFromDate:self.reservation.checkInTime]];
-//        [handler addImportParameter:@"IMPP_BEGUZ" andValue:[timeFormatter stringFromDate:self.reservation.checkOutTime]];
-//        [handler addImportParameter:@"IMPP_ENDUZ" andValue:[timeFormatter stringFromDate:self.reservation.checkInTime]];
-//        [handler addImportParameter:@"IMPP_KANAL" andValue:@"40"];
-//        
-//        NSString *fikod = @"";
-//        NSString *kunnr = @"";
-//        
-//        if ([[ApplicationProperties getUser] isLoggedIn]) {
-//            fikod = [[ApplicationProperties getUser] priceCode];
-//            kunnr = [[ApplicationProperties getUser] kunnr];
-//        }
-//        
-//        if ([fikod isEqualToString:@""] || fikod == nil) {
-//            fikod = self.reservation.selectedCarGroup.sampleCar.priceCode;
-//        }
-//
-//        [handler addImportParameter:@"IMPP_MUSNO" andValue:kunnr];
-//        [handler addImportParameter:@"IMPP_FIKOD" andValue:fikod];
-//        
-//        [handler addTableForReturn:@"EXPT_EKPLIST"];
-//        [handler addTableForReturn:@"EXPT_SIGORTA"];
-//        [handler addTableForReturn:@"EXPT_EKSURUCU"];
-//        [handler addTableForReturn:@"EXPT_EXPIRY"];
-//        
-//        NSDictionary *resultDict = [handler prepCall];
-//        
-//        if (resultDict != nil)
-//        {
-//            NSDictionary *tables = [resultDict objectForKey:@"TABLES"];
-//            
-//            _additionalEquipments = [NSMutableArray new];
-//            
-//            NSDictionary *etExpiry = [tables objectForKey:@"ZSD_KDK_AYLIK_TAKSIT_ST"];
-//            NSMutableArray *etExpiryArray = [NSMutableArray new];
-//            
-//            NSDateFormatter *dateFormatter = [NSDateFormatter new];
-//            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-//            
-//            for (NSDictionary *tempDict in etExpiry) {
-//                ETExpiryObject *tempObject = [ETExpiryObject new];
-//                
-//                [tempObject setCarGroup:[tempDict valueForKey:@"ARAC_GRUBU"]];
-//                [tempObject setBeginDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_BASI"]]];
-//                [tempObject setEndDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_SONU"]]];
-//                [tempObject setCampaignID:[tempDict valueForKey:@"KAMPANYA_ID"]];
-//                [tempObject setBrandID:[tempDict valueForKey:@"MARKA_ID"]];
-//                [tempObject setModelID:[tempDict valueForKey:@"MODEL_ID"]];
-//                [tempObject setIsPaid:[tempDict valueForKey:@"ODENDI"]];
-//                [tempObject setCurrency:[tempDict valueForKey:@"PARA_BIRIMI"]];
-//                [tempObject setMaterialNo:[tempDict valueForKey:@"MALZEME"]];
-//                [tempObject setTotalPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
-//                
-//                [etExpiryArray addObject:tempObject];
-//            }
-//            
-//            super.reservation.etExpiry = etExpiryArray;
-//            
-//            NSDictionary *equipmentList = [tables objectForKey:@"ZPM_S_EKIPMAN_LISTE"];
-//            
-//            for (NSDictionary *tempDict in equipmentList)
-//            {
-//                // ek ürünlerin kampanyalı fiyatları
-//                NSDecimalNumber *campaignPrice = [NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KAMPANYALI_TUTAR"]];
-//                AdditionalEquipment *tempEquip = [AdditionalEquipment new];
-//                [tempEquip setMaterialNumber:[tempDict valueForKey:@"MATNR"]];
-//                [tempEquip setMaterialDescription:[tempDict valueForKey:@"MUS_TANIMI"]];
-//                if (campaignPrice.floatValue > 0) {
-//                    [tempEquip setPrice:campaignPrice];
-//                }
-//                else{
-//                    [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"NETWR"]]];
-//                }
-////                [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"NETWR"]]];
-//                [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
-//                [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_MIKTAR"]]];
-//                [tempEquip setQuantity:0];
-//                [tempEquip setType:standartEquipment];
-//                [_additionalEquipments addObject:tempEquip];
-//            }
-//            
-//            NSDictionary *additionalEquipmentList = [tables objectForKey:@"ZMOB_KDK_S_EKSURUCU"];
-//            
-//            for (NSDictionary *tempDict in additionalEquipmentList) {
-//                
-//                NSDecimalNumber *campaignPrice = [NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KAMPANYALI_TUTAR"]];
-//                
-//                AdditionalEquipment *tempEquip = [AdditionalEquipment new];
-//                [tempEquip setMaterialNumber:[tempDict valueForKey:@"MALZEME"]];
-//                [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
-//                [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
-//                if (campaignPrice.floatValue > 0) {
-//                    [tempEquip setPrice:campaignPrice];
-//                }
-//                else{
-//                    [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
-//                }
-//                [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
-//                [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"MAX_ADET"]]];
-//                [tempEquip setQuantity:0];
-//                if ([[tempEquip materialNumber] isEqualToString:@"HZM0004"])
-//                    [tempEquip setType:additionalDriver];
-//                else
-//                    [tempEquip setType:additionalInsurance];
-//                
-//                // GENÇ SÜRÜCÜ full list içinde var, ekrana gösterdiğimiz array de yok
-//                // GENÇ SÜRÜCÜ eklenince silinmemesi için isRequired = YES
-//                // GENÇ SÜRÜCÜ 1'den fazla ekleyememesi için MaxQuantity = 1
-//                if ([[tempEquip materialNumber] isEqualToString:@"HZM0007"])
-//                {
-//                    // eski ezervasyonlardan genç sürücü geliyomu kontrolü
-//                    NSPredicate *equipmentPredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0007"];
-//                    NSArray *equipmentPredicateArray = [super.reservation.additionalEquipments filteredArrayUsingPredicate:equipmentPredicate];
-//                    
-//                    if (equipmentPredicateArray.count > 0)
-//                    {
-//                        [tempEquip setIsRequired:YES];
-//                        [tempEquip setQuantity:1];
-//                        [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
-//                        [_additionalEquipments insertObject:tempEquip atIndex:0];
-//                    }
-//                }
-//                else
-//                {
-//                    NSPredicate *tempPredicate = [NSPredicate predicateWithFormat:@"winterTire=%@",@"X"];
-//                    NSArray *tempPredicateArray = [super.reservation.selectedCarGroup.cars filteredArrayUsingPredicate:tempPredicate];
-//                    if ([[tempEquip materialNumber] isEqualToString:@"HZM0014"] && tempPredicateArray.count == 0) {
-//                        
-//                    }
-//                    else
-//                    {
-//                        [_additionalEquipments addObject:tempEquip];
-//                    }
-//                }
-//            }
-//            
-//            NSDictionary *assuranceList = [tables objectForKey:@"ZMOB_KDK_S_SIGORTA"];
-//            
-//            for (NSDictionary *tempDict in assuranceList)
-//            {
-//                // ek ürünlerin kampanyalı fiyatları
-//                NSDecimalNumber *campaignPrice = [NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KAMPANYALI_TUTAR"]];
-//                
-//                AdditionalEquipment *tempEquip = [AdditionalEquipment new];
-//                [tempEquip setMaterialNumber:[tempDict valueForKey:@"MALZEME"]];
-//                [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
-//                [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
-//                if (campaignPrice.floatValue > 0) {
-//                    [tempEquip setPrice:campaignPrice];
-//                }
-//                else{
-//                    [tempEquip setPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
-//                }
-//                [tempEquip setMonthlyPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"AYLIK_TAHSIL"]]];
-//                [tempEquip setMaxQuantity:[NSDecimalNumber decimalNumberWithString:@"1"]];
-//                [tempEquip setType:additionalInsurance];
-//                [tempEquip setQuantity:0];
-//                
-//                if ([[tempEquip materialNumber] isEqualToString:@"HZM0020"] && tempEquip.price.floatValue > 0) //tek yön ücreti varsa hep 1 olacak
-//                {
-//                    [tempEquip setQuantity:1];
-//                    [tempEquip setIsRequired:YES];
-//                    [_additionalEquipments insertObject:tempEquip atIndex:0];
-//                }
-//                
-//                // ARAÇ SEÇİM FARKI full list içinde var, ekrana gösterdiğimiz array de yok
-//                else if ([[tempEquip materialNumber] isEqualToString:@"HZM0031"])
-//                {
-//                    //eski ezervasyonlardan araç seçim farkı geliyomu kontrolü
-//                    NSPredicate *carSelectPredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0031"];
-//                    NSArray *carSelectPredicateArray = [super.reservation.additionalEquipments filteredArrayUsingPredicate:carSelectPredicate];
-//                    if (carSelectPredicateArray.count > 0)
-//                    {
-//                        [tempEquip setQuantity:1];
-//                        [tempEquip setIsRequired:YES];
-//                        //                        [tempEquip setPrice:[[carSelectPredicateArray objectAtIndex:0] price]];
-//                        [_additionalEquipments insertObject:tempEquip atIndex:0];
-//                    }
-//                }
-//                // EĞER GENÇ SÜRÜCÜ VARSA MAKSİMUM GÜVENCE EN ÜSTE EKLENİYO VE ZORUNLU OLUYO
-//                else if ([[tempEquip materialNumber]isEqualToString:@"HZM0012"])
-//                {
-//                    // eski ezervasyonlardan Maks.güvence geliyomu kontrolü
-//                    NSPredicate *maxSecurePredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0012"];
-//                    NSArray *maxSecurePredicateArray = [super.reservation.additionalEquipments filteredArrayUsingPredicate:maxSecurePredicate];
-//                    
-//                    NSPredicate *youngPredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0007"];
-//                    NSArray *youngPredicateArray = [super.reservation.additionalEquipments filteredArrayUsingPredicate:youngPredicate];
-//                    
-//                    if (maxSecurePredicateArray.count > 0)
-//                    {
-//                        [tempEquip setQuantity:1];
-//                        
-//                        if (youngPredicateArray.count > 0)
-//                            [tempEquip setIsRequired:YES];
-//                        else
-//                            [tempEquip setIsRequired:NO];
-//                        
-//                        [_additionalEquipments insertObject:tempEquip atIndex:0];
-//                    }
-//                    else
-//                    {
-//                        [_additionalEquipments addObject:tempEquip];
-//                    }
-//                }
-//                else
-//                {
-//                    [_additionalEquipments addObject:tempEquip];
-//                }
-//            }
-//            
-//            
-//        }
-//    }
-//    @catch (NSException *exception) {
-//        
-//    }
-//    @finally {
-//    }
+    self.reservation.additionalFullEquipments = _additionalEquipmentsFullList;
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -683,9 +447,23 @@
             }
             
             tempEqui.quantity = 0;
+            tempEqui.maxQuantity = 0;
             tempEqui.updateStatus = @"D";
+            tempEqui.type = additionalInsurance;
             
             [_additionalEquipments insertObject:tempEqui atIndex:0];
+        }
+        
+        if (filterResult2.count > 0 && filterResult3.count > 0) {
+            AdditionalEquipment *reservationEqui = [filterResult2 objectAtIndex:0];
+            AdditionalEquipment *currentEqui = [filterResult3 objectAtIndex:0];
+            
+            reservationEqui.difference = [currentEqui.price decimalNumberBySubtracting:reservationEqui.price];
+            if ([super.reservation.paymentType isEqualToString:@"1"]) {
+                reservationEqui.paid = reservationEqui.price;
+            }
+            
+//            [_additionalEquipments insertObject:reservationEqui atIndex:0];
         }
     
         [(OldReservationEquipmentVC *)[segue destinationViewController] setReservation:super.reservation];

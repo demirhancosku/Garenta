@@ -68,6 +68,7 @@
 		0CCF3E641A4DAE3800B02B1C /* AMSlideMenuRightTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCF3E5C1A4DAE3800B02B1C /* AMSlideMenuRightTableViewController.m */; };
 		0CCF3E651A4DAE3800B02B1C /* UIViewController+AMSlideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCF3E5E1A4DAE3800B02B1C /* UIViewController+AMSlideMenu.m */; };
 		0CD91A891A4097B0003D22D6 /* ChangeUserProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD91A881A4097B0003D22D6 /* ChangeUserProfileVC.m */; };
+		0CFF7FEE1A76576300D15586 /* CarGroupInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFF7FED1A76576300D15586 /* CarGroupInfoVC.m */; };
 		77886DE11A134C570075D50A /* MainSlideMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 77886DE01A134C570075D50A /* MainSlideMenuVC.m */; };
 		77886DED1A134DA60075D50A /* BranchDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 77886DE41A134DA60075D50A /* BranchDetailVC.m */; };
 		77886DEE1A134DA60075D50A /* BranchesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77886DE61A134DA60075D50A /* BranchesViewController.m */; };
@@ -292,6 +293,8 @@
 		0CCF3E5E1A4DAE3800B02B1C /* UIViewController+AMSlideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AMSlideMenu.m"; sourceTree = "<group>"; };
 		0CD91A871A4097B0003D22D6 /* ChangeUserProfileVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeUserProfileVC.h; sourceTree = "<group>"; };
 		0CD91A881A4097B0003D22D6 /* ChangeUserProfileVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeUserProfileVC.m; sourceTree = "<group>"; };
+		0CFF7FEC1A76576300D15586 /* CarGroupInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarGroupInfoVC.h; sourceTree = "<group>"; };
+		0CFF7FED1A76576300D15586 /* CarGroupInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarGroupInfoVC.m; sourceTree = "<group>"; };
 		77886DDF1A134C570075D50A /* MainSlideMenuVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainSlideMenuVC.h; sourceTree = "<group>"; };
 		77886DE01A134C570075D50A /* MainSlideMenuVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainSlideMenuVC.m; sourceTree = "<group>"; };
 		77886DE31A134DA60075D50A /* BranchDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BranchDetailVC.h; sourceTree = "<group>"; };
@@ -890,6 +893,8 @@
 				B5E03446186DEC9A00226DAB /* CarGroupManagerViewController.m */,
 				B5E03442186DEAE100226DAB /* CarGroupViewController.h */,
 				B5E03443186DEAE100226DAB /* CarGroupViewController.m */,
+				0CFF7FEC1A76576300D15586 /* CarGroupInfoVC.h */,
+				0CFF7FED1A76576300D15586 /* CarGroupInfoVC.m */,
 				B52462211924D8A100FC482B /* CarGroupTableVC.h */,
 				B52462221924D8A100FC482B /* CarGroupTableVC.m */,
 				B58D438B192C826D000AF1EB /* CarGroupTableViewCell.h */,
@@ -1228,6 +1233,7 @@
 				E14A358A1A0A404C00161221 /* ETExpiryObject.m in Sources */,
 				0CCF3E611A4DAE3800B02B1C /* AMSlideMenuLeftTableViewController.m in Sources */,
 				B5BBE9601952DCC3000AD4E2 /* PaymentTableViewController.m in Sources */,
+				0CFF7FEE1A76576300D15586 /* CarGroupInfoVC.m in Sources */,
 				0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */,
 				0C9076F71A14EC72007042AA /* OldReservationUpsellDownsellVC.m in Sources */,
 				E1B3B6DB19FFBA8700BAEE98 /* ProfileTableViewController.m in Sources */,

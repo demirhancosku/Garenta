@@ -12,6 +12,7 @@
 #import "SMSSoapHandler.h"
 #import "MailSoapHandler.h"
 #import "LoginVC.h"
+#import "IDController.h"
 
 @interface ProfileTableViewController ()
 @property (weak, nonatomic) IBOutlet UISegmentedControl *genderSegmentedControl;
@@ -617,6 +618,9 @@
                     }
                     
                     alertString = @"Bilgileriniz başarı ile güncellenmiştir";
+                    
+                    User *user = [ApplicationProperties getUser];
+                    user.mobile = self.mobilePhoneTextField.text;
                 }
             }
         }
@@ -718,6 +722,9 @@
                     }
                     
                     alertString = @"Bilgileriniz başarı ile güncellenmiştir";
+                    
+                    User *user = [ApplicationProperties getUser];
+                    user.email = self.emailTextField.text;
                 }
             }
         }
@@ -866,7 +873,30 @@
                         
                         [self releaseAllTextFields];
                         
-                        NSString *alertString = [self updateUserAtSAP];
+                        IDController *control = [[IDController alloc] init];
+                        
+                        User *user = [ApplicationProperties getUser];
+                        NSString *nameString = @"";
+                        NSString *alertString = @"";
+                        
+                        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+                        NSDateComponents *weekdayComponents =[gregorian components:NSYearCalendarUnit fromDate:user.birthday];
+                        NSString *birtdayYearString = [NSString stringWithFormat:@"%li", (long)weekdayComponents.year];
+                        
+                        if ([self.middleNameTextField.text isEqualToString:@""]) {
+                            nameString = self.nameTextField.text;
+                        }
+                        else {
+                            nameString = [NSString stringWithFormat:@"%@ %@", self.nameTextField.text, self.middleNameTextField.text];
+                        }
+                        
+                        BOOL checker = [control idChecker:self.tcknoTextField.text andName:nameString andSurname:self.surnameTextField.text andBirthYear:birtdayYearString];
+                        
+                        if (checker) {
+                             alertString = [self updateUserAtSAP];
+                        }else{
+                            alertString = @"Girdiğiniz isim, doğum tarihi ile T.C. Kimlik numarası birbiri ile uyuşmamaktadır. Lütfen kontrol edip tekrar deneyiniz";
+                        }
                         
                         [MBProgressHUD hideHUDForView:self.view animated:YES];
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
@@ -989,7 +1019,7 @@
     }
     
     self.timerAlertView = [[UIAlertView alloc] initWithTitle:@"Uyarı"
-                                                     message:@"Lütfen telefonunuza gelen konfirmasyon kodunu 60 saniye içinde giriniz."
+                                                     message:@"Lütfen telefonunuza gelen konfirmasyon kodunu 120 saniye içinde giriniz."
                                                     delegate:self
                                            cancelButtonTitle:@"Geri"
                                            otherButtonTitles:@"Tamam", nil];
@@ -997,7 +1027,7 @@
     [self.timerAlertView setTag:1];
     [self.timerAlertView show];
     
-    self.alertTimer = 60;
+    self.alertTimer = 120;
     
     [self.timer invalidate];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1
@@ -1172,6 +1202,16 @@
             }
             else {
                 alertString = @"Bilgileriniz başarı ile güncellenmiştir";
+                
+                //değiştirilebilir kullanıcı bilgileri update edilir.
+                User *user = [ApplicationProperties getUser];
+                
+                user.name = self.nameTextField.text;
+                user.middleName = self.middleNameTextField.text;
+                user.surname = self.surnameTextField.text;
+                user.driverLicenseNo = self.driverLicenseNoTextField.text;
+                user.driverLicenseLocation = self.driverLicenseLocationTextField.text;
+                user.driverLicenseType = [self.driverLicenseTypeSegmentedControl titleForSegmentAtIndex:self.driverLicenseTypeSegmentedControl.selectedSegmentIndex];
             }
         }
     }

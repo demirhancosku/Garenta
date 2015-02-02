@@ -14,6 +14,7 @@
 #import "MBProgressHUD.h"
 #import "ReservationApprovalVC.h"
 #import "AgreementsVC.h"
+#import "IDController.h"
 
 @interface PaymentTableViewController ()
 
@@ -331,7 +332,13 @@
             [self performSegueWithIdentifier:@"toAgreementVCSegue" sender:self];
         }
         if (buttonIndex == 2) {
-            [self createReservation];
+            if (buttonIndex == 2 && alertView.tag == 1) {
+                if ([[ApplicationProperties getUser] isLoggedIn]) {
+                    [self checkIdentityControl];
+                }
+                else
+                    [self createReservation];
+            }
         }
     }
 }
@@ -382,6 +389,36 @@
     }
     
     return YES;
+}
+                     
+- (void)checkIdentityControl
+{
+    IDController *control = [[IDController alloc] init];
+    
+    User *user = [ApplicationProperties getUser];
+    NSString *nameString = @"";
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *weekdayComponents =[gregorian components:NSYearCalendarUnit fromDate:user.birthday];
+    NSString *birtdayYearString = [NSString stringWithFormat:@"%li", (long)weekdayComponents.year];
+    
+    if ([user.middleName isEqualToString:@""]) {
+        nameString = user.name;
+    }
+    else {
+        nameString = [NSString stringWithFormat:@"%@ %@", user.name, user.middleName];
+    }
+    
+    BOOL checker = [control idChecker:user.tckno andName:nameString andSurname:user.surname andBirthYear:birtdayYearString];
+    
+    if (checker) {
+        [self createReservation];
+    }
+    else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"T.C kimlik numarası kontrolüne takıldınız, tekrar deneyin yada profil bilginizi güncelleyin." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+    }
 }
 
 - (void)createReservation {

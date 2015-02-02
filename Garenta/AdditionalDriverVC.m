@@ -18,7 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextField  *surnameTextField;
 @property (weak, nonatomic) IBOutlet UIDatePicker *birthdayPicker;
 @property (weak, nonatomic) IBOutlet UITextField  *nationalityTextField;
-
+@property (weak, nonatomic) IBOutlet UILabel *tcknoLabel;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *classSegment;
 @property (weak, nonatomic) IBOutlet UITextField  *licenseNoTextField;
 @property (weak, nonatomic) IBOutlet UITextField  *licensePlaceTextField;
@@ -27,6 +27,7 @@
 - (IBAction)addButtonPressed:(id)sender;
 - (IBAction)genderSegmentChanged:(id)sender;
 - (IBAction)classSegmentChanged:(id)sender;
+- (IBAction)nationalitySegmentChanged:(id)sender;
 
 
 @end
@@ -164,6 +165,17 @@
     }
 
     return YES;
+}
+
+- (IBAction)nationalitySegmentChanged:(id)sender {
+    UISegmentedControl *nationality = (UISegmentedControl *)sender;
+    
+    if (nationality.selectedSegmentIndex == 0) {
+        self.tcknoLabel.text = @"T.C. Kimlik No*";
+    }
+    else if (nationality.selectedSegmentIndex == 1) {
+        self.tcknoLabel.text = @"Pasaport No*";
+    }
 }
 
 - (IBAction)addButtonPressed:(id)sender

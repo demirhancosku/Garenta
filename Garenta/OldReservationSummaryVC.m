@@ -12,6 +12,7 @@
 #import "OldReservationApprovalVC.h"
 #import "AdditionalEquipment.h"
 #import "ETExpiryObject.h"
+#import "IDController.h"
 
 @interface OldReservationSummaryVC ()
 
@@ -25,6 +26,7 @@
     {
         _youngDriverDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
         [self addYoungDriver];
+        [self checkWinterTyre]; //kış lastiği kontrolü ekleme ayda çıkartma
         
         [self findPayNowPayLaterDifference];
         
@@ -292,7 +294,12 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 1) {
         if (buttonIndex == 1) {
-            [self updateReservation];
+            if ([[ApplicationProperties getUser] isLoggedIn]) {
+                [self checkIdentityControl];
+            }
+            else{
+                [self updateReservation];
+            }
         }
     }
 }
@@ -307,10 +314,6 @@
     _payLaterDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
     
     if (super.reservation.upsellSelectedCar) {
-        //        if ([super.reservation.paymentType isEqualToString:@"2"] || [super.reservation.paymentType isEqualToString:@"6"]) {
-        //            _carSelectionPriceDifference = super.reservation.upsellSelectedCar.pricing.carSelectPrice;
-        //        }
-        //        else
         [self changeCarSelectionPrice];
         
         if (super.reservation.etExpiry.count > 0) {
@@ -357,6 +360,9 @@
     
     _payNowDifference = [_payNowDifference decimalNumberByAdding:_youngDriverDifference];
     _payLaterDifference = [_payLaterDifference decimalNumberByAdding:_youngDriverDifference];
+    
+    _payNowDifference = [_payNowDifference decimalNumberByAdding:_winterTyreDifference];
+    _payLaterDifference = [_payLaterDifference decimalNumberByAdding:_winterTyreDifference];
     
     // araca rezervasyon yaratılmış ve upsell/downsell yapılarak gruba tercih edilirse
     if ([super.reservation.reservationType isEqualToString:@"10"] && super.reservation.upsellSelectedCar == nil)
@@ -452,6 +458,67 @@
     
 }
 
+- (void)checkWinterTyre
+{
+    _winterTyreDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
+    
+    if (super.reservation.upsellSelectedCar) {
+        //kış lastiği olayı
+        NSPredicate *winterTyre = [NSPredicate predicateWithFormat:@"materialNumber==%@",@"HZM0014"];
+        NSArray *winterTyreArr = [super.reservation.additionalEquipments filteredArrayUsingPredicate:winterTyre];
+        
+        //eğer rezervasyonda kış lastiği varsa ve seçilen araçta kış lastiği seçeneği yoksa siliyoruz.
+        if (winterTyreArr.count > 0 && [super.reservation.upsellSelectedCar.winterTire isEqualToString:@""]) {
+            [[winterTyreArr objectAtIndex:0] setQuantity:0];
+            [[winterTyreArr objectAtIndex:0] setUpdateStatus:@"D"];
+            _winterTyreDifference = [[[winterTyreArr objectAtIndex:0] price] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"-1"]];
+        }
+        //eğer rezervasyonda kış lastiği varsa ve seçilen araçta kış lastiği eskisinden farklıysa farkını buluyoruz
+        else if (winterTyreArr.count > 0 && [super.reservation.upsellSelectedCar.winterTire isEqualToString:@"X"]) {
+            NSPredicate *equi = [NSPredicate predicateWithFormat:@"materialNumber==%@",@"HZM0014"];
+            NSArray *equiArr = [self.additionalEquipments filteredArrayUsingPredicate:equi];
+            
+            [[winterTyreArr objectAtIndex:0] setPrice:[[equiArr objectAtIndex:0] price]];
+            _winterTyreDifference = [[[equiArr objectAtIndex:0] price] decimalNumberBySubtracting:[[winterTyreArr objectAtIndex:0] price]];
+        }
+        // eğer rezervasyonda kış lastiği yoksa ve seçilen araçta varsa kış lastiği ücretini ekliyoruz.
+        else if (winterTyreArr.count == 0 && [super.reservation.upsellSelectedCar.winterTire isEqualToString:@"X"])
+        {
+            NSPredicate *equi = [NSPredicate predicateWithFormat:@"materialNumber==%@",@"HZM0014"];
+            NSArray *equiArr = [self.additionalEquipments filteredArrayUsingPredicate:equi];
+            
+            _winterTyreDifference = [[equiArr objectAtIndex:0] price];
+            [[equiArr objectAtIndex:0] setQuantity:1];
+            [[equiArr objectAtIndex:0] setUpdateStatus:@"I"];
+            [super.reservation.additionalEquipments addObject:[equiArr objectAtIndex:0]];
+        }
+    }
+    else{
+        //kış lastiği olayı
+        NSPredicate *winterTyre = [NSPredicate predicateWithFormat:@"materialNumber==%@",@"HZM0014"];
+        NSArray *winterTyreArr = [super.reservation.additionalEquipments filteredArrayUsingPredicate:winterTyre];
+        
+        NSPredicate *carsWinterTyre = [NSPredicate predicateWithFormat:@"winterTire==%@",@"X"];
+        NSArray *carsWinterTyreArr = [super.reservation.upsellCarGroup.cars filteredArrayUsingPredicate:carsWinterTyre];
+        
+        //eğer rezervasyonda kış lastiği varsa ve seçilen araçta kış lastiği seçeneği yoksa siliyoruz.
+        if (winterTyreArr.count > 0 && carsWinterTyreArr.count == 0) {
+            [[winterTyreArr objectAtIndex:0] setQuantity:0];
+            [[winterTyreArr objectAtIndex:0] setUpdateStatus:@"D"];
+            _winterTyreDifference = [[[winterTyreArr objectAtIndex:0] price] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"-1"]];
+        }
+        //eğer rezervasyonda kış lastiği varsa ve seçilen araç grubunda kış lastiği eskisinden farklıysa farkını buluyoruz
+        else if (winterTyreArr.count > 0 && carsWinterTyreArr.count > 0) {
+            
+            NSPredicate *equi = [NSPredicate predicateWithFormat:@"materialNumber==%@",@"HZM0014"];
+            NSArray *equiArr = [self.additionalEquipments filteredArrayUsingPredicate:equi];
+            
+            [[winterTyreArr objectAtIndex:0] setPrice:[[equiArr objectAtIndex:0] price]];
+            _winterTyreDifference = [[[equiArr objectAtIndex:0] price] decimalNumberBySubtracting:[[winterTyreArr objectAtIndex:0] price]];
+        }
+    }
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     [super prepareForSegue:segue sender:sender];
@@ -492,6 +559,36 @@
     _creditCard.uniqueId = super.reservation.paymentNowCard.uniqueId;
     
     return _creditCard;
+}
+
+- (void)checkIdentityControl
+{
+    IDController *control = [[IDController alloc] init];
+    
+    User *user = [ApplicationProperties getUser];
+    NSString *nameString = @"";
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *weekdayComponents =[gregorian components:NSYearCalendarUnit fromDate:user.birthday];
+    NSString *birtdayYearString = [NSString stringWithFormat:@"%li", (long)weekdayComponents.year];
+    
+    if ([user.middleName isEqualToString:@""]) {
+        nameString = user.name;
+    }
+    else {
+        nameString = [NSString stringWithFormat:@"%@ %@", user.name, user.middleName];
+    }
+    
+    BOOL checker = [control idChecker:user.tckno andName:nameString andSurname:user.surname andBirthYear:birtdayYearString];
+    
+    if (checker) {
+        [self updateReservation];
+    }
+    else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"T.C kimlik numarası kontrolüne takıldınız, tekrar deneyin yada profil bilginizi güncelleyin." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+    }
 }
 
 - (void)updateReservation

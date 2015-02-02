@@ -15,8 +15,10 @@
 @property (nonatomic,assign) CGRect myFrame;
 @property (nonatomic,weak) IBOutlet UIImageView *rightArrow;
 @property (nonatomic,weak) IBOutlet UIImageView *leftArrow;
+@property (nonatomic,weak) IBOutlet UIButton *infoButton;
 @property (nonatomic,assign) BOOL leftArrowShouldHide;
 @property (nonatomic,assign) BOOL rightArrowShouldHide;
+
 - (id)initWithFrame:(CGRect)aFrame andCarGroups:(CarGroup*)aCarGroup;
 - (id)initWithCarGroups:(CarGroup*)aCarGroup;
 @end

@@ -50,8 +50,8 @@ static NSString *cellIdentifier;
         AdditionalEquipment *temp = [filterResult objectAtIndex:0];
         NSMutableArray *tempArr = [carSelectionArray copy];
         if (temp.quantity > 0) {
-            for (Car *tempCar in tempArr) {
-                if (![tempCar.winterTire isEqualToString:@"X"]) {
+            for (CarGroup *tempCar in tempArr) {
+                if (![tempCar.sampleCar.winterTire isEqualToString:@"X"]) {
                     [carSelectionArray removeObject:tempCar];
                 }
             }

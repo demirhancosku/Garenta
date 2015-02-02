@@ -11,6 +11,7 @@
 #import "ReservationScopePopoverVC.h"
 #import "MBProgressHUD.h"
 #import "AgreementsVC.h"
+#import "IDController.h"
 
 @interface ReservationSummaryVC ()
 
@@ -83,8 +84,37 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - rezervasyon
+- (void)checkIdentityControl:(BOOL)isPayNow
+{
+    IDController *control = [[IDController alloc] init];
+    
+    User *user = [ApplicationProperties getUser];
+    NSString *nameString = @"";
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *weekdayComponents =[gregorian components:NSYearCalendarUnit fromDate:user.birthday];
+    NSString *birtdayYearString = [NSString stringWithFormat:@"%li", (long)weekdayComponents.year];
+    
+    if ([user.middleName isEqualToString:@""]) {
+        nameString = user.name;
+    }
+    else {
+        nameString = [NSString stringWithFormat:@"%@ %@", user.name, user.middleName];
+    }
+    
+    BOOL checker = [control idChecker:user.tckno andName:nameString andSurname:user.surname andBirthYear:birtdayYearString];
+    
+    if (checker) {
+        [self createReservation:isPayNow];
+    }
+    else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"T.C kimlik numarası kontrolüne takıldınız, tekrar deneyin yada profil bilginizi güncelleyin." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
 
+        [alert show];
+    }
+}
+
+#pragma mark - rezervasyon
 - (void)createReservation:(BOOL)isPayNow {
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -390,10 +420,15 @@
             [self performSegueWithIdentifier:@"toAgreementVCSegue" sender:self];
         }
         if (buttonIndex == 2 && alertView.tag == 1) {
-            [self createReservation:NO];
+            if ([[ApplicationProperties getUser] isLoggedIn]) {
+                [self checkIdentityControl:NO];
+            }
+            else
+                [self createReservation:NO];
         }
+        // bu sanki kurumsal nasıl olcak?
         if (buttonIndex == 2 && alertView.tag == 2) {
-            [self createReservation:YES];
+                [self createReservation:YES];
         }
     }
 }

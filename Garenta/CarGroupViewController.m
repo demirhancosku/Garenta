@@ -34,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *campaignCarGroupButton;
 
 - (IBAction)campaignButtonIsPressed:(id)sender;
+- (IBAction)infoButtonPressed:(id)sender;
 
 @end
 
@@ -106,7 +107,7 @@
     [_acLabel setText:@"Klima"];
     [_passangerLabel setText:carGroup.sampleCar.passangerNumber];
     [_doorsLabel setText:carGroup.sampleCar.doorNumber];
-    [_minInfoLabel setText:[NSString stringWithFormat:@"Min.Genç sürücü yaşı:%li - Min.Ehliyet:%li",(long)carGroup.minAge,(long)carGroup.minDriverLicense]];
+//    [_minInfoLabel setText:[NSString stringWithFormat:@"Min.Genç sürücü yaşı:%li - Min.Ehliyet:%li \n Teminat Tutarı: 2500 TL",(long)carGroup.minAge,(long)carGroup.minDriverLicense]];
     [_officeLabel setText:[(Office*)[carGroup.carGroupOffices objectAtIndex:0] subOfficeName]];
     [_carGroupLabel setText:carGroup.groupName];
     [_carModelLabel setText:[NSString stringWithFormat:@"%@ ve benzeri",carGroup.sampleCar.modelName]];
@@ -133,6 +134,11 @@
 - (IBAction)campaignButtonIsPressed:(id)sender {
     NSLog(@"heyooo");
     [[NSNotificationCenter defaultCenter] postNotificationName:@"campaignButtonPressed" object:carGroup];
+}
+
+- (IBAction)infoButtonPressed:(id)sender {
+    NSLog(@"heyooo");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"infoButtonPressed" object:_infoButton];
 }
 
 @end

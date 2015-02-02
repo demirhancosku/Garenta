@@ -105,7 +105,7 @@
                     [[NSUserDefaults standardUserDefaults] setObject:newPasswordEncoded forKey:@"PASSWORD"];
                     NSString *phoneNumber = self.reservation.temporaryUser.mobile;
                     
-                    BOOL success = [SMSSoapHandler sendSMSMessage:newPassword toNumber:phoneNumber];
+                    BOOL success = [SMSSoapHandler sendWebPassword:newPassword toNumber:phoneNumber];
                     
                     if (success) {
                         alertString = @"Şifreniz SMS ile gönderilmiştir. Mail adresiniz ve şifrenizi kullanarak giriş yapabilirsiniz.";
