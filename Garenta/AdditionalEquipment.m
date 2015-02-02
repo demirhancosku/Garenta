@@ -69,6 +69,12 @@
         [handler addImportParameter:@"IMPP_ENDUZ" andValue:[timeFormatter stringFromDate:_reservation.checkInTime]];
         [handler addImportParameter:@"IMPP_KANAL" andValue:@"40"];
         
+        if (_reservation.selectedCarGroup.priceWithKDV.floatValue > 0) {
+            [handler addImportParameter:@"IMPP_TUTAR" andValue:_reservation.selectedCarGroup.priceWithKDV];
+        }
+        else
+            [handler addImportParameter:@"IMPP_TUTAR" andValue:_reservation.selectedCarGroup.sampleCar.pricing.payNowPrice.stringValue];
+        
         NSString *fikod = @"";
         NSString *kunnr = @"";
         
@@ -240,6 +246,12 @@
                     //eski ezervasyonlardan araç seçim farkı geliyomu kontrolü
                     NSPredicate *carSelectPredicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0031"];
                     NSArray *carSelectPredicateArray = [_reservation.additionalEquipments filteredArrayUsingPredicate:carSelectPredicate];
+                    
+                    _reservation.selectedCarGroup.sampleCar.pricing.carSelectPrice = tempEquip.price;
+                    for (Car *temp in _reservation.selectedCarGroup.cars) {
+                        temp.pricing.carSelectPrice = tempEquip.price;
+                    }
+                    
                     if (carSelectPredicateArray.count > 0)
                     {
                         [tempEquip setQuantity:1];

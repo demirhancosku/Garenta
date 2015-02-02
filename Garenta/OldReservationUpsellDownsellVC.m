@@ -171,7 +171,6 @@
         tempCarGroup = [_downsellList objectAtIndex:indexPath.row];
     }
     
-    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         [self getAdditionalEquipmentsFromSAP:tempCarGroup];
@@ -244,6 +243,7 @@
         [handler addImportParameter:@"IMPP_BEGUZ" andValue:[timeFormatter stringFromDate:self.reservation.checkOutTime]];
         [handler addImportParameter:@"IMPP_ENDUZ" andValue:[timeFormatter stringFromDate:self.reservation.checkInTime]];
         [handler addImportParameter:@"IMPP_KANAL" andValue:@"40"];
+        [handler addImportParameter:@"IMPP_TUTAR" andValue:_reservation.upsellCarGroup.sampleCar.pricing.payNowPrice.stringValue];
         
         NSString *fikod = @"";
         NSString *kunnr = @"";
@@ -254,7 +254,7 @@
         }
 
         if ([fikod isEqualToString:@""] || fikod == nil) {
-            fikod = self.reservation.selectedCarGroup.sampleCar.priceCode;
+            fikod = self.reservation.upsellCarGroup.sampleCar.priceCode;
         }
         
         [handler addImportParameter:@"IMPP_MUSNO" andValue:kunnr];

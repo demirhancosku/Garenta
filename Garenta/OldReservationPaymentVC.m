@@ -10,6 +10,7 @@
 #import "MBProgressHUD.h"
 #import "OldReservationApprovalVC.h"
 #import "AdditionalEquipment.h"
+#import "IDController.h"
 
 @interface OldReservationPaymentVC ()
 
@@ -368,12 +369,47 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (alertView.tag == 1) {
         if (buttonIndex == 1) {
-            [self changeReservation];
+            if ([[ApplicationProperties getUser] isLoggedIn]) {
+                [self checkIdentityControl];
+            }
+            else{
+                [self updateReservation];
+            }
         }
     }
 }
 
-- (void)changeReservation
+- (void)checkIdentityControl
+{
+    IDController *control = [[IDController alloc] init];
+    
+    User *user = [ApplicationProperties getUser];
+    NSString *nameString = @"";
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *weekdayComponents =[gregorian components:NSYearCalendarUnit fromDate:user.birthday];
+    NSString *birtdayYearString = [NSString stringWithFormat:@"%li", (long)weekdayComponents.year];
+    
+    if ([user.middleName isEqualToString:@""]) {
+        nameString = user.name;
+    }
+    else {
+        nameString = [NSString stringWithFormat:@"%@ %@", user.name, user.middleName];
+    }
+    
+    BOOL checker = [control idChecker:user.tckno andName:nameString andSurname:user.surname andBirthYear:birtdayYearString];
+    
+    if (checker) {
+        [self updateReservation];
+    }
+    else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:@"T.C kimlik numarası kontrolüne takıldınız, tekrar deneyin yada profil bilginizi güncelleyin." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil, nil];
+        
+        [alert show];
+    }
+}
+
+- (void)updateReservation
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{

@@ -8,11 +8,16 @@
 
 #import "ClassicSearchVC.h"
 
-@interface OldReservationSearchVC : ClassicSearchVC <UIAlertViewDelegate>
+@interface OldReservationSearchVC : ClassicSearchVC <UIAlertViewDelegate,NSCopying>
 
 @property (strong,nonatomic) NSMutableArray *additionalEquipments;
 @property (strong,nonatomic) NSMutableArray *additionalEquipmentsFullList;
 @property (strong,nonatomic) NSDate *oldCheckOutTime;
 @property (strong,nonatomic) NSDate *oldCheckInTime;
+@property (nonatomic,retain) Office *oldCheckOutOffice;
+@property (nonatomic,retain) Office *oldCheckInOffice;
+
 @property BOOL isOk;
+
+-(id) copyWithZone:(NSZone *)zone;
 @end

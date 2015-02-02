@@ -18,4 +18,6 @@
 @property (weak,nonatomic) CarGroup *carGroup;
 @property (strong,nonatomic) NSDate *oldCheckOutTime;
 @property (strong,nonatomic) NSDate *oldCheckInTime;
+@property (strong,nonatomic) Office *oldCheckOutOffice;
+@property (strong,nonatomic) Office *oldCheckInOffice;
 @end

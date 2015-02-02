@@ -358,6 +358,7 @@
                         <outlet property="rootView" destination="vlE-Bt-c6f" id="n7f-0q-oK1"/>
                         <segue destination="Kql-SQ-3XS" kind="push" identifier="toAdditionalEquipmentSegue" id="hwC-3n-j6g"/>
                         <segue destination="f5e-LZ-7Mg" kind="push" identifier="toCampaignVCSegue" id="cAw-CP-hxz"/>
+                        <segue destination="gQu-ED-LRR" kind="custom" identifier="carGroupInfoSegue" customClass="WYStoryboardPopoverSegue" id="r09-TK-Ved"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QIj-K0-6q4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -434,6 +435,75 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PpN-qS-OPi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3774" y="-1875"/>
+        </scene>
+        <!--Car Group InfoVC-->
+        <scene sceneID="d9t-y5-At8">
+            <objects>
+                <viewController storyboardIdentifier="carGroupInfo" id="gQu-ED-LRR" customClass="CarGroupInfoVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sUo-p1-klp"/>
+                        <viewControllerLayoutGuide type="bottom" id="xAR-1C-AN8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Lvm-cG-bSM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="- Min. Ehliyet Yılı: 10 / Min. Genç Sürücü Ehliyet Yılı: 10" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gnC-ej-vQ4">
+                                <rect key="frame" x="16" y="72" width="280" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="- Günlük Teminat Tutarı: 3000,00 TRY" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wvk-VC-7ax">
+                                <rect key="frame" x="16" y="101" width="280" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="- Min. Sürücü Yaşı: 21 / Min. Genç Sürücü Yaşı: 20" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xAj-Bd-7hy">
+                                <rect key="frame" x="16" y="43" width="280" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="- Aylık Teminat Tutarı: 3000,00 TRY " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GRR-dn-lAk">
+                                <rect key="frame" x="16" y="130" width="280" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4tr-ZN-IPy">
+                                <rect key="frame" x="85" y="14" width="150" height="21"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Araç Hizmet Bilgileri">
+                                        <attributes>
+                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <font key="NSFont" size="16" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="- Çift kredi kartı gereksinimi : Evet" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gRa-w2-qJ1">
+                                <rect key="frame" x="16" y="159" width="280" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="creditCardInfo" destination="gRa-w2-qJ1" id="Oaw-0L-veQ"/>
+                        <outlet property="dailyDepositInfo" destination="Wvk-VC-7ax" id="Zpb-3q-GTL"/>
+                        <outlet property="minimumInfo" destination="xAj-Bd-7hy" id="NLV-4C-iwa"/>
+                        <outlet property="monthlyDepositInfo" destination="GRR-dn-lAk" id="zpj-1X-Nyi"/>
+                        <outlet property="youngInfo" destination="gnC-ej-vQ4" id="S9C-iA-Tqh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zp9-OX-Msx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4461" y="-2543"/>
         </scene>
         <!--Car Group TableVC-->
         <scene sceneID="E5z-xH-Je5">
@@ -923,6 +993,9 @@
                                                         <segment title="Diğer"/>
                                                     </segments>
                                                     <color key="tintColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <connections>
+                                                        <action selector="nationalitySegmentChanged:" destination="ecI-ip-EMZ" eventType="valueChanged" id="5cJ-1r-WcY"/>
+                                                    </connections>
                                                 </segmentedControl>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -1069,6 +1142,7 @@
                         <outlet property="nationalitySegmented" destination="PGT-4r-BFd" id="Pze-eK-Eo8"/>
                         <outlet property="nationalityTextField" destination="wQ9-kW-FNp" id="0yP-nv-5Ov"/>
                         <outlet property="surnameTextField" destination="Cga-RN-dRI" id="9Gm-jC-23b"/>
+                        <outlet property="tcknoLabel" destination="HkA-0d-cfd" id="riJ-2m-Axz"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U6h-wB-78h" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3851,15 +3925,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A Grubu" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ysX-9T-cD8">
-                                <rect key="frame" x="19" y="37" width="282" height="21"/>
+                                <rect key="frame" x="19" y="34" width="282" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Min.Yaş:28 - Min.Ehliyet:2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lMg-WJ-4ej">
-                                <rect key="frame" x="16" y="79" width="288" height="21"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DA9-6S-e4i">
@@ -3868,9 +3936,9 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="BackAccessoryButton.png" translatesAutoresizingMaskIntoConstraints="NO" id="yAI-Cs-eFT">
                                 <rect key="frame" x="-20" y="115" width="80" height="80"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A Grubu" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y5I-bu-SiC">
-                                <rect key="frame" x="19" y="57" width="282" height="21"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="RENAULT CLİO YENI CLIO JOY 1.5 DCI 75 BG 1.5 ve benzeri" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y5I-bu-SiC">
+                                <rect key="frame" x="19" y="58" width="282" height="36"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -3883,6 +3951,15 @@
                                 </state>
                                 <connections>
                                     <action selector="campaignButtonIsPressed:" destination="Kbz-6U-2IV" eventType="touchUpInside" id="ba1-4a-alh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bV8-QV-mGK">
+                                <rect key="frame" x="19" y="35" width="20" height="20"/>
+                                <state key="normal" image="info.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="infoButtonPressed:" destination="Kbz-6U-2IV" eventType="touchUpInside" id="dGa-Ay-f2c"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -3900,8 +3977,8 @@
                         <outlet property="doorsLabel" destination="kV7-My-96G" id="zrU-kn-WbX"/>
                         <outlet property="fuelIconImageView" destination="KQ9-9f-PCX" id="x3K-rs-A2Z"/>
                         <outlet property="fuelLabel" destination="ODA-vy-QJA" id="Kid-Kw-bvR"/>
+                        <outlet property="infoButton" destination="bV8-QV-mGK" id="UGk-Ra-xeb"/>
                         <outlet property="leftArrowImageView" destination="yAI-Cs-eFT" id="Ea0-43-DaG"/>
-                        <outlet property="minInfoLabel" destination="lMg-WJ-4ej" id="AUK-lf-tHu"/>
                         <outlet property="officeLabel" destination="gMc-Ka-b5L" id="PVC-kP-qsE"/>
                         <outlet property="passangerIconImageView" destination="CYc-oJ-OyA" id="Fv4-Fy-mqj"/>
                         <outlet property="passangerLabel" destination="HbV-jV-yYk" id="SkV-K2-8JQ"/>
@@ -5213,7 +5290,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vzE-iy-5qZ">
+                                                <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vzE-iy-5qZ">
                                                     <rect key="frame" x="159" y="8" width="153" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
@@ -5235,7 +5312,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iQ0-ag-gNK">
+                                                <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iQ0-ag-gNK">
                                                     <rect key="frame" x="159" y="8" width="153" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
@@ -5254,7 +5331,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="3" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="o4o-2T-qBn">
+                                                <textField opaque="NO" clipsSubviews="YES" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="o4o-2T-qBn">
                                                     <rect key="frame" x="159" y="8" width="153" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
@@ -6331,22 +6408,22 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Hj2-5d-FZ6"/>
+        <segue reference="DUv-oP-k7Q"/>
+        <segue reference="Ua5-ST-Esq"/>
+        <segue reference="hGz-WM-gE8"/>
         <segue reference="yNN-jh-21M"/>
-        <segue reference="m6I-pG-B6V"/>
-        <segue reference="IrD-Hh-UBR"/>
         <segue reference="wou-2e-dhb"/>
-        <segue reference="5OJ-od-EAI"/>
+        <segue reference="Hj2-5d-FZ6"/>
         <segue reference="nTw-8o-Pk5"/>
-        <segue reference="Qnv-8X-7MN"/>
+        <segue reference="hwC-3n-j6g"/>
         <segue reference="hLA-ZH-RHN"/>
-        <segue reference="a20-Ar-vAP"/>
         <segue reference="cbc-BX-eje"/>
+        <segue reference="a20-Ar-vAP"/>
         <segue reference="fjv-e4-iFe"/>
         <segue reference="V74-O1-TBy"/>
         <segue reference="yGa-mz-bZL"/>
-        <segue reference="tMq-8T-4Dd"/>
         <segue reference="y6s-gR-Pji"/>
+        <segue reference="tMq-8T-4Dd"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

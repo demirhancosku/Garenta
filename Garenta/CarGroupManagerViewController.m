@@ -13,6 +13,7 @@
 #import "MBProgressHUD.h"
 #import "AdditionalEquipment.h"
 #import "ETExpiryObject.h"
+#import "CarGroupInfoVC.h"
 
 @interface CarGroupManagerViewController ()
 @property(strong,nonatomic)IBOutlet UIView *rootView;
@@ -68,6 +69,12 @@
         _reservation.selectedCarGroup = note.object;
         [self showCampaignVC];
     }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"infoButtonPressed" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification*note){
+//        _reservation.selectedCarGroup = note.object;
+        [self showCarGroupInfoVC:note.object];
+    }];
+    
 }
 
 
@@ -178,6 +185,19 @@
         [(CampaignVC*)[segue destinationViewController] setCarGroup:_reservation.selectedCarGroup];
         [(CampaignVC*)[segue destinationViewController] setReservation:_reservation];
     }
+    
+    if ([segue.identifier isEqualToString:@"carGroupInfoSegue"])
+    {
+        WYStoryboardPopoverSegue* popoverSegue = (WYStoryboardPopoverSegue*)segue;
+        
+        UIViewController* destinationViewController = (UIViewController *)segue.destinationViewController;
+        destinationViewController.preferredContentSize = CGSizeMake(280, 200);
+        
+        [(CarGroupInfoVC *)[segue destinationViewController] setCarGroup:_tableViewVC.activeCarGroup];
+        
+        popoverController = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionNone animated:YES];
+        popoverController.delegate = self;
+    }
 }
 
 - (void)carGroupSelected:(CarGroup*)aCarGroup withOffice:(Office*)anOffice{
@@ -219,12 +239,19 @@
 //    [self performSegueWithIdentifier:@"toCampaignVCSegue" sender:self];
 }
 
+- (void)showCarGroupInfoVC:(id)sender
+{
+    [self performSegueWithIdentifier:@"carGroupInfoSegue" sender:sender];
+}
+
 #pragma mark - custom methods
 -(void)getAdditionalEquipments {
     
     NSDictionary *temp = [AdditionalEquipment getAdditionalEquipmentsFromSAP:_reservation andIsYoungDriver:_isYoungDriver];
     _additionalEquipments = [temp valueForKey:@"currentList"];
     _additionalEquipmentsFullList = [temp valueForKey:@"fullList"];
+    
+    _reservation.additionalFullEquipments = _additionalEquipmentsFullList;
 }
 
 - (void)getCarSelectionPrice

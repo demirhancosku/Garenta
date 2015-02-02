@@ -186,23 +186,6 @@
                 [_reservationList sortUsingDescriptors:sortDescriptors];
                 
                 [[ApplicationProperties getUser] setReservationList:_reservationList];
-                
-//                sortedArray = [_cancelledReservationList sortedArrayUsingDescriptors:sortDescriptors];
-//                _cancelledReservationList = [NSMutableArray new];
-//                _cancelledReservationList = [sortedArray copy];
-//                
-//                sortedArray = [_completedReservationList sortedArrayUsingDescriptors:sortDescriptors];
-//                _completedReservationList = [NSMutableArray new];
-//                _completedReservationList = [sortedArray copy];
-//                
-//                sortedArray = [_activeReservationList sortedArrayUsingDescriptors:sortDescriptors];
-//                _activeReservationList = [NSMutableArray new];
-//                _activeReservationList = [sortedArray copy];
-                
-//                sortedArray = [_reservationList sortedArrayUsingDescriptors:sortDescriptors];
-//                _reservationList = [NSMutableArray new];
-//                
-//                [[ApplicationProperties getUser] setReservationList:sortedArray];
             }
             else
             {
@@ -307,7 +290,8 @@
     if ([[segue identifier] isEqualToString:@"toReservationDetail"]) {
         [(OldReservationDetailVC*)[segue destinationViewController] setOldCheckInTime:_reservation.checkInTime];
         [(OldReservationDetailVC*)[segue destinationViewController] setOldCheckOutTime:_reservation.checkOutTime];
-        [(OldReservationDetailVC*)[segue destinationViewController] setReservation:_reservation];
+        [(OldReservationDetailVC*)[segue destinationViewController] setOldCheckInOffice:_reservation.checkInOffice];
+        [(OldReservationDetailVC*)[segue destinationViewController] setOldCheckOutOffice:_reservation.checkOutOffice];
         [(OldReservationDetailVC*)[segue destinationViewController] setReservation:_reservation];
         [(OldReservationDetailVC*)[segue destinationViewController] setTotalPrice:_totalPrice];
     }

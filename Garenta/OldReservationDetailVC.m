@@ -194,6 +194,8 @@
     {
         [(OldReservationSearchVC *)[segue destinationViewController] setOldCheckInTime:_oldCheckInTime];
         [(OldReservationSearchVC *)[segue destinationViewController] setOldCheckOutTime:_oldCheckOutTime];
+        [(OldReservationDetailVC*) [segue destinationViewController] setOldCheckInOffice:_reservation.checkInOffice];
+        [(OldReservationDetailVC*) [segue destinationViewController] setOldCheckOutOffice:_reservation.checkOutOffice];
         [(OldReservationSearchVC *)[segue destinationViewController] setReservation:_reservation];
     }
     
@@ -207,7 +209,6 @@
     if ([segue.identifier isEqualToString:@"toPaymentSeguePayNow"]) {
         [(OldReservationPaymentVC *)[segue destinationViewController] setReservation:_reservation];
         [(OldReservationPaymentVC *)[segue destinationViewController] setChangeReservationPrice:_reservation.documentTotalPrice];
-//        [(OldReservationPaymentVC *)[segue destinationViewController] setChangeReservationPrice:[NSDecimalNumber decimalNumberWithString:_totalPrice]];
     }
     
     if ([segue.identifier isEqualToString:@"toDetailPopoverVCSegue"])
