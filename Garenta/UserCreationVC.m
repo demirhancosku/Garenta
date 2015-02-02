@@ -752,6 +752,11 @@
             return NO;
         }
     }
+    if ([textField tag] == 6) {
+        if (range.location == 13) {
+            return NO;
+        }
+    }
     
     return YES;
 }

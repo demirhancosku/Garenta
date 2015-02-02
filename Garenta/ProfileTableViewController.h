@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ProfileTableViewController : UITableViewController <UIAlertViewDelegate, UIActionSheetDelegate>
+@interface ProfileTableViewController : UITableViewController <UIAlertViewDelegate, UIActionSheetDelegate, UITextFieldDelegate>
 {
     NSMutableArray *countryArray;
     NSMutableArray *cityArray;

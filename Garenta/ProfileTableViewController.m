@@ -1283,5 +1283,15 @@
     self.selectedCounty = county;
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if ([textField tag] == 11) {
+        if (range.location == 13) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
 
 @end

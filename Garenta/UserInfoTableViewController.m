@@ -790,17 +790,19 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if ([textField tag] == 5 && self.nationalitySegmentedControl.selectedSegmentIndex == 0)
-    {
+    if ([textField tag] == 5 && self.nationalitySegmentedControl.selectedSegmentIndex == 0) {
         if (range.location == 11) {
             return NO;
         }
     }
-    
-    if ([textField tag] == 15)
-    {
+    if ([textField tag] == 15) {
         if (range.location == 10)
             return NO;
+    }
+    if ([textField tag] == 6) {
+        if (range.location == 13) {
+            return NO;
+        }
     }
     
     return YES;
