@@ -49,8 +49,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)createUserPassword
-{
+- (void)createUserPassword {
     NSString *generatedCode = [SMSSoapHandler generateCode];
     
     if (generatedCode == nil || [generatedCode isEqualToString:@""]) {

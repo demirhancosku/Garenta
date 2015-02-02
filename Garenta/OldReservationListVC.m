@@ -317,8 +317,7 @@
         
         NSDictionary *response = [handler prepCall];
         
-        if (response != nil)
-        {
+        if (response != nil) {
             _reservation.additionalEquipments = [NSMutableArray new];
             
             NSDictionary *export = [response objectForKey:@"EXPORT"];
