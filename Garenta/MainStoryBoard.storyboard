@@ -3963,7 +3963,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="infoButtonPressed:" destination="Kbz-6U-2IV" eventType="touchUpInside" id="dGa-Ay-f2c"/>
+                                    <segue destination="Z6Z-Rg-VGF" kind="custom" identifier="toCarGroupDetailSegue" customClass="WYStoryboardPopoverSegue" id="iEC-VE-68m"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -6415,22 +6415,22 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="DUv-oP-k7Q"/>
-        <segue reference="Ua5-ST-Esq"/>
-        <segue reference="hGz-WM-gE8"/>
         <segue reference="yNN-jh-21M"/>
+        <segue reference="m6I-pG-B6V"/>
         <segue reference="wou-2e-dhb"/>
-        <segue reference="Hj2-5d-FZ6"/>
         <segue reference="nTw-8o-Pk5"/>
+        <segue reference="Hj2-5d-FZ6"/>
         <segue reference="hwC-3n-j6g"/>
-        <segue reference="hLA-ZH-RHN"/>
-        <segue reference="cbc-BX-eje"/>
         <segue reference="a20-Ar-vAP"/>
-        <segue reference="fjv-e4-iFe"/>
+        <segue reference="cbc-BX-eje"/>
+        <segue reference="Jja-3F-2kb"/>
+        <segue reference="hLA-ZH-RHN"/>
+        <segue reference="ewL-RC-eiS"/>
+        <segue reference="gHw-da-jXv"/>
         <segue reference="V74-O1-TBy"/>
         <segue reference="yGa-mz-bZL"/>
-        <segue reference="y6s-gR-Pji"/>
         <segue reference="tMq-8T-4Dd"/>
+        <segue reference="y6s-gR-Pji"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

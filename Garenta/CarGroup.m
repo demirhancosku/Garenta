@@ -139,8 +139,7 @@
         NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
         UIImage *carImage = [UIImage imageWithData:imageData];
         tempCar.image = carImage;
-//        [tempCar setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imagePath]]]];
-
+        
         if (tempCar.image == nil) {
             [tempCar setImage:[UIImage imageNamed:@"sample_car.png"]];
         }

@@ -236,7 +236,6 @@
                 
                 super.reservation.etReserv = sdReservArray;
                 
-                
                 // FIYATLAR
                 super.reservation.changeReservationDifference = [NSDecimalNumber decimalNumberWithString:[export valueForKey:@"EXPP_PRICE"]];
                 

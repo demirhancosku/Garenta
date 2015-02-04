@@ -69,12 +69,26 @@
     
     [[cell officeNameLabel] setText:[(Office*)[_activeCarGroup.carGroupOffices objectAtIndex:indexPath.row] subOfficeName]];
     
+    NSString *salesOffice = [(Office*)[_activeCarGroup.carGroupOffices objectAtIndex:indexPath.row] mainOfficeCode];
+    
     if (self.isMontlyRent) {
         [[cell payLaterPriceLabel] setText:[NSString stringWithFormat:@"%.02fTL + KDV",_activeCarGroup.payNowPrice.floatValue]];
         [[cell payLaterPriceLabel] setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:11]];
     }
     else {
-        [[cell payLaterPriceLabel] setText:[NSString stringWithFormat:@"%.02f TL",_activeCarGroup.payNowPrice.floatValue]];
+        //burda tümü seçildiğinde şubeye göre fiyatları yazıyoruz
+        if (_activeCarGroup.cars.count > 0) {
+            for (Car *tempCar in _activeCarGroup.cars) {
+                if ([tempCar.salesOffice isEqualToString:salesOffice]) {
+                    [[cell payLaterPriceLabel] setText:[NSString stringWithFormat:@"%.02f TL",tempCar.pricing.payNowPrice.floatValue]];
+                    
+                    break;
+                }
+            }
+        }
+        else{
+            [[cell payLaterPriceLabel] setText:[NSString stringWithFormat:@"%.02f TL",_activeCarGroup.payNowPrice.floatValue]];
+        }
     }
     
     return cell;
@@ -89,7 +103,6 @@
         _activeCarGroup.sampleCar.pricing.payNowPrice = [NSDecimalNumber decimalNumberWithString:_activeCarGroup.payNowPrice];
         _activeCarGroup.sampleCar.pricing.payLaterPrice = [NSDecimalNumber decimalNumberWithString:_activeCarGroup.payLaterPrice];
         
-
         [_delegate carGroupSelected:_activeCarGroup withOffice:[[_activeCarGroup carGroupOffices] objectAtIndex:indexPath.row] ];
     }
 }
