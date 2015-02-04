@@ -386,8 +386,9 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
-        [self getUpsellDownsellList:@"U"];
-        [self getUpsellDownsellList:@"D"];
+        [self getUpsellDownsellList:@""];
+//        [self getUpsellDownsellList:@"U"];
+//        [self getUpsellDownsellList:@"D"];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -465,10 +466,12 @@
                     [_reservation.etExpiry addObject:tempObject];
                 }
                 
-                if ([upsell_downsell isEqualToString:@"U"])
-                    _reservation.upsellList = [NSMutableArray new];
-                else
-                    _reservation.downsellList = [NSMutableArray new];
+//                if ([upsell_downsell isEqualToString:@"U"])
+//                    _reservation.upsellList = [NSMutableArray new];
+//                else
+//                    _reservation.downsellList = [NSMutableArray new];
+                _reservation.upsellList = [NSMutableArray new];
+                _reservation.downsellList = [NSMutableArray new];
                 
                 for (NSDictionary *tempDict in carList)
                 {
@@ -531,6 +534,7 @@
                             [tempCarPrice setPayNowPrice:[NSDecimalNumber decimalNumberWithString:[tempPriceDict valueForKey:@"SIMDI_ODE_FIYAT_TRY"]]];
                             [tempCarPrice setDocumentCarPrice:[NSDecimalNumber decimalNumberWithString:[tempPriceDict valueForKey:@"UDS_BELGE_FIYATI"]]];
                             [tempCarPrice setCarSelectPrice:[NSDecimalNumber decimalNumberWithString:[tempPriceDict valueForKey:@"ARAC_SECIM_FARK_TRY"]]];
+                            upsell_downsell = [tempPriceDict valueForKey:@"UP_DOWN"];
                             
                             [tempCar setPricing:tempCarPrice];
                             
