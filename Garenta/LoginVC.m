@@ -64,9 +64,6 @@
 {
     if (![_usernameTextField.text isEqualToString:@""] && ![_passwordTextField.text isEqualToString:@""])
     {
-        //dispatch_once yeni eklendi, çünkü bazen alertview 3-4 kere üst üste geliyodu, sıkıntı çıkarsa başka şeyde kaldırılabilir
-        //        static dispatch_once_t once;
-        //        dispatch_once(&once, ^{
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
             NSData *passwordData = [_passwordTextField.text dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
@@ -77,9 +74,10 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 
-                if (self.userList != nil && self.userList.count == 1) {
+                if (self.userList != nil && self.userList.count == 1 && ![[ApplicationProperties getUser] isLoggedIn]) {
                     User *user = [self.userList objectAtIndex:0];
                     user.isLoggedIn = YES;
+                    [user setUserList:self.userList];
                     [ApplicationProperties setUser:user];
                     
                     NSString *message = @"";
@@ -94,12 +92,11 @@
                     
                     [self goToView];
                 }
-                else if (self.userList != nil && self.userList.count > 1){
+                else if (self.userList != nil && self.userList.count > 1 && ![[ApplicationProperties getUser] isLoggedIn]){
                     [self showUserList];
                 }
             });
         });
-        //        });
     }
     else
     {
@@ -144,6 +141,7 @@
     if (alertView.tag == 1) {
         User *tempUser = [self.userList objectAtIndex:buttonIndex];
         tempUser.isLoggedIn = YES;
+        tempUser.userList = self.userList;
         
         [ApplicationProperties setUser:tempUser];
         [self goToView];

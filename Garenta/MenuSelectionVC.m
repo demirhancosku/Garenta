@@ -242,7 +242,6 @@ static int kGarentaLogoId = 1;
         destinationViewController.preferredContentSize = CGSizeMake(260,(self.userList.count + 1) * 44);       // Deprecated in iOS7. Use 'preferredContentSize' instead.
         
         [(ChangeUserProfileVC *)[segue destinationViewController] setUserList:self.userList];
-        
         _popOver = [popoverSegue popoverControllerWithSender:sender permittedArrowDirections:WYPopoverArrowDirectionAny animated:YES];
         _popOver.delegate = self;
     }
