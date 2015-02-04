@@ -106,12 +106,12 @@
     NSString *campaignPayFront;
     
     for (CampaignObject *tempObj in filterArr) {
-        if (_reservation.etExpiry.count > 0) {
+        if (_reservation.etExpiry.count > 0 && [[[_officeList objectAtIndex:indexPath.section] mainOfficeCode] isEqualToString:tempObj.campaignPrice.salesOffice]) {
             campaingPayNow = [NSString stringWithFormat:@"Şimdi Öde:\n %.02fTL + KDV",tempObj.campaignPrice.payNowPrice.floatValue];
             campaignPayLater = [NSString stringWithFormat:@"Sonra Öde:\n %.02fTL + KDV",tempObj.campaignPrice.payLaterPrice.floatValue];
             campaignPayFront = [NSString stringWithFormat:@"%.02fTL + KDV ön ödemeli - iptal edilemez",tempObj.campaignPrice.payNowPrice.floatValue];
         }
-        else
+        else if ([[[_officeList objectAtIndex:indexPath.section] mainOfficeCode] isEqualToString:tempObj.campaignPrice.salesOffice])
         {
             campaingPayNow = [NSString stringWithFormat:@"Şimdi Öde:\n %.02f TL",tempObj.campaignPrice.payNowPrice.floatValue];
             campaignPayLater = [NSString stringWithFormat:@"Sonra Öde:\n %.02f TL",tempObj.campaignPrice.payLaterPrice.floatValue];

@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Garenta/OldReservationSearchVC.m"
-            timestampString = "444304161.663238"
+            filePath = "Garenta/UserCreationVC.m"
+            timestampString = "444319139.399398"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
-            landmarkName = "-getNewReservationPrice"
+            startingLineNumber = "638"
+            endingLineNumber = "638"
+            landmarkName = "-createUserAtSAP"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Garenta/UserCreationVC.m"
-            timestampString = "444319139.399398"
+            filePath = "Garenta/LoginVC.m"
+            timestampString = "444720617.473385"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "638"
-            endingLineNumber = "638"
-            landmarkName = "-createUserAtSAP"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "-login:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Garenta/OldReservationDetailVC.m"
+            timestampString = "444723934.552791"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "530"
+            endingLineNumber = "530"
+            landmarkName = "-getUpsellDownsellList:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

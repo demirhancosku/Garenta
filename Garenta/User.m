@@ -42,12 +42,10 @@
         if (response != nil) {
             
             NSDictionary *export = [response objectForKey:@"EXPORT"];
-            
             NSString *sysubrc = [export valueForKey:@"EV_SUBRC"];
             
+            NSDictionary *tables = [response objectForKey:@"TABLES"];
             if ([sysubrc isEqualToString:@"0"]) {
-                
-                NSDictionary *tables = [response objectForKey:@"TABLES"];
                 NSDictionary *allPartners = [tables objectForKey:@"ZNET_LOGIN_ALL_PARTNERS"];
                 
                 if (allPartners.count > 0)
@@ -110,7 +108,15 @@
                 }
             }
             else {
-                alertString = @"Kullanıcı adı ve şifrenizi kontrol ederek lütfen tekrar deneyiniz.";
+                NSDictionary *etReturn = [tables objectForKey:@"BAPIRET2"];
+                for (NSDictionary *temp in etReturn) {
+                    alertString = [temp valueForKey:@"MESSAGE"];
+                }
+                
+                if ([alertString isEqualToString:@""]) {
+                    alertString = @"Kullanıcı adı ve şifrenizi kontrol ederek lütfen tekrar deneyiniz.";
+                }
+                
                 [[NSUserDefaults standardUserDefaults] setObject:@""forKey:@"KUNNR"];
                 [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"PASSWORD"];
                 [ApplicationProperties setUser:nil];

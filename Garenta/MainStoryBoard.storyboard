@@ -4092,7 +4092,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="infoButtonPressed:" destination="Kbz-6U-2IV" eventType="touchUpInside" id="dGa-Ay-f2c"/>
+                                    <segue destination="Z6Z-Rg-VGF" kind="custom" identifier="toCarGroupDetailSegue" customClass="WYStoryboardPopoverSegue" id="iEC-VE-68m"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -6548,6 +6548,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="Hj2-5d-FZ6"/>
         <segue reference="nTw-8o-Pk5"/>
+        <segue reference="Hj2-5d-FZ6"/>
         <segue reference="hwC-3n-j6g"/>
         <segue reference="a20-Ar-vAP"/>
         <segue reference="cbc-BX-eje"/>

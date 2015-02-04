@@ -26,9 +26,9 @@
     _monthlyDepositInfo.text = [NSString stringWithFormat:@"- Aylık teminat tutarı: %.02f TRY",_carGroup.montlyDeposit.floatValue];
     
     if ([_carGroup.sampleCar.doubleCreditCard isEqualToString:@"X"]) {
-        _creditCardInfo.text = @"- Çift kredi kartı gerekesinimi: Evet";
+        _creditCardInfo.text = @"- Çift kredi kartı: Evet";
     }else{
-        _creditCardInfo.text = @"- Çift kredi kartı gerekesinimi: Hayır";
+        _creditCardInfo.text = @"- Çift kredi kartı: Hayır";
     }
 }
 
