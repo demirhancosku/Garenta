@@ -3800,7 +3800,136 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MQc-aC-GsX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6060" y="-728"/>
+            <point key="canvasLocation" x="6060" y="-646"/>
+        </scene>
+        <!--Garenta Point Table View Controller-->
+        <scene sceneID="Abg-f0-fI1">
+            <objects>
+                <viewController id="fas-s3-rb8" customClass="GarentaPointTableViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oMe-0O-KbG"/>
+                        <viewControllerLayoutGuide type="bottom" id="0Yz-sl-h5o"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pbP-Wf-SIY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JXs-hx-N34">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <color key="barTintColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <items>
+                                    <navigationItem title="Kazançlar" id="eWF-KR-aRA"/>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="54" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="U9Y-mb-cR3">
+                                <rect key="frame" x="0.0" y="44" width="320" height="436"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PriorityCell" rowHeight="54" id="mQI-1E-mGD">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mQI-1E-mGD" id="ODa-s8-Vpt">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Priority card almak istiyorum" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gmD-aN-Iei">
+                                                    <rect key="frame" x="8" y="16" width="218" height="21"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="o2l-VV-iqV">
+                                                    <rect key="frame" x="263" y="11" width="51" height="31"/>
+                                                    <color key="onTintColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                </switch>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="info.png" translatesAutoresizingMaskIntoConstraints="NO" id="rFq-vH-ydC">
+                                                    <rect key="frame" x="208" y="6" width="23" height="22"/>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LgW-tt-GWD">
+                                                    <rect key="frame" x="196" y="0.0" width="46" height="37"/>
+                                                    <state key="normal">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GarentaPoint" rowHeight="54" id="gvd-DR-DYj">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gvd-DR-DYj" id="utq-9N-d9B">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Garenta Puan kazan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uHY-zc-mcl">
+                                                    <rect key="frame" x="8" y="16" width="150" height="21"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="04P-QC-ABB">
+                                                    <rect key="frame" x="263" y="11" width="51" height="31"/>
+                                                    <color key="onTintColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                </switch>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="GarentaPuanIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="z0S-Yg-cw3">
+                                                    <rect key="frame" x="166" y="13" width="34" height="27"/>
+                                                </imageView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MilesAndSmilesPoint" rowHeight="89" id="UGy-Iq-c1x">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UGy-Iq-c1x" id="qhV-2v-d9N">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mil kazan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qyw-DA-9Jz">
+                                                    <rect key="frame" x="8" y="16" width="66" height="21"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Lütfen TK No giriniz.." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OY1-Fn-gii">
+                                                    <rect key="frame" x="8" y="45" width="213" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                                <switch opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="gAO-Lt-vYr">
+                                                    <rect key="frame" x="263" y="8" width="51" height="31"/>
+                                                    <color key="onTintColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                </switch>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="MilesAndSmiles.png" translatesAutoresizingMaskIntoConstraints="NO" id="ekf-wk-PUB">
+                                                    <rect key="frame" x="82" y="16" width="90" height="21"/>
+                                                </imageView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ContinueButton" rowHeight="43" id="bNu-Uk-3Nk">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bNu-Uk-3Nk" id="Lvc-3w-bpN">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pTI-Sa-NlP">
+                                                    <rect key="frame" x="8" y="7" width="304" height="30"/>
+                                                    <color key="backgroundColor" red="0.47450980390000003" green="0.61960784310000006" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <state key="normal" title="Devam">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="fas-s3-rb8" id="yYF-2T-hdk"/>
+                                    <outlet property="delegate" destination="fas-s3-rb8" id="1DB-mI-3WS"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="U9Y-mb-cR3" id="kNU-sm-K1E"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ixE-Hl-hDe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6486" y="-646"/>
         </scene>
         <!--Rezervasyon Onayı-->
         <scene sceneID="qCN-QQ-Hyw">
@@ -6378,7 +6507,9 @@
         <image name="AccessoryButton.png" width="300" height="300"/>
         <image name="BackAccessoryButton.png" width="300" height="300"/>
         <image name="ContinueIcon.png" width="33" height="60"/>
+        <image name="GarentaPuanIcon.png" width="23" height="23"/>
         <image name="GarentaSmallLogo.png" width="357" height="57"/>
+        <image name="MilesAndSmiles.png" width="191" height="30"/>
         <image name="Month Calendar Date Tile.png" width="46" height="44"/>
         <image name="Month Calendar Today Selected Tile.png" width="47" height="45"/>
         <image name="UserLoginPic.png" width="181" height="181"/>
@@ -6415,22 +6546,22 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="DUv-oP-k7Q"/>
-        <segue reference="Ua5-ST-Esq"/>
-        <segue reference="hGz-WM-gE8"/>
-        <segue reference="yNN-jh-21M"/>
-        <segue reference="wou-2e-dhb"/>
         <segue reference="Hj2-5d-FZ6"/>
         <segue reference="nTw-8o-Pk5"/>
         <segue reference="hwC-3n-j6g"/>
-        <segue reference="hLA-ZH-RHN"/>
-        <segue reference="cbc-BX-eje"/>
         <segue reference="a20-Ar-vAP"/>
+        <segue reference="cbc-BX-eje"/>
+        <segue reference="hLA-ZH-RHN"/>
         <segue reference="fjv-e4-iFe"/>
+        <segue reference="gHw-da-jXv"/>
+        <segue reference="ewL-RC-eiS"/>
+        <segue reference="aLh-ec-Lci"/>
         <segue reference="V74-O1-TBy"/>
+        <segue reference="TxX-UN-QgX"/>
         <segue reference="yGa-mz-bZL"/>
-        <segue reference="y6s-gR-Pji"/>
-        <segue reference="tMq-8T-4Dd"/>
+        <segue reference="hGz-WM-gE8"/>
+        <segue reference="yNN-jh-21M"/>
+        <segue reference="wou-2e-dhb"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

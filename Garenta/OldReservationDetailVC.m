@@ -429,9 +429,17 @@
             NSDictionary *tables = [response objectForKey:@"TABLES"];
             NSDictionary *returnList = [tables valueForKey:@"BAPIRET2"];
             
-            if (returnList.count > 0)
-            {
-                alertString = [returnList objectForKey:@"MESSAGE"];
+            if (returnList.count > 0) {
+                
+                for (NSDictionary *tempDict in returnList) {
+                    if ([[tempDict valueForKey:@"TYPE"] isEqualToString:@"E"]) {
+                        alertString = [tempDict valueForKey:@"MESSAGE"];
+                    }
+                }
+                
+                if ([alertString isEqualToString:@""]) {
+                    alertString = @"Uygun Araç Bulunamadı";
+                }
             }
             else
             {

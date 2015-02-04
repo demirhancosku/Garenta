@@ -164,6 +164,9 @@
 		B5F5F95E193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */; };
 		E1227B2719ED3ECD005D88A5 /* SDReservObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E1227B2619ED3ECD005D88A5 /* SDReservObject.m */; };
 		E14A358A1A0A404C00161221 /* ETExpiryObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E14A35891A0A404C00161221 /* ETExpiryObject.m */; };
+		E14B926D1A7FCC8E001959A3 /* MilesAndSmiles.png in Resources */ = {isa = PBXBuildFile; fileRef = E14B926C1A7FCC8E001959A3 /* MilesAndSmiles.png */; };
+		E14B926F1A7FCE28001959A3 /* GarentaPuanIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E14B926E1A7FCE28001959A3 /* GarentaPuanIcon.png */; };
+		E14B92721A7FD204001959A3 /* GarentaPointTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14B92711A7FD204001959A3 /* GarentaPointTableViewController.m */; };
 		E15CE8321A1E207600430C96 /* CampaignObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E15CE8311A1E207600430C96 /* CampaignObject.m */; };
 		E15DFF8519F7A3040078E06F /* RentingAgreement.html in Resources */ = {isa = PBXBuildFile; fileRef = E15DFF8419F7A3040078E06F /* RentingAgreement.html */; };
 		E15DFF8819F7A6660078E06F /* AgreementsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E15DFF8719F7A6660078E06F /* AgreementsVC.m */; };
@@ -434,6 +437,10 @@
 		E1227B2619ED3ECD005D88A5 /* SDReservObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDReservObject.m; sourceTree = "<group>"; };
 		E14A35881A0A404C00161221 /* ETExpiryObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETExpiryObject.h; sourceTree = "<group>"; };
 		E14A35891A0A404C00161221 /* ETExpiryObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETExpiryObject.m; sourceTree = "<group>"; };
+		E14B926C1A7FCC8E001959A3 /* MilesAndSmiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MilesAndSmiles.png; sourceTree = "<group>"; };
+		E14B926E1A7FCE28001959A3 /* GarentaPuanIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GarentaPuanIcon.png; sourceTree = "<group>"; };
+		E14B92701A7FD204001959A3 /* GarentaPointTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GarentaPointTableViewController.h; sourceTree = "<group>"; };
+		E14B92711A7FD204001959A3 /* GarentaPointTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GarentaPointTableViewController.m; sourceTree = "<group>"; };
 		E15CE8301A1E207600430C96 /* CampaignObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CampaignObject.h; sourceTree = "<group>"; };
 		E15CE8311A1E207600430C96 /* CampaignObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CampaignObject.m; sourceTree = "<group>"; };
 		E15DFF8419F7A3040078E06F /* RentingAgreement.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RentingAgreement.html; sourceTree = "<group>"; };
@@ -717,6 +724,8 @@
 		0C4C9A9B1846331D00CD3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E14B926E1A7FCE28001959A3 /* GarentaPuanIcon.png */,
+				E14B926C1A7FCC8E001959A3 /* MilesAndSmiles.png */,
 				0C22A6261A723E7800B65828 /* CustomerIcon.png */,
 				0CCF3E4F1A4DAE3800B02B1C /* AMSlideMenu */,
 				E1FE07E419FA3CE500E0BB0B /* ContinueIcon.png */,
@@ -921,6 +930,8 @@
 				B56F5F6C19598764005B5B92 /* ReservationApprovalVC.m */,
 				B592119D195DA38D00A54E0E /* ReservationScopePopoverVC.h */,
 				B592119E195DA38D00A54E0E /* ReservationScopePopoverVC.m */,
+				E14B92701A7FD204001959A3 /* GarentaPointTableViewController.h */,
+				E14B92711A7FD204001959A3 /* GarentaPointTableViewController.m */,
 			);
 			name = ReservationVCs;
 			sourceTree = "<group>";
@@ -1102,6 +1113,7 @@
 				B5688B1B186B3A2E009D830E /* load_9.png in Resources */,
 				0C0012E919E54A95009AF050 /* visa_mastercard.png in Resources */,
 				B5688B11186B3A2E009D830E /* load_1.png in Resources */,
+				E14B926F1A7FCE28001959A3 /* GarentaPuanIcon.png in Resources */,
 				E1FE90E81A077817002D6461 /* MainStoryBoard.storyboard in Resources */,
 				77886DF81A1396E00075D50A /* icon-menu@2x.png in Resources */,
 				77886E031A13AEE10075D50A /* phone-logo.png in Resources */,
@@ -1114,6 +1126,7 @@
 				B5688B1A186B3A2E009D830E /* load_8.png in Resources */,
 				B50B09DE1874A95200649165 /* boarder_icon.png in Resources */,
 				B5E0343E186D95BF00226DAB /* login_icon.png in Resources */,
+				E14B926D1A7FCC8E001959A3 /* MilesAndSmiles.png in Resources */,
 				B5F5F95B193C6907009B8D31 /* plus_icon.png in Resources */,
 				77886DFF1A139C860075D50A /* garenta-logo.png in Resources */,
 				9E38C3C8186A033200EBD29E /* OrangeArrowUp.png in Resources */,
@@ -1258,6 +1271,7 @@
 				0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */,
 				B592119B195D9D9900A54E0E /* WYPopoverController.m in Sources */,
 				E1E5749F1A03D5EA00BE8FEA /* MailSoapHandler.m in Sources */,
+				E14B92721A7FD204001959A3 /* GarentaPointTableViewController.m in Sources */,
 				E1227B2719ED3ECD005D88A5 /* SDReservObject.m in Sources */,
 				E1D2AB6A19D45EB600806868 /* ConnectionProperties.m in Sources */,
 				B50715CA18B7AC1E00419189 /* Price.m in Sources */,
