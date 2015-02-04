@@ -432,7 +432,9 @@
             
             if (returnList.count > 0)
             {
-                alertString = [returnList objectForKey:@"MESSAGE"];
+                for (NSDictionary *temp in returnList) {
+                    alertString = [temp valueForKey:@"MESSAGE"];
+                }
             }
             else
             {
