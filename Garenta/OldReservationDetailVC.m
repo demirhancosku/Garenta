@@ -422,7 +422,6 @@
         [handler addTableForReturn:@"ET_RETURN"];
         [handler addTableForReturn:@"ET_EXPIRY"];
         
-        
         NSDictionary *response = [handler prepCall];
         
         if (response != nil)
