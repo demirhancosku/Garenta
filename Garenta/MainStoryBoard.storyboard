@@ -854,11 +854,11 @@
                         <outlet property="buyButton" destination="FzC-nk-JFt" id="Nve-VY-F07"/>
                         <outlet property="tableViewHeightConstraint" destination="G7b-BC-1PY" id="T63-il-06p"/>
                         <outlet property="totalPriceLabel" destination="xND-mG-2q3" id="dil-LC-WbI"/>
-                        <segue destination="has-Mv-Z8G" kind="push" identifier="toReservationSummaryVCSegue" id="Jja-3F-2kb"/>
                         <segue destination="gns-25-RU0" kind="push" identifier="toUserInfoVCSegue" id="M2W-Su-5dw"/>
                         <segue destination="WeL-eO-1Z0" kind="push" identifier="toCarSelectionVCSegue" id="hLA-ZH-RHN"/>
                         <segue destination="Z6Z-Rg-VGF" kind="custom" identifier="toEquipmentInfoSegue" customClass="WYStoryboardPopoverSegue" id="a20-Ar-vAP"/>
                         <segue destination="ecI-ip-EMZ" kind="push" identifier="toAdditionalDriverVCSegue" id="cbc-BX-eje"/>
+                        <segue destination="fas-s3-rb8" kind="push" identifier="ToGarentaPointPageSegue" id="6Se-tn-fsz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nlC-fc-VEJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1480,7 +1480,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kcH-Ra-ffj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5621" y="-1357"/>
+            <point key="canvasLocation" x="5635" y="-1357"/>
         </scene>
         <!--Additional Equipment InfoVC-->
         <scene sceneID="ntk-ef-2MN">
@@ -2662,7 +2662,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wcf-xt-uLs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4682" y="1615"/>
+            <point key="canvasLocation" x="4682" y="1609"/>
         </scene>
         <!--Rezervasyon Özeti-->
         <scene sceneID="f4Q-WO-2oy">
@@ -3237,7 +3237,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iTY-ac-6Nu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4897" y="-328"/>
+            <point key="canvasLocation" x="4851" y="-238"/>
         </scene>
         <!--User Info Table View Controller-->
         <scene sceneID="YCX-wz-3zH">
@@ -3721,8 +3721,8 @@
                         <outlet property="surnameTextField" destination="4od-LA-Iiy" id="dQG-Dq-3am"/>
                         <outlet property="tcknoLabel" destination="1Tl-mv-1j3" id="e4K-n6-Oov"/>
                         <outlet property="tcknoTextField" destination="5Ae-d9-bDC" id="MMd-Ki-RG1"/>
-                        <segue destination="has-Mv-Z8G" kind="push" identifier="toReservationSummaryVCSegue" id="fjv-e4-iFe"/>
                         <segue destination="xGJ-xJ-rCM" kind="push" identifier="LoginVCSegue" id="ewL-RC-eiS"/>
+                        <segue destination="fas-s3-rb8" kind="push" identifier="ToGarentaPointPageSegue" id="aQM-mx-U9U"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TPM-De-9AN" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3802,27 +3802,20 @@
             </objects>
             <point key="canvasLocation" x="6060" y="-646"/>
         </scene>
-        <!--Garenta Point Table View Controller-->
+        <!--Kazançlar-->
         <scene sceneID="Abg-f0-fI1">
             <objects>
-                <viewController id="fas-s3-rb8" customClass="GarentaPointTableViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="fas-s3-rb8" customClass="GarentaPointTableViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oMe-0O-KbG"/>
                         <viewControllerLayoutGuide type="bottom" id="0Yz-sl-h5o"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="pbP-Wf-SIY">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JXs-hx-N34">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <color key="barTintColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <items>
-                                    <navigationItem title="Kazançlar" id="eWF-KR-aRA"/>
-                                </items>
-                            </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="54" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="U9Y-mb-cR3">
-                                <rect key="frame" x="0.0" y="44" width="320" height="436"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="54" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="U9Y-mb-cR3">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PriorityCell" rowHeight="54" id="mQI-1E-mGD">
@@ -3843,7 +3836,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="info.png" translatesAutoresizingMaskIntoConstraints="NO" id="rFq-vH-ydC">
                                                     <rect key="frame" x="208" y="6" width="23" height="22"/>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LgW-tt-GWD">
+                                                <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LgW-tt-GWD">
                                                     <rect key="frame" x="196" y="0.0" width="46" height="37"/>
                                                     <state key="normal">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -3873,7 +3866,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MilesAndSmilesPoint" rowHeight="89" id="UGy-Iq-c1x">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MilesAndSmilesPoint" rowHeight="90" id="UGy-Iq-c1x">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UGy-Iq-c1x" id="qhV-2v-d9N">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -3884,11 +3877,6 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Lütfen TK No giriniz.." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OY1-Fn-gii">
-                                                    <rect key="frame" x="8" y="45" width="213" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
                                                 <switch opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="gAO-Lt-vYr">
                                                     <rect key="frame" x="263" y="8" width="51" height="31"/>
                                                     <color key="onTintColor" red="1" green="0.31372549020000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -3896,6 +3884,11 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="MilesAndSmiles.png" translatesAutoresizingMaskIntoConstraints="NO" id="ekf-wk-PUB">
                                                     <rect key="frame" x="82" y="16" width="90" height="21"/>
                                                 </imageView>
+                                                <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Lütfen TK No giriniz.." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OY1-Fn-gii">
+                                                    <rect key="frame" x="8" y="45" width="215" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -3914,6 +3907,25 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CorporateReceiptNoCell" rowHeight="90" id="0mB-tC-KJw">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0mB-tC-KJw" id="1V4-eI-Dhi">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Lütfen giriniz.." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jJh-W4-7aN">
+                                                    <rect key="frame" x="8" y="45" width="215" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Firma talep numarası" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QJX-Hq-GPO">
+                                                    <rect key="frame" x="8" y="16" width="161" height="21"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="fas-s3-rb8" id="yYF-2T-hdk"/>
@@ -3923,13 +3935,17 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" title="Kazançlar" id="i0E-RN-5pc"/>
                     <connections>
                         <outlet property="tableView" destination="U9Y-mb-cR3" id="kNU-sm-K1E"/>
+                        <segue destination="cmh-4w-9ud" kind="push" identifier="ToAgreementSegue" id="axu-bq-je7"/>
+                        <segue destination="has-Mv-Z8G" kind="push" identifier="ToReservationSummarySegue" id="0hz-g0-jVI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ixE-Hl-hDe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6486" y="-646"/>
+            <point key="canvasLocation" x="5286" y="-238"/>
         </scene>
         <!--Rezervasyon Onayı-->
         <scene sceneID="qCN-QQ-Hyw">
@@ -5202,7 +5218,7 @@
                     <connections>
                         <outlet property="passwordTextField" destination="by2-ug-U5D" id="wb3-Ak-YvJ"/>
                         <outlet property="usernameTextField" destination="2Kd-t8-6ah" id="mxB-aL-Iw6"/>
-                        <segue destination="has-Mv-Z8G" kind="push" identifier="ToReservationSummarySegue" id="Gtk-UI-NzB"/>
+                        <segue destination="fas-s3-rb8" kind="push" identifier="ToGarentaPointPageSegue" id="77i-Ir-fuv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vcu-MY-gH4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -6507,7 +6523,7 @@
         <image name="AccessoryButton.png" width="300" height="300"/>
         <image name="BackAccessoryButton.png" width="300" height="300"/>
         <image name="ContinueIcon.png" width="33" height="60"/>
-        <image name="GarentaPuanIcon.png" width="23" height="23"/>
+        <image name="GarentaPuanIcon.png" width="50" height="54"/>
         <image name="GarentaSmallLogo.png" width="357" height="57"/>
         <image name="MilesAndSmiles.png" width="191" height="30"/>
         <image name="Month Calendar Date Tile.png" width="46" height="44"/>
@@ -6547,22 +6563,21 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="Hj2-5d-FZ6"/>
-        <segue reference="nTw-8o-Pk5"/>
-        <segue reference="Hj2-5d-FZ6"/>
-        <segue reference="hwC-3n-j6g"/>
-        <segue reference="a20-Ar-vAP"/>
-        <segue reference="cbc-BX-eje"/>
-        <segue reference="hLA-ZH-RHN"/>
-        <segue reference="fjv-e4-iFe"/>
-        <segue reference="gHw-da-jXv"/>
-        <segue reference="ewL-RC-eiS"/>
-        <segue reference="aLh-ec-Lci"/>
+        <segue reference="DUv-oP-k7Q"/>
+        <segue reference="77i-Ir-fuv"/>
+        <segue reference="axu-bq-je7"/>
         <segue reference="V74-O1-TBy"/>
         <segue reference="TxX-UN-QgX"/>
         <segue reference="yGa-mz-bZL"/>
         <segue reference="hGz-WM-gE8"/>
-        <segue reference="yNN-jh-21M"/>
+        <segue reference="vaE-ba-gQe"/>
         <segue reference="wou-2e-dhb"/>
+        <segue reference="nTw-8o-Pk5"/>
+        <segue reference="hwC-3n-j6g"/>
+        <segue reference="hLA-ZH-RHN"/>
+        <segue reference="a20-Ar-vAP"/>
+        <segue reference="cbc-BX-eje"/>
+        <segue reference="gHw-da-jXv"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

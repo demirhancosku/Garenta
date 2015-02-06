@@ -15,6 +15,7 @@
 #import "SMSSoapHandler.h"
 #import "MailSoapHandler.h"
 #import "AdditionalEquipment.h"
+#import "GarentaPointTableViewController.h"
 
 @interface UserInfoTableViewController ()
 
@@ -277,8 +278,8 @@
         selectionVC.selectionArray = countyAccordingToCity;
         selectionVC.searchType = 3;
     }
-    if ([segue.identifier isEqualToString:@"toReservationSummaryVCSegue"]) {
-        [(ReservationSummaryVC *)[segue destinationViewController] setReservation:_reservation];
+    if ([segue.identifier isEqualToString:@"ToGarentaPointPageSegue"]) {
+        [(GarentaPointTableViewController *)[segue destinationViewController] setReservation:_reservation];
     }
     if ([segue.identifier isEqualToString:@"LoginVCSegue"]) {
         [(LoginVC *)[segue destinationViewController] setReservation:_reservation];
@@ -514,7 +515,7 @@
     
     _reservation.temporaryUser = temp;
     
-    [self performSegueWithIdentifier:@"toReservationSummaryVCSegue" sender:self];
+    [self performSegueWithIdentifier:@"ToGarentaPointPageSegue" sender:self];
 }
 
 - (void)addYoungDriverAndMaxSecure

@@ -33,7 +33,7 @@
 {
     [super viewDidLoad];
     
-    _isTotalPressed =NO;
+    _isTotalPressed = NO;
     
     UIFont *boldFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
     UIFont *regularFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
@@ -432,6 +432,7 @@
         }
     }
 }
+
 
 @end
 

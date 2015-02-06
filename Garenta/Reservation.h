@@ -44,8 +44,15 @@
 @property (strong,nonatomic) NSMutableArray *upsellList;
 @property (strong,nonatomic) NSMutableArray *downsellList;
 @property (strong,nonatomic) CampaignObject *campaignObject;
-
 @property CampaignReservationType campaignButtonPressed;
+
+// Ata Cengiz 05.02.2015
+@property (nonatomic) BOOL becomePriority;
+@property (nonatomic) BOOL gainGarentaTL;
+@property (nonatomic) BOOL gainMiles;
+@property (nonatomic, strong) NSString *tkNumber;
+@property (nonatomic, strong) NSString *corporateReceiptNumber;
+// Ata Cengiz 05.02.2015
 
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl andIsMontlyRent:(BOOL)isMontlyRent andIsCorparatePayment:(BOOL)isCorparate andIsPersonalPayment:(BOOL)isPersonalPayment andReservation:(Reservation *)reservation;
 

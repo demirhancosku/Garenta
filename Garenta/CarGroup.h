@@ -38,7 +38,6 @@
 @property (nonatomic, strong) NSString *dailyDeposit;
 @property (nonatomic, strong) NSString *montlyDeposit;
 
-
 #pragma mark - filter methods
 + (CarGroup*)getGroupFromList:(NSMutableArray*)carList WithCode:(NSString*)aGroupCode;
 - (NSMutableArray*)getBestCarsWithFilter:(NSString*)aFilter;

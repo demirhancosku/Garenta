@@ -15,6 +15,7 @@
 #import "AdditionalDriverVC.h"
 #import "MBProgressHUD.h"
 #import "ETExpiryObject.h"
+#import "GarentaPointTableViewController.h"
 
 @interface EquipmentVC ()<WYPopoverControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *additionalEquipmentsTableView;
@@ -397,8 +398,9 @@
 - (IBAction)resumePressed:(id)sender {
     
     if ([(User*)[ApplicationProperties getUser] isLoggedIn]) {
-        [self performSegueWithIdentifier:@"toReservationSummaryVCSegue" sender:self];
-    }else{
+        [self performSegueWithIdentifier:@"ToGarentaPointPageSegue" sender:self];
+    }
+    else{
         [self performSegueWithIdentifier:@"toUserInfoVCSegue" sender:self];
     }
 }
@@ -568,6 +570,12 @@
         self.myPopoverController.delegate = self;
         
     }
+    // 05.02.2015 Ata Cengiz
+    if ([[segue identifier] isEqualToString:@"ToGarentaPointPageSegue"]) {
+        [_reservation setAdditionalEquipments:_additionalEquipments];
+        [(GarentaPointTableViewController *)[segue destinationViewController] setReservation:self.reservation];
+    }
+    // 05.02.2015 Ata Cengiz
 }
 
 

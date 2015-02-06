@@ -253,6 +253,24 @@
         NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
         NSLog(@"New string is: %@", newString);
         
+        if ([newString isEqualToString:@""]) {
+            return YES;
+        }
+        
+        NSDecimalNumber *usersGarentaPoint = [NSDecimalNumber decimalNumberWithString:@"0"];
+        
+        if ([[ApplicationProperties getUser] isLoggedIn]) {
+            usersGarentaPoint = [usersGarentaPoint decimalNumberByAdding:[[ApplicationProperties getUser] garentaTl]];
+        }
+        
+        if (newString.integerValue == 0) {
+            return NO;
+        }
+        
+        if (newString.floatValue > usersGarentaPoint.floatValue) {
+            return NO;
+        }
+        
         if ([_reservation totalPriceWithCurrency:@"TRY" isPayNow:YES andGarentaTl:newString andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:NO andReservation:_reservation].floatValue < 0) {
             return NO;
         }
@@ -378,7 +396,6 @@
     
     else if (_cvvTextField.text.length < 3)
         errorMessage = @"CVV numarası 3 hane olmalıdır, lütfen kontrol edin.";
-    
     
     if (errorMessage != nil)
     {

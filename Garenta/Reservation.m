@@ -245,7 +245,7 @@
     return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f.02",totalValue]];
 }
 
-+ (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl{
++ (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl {
     NSString *alertString = @"";
     
     @try {
@@ -259,11 +259,29 @@
         // IS_INPUT
         NSArray *isInputColumns = @[@"REZ_NO", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"ODEME_TURU", @"GARENTA_TL", @"BONUS", @"MILES_SMILES", @"GUN_SAYISI", @"TOPLAM_TUTAR", @"C_PRIORITY", @"C_CORP_PRIORITY", @"REZ_KANAL", @"FT_CIKIS_IL", @"FT_CIKIS_ILCE", @"FT_CIKIS_ADRES", @"FT_DONUS_IL", @"FT_DONUS_ILCE", @"FT_DONUS_ADRES", @"PARA_BIRIMI", @"FT_MALIYET_TIPI", @"USERNAME", @"PUAN_TIPI", @"UCUS_SAATI", @"UCUS_NO", @"ODEME_BICIMI", @"FATURA_ACIKLAMA", @"EMAIL_CONFIRM", @"TELNO_CONFIRM"];
         
-        NSString *isPriority = @"";
+        // 05.02.2014 Ata Cengiz
+        NSString *priority = @"";
+        NSString *corpPriority = @"";
+        NSString *pointType = @"";
+        NSString *tkNumber = @"";
         
-        if ([[ApplicationProperties getUser] isPriority]) {
-            isPriority = @"X";
+        if (_reservation.becomePriority) {
+            if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
+                corpPriority = @"X";
+            }
+            else {
+                priority = @"X";
+            }
         }
+        
+        if (_reservation.gainGarentaTL) {
+            pointType = @"G";
+        }
+        if (_reservation.gainMiles) {
+            pointType = @"M";
+            tkNumber = _reservation.tkNumber;
+        }
+        // 05.02.2014 Ata Cengiz
         
         NSString *paymentType = @"";
         
@@ -333,7 +351,7 @@
         }
         
         // G-Garenta TL kazandırmak için...İleride Mil yada Garentamı diye sorucaz... G-Garenta TL, M-Mil
-        NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, garentaTl, @"", @"", dayCount, totalPrice, @"", @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"G", @"", @"", @"", @"", emailConfirmed, @"X"];
+        NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, garentaTl, @"", @"", dayCount, totalPrice, priority, corpPriority, @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"G", @"", @"", @"", @"", emailConfirmed, @"X"];
         [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
         
         // IS_USERINFO
@@ -342,8 +360,8 @@
         NSArray *isUserInfoValues;
         
         if ([[ApplicationProperties getUser] isLoggedIn]) {
-            isUserInfoColumns = @[@"MUSTERINO", @"SALES_ORGANIZATION", @"DISTRIBUTION_CHANNEL", @"DIVISION", @"KANALTURU"];
-            isUserInfoValues = @[[[ApplicationProperties getUser] kunnr], @"3063", @"33", @"65", @"Z07"];
+            isUserInfoColumns = @[@"MUSTERINO", @"SALES_ORGANIZATION", @"DISTRIBUTION_CHANNEL", @"DIVISION", @"KANALTURU", @"TK_KARTNO"];
+            isUserInfoValues = @[[[ApplicationProperties getUser] kunnr], @"3063", @"33", @"65", @"Z07", tkNumber];
         }
         else {
             
@@ -361,7 +379,7 @@
                 driverLicenseDate = [dateFormatter stringFromDate:_reservation.temporaryUser.driversLicenseDate];
             }
             
-            isUserInfoValues = @[@"", _reservation.temporaryUser.gender, _reservation.temporaryUser.name, _reservation.temporaryUser.surname, [dateFormatter stringFromDate:_reservation.temporaryUser.birthday], _reservation.temporaryUser.tckno, @"", _reservation.temporaryUser.address, _reservation.temporaryUser.email, _reservation.temporaryUser.mobile, _reservation.temporaryUser.nationality, _reservation.temporaryUser.country, @"3063", @"33", @"65", @"Z07", driverLicenseLocation, driverLicenseType, driverLicenseNo, driverLicenseDate, _reservation.temporaryUser.city, _reservation.temporaryUser.county, _reservation.temporaryUser.middleName, @"", @"", _reservation.temporaryUser.mobileCountry];
+            isUserInfoValues = @[@"", _reservation.temporaryUser.gender, _reservation.temporaryUser.name, _reservation.temporaryUser.surname, [dateFormatter stringFromDate:_reservation.temporaryUser.birthday], _reservation.temporaryUser.tckno, @"", _reservation.temporaryUser.address, _reservation.temporaryUser.email, _reservation.temporaryUser.mobile, _reservation.temporaryUser.nationality, _reservation.temporaryUser.country, @"3063", @"33", @"65", @"Z07", driverLicenseLocation, driverLicenseType, driverLicenseNo, driverLicenseDate, _reservation.temporaryUser.city, _reservation.temporaryUser.county, _reservation.temporaryUser.middleName, @"", tkNumber, _reservation.temporaryUser.mobileCountry];
         }
         
         [handler addImportStructure:@"IS_USERINFO" andColumns:isUserInfoColumns andValues:isUserInfoValues];
@@ -782,9 +800,29 @@
         
         NSString *isPriority = @"";
         
-        if ([[ApplicationProperties getUser] isPriority]) {
-            isPriority = @"X";
+        // 05.02.2014 Ata Cengiz
+        NSString *priority = @"";
+        NSString *corpPriority = @"";
+        NSString *pointType = @"";
+        NSString *tkNumber = @"";
+        
+        if (_reservation.becomePriority) {
+            if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
+                corpPriority = @"X";
+            }
+            else {
+                priority = @"X";
+            }
         }
+        
+        if (_reservation.gainGarentaTL) {
+            pointType = @"G";
+        }
+        if (_reservation.gainMiles) {
+            pointType = @"M";
+            tkNumber = _reservation.tkNumber;
+        }
+        // 05.02.2014 Ata Cengiz
         
         NSString *paymentType = @"";
         
@@ -829,7 +867,7 @@
         NSString *totalPrice = [NSString stringWithFormat:@"%.02f",aTotalPrice.floatValue];
         
         // satış burosunu onurla konuşcam
-        NSArray *isInputValues = @[_reservation.reservationNumber, [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, garentaTl, @"", @"", day, totalPrice, @"", @"", @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"G", @"", @"", @"", @"", @"", @""];
+        NSArray *isInputValues = @[_reservation.reservationNumber, [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, garentaTl, @"", @"", day, totalPrice, priority, corpPriority, @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", pointType, @"", @"", @"", @"", @"", @""];
         
         [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
         
@@ -839,8 +877,8 @@
         NSString *itemStatus = @"U";
         
         if ([[ApplicationProperties getUser] isLoggedIn]) {
-            isUserInfoColumns = @[@"MUSTERINO", @"SALES_ORGANIZATION", @"DISTRIBUTION_CHANNEL", @"DIVISION", @"KANALTURU"];
-            isUserInfoValues = @[[[ApplicationProperties getUser] kunnr], @"3063", @"33", @"65", @"Z07"];
+            isUserInfoColumns = @[@"MUSTERINO", @"SALES_ORGANIZATION", @"DISTRIBUTION_CHANNEL", @"DIVISION", @"KANALTURU", @"TK_KARTNO"];
+            isUserInfoValues = @[[[ApplicationProperties getUser] kunnr], @"3063", @"33", @"65", @"Z07", tkNumber];
         }
         
         [handler addImportStructure:@"IS_USERINFO" andColumns:isUserInfoColumns andValues:isUserInfoValues];
