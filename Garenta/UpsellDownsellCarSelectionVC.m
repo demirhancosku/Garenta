@@ -8,7 +8,7 @@
 
 #import "UpsellDownsellCarSelectionVC.h"
 #import "AdditionalEquipment.h"
-#import "OldReservationSummaryVC.h"
+#import "OldReservationGarentaPointTableVC.h"
 
 @interface UpsellDownsellCarSelectionVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -108,7 +108,11 @@ static NSString *cellIdentifier;
             break;
         case 1:
             [_reservation setUpsellSelectedCar:[[carSelectionArray objectAtIndex:_selectedIndex] sampleCar]];
-            [self performSegueWithIdentifier:@"toOldReservationSummarySegue" sender:self];
+            
+            // 08.02.2015 Ata Cengiz
+            [self performSegueWithIdentifier:@"toOldReservationGarentaPointSegue" sender:self];
+            // 08.02.2015 Ata Cengiz
+            
             break;
         default:
             break;
@@ -118,13 +122,14 @@ static NSString *cellIdentifier;
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"toOldReservationSummarySegue"])
-    {
-        [(OldReservationSummaryVC *)[segue destinationViewController] setAdditionalEquipments:_additionalEquipments];
-        [(OldReservationSummaryVC *)[segue destinationViewController] setReservation:_reservation];
-        [(OldReservationSummaryVC *)[segue destinationViewController] setTotalPrice:_totalPrice];
-        [(OldReservationSummaryVC *)[segue destinationViewController] setIsYoungDriver:_isYoungDriver];
+    // 08.02.2015 Ata Cengiz
+    if ([segue.identifier isEqualToString:@"toOldReservationGarentaPointSegue"]) {
+        [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setAdditionalEquipments:_additionalEquipments];
+        [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setReservation:_reservation];
+        [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setTotalPrice:_totalPrice];
+        [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setIsYoungDriver:_isYoungDriver];
     }
+    // 08.02.2015 Ata Cengiz
 }
 
 @end

@@ -9,7 +9,7 @@
 #import "OldReservationEquipmentVC.h"
 #import "AdditionalEquipment.h"
 #import "ReservationSummaryVC.h"
-#import "OldReservationSummaryVC.h"
+#import "OldReservationGarentaPointTableVC.h"
 #import "AdditionalDriverVC.h"
 #import "CarSelectionVC.h"
 #import "ETExpiryObject.h"
@@ -616,11 +616,10 @@
         self.myPopoverController.delegate = self;
         
     }
-    else if ([segue.identifier isEqualToString:@"toOldReservationSummarySegue"])
-    {
+    else if ([segue.identifier isEqualToString:@"toOldReservationGarentaPointSegue"]) {
         [self prepareEquipmentForUpdate];
-        [(OldReservationSummaryVC *)[segue destinationViewController] setReservation:super.reservation];
-        [(OldReservationSummaryVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];
+        [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setReservation:super.reservation];
+        [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];
     }
 }
 

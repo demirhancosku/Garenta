@@ -7,7 +7,7 @@
 //
 
 #import "OldReservationUpsellDownsellVC.h"
-#import "OldReservationSummaryVC.h"
+#import "OldReservationGarentaPointTableVC.h"
 #import "UpsellDownsellCarSelectionVC.h"
 #import "AdditionalEquipment.h"
 #import "MBProgressHUD.h"
@@ -378,7 +378,7 @@
                 break;
             case 2:
                 [_reservation setUpsellSelectedCar:nil];
-                [self performSegueWithIdentifier:@"toOldReservationSummarySegue" sender:self];
+                [self performSegueWithIdentifier:@"toOldReservationGarentaPointSegue" sender:self];
             default:
                 break;
         }
@@ -387,9 +387,9 @@
 }
 
 #pragma mark - Navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"toOldReservationSummarySegue"])
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // 08.02.2015 Ata Cengiz
+    if ([segue.identifier isEqualToString:@"toOldReservationGarentaPointSegue"])
     {
         if([_upsellDownsellSegment selectedSegmentIndex] == 0)
             [_reservation setUpdateStatus:@"UPS"];
@@ -397,12 +397,13 @@
             [_reservation setUpdateStatus:@"DWS"];
         
         
-        [(OldReservationSummaryVC *)[segue destinationViewController] setAdditionalEquipments:_additionalEquipments];
-        [(OldReservationSummaryVC *)[segue destinationViewController] setReservation:_reservation];
-        [(OldReservationSummaryVC *)[segue destinationViewController] setTotalPrice:_totalPrice];
-        [(OldReservationSummaryVC *)[segue destinationViewController] setIsYoungDriver:_isYoungDriver];
+        [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setAdditionalEquipments:_additionalEquipments];
+        [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setReservation:_reservation];
+        [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setTotalPrice:_totalPrice];
+        [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setIsYoungDriver:_isYoungDriver];
     }
-    
+    // 08.02.2015 Ata Cengiz
+
     if ([segue.identifier isEqualToString:@"toCarSelectionVCSegue"])
     {
         if([_upsellDownsellSegment selectedSegmentIndex] == 0){

@@ -163,6 +163,7 @@
 		B5F5F95B193C6907009B8D31 /* plus_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B5F5F959193C6907009B8D31 /* plus_icon.png */; };
 		B5F5F95E193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */; };
 		E1227B2719ED3ECD005D88A5 /* SDReservObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E1227B2619ED3ECD005D88A5 /* SDReservObject.m */; };
+		E12EE0C01A878908007CF351 /* OldReservationGarentaPointTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E12EE0BF1A878908007CF351 /* OldReservationGarentaPointTableVC.m */; };
 		E12EE95B1A84C7DD0037FFE0 /* GarentaPuanIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E12EE95A1A84C7DD0037FFE0 /* GarentaPuanIcon.png */; };
 		E14A358A1A0A404C00161221 /* ETExpiryObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E14A35891A0A404C00161221 /* ETExpiryObject.m */; };
 		E14B926D1A7FCC8E001959A3 /* MilesAndSmiles.png in Resources */ = {isa = PBXBuildFile; fileRef = E14B926C1A7FCC8E001959A3 /* MilesAndSmiles.png */; };
@@ -436,6 +437,8 @@
 		B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdditionalEquipmentTableViewCell.m; sourceTree = "<group>"; };
 		E1227B2519ED3ECD005D88A5 /* SDReservObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDReservObject.h; sourceTree = "<group>"; };
 		E1227B2619ED3ECD005D88A5 /* SDReservObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDReservObject.m; sourceTree = "<group>"; };
+		E12EE0BE1A878908007CF351 /* OldReservationGarentaPointTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationGarentaPointTableVC.h; sourceTree = "<group>"; };
+		E12EE0BF1A878908007CF351 /* OldReservationGarentaPointTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationGarentaPointTableVC.m; sourceTree = "<group>"; };
 		E12EE95A1A84C7DD0037FFE0 /* GarentaPuanIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GarentaPuanIcon.png; sourceTree = "<group>"; };
 		E14A35881A0A404C00161221 /* ETExpiryObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETExpiryObject.h; sourceTree = "<group>"; };
 		E14A35891A0A404C00161221 /* ETExpiryObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETExpiryObject.m; sourceTree = "<group>"; };
@@ -557,6 +560,8 @@
 				0C4B9FDD19FE33AD003FB4F5 /* OldReservationPaymentVC.m */,
 				0CA259A019FFBD3F0017B973 /* OldReservationApprovalVC.h */,
 				0CA259A119FFBD3F0017B973 /* OldReservationApprovalVC.m */,
+				E12EE0BE1A878908007CF351 /* OldReservationGarentaPointTableVC.h */,
+				E12EE0BF1A878908007CF351 /* OldReservationGarentaPointTableVC.m */,
 			);
 			name = oldReservationUpdate;
 			sourceTree = "<group>";
@@ -1231,6 +1236,7 @@
 				0CCF3E621A4DAE3800B02B1C /* AMSlideMenuMainViewController.m in Sources */,
 				B5E03444186DEAE100226DAB /* CarGroupViewController.m in Sources */,
 				B58D438D192C826D000AF1EB /* CarGroupTableViewCell.m in Sources */,
+				E12EE0C01A878908007CF351 /* OldReservationGarentaPointTableVC.m in Sources */,
 				B5E03447186DEC9A00226DAB /* CarGroupManagerViewController.m in Sources */,
 				B56304B51941CE40001D4603 /* UserInfoTableViewController.m in Sources */,
 				0C0012EC19E54EF8009AF050 /* OldCardSelectionVC.m in Sources */,
