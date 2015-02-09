@@ -21,4 +21,8 @@
 @property (nonatomic, strong) NSDecimalNumber *priceWithKDV;
 @property (nonatomic, strong) NSDecimalNumber *campaignDiscountPrice;
 
+// 04.02.2015 Ata
+@property (nonatomic) BOOL canGarentaPointEarn;
+@property (nonatomic) BOOL canMilesPointEarn;
+// 04.02.2015 Ata
 @end

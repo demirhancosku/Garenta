@@ -101,6 +101,27 @@
         [tempPrice setPriceWithKDV:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KDVLI_TOPLAM_TUTAR_TRY"]]];
         [tempPrice setCampaignDiscountPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KAMPANYA_TUTAR_TRY"]]];
         
+        // 04.02.2015 Ata
+        NSString *canEarnGarenta = [tempDict valueForKey:@"GARENTATL_KAZANIR"];
+        NSString *canEarnMiles = [tempDict valueForKey:@"MIL_KAZANIR"];
+        
+        if ([[ApplicationProperties getUser] isLoggedIn] && [[ApplicationProperties getUser] isPriority]) {
+            if ([canEarnGarenta isEqualToString:@"10"]) {
+                [tempPrice setCanGarentaPointEarn:YES];
+            }
+            else {
+                [tempPrice setCanGarentaPointEarn:NO];
+            }
+            
+            if ([canEarnMiles isEqualToString:@"10"]) {
+                [tempPrice setCanMilesPointEarn:YES];
+            }
+            else {
+                [tempPrice setCanMilesPointEarn:NO];
+            }
+        }
+        // 04.02.2015 Ata
+
         if (tempCampaign.campaignScopeType == noneDefinedCampaign) {
             // Regular Price
             [prices addObject:tempPrice];

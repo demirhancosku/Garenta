@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface GarentaPointTableViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic) BOOL showPriority, showGarentaPoint, showMilesPoint;
+@property (nonatomic, strong) Reservation *reservation;
 @end

@@ -10,6 +10,7 @@
 #import "ReservationSummaryVC.h"
 #import "MailSoapHandler.h"
 #import "OldReservationListVC.h"
+#import "GarentaPointTableViewController.h"
 
 @interface LoginVC ()
 
@@ -235,8 +236,8 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"ToReservationSummarySegue"]) {
-        [(ReservationSummaryVC *)[segue destinationViewController] setReservation:_reservation];
+    if ([[segue identifier] isEqualToString:@"ToGarentaPointPageSegue"]) {
+        [(GarentaPointTableViewController *)[segue destinationViewController] setReservation:_reservation];
     }
 }
 
@@ -261,7 +262,7 @@
     }
     else {
         // demek ki kullanıcı bilgileri ekranından gelmiş
-        [self performSegueWithIdentifier:@"ToReservationSummarySegue" sender:self];
+        [self performSegueWithIdentifier:@"ToGarentaPointPageSegue" sender:self];
     }
 }
 

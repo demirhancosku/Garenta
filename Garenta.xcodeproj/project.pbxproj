@@ -163,9 +163,10 @@
 		B5F5F95B193C6907009B8D31 /* plus_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B5F5F959193C6907009B8D31 /* plus_icon.png */; };
 		B5F5F95E193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */; };
 		E1227B2719ED3ECD005D88A5 /* SDReservObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E1227B2619ED3ECD005D88A5 /* SDReservObject.m */; };
+		E12EE0C01A878908007CF351 /* OldReservationGarentaPointTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E12EE0BF1A878908007CF351 /* OldReservationGarentaPointTableVC.m */; };
+		E12EE95B1A84C7DD0037FFE0 /* GarentaPuanIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E12EE95A1A84C7DD0037FFE0 /* GarentaPuanIcon.png */; };
 		E14A358A1A0A404C00161221 /* ETExpiryObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E14A35891A0A404C00161221 /* ETExpiryObject.m */; };
 		E14B926D1A7FCC8E001959A3 /* MilesAndSmiles.png in Resources */ = {isa = PBXBuildFile; fileRef = E14B926C1A7FCC8E001959A3 /* MilesAndSmiles.png */; };
-		E14B926F1A7FCE28001959A3 /* GarentaPuanIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E14B926E1A7FCE28001959A3 /* GarentaPuanIcon.png */; };
 		E14B92721A7FD204001959A3 /* GarentaPointTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14B92711A7FD204001959A3 /* GarentaPointTableViewController.m */; };
 		E15CE8321A1E207600430C96 /* CampaignObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E15CE8311A1E207600430C96 /* CampaignObject.m */; };
 		E15DFF8519F7A3040078E06F /* RentingAgreement.html in Resources */ = {isa = PBXBuildFile; fileRef = E15DFF8419F7A3040078E06F /* RentingAgreement.html */; };
@@ -175,6 +176,7 @@
 		E191C1751A090E710062A0D1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E191C1741A090E710062A0D1 /* Reachability.m */; };
 		E1B3B6DB19FFBA8700BAEE98 /* ProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B3B6DA19FFBA8700BAEE98 /* ProfileTableViewController.m */; };
 		E1D2AB6A19D45EB600806868 /* ConnectionProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D2AB6919D45EB600806868 /* ConnectionProperties.m */; };
+		E1DDEC231A82530000B6D5AF /* PriorityRules.html in Resources */ = {isa = PBXBuildFile; fileRef = E1DDEC221A82530000B6D5AF /* PriorityRules.html */; };
 		E1E5749F1A03D5EA00BE8FEA /* MailSoapHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1E5749E1A03D5EA00BE8FEA /* MailSoapHandler.m */; };
 		E1ED735C19E5486C00D3E324 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E1ED735B19E5486C00D3E324 /* MBProgressHUD.m */; };
 		E1ED735F19E564FC00D3E324 /* CountrySelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = E1ED735E19E564FC00D3E324 /* CountrySelectionVC.m */; };
@@ -435,10 +437,12 @@
 		B5F5F95D193C9867009B8D31 /* AdditionalEquipmentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdditionalEquipmentTableViewCell.m; sourceTree = "<group>"; };
 		E1227B2519ED3ECD005D88A5 /* SDReservObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDReservObject.h; sourceTree = "<group>"; };
 		E1227B2619ED3ECD005D88A5 /* SDReservObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDReservObject.m; sourceTree = "<group>"; };
+		E12EE0BE1A878908007CF351 /* OldReservationGarentaPointTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationGarentaPointTableVC.h; sourceTree = "<group>"; };
+		E12EE0BF1A878908007CF351 /* OldReservationGarentaPointTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationGarentaPointTableVC.m; sourceTree = "<group>"; };
+		E12EE95A1A84C7DD0037FFE0 /* GarentaPuanIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GarentaPuanIcon.png; sourceTree = "<group>"; };
 		E14A35881A0A404C00161221 /* ETExpiryObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETExpiryObject.h; sourceTree = "<group>"; };
 		E14A35891A0A404C00161221 /* ETExpiryObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETExpiryObject.m; sourceTree = "<group>"; };
 		E14B926C1A7FCC8E001959A3 /* MilesAndSmiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MilesAndSmiles.png; sourceTree = "<group>"; };
-		E14B926E1A7FCE28001959A3 /* GarentaPuanIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GarentaPuanIcon.png; sourceTree = "<group>"; };
 		E14B92701A7FD204001959A3 /* GarentaPointTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GarentaPointTableViewController.h; sourceTree = "<group>"; };
 		E14B92711A7FD204001959A3 /* GarentaPointTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GarentaPointTableViewController.m; sourceTree = "<group>"; };
 		E15CE8301A1E207600430C96 /* CampaignObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CampaignObject.h; sourceTree = "<group>"; };
@@ -456,6 +460,7 @@
 		E1D2AB6519D45EAA00806868 /* SAPJSONHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SAPJSONHandler.h; sourceTree = "<group>"; };
 		E1D2AB6819D45EB600806868 /* ConnectionProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionProperties.h; sourceTree = "<group>"; };
 		E1D2AB6919D45EB600806868 /* ConnectionProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionProperties.m; sourceTree = "<group>"; };
+		E1DDEC221A82530000B6D5AF /* PriorityRules.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PriorityRules.html; sourceTree = "<group>"; };
 		E1E5749D1A03D5EA00BE8FEA /* MailSoapHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailSoapHandler.h; sourceTree = "<group>"; };
 		E1E5749E1A03D5EA00BE8FEA /* MailSoapHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailSoapHandler.m; sourceTree = "<group>"; };
 		E1ED735A19E5486C00D3E324 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
@@ -555,6 +560,8 @@
 				0C4B9FDD19FE33AD003FB4F5 /* OldReservationPaymentVC.m */,
 				0CA259A019FFBD3F0017B973 /* OldReservationApprovalVC.h */,
 				0CA259A119FFBD3F0017B973 /* OldReservationApprovalVC.m */,
+				E12EE0BE1A878908007CF351 /* OldReservationGarentaPointTableVC.h */,
+				E12EE0BF1A878908007CF351 /* OldReservationGarentaPointTableVC.m */,
 			);
 			name = oldReservationUpdate;
 			sourceTree = "<group>";
@@ -724,8 +731,9 @@
 		0C4C9A9B1846331D00CD3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E14B926E1A7FCE28001959A3 /* GarentaPuanIcon.png */,
+				E1DDEC221A82530000B6D5AF /* PriorityRules.html */,
 				E14B926C1A7FCC8E001959A3 /* MilesAndSmiles.png */,
+				E12EE95A1A84C7DD0037FFE0 /* GarentaPuanIcon.png */,
 				0C22A6261A723E7800B65828 /* CustomerIcon.png */,
 				0CCF3E4F1A4DAE3800B02B1C /* AMSlideMenu */,
 				E1FE07E419FA3CE500E0BB0B /* ContinueIcon.png */,
@@ -834,6 +842,8 @@
 				B5B017BB19755A0000F1BD18 /* AdditionalDriverListVC.m */,
 				0C48234C19DDBAF800C73301 /* AdditionalEquipmentInfoVC.h */,
 				0C48234D19DDBAF800C73301 /* AdditionalEquipmentInfoVC.m */,
+				E14B92701A7FD204001959A3 /* GarentaPointTableViewController.h */,
+				E14B92711A7FD204001959A3 /* GarentaPointTableViewController.m */,
 			);
 			name = Equipments;
 			sourceTree = "<group>";
@@ -930,8 +940,6 @@
 				B56F5F6C19598764005B5B92 /* ReservationApprovalVC.m */,
 				B592119D195DA38D00A54E0E /* ReservationScopePopoverVC.h */,
 				B592119E195DA38D00A54E0E /* ReservationScopePopoverVC.m */,
-				E14B92701A7FD204001959A3 /* GarentaPointTableViewController.h */,
-				E14B92711A7FD204001959A3 /* GarentaPointTableViewController.m */,
 			);
 			name = ReservationVCs;
 			sourceTree = "<group>";
@@ -1080,6 +1088,7 @@
 				B5688AFC186B17EA009D830E /* detail_search.png in Resources */,
 				0C5E86F418631B4B004C642D /* GarentaSmallLogo.png in Resources */,
 				B5688B19186B3A2E009D830E /* load_7.png in Resources */,
+				E1DDEC231A82530000B6D5AF /* PriorityRules.html in Resources */,
 				0C22A6271A723E7900B65828 /* CustomerIcon.png in Resources */,
 				B5688B15186B3A2E009D830E /* load_3.png in Resources */,
 				B5C490361940806E00B737E8 /* unticked_button.png in Resources */,
@@ -1105,6 +1114,7 @@
 				0C6E41311A44799B00FB81E4 /* ProfileIcon.png in Resources */,
 				B5688B17186B3A2E009D830E /* load_5.png in Resources */,
 				0C893D87187884E5006AFF0A /* SliderHandle.png in Resources */,
+				E12EE95B1A84C7DD0037FFE0 /* GarentaPuanIcon.png in Resources */,
 				B5BBE95919505D21000AD4E2 /* white_right_arrow.png in Resources */,
 				0C4C9A7C18462EAB00CD3728 /* Images.xcassets in Resources */,
 				B5E0649F194F12F90046E789 /* sample_car.png in Resources */,
@@ -1113,7 +1123,6 @@
 				B5688B1B186B3A2E009D830E /* load_9.png in Resources */,
 				0C0012E919E54A95009AF050 /* visa_mastercard.png in Resources */,
 				B5688B11186B3A2E009D830E /* load_1.png in Resources */,
-				E14B926F1A7FCE28001959A3 /* GarentaPuanIcon.png in Resources */,
 				E1FE90E81A077817002D6461 /* MainStoryBoard.storyboard in Resources */,
 				77886DF81A1396E00075D50A /* icon-menu@2x.png in Resources */,
 				77886E031A13AEE10075D50A /* phone-logo.png in Resources */,
@@ -1227,6 +1236,7 @@
 				0CCF3E621A4DAE3800B02B1C /* AMSlideMenuMainViewController.m in Sources */,
 				B5E03444186DEAE100226DAB /* CarGroupViewController.m in Sources */,
 				B58D438D192C826D000AF1EB /* CarGroupTableViewCell.m in Sources */,
+				E12EE0C01A878908007CF351 /* OldReservationGarentaPointTableVC.m in Sources */,
 				B5E03447186DEC9A00226DAB /* CarGroupManagerViewController.m in Sources */,
 				B56304B51941CE40001D4603 /* UserInfoTableViewController.m in Sources */,
 				0C0012EC19E54EF8009AF050 /* OldCardSelectionVC.m in Sources */,

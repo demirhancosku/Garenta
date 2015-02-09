@@ -1,16 +1,16 @@
 //
-//  GarentaPointTableViewController.m
+//  OldReservationGarentaPointTableVC.m
 //  Garenta
 //
-//  Created by Ata Cengiz on 02/02/15.
+//  Created by Ata Cengiz on 08/02/15.
 //  Copyright (c) 2015 Kerem Balaban. All rights reserved.
 //
 
-#import "GarentaPointTableViewController.h"
+#import "OldReservationGarentaPointTableVC.h"
 #import "AgreementsVC.h"
-#import "ReservationSummaryVC.h"
+#import "OldReservationSummaryVC.h"
 
-@interface GarentaPointTableViewController ()
+@interface OldReservationGarentaPointTableVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) UISwitch *prioritySwitch, *garentaPointSwitch, *milesAndSmilesSwitch;
 @property (strong, nonatomic) UITextField *milesAndSmilesTextField, *corporateReceiptNumberTextField;
@@ -18,7 +18,7 @@
 @property (nonatomic) BOOL showPriority, showGarentaPoint, showMilesPoint, showCorparateNumber;
 @end
 
-@implementation GarentaPointTableViewController
+@implementation OldReservationGarentaPointTableVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,6 +31,7 @@
         [self setShowCorparateNumber:YES];
     }
     
+    // Bu kısmı kereme sor !!!
     if (self.reservation.selectedCar == nil) {
         if (self.reservation.selectedCarGroup.sampleCar.pricing.canGarentaPointEarn) {
             [self setShowGarentaPoint:YES];
@@ -78,7 +79,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *aCell;
-
+    
     NSUInteger row = [indexPath row];
     
     NSUInteger priorityCell = 0;
@@ -127,7 +128,7 @@
         aCell = [tableView dequeueReusableCellWithIdentifier:@"MilesAndSmilesPoint" forIndexPath:indexPath];
         self.milesAndSmilesSwitch = (UISwitch *)[aCell viewWithTag:1];
         [self.milesAndSmilesSwitch addTarget:self action:@selector(milesPointSwitchValueChange:) forControlEvents:UIControlEventValueChanged];
-
+        
         self.milesAndSmilesTextField = (UITextField *)[aCell viewWithTag:2];
         
         if (!self.showGarentaPoint) {
@@ -138,7 +139,7 @@
     if (self.showCorparateNumber && row == corpateCell) {
         aCell = [tableView dequeueReusableCellWithIdentifier:@"CorporateReceiptNoCell" forIndexPath:indexPath];
         self.milesAndSmilesTextField = (UITextField *)[aCell viewWithTag:1];
-
+        
     }
     if (row == continueButton) {
         aCell = [tableView dequeueReusableCellWithIdentifier:@"ContinueButton" forIndexPath:indexPath];
@@ -203,7 +204,7 @@
         }
     }
     
-    [self performSegueWithIdentifier:@"ToReservationSummarySegue" sender:self];
+    [self performSegueWithIdentifier:@"ToOldReservationSummarySegue" sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -212,7 +213,7 @@
         [(AgreementsVC*)[segue destinationViewController] setHtmlName:@"PriorityRules"];
         [(AgreementsVC*)[segue destinationViewController] setAgreementName:@"Priority Kart Ayrıcalıkları"];
     }
-    if ([segue.identifier isEqualToString:@"ToReservationSummarySegue"]) {
+    if ([segue.identifier isEqualToString:@"ToOldReservationSummarySegue"]) {
         if (self.prioritySwitch.on) {
             self.reservation.becomePriority = YES;
         }
@@ -227,7 +228,11 @@
             self.reservation.corporateReceiptNumber = self.corporateReceiptNumberTextField.text;
         }
         
-        [(ReservationSummaryVC *)[segue destinationViewController] setReservation:self.reservation];
+        [(OldReservationSummaryVC *)[segue destinationViewController] setAdditionalEquipments:_additionalEquipments];
+        [(OldReservationSummaryVC *)[segue destinationViewController] setReservation:_reservation];
+        [(OldReservationSummaryVC *)[segue destinationViewController] setTotalPrice:_totalPrice];
+        [(OldReservationSummaryVC *)[segue destinationViewController] setIsYoungDriver:_isYoungDriver];
+        [(OldReservationSummaryVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];
     }
 }
 
