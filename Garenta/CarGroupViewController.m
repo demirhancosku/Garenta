@@ -109,7 +109,7 @@
     [_doorsLabel setText:carGroup.sampleCar.doorNumber];
 //    [_minInfoLabel setText:[NSString stringWithFormat:@"Min.Genç sürücü yaşı:%li - Min.Ehliyet:%li \n Teminat Tutarı: 2500 TL",(long)carGroup.minAge,(long)carGroup.minDriverLicense]];
     [_officeLabel setText:[(Office*)[carGroup.carGroupOffices objectAtIndex:0] subOfficeName]];
-    [_carGroupLabel setText:carGroup.groupName];
+    [_carGroupLabel setText:carGroup.segmentName];
     [_carModelLabel setText:[NSString stringWithFormat:@"%@ ve benzeri",carGroup.sampleCar.modelName]];
     [_carImageView setImage:carGroup.sampleCar.image];
     

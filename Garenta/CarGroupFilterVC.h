@@ -13,7 +13,10 @@
 #import "Car.h"
 @interface CarGroupFilterVC : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
-    UITableView *tableView;
+    UITableView *tableVC;
+    
+    UIButton *clearButton;
+    UIButton *searchButton;
     
     NSMutableArray *fuelFilter;
     NSMutableArray *segmentFilter;
@@ -22,12 +25,11 @@
     NSMutableArray *brandFilter;
     
     NSMutableArray *filteredCarGroups;
-    
-
-
 }
+
 @property(strong,nonatomic)Reservation *reservation;
 @property(strong,nonatomic)NSMutableArray *carGroups;
+@property(strong,nonatomic)NSMutableArray *tempCarGroup;
 -(id)initWithReservation:(Reservation*)aReservation andCarGroup:(NSMutableArray*)aCarGroups;
 
 @end
