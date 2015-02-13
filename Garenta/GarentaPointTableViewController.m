@@ -137,7 +137,7 @@
     }
     if (self.showCorparateNumber && row == corpateCell) {
         aCell = [tableView dequeueReusableCellWithIdentifier:@"CorporateReceiptNoCell" forIndexPath:indexPath];
-        self.milesAndSmilesTextField = (UITextField *)[aCell viewWithTag:1];
+        self.corporateReceiptNumberTextField = (UITextField *)[aCell viewWithTag:1];
 
     }
     if (row == continueButton) {
