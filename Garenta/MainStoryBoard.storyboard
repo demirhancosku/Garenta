@@ -6425,6 +6425,7 @@
                                             <outlet property="checkOutOfficeName" destination="mQo-3u-qvK" id="HsL-dP-bQb"/>
                                             <outlet property="checkOutTime" destination="pPD-L5-5BV" id="z1W-bc-qi4"/>
                                             <outlet property="reservationNo" destination="R4Y-3k-8uW" id="3db-Dm-p78"/>
+                                            <outlet property="reservationTitle" destination="ELP-Xi-rVw" id="Dz3-jk-puE"/>
                                             <outlet property="statu" destination="MZC-UT-thz" id="xc5-Yd-mb1"/>
                                         </connections>
                                     </tableViewCell>
@@ -6707,22 +6708,22 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="DUv-oP-k7Q"/>
-        <segue reference="77i-Ir-fuv"/>
-        <segue reference="axu-bq-je7"/>
-        <segue reference="TxX-UN-QgX"/>
-        <segue reference="V74-O1-TBy"/>
-        <segue reference="yGa-mz-bZL"/>
         <segue reference="Hj2-5d-FZ6"/>
         <segue reference="nTw-8o-Pk5"/>
         <segue reference="hwC-3n-j6g"/>
         <segue reference="gHw-da-jXv"/>
+        <segue reference="iJn-Bu-Z2r"/>
         <segue reference="hGz-WM-gE8"/>
-        <segue reference="7yK-l0-YFl"/>
-        <segue reference="cx4-X2-B8e"/>
-        <segue reference="eoS-ML-DjQ"/>
         <segue reference="Tec-RH-gN3"/>
+        <segue reference="7yK-l0-YFl"/>
+        <segue reference="eoS-ML-DjQ"/>
+        <segue reference="cx4-X2-B8e"/>
         <segue reference="wou-2e-dhb"/>
+        <segue reference="77i-Ir-fuv"/>
+        <segue reference="axu-bq-je7"/>
+        <segue reference="V74-O1-TBy"/>
+        <segue reference="TxX-UN-QgX"/>
+        <segue reference="yGa-mz-bZL"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

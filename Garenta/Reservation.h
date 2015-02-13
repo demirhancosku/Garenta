@@ -54,6 +54,10 @@
 @property (nonatomic, strong) NSString *corporateReceiptNumber;
 // Ata Cengiz 05.02.2015
 
+// Ata Cengiz 12.02.2015
+@property (nonatomic) BOOL isContract;
+// Ata Cengiz 12.02.2015
+
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl andIsMontlyRent:(BOOL)isMontlyRent andIsCorparatePayment:(BOOL)isCorparate andIsPersonalPayment:(BOOL)isPersonalPayment andReservation:(Reservation *)reservation;
 
 + (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl;

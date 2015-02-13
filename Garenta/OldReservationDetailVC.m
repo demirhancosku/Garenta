@@ -71,7 +71,13 @@
 {
     UIActionSheet *sheet;
     
-    if ([[_reservation paymentType] isEqualToString:@"2"] || [[_reservation paymentType] isEqualToString:@"6"])
+    // 13.02.2015 Ata Cengiz Sözleşmede sadece süre değiştirme var
+    if (_reservation.isContract) {
+        sheet = [[UIActionSheet alloc] initWithTitle:@"Lütfen yapmak istediğiniz işlemi seçiniz." delegate:self cancelButtonTitle:@"Geri" destructiveButtonTitle:nil otherButtonTitles:@"Sözleşme Güncelleme", nil];
+        sheet.tag = 2;
+    }
+    // 13.02.2015 Ata Cengiz Sözleşmede sadece süre değiştirme var
+    else if ([[_reservation paymentType] isEqualToString:@"2"] || [[_reservation paymentType] isEqualToString:@"6"])
     {
         sheet = [[UIActionSheet alloc] initWithTitle:@"Lütfen yapmak istediğiniz işlemi seçiniz." delegate:self cancelButtonTitle:@"Geri" destructiveButtonTitle:@"Ödeme Yap" otherButtonTitles:@"Araç Değişikliği",@"Rezervasyon Güncelleme",@"Rezervasyon İptal", nil];
         sheet.tag = 1;
@@ -194,8 +200,8 @@
     {
         [(OldReservationSearchVC *)[segue destinationViewController] setOldCheckInTime:_oldCheckInTime];
         [(OldReservationSearchVC *)[segue destinationViewController] setOldCheckOutTime:_oldCheckOutTime];
-        [(OldReservationDetailVC*) [segue destinationViewController] setOldCheckInOffice:_reservation.checkInOffice];
-        [(OldReservationDetailVC*) [segue destinationViewController] setOldCheckOutOffice:_reservation.checkOutOffice];
+        [(OldReservationDetailVC *) [segue destinationViewController] setOldCheckInOffice:_reservation.checkInOffice];
+        [(OldReservationDetailVC *) [segue destinationViewController] setOldCheckOutOffice:_reservation.checkOutOffice];
         [(OldReservationSearchVC *)[segue destinationViewController] setReservation:_reservation];
     }
     
@@ -208,7 +214,15 @@
     
     if ([segue.identifier isEqualToString:@"toPaymentSeguePayNow"]) {
         [(OldReservationPaymentVC *)[segue destinationViewController] setReservation:_reservation];
-        [(OldReservationPaymentVC *)[segue destinationViewController] setChangeReservationPrice:_reservation.documentTotalPrice];
+        
+        // Ata Cengiz 09.02.2015
+        if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
+            [(OldReservationPaymentVC *)[segue destinationViewController] setChangeReservationPrice:[_reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES andReservation:_reservation]];
+        }
+        else {
+            [(OldReservationPaymentVC *)[segue destinationViewController] setChangeReservationPrice:_reservation.documentTotalPrice];
+        }
+        // Ata Cengiz 09.02.2015
     }
     
     if ([segue.identifier isEqualToString:@"toDetailPopoverVCSegue"])
@@ -295,7 +309,7 @@
                 break;
         }
     }
-    else
+    else if (actionSheet.tag == 1)
     {
         switch (buttonIndex)
         {
@@ -326,6 +340,17 @@
                 break;
         }
     }
+    // 13.02.2015 Ata Cengiz Sözleşmede sadece süre değiştirme var
+    else if (actionSheet.tag == 2) {
+        switch (buttonIndex) {
+            case 0:
+                [self changeReservation];
+                break;
+            default:
+                break;
+        }
+    }
+    // 13.02.2015 Ata Cengiz Sözleşmede sadece süre değiştirme var
 }
 
 - (BOOL)isDocumentCanBeCancelled
@@ -701,16 +726,5 @@
         });
     }
 }
-
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

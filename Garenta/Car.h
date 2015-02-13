@@ -45,4 +45,6 @@
 @property BOOL isForShown;
 @property (nonatomic, strong) NSString *doubleCreditCard;
 
+// Ata Cengiz 13.02.2015 Sözleşme Uzatma
+@property (strong, nonatomic) NSString *contractItemNumber;
 @end
