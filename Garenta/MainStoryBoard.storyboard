@@ -460,11 +460,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="- Min. Sürücü Yaşı: 21 / Min. Genç Sürücü Yaşı: 20" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xAj-Bd-7hy">
-                                <rect key="frame" x="16" y="43" width="280" height="21"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="- Aylık Teminat Tutarı: 3000,00 TRY " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GRR-dn-lAk">
                                 <rect key="frame" x="16" y="130" width="280" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
@@ -488,6 +483,11 @@
                                 <rect key="frame" x="16" y="159" width="280" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="- Min. Sürücü Yaşı: 21 / Min. Genç Sürücü Yaşı: 20" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xAj-Bd-7hy">
+                                <rect key="frame" x="16" y="43" width="280" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -4253,6 +4253,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="infoButtonPressed:" destination="Kbz-6U-2IV" eventType="touchUpInside" id="rgM-Ln-WCy"/>
                                     <segue destination="Z6Z-Rg-VGF" kind="custom" identifier="toCarGroupDetailSegue" customClass="WYStoryboardPopoverSegue" id="iEC-VE-68m"/>
                                 </connections>
                             </button>
@@ -6707,15 +6708,15 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Hj2-5d-FZ6"/>
-        <segue reference="hGz-WM-gE8"/>
-        <segue reference="wou-2e-dhb"/>
-        <segue reference="eoS-ML-DjQ"/>
-        <segue reference="7yK-l0-YFl"/>
-        <segue reference="cx4-X2-B8e"/>
-        <segue reference="Tec-RH-gN3"/>
         <segue reference="nTw-8o-Pk5"/>
+        <segue reference="hGz-WM-gE8"/>
+        <segue reference="eoS-ML-DjQ"/>
+        <segue reference="Tec-RH-gN3"/>
+        <segue reference="cx4-X2-B8e"/>
+        <segue reference="wou-2e-dhb"/>
+        <segue reference="Hj2-5d-FZ6"/>
         <segue reference="hwC-3n-j6g"/>
+        <segue reference="iEC-VE-68m"/>
         <segue reference="gHw-da-jXv"/>
         <segue reference="ewL-RC-eiS"/>
         <segue reference="77i-Ir-fuv"/>

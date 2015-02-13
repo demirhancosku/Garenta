@@ -306,10 +306,13 @@
             }
         }
         
-        //AYLIKTA ÖN ÖDEMELİ YOK EKLE!
-        if (_reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation) {
+        if (_reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation && _reservation.etExpiry.count > 0) {
+            paymentType = @"9";
+        }
+        if (_reservation.campaignObject.campaignReservationType == payFrontWithNoCancellation && _reservation.etExpiry.count == 0) {
             paymentType = @"3";
         }
+
         
         NSString *totalPrice = @"";
         NSString *cardPayment = @"";

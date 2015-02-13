@@ -40,15 +40,9 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self arrayInitialize];
     [self fillFiltersInArrays];
-    
-    self.tempFuelFilter = [fuelFilter copy];
-    self.tempTransmissionFilter = [transmissionFilter copy];
-    self.tempSegmentFilter = [segmentFilter copy];
-    self.tempBodyFilter = [bodyFilter copy];
-    self.tempBrandFilter = [brandFilter copy];
-    
-    
+
     tableVC = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 50) style:UITableViewStylePlain];
     [tableVC setDelegate:self];
     [tableVC setDataSource:self];
@@ -64,6 +58,21 @@
     [clearButton setTintColor:[UIColor whiteColor]];
     
     [self.view addSubview:clearButton];
+}
+
+- (void)arrayInitialize
+{
+    fuelFilter = [NSMutableArray new];
+    brandFilter = [NSMutableArray new];
+    bodyFilter = [NSMutableArray new];
+    segmentFilter = [NSMutableArray new];
+    transmissionFilter = [NSMutableArray new];
+    
+    self.tempFuelFilter = [NSMutableArray new];
+    self.tempBrandFilter = [NSMutableArray new];
+    self.tempBodyFilter = [NSMutableArray new];
+    self.tempSegmentFilter = [NSMutableArray new];
+    self.tempTransmissionFilter = [NSMutableArray new];
 }
 
 - (void)findMyCar{
@@ -259,6 +268,18 @@
     }
 }
 
+- (void)filterTempArray:(NSMutableArray *)tempList andCurrentList:(NSMutableArray *)aList
+{
+    for (FilterObject *temp in tempList) {
+        NSPredicate *pred = [NSPredicate predicateWithFormat:@"filterCode==%@",temp.filterCode];
+        NSArray *arr = [aList filteredArrayUsingPredicate:pred];
+        
+        if (arr.count == 0) {
+            [aList addObject:temp];
+        }
+    }
+}
+
 
 - (void)dynamicFilter:(NSMutableArray *)dynamicArray andSection:(NSUInteger)section
 {
@@ -270,6 +291,16 @@
         NSArray *newArray = [brandFilter filteredArrayUsingPredicate:newPredicate];
         
         if (newArray.count == 1) {
+            [self buildFuelFilter:self.tempFuelFilter];
+            [self buildSegmentFilter:self.tempSegmentFilter];
+            [self buildBodyFilter:self.tempBodyFilter];
+            [self buildTransmissionFilter:self.tempTransmissionFilter];
+            
+            [self filterTempArray:self.tempFuelFilter andCurrentList:fuelFilter];
+            [self filterTempArray:self.tempSegmentFilter andCurrentList:segmentFilter];
+            [self filterTempArray:self.tempBodyFilter andCurrentList:bodyFilter];
+            [self filterTempArray:self.tempTransmissionFilter andCurrentList:transmissionFilter];
+
             return;
         }
         
@@ -287,8 +318,19 @@
         NSArray *newArray = [fuelFilter filteredArrayUsingPredicate:newPredicate];
         
         if (newArray.count == 1) {
+            [self buildSegmentFilter:self.tempSegmentFilter];
+            [self buildBrandFilter:self.tempBrandFilter];
+            [self buildBodyFilter:self.tempBodyFilter];
+            [self buildTransmissionFilter:self.tempTransmissionFilter];
+            
+            [self filterTempArray:self.tempSegmentFilter andCurrentList:segmentFilter];
+            [self filterTempArray:self.tempBrandFilter andCurrentList:brandFilter];
+            [self filterTempArray:self.tempBodyFilter andCurrentList:bodyFilter];
+            [self filterTempArray:self.tempTransmissionFilter andCurrentList:transmissionFilter];
+            
             return;
         }
+        
         [brandFilter removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, brandFilter.count - 1)]];
         [bodyFilter removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, bodyFilter.count - 1)]];
         [segmentFilter removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, segmentFilter.count - 1)]];
@@ -303,6 +345,16 @@
         NSArray *newArray = [segmentFilter filteredArrayUsingPredicate:newPredicate];
         
         if (newArray.count == 1) {
+            [self buildFuelFilter:self.tempFuelFilter];
+            [self buildBrandFilter:self.tempBrandFilter];
+            [self buildBodyFilter:self.tempBodyFilter];
+            [self buildTransmissionFilter:self.tempTransmissionFilter];
+            
+            [self filterTempArray:self.tempFuelFilter andCurrentList:fuelFilter];
+            [self filterTempArray:self.tempBrandFilter andCurrentList:brandFilter];
+            [self filterTempArray:self.tempBodyFilter andCurrentList:bodyFilter];
+            [self filterTempArray:self.tempTransmissionFilter andCurrentList:transmissionFilter];
+            
             return;
         }
         
@@ -320,8 +372,19 @@
         NSArray *newArray = [bodyFilter filteredArrayUsingPredicate:newPredicate];
         
         if (newArray.count == 1) {
+            [self buildSegmentFilter:self.tempSegmentFilter];
+            [self buildBrandFilter:self.tempBrandFilter];
+            [self buildFuelFilter:self.tempFuelFilter];
+            [self buildTransmissionFilter:self.tempTransmissionFilter];
+            
+            [self filterTempArray:self.tempFuelFilter andCurrentList:fuelFilter];
+            [self filterTempArray:self.tempBrandFilter andCurrentList:brandFilter];
+            [self filterTempArray:self.tempSegmentFilter andCurrentList:segmentFilter];
+            [self filterTempArray:self.tempTransmissionFilter andCurrentList:transmissionFilter];
+            
             return;
         }
+        
         [fuelFilter removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, fuelFilter.count - 1)]];
         [brandFilter removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, brandFilter.count - 1)]];
         [segmentFilter removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, segmentFilter.count - 1)]];
@@ -336,6 +399,16 @@
         NSArray *newArray = [transmissionFilter filteredArrayUsingPredicate:newPredicate];
         
         if (newArray.count == 1) {
+            [self buildSegmentFilter:self.tempSegmentFilter];
+            [self buildBrandFilter:self.tempBrandFilter];
+            [self buildBodyFilter:self.tempBodyFilter];
+            [self buildFuelFilter:self.tempFuelFilter];
+            
+            [self filterTempArray:self.tempFuelFilter andCurrentList:fuelFilter];
+            [self filterTempArray:self.tempBrandFilter andCurrentList:brandFilter];
+            [self filterTempArray:self.tempBodyFilter andCurrentList:bodyFilter];
+            [self filterTempArray:self.tempFuelFilter andCurrentList:fuelFilter];
+            
             return;
         }
         
@@ -393,51 +466,6 @@
             }
         }
     }
-    
-//    for (FilterObject *temp in brandFilter) {
-//        NSPredicate *pred = [NSPredicate predicateWithFormat:@"sampleCar.brandId==%@",temp.filterCode];
-//        NSArray *arr = [tempBrand filteredArrayUsingPredicate:pred];
-//        
-//        if (arr.count == 0 || ![[arr objectAtIndex:0] isSelected]) {
-//            [brandFilter removeObject:temp];
-//        }
-//    }
-//    
-//    for (FilterObject *temp in fuelFilter) {
-//        NSPredicate *pred = [NSPredicate predicateWithFormat:@"filterCode==%@",temp.filterCode];
-//        NSArray *arr = [tempFuel filteredArrayUsingPredicate:pred];
-//        
-//        if (arr.count == 0 || ![[arr objectAtIndex:0] isSelected]) {
-//            [fuelFilter removeObject:temp];
-//        }
-//    }
-//    
-//    for (FilterObject *temp in segmentFilter) {
-//        NSPredicate *pred = [NSPredicate predicateWithFormat:@"segment==%@",temp.filterCode];
-//        NSArray *arr = [tempSegment filteredArrayUsingPredicate:pred];
-//        
-//        if (arr.count == 0 || ![[arr objectAtIndex:0] isSelected]) {
-//            [segmentFilter removeObject:temp];
-//        }
-//    }
-//    
-//    for (FilterObject *temp in bodyFilter) {
-//        NSPredicate *pred = [NSPredicate predicateWithFormat:@"bodyId==%@",temp.filterCode];
-//        NSArray *arr = [tempBody filteredArrayUsingPredicate:pred];
-//        
-//        if (arr.count == 0 || ![[arr objectAtIndex:0] isSelected]) {
-//            [bodyFilter removeObject:temp];
-//        }
-//    }
-//    
-//    for (FilterObject *temp in transmissionFilter) {
-//        NSPredicate *pred = [NSPredicate predicateWithFormat:@"transmissionId==%@",temp.filterCode];
-//        NSArray *arr = [tempTransmission filteredArrayUsingPredicate:pred];
-//        
-//        if (arr.count == 0 || ![[arr objectAtIndex:0] isSelected]) {
-//            [transmissionFilter removeObject:temp];
-//        }
-//    }
 }
 
 - (void)refillFilterArray:(NSString *)filterResult andFilterCode:(NSString *)filterCode andArray:(NSMutableArray *)array
@@ -512,134 +540,123 @@
 {
     //bir ömür gitti buna -ATA
     //ve malesef değişecek :D :( -alp
-    [self buildFuelFilter];
     
-    [self buildSegmentFilter];
+    [self buildFuelFilter:fuelFilter];
     
-    [self buildBodyFilter];
+    [self buildSegmentFilter:segmentFilter];
     
-    [self buildTransmissionFilter];
+    [self buildBodyFilter:bodyFilter];
     
-    [self buildBrandFilter];
+    [self buildTransmissionFilter:transmissionFilter];
+    
+    [self buildBrandFilter:brandFilter];
 }
 
-- (void)buildFuelFilter{
-    fuelFilter = [[NSMutableArray alloc] init];
-    
+- (void)buildFuelFilter:(NSMutableArray *)dynamicArray{
     FilterObject *object1 = [[FilterObject alloc] init];
     [object1 setFilterDescription:@"Yakıt Tipi"];
     [object1 setFilterResult:@""];
     [object1 setIsSelected:NO];
-    [fuelFilter addObject:object1];
+    [dynamicArray addObject:object1];
     for (CarGroup *tempCarGroup in self.carGroups) {
-        if (![self isFilterIdFoundFromFilterList:fuelFilter withId:tempCarGroup.fuelId]) {
+        if (![self isFilterIdFoundFromFilterList:dynamicArray withId:tempCarGroup.fuelId]) {
             object1 = [[FilterObject alloc] init];
             [object1 setFilterDescription:@""];
             [object1 setFilterResult:tempCarGroup.fuelName];
             [object1 setFilterCode:tempCarGroup.fuelId];
             [object1 setIsSelected:NO];
-            [fuelFilter addObject:object1];
+            [dynamicArray addObject:object1];
         }
     }
     
-    [self calculateFilterResult:fuelFilter];
+    [self calculateFilterResult:dynamicArray];
 }
 
-
-- (void)buildSegmentFilter{
-    segmentFilter = [[NSMutableArray alloc] init];
-    
+- (void)buildSegmentFilter:(NSMutableArray *)dynamicArray{
     FilterObject *object = [[FilterObject alloc] init];
     [object setFilterDescription:@"Kategori Tipi"];
     [object setFilterResult:@""];
     [object setIsSelected:NO];
-    [segmentFilter addObject:object];
+    [dynamicArray addObject:object];
     for (CarGroup *tempCarGroup in self.carGroups) {
-        if (![self isFilterIdFoundFromFilterList:segmentFilter withId:tempCarGroup.segment]) {
+        if (![self isFilterIdFoundFromFilterList:dynamicArray withId:tempCarGroup.segment]) {
             object = [[FilterObject alloc] init];
             [object setFilterDescription:@""];
             [object setFilterResult:tempCarGroup.segmentName];
             [object setFilterCode:tempCarGroup.segment];
             [object setIsSelected:NO];
-            [segmentFilter addObject:object];
+            [dynamicArray addObject:object];
         }
         
     }
     
     
-    [self calculateFilterResult:segmentFilter];
+    [self calculateFilterResult:dynamicArray];
 }
 
-- (void)buildBodyFilter{
-    bodyFilter = [[NSMutableArray alloc] init];
-    
+- (void)buildBodyFilter:(NSMutableArray *)dynamicArray{
     FilterObject *object = [[FilterObject alloc] init];
     [object setFilterDescription:@"Kasa Tipi"];
     [object setFilterResult:@""];
     [object setIsSelected:NO];
-    [bodyFilter addObject:object];
+    [dynamicArray addObject:object];
     for (CarGroup *tempCarGroup in self.carGroups) {
-        if (![self isFilterIdFoundFromFilterList:bodyFilter withId:tempCarGroup.bodyId]) {
+        if (![self isFilterIdFoundFromFilterList:dynamicArray withId:tempCarGroup.bodyId]) {
             object = [[FilterObject alloc] init];
             [object setFilterDescription:@""];
             [object setFilterResult:tempCarGroup.bodyName];
             [object setFilterCode:tempCarGroup.bodyId];
             [object setIsSelected:NO];
-            [bodyFilter addObject:object];
+            [dynamicArray addObject:object];
         }
         
     }
     
-    [self calculateFilterResult:bodyFilter];
+    [self calculateFilterResult:dynamicArray];
     
     
 }
 
-- (void)buildTransmissionFilter{
-    transmissionFilter = [[NSMutableArray alloc] init];
-    
+- (void)buildTransmissionFilter:(NSMutableArray *)dynamicArray{
     FilterObject *object = [[FilterObject alloc] init];
     [object setFilterDescription:@"Vites Tipi"];
     [object setFilterResult:@""];
     [object setIsSelected:NO];
-    [transmissionFilter addObject:object];
+    [dynamicArray addObject:object];
     for (CarGroup *tempCarGroup in self.carGroups) {
-        if (![self isFilterIdFoundFromFilterList:transmissionFilter withId:tempCarGroup.transmissonId]) {
+        if (![self isFilterIdFoundFromFilterList:dynamicArray withId:tempCarGroup.transmissonId]) {
             object = [[FilterObject alloc] init];
             [object setFilterDescription:@""];
             [object setFilterResult:tempCarGroup.transmissonName];
             [object setFilterCode:tempCarGroup.transmissonId];
             [object setIsSelected:NO];
-            [transmissionFilter addObject:object];
+            [dynamicArray addObject:object];
         }
     }
-    [self calculateFilterResult:transmissionFilter];
+    [self calculateFilterResult:dynamicArray];
 }
 
 
-- (void)buildBrandFilter{
-    brandFilter  = [[NSMutableArray alloc] init];
-    
+- (void)buildBrandFilter:(NSMutableArray *)dynamicArray{
     FilterObject *object = [[FilterObject alloc] init];
     [object setFilterDescription:@"Marka"];
     [object setFilterResult:@""];
     [object setIsSelected:NO];
-    [brandFilter addObject:object];
+    [dynamicArray addObject:object];
     for (CarGroup *tempCarGroup in self.carGroups) {
         for(Car *tempCar in tempCarGroup.cars)
-            if (![self isFilterIdFoundFromFilterList:brandFilter withId:tempCar.brandId]) {
+            if (![self isFilterIdFoundFromFilterList:dynamicArray withId:tempCar.brandId]) {
                 object = [[FilterObject alloc] init];
                 [object setFilterDescription:@""];
                 [object setFilterResult:tempCar.brandName];
                 [object setFilterCode:tempCar.brandId];
                 [object setIsSelected:NO];
-                [brandFilter addObject:object];
+                [dynamicArray addObject:object];
             }
     }
     
-    [self calculateFilterResult:brandFilter];
+    [self calculateFilterResult:dynamicArray];
 }
-
 
 - (BOOL)isFilterIdFoundFromFilterList:(NSMutableArray*)aList withId:(NSString*)anId{
     for (FilterObject *tempObject in aList) {
