@@ -305,13 +305,13 @@
                         <outlet property="destinationTableView" destination="QZT-kb-Sha" id="Kg1-ra-w9a"/>
                         <outlet property="searchButton" destination="50y-rr-DQ5" id="rYP-dS-3ll"/>
                         <segue destination="yjG-hs-2N6" kind="push" identifier="toCarGroupVCSegue" id="Hj2-5d-FZ6"/>
-                        <segue destination="6DV-WP-ie6" kind="push" identifier="toFilterVCSegue" id="lC9-rR-OVU"/>
                         <segue destination="vg1-g2-U6W" kind="custom" identifier="toDateTimeVCSegue" customClass="WYStoryboardPopoverSegue" id="nTw-8o-Pk5"/>
+                        <segue destination="6DV-WP-ie6" kind="push" identifier="toFilterVCSegue" id="1Zt-g7-2je"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dx3-pf-FNm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3138" y="-932"/>
+            <point key="canvasLocation" x="3267" y="-1213"/>
         </scene>
         <!--Araç Grubu-->
         <scene sceneID="UKo-aG-roz">
@@ -4427,7 +4427,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hym-SY-Yxo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2788" y="-302"/>
+            <point key="canvasLocation" x="3028" y="-390"/>
         </scene>
         <!--Car Group FilterVC-->
         <scene sceneID="8M2-96-EGB">
@@ -4440,7 +4440,7 @@
                     <view key="view" contentMode="scaleToFill" id="S3d-P3-Z0b">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="PBr-3A-uzg"/>
@@ -4450,14 +4450,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aE2-mj-WyC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3493" y="-302"/>
+            <point key="canvasLocation" x="3485" y="-390"/>
         </scene>
         <!--Üye Olma-->
         <scene sceneID="Cy2-p9-p9g">
             <objects>
                 <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="DBj-Xo-gU0" customClass="UserCreationVC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dik-f3-yrM">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -5297,7 +5297,7 @@
                         <viewControllerLayoutGuide type="bottom" id="flZ-C2-otv"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6EV-cz-FLz">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="D4W-6h-XJ6">
@@ -6709,20 +6709,22 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="Hj2-5d-FZ6"/>
+        <segue reference="iJn-Bu-Z2r"/>
+        <segue reference="TxX-UN-QgX"/>
+        <segue reference="hGz-WM-gE8"/>
+        <segue reference="wou-2e-dhb"/>
+        <segue reference="eoS-ML-DjQ"/>
+        <segue reference="7yK-l0-YFl"/>
+        <segue reference="cx4-X2-B8e"/>
+        <segue reference="Tec-RH-gN3"/>
         <segue reference="nTw-8o-Pk5"/>
         <segue reference="hwC-3n-j6g"/>
         <segue reference="gHw-da-jXv"/>
-        <segue reference="iJn-Bu-Z2r"/>
-        <segue reference="hGz-WM-gE8"/>
-        <segue reference="Tec-RH-gN3"/>
-        <segue reference="7yK-l0-YFl"/>
-        <segue reference="eoS-ML-DjQ"/>
-        <segue reference="cx4-X2-B8e"/>
-        <segue reference="wou-2e-dhb"/>
+        <segue reference="ewL-RC-eiS"/>
         <segue reference="77i-Ir-fuv"/>
         <segue reference="axu-bq-je7"/>
         <segue reference="V74-O1-TBy"/>
-        <segue reference="TxX-UN-QgX"/>
+        <segue reference="tMq-8T-4Dd"/>
         <segue reference="yGa-mz-bZL"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
