@@ -55,6 +55,7 @@
         [self getReservationDetailFromSAP];
     }
     else {
+
         [super.totalPriceLabel setText:[NSString stringWithFormat:@"%.02f TL",_changeReservationPrice.floatValue]];
         // Do any additional setup after loading the view.
         [self prepareTextFields];

@@ -78,7 +78,7 @@
                 [textView setText:[NSString stringWithFormat:@"- %@ ve benzeri - %.02f TL\n",string,[reservation.selectedCarGroup.sampleCar.pricing.payLaterPrice decimalNumberByAdding:reservation.changeReservationDifference].floatValue]];
         }
         
-        if (reservation.selectedCar) {
+        if (reservation.selectedCar && !reservation.isContract) {
             [textView setText:[NSString stringWithFormat:@"%@- %@ %@ Araç seçim ücreti - %.02f TL\n", textView.text, reservation.selectedCar.brandName, reservation.selectedCar.modelName, reservation.selectedCar.pricing.carSelectPrice.floatValue]];
         }
     }
@@ -86,7 +86,7 @@
     // REZERVASYONDAKİ EK ÜRÜNLER
     for (AdditionalEquipment *temp in reservation.additionalEquipments)
     {
-        if (temp.quantity > 0 && ![temp.updateStatus isEqualToString:@"D"] && ![temp.materialNumber isEqualToString:@"HZM0031"])
+        if (temp.quantity > 0 && ![temp.updateStatus isEqualToString:@"D"] && (![temp.materialNumber isEqualToString:@"HZM0031"] || reservation.isContract))
         {
             [textView setText:[NSString stringWithFormat:@"%@- %@ (%i adet) - %.02f TL\n",textView.text, temp.materialDescription,temp.quantity,(temp.price.floatValue * temp.quantity)]];
         }

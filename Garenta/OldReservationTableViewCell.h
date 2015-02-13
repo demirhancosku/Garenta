@@ -16,4 +16,5 @@
 @property (weak,nonatomic) IBOutlet UILabel *checkOutTime;
 @property (weak,nonatomic) IBOutlet UILabel *checkInTime;
 @property (weak,nonatomic) IBOutlet UILabel *statu;
+@property (weak, nonatomic) IBOutlet UILabel *reservationTitle;
 @end

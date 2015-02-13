@@ -28,7 +28,7 @@
 - (void)viewDidLoad
 {
     CGRect navigationBarFrame = [[[self navigationController] navigationBar] frame];
-    //ysinde navigationBarFrame.size.height vardi viewwillapear super cagirilmamaisti onu cagirinca buna gerek kalmadi
+    
     viewFrame =CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.width - navigationBarFrame.size.height );
     
     [super addNotifications];
@@ -37,11 +37,7 @@
     super.reservation.checkOutTime = [_oldCheckOutTime copy];
     super.reservation.checkInTime = [_oldCheckInTime copy];
     
-//    super.reservation.checkOutOffice = [self copyWithZone:nil];
-//    super.reservation.checkInOffice = [_oldCheckInOffice copy];
-    
     isOk = YES;
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -53,16 +49,28 @@
 - (IBAction)reCalculate:(id)sender
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-//        [self getAdditionalEquipmentsFromSAP];
-        [self getAdditionalEquipments];
-        [self getNewReservationPrice];
-        dispatch_async(dispatch_get_main_queue(), ^{
+    
+    // 13.02.2015 Ata Cengiz
+    if (self.reservation.isContract) {
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+            [self getAdditionalEquipments];
+            [self getNewContractPrice];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if(super.reservation.changeReservationDifference.floatValue == 0 && isOk)
-                [self performSegueWithIdentifier:@"toOldReservationEquipmentSegue" sender:self]; 
         });
-    });
+    }
+    // 13.02.2015 Ata Cengiz
+    else {
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            [self getAdditionalEquipments];
+            [self getNewReservationPrice];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                if(super.reservation.changeReservationDifference.floatValue == 0 && isOk)
+                    [self performSegueWithIdentifier:@"toOldReservationEquipmentSegue" sender:self];
+            });
+        });
+    }
 }
 
 - (void)getNewReservationPrice
@@ -167,7 +175,7 @@
                     if (carSelectPredicateArray.count > 0) {
                         [[carSelectPredicateArray objectAtIndex:0] setPrice:[NSDecimalNumber decimalNumberWithString:[export valueForKey:@"EXPP_ASECIM_TTR"]]];
                     }
-//                    [tempCar.pricing setCarSelectPrice:[export valueForKey:@"EXPP_ASECIM_TTR"]];
+                    //                    [tempCar.pricing setCarSelectPrice:[export valueForKey:@"EXPP_ASECIM_TTR"]];
                     
                     [super.reservation.selectedCarGroup.cars addObject:tempCar];
                 }
@@ -175,7 +183,7 @@
                 // AYLIK İÇİN TAKSİT TABLOSU
                 NSDictionary *etExpiry = [tables objectForKey:@"ZSD_KDK_AYLIK_TAKSIT_ST"];
                 
-//                NSMutableArray *etExpiryArray = [NSMutableArray new];
+                //                NSMutableArray *etExpiryArray = [NSMutableArray new];
                 
                 NSDateFormatter *dateFormatter = [NSDateFormatter new];
                 [dateFormatter setDateFormat:@"yyyy-MM-dd"];
@@ -201,7 +209,7 @@
                     [super.reservation.etExpiry addObject:tempObject];
                 }
                 
-//                super.reservation.etExpiry = etExpiryArray;
+                //                super.reservation.etExpiry = etExpiryArray;
                 
                 //ET_REZERV
                 NSDictionary *sdReserv = [tables objectForKey:@"ZSD_KDK_REZERV"];
@@ -242,9 +250,9 @@
                 NSString *currency = [export valueForKey:@"EXPP_CURR"];
                 NSString *paymentType = [export valueForKey:@"EXPP_TYPE"]; //T-toplam rezervasyon tutarı, F-fark tutarı
                 
-//                if ([paymentType isEqualToString:@"T"]) {
-//                    super.reservation.changeReservationDifference = [super.reservation.changeReservationDifference decimalNumberBySubtracting:super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice];
-//                }
+                //                if ([paymentType isEqualToString:@"T"]) {
+                //                    super.reservation.changeReservationDifference = [super.reservation.changeReservationDifference decimalNumberBySubtracting:super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice];
+                //                }
                 
                 NSDecimalNumber *equipmentPriceDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
                 for (AdditionalEquipment *temp in super.reservation.additionalEquipments)
@@ -430,7 +438,7 @@
                 temp.paid = [NSDecimalNumber decimalNumberWithString:@"0"];
             }
         }
-//        
+        //
         // belgede tek yön mevcut ve güncelleme yaparken tek yön eksikse çıkartıyoruz
         NSPredicate *predicate2 = [NSPredicate predicateWithFormat:@"materialNumber=%@",@"HZM0020"];
         NSArray *filterResult2 = [super.reservation.additionalEquipments filteredArrayUsingPredicate:predicate2];
@@ -462,11 +470,125 @@
                 reservationEqui.paid = reservationEqui.price;
             }
             
-//            [_additionalEquipments insertObject:reservationEqui atIndex:0];
+            //            [_additionalEquipments insertObject:reservationEqui atIndex:0];
         }
-    
+        
         [(OldReservationEquipmentVC *)[segue destinationViewController] setReservation:super.reservation];
         [(OldReservationEquipmentVC *)[segue destinationViewController] setAdditionalEquipments:_additionalEquipments];
+    }
+}
+
+- (void)getNewContractPrice {
+    
+    NSString *alertString = @"";
+    
+    @try {
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZPM_KDK_SOZLESME_DEGISIKLIK"];
+        
+        NSDateFormatter *dateFormatter  = [NSDateFormatter new];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        
+        NSDateFormatter *timeFormatter  = [NSDateFormatter new];
+        [timeFormatter setDateFormat:@"HH:mm:ss"];
+        
+        [handler addImportParameter:@"IMPP_SOZNO" andValue:super.reservation.reservationNumber];
+        [handler addImportParameter:@"IMPP_MSUBE" andValue:super.reservation.checkOutOffice.subOfficeCode];
+        [handler addImportParameter:@"IMPP_HSUBE" andValue:super.reservation.checkInOffice.subOfficeCode];
+        [handler addImportParameter:@"IMPP_UPG_ENDDA" andValue:[dateFormatter stringFromDate:super.reservation.checkInTime]];
+        [handler addImportParameter:@"IMPP_UPG_ENDUZ" andValue:[timeFormatter stringFromDate:super.reservation.checkInTime]];
+        [handler addImportParameter:@"IMPP_LANGU" andValue:@"T"];
+        [handler addImportParameter:@"IMPP_KDGRP" andValue:@"40"];
+        [handler addImportParameter:@"I_KULLANICI_ODEMELI" andValue:@"X"];
+        
+        [handler addTableForReturn:@"ET_EXPIRY"];
+        
+        NSDictionary *response = [handler prepCall];
+        
+        if (response != nil) {
+            
+            NSDictionary *export = [response objectForKey:@"EXPORT"];
+            NSDictionary *tables = [response objectForKey:@"TABLES"];
+            
+            NSString *result = [export valueForKey:@"EXPP_TRUE_FALSE"];
+            
+            if ([result isEqualToString:@"T"]) {
+                
+                self.isOk = YES;
+                
+                // AYLIK İÇİN TAKSİT TABLOSU
+                NSDictionary *etExpiry = [tables objectForKey:@"ZSD_KDK_AYLIK_TAKSIT_ST"];
+                
+                NSDateFormatter *dateFormatter = [NSDateFormatter new];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                
+                if (!super.reservation.etExpiry){
+                    super.reservation.etExpiry = [NSMutableArray new];
+                }
+                
+                for (NSDictionary *tempDict in etExpiry) {
+                    ETExpiryObject *tempObject = [ETExpiryObject new];
+                    
+                    [tempObject setCarGroup:[tempDict valueForKey:@"ARAC_GRUBU"]];
+                    [tempObject setBeginDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_BASI"]]];
+                    [tempObject setEndDate:[dateFormatter dateFromString:[tempDict valueForKey:@"DONEM_SONU"]]];
+                    [tempObject setCampaignID:[tempDict valueForKey:@"KAMPANYA_ID"]];
+                    [tempObject setBrandID:[tempDict valueForKey:@"MARKA_ID"]];
+                    [tempObject setModelID:[tempDict valueForKey:@"MODEL_ID"]];
+                    [tempObject setIsPaid:[tempDict valueForKey:@"ODENDI"]];
+                    [tempObject setCurrency:[tempDict valueForKey:@"PARA_BIRIMI"]];
+                    [tempObject setMaterialNo:[tempDict valueForKey:@"MALZEME"]];
+                    [tempObject setTotalPrice:[NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TUTAR"]]];
+                    
+                    [super.reservation.etExpiry addObject:tempObject];
+                }
+                
+                // FIYATLAR
+                super.reservation.changeReservationDifference = [NSDecimalNumber decimalNumberWithString:[export valueForKey:@"EXPP_PRICE"]];
+                
+                NSString *currency = [export valueForKey:@"EXPP_CURR"];
+                
+                NSDecimalNumber *equipmentPriceDifference = [NSDecimalNumber decimalNumberWithString:@"0"];
+                for (AdditionalEquipment *temp in super.reservation.additionalEquipments)
+                {
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"materialNumber=%@",temp.materialNumber];
+                    NSArray *filterResult = [_additionalEquipments filteredArrayUsingPredicate:predicate];
+                    
+                    if (filterResult.count > 0) {
+                        NSDecimalNumber *difference = [[[filterResult objectAtIndex:0] price] decimalNumberBySubtracting:temp.price];
+                        equipmentPriceDifference = [equipmentPriceDifference decimalNumberByAdding:difference];
+                    }
+                }
+                
+                alertString = [NSString stringWithFormat:@"Seçmiş olduğunuz tarih aralığındaki fark tutarları ağaşıdaki gibidir.\n\nAraç Fark Bedeli: %.02f %@\nEk Hizmet Fark Bedeli: %.02f %@",super.reservation.changeReservationDifference.floatValue,currency,equipmentPriceDifference.floatValue,currency];
+                
+            }
+            else {
+                alertString = @"Aracınız seçmiş olduğunuz tarihler arasında uygun değildir.";
+                self.isOk = NO;
+            }
+        }
+        else {
+            alertString = @"Yeni tarih için uygun fiyat bulunamadı, lütfen tekrar deneyiniz.";
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+        if (![alertString isEqualToString:@""]) {
+            if (isOk)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Rezervasyon fark tutarı" message:alertString delegate:self cancelButtonTitle:@"İptal" otherButtonTitles:@"Tamam",nil];
+                alert.tag = 1;
+                [alert show];
+            }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                [alert show];
+            }
+        }
     }
 }
 

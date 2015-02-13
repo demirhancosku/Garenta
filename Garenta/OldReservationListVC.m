@@ -47,7 +47,6 @@
     if ([[ApplicationProperties getUser] isLoggedIn] && _reservationList == nil)
     {
         [self getUserReservationList];
-
     }
     
     if (![[ApplicationProperties getUser] isLoggedIn])
@@ -84,6 +83,8 @@
                 [_segmentedControl setSelectedSegmentIndex:2];
             }
             
+            [self getActiveContractsFromSAP];
+            
             [_oldReservationTableView reloadData];
         });
     });
@@ -94,13 +95,11 @@
     [self setRefreshControl:refreshControl];
 }
 
-- (IBAction)segmentValueChanged:(id)sender
-{
+- (IBAction)segmentValueChanged:(id)sender {
     [_oldReservationTableView reloadData];
 }
 
-- (void)refreshTableView
-{
+- (void)refreshTableView {
     [self getOldReservation];
     [[self refreshControl] endRefreshing];
     [_oldReservationTableView reloadData];
@@ -263,6 +262,12 @@
     cell.checkInTime.text = [formatter stringFromDate:temp.checkInTime];
     cell.statu.text = temp.reservationStatu;
     
+    // 13.02.2015 Ata Cengiz
+    if (temp.isContract) {
+        cell.reservationTitle.text = @"Sözleşme No:";
+    }
+    // 13.02.2015 Ata Cengiz
+    
     return cell;
 }
 
@@ -273,8 +278,15 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
-        [self getOldReservationDetail];
-        
+        // 13.02.2015 Ata Cengiz
+        if (_reservation.isContract) {
+            [self getDetailedVehicleInformationFromSAP];
+        }
+        else {
+            [self getOldReservationDetail];
+        }
+        // 13.02.2015 Ata Cengiz
+
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (_reservation.selectedCarGroup != nil)
@@ -359,6 +371,13 @@
                         chassisNo = [tempEqui valueForKey:@"SASE_NO"];
                         fikod = [tempEqui valueForKey:@"FIYAT_KODU"];
                     }
+                    
+                    // Ata Cengiz 09.02.2015
+                    if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
+                        NSString *paymentType = [tempEqui valueForKey:@"KURUM_BIREYSEL"];
+                        equiObj.paymentType = paymentType;
+                    }
+                    // Ata Cengiz 09.02.2015
                 }
                 
                 //araç seçimi yapılmışmı diye bakılıyor
@@ -469,6 +488,223 @@
     }
 }
 
+// Ata Cengiz 12.02.2015 Açık Sözleşme
+- (void)getActiveContractsFromSAP {
+    NSString *alertString = @"";
+    
+    @try {
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZCRM_GET_SOZLESME_DETAIL"];
+        
+        [handler addImportParameter:@"IV_MUSTERI" andValue:[[ApplicationProperties getUser] kunnr]];
+        [handler addImportParameter:@"IV_SUREUZATMA" andValue:@"X"];
+        
+        [handler addTableForReturn:@"ET_SOZLESME"];
+        [handler addTableForReturn:@"ET_ITEMS"];
+        [handler addTableForReturn:@"ET_MESSAGE"];
 
+        NSDictionary *response = [handler prepCall];
+        
+        if (response != nil) {
+            
+            NSDictionary *tables = [response objectForKey:@"TABLES"];
+            
+            NSDictionary *contracts = [tables objectForKey:@"ZSOZLESME_DETAIL"];
+            
+            if (contracts.count > 0) {
+                NSDictionary *items = [tables objectForKey:@"ZSOZLESME_DETAIL_ITEM"];
+                
+                for (NSDictionary *tempDict in contracts) {
+                    Reservation *tempReservation = [[Reservation alloc] init];
+                    tempReservation.checkInOffice = [Office new];
+                    tempReservation.checkOutOffice = [Office new];
+                    tempReservation.paymentNowCard = [CreditCard new];
+                    tempReservation.additionalEquipments = [NSMutableArray new];
+                    
+                    tempReservation.documentTotalPrice = [NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"TOPLAM_TUTAR"]];
+                    tempReservation.checkOutOffice.subOfficeCode = [tempDict valueForKey:@"CIKIS_SUBE"];
+                    tempReservation.checkOutOffice.subOfficeName = [tempDict valueForKey:@"CIKIS_SUBE_TXT"];
+                    tempReservation.checkInOffice.subOfficeCode = [tempDict valueForKey:@"DONUS_SUBE"];
+                    tempReservation.checkInOffice.subOfficeName = [tempDict valueForKey:@"DONUS_SUBE_TXT"];
+
+                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                    [formatter setDateFormat:@"yyyy-MM-dd"];
+                    
+                    NSDate *checkOutDate = [formatter dateFromString:[tempDict valueForKey:@"SOZ_BAS_TAR"]];
+                    NSDate *checkInDate = [formatter dateFromString:[tempDict valueForKey:@"SOZ_BIT_TAR"]];
+                    
+                    [formatter setDateFormat:@"HH:mm:ss"];
+                    NSDate *checkOutTime = [formatter dateFromString:[tempDict valueForKey:@"SOZ_BAS_SAAT"]];
+                    NSDate *checkInTime = [formatter dateFromString:[tempDict valueForKey:@"SOZ_BIT_SAAT"]];
+                   
+                    tempReservation.checkOutTime = [self setDates:checkOutDate andTime:checkOutTime];
+                    tempReservation.checkInTime = [self setDates:checkInDate andTime:checkInTime];
+                    
+                    NSString *status = [tempDict valueForKey:@"SOZ_DURUM"];
+                    
+                    if (![status isEqualToString:@"E0003"]) {
+                        continue;
+                    }
+                    
+                    tempReservation.reservationNumber = [tempDict valueForKey:@"SOZ_NO"];
+                    tempReservation.reservationStatuId = status;
+                    tempReservation.reservationStatu = [tempDict valueForKey:@"SOZ_DURUM_TXT"];
+                    tempReservation.reservationType = [tempDict valueForKey:@"ARACREZTIPI"];
+                    tempReservation.paymentNowCard.uniqueId = [tempDict valueForKey:@"MER_KEY"];
+                    tempReservation.isContract = YES;
+                    
+                    for (NSDictionary *tempItem in items) {
+                        NSString *contractNumber = [tempItem valueForKey:@"SOZ_NO"];
+                        
+                        if ([tempReservation.reservationNumber isEqualToString:contractNumber]) {
+                            
+                            NSString *isVehicle = [tempItem valueForKey:@"IS_ARAC"];
+                            
+                            // Araç satırı
+                            if ([isVehicle isEqualToString:@"X"]) {
+                                
+                                Car *tempCar = [Car new];
+                                tempCar.pricing = [Price new];
+                                
+                                [[tempCar pricing] setPayNowPrice:[NSDecimalNumber decimalNumberWithString:[tempItem valueForKey:@"TUTAR"]]];
+                                
+                                
+                                [tempCar setMaterialCode:[tempItem valueForKey:@"MALZEME"]];
+                                [tempCar setMaterialName:[tempItem valueForKey:@"MALZEME_TANIM"]];
+                                [tempCar setPlateNo:[tempItem valueForKey:@"PLAKA_NO"]];
+                                [tempCar setChassisNo:[tempItem valueForKey:@"SASE_NO"]];
+                                [tempCar setContractItemNumber:[tempItem valueForKey:@"KALEM_NO"]];
+
+                                CarGroup *tempCarGroup = [CarGroup new];
+                                
+                                [tempCarGroup setGroupCode:[tempDict valueForKey:@"ZZARACGRUBU"]];
+                                
+                                [tempCarGroup setSampleCar:tempCar];
+                                [tempCarGroup.cars addObject:tempCar];
+                                                                
+                                [tempReservation setSelectedCarGroup:tempCarGroup];
+                                [tempReservation setSelectedCar:tempCar];
+                            }
+                            // Ekipman satırı
+                            else {
+                                
+                                AdditionalEquipment *equiObj = [AdditionalEquipment new];
+                                
+                                equiObj.materialNumber = [tempItem valueForKey:@"MALZEME"];
+                                equiObj.materialDescription = [tempItem valueForKey:@"MALZEME_TANIM"];
+                                equiObj.quantity = [[tempItem valueForKey:@"MIKTAR"] intValue];
+                                equiObj.price = [NSDecimalNumber decimalNumberWithString:[tempItem valueForKey:@"TUTAR"]];
+                                equiObj.price = [equiObj.price decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",equiObj.quantity]]];
+                                equiObj.contractItemNumber = [tempItem valueForKey:@"KALEM_NO"];
+                                
+                                [tempReservation.additionalEquipments addObject:equiObj];
+                            }
+                        }
+                    }
+                    
+                    [_activeReservationList insertObject:tempReservation atIndex:0];
+                    [_segmentedControl setEnabled:NO forSegmentAtIndex:0];
+                    [_segmentedControl setSelectedSegmentIndex:0];
+                }
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        if (![alertString isEqualToString:@""]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                [alert show];
+            });
+        }
+    }
+}
+// Ata Cengiz 12.02.2015 Açık Sözleşme
+
+// Ata Cengiz 13.02.2015 Araç bilgisi
+- (void)getDetailedVehicleInformationFromSAP {
+    
+    NSString *alertString = @"";
+    
+    @try {
+        
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getR3HostName] andClient:[ConnectionProperties getR3Client] andDestination:[ConnectionProperties getR3Destination] andSystemNumber:[ConnectionProperties getR3SystemNumber] andUserId:[ConnectionProperties getR3UserId] andPassword:[ConnectionProperties getR3Password] andRFCName:@"ZPM_KDK_ARAC_BILGI_DETAY"];
+        
+        [handler addImportParameter:@"IMPP_LANGU" andValue:@"T"];
+        
+        [handler addTableForImport:@"IMPT_PLAKALIST" andColumns:@[@"LICENSE_NUM"] andValues:@[@[_reservation.selectedCar.plateNo]]];
+        [handler addTableForReturn:@"EXPT_ARACDETAY"];
+        
+        NSDictionary *response = [handler prepCall];
+        
+        if (response != nil) {
+            
+            NSDictionary *tables = [response objectForKey:@"TABLES"];
+            NSDictionary *carDetail = [tables objectForKey:@"ZPM_S_ARAC_BILGI_DETAY"];
+            
+            for (NSDictionary *tempDict in carDetail) {
+                Car *tempCar = _reservation.selectedCar;
+    
+                [tempCar setBrandId:[tempDict valueForKey:@"MARKA_ID"]];
+                [tempCar setModelId:[tempDict valueForKey:@"MODEL_ID"]];
+                [tempCar setBrandName:[tempDict valueForKey:@"MARKA"]];
+                [tempCar setModelName:[tempDict valueForKey:@"MODEL"]];
+                [tempCar setModelYear:[tempDict valueForKey:@"MODEL_YILI"]];
+                
+                NSString *imagePath = [tempDict valueForKey:@"ZRESIM_315"];
+                imagePath = [imagePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                
+                NSURL *imageUrl = [NSURL URLWithString:imagePath];
+                
+                NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
+                UIImage *carImage = [UIImage imageWithData:imageData];
+                tempCar.image = carImage;
+                
+                if (tempCar.image == nil) {
+                    [tempCar setImage:[UIImage imageNamed:@"sample_car.png"]];
+                }
+                
+                [tempCar setDoorNumber:[tempDict valueForKey:@"KAPI_SAYISI"]];
+                [tempCar setPassangerNumber:[tempDict valueForKey:@"YOLCU_SAYISI"]];
+
+                CarGroup *tempCarGroup = [CarGroup new];
+                
+                tempCarGroup = [CarGroup new];
+                tempCarGroup.cars = [NSMutableArray new];
+                
+                [tempCarGroup setGroupCode:[tempDict valueForKey:@"GRPKOD"]];
+                [tempCarGroup setGroupName:[tempDict valueForKey:@"GRPKODTX"]];
+                [tempCarGroup setTransmissonId:[tempDict valueForKey:@"SANZIMAN_TIPI_ID"]];
+                [tempCarGroup setTransmissonName:[tempDict valueForKey:@"SANZIMAN_TIPI"]];
+                [tempCarGroup setFuelId:[tempDict valueForKey:@"YAKIT_TIPI_ID"]];
+                [tempCarGroup setFuelName:[tempDict valueForKey:@"YAKIT_TIPI"]];
+                [tempCarGroup setBodyId:[tempDict valueForKey:@"KASA_TIPI_ID"]];
+                [tempCarGroup setBodyName:[tempDict valueForKey:@"KASA_TIPI"]];
+                [tempCarGroup setSegment:[tempDict valueForKey:@"SEGMENT"]];
+                [tempCarGroup setSegmentName:[tempDict valueForKey:@"SEGMENTTX"]];
+                
+                [[tempCarGroup cars] addObject:tempCar];
+                [tempCarGroup setSampleCar:tempCar];
+                
+                [_reservation setSelectedCar:tempCar];
+                [_reservation setSelectedCarGroup:tempCarGroup];
+            }
+        }
+        
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        if (![alertString isEqualToString:@""]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Üzgünüz" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+                [alert show];
+            });
+        }
+    }
+}
+// Ata Cengiz 13.02.2015 Araç bilgisi
 
 @end

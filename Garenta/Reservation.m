@@ -23,7 +23,6 @@
     return self;
 }
 
-
 #pragma mark - util methods
 //sıkıcı nsdate kodları
 + (NSDate*)defaultCheckInDate{
@@ -257,13 +256,14 @@
         [timeFormatter setDateFormat:@"HH:mm:ss"];
         
         // IS_INPUT
-        NSArray *isInputColumns = @[@"REZ_NO", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"ODEME_TURU", @"GARENTA_TL", @"BONUS", @"MILES_SMILES", @"GUN_SAYISI", @"TOPLAM_TUTAR", @"C_PRIORITY", @"C_CORP_PRIORITY", @"REZ_KANAL", @"FT_CIKIS_IL", @"FT_CIKIS_ILCE", @"FT_CIKIS_ADRES", @"FT_DONUS_IL", @"FT_DONUS_ILCE", @"FT_DONUS_ADRES", @"PARA_BIRIMI", @"FT_MALIYET_TIPI", @"USERNAME", @"PUAN_TIPI", @"UCUS_SAATI", @"UCUS_NO", @"ODEME_BICIMI", @"FATURA_ACIKLAMA", @"EMAIL_CONFIRM", @"TELNO_CONFIRM"];
+        NSArray *isInputColumns = @[@"REZ_NO", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"ODEME_TURU", @"GARENTA_TL", @"BONUS", @"MILES_SMILES", @"GUN_SAYISI", @"TOPLAM_TUTAR", @"C_PRIORITY", @"C_CORP_PRIORITY", @"REZ_KANAL", @"FT_CIKIS_IL", @"FT_CIKIS_ILCE", @"FT_CIKIS_ADRES", @"FT_DONUS_IL", @"FT_DONUS_ILCE", @"FT_DONUS_ADRES", @"PARA_BIRIMI", @"FT_MALIYET_TIPI", @"USERNAME", @"PUAN_TIPI", @"UCUS_SAATI", @"UCUS_NO", @"ODEME_BICIMI", @"FATURA_ACIKLAMA", @"EMAIL_CONFIRM", @"TELNO_CONFIRM", @"FIRMA_TALEPNO"];
         
         // 05.02.2014 Ata Cengiz
         NSString *priority = @"";
         NSString *corpPriority = @"";
         NSString *pointType = @"";
         NSString *tkNumber = @"";
+        NSString *corporateInvoiceNumber = @"";
         
         if (_reservation.becomePriority) {
             if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
@@ -280,6 +280,10 @@
         if (_reservation.gainMiles) {
             pointType = @"M";
             tkNumber = _reservation.tkNumber;
+        }
+        
+        if (_reservation.corporateReceiptNumber != nil && ![_reservation.corporateReceiptNumber isEqualToString:@""]) {
+            corporateInvoiceNumber = _reservation.corporateReceiptNumber;
         }
         // 05.02.2014 Ata Cengiz
         
@@ -354,7 +358,7 @@
         }
         
         // G-Garenta TL kazandırmak için...İleride Mil yada Garentamı diye sorucaz... G-Garenta TL, M-Mil
-        NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, garentaTl, @"", @"", dayCount, totalPrice, priority, corpPriority, @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", @"G", @"", @"", @"", @"", emailConfirmed, @"X"];
+        NSArray *isInputValues = @[@"", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, garentaTl, @"", @"", dayCount, totalPrice, priority, corpPriority, @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", pointType, @"", @"", @"", @"", emailConfirmed, @"X", corporateInvoiceNumber];
         [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
         
         // IS_USERINFO
@@ -521,6 +525,9 @@
                     if ([[ApplicationProperties getUser] isCorporateVehiclePayment]) {
                         if ([tempEquipment.paymentType isEqualToString:@"F"]) {
                             corparatePayment = @"";
+                        }
+                        else {
+                            corparatePayment = @"X";
                         }
                     }
                     else {
@@ -799,15 +806,14 @@
         [timeFormatter setDateFormat:@"HH:mm:ss"];
         
         // IS_INPUT
-        NSArray *isInputColumns = @[@"REZ_NO", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"ODEME_TURU", @"GARENTA_TL", @"BONUS", @"MILES_SMILES", @"GUN_SAYISI", @"TOPLAM_TUTAR", @"C_PRIORITY", @"C_CORP_PRIORITY", @"REZ_KANAL", @"FT_CIKIS_IL", @"FT_CIKIS_ILCE", @"FT_CIKIS_ADRES", @"FT_DONUS_IL", @"FT_DONUS_ILCE", @"FT_DONUS_ADRES", @"PARA_BIRIMI", @"FT_MALIYET_TIPI", @"USERNAME", @"PUAN_TIPI", @"UCUS_SAATI", @"UCUS_NO", @"ODEME_BICIMI", @"FATURA_ACIKLAMA", @"EMAIL_CONFIRM", @"TELNO_CONFIRM"];
-        
-        NSString *isPriority = @"";
+        NSArray *isInputColumns = @[@"REZ_NO", @"REZ_BEGDA", @"REZ_ENDDA", @"REZ_BEGTIME", @"REZ_ENDTIME", @"ALIS_SUBESI", @"TESLIM_SUBESI", @"SATIS_BUROSU", @"ODEME_TURU", @"GARENTA_TL", @"BONUS", @"MILES_SMILES", @"GUN_SAYISI", @"TOPLAM_TUTAR", @"C_PRIORITY", @"C_CORP_PRIORITY", @"REZ_KANAL", @"FT_CIKIS_IL", @"FT_CIKIS_ILCE", @"FT_CIKIS_ADRES", @"FT_DONUS_IL", @"FT_DONUS_ILCE", @"FT_DONUS_ADRES", @"PARA_BIRIMI", @"FT_MALIYET_TIPI", @"USERNAME", @"PUAN_TIPI", @"UCUS_SAATI", @"UCUS_NO", @"ODEME_BICIMI", @"FATURA_ACIKLAMA", @"EMAIL_CONFIRM", @"TELNO_CONFIRM", @"FIRMA_TALEPNO"];
         
         // 05.02.2014 Ata Cengiz
         NSString *priority = @"";
         NSString *corpPriority = @"";
         NSString *pointType = @"";
         NSString *tkNumber = @"";
+        NSString *corporateInvoiceNumber = @"";
         
         if (_reservation.becomePriority) {
             if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
@@ -824,6 +830,10 @@
         if (_reservation.gainMiles) {
             pointType = @"M";
             tkNumber = _reservation.tkNumber;
+        }
+        
+        if (_reservation.corporateReceiptNumber != nil && ![_reservation.corporateReceiptNumber isEqualToString:@""]) {
+            corporateInvoiceNumber = _reservation.corporateReceiptNumber;
         }
         // 05.02.2014 Ata Cengiz
         
@@ -870,7 +880,7 @@
         NSString *totalPrice = [NSString stringWithFormat:@"%.02f",aTotalPrice.floatValue];
         
         // satış burosunu onurla konuşcam
-        NSArray *isInputValues = @[_reservation.reservationNumber, [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, garentaTl, @"", @"", day, totalPrice, priority, corpPriority, @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", pointType, @"", @"", @"", @"", @"", @""];
+        NSArray *isInputValues = @[_reservation.reservationNumber, [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime], _reservation.checkOutOffice.subOfficeCode, _reservation.checkInOffice.subOfficeCode, _reservation.checkOutOffice.subOfficeCode,  paymentType, garentaTl, @"", @"", day, totalPrice, priority, corpPriority, @"40", @"", @"", @"", @"", @"", @"", @"TRY", @"", @"", pointType, @"", @"", @"", @"", @"", @"", corporateInvoiceNumber];
         
         [handler addImportStructure:@"IS_INPUT" andColumns:isInputColumns andValues:isInputValues];
         

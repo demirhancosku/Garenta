@@ -416,8 +416,15 @@
     {
         [cell.selectButton setImage:[UIImage imageNamed:@"ticked_button.png"] forState:UIControlStateNormal];
         [cell.selectButton setHidden:NO];
-        [[cell carLabel] setText:[NSString stringWithFormat:@"%@ %@ - %@",super.reservation.selectedCar.brandName, super.reservation.selectedCar.modelName,super.reservation.selectedCar.colorName]];
-//        [[cell carLabel] setText:[NSString stringWithFormat:@"%@",super.reservation.selectedCarGroup.sampleCar.materialName]];
+        
+        // 13.02.2015 Ata Cengiz
+        if (super.reservation.isContract) {
+            [[cell carLabel] setText:[NSString stringWithFormat:@"%@ %@",super.reservation.selectedCar.brandName, super.reservation.selectedCar.modelName]];
+        }
+        else {
+            [[cell carLabel] setText:[NSString stringWithFormat:@"%@ %@ - %@",super.reservation.selectedCar.brandName, super.reservation.selectedCar.modelName,super.reservation.selectedCar.colorName]];
+        }
+        // 13.02.2015 Ata Cengiz
     }
     else
     {
@@ -619,7 +626,14 @@
     else if ([segue.identifier isEqualToString:@"toOldReservationGarentaPointSegue"]) {
         [self prepareEquipmentForUpdate];
         [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setReservation:super.reservation];
-        [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];
+        
+        // Ata Cengiz 09.02.2015
+        if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
+            [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setChangeReservationPrice:[super.reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES andReservation:super.reservation]];
+        }
+        else {
+            [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];
+        }
     }
 }
 
