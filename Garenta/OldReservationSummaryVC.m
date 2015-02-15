@@ -132,6 +132,15 @@
 
 - (IBAction)payLaterPressed:(id)sender {
     
+    //13.02.2015 Ata Cengiz Sözleşme Süre uzatma
+    if (super.reservation.isContract) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Sözleşme süre uzatma sadece şimdi öde ile devam edilebilir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+        
+        [alert show];
+        return;
+    }
+    //13.02.2015 Ata Cengiz Sözleşme Süre uzatma
+
     // REZERVASYON ŞİMDİ ÖDE İLE YAPILDIYSA, UPDATE YAPILIRKEN SONRA ÖDE YAPILAMAZ!
     if (![super.reservation.paymentType isEqualToString:@"2"] && ![super.reservation.paymentType isEqualToString:@"6"])
     {
@@ -543,8 +552,7 @@
 }
 
 //SADECE REZERVASYONDAKİ KARTLA İŞLEM YAPILABİLMESİ İÇİN
-- (CreditCard *)prepareCreditCard
-{
+- (CreditCard *)prepareCreditCard {
     NSString *firstFour = [super.reservation.paymentNowCard.uniqueId substringToIndex:4];
     NSString *nextTwo   = [[super.reservation.paymentNowCard.uniqueId substringFromIndex:4] substringToIndex:2];
     NSString *lastFour  = [[super.reservation.paymentNowCard.uniqueId substringFromIndex:16] substringToIndex:4];

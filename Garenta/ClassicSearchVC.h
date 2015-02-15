@@ -43,4 +43,6 @@
 - (IBAction)showCarGroup:(id)sender;
 - (void)addNotifications;
 - (OfficeSelectionCell *)officeSelectTableViewCell:(UITableView *)tableView;
+- (TimeSelectionCell *)timeSelectTableViewCell:(UITableView *)tableView;
+
 @end

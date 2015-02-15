@@ -1269,6 +1269,143 @@
     return NO;
 }
 
++ (BOOL)changeContractAtSAP:(Reservation *)_reservation andTotalPrice:(NSDecimalNumber *)aTotalPrice {
+    
+    NSString *alertString = @"";
+    
+    @try {
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZCRM_UPGRADE_UPDATE"];
+        
+        NSDateFormatter *dateFormatter = [NSDateFormatter new];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        
+        NSDateFormatter *timeFormatter = [NSDateFormatter new];
+        [timeFormatter setDateFormat:@"HHmmss"];
+        
+        NSString *campaignId = @"";
+        NSString *priceCode = @"";
+        
+        if (_reservation.upgradePriceCode != nil && ![_reservation.upgradePriceCode isEqualToString:@""]) {
+            priceCode = _reservation.upgradePriceCode;
+        }
+        
+        [handler addImportParameter:@"IV_UPGRADE_SOZ_BAS" andValue:[dateFormatter stringFromDate:[_reservation checkOutTime]]];
+        [handler addImportParameter:@"IV_UPGRADE_SOZ_BIT" andValue:[dateFormatter stringFromDate:[_reservation checkInTime]]];
+        [handler addImportParameter:@"IV_UPGRADE_SOZ_BAS_SA" andValue:[dateFormatter stringFromDate:[_reservation checkOutTime]]];
+        [handler addImportParameter:@"IV_UPGRADE_SOZ_BIT_SA" andValue:[dateFormatter stringFromDate:[_reservation checkInTime]]];
+        [handler addImportParameter:@"IV_UPGRADE" andValue:@"SU"];
+        
+        [handler addImportParameter:@"IV_SURETIP" andValue:_reservation.isUpgradeTime]; // Süre kısaltma boş, uzatma X
+        
+        [handler addImportParameter:@"IV_DONUS_SUBE" andValue:[[_reservation checkInOffice] subOfficeCode]];
+        [handler addImportParameter:@"IV_FIYAT_KODU" andValue:[_reservation upgradePriceCode]];
+        [handler addImportParameter:@"IV_KULLANICI" andValue:[[ApplicationProperties getUser] kunnr]];
+        [handler addImportParameter:@"IV_CUSTOMER_IP" andValue:[Reservation getCustomerIP]];
+        
+        NSString *pointType = @"";
+        
+        if (_reservation.gainGarentaTL) {
+            pointType = @"G";
+        }
+        if (_reservation.gainMiles) {
+            pointType = @"M";
+        }
+        
+        [handler addImportParameter:@"IV_MIL_OR_GTL" andValue:pointType];
+        [handler addImportParameter:@"IV_KULLANIM" andValue:@""]; // Ahmet bunu check edicek
+        
+        if (_reservation.paymentNowCard.uniqueId == nil || [_reservation.paymentNowCard.uniqueId isEqualToString:@""]) {
+            [handler addImportParameter:@"IV_FARKLI_KK" andValue:@"X"];
+            [handler addImportParameter:@"IV_AD" andValue:_reservation.paymentNowCard.nameOnTheCard];
+            [handler addImportParameter:@"IV_KK_NO" andValue:_reservation.paymentNowCard.cardNumber];
+            [handler addImportParameter:@"IV_SON_AY" andValue:_reservation.paymentNowCard.expirationMonth];
+            [handler addImportParameter:@"IV_SON_YIL" andValue:_reservation.paymentNowCard.expirationYear];
+            [handler addImportParameter:@"IV_CVV2" andValue:_reservation.paymentNowCard.cvvNumber];
+        }
+        else {
+            [handler addImportParameter:@"IV_MERKEY" andValue:_reservation.paymentNowCard.uniqueId];
+        }
+        
+        NSString *tableName = @"ET_SOZLESME";
+        NSArray *tableColumns = @[@"SOZLESME_NO", @"KALEM_MO", @"MALZEME_NO", @"TUTAR", @"MIKTAR", @"ODEME_TIP", @"KAMPANYA_ID"];
+        NSMutableArray *tableValues = [NSMutableArray new];
+    
+        if (_reservation.upgradeCampaignID != nil && ![_reservation.upgradeCampaignID isEqualToString:@""]) {
+            campaignId = _reservation.upgradeCampaignID;
+        }
+        
+        // Ilk Araç
+        NSArray *value = @[_reservation.reservationNumber, _reservation.selectedCar.contractItemNumber, _reservation.selectedCar.materialCode, _reservation.changeReservationDifference.stringValue, @"1", @"", campaignId];
+        [tableValues addObject:value];
+        
+        // Sonra ekipman
+        for (AdditionalEquipment *tempEquipment in _reservation.additionalEquipments) {
+            
+            for (int i = 0; i < tempEquipment.quantity; i++) {
+                NSArray *value = @[_reservation.reservationNumber, tempEquipment.contractItemNumber, tempEquipment.materialNumber, tempEquipment.difference.stringValue, @"1", @"", @""];
+                [tableValues addObject:value];
+                }
+        }
+        
+        [handler addTableForImport:tableName andColumns:tableColumns andValues:tableValues];
+        
+        // IT_EXPIRY
+        if (_reservation.etExpiry.count > 0) {
+            NSArray *itExpiryColumns = @[@"ARAC_GRUBU", @"MARKA_ID", @"MODEL_ID", @"DONEM_BASI", @"DONEM_SONU", @"TUTAR", @"PARA_BIRIMI", @"KAMPANYA_ID", @"ODENDI",@"MALZEME"];
+            
+            NSMutableArray *itExpiryValues = [NSMutableArray new];
+            
+            for (ETExpiryObject *tempObject in _reservation.etExpiry) {
+                if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode]) {
+                    NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid,tempObject.materialNo];
+                    [itExpiryValues addObject:arr];
+                }
+                
+                if (![tempObject.materialNo isEqualToString:@""]) {
+                    
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"materialNumber==%@",tempObject.materialNo];
+                    NSArray *predicateArr = [_reservation.additionalEquipments filteredArrayUsingPredicate:predicate];
+                    
+                    if (predicateArr.count > 0 && [[predicateArr objectAtIndex:0] quantity] > 0) {
+                        NSArray *arr = @[tempObject.carGroup, tempObject.brandID, tempObject.modelID, [dateFormatter stringFromDate:tempObject.beginDate], [dateFormatter stringFromDate:tempObject.endDate], tempObject.totalPrice.stringValue, tempObject.currency, tempObject.campaignID, tempObject.isPaid,tempObject.materialNo];
+                        
+                        [itExpiryValues addObject:arr];
+                    }
+                }
+            }
+            
+            if (itExpiryValues.count > 0) {
+                [handler addTableForImport:@"ET_EXPIRY" andColumns:itExpiryColumns andValues:itExpiryValues];
+            }
+        }
+
+        NSDictionary *response = [handler prepCall];
+
+        if (response != nil) {
+            NSDictionary *export = [response objectForKey:@"EXPORT"];
+            NSString *result = [export valueForKey:@"EV_BASARILI_MI"];
+            
+            if ([result isEqualToString:@"X"]) {
+                return YES;
+            }
+            else {
+                alertString = [export valueForKey:@"IV_MESSAGE"];
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        if (![alertString isEqualToString:@""]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+            [alert show];
+        }
+    }
+    
+    return NO;
+}
+
 + (NSString *)getCustomerIP
 {
     NSString *ipAdress = @"192.168.1.1";

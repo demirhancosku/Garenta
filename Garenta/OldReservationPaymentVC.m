@@ -328,11 +328,29 @@
     
     if (textField.tag == 5)
     {
+        if (super.reservation.isContract) {
+            return NO;
+        }
+        
         NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
         NSLog(@"New string is: %@", newString);
         
         if ([newString isEqualToString:@""]) {
-            newString = @"0";
+            return YES;
+        }
+        
+        NSDecimalNumber *usersGarentaPoint = [NSDecimalNumber decimalNumberWithString:@"0"];
+        
+        if ([[ApplicationProperties getUser] isLoggedIn]) {
+            usersGarentaPoint = [usersGarentaPoint decimalNumberByAdding:[[ApplicationProperties getUser] garentaTl]];
+        }
+        
+        if (newString.integerValue == 0) {
+            return NO;
+        }
+        
+        if (newString.floatValue > usersGarentaPoint.floatValue) {
+            return NO;
         }
         
         if ([[_changeReservationPrice decimalNumberBySubtracting:[NSDecimalNumber decimalNumberWithString:newString]] floatValue] < 0) {
@@ -410,36 +428,70 @@
     }
 }
 
-- (void)updateReservation
-{
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+- (void)updateReservation {
+    
+    if (!super.reservation.isContract) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            
+            CreditCard *tempCard = [[CreditCard alloc] init];
+            
+            if (self.creditCard.uniqueId != nil) {
+                tempCard.uniqueId = self.creditCard.uniqueId;
+            }
+            else {
+                tempCard.cardNumber = [self.creditCardNumberTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+                tempCard.nameOnTheCard = self.nameOnCardTextField.text;
+                tempCard.cvvNumber = self.cvvTextField.text;
+                tempCard.expirationYear = self.expirationYearTextField.text;
+                tempCard.expirationMonth = self.expirationMonthTextField.text;
+            }
+            
+            super.reservation.paymentNowCard = tempCard;
+            
+            BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:YES andTotalPrice:_changeReservationPrice andGarentaTl:self.garentaTlTextField.text];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                
+                if (check) {
+                    [self performSegueWithIdentifier:@"toOldReservationApprovalVCSegue" sender:self];
+                }
+            });
+        });
+    }
+    // 15.02.2015 Ata Cengiz Sözleşme süre update
+    else {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
-        CreditCard *tempCard = [[CreditCard alloc] init];
-        
-        if (self.creditCard.uniqueId != nil) {
-            tempCard.uniqueId = self.creditCard.uniqueId;
-        }
-        else {
-            tempCard.cardNumber = [self.creditCardNumberTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-            tempCard.nameOnTheCard = self.nameOnCardTextField.text;
-            tempCard.cvvNumber = self.cvvTextField.text;
-            tempCard.expirationYear = self.expirationYearTextField.text;
-            tempCard.expirationMonth = self.expirationMonthTextField.text;
-        }
-        
-        super.reservation.paymentNowCard = tempCard;
-        
-        BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:YES andTotalPrice:_changeReservationPrice andGarentaTl:self.garentaTlTextField.text];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+            
+            CreditCard *tempCard = [[CreditCard alloc] init];
+            
+            if (self.creditCard.uniqueId != nil) {
+                tempCard.uniqueId = self.creditCard.uniqueId;
+            }
+            else {
+                tempCard.cardNumber = [self.creditCardNumberTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+                tempCard.nameOnTheCard = self.nameOnCardTextField.text;
+                tempCard.cvvNumber = self.cvvTextField.text;
+                tempCard.expirationYear = self.expirationYearTextField.text;
+                tempCard.expirationMonth = self.expirationMonthTextField.text;
+            }
+            
+            super.reservation.paymentNowCard = tempCard;
+                        
+            BOOL check = [Reservation changeContractAtSAP:super.reservation andTotalPrice:_changeReservationPrice];
+            
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             
             if (check) {
                 [self performSegueWithIdentifier:@"toOldReservationApprovalVCSegue" sender:self];
             }
         });
-    });
+    }
+    // 15.02.2015 Ata Cengiz Sözleşme süre update
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

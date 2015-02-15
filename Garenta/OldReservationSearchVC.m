@@ -371,11 +371,30 @@
     return cell;
 }
 
+- (TimeSelectionCell *)timeSelectTableViewCell:(UITableView *)tableView {
+    TimeSelectionCell *cell = [super timeSelectTableViewCell:tableView];
+    
+    if (tableView.tag == kCheckOutTag && super.reservation.isContract) {
+        [[cell timeLabel] setTextColor:[UIColor lightGrayColor]];
+        [cell setAccessoryType:UITableViewCellAccessoryNone];
+    }
+    
+    return cell;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([tableView tag] == kCheckOutTag && indexPath.row == 0)
     {
         
+    }
+    if (super.reservation.isContract) {
+        if ([tableView tag] == kCheckOutTag && indexPath.row == 1) {
+            
+        }
+        else {
+            [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+        }
     }
     else
         [super tableView:tableView didSelectRowAtIndexPath:indexPath];
@@ -469,12 +488,35 @@
             if ([super.reservation.paymentType isEqualToString:@"1"]) {
                 reservationEqui.paid = reservationEqui.price;
             }
-            
-            //            [_additionalEquipments insertObject:reservationEqui atIndex:0];
         }
         
+        // Ata Cengiz Sözleşme süre uzatmada ekipman ekleme çıkarma yok, ondan göstermeye gerek yok
+        if (super.reservation.isContract) {
+            NSMutableArray *soldEquipmentList = [NSMutableArray new];
+            
+            for (AdditionalEquipment *tempEquip in _additionalEquipments) {
+                if (tempEquip.quantity > 0) {
+                    [soldEquipmentList addObject:tempEquip];
+                }
+                else {
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"materialNumber=%@", tempEquip.materialNumber];
+                    
+                    NSArray *predicateResult = [super.reservation.additionalEquipments filteredArrayUsingPredicate:predicate];
+                    
+                    if (predicateResult.count > 0) {
+                        [soldEquipmentList addObject:tempEquip];
+                    }
+                }
+            }
+            [(OldReservationEquipmentVC *)[segue destinationViewController] setAdditionalEquipments:soldEquipmentList];
+        }
+        else {
+            [(OldReservationEquipmentVC *)[segue destinationViewController] setAdditionalEquipments:_additionalEquipments];
+        }
+        // Ata Cengiz Sözleşme süre uzatmada ekipman ekleme çıkarma yok, ondan göstermeye gerek yok
+
+        
         [(OldReservationEquipmentVC *)[segue destinationViewController] setReservation:super.reservation];
-        [(OldReservationEquipmentVC *)[segue destinationViewController] setAdditionalEquipments:_additionalEquipments];
     }
 }
 
@@ -514,6 +556,15 @@
             if ([result isEqualToString:@"T"]) {
                 
                 self.isOk = YES;
+                super.reservation.upgradePriceCode = [export valueForKey:@"EXPP_FKOD"];
+                super.reservation.upgradeCampaignID = [export valueForKey:@"EXPP_CAMPID"];
+                
+                if ([super.reservation.checkInTime compare:self.oldCheckInTime] == NSOrderedAscending) {
+                    super.reservation.isUpgradeTime = @"";
+                }
+                else {
+                    super.reservation.isUpgradeTime = @"X";
+                }
                 
                 // AYLIK İÇİN TAKSİT TABLOSU
                 NSDictionary *etExpiry = [tables objectForKey:@"ZSD_KDK_AYLIK_TAKSIT_ST"];

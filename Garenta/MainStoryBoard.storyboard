@@ -6708,24 +6708,22 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Hj2-5d-FZ6"/>
-        <segue reference="iJn-Bu-Z2r"/>
-        <segue reference="TxX-UN-QgX"/>
-        <segue reference="hGz-WM-gE8"/>
-        <segue reference="wou-2e-dhb"/>
-        <segue reference="eoS-ML-DjQ"/>
-        <segue reference="7yK-l0-YFl"/>
-        <segue reference="cx4-X2-B8e"/>
-        <segue reference="Tec-RH-gN3"/>
         <segue reference="nTw-8o-Pk5"/>
+        <segue reference="Hj2-5d-FZ6"/>
         <segue reference="hwC-3n-j6g"/>
         <segue reference="gHw-da-jXv"/>
         <segue reference="ewL-RC-eiS"/>
         <segue reference="77i-Ir-fuv"/>
         <segue reference="axu-bq-je7"/>
         <segue reference="V74-O1-TBy"/>
-        <segue reference="tMq-8T-4Dd"/>
         <segue reference="yGa-mz-bZL"/>
+        <segue reference="tMq-8T-4Dd"/>
+        <segue reference="hGz-WM-gE8"/>
+        <segue reference="wou-2e-dhb"/>
+        <segue reference="7yK-l0-YFl"/>
+        <segue reference="eoS-ML-DjQ"/>
+        <segue reference="cx4-X2-B8e"/>
+        <segue reference="Tec-RH-gN3"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
