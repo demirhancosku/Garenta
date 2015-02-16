@@ -601,24 +601,43 @@
 
 - (void)updateReservation
 {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        BOOL isPayNow = NO;
+    if (!super.reservation.isContract) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            BOOL isPayNow = NO;
+            
+            if (_changeReservationPrice.floatValue < 0) {
+                isPayNow = YES;
+            }
+            
+            BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:isPayNow andTotalPrice:_changeReservationPrice andGarentaTl:@""];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                
+                if (check) {
+                    [self performSegueWithIdentifier:@"toOldReservationApprovalVCSegue" sender:self];
+                }
+            });
+        });
+    }
+    // 15.02.2015 Ata Cengiz Sözleşme süre update
+    else {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
-        if (_changeReservationPrice.floatValue < 0) {
-            isPayNow = YES;
-        }
-        
-        BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:isPayNow andTotalPrice:_changeReservationPrice andGarentaTl:@""];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+            
+            BOOL check = [Reservation changeContractAtSAP:super.reservation andTotalPrice:_changeReservationPrice];
+            
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             
             if (check) {
                 [self performSegueWithIdentifier:@"toOldReservationApprovalVCSegue" sender:self];
             }
         });
-    });
+    }
+    // 15.02.2015 Ata Cengiz Sözleşme süre update
 }
 
 @end

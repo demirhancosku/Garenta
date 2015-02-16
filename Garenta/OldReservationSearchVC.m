@@ -514,7 +514,6 @@
             [(OldReservationEquipmentVC *)[segue destinationViewController] setAdditionalEquipments:_additionalEquipments];
         }
         // Ata Cengiz Sözleşme süre uzatmada ekipman ekleme çıkarma yok, ondan göstermeye gerek yok
-
         
         [(OldReservationEquipmentVC *)[segue destinationViewController] setReservation:super.reservation];
     }
@@ -620,6 +619,7 @@
         }
         else {
             alertString = @"Yeni tarih için uygun fiyat bulunamadı, lütfen tekrar deneyiniz.";
+            self.isOk = NO;
         }
     }
     @catch (NSException *exception) {

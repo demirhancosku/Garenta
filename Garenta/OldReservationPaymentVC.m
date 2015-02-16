@@ -494,8 +494,7 @@
     // 15.02.2015 Ata Cengiz Sözleşme süre update
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     [super prepareForSegue:segue sender:sender];
     
     if ([[segue identifier] isEqualToString:@"toOldReservationApprovalVCSegue"]) {
