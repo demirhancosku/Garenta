@@ -485,6 +485,10 @@
             if ([user birthday] != nil) {
                 [handler addImportParameter:@"IMPP_GBDAT" andValue:[dateFormatter stringFromDate:[user birthday]]];
             }
+            
+            if ([user partnerType] != nil && ![[user partnerType] isEqualToString:@""]) {
+                [handler addImportParameter:@"IMPP_MUSTIP" andValue:[user partnerType]];
+            }
         }
         
         [handler addImportParameter:@"IMPP_BEGDA" andValue:[dateFormatter stringFromDate:reservation.checkOutTime]];

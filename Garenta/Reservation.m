@@ -1287,15 +1287,15 @@
         
         NSString *campaignId = @"";
         NSString *priceCode = @"";
-        
+         
         if (_reservation.upgradePriceCode != nil && ![_reservation.upgradePriceCode isEqualToString:@""]) {
             priceCode = _reservation.upgradePriceCode;
         }
         
         [handler addImportParameter:@"IV_UPGRADE_SOZ_BAS" andValue:[dateFormatter stringFromDate:[_reservation checkOutTime]]];
         [handler addImportParameter:@"IV_UPGRADE_SOZ_BIT" andValue:[dateFormatter stringFromDate:[_reservation checkInTime]]];
-        [handler addImportParameter:@"IV_UPGRADE_SOZ_BAS_SA" andValue:[dateFormatter stringFromDate:[_reservation checkOutTime]]];
-        [handler addImportParameter:@"IV_UPGRADE_SOZ_BIT_SA" andValue:[dateFormatter stringFromDate:[_reservation checkInTime]]];
+        [handler addImportParameter:@"IV_UPGRADE_SOZ_BAS_SA" andValue:[timeFormatter stringFromDate:[_reservation checkOutTime]]];
+        [handler addImportParameter:@"IV_UPGRADE_SOZ_BIT_SA" andValue:[timeFormatter stringFromDate:[_reservation checkInTime]]];
         [handler addImportParameter:@"IV_UPGRADE" andValue:@"SU"];
         
         [handler addImportParameter:@"IV_SURETIP" andValue:_reservation.isUpgradeTime]; // Süre kısaltma boş, uzatma X
