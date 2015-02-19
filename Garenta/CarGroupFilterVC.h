@@ -23,6 +23,11 @@
     NSMutableArray *bodyFilter;
     NSMutableArray *transmissionFilter;
     NSMutableArray *brandFilter;
+    NSMutableArray *modelFilter;
+    NSMutableArray *modelYearFilter;
+    NSMutableArray *colorFilter;
+    NSMutableArray *engineVolumeFilter;
+    NSMutableArray *horsePowerFilter;
     
     NSMutableArray *filteredCarGroups;
 }

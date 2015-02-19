@@ -151,7 +151,24 @@
         [tempCar setModelName:[tempDict valueForKey:@"MODEL"]];
         [tempCar setModelYear:[tempDict valueForKey:@"MODEL_YILI"]];
         [tempCar setSalesOffice:[tempDict valueForKey:@"MSUBE"]];
+//        [tempCar setEngineVolume:[tempDict valueForKey:@"MOTOR_HACMI"]];
+//        [tempCar setHorsePower:[tempDict valueForKey:@"BEYGIR_GUCU"]];
         
+        NSString *engineVolum = [tempDict valueForKey:@"MOTOR_HACMI"];
+        NSString *horsePower = [tempDict valueForKey:@"BEYGIR_GUCU"];
+        
+        NSArray *engineVolumeComp = [engineVolum componentsSeparatedByString:@";"];
+        if (engineVolumeComp.count == 2) {
+            [tempCar setEngineVolume:[engineVolumeComp objectAtIndex:0]];
+            [tempCar setEngineVolumeCode:[engineVolumeComp objectAtIndex:1]];
+        }
+
+        NSArray *horsePowerComp = [horsePower componentsSeparatedByString:@";"];
+        if (horsePowerComp.count == 2) {
+            [tempCar setHorsePower:[horsePowerComp objectAtIndex:0]];
+            [tempCar setHorsePowerCode:[horsePowerComp objectAtIndex:1]];
+        }
+
         NSString *imagePath = [tempDict valueForKey:@"ZRESIM_315"];
         imagePath = [imagePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 

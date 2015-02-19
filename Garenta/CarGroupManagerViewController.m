@@ -105,6 +105,7 @@
         [carGroupVC setIndex:sayac];
         [groupVCs addObject:carGroupVC];
     }
+    
     [carGroupVC setRightArrowShouldHide:YES];
 }
 

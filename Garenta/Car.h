@@ -30,6 +30,9 @@
 @property(nonatomic,retain)NSString *modelYear;
 @property(nonatomic,retain)NSString *doorNumber;
 @property(nonatomic,retain)NSString *engineVolume;
+@property(nonatomic,retain)NSString *engineVolumeCode;
+@property(nonatomic,retain)NSString *horsePower;
+@property(nonatomic,retain)NSString *horsePowerCode;
 @property(nonatomic,retain)NSString *passangerNumber;
 @property(nonatomic,retain)NSString *ac;
 @property(nonatomic,retain)NSString *imagePath;
