@@ -18,6 +18,10 @@
     [super viewDidLoad];
     self.navigationItem.hidesBackButton = YES;
     // Do any additional setup after loading the view.
+    
+    if (super.reservation.isContract) {
+        self.title = @"Sözleşme Onayı";
+    }
 }
 
 - (void)didReceiveMemoryWarning {

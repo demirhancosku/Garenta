@@ -383,15 +383,15 @@
             additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
         }
     }
-//    else
-//    {
-//        int newValue = [additionalEquipment quantity]-1;
-//        [additionalEquipment setQuantity:newValue];
-//        
-//        if (_isPayNow) {
-//            additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
-//        }
-//    }
+    //    else
+    //    {
+    //        int newValue = [additionalEquipment quantity]-1;
+    //        [additionalEquipment setQuantity:newValue];
+    //
+    //        if (_isPayNow) {
+    //            additionalEquipment.difference = [[additionalEquipment.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",additionalEquipment.quantity]]] decimalNumberBySubtracting:additionalEquipment.paid];
+    //        }
+    //    }
     
     [self recalculate];
 }
@@ -468,7 +468,7 @@
                 for (ETExpiryObject *tempObj in super.reservation.etExpiry) {
                     if (![tempObj.carGroup isEqualToString:@""]) {
                         [[cell carPayLaterLabel] setText:[NSString stringWithFormat:@"%.02f",([[tempObj totalPrice] floatValue] - [super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice floatValue])]];
-    
+                        
                         break;
                     }
                 }
@@ -526,7 +526,7 @@
             }else{
                 cell.equipmentPriceLabel.text = [NSString stringWithFormat:@"%.02f TL",(temp.price.floatValue * temp.quantity)];
             }
-
+        
     }
     
     return cell;
@@ -535,7 +535,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
-    if (indexPath.row == 0)
+    if (indexPath.row == 0 && !super.reservation.isContract)
     {
         if (!_isCarSelected) {
             [self performSegueWithIdentifier:@"toCarSelectionVCSegue" sender:self];
@@ -568,7 +568,7 @@
                 [temp setQuantity:0];
                 if (_isPayNow) {
                     if (super.reservation.etExpiry.count > 0) {
-                       temp.difference = [[temp.monthlyPrice decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",temp.quantity]]] decimalNumberBySubtracting:temp.paid];
+                        temp.difference = [[temp.monthlyPrice decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",temp.quantity]]] decimalNumberBySubtracting:temp.paid];
                     }else{
                         temp.difference = [[temp.price decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%i",temp.quantity]]] decimalNumberBySubtracting:temp.paid];
                     }
@@ -624,7 +624,23 @@
         
     }
     else if ([segue.identifier isEqualToString:@"toOldReservationGarentaPointSegue"]) {
-        [self prepareEquipmentForUpdate];
+        
+        if (super.reservation.isContract) {
+            for (AdditionalEquipment *tempEquip in super.reservation.additionalEquipments) {
+                
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"materialNumber=%@", tempEquip.materialNumber];
+                NSArray *predicateResult = [self.additionalEquipments filteredArrayUsingPredicate:predicate];
+                
+                if (predicateResult.count > 0) {
+                    AdditionalEquipment *equipment = (AdditionalEquipment *)predicateResult[0];
+                    tempEquip.difference = equipment.difference;
+                }
+            }
+        }
+        else {
+            [self prepareEquipmentForUpdate];
+        }
+        
         [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setReservation:super.reservation];
         
         // Ata Cengiz 09.02.2015

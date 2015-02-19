@@ -320,13 +320,13 @@
     
     
     //hide buttons wrt max min values
-    if (additionalEquipment.quantity <= 0 || additionalEquipment.isRequired) {
+    if (additionalEquipment.quantity <= 0 || additionalEquipment.isRequired || _reservation.isContract) {
         [[cell minusButton] setHidden:YES];
     }else{
         [[cell minusButton] setHidden:NO];
     }
     
-    if (([additionalEquipment.maxQuantity intValue] == 0 || additionalEquipment.quantity == [additionalEquipment.maxQuantity intValue]) || [additionalEquipment.materialNumber isEqualToString:@"HZM0031"]) {
+    if (([additionalEquipment.maxQuantity intValue] == 0 || additionalEquipment.quantity == [additionalEquipment.maxQuantity intValue]) || [additionalEquipment.materialNumber isEqualToString:@"HZM0031"] || _reservation.isContract) {
         [[cell plusButton] setHidden:YES];
     }else{
         [[cell plusButton] setHidden:NO];

@@ -56,12 +56,16 @@
 
 // Ata Cengiz 12.02.2015
 @property (nonatomic) BOOL isContract;
+@property (nonatomic, strong) NSString *isUpgradeTime;
+@property (nonatomic, strong) NSString *upgradePriceCode;
+@property (nonatomic, strong) NSString *upgradeCampaignID;
 // Ata Cengiz 12.02.2015
 
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl andIsMontlyRent:(BOOL)isMontlyRent andIsCorparatePayment:(BOOL)isCorparate andIsPersonalPayment:(BOOL)isPersonalPayment andReservation:(Reservation *)reservation;
 
 + (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl;
 + (BOOL)changeReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andTotalPrice:(NSDecimalNumber *)totalPrice andGarentaTl:(NSString *)garentaTl;
++ (BOOL)changeContractAtSAP:(Reservation *)_reservation andTotalPrice:(NSDecimalNumber *)aTotalPrice;
 + (NSString *)getCustomerIP;
 
 @end

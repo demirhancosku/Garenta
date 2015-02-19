@@ -132,6 +132,15 @@
 
 - (IBAction)payLaterPressed:(id)sender {
     
+    //13.02.2015 Ata Cengiz Sözleşme Süre uzatma
+    if (super.reservation.isContract) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:@"Sözleşme süre uzatma sadece şimdi öde ile devam edilebilir." delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
+        
+        [alert show];
+        return;
+    }
+    //13.02.2015 Ata Cengiz Sözleşme Süre uzatma
+
     // REZERVASYON ŞİMDİ ÖDE İLE YAPILDIYSA, UPDATE YAPILIRKEN SONRA ÖDE YAPILAMAZ!
     if (![super.reservation.paymentType isEqualToString:@"2"] && ![super.reservation.paymentType isEqualToString:@"6"])
     {
@@ -543,8 +552,7 @@
 }
 
 //SADECE REZERVASYONDAKİ KARTLA İŞLEM YAPILABİLMESİ İÇİN
-- (CreditCard *)prepareCreditCard
-{
+- (CreditCard *)prepareCreditCard {
     NSString *firstFour = [super.reservation.paymentNowCard.uniqueId substringToIndex:4];
     NSString *nextTwo   = [[super.reservation.paymentNowCard.uniqueId substringFromIndex:4] substringToIndex:2];
     NSString *lastFour  = [[super.reservation.paymentNowCard.uniqueId substringFromIndex:16] substringToIndex:4];
@@ -593,24 +601,43 @@
 
 - (void)updateReservation
 {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        BOOL isPayNow = NO;
+    if (!super.reservation.isContract) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            BOOL isPayNow = NO;
+            
+            if (_changeReservationPrice.floatValue < 0) {
+                isPayNow = YES;
+            }
+            
+            BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:isPayNow andTotalPrice:_changeReservationPrice andGarentaTl:@""];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                
+                if (check) {
+                    [self performSegueWithIdentifier:@"toOldReservationApprovalVCSegue" sender:self];
+                }
+            });
+        });
+    }
+    // 15.02.2015 Ata Cengiz Sözleşme süre update
+    else {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
-        if (_changeReservationPrice.floatValue < 0) {
-            isPayNow = YES;
-        }
-        
-        BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:isPayNow andTotalPrice:_changeReservationPrice andGarentaTl:@""];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+            
+            BOOL check = [Reservation changeContractAtSAP:super.reservation andTotalPrice:_changeReservationPrice];
+            
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             
             if (check) {
                 [self performSegueWithIdentifier:@"toOldReservationApprovalVCSegue" sender:self];
             }
         });
-    });
+    }
+    // 15.02.2015 Ata Cengiz Sözleşme süre update
 }
 
 @end
