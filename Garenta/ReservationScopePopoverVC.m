@@ -198,8 +198,8 @@
         NSDecimalNumber *corparatePayment = [reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:YES andIsPersonalPayment:NO andReservation:reservation];
         NSDecimalNumber *personalPayment = [reservation totalPriceWithCurrency:@"TRY" isPayNow:isPayNow andGarentaTl:@"" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES andReservation:reservation];
         
-        [textView setText:[NSString stringWithFormat:@"%@ \n Firma Tarafından Ödenicek Tutar - %.02f TL", textView.text, corparatePayment.floatValue]];
-        [textView setText:[NSString stringWithFormat:@"%@ \n Personel Tarafından Ödenicek Tutar - %.02f TL", textView.text, personalPayment.floatValue]];
+        [textView setText:[NSString stringWithFormat:@"%@ \n Firma Tarafından Ödenecek Tutar - %.02f TL", textView.text, corparatePayment.floatValue]];
+        [textView setText:[NSString stringWithFormat:@"%@ \n Personel Tarafından Ödenecek Tutar - %.02f TL", textView.text, personalPayment.floatValue]];
     }
 }
 

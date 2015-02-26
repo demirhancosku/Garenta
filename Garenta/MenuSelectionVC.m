@@ -16,10 +16,9 @@
 
 @property (strong,nonatomic) NSArray *userList;
 @property (strong,nonatomic) WYPopoverController *popOver;
+@property (nonatomic,retain) NSString *minCheckOutTime;  //rezervasyonun minimum kaç saat sonraya yapılacağı
+@property (nonatomic,retain) NSString *minPayLatertime;  // sonra ödenin minimum kaç saat sonraya yapılacağı
 
-- (IBAction)locationBasedSearchSelected:(id)sender;
-- (IBAction)normalSearchSelected:(id)sender;
-- (IBAction)advancedSearchSelected:(id)sender;
 - (IBAction)loginButtonPressed:(id)sender;
 
 @end
@@ -64,13 +63,14 @@ static int kGarentaLogoId = 1;
     
     static dispatch_once_t once;
     dispatch_once(&once, ^{
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             
             [self checkVersion];
+            [self getReservationTimeObject];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             });
         });
     });
@@ -102,7 +102,32 @@ static int kGarentaLogoId = 1;
 
 
 
+
+
 #pragma mark - util methods
+
+- (void)getReservationTimeObject
+{
+    @try {
+        
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZNET_REZ_KANAL_ZAMAN"];
+        
+        [handler addImportParameter:@"I_REZKANAL" andValue:@"40"];
+        NSDictionary *resultDict = [handler prepCall];
+        
+        if (resultDict != nil) {
+            NSDictionary *export = [resultDict objectForKey:@"EXPORT"];
+            
+            self.minCheckOutTime = [export valueForKey:@"E_SURE1"];
+            self.minPayLatertime = [export valueForKey:@"E_SURE2"];
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+    }
+}
 
 - (void)checkVersion {
     
@@ -232,7 +257,9 @@ static int kGarentaLogoId = 1;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"toSearchVCSegue"]) {
-        
+        ClassicSearchVC *searchVC = (ClassicSearchVC *)[segue destinationViewController];
+        searchVC.minCheckOutTime = self.minCheckOutTime;
+        searchVC.minPayLatertime = self.minPayLatertime;
     }
     
     if ([segue.identifier isEqualToString:@"toChangeUserProfile"]) {

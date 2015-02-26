@@ -13,7 +13,7 @@
 {
     WYPopoverController* popoverController;
 }
-@property (weak,nonatomic) Reservation *reservation;
+@property (strong,nonatomic) Reservation *reservation;
 @property (weak,nonatomic) NSString *totalPrice;
 @property (weak,nonatomic) CarGroup *carGroup;
 @property (strong,nonatomic) NSDate *oldCheckOutTime;

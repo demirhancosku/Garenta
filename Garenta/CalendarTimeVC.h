@@ -13,7 +13,7 @@
 #import "Reservation.h"
 #pragma mark - CalendarMonthViewController
 
-@interface CalendarTimeVC : UITableViewController //TKCalendarMonthViewController
+@interface CalendarTimeVC : UITableViewController
 {
     NSDate *selectedTime;
     NSDate *tempTime;

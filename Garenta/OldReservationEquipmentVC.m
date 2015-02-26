@@ -642,14 +642,14 @@
         }
         
         [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setReservation:super.reservation];
-        
-        // Ata Cengiz 09.02.2015
-        if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
-            [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setChangeReservationPrice:[super.reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES andReservation:super.reservation]];
-        }
-        else {
-            [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];
-        }
+        [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];
+        //        // Ata Cengiz 09.02.2015
+        //        if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
+        //            [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setChangeReservationPrice:[super.reservation totalPriceWithCurrency:@"TRY" isPayNow:NO andGarentaTl:@"0" andIsMontlyRent:NO andIsCorparatePayment:NO andIsPersonalPayment:YES andReservation:super.reservation]];
+        //        }
+        //        else {
+        //            [(OldReservationGarentaPointTableVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];
+        //        }
     }
 }
 

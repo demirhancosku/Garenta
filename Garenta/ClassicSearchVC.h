@@ -33,6 +33,8 @@
     int selectedTag;
 }
 
+@property (nonatomic,retain) NSString *minCheckOutTime;  //rezervasyonun minimum kaç saat sonraya yapılacağı
+@property (nonatomic,retain) NSString *minPayLatertime;  // sonra ödenin minimum kaç saat sonraya yapılacağı
 @property (strong,nonatomic) IBOutlet UITableView *destinationTableView;
 @property (strong,nonatomic) IBOutlet UITableView *arrivalTableView;
 @property (strong,nonatomic) IBOutlet UIButton *searchButton;

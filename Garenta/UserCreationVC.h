@@ -14,9 +14,10 @@
     NSMutableArray *countryArray;
     NSMutableArray *cityArray;
     NSMutableArray *countyArray;
-    NSMutableArray *secretQuestionsArray;
+//    NSMutableArray *secretQuestionsArray;
 }
 
+@property (strong, nonatomic) NSMutableArray *secretQuestionsArray;
 - (IBAction)continueButtonPressed:(id)sender;
 - (IBAction)nationalitySegmentChanged:(id)sender;
 - (void)getCountryInformationFromSAP;

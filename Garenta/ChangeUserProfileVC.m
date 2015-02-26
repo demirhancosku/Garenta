@@ -73,10 +73,10 @@
         }
         
         if ([[tempUser partnerType] isEqualToString:@"B"]) {
-            profileText.text = [NSString stringWithFormat:@"%@ (BIREYSEL)", cellTitle];
+            profileText.text = [NSString stringWithFormat:@"%@ (Bireysel)", cellTitle];
         }
         if ([[tempUser partnerType] isEqualToString:@"K"]) {
-            profileText.text = [NSString stringWithFormat:@"%@ (KURUMSAL)", cellTitle];
+            profileText.text = [NSString stringWithFormat:@"%@ (Kurumsal) - %@", cellTitle,tempUser.companyName];
         }
     }
     else

@@ -68,15 +68,15 @@
     countryArray = [[NSMutableArray alloc] init];
     countyArray = [[NSMutableArray alloc] init];
     
-    secretQuestionsArray =[NSMutableArray arrayWithObjects:@"Soru Seçiniz...", @"İlk evcil haynanınızın adı nedir ?", @"En sevdiğiniz oyunun adı nedir ?", @"Okuduğunuz ilkokulun adı nedir ?", @"En sevdiğiniz kahramanın adı nedir ?", nil];
+//    secretQuestionsArray =[NSMutableArray arrayWithObjects:@"Soru Seçiniz...", @"İlk evcil haynanınızın adı nedir ?", @"En sevdiğiniz oyunun adı nedir ?", @"Okuduğunuz ilkokulun adı nedir ?", @"En sevdiğiniz kahramanın adı nedir ?", nil];
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         [self getCountryInformationFromSAP];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
         });
     });
     
@@ -507,8 +507,8 @@
             NSString *alertText = [alertView textFieldAtIndex:0].text;
             
             if ([alertText isEqualToString:self.validationCode]) {
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                     
                     [self createUserAtSAP];
                 });
@@ -550,8 +550,8 @@
             if ([alertText isEqualToString:self.validationCode]) {
                 self.isEmailChecked = YES;
                 
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                     
                     [self createUserAtSAP];
                 });
@@ -660,10 +660,12 @@
                 
                 if ([smsCheck isEqualToString:@"X"]) {
                     alertString = @"Girmiş olduğunuz cep telefon numarası başka bir üyemize aittir. SMS konfirmasyonu yaptığınız için işleminize devam edilicektir.";
+                    [alert setDelegate:self];
                     [alert setTag:3];
                 }
                 else if ([emailCheck isEqualToString:@"X"]) {
                     alertString = @"Girmiş olduğunuz email adresi başka bir üyemize aittir. Devam etmek için lütfen email'inize yolladığımız konfirmasyon kodunu giriniz.";
+                    [alert setDelegate:self];
                     [alert setTag:4];
                 }
                 else {
@@ -691,7 +693,7 @@
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
 
         [alert setTitle:@"Uyarı"];
         [alert setMessage:alertString];
@@ -772,7 +774,7 @@
         tView.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0];
     }
     
-    tView.text = [secretQuestionsArray objectAtIndex:row];
+    tView.text = [self.secretQuestionsArray objectAtIndex:row];
     
     return tView;
 }
@@ -784,12 +786,12 @@
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    return [secretQuestionsArray count];
+    return [self.secretQuestionsArray count];
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    return [secretQuestionsArray objectAtIndex:row];
+    return [self.secretQuestionsArray objectAtIndex:row];
 }
 
 @end

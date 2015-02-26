@@ -20,5 +20,6 @@
 @property (strong,nonatomic) NSDecimalNumber *winterTyreDifference;
 @property (strong,nonatomic) NSMutableArray *additionalEquipments;
 @property BOOL isYoungDriver;
+@property BOOL isPayNow;
 
 @end

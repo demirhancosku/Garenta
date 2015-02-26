@@ -44,7 +44,7 @@
    officeArray = [ApplicationProperties getOffices];
     
     if (officeArray.count == 0) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             
@@ -52,7 +52,7 @@
             NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"subOfficeName" ascending:YES];
             NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
             [officeArray sortUsingDescriptors:sortDescriptors];
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             [[self tableView] reloadData];
            
         });

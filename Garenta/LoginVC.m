@@ -11,12 +11,15 @@
 #import "MailSoapHandler.h"
 #import "OldReservationListVC.h"
 #import "GarentaPointTableViewController.h"
+#import "ForgotPasswordVC.h"
+#import "UserCreationVC.h"
 
 @interface LoginVC ()
 
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (strong, nonatomic) NSArray *userList;
+@property (strong,nonatomic) WYPopoverController *popOver;
 
 - (IBAction)login:(id)sender;
 - (IBAction)forgetMyPassword:(id)sender;
@@ -37,6 +40,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    countryArray = [[NSMutableArray alloc] init];
+    secretQuestionsArray = [[NSMutableArray alloc] init];
+    
     UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(releaseAllTextFields)];
     [self.view addGestureRecognizer:singleFingerTap];
 }
@@ -65,15 +72,15 @@
 {
     if (![_usernameTextField.text isEqualToString:@""] && ![_passwordTextField.text isEqualToString:@""])
     {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             NSData *passwordData = [_passwordTextField.text dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
             NSString *base64Encoded = [passwordData base64EncodedStringWithOptions:0];
             
             self.userList = [User loginToSap:_usernameTextField.text andPassword:base64Encoded];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                 
                 if (self.userList != nil && self.userList.count == 1 && ![[ApplicationProperties getUser] isLoggedIn]) {
                     User *user = [self.userList objectAtIndex:0];
@@ -109,7 +116,7 @@
 
 - (void)showUserList {
     UIAlertView *alert = [[UIAlertView alloc] init];
-    [alert setTitle:@"Seçiniz .."];
+    [alert setTitle:@"Lütfen Kullanıcı Seçimi Yapınız"];
     
     for (User *tempUser in self.userList) {
         
@@ -124,10 +131,10 @@
         }
         
         if ([[tempUser partnerType] isEqualToString:@"B"]) {
-            buttonTitle = [NSString stringWithFormat:@"%@(BIREYSEL)", buttonTitle];
+            buttonTitle = [NSString stringWithFormat:@"%@ (Bireysel)", buttonTitle];
         }
         if ([[tempUser partnerType] isEqualToString:@"K"]) {
-            buttonTitle = [NSString stringWithFormat:@"%@(KURUMSAL)", buttonTitle];
+            buttonTitle = [NSString stringWithFormat:@"%@ (%@)", buttonTitle,tempUser.companyName];
         }
         
         [alert addButtonWithTitle:buttonTitle];
@@ -136,6 +143,98 @@
     [alert setDelegate:self];
     [alert setTag:1];
     [alert show];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    //e-posta ile şifre hatırlat
+    if (buttonIndex == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Lütfen yeni şifrenizin gönderilmesi için üye e-mail adresinizi giriniz" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Devam", nil];
+        [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        [alert setTag:2];
+        
+        [alert show];
+    }
+    //telefon ile şifre hatırlat
+    else if (buttonIndex == 1){
+        [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            
+            [self getCountryInformationFromSAP];
+            [self getSecurityQuestionList];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                [self performSegueWithIdentifier:@"toForgotPasswordSegue" sender:self];
+            });
+        });
+        
+    }
+}
+
+- (void)getSecurityQuestionList
+{
+    @try {
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZNET_GET_GUVENLIK_SORU"];
+        
+        [handler addImportParameter:@"I_LANGU" andValue:@"T"];
+        
+        [handler addTableForReturn:@"ET_SORULAR"];
+        
+        NSDictionary *result = [handler prepCall];
+        
+        if (result != nil) {
+            NSDictionary *tables = [result objectForKey:@"TABLES"];
+            
+            NSDictionary *securityQuestion = [tables objectForKey:@"ZCRMS_GUVEN_SORU"];
+            
+            NSArray *arr = @[@"000", @"Soru Seçiniz..."];
+            [secretQuestionsArray addObject:arr];
+            
+            for (NSDictionary *tempDict in securityQuestion) {
+                NSArray *arr = @[[tempDict valueForKey:@"SORUKODU"], [tempDict valueForKey:@"SORUTEXT"]];
+                [secretQuestionsArray addObject:arr];
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+}
+
+- (void)getCountryInformationFromSAP {
+    
+    @try {
+        SAPJSONHandler *handler = [[SAPJSONHandler alloc] initConnectionURL:[ConnectionProperties getCRMHostName] andClient:[ConnectionProperties getCRMClient] andDestination:[ConnectionProperties getCRMDestination] andSystemNumber:[ConnectionProperties getCRMSystemNumber] andUserId:[ConnectionProperties getCRMUserId] andPassword:[ConnectionProperties getCRMPassword] andRFCName:@"ZNET_GET_ULKE_IL_ILCE"];
+        
+        [handler addTableForReturn:@"ET_ULKE"];
+        NSDictionary *result = [handler prepCall];
+        
+        if (result != nil) {
+            NSDictionary *export = [result objectForKey:@"EXPORT"];
+            NSString *evSubrc = [export valueForKey:@"EV_SUBRC"];
+            
+            if ([evSubrc isEqualToString:@"0"]) {
+                NSDictionary *tables = [result objectForKey:@"TABLES"];
+                
+                NSDictionary *countryDict = [tables objectForKey:@"T005T"];
+                
+                for (NSDictionary *tempDict in countryDict) {
+                    NSArray *arr = @[[tempDict valueForKey:@"LAND1"], [tempDict valueForKey:@"LANDX50"]];
+                    [countryArray addObject:arr];
+                }
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -147,7 +246,7 @@
         [ApplicationProperties setUser:tempUser];
         [self goToView];
     }
-    if (alertView.tag == 2) {
+    if (alertView.tag == 2 && buttonIndex == 1) {
         NSString *mailAdress = [alertView textFieldAtIndex:0].text;
         
         if (mailAdress == nil && [mailAdress isEqualToString:@""]) {
@@ -155,12 +254,12 @@
             [alert show];
         }
         else {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                 [self updateUserPasswordAtSAP:mailAdress];
                 
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             });
         }
     }
@@ -239,6 +338,13 @@
     if ([[segue identifier] isEqualToString:@"ToGarentaPointPageSegue"]) {
         [(GarentaPointTableViewController *)[segue destinationViewController] setReservation:_reservation];
     }
+    if ([[segue identifier] isEqualToString:@"toForgotPasswordSegue"]) {
+        [(ForgotPasswordVC *)[segue destinationViewController] setCountryArray:countryArray];
+        [(ForgotPasswordVC *)[segue destinationViewController] setSecretQuestionsArray:secretQuestionsArray];
+    }
+    if ([[segue identifier] isEqualToString:@"toUserCreationVCSegue"]) {
+        [(UserCreationVC *)[segue destinationViewController] setSecretQuestionsArray:secretQuestionsArray];
+    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -266,11 +372,13 @@
     }
 }
 
-- (void)forgetMyPassword:(id)sender {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Lütfen yeni şifrenizin gönderilmesi için üye e-mail adresinizi giriniz" delegate:self cancelButtonTitle:@"Geri" otherButtonTitles:@"Devam", nil];
-    [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-    [alert setTag:2];
-    [alert show];
+- (void)forgetMyPassword:(id)sender
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"Şifre Hatırlatma Yöntemi" delegate:self cancelButtonTitle:@"Vazgeç" destructiveButtonTitle:nil otherButtonTitles:@"Eposta",@"Telefon", nil];
+        
+        [action showInView:self.view];
+    });
 }
 
 @end

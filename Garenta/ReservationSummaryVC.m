@@ -117,13 +117,13 @@
 #pragma mark - rezervasyon
 - (void)createReservation:(BOOL)isPayNow {
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         _reservation.reservationNumber = [Reservation createReservationAtSAP:_reservation andIsPayNow:NO andGarentaTl:@"0"];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             
             if (_reservation.reservationNumber != nil && ![_reservation.reservationNumber isEqualToString:@""]) {
                 [self performSegueWithIdentifier:@"toReservationApprovalVCSegue" sender:self];
