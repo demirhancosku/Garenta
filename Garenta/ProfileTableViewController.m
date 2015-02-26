@@ -98,13 +98,13 @@
 }
 
 - (void)getProfileInformationFromSAP {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [self getCountryInformationFromSAP];
         [self getUserInformationFromSAP];
         
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
         [[self tableView] reloadData];
     });
 }
@@ -543,7 +543,7 @@
 
 - (void)modifyPhoneNumber:(NSString *)phoneNumber andProcessType:(NSString *)processType andPhoneCheck:(NSString *)phoneCheck {
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         
@@ -642,12 +642,12 @@
         [alert show];
         
         [[self tableView] reloadData];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
     });
 }
 
 - (void)modifyMailAdress:(NSString *)mailAdress andProcessType:(NSString *)processType andMailCheck:(NSString *)mailCheck {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         
@@ -746,7 +746,7 @@
         [alert show];
         
         [[self tableView] reloadData];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
     });
 }
 
@@ -762,7 +762,7 @@
 }
 
 - (void)updateUserPasswordAtSAP:(NSString *)oldPassword andNewPassword:(NSString *)newPassword {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         
@@ -821,7 +821,7 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
         [alert show];
         
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
     });
 }
 
@@ -867,7 +867,7 @@
                     [self modifyPhoneNumber:self.tempPhoneNumber andProcessType:self.tempPhoneProcessType andPhoneCheck:@""];
                 }
                 else {
-                    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
                     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                         
@@ -898,7 +898,7 @@
                             alertString = @"Girdiğiniz isim, doğum tarihi ile T.C. Kimlik numarası birbiri ile uyuşmamaktadır. Lütfen kontrol edip tekrar deneyiniz";
                         }
                         
-                        [MBProgressHUD hideHUDForView:self.view animated:YES];
+                        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Uyarı" message:alertString delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
                         [alert show];
                     });
@@ -973,7 +973,7 @@
             NSString *oldPassword = [alertView textFieldAtIndex:0].text;
             NSString *newPassword = [alertView textFieldAtIndex:1].text;
             
-            if (oldPassword == nil || [oldPassword isEqualToString:@""]) {
+            if (oldPassword == nil || [oldPassword isEqualToString:@""]) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hata" message:@"Şifrenizi değiştirmek için eski şifrenizi girmeniz gerekmektedir" delegate:nil cancelButtonTitle:@"Tamam" otherButtonTitles:nil];
                 [alert show];
             }

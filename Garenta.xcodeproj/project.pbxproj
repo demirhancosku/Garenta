@@ -17,6 +17,7 @@
 		0C0DA9B01865E234003EDDA0 /* Destination.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9AF1865E234003EDDA0 /* Destination.m */; };
 		0C0DA9B31865E23F003EDDA0 /* Arrival.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9B21865E23F003EDDA0 /* Arrival.m */; };
 		0C0DA9B91865EB7E003EDDA0 /* ClassicSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DA9B81865EB7E003EDDA0 /* ClassicSearchVC.m */; };
+		0C226C251A9BAEDC00C04916 /* ForgotPasswordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C226C241A9BAEDC00C04916 /* ForgotPasswordVC.m */; };
 		0C22A6271A723E7900B65828 /* CustomerIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C22A6261A723E7800B65828 /* CustomerIcon.png */; };
 		0C4567021A260FE1001D8E34 /* CampaignVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4567011A260FE1001D8E34 /* CampaignVC.m */; };
 		0C4567051A261C7C001D8E34 /* CampaignCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4567041A261C7C001D8E34 /* CampaignCell.m */; };
@@ -50,6 +51,7 @@
 		0C99695C19E830E3008E7199 /* TimeSelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C99695B19E830E3008E7199 /* TimeSelectionCell.m */; };
 		0CA259A219FFBD3F0017B973 /* OldReservationApprovalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA259A119FFBD3F0017B973 /* OldReservationApprovalVC.m */; };
 		0CA631361864697900CC529F /* MenuSelectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA631351864697900CC529F /* MenuSelectionVC.m */; };
+		0CB030E81A9EBB6A00ADB365 /* side_boarder_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CB030E71A9EBB6A00ADB365 /* side_boarder_icon.png */; };
 		0CB7000619F5B351001BA83F /* OldReservationSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB7000519F5B351001BA83F /* OldReservationSearchVC.m */; };
 		0CBA75C6186435260008CE29 /* ApplicationProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4C9AA6184639AC00CD3728 /* ApplicationProperties.m */; };
 		0CBA75C7186435260008CE29 /* Office.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E212F77186343C3004B9B80 /* Office.m */; };
@@ -214,6 +216,8 @@
 		0C0DA9B21865E23F003EDDA0 /* Arrival.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Arrival.m; sourceTree = "<group>"; };
 		0C0DA9B71865EB7E003EDDA0 /* ClassicSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassicSearchVC.h; sourceTree = "<group>"; };
 		0C0DA9B81865EB7E003EDDA0 /* ClassicSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassicSearchVC.m; sourceTree = "<group>"; };
+		0C226C231A9BAEDC00C04916 /* ForgotPasswordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordVC.h; sourceTree = "<group>"; };
+		0C226C241A9BAEDC00C04916 /* ForgotPasswordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordVC.m; sourceTree = "<group>"; };
 		0C22A6261A723E7800B65828 /* CustomerIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CustomerIcon.png; sourceTree = "<group>"; };
 		0C4567001A260FE1001D8E34 /* CampaignVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CampaignVC.h; sourceTree = "<group>"; };
 		0C4567011A260FE1001D8E34 /* CampaignVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CampaignVC.m; sourceTree = "<group>"; };
@@ -276,6 +280,7 @@
 		0CA259A119FFBD3F0017B973 /* OldReservationApprovalVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationApprovalVC.m; sourceTree = "<group>"; };
 		0CA631341864697900CC529F /* MenuSelectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuSelectionVC.h; sourceTree = "<group>"; };
 		0CA631351864697900CC529F /* MenuSelectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuSelectionVC.m; sourceTree = "<group>"; };
+		0CB030E71A9EBB6A00ADB365 /* side_boarder_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = side_boarder_icon.png; sourceTree = "<group>"; };
 		0CB7000419F5B351001BA83F /* OldReservationSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldReservationSearchVC.h; sourceTree = "<group>"; };
 		0CB7000519F5B351001BA83F /* OldReservationSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldReservationSearchVC.m; sourceTree = "<group>"; };
 		0CBA77BB186447AB0008CE29 /* LoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginVC.h; sourceTree = "<group>"; };
@@ -513,6 +518,8 @@
 			children = (
 				0CBA77BB186447AB0008CE29 /* LoginVC.h */,
 				0CBA77BC186447AB0008CE29 /* LoginVC.m */,
+				0C226C231A9BAEDC00C04916 /* ForgotPasswordVC.h */,
+				0C226C241A9BAEDC00C04916 /* ForgotPasswordVC.m */,
 				9E53F68B18BF8F150076CFFF /* UserCreationVC.h */,
 				9E53F68C18BF8F150076CFFF /* UserCreationVC.m */,
 				E1ED735D19E564FC00D3E324 /* CountrySelectionVC.h */,
@@ -731,6 +738,7 @@
 		0C4C9A9B1846331D00CD3728 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0CB030E71A9EBB6A00ADB365 /* side_boarder_icon.png */,
 				E1DDEC221A82530000B6D5AF /* PriorityRules.html */,
 				E14B926C1A7FCC8E001959A3 /* MilesAndSmiles.png */,
 				E12EE95A1A84C7DD0037FFE0 /* GarentaPuanIcon.png */,
@@ -1129,6 +1137,7 @@
 				B5921195195D934900A54E0E /* triangle_green.png in Resources */,
 				B5EE729118701DC400F634D3 /* vites.png in Resources */,
 				B50B09FB187580C200649165 /* onay_icon.png in Resources */,
+				0CB030E81A9EBB6A00ADB365 /* side_boarder_icon.png in Resources */,
 				B50B09DA1874A2E600649165 /* seperator.png in Resources */,
 				B50B09DC1874A7BC00649165 /* office_icon.png in Resources */,
 				9E38C3C7186A033200EBD29E /* OrangeArrowDown.png in Resources */,
@@ -1231,6 +1240,7 @@
 				0CC9ED3719F69C5C00E7CF1C /* SAPJSONHandler.m in Sources */,
 				B592119F195DA38D00A54E0E /* ReservationScopePopoverVC.m in Sources */,
 				0C5B5FC81864770F0060BECD /* CalendarTimeVC.m in Sources */,
+				0C226C251A9BAEDC00C04916 /* ForgotPasswordVC.m in Sources */,
 				77886DF11A134DA60075D50A /* BranchTableViewCell.m in Sources */,
 				0C0DA9AA1865D04B003EDDA0 /* OfficeListVC.m in Sources */,
 				0CCF3E621A4DAE3800B02B1C /* AMSlideMenuMainViewController.m in Sources */,

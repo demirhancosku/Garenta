@@ -116,11 +116,11 @@
     
     if ([[ApplicationProperties getUser] isLoggedIn]) {
         if ([[ApplicationProperties getUser] isPriority]) {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 [self getUserCreditCardsFromSAP];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                 });
             });
         }
@@ -439,8 +439,8 @@
 }
 
 - (void)createReservation {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         CreditCard *tempCard = [[CreditCard alloc] init];
         
@@ -460,7 +460,7 @@
         _reservation.reservationNumber = [Reservation createReservationAtSAP:_reservation andIsPayNow:YES andGarentaTl:_garentaTlTextField.text];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             
             if (_reservation.reservationNumber != nil && ![_reservation.reservationNumber isEqualToString:@""]) {
                 [self performSegueWithIdentifier:@"toReservationApprovalVCSegue" sender:self];

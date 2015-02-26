@@ -69,18 +69,41 @@
         [handler addImportParameter:@"IMPP_ENDUZ" andValue:[timeFormatter stringFromDate:_reservation.checkInTime]];
         [handler addImportParameter:@"IMPP_KANAL" andValue:@"40"];
         
+        NSString *carPrice = @"";
         if (_reservation.selectedCarGroup.priceWithKDV.floatValue > 0) {
-            [handler addImportParameter:@"IMPP_TUTAR" andValue:_reservation.selectedCarGroup.priceWithKDV];
+            for (ETExpiryObject *tempObject in _reservation.etExpiry) {
+                
+                if (_reservation.campaignObject)
+                {
+                    if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode] && [tempObject.campaignID isEqualToString:_reservation.campaignObject.campaignID]) {
+                        // Burda sadece ilk taksiti alıyoruz
+                        carPrice = tempObject.totalPrice.stringValue;
+                        break;
+                    }
+                }
+                else
+                {
+                    if ([tempObject.carGroup isEqualToString:_reservation.selectedCarGroup.groupCode]) {
+                        // Burda sadece ilk taksiti alıyoruz
+                        carPrice = tempObject.totalPrice.stringValue;
+                        break;
+                    }
+                }
+            }
+            
+            [handler addImportParameter:@"IMPP_TUTAR" andValue:carPrice];
         }
         else
             [handler addImportParameter:@"IMPP_TUTAR" andValue:_reservation.selectedCarGroup.sampleCar.pricing.payNowPrice.stringValue];
         
         NSString *fikod = @"";
         NSString *kunnr = @"";
+        NSString *partner = @"";
         
         if ([[ApplicationProperties getUser] isLoggedIn]) {
             fikod = [[ApplicationProperties getUser] priceCode];
             kunnr = [[ApplicationProperties getUser] kunnr];
+            partner = [[ApplicationProperties getUser] partnerType];
         }
         
         if (([fikod isEqualToString:@""] || fikod == nil) && _reservation.etReserv.count > 0) {
@@ -89,6 +112,7 @@
         
         [handler addImportParameter:@"IMPP_MUSNO" andValue:kunnr];
         [handler addImportParameter:@"IMPP_FIKOD" andValue:fikod];
+        [handler addImportParameter:@"IMPP_MUSTIP" andValue:partner];
         
         [handler addTableForReturn:@"EXPT_EKPLIST"];
         [handler addTableForReturn:@"EXPT_SIGORTA"];
@@ -133,11 +157,12 @@
             {
                 // ek ürünlerin kampanyalı fiyatları
                 NSDecimalNumber *campaignPrice = [NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KAMPANYALI_TUTAR"]];
+                NSString *campaignId = [tempDict valueForKey:@"KAMPANYA_ID"];
                 
                 AdditionalEquipment *tempEquip = [AdditionalEquipment new];
                 [tempEquip setMaterialNumber:[tempDict valueForKey:@"MATNR"]];
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MUS_TANIMI"]];
-                if (campaignPrice.floatValue > 0) {
+                if (![campaignId isEqualToString:@""]) {
                     [tempEquip setPrice:campaignPrice];
                 }
                 else{
@@ -160,6 +185,17 @@
                 }
                 
                 if ([tempEquip.materialNumber isEqualToString:@"HZM0014"]) {
+                    
+                    NSString *mandotaryEquipment = [tempDict valueForKey:@"ZORUNLU"];
+                    
+                    if ([mandotaryEquipment isEqualToString:@"X"]) {
+                        [tempEquip setQuantity:1];
+                        [tempEquip setIsRequired:YES];
+                    }
+                    else {
+                        [tempEquip setQuantity:0];
+                    }
+                    
                     NSPredicate *tempPredicate = [NSPredicate predicateWithFormat:@"winterTire=%@",@"X"];
                     NSArray *tempPredicateArray = [_reservation.selectedCarGroup.cars filteredArrayUsingPredicate:tempPredicate];
                     if (tempPredicateArray.count == 0) {
@@ -195,12 +231,13 @@
             {
                 // ek ürünlerin kampanyalı fiyatları
                 NSDecimalNumber *campaignPrice = [NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KAMPANYALI_TUTAR"]];
+                NSString *campaignId = [tempDict valueForKey:@"KAMPANYA_ID"];
                 
                 AdditionalEquipment *tempEquip = [AdditionalEquipment new];
                 [tempEquip setMaterialNumber:[tempDict valueForKey:@"MALZEME"]];
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
                 [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
-                if (campaignPrice.floatValue > 0) {
+                if (![campaignId isEqualToString:@""]) {
                     [tempEquip setPrice:campaignPrice];
                 }
                 else{
@@ -296,12 +333,13 @@
             {
                 // ek ürünlerin kampanyalı fiyatları
                 NSDecimalNumber *campaignPrice = [NSDecimalNumber decimalNumberWithString:[tempDict valueForKey:@"KAMPANYALI_TUTAR"]];
+                NSString *campaignId = [tempDict valueForKey:@"KAMPANYA_ID"];
                 
                 AdditionalEquipment *tempEquip = [AdditionalEquipment new];
                 [tempEquip setMaterialNumber:[tempDict valueForKey:@"MALZEME"]];
                 [tempEquip setMaterialDescription:[tempDict valueForKey:@"MAKTX"]];
                 [tempEquip setMaterialInfo:[tempDict valueForKey:@"MALZEME_INFO"]];
-                if (campaignPrice.floatValue > 0) {
+                if (![campaignId isEqualToString:@""]) {
                     [tempEquip setPrice:campaignPrice];
                 }
                 else{

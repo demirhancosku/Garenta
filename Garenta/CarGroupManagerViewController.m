@@ -120,7 +120,7 @@
     
     CarGroupViewController *temp = (CarGroupViewController*)viewController;
     NSUInteger index = temp.index;
-    if ((index == 0) ) {
+    if (index == 0 ) {
         return nil;
     }
     
@@ -212,13 +212,13 @@
     User *tempUser = [ApplicationProperties getUser];
     _isYoungDriver = [CarGroup checkYoungDriverAddition:_tableViewVC.activeCarGroup andBirthday:tempUser.birthday andLicenseDate:tempUser.driversLicenseDate];
 
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [self getAdditionalEquipments]; //AdditionalEquipments içinde buluyoruz ekipmanları
         [self getCarSelectionPrice];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             [self showAlertForYoungDriver];
             if (_additionalEquipments.count > 0) {
                 [self performSegueWithIdentifier:@"toAdditionalEquipmentSegue" sender:self];

@@ -48,7 +48,7 @@
 // yeniden hesapla butonu
 - (IBAction)reCalculate:(id)sender
 {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     
     // 13.02.2015 Ata Cengiz
     if (self.reservation.isContract) {
@@ -56,16 +56,16 @@
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
             [self getAdditionalEquipments];
             [self getNewContractPrice];
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
         });
     }
     // 13.02.2015 Ata Cengiz
     else {
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             [self getAdditionalEquipments];
             [self getNewReservationPrice];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                 if(super.reservation.changeReservationDifference.floatValue == 0 && isOk)
                     [self performSegueWithIdentifier:@"toOldReservationEquipmentSegue" sender:self];
             });
@@ -119,6 +119,7 @@
         [handler addImportParameter:@"IMPP_HDFSUBE" andValue:super.reservation.checkInOffice.subOfficeCode];
         [handler addImportParameter:@"IMPP_LANG" andValue:@"T"];
         [handler addImportParameter:@"IMPP_KDGRP" andValue:@"40"];
+        [handler addImportParameter:@"IMPP_MUSTIP" andValue:[[ApplicationProperties getUser] partnerType]];
         
         [handler addTableForReturn:@"EXPT_ARACLISTE"];
         [handler addTableForReturn:@"EXPT_EXPIRY"];
@@ -175,7 +176,8 @@
                     if (carSelectPredicateArray.count > 0) {
                         [[carSelectPredicateArray objectAtIndex:0] setPrice:[NSDecimalNumber decimalNumberWithString:[export valueForKey:@"EXPP_ASECIM_TTR"]]];
                     }
-                    //                    [tempCar.pricing setCarSelectPrice:[export valueForKey:@"EXPP_ASECIM_TTR"]];
+                    
+                    [tempCar.pricing setCarSelectPrice:[export valueForKey:@"EXPP_ASECIM_TTR"]];
                     
                     [super.reservation.selectedCarGroup.cars addObject:tempCar];
                 }
@@ -245,7 +247,12 @@
                 super.reservation.etReserv = sdReservArray;
                 
                 // FIYATLAR
-                super.reservation.changeReservationDifference = [NSDecimalNumber decimalNumberWithString:[export valueForKey:@"EXPP_PRICE"]];
+                if ([super.reservation.paymentType isEqualToString:@"2"]) {
+                    super.reservation.changeReservationDifference = [NSDecimalNumber decimalNumberWithString:[export valueForKey:@"EXPP_PRICE"]];
+                    super.reservation.changeReservationDifference = [super.reservation.changeReservationDifference decimalNumberBySubtracting:super.reservation.selectedCarGroup.sampleCar.pricing.payNowPrice];
+                }else{
+                    super.reservation.changeReservationDifference = [NSDecimalNumber decimalNumberWithString:[export valueForKey:@"EXPP_PRICE"]];
+                }
                 
                 NSString *currency = [export valueForKey:@"EXPP_CURR"];
                 NSString *paymentType = [export valueForKey:@"EXPP_TYPE"]; //T-toplam rezervasyon tutarı, F-fark tutarı
@@ -268,7 +275,6 @@
                 
                 if (super.reservation.changeReservationDifference.floatValue != 0)
                     alertString = [NSString stringWithFormat:@"Seçmiş olduğunuz tarih aralığındaki fark tutarları ağaşıdaki gibidir.\n\nAraç Fark Bedeli: %.02f %@\nEk Hizmet Fark Bedeli: %.02f %@",super.reservation.changeReservationDifference.floatValue,currency,equipmentPriceDifference.floatValue,currency];
-                
             }
             else
             {

@@ -93,10 +93,10 @@
     NSString *signature = @"<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">";
     NSString *openHeader = @"<soapenv:Header/>";
     NSString *openBody = @"<soapenv:Body>";
-    NSString *openFunction = @"<tem:Send>";
+    NSString *openFunction = @"<tem:SendWebPassword>";
     NSString *gsmNumber = [NSString stringWithFormat:@"<tem:gsmNumber>%@</tem:gsmNumber>", phoneNumber];
     NSString *generatedCode = [NSString stringWithFormat:@"<tem:code>%@</tem:code>", message];
-    NSString *closeFunction = @"</tem:Send>";
+    NSString *closeFunction = @"</tem:SendWebPassword>";
     NSString *closeBody = @"</soapenv:Body>";
     NSString *closeHeader = @"</soapenv:Envelope>";
     

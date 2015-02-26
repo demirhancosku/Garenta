@@ -45,6 +45,8 @@
 @property (strong,nonatomic) NSMutableArray *downsellList;
 @property (strong,nonatomic) CampaignObject *campaignObject;
 @property CampaignReservationType campaignButtonPressed;
+@property (nonatomic,retain) NSString *minCheckOutTime;  //rezervasyonun minimum kaç saat sonraya yapılacağı
+@property (nonatomic,retain) NSString *minPayLatertime;  // sonra ödenin minimum kaç saat sonraya yapılacağı
 
 // Ata Cengiz 05.02.2015
 @property (nonatomic) BOOL becomePriority;
@@ -62,6 +64,8 @@
 // Ata Cengiz 12.02.2015
 
 -(NSDecimalNumber*)totalPriceWithCurrency:(NSString*)currency isPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl andIsMontlyRent:(BOOL)isMontlyRent andIsCorparatePayment:(BOOL)isCorparate andIsPersonalPayment:(BOOL)isPersonalPayment andReservation:(Reservation *)reservation;
+
+- (id)initWithMinCheckOutTime:(NSString *)aCheckOutTime andMinPayLaterTime:(NSString *)aPayLaterTime;
 
 + (NSString *)createReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andGarentaTl:(NSString *)garentaTl;
 + (BOOL)changeReservationAtSAP:(Reservation *)_reservation andIsPayNow:(BOOL)isPayNow andTotalPrice:(NSDecimalNumber *)totalPrice andGarentaTl:(NSString *)garentaTl;

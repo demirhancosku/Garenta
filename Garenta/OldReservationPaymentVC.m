@@ -431,8 +431,8 @@
 - (void)updateReservation {
     
     if (!super.reservation.isContract) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             
             CreditCard *tempCard = [[CreditCard alloc] init];
             
@@ -452,7 +452,7 @@
             BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:YES andTotalPrice:_changeReservationPrice andGarentaTl:self.garentaTlTextField.text];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                 
                 if (check) {
                     [self performSegueWithIdentifier:@"toOldReservationApprovalVCSegue" sender:self];
@@ -462,7 +462,7 @@
     }
     // 15.02.2015 Ata Cengiz Sözleşme süre update
     else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
@@ -484,7 +484,7 @@
                         
             BOOL check = [Reservation changeContractAtSAP:super.reservation andTotalPrice:_changeReservationPrice];
             
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             
             if (check) {
                 [self performSegueWithIdentifier:@"toOldReservationApprovalVCSegue" sender:self];

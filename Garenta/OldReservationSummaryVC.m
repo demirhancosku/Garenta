@@ -21,6 +21,12 @@
 @implementation OldReservationSummaryVC
 
 - (void)viewDidLoad {
+    // ŞİMDİ ÖDE-SONRA ÖDE REZERVASYON?
+    if ([super.reservation.paymentType isEqualToString:@"2"] || [super.reservation.paymentType isEqualToString:@"6"])
+        _isPayNow = NO;
+    else
+        _isPayNow = YES;
+    
     //UPSELL ile gelince buraya giriyor
     if (_totalPrice != nil)
     {
@@ -140,7 +146,7 @@
         return;
     }
     //13.02.2015 Ata Cengiz Sözleşme Süre uzatma
-
+    
     // REZERVASYON ŞİMDİ ÖDE İLE YAPILDIYSA, UPDATE YAPILIRKEN SONRA ÖDE YAPILAMAZ!
     if (![super.reservation.paymentType isEqualToString:@"2"] && ![super.reservation.paymentType isEqualToString:@"6"])
     {
@@ -263,8 +269,16 @@
                     }
                 }
                 else{
-                    [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",_changeReservationPrice.floatValue] forState:UIControlStateNormal];
-                    [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f TL",_changeReservationPrice.floatValue] forState:UIControlStateNormal];
+                    if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
+                        
+                        [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",[self findCorporatePayButtonTitle]] forState:UIControlStateNormal];
+                        [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",[self findCorporatePayButtonTitle]] forState:UIControlStateNormal];
+                        
+                    }
+                    else{
+                        [payNowButton setTitle:[NSString stringWithFormat:@"%.02f TL",_changeReservationPrice.floatValue] forState:UIControlStateNormal];
+                        [payLaterButton setTitle:[NSString stringWithFormat:@"%.02f TL",_changeReservationPrice.floatValue] forState:UIControlStateNormal];
+                    }
                 }
                 
                 break;
@@ -298,6 +312,33 @@
         [alert setTag:1];
         [alert show];
     }
+}
+
+- (float)findCorporatePayButtonTitle
+{
+    float total = 0;
+    
+    for (AdditionalEquipment *temp in super.reservation.additionalFullEquipments)
+    {
+        if ([temp.paymentType isEqualToString:@"P"]) {
+            if (_isPayNow)
+                total = total + temp.difference.floatValue;
+            else
+            {
+                if (super.reservation.etExpiry.count > 0) {
+                    total = total + ([temp.monthlyPrice floatValue] * temp.quantity);
+                }else{
+                    total = total + ([temp.price floatValue] * temp.quantity);
+                }
+            }
+        }
+    }
+    
+    // ARAÇ SEÇİLMİŞ VE GRUBA REZERVASYONSA
+    if ((super.reservation.selectedCar != nil) && [super.reservation.reservationType isEqualToString:@"20"])
+        total = total + super.reservation.selectedCar.pricing.carSelectPrice.floatValue;
+    
+    return total;
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -537,7 +578,15 @@
         if (_totalPrice != nil && ([super.reservation.paymentType isEqualToString:@"2"] || [super.reservation.paymentType isEqualToString:@"6"])) {
             _changeReservationPrice = [[NSDecimalNumber decimalNumberWithString:_totalPrice] decimalNumberByAdding: _payNowDifference];
         }
-        [(OldReservationPaymentVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];
+        
+        // kurumsalsa
+        if ([[ApplicationProperties getUser] isLoggedIn] && [[[ApplicationProperties getUser] partnerType] isEqualToString:@"K"]) {
+            [(OldReservationPaymentVC *)[segue destinationViewController] setChangeReservationPrice:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.02f",[self findCorporatePayButtonTitle]]]];
+        }
+        else
+            [(OldReservationPaymentVC *)[segue destinationViewController] setChangeReservationPrice:_changeReservationPrice];
+        
+        
         [(OldReservationPaymentVC *)[segue destinationViewController] setReservation:super.reservation];
         if (![super.reservation.paymentNowCard.uniqueId isEqualToString:@""]) {
             [(OldReservationPaymentVC *)[segue destinationViewController] setCreditCard:[self prepareCreditCard]];
@@ -602,8 +651,8 @@
 - (void)updateReservation
 {
     if (!super.reservation.isContract) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             BOOL isPayNow = NO;
             
             if (_changeReservationPrice.floatValue < 0) {
@@ -613,7 +662,7 @@
             BOOL check = [Reservation changeReservationAtSAP:super.reservation andIsPayNow:isPayNow andTotalPrice:_changeReservationPrice andGarentaTl:@""];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                 
                 if (check) {
                     [self performSegueWithIdentifier:@"toOldReservationApprovalVCSegue" sender:self];
@@ -623,14 +672,14 @@
     }
     // 15.02.2015 Ata Cengiz Sözleşme süre update
     else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
             
             BOOL check = [Reservation changeContractAtSAP:super.reservation andTotalPrice:_changeReservationPrice];
             
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             
             if (check) {
                 [self performSegueWithIdentifier:@"toOldReservationApprovalVCSegue" sender:self];

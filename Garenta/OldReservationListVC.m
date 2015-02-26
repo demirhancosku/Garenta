@@ -58,8 +58,8 @@
 - (void)getUserReservationList
 {
     _reservation = [Reservation new];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         [self getOldReservation];
         
@@ -266,6 +266,9 @@
         cell.reservationTitle.text = @"Sözleşme No:";
     }
     // 13.02.2015 Ata Cengiz
+    else{
+        cell.reservationTitle.text = @"Rezervasyon No:";
+    }
     
     return cell;
 }
@@ -274,8 +277,8 @@
 {
     _reservation = [_reservationList objectAtIndex:indexPath.row];
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         // 13.02.2015 Ata Cengiz
         if (_reservation.isContract) {
@@ -287,7 +290,7 @@
         // 13.02.2015 Ata Cengiz
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             if (_reservation.selectedCarGroup != nil)
                 [self performSegueWithIdentifier:@"toReservationDetail" sender:self];
         });

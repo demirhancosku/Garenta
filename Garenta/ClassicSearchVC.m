@@ -36,8 +36,9 @@
     //ysinde navigationBarFrame.size.height vardi viewwillapear super cagirilmamaisti onu cagirinca buna gerek kalmadi
     viewFrame =CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.width - navigationBarFrame.size.height );
     
-    if (reservation == nil)
-        reservation = [[Reservation alloc] init];
+    if (reservation == nil){
+        reservation = [[Reservation alloc] initWithMinCheckOutTime:self.minCheckOutTime andMinPayLaterTime:self.minPayLatertime];
+    }
     
     [self addNotifications];
     [self.view setBackgroundColor:[ApplicationProperties getMenuTableBackgorund]];
@@ -65,12 +66,12 @@
     offices = [ApplicationProperties getOffices];
     
     if (offices.count == 0) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             offices = [Office getOfficesFromSAP];
             
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             [self setOfficeForChangeDocument];
             [destinationTableView reloadData];
             [arrivalTableView reloadData];
@@ -382,13 +383,13 @@
         
         if (isOK) {
             
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 
                 [self getAvailableCarsFromSAP];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                     
                     if (availableCarGroups.count > 0)
                     {
@@ -915,7 +916,8 @@
     
     NSDate *checkOutMinTime = [NSDate date];
     //once 135 dk ekliyoruz
-    NSTimeInterval aTimeInterval = 135 * 60; //135 dk
+//    NSTimeInterval aTimeInterval = 135 * 60; //135 dk
+    NSTimeInterval aTimeInterval = ((reservation.minCheckOutTime.integerValue * 60) + 15 ) * 60;
     checkOutMinTime = [checkOutMinTime dateByAddingTimeInterval:aTimeInterval];
     
     //sonra dakikaları bir ger dilime
@@ -935,7 +937,8 @@
     NSComparisonResult checkOutMinTimeResult = [checkOutMinTime compare:reservation.checkOutTime];
     if (checkOutMinTimeResult == NSOrderedDescending)
     {
-        completion(NO,@"Rezervasyonunuzu güncel saatten en az 2 saat sonrasına yapabilirsiniz.");
+        NSString *message = [NSString stringWithFormat:@"Rezervasyonunuzu güncel saatten en az %@ saat sonrasına yapabilirsiniz.",reservation.minCheckOutTime];
+        completion(NO,message);
         return;
     }
     

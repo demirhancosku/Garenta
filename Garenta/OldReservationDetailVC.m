@@ -257,13 +257,13 @@
         case 0:
             if (buttonIndex == 1)
             {
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                     
                     [self cancelReservation];
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [MBProgressHUD hideHUDForView:self.view animated:YES];
+                        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                     });
                 });
             }
@@ -293,14 +293,14 @@
                 break;
             case 2: // rezervasyon iptal
             {
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                     
                     if ([self isDocumentCanBeCancelled]) {
                         [self getFineAndRefundPrice]; //belgeyi iptal ederken iade ve ceza tutarlarını çağırır.
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [MBProgressHUD hideHUDForView:self.view animated:YES];
+                        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                     });
                 });
                 break;
@@ -324,14 +324,14 @@
                 break;
             case 3: // rezervasyon iptal
             {
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                     
                     if ([self isDocumentCanBeCancelled]) {
                         [self getFineAndRefundPrice]; //belgeyi iptal ederken iade ve ceza tutarlarını çağırır.
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [MBProgressHUD hideHUDForView:self.view animated:YES];
+                        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                     });
                 });
                 break;
@@ -408,15 +408,15 @@
 
 - (void)changeVehicle
 {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         [self getUpsellDownsellList:@""];
 //        [self getUpsellDownsellList:@"U"];
 //        [self getUpsellDownsellList:@"D"];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             if (_reservation.upsellList.count > 0 || _reservation.downsellList.count > 0) {
                 [self performSegueWithIdentifier:@"toUpsellDownsellSegue" sender:self];
             }
@@ -437,9 +437,9 @@
         [dateFormatter setDateFormat:@"yyyyMMdd"];
         [timeFormatter setDateFormat:@"HH:mm:ss"];
         
-        NSArray *isInputColumns = @[@"UPSELL_DOWNSELL", @"REZERVASYON_NO", @"SOZLESME_NO", @"IMPP_LANGU", @"IMPP_LAND", @"IMPP_UNAME", @"IMPP_KDGRP", @"IMPP_BEGDA", @"IMPP_ENDDA", @"IMPP_BEGUZ", @"IMPP_ENDUZ"];
+        NSArray *isInputColumns = @[@"UPSELL_DOWNSELL", @"REZERVASYON_NO", @"SOZLESME_NO", @"IMPP_LANGU", @"IMPP_LAND", @"IMPP_UNAME", @"IMPP_KDGRP", @"IMPP_BEGDA", @"IMPP_ENDDA", @"IMPP_BEGUZ", @"IMPP_ENDUZ",@"IMPP_MUSTIP"];
         
-        NSArray *isInputValues = @[upsell_downsell, _reservation.reservationNumber, @"", @"T", @"", @"", @"40", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime]];
+        NSArray *isInputValues = @[upsell_downsell, _reservation.reservationNumber, @"", @"T", @"", @"", @"40", [dateFormatter stringFromDate:_reservation.checkOutTime], [dateFormatter stringFromDate:_reservation.checkInTime], [timeFormatter stringFromDate:_reservation.checkOutTime], [timeFormatter stringFromDate:_reservation.checkInTime],[[ApplicationProperties getUser] partnerType]];
         
         [handler addImportStructure:@"INPUT" andColumns:isInputColumns andValues:isInputValues];
         [handler addTableForReturn:@"ET_ARACLISTE"];
@@ -639,6 +639,7 @@
             }
             else
             {
+                //ET_RETURN AL!!!
                 alertString = @"Rezervasyonunuz iptal edilirken sorun oluşmuştur, lütfen tekrar deneyiniz.";
             }
         }

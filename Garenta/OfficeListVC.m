@@ -41,12 +41,12 @@
     NSMutableArray *newOfficeList = [[NSMutableArray alloc] init];
     Office *newOffice;
     
-    for (Office *tempOffice in officeList) {
-        if (![self cityList:newOfficeList hasCityWithCode:tempOffice.cityCode]) {
+    for (Office *tempOfficeObj in officeList) {
+        if (![self cityList:newOfficeList hasCityWithCode:tempOfficeObj.cityCode]) {
             
             newOffice = [[Office alloc] init];
-            [newOffice setCityCode:tempOffice.cityCode];
-            [newOffice setCityName:tempOffice.cityName];
+            [newOffice setCityCode:tempOfficeObj.cityCode];
+            [newOffice setCityName:tempOfficeObj.cityName];
             [newOffice setSubOfficeName:[NSString stringWithFormat:@"%@ Tümü",newOffice.cityName]];
             [newOffice setIsPseudoOffice:YES];
             [newOfficeList addObject:newOffice];
@@ -59,8 +59,8 @@
 
 - (BOOL)cityList:(NSMutableArray*)cityList hasCityWithCode:(NSString*)cityCode {
     
-    for (Office *tempOffice in cityList) {
-        if ([tempOffice.cityCode isEqualToString:cityCode]) {
+    for (Office *tempOfficeObj in cityList) {
+        if ([tempOfficeObj.cityCode isEqualToString:cityCode]) {
             return YES;
         }
     }
