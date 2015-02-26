@@ -64,7 +64,6 @@
         [self getOldReservation];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (_activeReservationList.count == 0) {
                 [_segmentedControl setEnabled:NO forSegmentAtIndex:0];
             }
@@ -84,7 +83,7 @@
             }
             
             [self getActiveContractsFromSAP];
-            
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [_oldReservationTableView reloadData];
         });
     });
@@ -602,7 +601,7 @@
                     }
                     
                     [_activeReservationList insertObject:tempReservation atIndex:0];
-                    [_segmentedControl setEnabled:NO forSegmentAtIndex:0];
+                    [_segmentedControl setEnabled:YES forSegmentAtIndex:0];
                     [_segmentedControl setSelectedSegmentIndex:0];
                 }
             }

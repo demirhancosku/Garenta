@@ -739,6 +739,15 @@
                     _reservation.temporaryUser.kunnr = [esOutput valueForKey:@"MUSTERINO"];
                 }
                 
+                // 22.02.2015 Garenta TL kullanırsa düşmesi lazım ki kontrollerden kaçamasın
+                if ([[ApplicationProperties getUser] isLoggedIn] && [[ApplicationProperties getUser] isPriority] && isPayNow) {
+                    if (garentaTl != nil && ![garentaTl isEqualToString:@""]) {
+                        NSDecimalNumber *usedGarentaTL = [NSDecimalNumber decimalNumberWithString:garentaTl];
+                        [ApplicationProperties getUser].garentaTl =  [[[ApplicationProperties getUser] garentaTl] decimalNumberBySubtracting:usedGarentaTL];
+                    }
+                }
+                // 22.02.2015 Garenta TL kullanırsa düşmesi lazım ki kontrollerden kaçamasın
+
                 BOOL isSuccess = [MailSoapHandler sendReservationInfoMessage:_reservation toMail:mail withFullName:fullName withTotalPrice:totalPrice withReservationNumber:reservationNo withPaymentType:paymentType];
                 
                 return reservationNo;
@@ -1222,6 +1231,15 @@
                 NSDictionary *esOutput = [export objectForKey:@"ES_OUTPUT"];
                 
                 NSString *reservationNo = [esOutput valueForKey:@"REZ_NO"];
+                
+                // 22.02.2015 Garenta TL kullanırsa düşmesi lazım ki kontrollerden kaçamasın
+                if ([[ApplicationProperties getUser] isLoggedIn] && [[ApplicationProperties getUser] isPriority] && isPayNow) {
+                    if (garentaTl != nil && ![garentaTl isEqualToString:@""]) {
+                        NSDecimalNumber *usedGarentaTL = [NSDecimalNumber decimalNumberWithString:garentaTl];
+                        [ApplicationProperties getUser].garentaTl =  [[[ApplicationProperties getUser] garentaTl] decimalNumberBySubtracting:usedGarentaTL];
+                    }
+                }
+                // 22.02.2015 Garenta TL kullanırsa düşmesi lazım ki kontrollerden kaçamasın
                 
                 BOOL isSuccess = [MailSoapHandler sendReservationInfoMessage:_reservation toMail:mail withFullName:fullName withTotalPrice:totalPrice withReservationNumber:reservationNo withPaymentType:paymentType];
                 
